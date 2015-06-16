@@ -16,7 +16,7 @@ Link Defaults: html (dfn) queue a task/in parallel
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
-The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as ECMAScript). They are not language-agnostic, and are not meant to be.
+The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as [[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
 
 This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL. Even today, the structure of the document contains a confusing and redundant division between the "Interface definition language" and the "ECMAScript binding". Rest assured that this division is simply a historical artifact of document structure, and does not imply anything about the intent of Web IDL in general. The only reason it remains is that nobody has taken the time to eradicate it.
 
@@ -46,7 +46,7 @@ In particular, this means that you can't expose any API that acts as a weak refe
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-Web IDL, because of its OMG IDL heritage, has a plethora of numeric types. However, it is very rare that its more specific ones are actually appropriate.
+[[!WEBIDL]], because of its OMG IDL heritage, has a plethora of numeric types. However, it is very rare that its more specific ones are actually appropriate.
 
 Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are simply conversion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
 
