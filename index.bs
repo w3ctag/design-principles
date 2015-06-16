@@ -55,8 +55,8 @@ Instead, you probably want to stick with one of:
 <ul>
     <li><code>unrestricted double</code>: when truly any JavaScript number will do, including infinities and NaN
     <li><code>double</code>: any JavaScript number excluding infinities and NaN
-    <li><code>[EnforceRange] long long</code>: any JavaScript number in the integer-representable range, throwing a <code>TypeError</code> otherwise
-    <li><code>[EnforceRange] unsigned long long</code>: any nonnegative JavaScript number in the integer-representable range, throwing a <code>TypeError</code> otherwise
+    <li><code>[EnforceRange] long long</code>: any JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
+    <li><code>[EnforceRange] unsigned long long</code>: any nonnegative JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
 </ul>
 
 Additionally, you can combine any of the above with an extra line in your algorithm to validate that the number is within the expected domain-specific range, and throwing or performing other actions in response. (While it is very rarely appropriate to modify author input by taking it modulo 65535, it might be appropriate to take it modulo 360, for example.)
