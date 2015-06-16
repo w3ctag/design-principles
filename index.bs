@@ -16,7 +16,7 @@ Link Defaults: html (dfn) queue a task/in parallel
 
 This section contains design principles regarding subtleties of integrating with the JavaScript language.
 
-<h3 id="js-only">Web APIs are not language agnostic</h3>
+<h3 id="js-only">Web APIs are for JavaScript</h3>
 
 The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as ECMAScript). They are not language-agnostic, and are not meant to be.
 
@@ -24,7 +24,7 @@ This is sometimes a confusing point because [[WEBIDL]] descended from the langua
 
 As such, when designing your APIs, your primary concern should be with the interface you present to JavaScript authors. You can freely rely upon language-specific semantics and conventions, with no need to keep things generalized.
 
-<h3 id="js-rtc">Do not violate run-to-completion semantics</h3>
+<h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
 Web APIs are essentially vehicles for extruding C++-authored capabilities into the JavaScript code that authors write. As such, it's important to respect the invariants that are in play in normal JavaScript code. One of the most important of these is <em>run-to-completion semantics</em>, wherein each turn of the JavaScript event loop is processed completely before returning control to the user agent.
 
@@ -46,11 +46,11 @@ In particular, this means that you can't expose any API that acts as a weak refe
 
 <h2 id="types-and-units">Types and Units</h2>
 
-<h3 id="numeric-types">Do not over-use numeric types, or choose over-specific ones</h3>
+<h3 id="numeric-types">Use numeric types appropriately</h3>
 
-Web IDL, because of its OMG IDL heritage, has a plethora of numeric types. However, it is very rare that one of these is actually appropriate.
+Web IDL, because of its OMG IDL heritage, has a plethora of numeric types. However, it is very rare that its more specific ones are actually appropriate.
 
-Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are simply conversion rules that apply. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as a parameter or sets it on a setter, take it modulo 65535". That is very rarely a useful thing to do.
+Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are simply conversion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
 
 Instead, you probably want to stick with one of:
 
