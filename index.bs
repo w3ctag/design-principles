@@ -14,8 +14,6 @@ Link Defaults: html (dfn) queue a task/in parallel
 
 <h2 id="js">JavaScript Language</h2>
 
-This section contains design principles regarding subtleties of integrating with the JavaScript language.
-
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
 The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as ECMAScript). They are not language-agnostic, and are not meant to be.
