@@ -61,6 +61,8 @@ Instead, you probably want to stick with one of:
 
 Additionally, you can combine any of the above with an extra line in your algorithm to validate that the number is within the expected domain-specific range, and throwing or performing other actions in response. (While it is very rarely appropriate to modify author input by taking it modulo 65535, it might be appropriate to take it modulo 360, for example.)
 
+A special case of domain-specific validation, which Web IDL already has you covered for, is the 0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in the range 0–255, throwing a <code>TypeError</code> outside the range and rounding inside of it. (And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for your domain, such that you want the modulo or range-checking behavior, feel free to use them.)
+
 <div class="note">
     Those coming from other languages should carefully note that despite their names, <code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and not 64.
 </div>
