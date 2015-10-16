@@ -42,6 +42,22 @@ In particular, this means that you can't expose any API that acts as a weak refe
     There is some speculative discussion of exposing weak references such that their finalization is only observable between event loop turns (see <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_references">strawman:weak_references</a> and <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_refs">strawman:weak_refs</a>). However, these proposals have no active champions, and nobody knows if they are feasible or even desirable.
 </div>
 
+<h2 id="api-surface">API Surface Concerns</h2>
+
+<h3 id="simple-getters">Attributes should behave like data properties</h3>
+
+[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with separate getter and setter functions which can react independently. This is in contrast to the "default" style of JavaScript properties, data properties, which do not have configurable behavior but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be set.
+
+Data property semantics are what are generally expected by JavaScript developers when interfacing with objects. As such, although getters and setters allow infinite customizability when defining your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as much like a data property as possible. Specific guidance in this regard includes:
+
+<ul>
+    <li>Getters must not have any (observable) side effects.</li>
+    <li>Getters should not perform any expensive operations. (A notable failure of the platform in this regard is getters like <code>offsetTop</code> performing layout; do not repeat this mistake.)</li>
+    <li>Ensure that your attribute's getter returns the same object each time it is called, until some occurrence in another part of the system causes a logical "reset" of the property's value. In particular, <code>obj.attribute === obj.attribute</code> must always hold, and so returning a new value from the getter each time is not allowed.</li>
+    <li>Whenever possible, preserve values given to the setter for return from the getter. That is, given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be true. (This will not always be the case, e.g. if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)</li>
+</ul>
+
+
 <h2 id="types-and-units">Types and Units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
