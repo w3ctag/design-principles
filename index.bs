@@ -12,6 +12,13 @@ Default Biblio Status: current
 Link Defaults: html (dfn) queue a task/in parallel/browsing context
 </pre>
 
+<style>
+    table.data {
+        text-align: left;
+        font-size: small;
+    }
+</style>
+
 <h2 id="js">JavaScript Language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
@@ -56,6 +63,55 @@ Data property semantics are what are generally expected by JavaScript developers
     <li>Ensure that your attribute's getter returns the same object each time it is called, until some occurrence in another part of the system causes a logical "reset" of the property's value. In particular, <code>obj.attribute === obj.attribute</code> must always hold, and so returning a new value from the getter each time is not allowed.</li>
     <li>Whenever possible, preserve values given to the setter for return from the getter. That is, given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be true. (This will not always be the case, e.g. if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)</li>
 </ul>
+
+<h3 id="casing-rules">Use casing rules consistent with existing APIs</h3>
+
+Although they haven't always been uniformly followed, through the history of web platform API design, the following rules have emerged:
+
+<table class="data complex">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Casing rule</th>
+            <th>Examples</th>
+        </tr>
+    </thead>
+    <tr>
+        <th>Methods and properties</th>
+        <td>Camel case</td>
+        <td><code>document.createAttribute()</code><br><code>document.compatMode</code></td>
+    </tr>
+    <tr>
+        <th>Classes and mixins</th>
+        <td>Pascal case</td>
+        <td><code>NamedNodeMap</code><br><code>NonElementParentNode</code></td>
+    </tr>
+    <tr>
+        <th>Initialisms in APIs</th>
+        <td>All caps, except when the first word in a method or property</td>
+        <td><code>HTMLCollection</code><br><code>element.innerHTML</code><br><code>document.bgColor</code></td>
+    </tr>
+    <tr>
+        <th>Enumeration values</th>
+        <td>Lowercase, dash-delimited</td>
+        <td><code>"no-referrer-when-downgrade"</code></td>
+    </tr>
+    <tr>
+        <th>Events</th>
+        <td>Lowercase, concatenated</td>
+        <td><code>autocompleteerror</code><br><code>languagechange</code></td>
+    </tr>
+    <tr>
+        <th>HTML elements and attributes</th>
+        <td>Lowercase, concatenated</td>
+        <td><code>&lt;figcaption&gt;</code><br><code>&lt;textarea maxlength&gt;</code></td>
+    </tr>
+    <tr>
+        <th>JSON keys</th>
+        <td>Lowercase, underscore-delimited</td>
+        <td><code>manifest.short_name</code></td>
+    </tr>
+</table>
 
 
 <h2 id="types-and-units">Types and Units</h2>
