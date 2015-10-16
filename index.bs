@@ -44,7 +44,7 @@ In particular, this means that you can't expose any API that acts as a weak refe
 
 <h2 id="api-surface">API Surface Concerns</h2>
 
-<h3 id="simple-getters">Attributes should behave like data properties</h3>
+<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
 [[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with separate getter and setter functions which can react independently. This is in contrast to the "default" style of JavaScript properties, data properties, which do not have configurable behavior but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be set.
 
