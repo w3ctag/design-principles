@@ -9,7 +9,7 @@ Abstract: This document contains a small-but-growing set of design principles co
 Default Biblio Status: current
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
 
-Link Defaults: html (dfn) queue a task/in parallel
+Link Defaults: html (dfn) queue a task/in parallel/browsing context
 </pre>
 
 <h2 id="js">JavaScript Language</h2>
@@ -74,3 +74,29 @@ Any web API that accepts a time measurement should do so in milliseconds. This i
 Even if seconds (or some other unit) are more natural in the domain of an API, sticking with milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with other time quantities.
 
 Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as nanoseconds.
+
+<h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
+
+When representing date-times on the platform, use the {{DOMTimeStamp}} type, with values being the number of milliseconds relative to 1970-01-01T00:00:00Z.
+
+The Web IDL <code>Date</code> type must not be used for this purpose. <code>Date</code> objects are mutable (and there is no way to make them immutable), which comes with a host of attendant problems.
+
+<div class="note">
+    For more background on why <code>Date</code> must not be used, see the following:
+
+    <ul>
+        <li><a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on es-discuss</li>
+        <li><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web IDL</a> on the Web IDL Bugzilla</li>
+    </ul>
+</div>
+
+However, date-times are not monotonically increasing; subsequent values may either decrease or remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}}, which provides monotically increasing sub-millisecond timestamps that are comparable within a single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
+
+
+<pre class="anchors">
+url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
+    text: DOMHighResTimeStamp
+urlPrefix: https://heycam.github.io/webidl/; spec: WEBIDL; type: interface
+    text: DOMTimeStamp; url: #common-DOMTimeStamp
+</pre>
+
