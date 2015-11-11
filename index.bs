@@ -92,6 +92,11 @@ Although they haven't always been uniformly followed, through the history of web
         <td><code>HTMLCollection</code><br><code>element.innerHTML</code><br><code>document.bgColor</code></td>
     </tr>
     <tr>
+        <th>The abbreviation of "identity"</th>
+        <td><code>Id</code>, except when the first word in a method or property</td>
+        <td><code>node.getElementById()</code><br><code>event.pointerId</code><br><code>credential.id</code></td>
+    </tr>
+    <tr>
         <th>Enumeration values</th>
         <td>Lowercase, dash-delimited</td>
         <td><code>"no-referrer-when-downgrade"</code></td>
