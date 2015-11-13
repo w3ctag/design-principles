@@ -9,7 +9,7 @@ Abstract: This document contains a small-but-growing set of design principles co
 Default Biblio Status: current
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
 
-Link Defaults: html (dfn) queue a task/in parallel/browsing context
+Link Defaults: html (dfn) queue a task/in parallel/browsing context/reflect
 </pre>
 
 <style>
@@ -118,6 +118,9 @@ Although they haven't always been uniformly followed, through the history of web
     </tr>
 </table>
 
+<div class="note">
+    Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute and property's casings will not necessarily match. For example, the HTML attribute <code>novalidate</code> on <code>&lt;form&gt;</code> is <a>reflected</a> as the <code>noValidate</code> property on <code>HTMLFormElement</code>.
+</div>
 
 <h2 id="types-and-units">Types and Units</h2>
 
