@@ -25,23 +25,23 @@ Link Defaults: html (dfn) queue a task/in parallel/browsing context/reflect
 
 The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as [[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
 
-This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL. Even today, the structure of the document contains a confusing and redundant division between the "Interface definition language" and the "ECMAScript binding". Rest assured that this division is simply a historical artifact of document structure, and does not imply anything about the intent of Web IDL in general. The only reason it remains is that nobody has taken the time to eradicate it.
+This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL (and at one point, included "Java Bindings"). Even today, the structure of the document contains a confusing and redundant division between the "Interface definition language" and the "ECMAScript binding". Rest assured that this division is simply a historical artifact of document structure, and does not imply anything about the intent of Web IDL in general. The only reason it remains is that nobody has taken the time to eradicate it.
 
-As such, when designing your APIs, your primary concern should be with the interface you present to JavaScript authors. You can freely rely upon language-specific semantics and conventions, with no need to keep things generalized.
+As such, when designing your APIs, your primary concern should be with the interface you present to JavaScript developers. You can freely rely upon language-specific semantics and conventions, with no need to keep things generalized.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Web APIs are essentially vehicles for extruding C++-authored capabilities into the JavaScript code that authors write. As such, it's important to respect the invariants that are in play in normal JavaScript code. One of the most important of these is <em>run-to-completion semantics</em>, wherein each turn of the JavaScript event loop is processed completely before returning control to the user agent.
+Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the JavaScript code that developers write. As such, it's important to respect the invariants that are in play in normal JavaScript code. One of the most important of these is <em>run-to-completion semantics</em>: wherein each turn of the JavaScript event loop is processed completely before returning control to the user agent.
 
 In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus that any data observed within the function will stay constant as long as that function is active. This is not the case in other languages, which allow data races via multithreading or other techniques—a C function can be preempted at any time, with the bindings it has access to changing values from one line to the next.
 
-This no-data-races invariant is relied upon extensively in JavaScript programs, and must never be violated—even by web APIs, which are often implemented in languages that <em>do</em> allow data races. Although the user agent may be using threads or other techniques to modify state <a>in parallel</a>, web APIs must never expose such changing state directly to authors. Instead, they should <a>queue a task</a> to modify author-observable state (such as an object property).
+This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the invariant must never be violated—even by web APIs, which are often implemented in languages that <em>do</em> allow data races. Although the user agent may be using threads or other techniques to modify state <a>in parallel</a>, web APIs must never expose such changing state directly to developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an object property).
 
 <h3 id="js-gc">Do not expose garbage collection</h3>
 
-There must not be a way for author code to tell when/if garbage collection of JavaScript objects has run.
+There must not be a way for author code to deduce when/if garbage collection of JavaScript objects has run.
 
-The reason for this is somewhat subtle. If garbage collection timing were observable, then authors could easily write code relying on specific garbage collection timing. But this timing is almost certainly not the same across user agents, which means the resulting code will be non-interoperable. Worse, according to the usual rules of browser game theory, this kind of scenario could force other user agents to copy the garbage collection timing of the original, in order to create interoperability. This would cause our current garbage collection strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript virtual machine technology.
+The reason for this is somewhat subtle. If garbage collection timing were observable, then authors could easily write code relying on specific garbage collection timing. But this timing is almost certainly not the same across user agents, which means the resulting code will be non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this kind of scenario could force other user agents to copy the garbage collection timing of the original in order to create interoperability. This would cause current garbage collection strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript virtual machine technology.
 
 In particular, this means that you can't expose any API that acts as a weak reference, e.g. with a property that becomes <code>null</code> once garbage collection runs. Such freeing of memory must be entirely deterministic.
 
@@ -128,16 +128,23 @@ Although they haven't always been uniformly followed, through the history of web
 
 [[!WEBIDL]], because of its OMG IDL heritage, has a plethora of numeric types. However, it is very rare that its more specific ones are actually appropriate.
 
-Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are simply conversion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
+Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are simply coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
 
 Instead, you probably want to stick with one of:
 
-<ul>
-    <li><code>unrestricted double</code>: when truly any JavaScript number will do, including infinities and NaN
-    <li><code>double</code>: any JavaScript number excluding infinities and NaN
-    <li><code>[EnforceRange] long long</code>: any JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
-    <li><code>[EnforceRange] unsigned long long</code>: any nonnegative JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
-</ul>
+<dl>
+    <dt><code>unrestricted double</code>
+    <dd>When truly any JavaScript number will do, including infinities and NaN
+
+    <dt><code>double</code>
+    <dd>Any JavaScript number excluding infinities and NaN
+
+    <dt><code>[EnforceRange] long long</code>
+    <dd>Any JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
+
+    <dt><code>[EnforceRange] unsigned long long</code>
+    <dd>Any nonnegative JavaScript number in the integer-representable range, throwing a <code>TypeError</code> outside the range and rounding inside of it
+</dl>
 
 Additionally, you can combine any of the above with an extra line in your algorithm to validate that the number is within the expected domain-specific range, and throwing or performing other actions in response. (While it is very rarely appropriate to modify author input by taking it modulo 65535, it might be appropriate to take it modulo 360, for example.)
 
