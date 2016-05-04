@@ -26,62 +26,62 @@ Link Defaults: html (dfn) queue a task/in parallel/browsing context/reflect
 The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as
 [[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
 
-This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL 
-(and at one point, included "Java Bindings"). Even today, the structure of the document contains a 
-confusing and redundant division between the "Interface definition language" and the "ECMAScript 
-binding". Rest assured that this division is simply a historical artifact of document structure, 
-and does not imply anything about the intent of Web IDL in general. The only reason it remains is 
+This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL
+(and at one point, included "Java Bindings"). Even today, the structure of the document contains a
+confusing and redundant division between the "Interface definition language" and the "ECMAScript
+binding". Rest assured that this division is simply a historical artifact of document structure,
+and does not imply anything about the intent of Web IDL in general. The only reason it remains is
 that nobody has taken the time to eradicate it.
 
 As such, when designing your APIs, your primary concern should be with the interface you present to
-JavaScript developers. You can freely rely upon language-specific semantics and conventions, with 
+JavaScript developers. You can freely rely upon language-specific semantics and conventions, with
 no need to keep things generalized.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the 
-JavaScript code that developers write. As such, it's important to respect the invariants that are 
-in play in normal JavaScript code. One of the most important of these is <em>run-to-completion 
-semantics</em>: wherein each turn of the JavaScript event loop is processed completely before 
+Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the
+JavaScript code that developers write. As such, it's important to respect the invariants that are
+in play in normal JavaScript code. One of the most important of these is <em>run-to-completion
+semantics</em>: wherein each turn of the JavaScript event loop is processed completely before
 returning control to the user agent.
 
-In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus 
-that any data observed within the function will stay constant as long as that function is active. 
-This is not the case in other languages, which allow data races via multithreading or other 
-techniques—a C function can be preempted at any time, with the bindings it has access to changing 
+In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus
+that any data observed within the function will stay constant as long as that function is active.
+This is not the case in other languages, which allow data races via multithreading or other
+techniques—a C function can be preempted at any time, with the bindings it has access to changing
 values from one line to the next.
 
-This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the 
-invariant must never be violated—even by web APIs, which are often implemented in languages that 
-<em>do</em> allow data races. Although the user agent may be using threads or other techniques to 
-modify state <a>in parallel</a>, web APIs must never expose such changing state directly to 
-developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an 
+This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the
+invariant must never be violated—even by web APIs, which are often implemented in languages that
+<em>do</em> allow data races. Although the user agent may be using threads or other techniques to
+modify state <a>in parallel</a>, web APIs must never expose such changing state directly to
+developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an
 object property).
 
 <h3 id="js-gc">Do not expose garbage collection</h3>
 
-There must not be a way for author code to deduce when/if garbage collection of JavaScript objects 
+There must not be a way for author code to deduce when/if garbage collection of JavaScript objects
 has run.
 
-The reason for this is somewhat subtle. If garbage collection timing were observable, then authors 
-could easily write code relying on specific garbage collection timing. But this timing is almost 
-certainly not the same across user agents, which means the resulting code will be 
-non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this 
-kind of scenario could force other user agents to copy the garbage collection timing of the 
-original in order to create interoperability. This would cause current garbage collection 
-strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript 
+The reason for this is somewhat subtle. If garbage collection timing were observable, then authors
+could easily write code relying on specific garbage collection timing. But this timing is almost
+certainly not the same across user agents, which means the resulting code will be
+non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this
+kind of scenario could force other user agents to copy the garbage collection timing of the
+original in order to create interoperability. This would cause current garbage collection
+strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript
 virtual machine technology.
 
-In particular, this means that you can't expose any API that acts as a weak reference, e.g. with a 
-property that becomes <code>null</code> once garbage collection runs. Such freeing of memory must 
+In particular, this means that you can't expose any API that acts as a weak reference, e.g. with a
+property that becomes <code>null</code> once garbage collection runs. Such freeing of memory must
 be entirely deterministic.
 
 <div class="note">
-There is some speculative discussion of exposing weak references such that their finalization is 
-only observable between event loop turns (see 
+There is some speculative discussion of exposing weak references such that their finalization is
+only observable between event loop turns (see
 <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_references">strawman:weak_references</a>
-and <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_refs">strawman:weak_refs</a>). 
-However, these proposals have no active champions, and nobody knows if they are feasible or even 
+and <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_refs">strawman:weak_refs</a>).
+However, these proposals have no active champions, and nobody knows if they are feasible or even
 desirable.
 </div>
 
@@ -89,35 +89,32 @@ desirable.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with 
-separate getter and setter functions which can react independently. This is in contrast to the 
-"default" style of JavaScript properties, data properties, which do not have configurable behavior 
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be 
+[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
+separate getter and setter functions which can react independently. This is in contrast to the
+"default" style of JavaScript properties, data properties, which do not have configurable behavior
+but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
 set.
 
-Data property semantics are what are generally expected by JavaScript developers when interfacing 
-with objects. As such, although getters and setters allow infinite customizability when defining 
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as 
+Data property semantics are what are generally expected by JavaScript developers when interfacing
+with objects. As such, although getters and setters allow infinite customizability when defining
+your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
 much like a data property as possible. Specific guidance in this regard includes:
 
-<ul>
-    <li>Getters must not have any (observable) side effects.</li>
-    <li>Getters should not perform any expensive operations. (A notable failure of the platform in 
-    this regard is getters like <code>offsetTop</code> performing layout; do not repeat this 
-    mistake.)</li>
-    <li>Ensure that your attribute's getter returns the same object each time it is called, until 
-    some occurrence in another part of the system causes a logical "reset" of the property's value.
-    In particular, <code>obj.attribute === obj.attribute</code> must always hold, and so returning 
-    a new value from the getter each time is not allowed.</li>
-    <li>Whenever possible, preserve values given to the setter for return from the getter. That is, 
-    given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be 
-    true. (This will not always be the case, e.g. if a normalization or type conversion step is 
-    necessary, but should be held as a goal for normal code paths.)</li>
-</ul>
+* Getters must not have any (observable) side effects.
+* Getters should not perform any expensive operations. (A notable failure of the platform in this
+    regard is getters like <code>offsetTop</code> performing layout; do not repeat this mistake.)
+* Ensure that your attribute's getter returns the same object each time it is called, until some
+    occurrence in another part of the system causes a logical "reset" of the property's value. In
+    particular, <code>obj.attribute === obj.attribute</code> must always hold, and so returning a
+    new value from the getter each time is not allowed.
+* Whenever possible, preserve values given to the setter for return from the getter. That is,
+    given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be
+    true. (This will not always be the case, e.g. if a normalization or type conversion step is
+    necessary, but should be held as a goal for normal code paths.)
 
 <h3 id="casing-rules">Use casing rules consistent with existing APIs</h3>
 
-Although they haven't always been uniformly followed, through the history of web platform API 
+Although they haven't always been uniformly followed, through the history of web platform API
 design, the following rules have emerged:
 
 <table class="data complex">
@@ -180,8 +177,8 @@ design, the following rules have emerged:
 
 <div class="note">
 Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
-and property's casings will not necessarily match. For example, the HTML attribute 
-<code>novalidate</code> on <code>&lt;form&gt;</code> is <a>reflected</a> as the 
+and property's casings will not necessarily match. For example, the HTML attribute
+<code>novalidate</code> on <code>&lt;form&gt;</code> is <a>reflected</a> as the
 <code>noValidate</code> property on <code>HTMLFormElement</code>.
 </div>
 
@@ -189,62 +186,60 @@ and property's casings will not necessarily match. For example, the HTML attribu
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-[[!WEBIDL]], because of its OMG IDL heritage, has a plethora of numeric types. However, it is very 
+[[!WEBIDL]], because of its OMG IDL heritage, has a plethora of numeric types. However, it is very
 rare that its more specific ones are actually appropriate.
 
-Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision 
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL 
-"types" are simply coercion rules that apply when accepting an argument or triggering a setter. For 
-example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an 
-argument, take it modulo 65535 before doing any further processing". That is very rarely a useful 
+Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision
+floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL
+"types" are simply coercion rules that apply when accepting an argument or triggering a setter. For
+example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an
+argument, take it modulo 65535 before doing any further processing". That is very rarely a useful
 thing to do.
 
 Instead, you probably want to stick with one of:
 
-<dl>
-    <dt><code>unrestricted double</code>
-    <dd>When truly any JavaScript number will do, including infinities and NaN
+  : <code>unrestricted double</code>
+  :: When truly any JavaScript number will do, including infinities and NaN
 
-    <dt><code>double</code>
-    <dd>Any JavaScript number excluding infinities and NaN
+  : <code>double</code>
+  :: Any JavaScript number excluding infinities and NaN
 
-    <dt><code>[EnforceRange] long long</code>
-    <dd>Any JavaScript number in the integer-representable range, throwing a <code>TypeError</code> 
-    outside the range and rounding inside of it
+  : <code>[EnforceRange] long long</code>
+  :: Any JavaScript number in the integer-representable range, throwing a <code>TypeError</code>
+      outside the range and rounding inside of it
 
-    <dt><code>[EnforceRange] unsigned long long</code>
-    <dd>Any nonnegative JavaScript number in the integer-representable range, throwing a 
-    <code>TypeError</code> outside the range and rounding inside of it
-</dl>
+  : <code>[EnforceRange] unsigned long long</code>
+  :: Any nonnegative JavaScript number in the integer-representable range, throwing a
+      <code>TypeError</code> outside the range and rounding inside of it
 
-Additionally, you can combine any of the above with an extra line in your algorithm to validate 
-that the number is within the expected domain-specific range, and throwing or performing other 
-actions in response. (While it is very rarely appropriate to modify author input by taking it 
+Additionally, you can combine any of the above with an extra line in your algorithm to validate
+that the number is within the expected domain-specific range, and throwing or performing other
+actions in response. (While it is very rarely appropriate to modify author input by taking it
 modulo 65535, it might be appropriate to take it modulo 360, for example.)
 
-A special case of domain-specific validation, which Web IDL already has you covered for, is the 
-0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in 
-the range 0–255, throwing a <code>TypeError</code> outside the range and rounding inside of it. 
-(And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for 
+A special case of domain-specific validation, which Web IDL already has you covered for, is the
+0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in
+the range 0–255, throwing a <code>TypeError</code> outside the range and rounding inside of it.
+(And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for
 your domain, such that you want the modulo or range-checking behavior, feel free to use them.)
 
 <div class="note">
-Those coming from other languages should carefully note that despite their names, 
-<code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and 
+Those coming from other languages should carefully note that despite their names,
+<code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and
 not 64.
 </div>
 
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
-Any web API that accepts a time measurement should do so in milliseconds. This is a tradition 
-stemming from <code>setTimeout</code> and the <code>Date</code> API, and carried through since 
+Any web API that accepts a time measurement should do so in milliseconds. This is a tradition
+stemming from <code>setTimeout</code> and the <code>Date</code> API, and carried through since
 then.
 
-Even if seconds (or some other unit) are more natural in the domain of an API, sticking with 
-milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with 
+Even if seconds (or some other unit) are more natural in the domain of an API, sticking with
+milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with
 other time quantities.
 
-Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as 
+Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
 nanoseconds.
 
 <h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
@@ -253,24 +248,22 @@ When representing date-times on the platform, use the {{DOMTimeStamp}} type, wit
  number of milliseconds relative to 1970-01-01T00:00:00Z.
 
 The Web IDL <code>Date</code> type must not be used for this purpose. <code>Date</code> objects are
- mutable (and there is no way to make them immutable), which comes with a host of attendant 
+ mutable (and there is no way to make them immutable), which comes with a host of attendant
  problems.
 
 <div class="note">
     For more background on why <code>Date</code> must not be used, see the following:
 
-    <ul>
-        <li><a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on 
-        es-discuss</li>
-        <li><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web 
-        IDL</a> on the Web IDL Bugzilla</li>
-    </ul>
+    * <a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on
+        es-discuss
+    * <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web IDL</a>
+        on the Web IDL Bugzilla
 </div>
 
-However, date-times are not monotonically increasing; subsequent values may either decrease or 
-remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time 
-stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}}, 
-which provides monotically increasing sub-millisecond timestamps that are comparable within a 
+However, date-times are not monotonically increasing; subsequent values may either decrease or
+remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time
+stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}},
+which provides monotically increasing sub-millisecond timestamps that are comparable within a
 single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
 
 
