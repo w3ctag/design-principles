@@ -4,6 +4,7 @@ Group: W3C TAG
 Shortname: design-principles
 Status: DREAM
 Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
+        Travis Leithead, Microsoft
 ED: https://w3ctag.github.io/design-principles
 Abstract: This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.
 Default Biblio Status: current
