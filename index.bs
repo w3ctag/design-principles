@@ -79,11 +79,9 @@ be entirely deterministic.
 
 <div class="note">
 There is some speculative discussion of exposing weak references such that their finalization is
-only observable between event loop turns (see
-<a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_references">strawman:weak_references</a>
-and <a href="http://wiki.ecmascript.org/doku.php?id=strawman:weak_refs">strawman:weak_refs</a>).
-However, these proposals have no active champions, and nobody knows if they are feasible or even
-desirable.
+only observable between event loop turns in this <a
+href="https://github.com/tc39/proposal-weakrefs">stage 1 proposal under discussion at TC39</a>.
+However, this remains contentious and does not yet have consensus in TC39 or among implementers.
 </div>
 
 <h2 id="api-surface">API Surface Concerns</h2>
@@ -269,14 +267,14 @@ single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more det
 
 <h2 id="device-apis">Device APIs</h2>
 
-It is increasingly common to see new APIs developed in the web platform for interacting with 
-devices. For example, authors wish to be able to use the web to connect with their 
-<a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>, 
-<a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and 
+It is increasingly common to see new APIs developed in the web platform for interacting with
+devices. For example, authors wish to be able to use the web to connect with their
+<a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>,
+<a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
 accelerometer),
-<a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and 
+<a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
-<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This 
+<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
 section contains principles for consideration when designing APIs for devices.
 
 <h3 id="device-ids">Use care when exposing device identifiers</h3>
@@ -284,44 +282,44 @@ section contains principles for consideration when designing APIs for devices.
 Exposing device identifiers increases the fingerprinting surface of a user
 agent conversely reducing the user's privacy. Think carefully about whether it is really necessary
 to expose the unique identifier at all. Please read the TAG's finding on
-<a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for 
-additional details. Despite this general concern, it may be very useful or necessary to expose a 
-device's unique identifier to the web platform. The following guidelines will help ensure that this 
-is done in a consistent and privacy-friendly way: 
+<a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for
+additional details. Despite this general concern, it may be very useful or necessary to expose a
+device's unique identifier to the web platform. The following guidelines will help ensure that this
+is done in a consistent and privacy-friendly way:
 
  : Limit identifiable information in the id
- :: As much as possible, device ids exposed to the web platform should not contain identifiable 
+ :: As much as possible, device ids exposed to the web platform should not contain identifiable
      information such as branding, make and model numbers, etc. In many cases using a randomized
-     number or unique id is preferable to a generic string identifier such as "device1". 
- :: Device ids expressed as numbers should contain sufficient entropy so as to avoid re-use or 
+     number or unique id is preferable to a generic string identifier such as "device1".
+ :: Device ids expressed as numbers should contain sufficient entropy so as to avoid re-use or
      potential sharing among other devices, and should not be easily guessable.
 
  : Keep the user in control
  :: Any existing device ids mapped to or stored with the current session by the user agent should
      be cleared when users elect to "clear their cookies" (and other related settings). Above all,
-     the user should be in control of this potential tracking state and be able to reset it on 
+     the user should be in control of this potential tracking state and be able to reset it on
      demand.
 
  : Hide sensitive ids behind a user permission
  :: Where device indentification does not make sense to be expressed in an anonymous way, access to
-     the identifier should be limited by default. One way to limit exposure is to only surface the 
+     the identifier should be limited by default. One way to limit exposure is to only surface the
      identifier to author code <em>after</em> obtaining permission from the user.
- 
+
  : Tie ids to the same-origin model
- :: Identifiers should be unique to the origin of the web content that is attempting to access 
-     them. Web content from one origin should receive an identifier that is distinct from the 
-     identifier given to web content from any other origin despite the physical device being the 
+ :: Identifiers should be unique to the origin of the web content that is attempting to access
+     them. Web content from one origin should receive an identifier that is distinct from the
+     identifier given to web content from any other origin despite the physical device being the
      same.
- :: Within an origin, ids may have a stable representation to web content. This ensures a 
+ :: Within an origin, ids may have a stable representation to web content. This ensures a
      consistent developer experience if requesting the same device twice.
 
  : Persistable when necessary
- :: Device identifiers obtained after a complex or time-consuming device selection process may 
-     prefer that author code be allowed to persist the id for use in a later session in order to 
-     avoid the selection process a second time. In this case, the API should not only provide a 
-     stable id during the session for the given origin, but also be able to deterministicly produce 
+ :: Device identifiers obtained after a complex or time-consuming device selection process may
+     prefer that author code be allowed to persist the id for use in a later session in order to
+     avoid the selection process a second time. In this case, the API should not only provide a
+     stable id during the session for the given origin, but also be able to deterministicly produce
      the same id in subsequent sessions.
-     
+
 <pre class="anchors">
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
     text: DOMHighResTimeStamp
