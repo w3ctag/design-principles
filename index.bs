@@ -310,7 +310,7 @@ is done in a consistent and privacy-friendly way:
  : Tie ids to the same-origin model
  :: Identifiers should be unique to the origin of the web content that is attempting to access 
      them. Web content from one origin should receive an identifier that is distinct from the 
-     identifier given to web content from any other origin despite the pysical device being the 
+     identifier given to web content from any other origin despite the physical device being the 
      same.
  :: Within an origin, ids may have a stable representation to web content. This ensures a 
      consistent developer experience if requesting the same device twice.
