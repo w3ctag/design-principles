@@ -144,6 +144,12 @@ design, the following rules have emerged:
             <code>document.bgColor</code></td>
     </tr>
     <tr>
+        <th>Repeated initialisms in APIs</th>
+        <td>Follow the same rule</td>
+        <td><code>HTMLHRElement</code><br>
+            <code>RTCDTMFSender</code><br>
+    </tr>
+    <tr>
         <th>The abbreviation of "identity"</th>
         <td><code>Id</code>, except when the first word in a method or property</td>
         <td><code>node.getElementById()</code><br>
@@ -179,6 +185,13 @@ Note that in particular, when a HTML attribute is <a>reflected</a> as a property
 and property's casings will not necessarily match. For example, the HTML attribute
 <code>novalidate</code> on <code>&lt;form&gt;</code> is <a>reflected</a> as the
 <code>noValidate</code> property on <code>HTMLFormElement</code>.
+</div>
+
+<div class="note">
+Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
+examples that violate the above rules are <code>XMLHttpRequest</code> and
+<code>HTMLHtmlElement</code>. Do not follow their example; instead always capitalize your
+initialisms, even if they are repeated.
 </div>
 
 <h2 id="types-and-units">Types and Units</h2>
