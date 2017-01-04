@@ -10,7 +10,10 @@ Abstract: This document contains a small-but-growing set of design principles co
 Default Biblio Status: current
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
 
-Link Defaults: html (dfn) queue a task/in parallel/browsing context/reflect
+Link Defaults: html (dfn) queue a task/in parallel/reflect
+</pre>
+<pre class="link-defaults">
+spec:html; type:dfn; for:/; text:browsing context
 </pre>
 
 <style>
