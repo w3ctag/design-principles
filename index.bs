@@ -1,5 +1,5 @@
 <pre class="metadata">
-Title: API Design Principles
+Title: Client-side API Design Principles
 Group: W3C TAG
 Shortname: design-principles
 Status: DREAM
