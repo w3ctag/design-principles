@@ -89,6 +89,21 @@ However, this remains contentious and does not yet have consensus in TC39 or amo
 
 <h2 id="api-surface">API Surface Concerns</h2>
 
+<h3 id="naming-is-hard">Naming things</h3>
+
+Naming is hard! We would all like a silver-bullet for naming APIs...
+
+Names take meaning from:
+
+* signposting (the name itself)
+* use (how people come to understand the name over time)
+* context (the object on the left-hand side, for example)
+
+Consistency is a good principle that helps to create a platform that users can navigate intuitively 
+and by name association.
+
+Please consult widely on names in your APIs.
+
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
 [[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
