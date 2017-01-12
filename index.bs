@@ -351,6 +351,15 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministicly produce
      the same id in subsequent sessions.
 
+     
+<h2 id="other-considerations">Other API Design Considerations</h2>
+
+It is important not to neglect other aspects of API design such as privacy and security. Please 
+take advantage of these other excellent resources in your design process:
+
+* <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
+* <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
+
 <pre class="anchors">
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
     text: DOMHighResTimeStamp
