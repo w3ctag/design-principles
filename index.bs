@@ -8,6 +8,7 @@ Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d
 ED: https://w3ctag.github.io/design-principles
 Abstract: This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.
 Default Biblio Status: current
+Markup Shorthands: markdown on
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
@@ -99,7 +100,7 @@ Names take meaning from:
 * use (how people come to understand the name over time)
 * context (the object on the left-hand side, for example)
 
-Consistency is a good principle that helps to create a platform that users can navigate intuitively 
+Consistency is a good principle that helps to create a platform that users can navigate intuitively
 and by name association.
 
 Please consult widely on names in your APIs.
@@ -211,6 +212,30 @@ examples that violate the above rules are <code>XMLHttpRequest</code> and
 <code>HTMLHtmlElement</code>. Do not follow their example; instead always capitalize your
 initialisms, even if they are repeated.
 </div>
+
+<h3 id="always-add-event-handlers">Always add event handler attributes</h3>
+
+For an object that inherits from `EventTarget`, there are two techniques available for registering
+an event handler (e.g., an event named "somethingchanged"):
+
+1. `addEventListener` which allows authors to register for the event using the event's name
+    (i.e., `someobject.addEventListener("somethingchanged", myhandler)`) and
+2. `onsomethingchanged` IDL attributes which allow one event handler to be directly assigned to the
+    object (i.e., `someobject.onsomethingchanged`).
+
+Because there are two techniques for registering events on objects inheriting from `EventTarget`,
+authors may be tempted to omit the corresponding event handler IDL attributes. They may assume that
+event handler IDL attributes are a legacy registration technique or are simply not needed given that
+`addEventListener` is available as an alternative. However, it is important to continue to define
+event handler IDL attributes because:
+
+* they preserve consistency in the platform (e.g., several media-related event handler IDL
+    attributes are defined on the `Window` and `Document` interfaces despite the fact that
+    implementations will never dispatch those events to those objects)
+* they enable feature-detection for the supported events
+
+So, if the object inherits from `EventTarget`, add corresponding `on...` event handler attributes to
+the interface.
 
 <h2 id="types-and-units">Types and Units</h2>
 
@@ -351,10 +376,10 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministicly produce
      the same id in subsequent sessions.
 
-     
+
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
-It is important not to neglect other aspects of API design such as privacy and security. Please 
+It is important not to neglect other aspects of API design such as privacy and security. Please
 take advantage of these other excellent resources in your design process:
 
 * <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
