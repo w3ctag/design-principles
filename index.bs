@@ -342,21 +342,31 @@ So, if the object inherits from {{EventTarget}}, add a corresponding
 [=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface, instead of directly on
 the relevant element interface(s).</p>
 
+<h2 id="event-design">Event Design</h2>
+
+<h3 id="events-are-for-notification">Events are for notification</h3>
+
+Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">discouraged</a>.
+
+<h3 id="favor-asynchronous-events">Favor asynchornous events</h3>
+
+A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications. If you feel you may ned a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
+
+<h3 id="state-and-subclassing">State and Event subclasses</h3>
+
+It's tempting to create subclasses of `Event` for all event types. This is frequently overkill. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
+
 <h2 id="types-and-units">Types and Units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-[[!WEBIDL]], because of its OMG IDL heritage, has a plethora of numeric types. However, it is very
+[[!WEBIDL]] contains many numeric types. However, it is very
 rare that its more specific ones are actually appropriate.
 
-Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL
-"types" are simply coercion rules that apply when accepting an argument or triggering a setter. For
-example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an
-argument, take it modulo 65535 before doing any further processing". That is very rarely a useful
-thing to do.
+JavaScript has only one numeric type, Number: IEEE 754 double-precision
+floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
 
-Instead, you probably want to stick with one of:
+Instead, you will want to stick with one of:
 
   : <code>unrestricted double</code>
   :: When truly any JavaScript number will do, including infinities and NaN
