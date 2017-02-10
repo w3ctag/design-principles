@@ -249,27 +249,29 @@ is more readable than
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
-For an object that inherits from `EventTarget`, there are two techniques available for registering
+For an object that inherits from {{EventTarget}}, there are two techniques available for registering
 an event handler (e.g., an event named "somethingchanged"):
 
-1. `addEventListener` which allows authors to register for the event using the event's name
-    (i.e., <code highlight="js">someobject.addEventListener("somethingchanged", myhandler)</code>) and
+1. {{EventTarget/addEventListener()}} which allows authors to register for the event using the
+    event's name (i.e.,
+    <code highlight="js">someobject.addEventListener("somethingchanged", myhandler)</code>) and
 2. `onsomethingchanged` IDL attributes which allow one event handler to be directly assigned to the
-    object (i.e., `someobject.onsomethingchanged`).
+    object (i.e., <code highlight="js">someobject.onsomethingchanged</code>).
 
-Because there are two techniques for registering events on objects inheriting from `EventTarget`,
-authors may be tempted to omit the corresponding event handler IDL attributes. They may assume that
-event handler IDL attributes are a legacy registration technique or are simply not needed given that
-`addEventListener` is available as an alternative. However, it is important to continue to define
-event handler IDL attributes because:
+Because there are two techniques for registering events on objects inheriting from {{EventTarget}},
+authors may be tempted to omit the corresponding [=event handler IDL attributes=]. They may assume
+that event handler IDL attributes are a legacy registration technique or are simply not needed
+given that {{EventTarget/addEventListener()}} is available as an alternative. However, it is
+important to continue to define event handler IDL attributes because:
 
-* they preserve consistency in the platform (e.g., several media-related event handler IDL
-    attributes are defined on the `Window` and `Document` interfaces despite the fact that
-    implementations will never dispatch those events to those objects)
+* they preserve consistency in the platform
 * they enable feature-detection for the supported events
 
-So, if the object inherits from `EventTarget`, add corresponding `on...` event handler attributes to
-the interface.
+So, if the object inherits from {{EventTarget}}, add a corresponding
+<code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
+
+<p class="note">Note that for HTML and SVG elements, it is also traditional to add the
+[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface.</p>
 
 <h2 id="types-and-units">Types and Units</h2>
 
