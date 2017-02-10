@@ -270,8 +270,9 @@ important to continue to define event handler IDL attributes because:
 So, if the object inherits from {{EventTarget}}, add a corresponding
 <code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
 
-<p class="note">Note that for HTML and SVG elements, it is also traditional to add the
-[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface.</p>
+<p class="note">Note that for HTML and SVG elements, it is traditional to add the
+[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface, instead of directly on
+the relevant element interface(s).</p>
 
 <h2 id="types-and-units">Types and Units</h2>
 
