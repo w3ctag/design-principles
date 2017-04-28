@@ -505,6 +505,17 @@ Please take advantage of these other excellent resources in your design process:
 * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
 * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
 
+<h2 id="spec-writing">Advice on specification writing</h2>
+
+This document covers API design for the Web,
+but those who design APIs are hopefully also writing specifications
+for the APIs that they design.
+Some useful advice on how to write specifications is available elsewhere:
+  * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
+    specifications: Kinds of statements</a> (Ian Hickson, 2006)
+  * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
+    Specification Guidelines</a> (W3C QA Working Group, 2005)
+
 <pre class="anchors">
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
     text: DOMHighResTimeStamp
