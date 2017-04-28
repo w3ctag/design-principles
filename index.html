@@ -1176,7 +1176,8 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version e5f1ea6cfe87cd694cb9d91f26be2d18374ebb1f" name="generator">
+  <meta content="Bikeshed version 578172dc11c5ca130cd8ef816dc879f8e34fe1e9" name="generator">
+  <link href="https://w3ctag.github.io/design-principles" rel="canonical">
 <style>
     table.data {
         text-align: left;
@@ -1392,11 +1393,13 @@ Possible extra rowspan handling
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2017-02-17">17 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2017-04-28">28 April 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://w3ctag.github.io/design-principles">https://w3ctag.github.io/design-principles</a>
+     <dt>Issue Tracking:
+     <dd><a href="https://github.com/w3ctag/design-principles/issues/">GitHub</a>
      <dt class="editor">Editor:
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://domenic.me/">Domenic Denicola</a> (<a class="p-org org" href="https://www.google.com/">Google</a>) <a class="u-email email" href="mailto:d@domenic.me">d@domenic.me</a>
      <dt>Other Editorial Contributions:
@@ -1409,14 +1412,14 @@ Possible extra rowspan handling
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 17 February 2017,
+In addition, as of 28 April 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
    <hr title="Separator for header">
   </div>
-  <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
   <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
    <p>This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.</p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -1446,6 +1449,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#numeric-types"><span class="secno">3.1</span> <span class="content">Use numeric types appropriately</span></a>
       <li><a href="#milliseconds"><span class="secno">3.2</span> <span class="content">Use milliseconds for time measurement</span></a>
       <li><a href="#times-and-dates"><span class="secno">3.3</span> <span class="content">Use the appropriate type to represent times and dates</span></a>
+      <li><a href="#error-types"><span class="secno">3.4</span> <span class="content">Use Error or DOMException for errors</span></a>
      </ol>
     <li>
      <a href="#device-apis"><span class="secno">4</span> <span class="content">Device APIs</span></a>
@@ -1773,6 +1777,15 @@ remain the same. The limitation to millisecond resolution can also be constraini
 stamps that do not need to correspond to an absolute time, consider using <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
 which provides monotically increasing sub-millisecond timestamps that are comparable within a
 single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a> or web worker. See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
+   <h3 class="heading settled" data-level="3.4" id="error-types"><span class="secno">3.4. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
+   <p>Errors in web APIs should be represented as <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#sec-error-objects">ECMAScript error objects</a> (perhaps via the WebIDL <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Error">Error</a></code> type)
+or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a></code>.
+There was at one point a trend to use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domerror">DOMError</a></code> when
+objects had a property representing an error.
+However, we no longer believe there was value in this split,
+and therefore suggest that ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror">TypeError</a></code>)
+or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a></code> should be used for errors,
+whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="4" id="device-apis"><span class="secno">4. </span><span class="content">Device APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>, <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
@@ -1823,13 +1836,17 @@ is done in a consistent and privacy-friendly way:</p>
  the same id in subsequent sessions.</p>
    </dl>
    <h2 class="heading settled" data-level="5" id="other-considerations"><span class="secno">5. </span><span class="content">Other API Design Considerations</span><a class="self-link" href="#other-considerations"></a></h2>
-   <p>It is important not to neglect other aspects of API design such as privacy and security. Please
-take advantage of these other excellent resources in your design process:</p>
+   <p>It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
+Please take advantage of these other excellent resources in your design process:</p>
    <ul>
     <li data-md="">
      <p><a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a></p>
     <li data-md="">
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a></p>
+    <li data-md="">
+     <p><a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a></p>
+    <li data-md="">
+     <p><a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a></p>
    </ul>
   </main>
   <div data-fill-with="conformance">
@@ -1844,7 +1861,7 @@ take advantage of these other excellent resources in your design process:</p>
             except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
    <p> Examples in this specification are introduced with the words “for example”
             or are set apart from the normative text with <code>class="example"</code>, like this: </p>
-   <div class="example" id="example-ae2b6bc0"><a class="self-link" href="#example-ae2b6bc0"></a> This is an example of an informative example. </div>
+   <div class="example" id="example-example"><a class="self-link" href="#example-example"></a> This is an example of an informative example. </div>
    <p> Informative notes begin with the word “Note”
             and are set apart from the normative text with <code>class="note"</code>, like this: </p>
    <p class="note" role="note"> Note, this is an informative note. </p>
@@ -1992,8 +2009,9 @@ take advantage of these other excellent resources in your design process:</p>
      <li><a href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle">getComputedStyle(elt, pseudoElt)</a>
     </ul>
    <li>
-    <a data-link-type="biblio">[WHATWG-DOM]</a> defines the following terms:
+    <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
+     <li><a href="https://dom.spec.whatwg.org/#domerror">DOMError</a>
      <li><a href="https://dom.spec.whatwg.org/#eventtarget">EventTarget</a>
      <li><a href="https://dom.spec.whatwg.org/#nodelist">NodeList</a>
      <li><a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">addEventListener(type, callback)</a>
@@ -2016,14 +2034,17 @@ take advantage of these other excellent resources in your design process:</p>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#reflect">reflect</a>
     </ul>
    <li>
-    <a data-link-type="biblio">[WHATWG-URL]</a> defines the following terms:
+    <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><a href="https://url.spec.whatwg.org/#urlsearchparams">URLSearchParams</a>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
+     <li><a href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a>
      <li><a href="https://heycam.github.io/webidl/#common-DOMTimeStamp">DOMTimeStamp</a>
+     <li><a href="https://heycam.github.io/webidl/#idl-Error">Error</a>
+     <li><a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">TypeError</a>
      <li><a href="https://heycam.github.io/webidl/#dfn-maplike">maplike</a>
      <li><a href="https://heycam.github.io/webidl/#dfn-setlike">setlike</a>
     </ul>
@@ -2032,19 +2053,19 @@ take advantage of these other excellent resources in your design process:</p>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-cssom-1">[CSSOM-1]
-   <dd>Simon Pieters; Glenn Adams. <a href="https://drafts.csswg.org/cssom/">CSS Object Model (CSSOM)</a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
+   <dd>Simon Pieters; Glenn Adams. <a href="https://www.w3.org/TR/cssom-1/">CSS Object Model (CSSOM)</a>. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
+   <dt id="biblio-dom">[DOM]
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.github.io/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.github.io/ecma262/">https://tc39.github.io/ecma262/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
-   <dd>Ilya Grigorik; James Simonsen; Jatinder Mann. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
+   <dd>Ilya Grigorik; James Simonsen; Jatinder Mann. <a href="https://www.w3.org/TR/hr-time-2/">High Resolution Time Level 2</a>. URL: <a href="https://www.w3.org/TR/hr-time-2/">https://www.w3.org/TR/hr-time-2/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
-   <dt id="biblio-webidl">[WEBIDL]
-   <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
-   <dt id="biblio-whatwg-dom">[WHATWG-DOM]
-   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
-   <dt id="biblio-whatwg-url">[WHATWG-URL]
+   <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
+   <dt id="biblio-webidl">[WEBIDL]
+   <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://www.w3.org/TR/WebIDL-1/">Web IDL</a>. URL: <a href="https://www.w3.org/TR/WebIDL-1/">https://www.w3.org/TR/WebIDL-1/</a>
   </dl>
