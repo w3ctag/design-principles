@@ -16,6 +16,9 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:html; type:dfn; for:/; text:browsing context
 </pre>
+<pre class="anchors">
+url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
+</pre>
 
 <style>
     table.data {
@@ -421,6 +424,19 @@ remain the same. The limitation to millisecond resolution can also be constraini
 stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}},
 which provides monotically increasing sub-millisecond timestamps that are comparable within a
 single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
+
+<h3 id="error-types">Use Error or DOMException for errors</h3>
+
+Errors in web APIs should be represented as
+<a>ECMAScript error objects</a> (perhaps via the WebIDL {{Error}} type)
+or as {{DOMException}}.
+There was at one point a trend to use {{DOMError}} when
+objects had a property representing an error.
+However, we no longer believe there was value in this split,
+and therefore suggest that ECMAScript error objects (e.g., {{TypeError}})
+or {{DOMException}}
+should be used for errors,
+whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">Device APIs</h2>
 
