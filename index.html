@@ -1775,7 +1775,7 @@ es-discuss</p>
    <p>However, date-times are not monotonically increasing; subsequent values may either decrease or
 remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time
 stamps that do not need to correspond to an absolute time, consider using <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
-which provides monotically increasing sub-millisecond timestamps that are comparable within a
+which provides monotonically increasing sub-millisecond timestamps that are comparable within a
 single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a> or web worker. See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
    <h3 class="heading settled" data-level="3.4" id="error-types"><span class="secno">3.4. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Errors in web APIs should be represented as <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#sec-error-objects">ECMAScript error objects</a> (perhaps via the WebIDL <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Error">Error</a></code> type)
@@ -1815,7 +1815,7 @@ is done in a consistent and privacy-friendly way:</p>
  demand.</p>
     <dt data-md="">Hide sensitive ids behind a user permission
     <dd data-md="">
-     <p>Where device indentification does not make sense to be expressed in an anonymous way, access to
+     <p>Where device identification does not make sense to be expressed in an anonymous way, access to
  the identifier should be limited by default. One way to limit exposure is to only surface the
  identifier to author code <em>after</em> obtaining permission from the user.</p>
     <dt data-md="">Tie ids to the same-origin model
@@ -1832,7 +1832,7 @@ is done in a consistent and privacy-friendly way:</p>
      <p>Device identifiers obtained after a complex or time-consuming device selection process may
  prefer that author code be allowed to persist the id for use in a later session in order to
  avoid the selection process a second time. In this case, the API should not only provide a
- stable id during the session for the given origin, but also be able to deterministicly produce
+ stable id during the session for the given origin, but also be able to deterministically produce
  the same id in subsequent sessions.</p>
    </dl>
    <h2 class="heading settled" data-level="5" id="other-considerations"><span class="secno">5. </span><span class="content">Other API Design Considerations</span><a class="self-link" href="#other-considerations"></a></h2>
