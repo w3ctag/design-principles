@@ -1,5 +1,5 @@
 script: bash ./deploy-gh-pages.sh
 env:
   global:
-  - GH_REF: github.com/w3ctag/design-principles.git
-  - secure: "gLxE2WkQQN2ySWYrERdjmEOsGUBpu+DDxH8aIuJ0hQRAYb5+FmT8ecdj5GOjEmNsR1H3WyHHlsmb+bS/3tJx6LLlWBQYN2G+kpaCKs8JLa6HiG1cbTjBxTlei4OTllbhoxkzqjWdzHixxik+VIBXGThvRWDf2PDtt3bGCjRjGH4="
+  - ENCRYPTION_LABEL: "db14bf8578f5"
+  - COMMIT_AUTHOR_EMAIL: "travis@w3ctag.org"
