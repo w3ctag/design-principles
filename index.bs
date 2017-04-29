@@ -2,6 +2,7 @@
 Title: Client-side API Design Principles
 Group: W3C TAG
 Shortname: design-principles
+Repository: w3ctag/design-principles
 Status: DREAM
 Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 ED: https://w3ctag.github.io/design-principles
