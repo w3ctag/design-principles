@@ -1441,23 +1441,30 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#live-vs-static"><span class="secno">2.3</span> <span class="content">Consider whether objects should be live or static</span></a>
       <li><a href="#casing-rules"><span class="secno">2.4</span> <span class="content">Use casing rules consistent with existing APIs</span></a>
       <li><a href="#prefer-dict-to-bool"><span class="secno">2.5</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
-      <li><a href="#always-add-event-handlers"><span class="secno">2.6</span> <span class="content">Always add event handler attributes</span></a>
      </ol>
     <li>
-     <a href="#types-and-units"><span class="secno">3</span> <span class="content">Types and Units</span></a>
+     <a href="#event-design"><span class="secno">3</span> <span class="content">Event Design</span></a>
      <ol class="toc">
-      <li><a href="#numeric-types"><span class="secno">3.1</span> <span class="content">Use numeric types appropriately</span></a>
-      <li><a href="#milliseconds"><span class="secno">3.2</span> <span class="content">Use milliseconds for time measurement</span></a>
-      <li><a href="#times-and-dates"><span class="secno">3.3</span> <span class="content">Use the appropriate type to represent times and dates</span></a>
-      <li><a href="#error-types"><span class="secno">3.4</span> <span class="content">Use Error or DOMException for errors</span></a>
+      <li><a href="#always-add-event-handlers"><span class="secno">3.1</span> <span class="content">Always add event handler attributes</span></a>
+      <li><a href="#events-are-for-notification"><span class="secno">3.2</span> <span class="content">Events are for notification</span></a>
+      <li><a href="#favor-asynchronous-events"><span class="secno">3.3</span> <span class="content">Favor asynchronous events</span></a>
+      <li><a href="#state-and-subclassing"><span class="secno">3.4</span> <span class="content">State and Event subclasses</span></a>
      </ol>
     <li>
-     <a href="#device-apis"><span class="secno">4</span> <span class="content">Device APIs</span></a>
+     <a href="#types-and-units"><span class="secno">4</span> <span class="content">Types and Units</span></a>
      <ol class="toc">
-      <li><a href="#device-ids"><span class="secno">4.1</span> <span class="content">Use care when exposing device identifiers</span></a>
+      <li><a href="#numeric-types"><span class="secno">4.1</span> <span class="content">Use numeric types appropriately</span></a>
+      <li><a href="#milliseconds"><span class="secno">4.2</span> <span class="content">Use milliseconds for time measurement</span></a>
+      <li><a href="#times-and-dates"><span class="secno">4.3</span> <span class="content">Use the appropriate type to represent times and dates</span></a>
+      <li><a href="#error-types"><span class="secno">4.4</span> <span class="content">Use Error or DOMException for errors</span></a>
      </ol>
-    <li><a href="#other-considerations"><span class="secno">5</span> <span class="content">Other API Design Considerations</span></a>
-    <li><a href="#spec-writing"><span class="secno">6</span> <span class="content">Advice on specification writing</span></a>
+    <li>
+     <a href="#device-apis"><span class="secno">5</span> <span class="content">Device APIs</span></a>
+     <ol class="toc">
+      <li><a href="#device-ids"><span class="secno">5.1</span> <span class="content">Use care when exposing device identifiers</span></a>
+     </ol>
+    <li><a href="#other-considerations"><span class="secno">6</span> <span class="content">Other API Design Considerations</span></a>
+    <li><a href="#spec-writing"><span class="secno">7</span> <span class="content">Advice on specification writing</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1687,7 +1694,8 @@ or “private” versus “public”.</p>
    <p>Likewise, APIs should use dictionary parameters to avoid other cases
 of difficult to understand sequences of parameters.
 For example, <code class="highlight">window<span class="p">.</span>scrollBy<span class="p">(</span><span class="p">{</span> left<span class="o">:</span> <span class="mi">50</span><span class="p">,</span> top<span class="o">:</span> <span class="mi">0</span> <span class="p">}</span><span class="p">)</span></code> is more readable than <code class="highlight">window<span class="p">.</span>scrollBy<span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></code>.</p>
-   <h3 class="heading settled" data-level="2.6" id="always-add-event-handlers"><span class="secno">2.6. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
+   <h2 class="heading settled" data-level="3" id="event-design"><span class="secno">3. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
+   <h3 class="heading settled" data-level="3.1" id="always-add-event-handlers"><span class="secno">3.1. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
    <p>For an object that inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget">EventTarget</a></code>, there are two techniques available for registering
 an event handler (e.g., an event named "somethingchanged"):</p>
    <ol>
@@ -1712,17 +1720,19 @@ important to continue to define event handler IDL attributes because:</p>
    <p>So, if the object inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget">EventTarget</a></code>, add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes">event handler IDL attribute</a> to the interface.</p>
    <p class="note" role="note">Note that for HTML and SVG elements, it is traditional to add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers">GlobalEventHandlers</a></code> interface, instead of directly on
 the relevant element interface(s).</p>
-   <h2 class="heading settled" data-level="3" id="types-and-units"><span class="secno">3. </span><span class="content">Types and Units</span><a class="self-link" href="#types-and-units"></a></h2>
-   <h3 class="heading settled" data-level="3.1" id="numeric-types"><span class="secno">3.1. </span><span class="content">Use numeric types appropriately</span><a class="self-link" href="#numeric-types"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a>, because of its OMG IDL heritage, has a plethora of numeric types. However, it is very
+   <h3 class="heading settled" data-level="3.2" id="events-are-for-notification"><span class="secno">3.2. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
+   <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
+   <h3 class="heading settled" data-level="3.3" id="favor-asynchronous-events"><span class="secno">3.3. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
+   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement. If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
+   <h3 class="heading settled" data-level="3.4" id="state-and-subclassing"><span class="secno">3.4. </span><span class="content">State and Event subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <p>It’s tempting to create subclasses of <code>Event</code> for all event types. This is frequently unnecessary. Consider subclassing <code>Event</code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code>.target</code> object.</p>
+   <h2 class="heading settled" data-level="4" id="types-and-units"><span class="secno">4. </span><span class="content">Types and Units</span><a class="self-link" href="#types-and-units"></a></h2>
+   <h3 class="heading settled" data-level="4.1" id="numeric-types"><span class="secno">4.1. </span><span class="content">Use numeric types appropriately</span><a class="self-link" href="#numeric-types"></a></h3>
+   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> contains many numeric types. However, it is very
 rare that its more specific ones are actually appropriate.</p>
-   <p>Remember that JavaScript itself only has one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL
-"types" are simply coercion rules that apply when accepting an argument or triggering a setter. For
-example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an
-argument, take it modulo 65535 before doing any further processing". That is very rarely a useful
-thing to do.</p>
-   <p>Instead, you probably want to stick with one of:</p>
+   <p>JavaScript has only one numeric type, Number: IEEE 754 double-precision
+floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.</p>
+   <p>Instead, you will want to stick with one of:</p>
    <dl>
     <dt data-md=""><code>unrestricted double</code>
     <dd data-md="">
@@ -1748,7 +1758,7 @@ the range 0–255, throwing a <code class="highlight">TypeError</code> outside t
 your domain, such that you want the modulo or range-checking behavior, feel free to use them.)</p>
    <div class="note" role="note"> Those coming from other languages should carefully note that despite their names, <code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and
 not 64. </div>
-   <h3 class="heading settled" data-level="3.2" id="milliseconds"><span class="secno">3.2. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
+   <h3 class="heading settled" data-level="4.2" id="milliseconds"><span class="secno">4.2. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
    <p>Any web API that accepts a time measurement should do so in milliseconds. This is a tradition
 stemming from <code class="highlight">setTimeout</code> and the <code class="highlight">Date</code> API, and carried through since
 then.</p>
@@ -1757,7 +1767,7 @@ milliseconds ensures interoperability with the rest of the platform, allowing ea
 other time quantities.</p>
    <p>Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
 nanoseconds.</p>
-   <h3 class="heading settled" data-level="3.3" id="times-and-dates"><span class="secno">3.3. </span><span class="content">Use the appropriate type to represent times and dates</span><a class="self-link" href="#times-and-dates"></a></h3>
+   <h3 class="heading settled" data-level="4.3" id="times-and-dates"><span class="secno">4.3. </span><span class="content">Use the appropriate type to represent times and dates</span><a class="self-link" href="#times-and-dates"></a></h3>
    <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#common-DOMTimeStamp">DOMTimeStamp</a></code> type, with values being the
  number of milliseconds relative to 1970-01-01T00:00:00Z.</p>
    <p>The JavaScript <code class="highlight">Date</code> class must not be used for this purpose. <code class="highlight">Date</code> objects
@@ -1778,7 +1788,7 @@ remain the same. The limitation to millisecond resolution can also be constraini
 stamps that do not need to correspond to an absolute time, consider using <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
 which provides monotonically increasing sub-millisecond timestamps that are comparable within a
 single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a> or web worker. See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
-   <h3 class="heading settled" data-level="3.4" id="error-types"><span class="secno">3.4. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
+   <h3 class="heading settled" data-level="4.4" id="error-types"><span class="secno">4.4. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Errors in web APIs should be represented as <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#sec-error-objects">ECMAScript error objects</a> (perhaps via the WebIDL <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Error">Error</a></code> type)
 or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a></code>.
 There was at one point a trend to use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domerror">DOMError</a></code> when
@@ -1787,12 +1797,12 @@ However, we no longer believe there was value in this split,
 and therefore suggest that ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror">TypeError</a></code>)
 or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a></code> should be used for errors,
 whether they are exceptions, promise rejection values, or properties.</p>
-   <h2 class="heading settled" data-level="4" id="device-apis"><span class="secno">4. </span><span class="content">Device APIs</span><a class="self-link" href="#device-apis"></a></h2>
+   <h2 class="heading settled" data-level="5" id="device-apis"><span class="secno">5. </span><span class="content">Device APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>, <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
 accelerometer), <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals, <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
 section contains principles for consideration when designing APIs for devices.</p>
-   <h3 class="heading settled" data-level="4.1" id="device-ids"><span class="secno">4.1. </span><span class="content">Use care when exposing device identifiers</span><a class="self-link" href="#device-ids"></a></h3>
+   <h3 class="heading settled" data-level="5.1" id="device-ids"><span class="secno">5.1. </span><span class="content">Use care when exposing device identifiers</span><a class="self-link" href="#device-ids"></a></h3>
    <p>Exposing device identifiers increases the fingerprinting surface of a user
 agent conversely reducing the user’s privacy. Think carefully about whether it is really necessary
 to expose the unique identifier at all. Please read the TAG’s finding on <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for
@@ -1836,7 +1846,7 @@ is done in a consistent and privacy-friendly way:</p>
  stable id during the session for the given origin, but also be able to deterministically produce
  the same id in subsequent sessions.</p>
    </dl>
-   <h2 class="heading settled" data-level="5" id="other-considerations"><span class="secno">5. </span><span class="content">Other API Design Considerations</span><a class="self-link" href="#other-considerations"></a></h2>
+   <h2 class="heading settled" data-level="6" id="other-considerations"><span class="secno">6. </span><span class="content">Other API Design Considerations</span><a class="self-link" href="#other-considerations"></a></h2>
    <p>It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
 Please take advantage of these other excellent resources in your design process:</p>
    <ul>
@@ -1849,7 +1859,7 @@ Please take advantage of these other excellent resources in your design process:
     <li data-md="">
      <p><a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a></p>
    </ul>
-   <h2 class="heading settled" data-level="6" id="spec-writing"><span class="secno">6. </span><span class="content">Advice on specification writing</span><a class="self-link" href="#spec-writing"></a></h2>
+   <h2 class="heading settled" data-level="7" id="spec-writing"><span class="secno">7. </span><span class="content">Advice on specification writing</span><a class="self-link" href="#spec-writing"></a></h2>
    <p>This document covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.
