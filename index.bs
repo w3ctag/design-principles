@@ -423,7 +423,7 @@ problems.
 However, date-times are not monotonically increasing; subsequent values may either decrease or
 remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time
 stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}},
-which provides monotically increasing sub-millisecond timestamps that are comparable within a
+which provides monotonically increasing sub-millisecond timestamps that are comparable within a
 single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
@@ -475,7 +475,7 @@ is done in a consistent and privacy-friendly way:
      demand.
 
  : Hide sensitive ids behind a user permission
- :: Where device indentification does not make sense to be expressed in an anonymous way, access to
+ :: Where device identification does not make sense to be expressed in an anonymous way, access to
      the identifier should be limited by default. One way to limit exposure is to only surface the
      identifier to author code <em>after</em> obtaining permission from the user.
 
@@ -491,7 +491,7 @@ is done in a consistent and privacy-friendly way:
  :: Device identifiers obtained after a complex or time-consuming device selection process may
      prefer that author code be allowed to persist the id for use in a later session in order to
      avoid the selection process a second time. In this case, the API should not only provide a
-     stable id during the session for the given origin, but also be able to deterministicly produce
+     stable id during the session for the given origin, but also be able to deterministically produce
      the same id in subsequent sessions.
 
 
