@@ -315,6 +315,8 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
+<h2 id="event-design">Event Design</h2>
+
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
 For an object that inherits from {{EventTarget}}, there are two techniques available for registering
@@ -342,19 +344,18 @@ So, if the object inherits from {{EventTarget}}, add a corresponding
 [=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface, instead of directly on
 the relevant element interface(s).</p>
 
-<h2 id="event-design">Event Design</h2>
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
 
-Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">discouraged</a>.
+Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
 
-<h3 id="favor-asynchronous-events">Favor asynchornous events</h3>
+<h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications. If you feel you may ned a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
+A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement. If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
 
 <h3 id="state-and-subclassing">State and Event subclasses</h3>
 
-It's tempting to create subclasses of `Event` for all event types. This is frequently overkill. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
+It's tempting to create subclasses of `Event` for all event types. This is frequently unnecessary. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
 
 <h2 id="types-and-units">Types and Units</h2>
 
