@@ -212,13 +212,13 @@ design, the following rules have emerged:
         </tr>
     </thead>
     <tr>
-        <th>Methods and properties</th>
+        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
         <td>Camel case</td>
         <td><code highlight="js">document.createAttribute()</code><br>
             <code highlight="js">document.compatMode</code></td>
     </tr>
     <tr>
-        <th>Classes and mixins</th>
+        <th>Classes and mixins<br>(Web IDL interfaces)</th>
         <td>Pascal case</td>
         <td><code highlight="js">NamedNodeMap</code><br>
             <code highlight="js">NonElementParentNode</code></td>
@@ -267,17 +267,18 @@ design, the following rules have emerged:
     </tr>
 </table>
 
-<div class="note">
+<div class="non-normative">
 Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
 and property's casings will not necessarily match. For example, the HTML attribute
-<code>novalidate</code> on <code highlight="html">&lt;form&gt;</code> is <a>reflected</a> as the
-<code highlight="js">noValidate</code> property on <code highlight="js">HTMLFormElement</code>.
-</div>
+<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
+{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
 
-<div class="note">
+The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
+or stored on disk, and don't apply to the general notion of JavaScript object keys.
+
 Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are <code highlight="js">XMLHttpRequest</code> and
-<code highlight="js">HTMLHtmlElement</code>. Do not follow their example; instead always capitalize your
+examples that violate the above rules are {{XMLHttpRequest}} and
+{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
 initialisms, even if they are repeated.
 </div>
 
@@ -530,7 +531,5 @@ Some useful advice on how to write specifications is available elsewhere:
 <pre class="anchors">
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
     text: DOMHighResTimeStamp
-urlPrefix: https://heycam.github.io/webidl/; spec: WEBIDL; type: interface
-    text: DOMTimeStamp; url: #common-DOMTimeStamp
 </pre>
 
