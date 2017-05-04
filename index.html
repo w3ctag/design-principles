@@ -1393,7 +1393,7 @@ Possible extra rowspan handling
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2017-04-29">29 April 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2017-05-04">4 May 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1412,7 +1412,7 @@ Possible extra rowspan handling
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 29 April 2017,
+In addition, as of 4 May 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1441,6 +1441,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#live-vs-static"><span class="secno">2.3</span> <span class="content">Consider whether objects should be live or static</span></a>
       <li><a href="#casing-rules"><span class="secno">2.4</span> <span class="content">Use casing rules consistent with existing APIs</span></a>
       <li><a href="#prefer-dict-to-bool"><span class="secno">2.5</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
+      <li><a href="#promises"><span class="secno">2.6</span> <span class="content">Design asynchronous APIs using Promises</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">3</span> <span class="content">Event Design</span></a>
@@ -1694,6 +1695,35 @@ or “private” versus “public”.</p>
    <p>Likewise, APIs should use dictionary parameters to avoid other cases
 of difficult to understand sequences of parameters.
 For example, <code class="highlight">window<span class="p">.</span>scrollBy<span class="p">(</span><span class="p">{</span> left<span class="o">:</span> <span class="mi">50</span><span class="p">,</span> top<span class="o">:</span> <span class="mi">0</span> <span class="p">}</span><span class="p">)</span></code> is more readable than <code class="highlight">window<span class="p">.</span>scrollBy<span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></code>.</p>
+   <h3 class="heading settled" data-level="2.6" id="promises"><span class="secno">2.6. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
+   <p>Asynchronous APIs should generally be designed using promises
+rather than callback functions.
+This is the pattern that we’ve settled on for the Web platform,
+and having APIs consistently use promises means that the APIs are
+easier to use together (such as by chaining promises).
+This pattern also tends to produce cleaner code than the use
+of APIs with callback functions.</p>
+   <p>Furthermore, you should carefully consider whether an API might need
+to be asynchronous before making it a synchronous API.
+An API might need to be asynchronous if:</p>
+   <ul>
+    <li data-md="">
+     <p>some implementations may (in at least some cases) wish to prompt the user
+or ask the user for permission before allowing use of the API,</p>
+    <li data-md="">
+     <p>implementations may need to consider information that might be stored
+on disk in order to compute the result,</p>
+    <li data-md="">
+     <p>implementations may need to interact with the network before returning
+the result, or</p>
+    <li data-md="">
+     <p>implementations may wish to do work on another thread or in another
+process before returning the result.</p>
+   </ul>
+   <p>For more information on how to design APIs using promises,
+and on when to use promises and when not to use promises,
+see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
+Promise-Using Specifications</a></strong>.</p>
    <h2 class="heading settled" data-level="3" id="event-design"><span class="secno">3. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="always-add-event-handlers"><span class="secno">3.1. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
    <p>For an object that inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget">EventTarget</a></code>, there are two techniques available for registering
