@@ -1475,6 +1475,7 @@ Parts of this work may be from another specification document.  If so, those par
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -1631,11 +1632,11 @@ design, the following rules have emerged:</p>
       <th>Examples
     <tbody>
      <tr>
-      <th>Methods and properties
+      <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)
       <td>Camel case
       <td><code class="highlight">document<span class="p">.</span>createAttribute<span class="p">()</span></code><br> <code class="highlight">document<span class="p">.</span>compatMode</code>
      <tr>
-      <th>Classes and mixins
+      <th>Classes and mixins<br>(Web IDL interfaces)
       <td>Pascal case
       <td><code class="highlight">NamedNodeMap</code><br> <code class="highlight">NonElementParentNode</code>
      <tr>
@@ -1667,11 +1668,15 @@ design, the following rules have emerged:</p>
       <td>Lowercase, underscore-delimited
       <td><code class="highlight">manifest<span class="p">.</span>short_name</code>
    </table>
-   <div class="note" role="note"> Note that in particular, when a HTML attribute is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflected</a> as a property, the attribute
-and property’s casings will not necessarily match. For example, the HTML attribute <code>novalidate</code> on <code class="highlight"><span class="p">&lt;</span><span class="nt">form</span><span class="p">></span></code> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflected</a> as the <code class="highlight">noValidate</code> property on <code class="highlight">HTMLFormElement</code>. </div>
-   <div class="note" role="note"> Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are <code class="highlight">XMLHttpRequest</code> and <code class="highlight">HTMLHtmlElement</code>. Do not follow their example; instead always capitalize your
-initialisms, even if they are repeated. </div>
+   <div class="non-normative">
+     Note that in particular, when a HTML attribute is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflected</a> as a property, the attribute
+and property’s casings will not necessarily match. For example, the HTML attribute <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap">ismap</a></code> on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element">img</a></code> elements is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflected</a> as the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap">isMap</a></code> property on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement">HTMLImageElement</a></code>. 
+    <p>The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
+or stored on disk, and don’t apply to the general notion of JavaScript object keys.</p>
+    <p>Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
+examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement">HTMLHtmlElement</a></code>. Do not follow their example; instead always capitalize your
+initialisms, even if they are repeated.</p>
+   </div>
    <h3 class="heading settled" data-level="2.5" id="prefer-dict-to-bool"><span class="secno">2.5. </span><span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
    <p>APIs should generally prefer dictionary parameters
 (with named booleans in the dictionary)
@@ -1796,7 +1801,7 @@ other time quantities.</p>
    <p>Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
 nanoseconds.</p>
    <h3 class="heading settled" data-level="4.3" id="times-and-dates"><span class="secno">4.3. </span><span class="content">Use the appropriate type to represent times and dates</span><a class="self-link" href="#times-and-dates"></a></h3>
-   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#common-DOMTimeStamp">DOMTimeStamp</a></code> type, with values being the
+   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp">DOMTimeStamp</a></code> type, with values being the
  number of milliseconds relative to 1970-01-01T00:00:00Z.</p>
    <p>The JavaScript <code class="highlight">Date</code> class must not be used for this purpose. <code class="highlight">Date</code> objects
 are mutable (and there is no way to make them immutable), which comes with a host of attendant
@@ -2079,9 +2084,14 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers">GlobalEventHandlers</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement">HTMLHtmlElement</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement">HTMLImageElement</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes">event handler idl attribute</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element">img</a>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel">in parallel</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap">isMap</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap">ismap</a>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">queue a task</a>
      <li><a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflect</a>
     </ul>
@@ -2094,11 +2104,16 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
      <li><a href="https://heycam.github.io/webidl/#idl-DOMException">DOMException</a>
-     <li><a href="https://heycam.github.io/webidl/#common-DOMTimeStamp">DOMTimeStamp</a>
+     <li><a href="https://heycam.github.io/webidl/#DOMTimeStamp">DOMTimeStamp</a>
      <li><a href="https://heycam.github.io/webidl/#idl-Error">Error</a>
      <li><a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">TypeError</a>
      <li><a href="https://heycam.github.io/webidl/#dfn-maplike">maplike</a>
      <li><a href="https://heycam.github.io/webidl/#dfn-setlike">setlike</a>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[XHR]</a> defines the following terms:
+    <ul>
+     <li><a href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2120,4 +2135,9 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-xhr">[XHR]
+   <dd>Anne van Kesteren. <a href="https://xhr.spec.whatwg.org/">XMLHttpRequest Standard</a>. Living Standard. URL: <a href="https://xhr.spec.whatwg.org/">https://xhr.spec.whatwg.org/</a>
   </dl>
