@@ -4,12 +4,12 @@ Group: W3C TAG
 Shortname: design-principles
 Repository: w3ctag/design-principles
 Status: DREAM
-Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
-ED: https://w3ctag.github.io/design-principles
+No Editor: true
 Abstract: This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.
 Default Biblio Status: current
 Markup Shorthands: markdown on
-!Other Editorial Contributions: <a href="https://www.w3.org/2001/tag/">Members of the TAG</a>
+Boilerplate: feedback-header off
+!By: <a href="https://www.w3.org/2001/tag/">Members of the TAG</a>, past and present
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
