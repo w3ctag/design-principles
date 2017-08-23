@@ -345,6 +345,65 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
+<h3 id="secure-context">Limit new and distinct APIs to secure contexts</h3>
+
+Many new APIs should be available only in
+<a href="https://w3c.github.io/webappsec-secure-contexts/">secure contexts</a>.
+This restriction exists for two reasons.
+First, it helps encourage Web content and applications
+to migrate to secure contexts.
+Second, it can restrict new APIs where authentication, integrity, or confidentiality
+are important to prevent substantial increases to the privacy or security risks of using the Web.
+For more detail, see the W3C TAG Finding on
+<a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
+
+When the new feature is defined in
+<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+specification authors can limit a feature to secure contexts
+by marking new interfaces and methods with the
+<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
+on interfaces, namespaces, or their members (such as methods and attributes).
+Similar ways of marking features as limited to secure contexts should be added
+to other points where the Web platform is extended over time
+(for example, the definition of a new CSS property).
+However, for some times of extension points (e.g., new DOM events),
+limitation to secure contexts should just
+be defined in normative prose in the specification.
+
+When deciding whether a feature should be limited to secure contexts,
+we suggest considering the following factors:
+
+ : Does the feature have a clear and understandable boundary?
+
+ :: A feature that is limited to secure contexts
+    should be recognizable by the developers who use it as
+    distinct from features that are available in non-secure contexts.
+    This will reduce developer confusion about where the boundaries are.
+    For example, a new CSS property is a distinct feature,
+    whereas the ability to omit the commas in the CSS ''rgb()'' function is not.
+    New features that are clearly distinct
+    should generally be limited to secure contexts.
+    However, there are many cases where whether a feature is clearly distinct
+    is a matter of judgment.
+
+
+ : Does the feature depend on being in a secure context?
+
+ :: If a feature depends on
+    the expectations of authentication, integrity, or confidentiality
+    that are met only in secure contexts,
+    then it should be limited to secure contexts,
+    even if it is not a clearly distinct feature as described in the previous point.
+    For example, a feature that communicates with USB devices
+    if those devices have allowed
+    Web content from the site's origin
+    to communicate those USB devices
+    depends on the authentication of the origin
+    and the integrity of the data
+    sent to the USB device,
+    since sending untrusted data to a USB device could damage that device
+    or compromise computers that the device connects to.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
