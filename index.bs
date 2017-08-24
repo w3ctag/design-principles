@@ -366,7 +366,7 @@ on interfaces, namespaces, or their members (such as methods and attributes).
 Similar ways of marking features as limited to secure contexts should be added
 to other points where the Web platform is extended over time
 (for example, the definition of a new CSS property).
-However, for some times of extension points (e.g., new DOM events),
+However, for some types of extension points (e.g., new DOM events),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
 
