@@ -416,7 +416,7 @@ we suggest considering the following factors:
     since sending untrusted data to a USB device could damage that device
     or compromise computers that the device connects to.
 
-Specification authors can most features defined in
+Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">WebIDL</a>,
 to secure contexts
 by using the
