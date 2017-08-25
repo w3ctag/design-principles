@@ -345,35 +345,26 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
-<h3 id="secure-context">Limit new and distinct APIs to secure contexts</h3>
+<h3 id="secure-context">Limit new features to secure contexts</h3>
 
-Many new APIs should be available only in
+New features should be available only in
 <a href="https://w3c.github.io/webappsec-secure-contexts/">secure contexts</a>.
+Adding a feature to the Web that is available in non-secure contexts
+is discouraged and requires strong justification.
+
 This restriction exists for two reasons.
 First, it helps encourage Web content and applications
 to migrate to secure contexts.
-Second, it can restrict new APIs where authentication, integrity, or confidentiality
-are important to prevent substantial increases to the privacy or security risks of using the Web.
+Second, some new features depend on authentication, integrity, or confidentiality
+to prevent substantial increases to the privacy or security risks of using the Web.
 For more detail, see the W3C TAG Finding on
 <a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
 
-When the new feature is defined in
-<a href="https://heycam.github.io/webidl/">WebIDL</a>,
-specification authors can limit a feature to secure contexts
-by marking new interfaces and methods with the
-<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
-on interfaces, namespaces, or their members (such as methods and attributes).
-Similar ways of marking features as limited to secure contexts should be added
-to other points where the Web platform is extended over time
-(for example, the definition of a new CSS property).
-However, for some types of extension points (e.g., dispatching an event),
-limitation to secure contexts should just
-be defined in normative prose in the specification.
-
-When deciding whether a feature should be limited to secure contexts,
+When deciding whether a change to Web technology
+should be limited to secure contexts,
 we suggest considering the following factors:
 
- : Does the feature have a clear and understandable boundary?
+ : Is this change a new feature?
 
  :: A feature that is limited to secure contexts
     should be recognizable by the developers who use it as
@@ -381,19 +372,40 @@ we suggest considering the following factors:
     This will reduce developer confusion about where the boundaries are.
     For example, a new CSS property is a distinct feature,
     whereas the ability to omit the commas in the CSS ''rgb()'' function is not.
-    New features that are clearly distinct
-    should generally be limited to secure contexts.
-    However, there are many cases where whether a feature is clearly distinct
-    is a matter of judgment.
+    We also don't want to increase
+    the complexity of implementations of Web technology
+    by requiring tests for secure contexts in too many *types* of places.
 
+    Changes that include
+    additions made at the major points at which new features are added
+    (such as additions of new IDL interfaces, namespaces, methods, or properties,
+    or additions of new CSS properties)
+    must be limited to secure contexts.
+    Changes made entirely
+    at more minor points where new capabilities are added to the platform
+    (such as new IDL method *overloads*,
+    or new *values* for an existing CSS property),
+    or at expansion points where feature detection is not possible,
+    do not necessarily need to be limited to secure contexts
+    (and for the purpose of this section, need not count as a new feature).
+
+ : Can the presence of the feature be detected?
+
+ :: The existence of new features should generally be detectable.
+    However, if, for some reason
+    (a reason that requires serious justification),
+    it is not possible for developers to detect whether a new feature is present,
+    limiting the feature to secure contexts
+    might cause problems
+    for libraries that may be used in either secure or non-secure contexts.
 
  : Does the feature depend on being in a secure context?
 
  :: If a feature depends on
     the expectations of authentication, integrity, or confidentiality
     that are met only in secure contexts,
-    then it should be limited to secure contexts,
-    even if it is not a clearly distinct feature as described in the previous point.
+    then it must be limited to secure contexts,
+    even if the other factors above suggest it doesn't need to be.
     For example, a feature that communicates with USB devices
     if those devices have allowed
     Web content from the site's origin
@@ -403,6 +415,19 @@ we suggest considering the following factors:
     sent to the USB device,
     since sending untrusted data to a USB device could damage that device
     or compromise computers that the device connects to.
+
+Specification authors can most features defined in
+<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+to secure contexts
+by using the
+<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
+on interfaces, namespaces, or their members (such as methods and attributes).
+Similar ways of marking features as limited to secure contexts should be added
+to other major points where the Web platform is extended over time
+(for example, the definition of a new CSS property).
+However, for some types of extension points (e.g., dispatching an event),
+limitation to secure contexts should just
+be defined in normative prose in the specification.
 
 <h2 id="event-design">Event Design</h2>
 
