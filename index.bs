@@ -409,7 +409,7 @@ we suggest considering the following factors:
     For example, a feature that communicates with USB devices
     if those devices have allowed
     Web content from the site's origin
-    to communicate those USB devices
+    to communicate with those USB devices
     depends on the authentication of the origin
     and the integrity of the data
     sent to the USB device,
