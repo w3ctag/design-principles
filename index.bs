@@ -347,10 +347,13 @@ Promise-Using Specifications</a></strong>.
 
 <h3 id="secure-context">Limit new features to secure contexts</h3>
 
-New features should be available only in
+New capabilities added to the Web should be available only in
 <a href="https://w3c.github.io/webappsec-secure-contexts/">secure contexts</a>.
-Adding a feature to the Web that is available in non-secure contexts
+Exposing them in non-secure contexts
 is discouraged and requires strong justification.
+The TAG is interested in hearing about and discussing cases
+where it is unclear whether exposing the capability
+in non-secure contexts is justifiable.
 
 This restriction exists for two reasons.
 First, it helps encourage Web content and applications
@@ -359,12 +362,6 @@ Second, some new features depend on authentication, integrity, or confidentialit
 to prevent substantial increases to the privacy or security risks of using the Web.
 For more detail, see the W3C TAG Finding on
 <a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
-
-New capabilities added to the Web should be limited to secure contexts;
-exposing them in non-secure contexts requires justification.
-The TAG is interested in hearing about and discussing cases
-where it is unclear whether exposing the capability
-in non-secure contexts is justifiable.
 
 The most common justification that we expect
 for supporting a new capability in non-secure contexts
