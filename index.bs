@@ -376,19 +376,6 @@ we suggest considering the following factors:
     the complexity of implementations of Web technology
     by requiring tests for secure contexts in too many *types* of places.
 
-    Changes that include
-    additions made at the major points at which new features are added
-    (such as additions of new IDL interfaces, namespaces, methods, or properties,
-    or additions of new CSS properties)
-    must be limited to secure contexts.
-    Changes made entirely
-    at more minor points where new capabilities are added to the platform
-    (such as new IDL method *overloads*,
-    or new *values* for an existing CSS property),
-    or at expansion points where feature detection is not possible,
-    do not necessarily need to be limited to secure contexts
-    (and for the purpose of this section, need not count as a new feature).
-
  : Can the presence of the feature be detected?
 
  :: The existence of new features should generally be detectable.
