@@ -365,10 +365,9 @@ For more detail, see the W3C TAG Finding on
 
 The most common justification that we expect
 for supporting a new capability in non-secure contexts
-is that the new capability is not a new feature.
-If a feature is not recognizable by the developers who use it as
-distinct from features that are available in non-secure contexts,
-limiting it to secure contexts could cause
+is that the new capability is not recognizably separate
+from an existing feature that is available in non-secure contexts.
+In this case, limiting it to secure contexts could cause
 developer confusion about where the boundaries are.
 We also don't want to increase
 the complexity of implementations of Web technology
