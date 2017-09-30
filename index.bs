@@ -360,48 +360,56 @@ to prevent substantial increases to the privacy or security risks of using the W
 For more detail, see the W3C TAG Finding on
 <a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
 
-When deciding whether a change to Web technology
-should be limited to secure contexts,
-we suggest considering the following factors:
+New capabilities added to the Web should be limited to secure contexts;
+exposing them in non-secure contexts requires justification.
+The TAG is interested in hearing about and discussing cases
+where it is unclear whether exposing the capability
+in non-secure contexts is justifiable.
 
- : Is this change a new feature?
+The most common justification that we expect
+for supporting a new capability in non-secure contexts
+is that the new capability is not a new feature.
+If a feature is not recognizable by the developers who use it as
+distinct from features that are available in non-secure contexts,
+limiting it to secure contexts could cause
+developer confusion about where the boundaries are.
+We also don't want to increase
+the complexity of implementations of Web technology
+by requiring tests for secure contexts in too many *types* of places.
+For example, exposing to non-secure contexts a new CSS property
+that adds support for a new line spacing model
+cannot be justified on this basis,
+but exposing the ability to omit the commas in the CSS ''rgb()'' function can.
 
- :: A feature that is limited to secure contexts
-    should be recognizable by the developers who use it as
-    distinct from features that are available in non-secure contexts.
-    This will reduce developer confusion about where the boundaries are.
-    For example, a new CSS property is a distinct feature,
-    whereas the ability to omit the commas in the CSS ''rgb()'' function is not.
-    We also don't want to increase
-    the complexity of implementations of Web technology
-    by requiring tests for secure contexts in too many *types* of places.
+The existence of new features should generally be detectable,
+so that web content can act appropriately if the feature is present or not.
+This applies both to features that are not present because they are not implemented,
+and to features that are not present in a non-secure context because
+they are limited to secure contexts.
+Putting this another way,
+a feature that is limited to secure contexts should, in non-secure contexts,
+be indistinguishable from a feature that is not implemented.
+However, if, for some reason
+(a reason that itself requires serious justification),
+it is not possible for developers to detect whether a feature is present,
+limiting the feature to secure contexts
+might cause problems
+for libraries that may be used in either secure or non-secure contexts.
 
- : Can the presence of the feature be detected?
-
- :: The existence of new features should generally be detectable.
-    However, if, for some reason
-    (a reason that requires serious justification),
-    it is not possible for developers to detect whether a new feature is present,
-    limiting the feature to secure contexts
-    might cause problems
-    for libraries that may be used in either secure or non-secure contexts.
-
- : Does the feature depend on being in a secure context?
-
- :: If a feature depends on
-    the expectations of authentication, integrity, or confidentiality
-    that are met only in secure contexts,
-    then it must be limited to secure contexts,
-    even if the other factors above suggest it doesn't need to be.
-    For example, a feature that communicates with USB devices
-    if those devices have allowed
-    Web content from the site's origin
-    to communicate with those USB devices
-    depends on the authentication of the origin
-    and the integrity of the data
-    sent to the USB device,
-    since sending untrusted data to a USB device could damage that device
-    or compromise computers that the device connects to.
+If a feature depends on
+the expectations of authentication, integrity, or confidentiality
+that are met only in secure contexts,
+then it must be limited to secure contexts,
+even if the other factors above could justify exposing it in non-secure contexts.
+For example, a feature that communicates with USB devices
+if those devices have allowed
+Web content from the site's origin
+to communicate with those USB devices
+depends on the authentication of the origin
+and the integrity of the data
+sent to the USB device,
+since sending untrusted data to a USB device could damage that device
+or compromise computers that the device connects to.
 
 Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">WebIDL</a>,
