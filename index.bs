@@ -21,6 +21,12 @@ spec:html; type:dfn; for:/; text:browsing context
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
+url: https://w3c.github.io/IntersectionObserver/;
+    type: interface; text: IntersectionObserver; url: #intersectionobserver
+    type: interface; text: IntersectionObserverEntry; url: #intersectionobserverentry
+    type: dictionary; text: IntersectionObserverInit; url: #dictdef-intersectionobserverinit
+url: https://wicg.github.io/ResizeObserver/;
+    type: interface; text: ResizeObserver; url: #resizeobserver
 </pre>
 
 <style>
@@ -388,6 +394,66 @@ If you feel you need a synchronous event in your design, please reconsider and a
 <h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
 
 It's tempting to create subclasses of {{Event}} for all event types. This is frequently unnecessary. Consider subclassing {{Event}} when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the {{Event/target}} object.
+
+<h3 id="events-vs-observers">Use events and XObservers appropriately</h3>
+
+A pattern that has become popular in recent years is "`XObserver`" classes. Starting with {{MutationObserver}}, we now have {{IntersectionObserver}}, {{ResizeObserver}}, and a design for <a href="https://github.com/WICG/indexed-db-observers">IndexedDB observers</a>.
+
+The `XObserver` pattern is briefly summarized as follows:
+
+* Each `XObserver` instance is constructed with a callback, and optionally with some global options.
+* Then, it can observe and unobserve specific targets, using the `observe()` and `unobserve()` methods, such that the callback will be called when something interesting happens to those targets.
+* The callback will receive change records as arguments; these contain the details about the interesting thing that happened. Typically, multiple such records are delivered at once, in a batch.
+* Optionally, this observation process can be customized with additional observation-time options to the `observe()` method.
+* There's a `disconnect()` method that stops all observation.
+* There's a `takeRecords()` method which synchronously returns records for all observed-but-not-yet-delivered occurrences.
+
+<p class="example">
+    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
+</p>
+
+<p class="example">
+    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
+</p>
+
+Since `XObserver` classes conceptually compete with {{EventTarget}}s, it is important to understand when they are and are not appropriate.
+
+By default, you should use an {{EventTarget}}. These integrate well with the platform, fit developer expectations, and interoperate with a wealth of third-party libraries. Using an {{EventTarget}} ensures you automatically benefit from additions or improvements we make to that shared base class in the future, such as the recent addition of the {{AddEventListenerOptions/once}} option.
+
+In contrast, `XObserver` designs are relatively heavyweight. They do not interoperate well with the ecosystem, and involve defining a new class, new dictionaries for options, and a new type for the delivered records. But, they make up for it with the following advantages:
+
+* They can be customized at observation time. The `observe()` method of an `XObserver` class can take a large variety of options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
+* They allow easy reuse of their creation-time customizations on multiple targets.
+* They allow easily stopping all observations on multiple targets, with their `disconnect()` method.
+* They have built-in support for synchronously probing what has happened so far. That is, while both `XObserver`s and {{EventTarget}}s can batch occurrences and deliver them later, `XObserver`s have a `takeRecords()` method which allows synchronously probing the occurences that have accumulated so far, without waiting until the next batch delivery.
+* Because they are single-purpose, you don't need to specify an event type.
+
+Note that `XObserver`s are <em>not</em> unique in the following ways:
+
+* Both {{EventTarget}}s and `XObserver`s can be customized at creation time.
+* Both {{EventTarget}}s and `XObserver`s can batch occurences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, or anything else. You don't need an `XObserver` to get special timing or batching.
+* Neither {{EventTarget}}s nor `XObserver`s need to participate in a tree structure, with bubbling/capture and cancelation. Although some of the most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, there are many other {{EventTarget}}-derived classes that are standalone, such as {{IDBDatabase}} or {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events as non-bubbling and non-cancelable to get that lightweight `XObserver`-esque feel.
+
+<div class="example">
+    Here is an example of using a hypothetical version of {{IntersectionObserver}} that is an {{EventTarget}} subclass:
+
+    <pre highlight="js">
+    const io = new ETIntersectionObserver(element, { root, rootMargin, threshold });
+
+    function listener(e) {
+        for (const change of e.changes) {
+            // ...
+        }
+    }
+
+    io.addEventListener("intersect", listener);
+    io.removeEventListener("intersect", listener);
+    </pre>
+
+    As you can see, we've lost some functionality compared to the `XObserver` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
+
+    However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
+</div>
 
 <h2 id="types-and-units">Types and Units</h2>
 
