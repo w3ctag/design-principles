@@ -30,7 +30,7 @@ url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScr
     }
 </style>
 
-<h2 id="js">JavaScript Language</h2>
+<h2 id="js">JavaScript language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
@@ -94,7 +94,7 @@ href="https://github.com/tc39/proposal-weakrefs">stage 1 proposal under discussi
 However, this remains contentious and does not yet have consensus in TC39 or among implementers.
 </div>
 
-<h2 id="api-surface">API Surface Concerns</h2>
+<h2 id="api-surface">API surface concerns</h2>
 
 <h3 id="naming-is-hard">Naming things</h3>
 
@@ -318,7 +318,7 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
-<h3 id="promises">Design asynchronous APIs using Promises</h3>
+<h3 id="promises">Design asynchronous APIs using promises</h3>
 
 Asynchronous APIs should generally be designed using promises
 rather than callback functions.
@@ -345,7 +345,7 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
-<h2 id="event-design">Event Design</h2>
+<h2 id="event-design">Event design</h2>
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
@@ -387,7 +387,7 @@ A few events in the platform are specified to dispatch synchronously. These even
 
 It's tempting to create subclasses of `Event` for all event types. This is frequently unnecessary. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
 
-<h2 id="types-and-units">Types and Units</h2>
+<h2 id="types-and-units">Types and units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
