@@ -111,95 +111,6 @@ and by name association.
 
 Please consult widely on names in your APIs.
 
-<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
-
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
-separate getter and setter functions which can react independently. This is in contrast to the
-"default" style of JavaScript properties, data properties, which do not have configurable behavior
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
-set.
-
-Data property semantics are what are generally expected by JavaScript developers when interfacing
-with objects. As such, although getters and setters allow infinite customizability when defining
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
-much like a data property as possible. Specific guidance in this regard includes:
-
-* Getters must not have any (observable) side effects.
-* Getters should not perform any expensive operations. (A notable failure of the platform in this
-    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
-* Ensure that your attribute's getter returns the same object each time it is called, until some
-    occurrence in another part of the system causes a logical "reset" of the property's value. In
-    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
-    new value from the getter each time is not allowed.
-* Whenever possible, preserve values given to the setter for return from the getter. That is,
-    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
-    true. (This will not always be the case, e.g. if a normalization or type conversion step is
-    necessary, but should be held as a goal for normal code paths.)
-
-<h3 id="live-vs-static">Consider whether objects should be live or static</h3>
-
-Objects returned from functions, attribute getters, etc.,
-can either be live or static.
-A <dfn>live object</dfn> is one that continues to reflect
-changes made after it was returned to the caller.
-A <dfn>static object</dfn> is one that reflects
-the state at the time it was returned.
-
-Objects that are the way state is mutated are generally live.
-For example, DOM nodes are returned as live objects,
-since they are the API through which attributes are set and other changes
-to the DOM are made.
-They also reflect changes to the DOM made in other ways
-(such as through user interaction with forms).
-
-Objects that represent a collection
-that might change over time
-(and that are not the way state is mutated)
-should generally be returned as static objects.
-This is because it is confusing to users of the API when
-a collection changes while being iterated.
-Because of this,
-it is generally considered a mistake that methods like
-{{Document/getElementsByTagName()}} return live objects;
-{{ParentNode/querySelectorAll()}} was made to return static objects
-as a result of this experience.
-On the other hand, even though {{URLSearchParams}} represents a collection,
-it should be live because the collection is mutated through that object.
-
-Note:  It's possible that some of this advice should be reconsidered
-for <a>maplike</a> and <a>setlike</a> types,
-where iterators have reasonable behavior
-for mutation that happens during iteration.
-This point likely needs further discussion,
-and perhaps further experience of use of these types.
-
-It's also worth considering the implications of having
-live versus static objects for the speed of implementations of the API.
-When the data needed by an object are expensive to compute up-front,
-there is an advantage for that object to be live so that the results
-can be computed lazily, such as for {{Window/getComputedStyle()}}.
-On the other hand,
-if the data needed by an object are expensive to keep up-to-date,
-such as for the {{NodeList}} returned from {{ParentNode/querySelectorAll()}},
-then providing a static object avoids
-having to keep the object updated until it is garbage collected
-(which may be substantially after its last use).
-
-Likewise, the choice of live versus static objects
-can influence the memory use of an API.
-If each call of a method returns a new static object,
-and the objects are large,
-then substantial amounts of memory can be wasted
-until the next garbage collection.
-
-The choice of whether an object is live or static may also
-influence whether it should be returned
-from an attribute getter or from a method.
-See [[#attributes-like-data]].
-In particular,
-if a result that changes frequently is returned as a static object,
-it should probably be returned from a method rather than an attribute getter.
-
 <h3 id="casing-rules">Use casing rules consistent with existing APIs</h3>
 
 Although they haven't always been uniformly followed, through the history of web platform API
@@ -317,6 +228,98 @@ For example,
 <code highlight="js">window.scrollBy({ left: 50, top: 0 })</code>
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
+
+<h2 id="api-choices">Designing idiomatic and useful APIs</h2>
+
+
+<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
+
+[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
+separate getter and setter functions which can react independently. This is in contrast to the
+"default" style of JavaScript properties, data properties, which do not have configurable behavior
+but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
+set.
+
+Data property semantics are what are generally expected by JavaScript developers when interfacing
+with objects. As such, although getters and setters allow infinite customizability when defining
+your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
+much like a data property as possible. Specific guidance in this regard includes:
+
+* Getters must not have any (observable) side effects.
+* Getters should not perform any expensive operations. (A notable failure of the platform in this
+    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
+* Ensure that your attribute's getter returns the same object each time it is called, until some
+    occurrence in another part of the system causes a logical "reset" of the property's value. In
+    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
+    new value from the getter each time is not allowed.
+* Whenever possible, preserve values given to the setter for return from the getter. That is,
+    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
+    true. (This will not always be the case, e.g. if a normalization or type conversion step is
+    necessary, but should be held as a goal for normal code paths.)
+
+<h3 id="live-vs-static">Consider whether objects should be live or static</h3>
+
+Objects returned from functions, attribute getters, etc.,
+can either be live or static.
+A <dfn>live object</dfn> is one that continues to reflect
+changes made after it was returned to the caller.
+A <dfn>static object</dfn> is one that reflects
+the state at the time it was returned.
+
+Objects that are the way state is mutated are generally live.
+For example, DOM nodes are returned as live objects,
+since they are the API through which attributes are set and other changes
+to the DOM are made.
+They also reflect changes to the DOM made in other ways
+(such as through user interaction with forms).
+
+Objects that represent a collection
+that might change over time
+(and that are not the way state is mutated)
+should generally be returned as static objects.
+This is because it is confusing to users of the API when
+a collection changes while being iterated.
+Because of this,
+it is generally considered a mistake that methods like
+{{Document/getElementsByTagName()}} return live objects;
+{{ParentNode/querySelectorAll()}} was made to return static objects
+as a result of this experience.
+On the other hand, even though {{URLSearchParams}} represents a collection,
+it should be live because the collection is mutated through that object.
+
+Note:  It's possible that some of this advice should be reconsidered
+for <a>maplike</a> and <a>setlike</a> types,
+where iterators have reasonable behavior
+for mutation that happens during iteration.
+This point likely needs further discussion,
+and perhaps further experience of use of these types.
+
+It's also worth considering the implications of having
+live versus static objects for the speed of implementations of the API.
+When the data needed by an object are expensive to compute up-front,
+there is an advantage for that object to be live so that the results
+can be computed lazily, such as for {{Window/getComputedStyle()}}.
+On the other hand,
+if the data needed by an object are expensive to keep up-to-date,
+such as for the {{NodeList}} returned from {{ParentNode/querySelectorAll()}},
+then providing a static object avoids
+having to keep the object updated until it is garbage collected
+(which may be substantially after its last use).
+
+Likewise, the choice of live versus static objects
+can influence the memory use of an API.
+If each call of a method returns a new static object,
+and the objects are large,
+then substantial amounts of memory can be wasted
+until the next garbage collection.
+
+The choice of whether an object is live or static may also
+influence whether it should be returned
+from an attribute getter or from a method.
+See [[#attributes-like-data]].
+In particular,
+if a result that changes frequently is returned as a static object,
+it should probably be returned from a method rather than an attribute getter.
 
 <h3 id="promises">Design asynchronous APIs using promises</h3>
 
