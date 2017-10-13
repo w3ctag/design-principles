@@ -376,12 +376,10 @@ that adds support for a new line spacing model
 cannot be justified on this basis,
 but exposing the ability to omit the commas in the CSS ''rgb()'' function can.
 
-The existence of new features should generally be detectable,
+As described in <!--[[#feature-detect]]-->(UNCOMMENT ONCE #82 MERGED, AND ADD LINK FROM THERE TO HERE),
+the existence of features should generally be detectable,
 so that web content can act appropriately if the feature is present or not.
-This applies both to features that are not present because they are not implemented,
-and to features that are not present in a non-secure context because
-they are limited to secure contexts.
-Putting this another way,
+Since the detection should be the same no matter why the feature is unavailable,
 a feature that is limited to secure contexts should, in non-secure contexts,
 be indistinguishable from a feature that is not implemented.
 However, if, for some reason
