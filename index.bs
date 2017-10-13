@@ -351,9 +351,8 @@ New capabilities added to the Web should be available only in
 <a href="https://w3c.github.io/webappsec-secure-contexts/">secure contexts</a>.
 Exposing them in non-secure contexts
 is discouraged and requires strong justification.
-The TAG is interested in hearing about and discussing cases
-where it is unclear whether exposing the capability
-in non-secure contexts is justifiable.
+The TAG is interested in hearing about and working to resolve
+any cases where exposure in non-secure contexts is being seriously considered.
 
 This restriction exists for two reasons.
 First, it helps encourage Web content and applications
