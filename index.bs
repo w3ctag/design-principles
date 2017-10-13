@@ -111,6 +111,29 @@ and by name association.
 
 Please consult widely on names in your APIs.
 
+<h3 id="feature-detect">New features should be detectable</h3>
+
+The existence of new features should generally be detectable,
+so that web content can act appropriately if the feature is present or not.
+This applies both to features that
+are not present because they are not implemented,
+and to features that may not be present in a particular configuration
+(ranging from features that are present only if particular hardware is present,
+to features that are
+only available in secure contexts.
+
+It should generally be indistinguishable why a feature is unavailable,
+so that feature detection code written for one case of unavailability
+(e.g., the feature not being implemented yet in some browsers)
+also works in other cases
+(e.g., a library being used in a non-secure context when
+the feature is limited to secure contexts).
+
+Detection should always be possible from script,
+but in some cases the feature should also be detectable
+in the language where it is used
+(such as ''@supports'' in CSS).
+
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
 [[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
@@ -365,7 +388,7 @@ given that {{EventTarget/addEventListener()}} is available as an alternative. Ho
 important to continue to define event handler IDL attributes because:
 
 * they preserve consistency in the platform
-* they enable feature-detection for the supported events
+* they enable feature-detection for the supported events (see [[#feature-detect]])
 
 So, if the object inherits from {{EventTarget}}, add a corresponding
 <code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
