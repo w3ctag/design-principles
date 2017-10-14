@@ -362,6 +362,19 @@ to prevent substantial increases to the privacy or security risks of using the W
 For more detail, see the W3C TAG Finding on
 <a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
 
+Specification authors can limit most features defined in
+<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+to secure contexts
+by using the
+<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
+on interfaces, namespaces, or their members (such as methods and attributes).
+Similar ways of marking features as limited to secure contexts should be added
+to other major points where the Web platform is extended over time
+(for example, the definition of a new CSS property).
+However, for some types of extension points (e.g., dispatching an event),
+limitation to secure contexts should just
+be defined in normative prose in the specification.
+
 The most common justification that we expect
 for supporting a new capability in non-secure contexts
 is that the new capability is not recognizably separate
@@ -403,19 +416,6 @@ and the integrity of the data
 sent to the USB device,
 since sending untrusted data to a USB device could damage that device
 or compromise computers that the device connects to.
-
-Specification authors can limit most features defined in
-<a href="https://heycam.github.io/webidl/">WebIDL</a>,
-to secure contexts
-by using the
-<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
-on interfaces, namespaces, or their members (such as methods and attributes).
-Similar ways of marking features as limited to secure contexts should be added
-to other major points where the Web platform is extended over time
-(for example, the definition of a new CSS property).
-However, for some types of extension points (e.g., dispatching an event),
-limitation to secure contexts should just
-be defined in normative prose in the specification.
 
 <h2 id="event-design">Event Design</h2>
 
