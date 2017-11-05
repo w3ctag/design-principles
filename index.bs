@@ -484,11 +484,17 @@ problems.
         on the Web IDL Bugzilla
 </div>
 
-However, date-times are not monotonically increasing; subsequent values may either decrease or
-remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time
-stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}},
-which provides monotonically increasing sub-millisecond timestamps that are comparable within a
-single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
+While in theory time is monotonically increasing,
+values like {{DOMTimeStamp}} that represent time since 1970 are derived from the system's clock,
+which may sometimes move backwards
+(for example, from NTP or manual adjustment),
+causing the timestamp values to decrease over time.
+They may also remain the same due to the limitation of millisecond resolution.
+Thus, for time stamps that do not need to correspond to an absolute time,
+consider using {{DOMHighResTimeStamp}},
+which provides monotonically non-decreasing sub-millisecond timestamps
+that are comparable within a single <a>browsing context</a> or web worker.
+See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
