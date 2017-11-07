@@ -368,6 +368,78 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
+<h3 id="secure-context">Limit new features to secure contexts</h3>
+
+New capabilities added to the Web should be available only in
+<a href="https://w3c.github.io/webappsec-secure-contexts/">secure contexts</a>.
+Exposing them in non-secure contexts
+is discouraged and requires strong justification.
+The TAG is interested in hearing about cases
+where exposing new features in non-secure contexts is being considered.
+
+This restriction exists for two reasons.
+First, it helps encourage Web content and applications
+to migrate to secure contexts.
+Second, some new features depend on authentication, integrity, or confidentiality
+to prevent substantial increases to the privacy or security risks of using the Web.
+For more detail, see the W3C TAG Finding on
+<a href="https://www.w3.org/2001/tag/doc/web-https">Securing the Web</a>.
+
+Specification authors can limit most features defined in
+<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+to secure contexts
+by using the
+<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
+on interfaces, namespaces, or their members (such as methods and attributes).
+Similar ways of marking features as limited to secure contexts should be added
+to other major points where the Web platform is extended over time
+(for example, the definition of a new CSS property).
+However, for some types of extension points (e.g., dispatching an event),
+limitation to secure contexts should just
+be defined in normative prose in the specification.
+
+The most common justification that we expect
+for supporting a new capability in non-secure contexts
+is that the new capability is not recognizably separate
+from an existing feature that is available in non-secure contexts.
+In this case, limiting it to secure contexts could cause
+developer confusion about where the boundaries are.
+We also don't want to increase
+the complexity of implementations of Web technology
+by requiring tests for secure contexts in too many *types* of places.
+For example, exposing to non-secure contexts a new CSS property
+that adds support for a new line spacing model
+cannot be justified on this basis,
+but exposing the ability to omit the commas in the CSS ''rgb()'' function can.
+
+As described in <!--[[#feature-detect]]-->(UNCOMMENT ONCE #82 MERGED, AND ADD LINK FROM THERE TO HERE),
+the existence of features should generally be detectable,
+so that web content can act appropriately if the feature is present or not.
+Since the detection should be the same no matter why the feature is unavailable,
+a feature that is limited to secure contexts should, in non-secure contexts,
+be indistinguishable from a feature that is not implemented.
+However, if, for some reason
+(a reason that itself requires serious justification),
+it is not possible for developers to detect whether a feature is present,
+limiting the feature to secure contexts
+might cause problems
+for libraries that may be used in either secure or non-secure contexts.
+
+If a feature would pose a risk to user privacy or security
+without the authentication, integrity, or confidentiality
+that is present only in secure contexts,
+then the feature must be limited to secure contexts,
+even if the other factors above could justify exposing it in non-secure contexts.
+For example, a feature that communicates with USB devices
+if those devices have allowed
+Web content from the site's origin
+to communicate with those USB devices
+depends on the authentication of the origin
+and the integrity of the data
+sent to the USB device,
+since sending untrusted data to a USB device could damage that device
+or compromise computers that the device connects to.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
