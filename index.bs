@@ -115,6 +115,123 @@ and by name association.
 
 Please consult widely on names in your APIs.
 
+Boolean properties, options, or API parameters which are asking a question about
+their argument *should not* be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, *should* be
+prefixed with <code>is</code> to be consistent with the rest of the platform.
+
+<h3 id="feature-detect">New features should be detectable</h3>
+
+The existence of new features should generally be detectable,
+so that web content can act appropriately whether the feature is present or not.
+This applies both to features that
+are not present because they are not implemented,
+and to features that may not be present in a particular configuration
+(ranging from features that are present only on particular platforms
+to features that are
+only available in secure contexts).
+
+It should generally be indistinguishable why a feature is unavailable,
+so that feature detection code written for one case of unavailability
+(e.g., the feature not being implemented yet in some browsers)
+also works in other cases
+(e.g., a library being used in a non-secure context when
+the feature is limited to secure contexts).
+
+Detection should always be possible from script,
+but in some cases the feature should also be detectable
+in the language where it is used
+(such as ''@supports'' in CSS).
+
+<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
+
+[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
+separate getter and setter functions which can react independently. This is in contrast to the
+"default" style of JavaScript properties, data properties, which do not have configurable behavior
+but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
+set.
+
+Data property semantics are what are generally expected by JavaScript developers when interfacing
+with objects. As such, although getters and setters allow infinite customizability when defining
+your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
+much like a data property as possible. Specific guidance in this regard includes:
+
+* Getters must not have any (observable) side effects.
+* Getters should not perform any expensive operations. (A notable failure of the platform in this
+    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
+* Ensure that your attribute's getter returns the same object each time it is called, until some
+    occurrence in another part of the system causes a logical "reset" of the property's value. In
+    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
+    new value from the getter each time is not allowed.
+* Whenever possible, preserve values given to the setter for return from the getter. That is,
+    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
+    true. (This will not always be the case, e.g. if a normalization or type conversion step is
+    necessary, but should be held as a goal for normal code paths.)
+
+<h3 id="live-vs-static">Consider whether objects should be live or static</h3>
+
+Objects returned from functions, attribute getters, etc.,
+can either be live or static.
+A <dfn>live object</dfn> is one that continues to reflect
+changes made after it was returned to the caller.
+A <dfn>static object</dfn> is one that reflects
+the state at the time it was returned.
+
+Objects that are the way state is mutated are generally live.
+For example, DOM nodes are returned as live objects,
+since they are the API through which attributes are set and other changes
+to the DOM are made.
+They also reflect changes to the DOM made in other ways
+(such as through user interaction with forms).
+
+Objects that represent a collection
+that might change over time
+(and that are not the way state is mutated)
+should generally be returned as static objects.
+This is because it is confusing to users of the API when
+a collection changes while being iterated.
+Because of this,
+it is generally considered a mistake that methods like
+{{Document/getElementsByTagName()}} return live objects;
+{{ParentNode/querySelectorAll()}} was made to return static objects
+as a result of this experience.
+On the other hand, even though {{URLSearchParams}} represents a collection,
+it should be live because the collection is mutated through that object.
+
+Note:  It's possible that some of this advice should be reconsidered
+for <a>maplike</a> and <a>setlike</a> types,
+where iterators have reasonable behavior
+for mutation that happens during iteration.
+This point likely needs further discussion,
+and perhaps further experience of use of these types.
+
+It's also worth considering the implications of having
+live versus static objects for the speed of implementations of the API.
+When the data needed by an object are expensive to compute up-front,
+there is an advantage for that object to be live so that the results
+can be computed lazily, such as for {{Window/getComputedStyle()}}.
+On the other hand,
+if the data needed by an object are expensive to keep up-to-date,
+such as for the {{NodeList}} returned from {{ParentNode/querySelectorAll()}},
+then providing a static object avoids
+having to keep the object updated until it is garbage collected
+(which may be substantially after its last use).
+
+Likewise, the choice of live versus static objects
+can influence the memory use of an API.
+If each call of a method returns a new static object,
+and the objects are large,
+then substantial amounts of memory can be wasted
+until the next garbage collection.
+
+The choice of whether an object is live or static may also
+influence whether it should be returned
+from an attribute getter or from a method.
+See [[#attributes-like-data]].
+In particular,
+if a result that changes frequently is returned as a static object,
+it should probably be returned from a method rather than an attribute getter.
+
 <h3 id="casing-rules">Use casing rules consistent with existing APIs</h3>
 
 Although they haven't always been uniformly followed, through the history of web platform API
@@ -443,7 +560,69 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
-<h2 id="event-design">Event design</h2>
+<h3 id="secure-context">Consider limiting new features to secure contexts</h3>
+
+It may save you significant time and effort
+to pre-emptively restrict your feature to Secure Contexts.
+
+The TAG is on the record in supporting
+an industry-wide move to [Secure the Web](https://www.w3.org/2001/tag/doc/web-https)
+and applaud [efforts](https://blog.mozilla.org/security/2017/01/20/communicating-the-dangers-of-non-secure-http/)
+to shift web traffic to secure connections.
+A great deal of effort has gone into debating
+which features should be restricted to [Secure Contexts](https://w3c.github.io/webappsec-secure-contexts/).
+Opinions vary amongst engine vendors, leading to difficult choices for feature designers.
+Some vendors require *all* new features be restricted this way,
+whereas others take a more selective approach.
+
+This backdrop makes it difficult to provide
+advice about the extent to which your feature should be restricted.
+What we *can* highlight is that Secure Context-restricted features
+face the least friction in gaining wide adoption amongst these varying regimes.
+
+Specification authors can limit most features defined in
+<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+to secure contexts
+by using the
+<code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
+on interfaces, namespaces, or their members (such as methods and attributes).
+Similar ways of marking features as limited to secure contexts should be added
+to other major points where the Web platform is extended over time
+(for example, the definition of a new CSS property).
+However, for some types of extension points (e.g., dispatching an event),
+limitation to secure contexts should just
+be defined in normative prose in the specification.
+
+As described in [[#feature-detect]],
+the existence of features should generally be detectable,
+so that web content can act appropriately if the feature is present or not.
+Since the detection should be the same no matter why the feature is unavailable,
+a feature that is limited to secure contexts should, in non-secure contexts,
+be indistinguishable from a feature that is not implemented.
+However, if, for some reason
+(a reason that itself requires serious justification),
+it is not possible for developers to detect whether a feature is present,
+limiting the feature to secure contexts
+might cause problems
+for libraries that may be used in either secure or non-secure contexts.
+
+If a feature would pose a risk to user privacy or security
+without the authentication, integrity, or confidentiality
+that is present only in secure contexts,
+then the feature must be limited to secure contexts.
+One example of a feature that should be limited to secure contexts
+is geolocation, since the authentication and confidentiality provided by
+secure contexts reduce the risks to user privacy.
+Another example is:
+Web USB devices grant elevated privileges to specific origins that they name,
+since sending untrusted data to a USB device could damage that device
+or compromise computers that it connects to.
+Thus the feature depends
+on the authentication of the origin
+and the integrity of the data,
+and requires secure contexts.
+
+<h2 id="event-design">Event Design</h2>
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
@@ -463,7 +642,7 @@ given that {{EventTarget/addEventListener()}} is available as an alternative. Ho
 important to continue to define event handler IDL attributes because:
 
 * they preserve consistency in the platform
-* they enable feature-detection for the supported events
+* they enable feature-detection for the supported events (see [[#feature-detect]])
 
 So, if the object inherits from {{EventTarget}}, add a corresponding
 <code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
@@ -559,11 +738,17 @@ problems.
         on the Web IDL Bugzilla
 </div>
 
-However, date-times are not monotonically increasing; subsequent values may either decrease or
-remain the same. The limitation to millisecond resolution can also be constraining. Thus, for time
-stamps that do not need to correspond to an absolute time, consider using {{DOMHighResTimeStamp}},
-which provides monotonically increasing sub-millisecond timestamps that are comparable within a
-single <a>browsing context</a> or web worker. See [[!HIGHRES-TIME]] for more details.
+While in theory time is monotonically increasing,
+values like {{DOMTimeStamp}} that represent time since 1970 are derived from the system's clock,
+which may sometimes move backwards
+(for example, from NTP or manual adjustment),
+causing the timestamp values to decrease over time.
+They may also remain the same due to the limitation of millisecond resolution.
+Thus, for time stamps that do not need to correspond to an absolute time,
+consider using {{DOMHighResTimeStamp}},
+which provides monotonically non-decreasing sub-millisecond timestamps
+that are comparable within a single <a>browsing context</a> or web worker.
+See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
