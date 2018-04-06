@@ -439,10 +439,10 @@ a bitmask mechanism.
 However on the Web platform, it is more common to use a string constant for
 the cases where a constant is needed. This is much more inspection friendly
 for both development and expressing the constant codes through a user facing
-interface, and there is generally no significant performance benefit in
-JavaScript engines to using an integer.
+interface, and in JavaScript engines using integers offers no significant
+performance benefit over strings.
 
-Strings, do not directly address the use case for bitmasks. For these cases,
+Strings do not directly address the use case for bitmasks. For these cases,
 you should use an object dictionary which contains the state that the
 bitmask is attempting to express, as object dictionaries can then be passed
 around from method to method as needed as easily as the state in a single
