@@ -1442,6 +1442,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#prefer-dict-to-bool"><span class="secno">2.6</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
       <li><a href="#promises"><span class="secno">2.7</span> <span class="content">Design asynchronous APIs using Promises</span></a>
       <li><a href="#secure-context"><span class="secno">2.8</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#string-constants"><span class="secno">2.9</span> <span class="content">Constants, enums, and bitmasks</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">3</span> <span class="content">Event Design</span></a>
@@ -1803,6 +1804,20 @@ Thus the feature depends
 on the authentication of the origin
 and the integrity of the data,
 and requires secure contexts.</p>
+   <h3 class="heading settled" data-level="2.9" id="string-constants"><span class="secno">2.9. </span><span class="content">Constants, enums, and bitmasks</span><a class="self-link" href="#string-constants"></a></h3>
+   <p>In many other platforms and programming languages, constants and enums are
+commonly expressed using a integer constant, sometimes in conjunction with
+a bitmask mechanism.</p>
+   <p>However on the Web platform, it is more common to use a string constant for
+the cases where a constant is needed. This is much more inspection friendly
+for both development and expressing the constant codes through a user facing
+interface, and in JavaScript engines, using integers offers no significant
+performance benefit over strings.</p>
+   <p>Strings do not directly address the use case for bitmasks. For these cases,
+you should use an object dictionary which contains the state that the
+bitmask is attempting to express, as object dictionaries can then be passed
+around from method to method as needed as easily as the state in a single
+bitmask value.</p>
    <h2 class="heading settled" data-level="3" id="event-design"><span class="secno">3. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="always-add-event-handlers"><span class="secno">3.1. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
    <p>For an object that inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code>, there are two techniques available for registering
@@ -1879,8 +1894,8 @@ the relevant element interface(s).</p>
     <li data-md="">
      <p>Neither <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code>s nor <code>Observer</code>s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s in the DOM tree, but many other events are standalone; e.g. <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IndexedDB/#idbdatabase" id="ref-for-idbdatabase">IDBDatabase</a></code> and <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget" id="ref-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a></code>. Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node②">Node</a></code>s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that <code>Observer</code>-esque feel.</p>
    </ul>
-   <div class="example" id="example-b2db6bd0">
-    <a class="self-link" href="#example-b2db6bd0"></a> Here is an example of using a hypothetical version of <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/④">IntersectionObserver</a></code> that is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> subclass: 
+   <div class="example" id="example-ea454c2c">
+    <a class="self-link" href="#example-ea454c2c"></a> Here is an example of using a hypothetical version of <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/④">IntersectionObserver</a></code> that is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> subclass: 
 <pre class="highlight"><span class="kr">const</span> io <span class="o">=</span> <span class="k">new</span> ETIntersectionObserver<span class="p">(</span>element<span class="p">,</span> <span class="p">{</span> root<span class="p">,</span> rootMargin<span class="p">,</span> threshold <span class="p">});</span>
 
 <span class="kd">function</span> listener<span class="p">(</span>e<span class="p">)</span> <span class="p">{</span>
