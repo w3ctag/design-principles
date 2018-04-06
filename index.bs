@@ -439,7 +439,7 @@ a bitmask mechanism.
 However on the Web platform, it is more common to use a string constant for
 the cases where a constant is needed. This is much more inspection friendly
 for both development and expressing the constant codes through a user facing
-interface, and in JavaScript engines using integers offers no significant
+interface, and in JavaScript engines, using integers offers no significant
 performance benefit over strings.
 
 Strings do not directly address the use case for bitmasks. For these cases,
