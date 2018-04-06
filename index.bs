@@ -21,6 +21,12 @@ spec:html; type:dfn; for:/; text:browsing context
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
+url: https://w3c.github.io/IntersectionObserver/;
+    type: interface; text: IntersectionObserver; url: #intersectionobserver
+    type: interface; text: IntersectionObserverEntry; url: #intersectionobserverentry
+    type: dictionary; text: IntersectionObserverInit; url: #dictdef-intersectionobserverinit
+url: https://wicg.github.io/ResizeObserver/;
+    type: interface; text: ResizeObserver; url: #resizeobserver
 </pre>
 
 <style>
@@ -467,15 +473,77 @@ the relevant element interface(s).</p>
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
 
-Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
+Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of {{EventTarget/dispatchEvent()}}, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
 
 <h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement. If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
+A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.
 
-<h3 id="state-and-subclassing">State and Event subclasses</h3>
+If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
 
-It's tempting to create subclasses of `Event` for all event types. This is frequently unnecessary. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
+<h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
+
+It's tempting to create subclasses of {{Event}} for all event types. This is frequently unnecessary. Consider subclassing {{Event}} when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the {{Event/target}} object.
+
+<h3 id="events-vs-observers">How to decide between Events and Observers</h3>
+
+Several recent additions to the platform employ an Observer pattern. {{MutationObserver}}, {{IntersectionObserver}}, {{ResizeObserver}}, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.
+
+Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
+
+In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
+
+Observers have the following properties:
+
+* Each instance is constructed with a callback, and optionally with some global options.
+* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
+* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
+* Observation can be customized with additional options passed to `observe()`.
+* `disconnect()` stops observation.
+* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
+
+<p class="example">
+    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
+</p>
+
+<p class="example">
+    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
+</p>
+
+Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
+
+* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
+* Reuse of their creation-time customizations on multiple targets.
+* Easy disconnection from multiple targets via `disconnect()`.
+* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
+* Because they are single-purpose, you don't need to specify an event type.
+
+`Observer`s and {{EventTarget}}s overlap in the following ways:
+
+* Both can be customized at creation time.
+* Both can batch occurences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
+* Neither {{EventTarget}}s nor `Observer`s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, but many other events are standalone; e.g. {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that `Observer`-esque feel.
+
+<div class="example">
+    Here is an example of using a hypothetical version of {{IntersectionObserver}} that is an {{EventTarget}} subclass:
+
+    <pre highlight="js">
+    const io = new ETIntersectionObserver(element, { root, rootMargin, threshold });
+
+    function listener(e) {
+        for (const change of e.changes) {
+            // ...
+        }
+    }
+
+    io.addEventListener("intersect", listener);
+    io.removeEventListener("intersect", listener);
+    </pre>
+
+    As you can see, we've lost some functionality compared to the `Observer` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
+
+    However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
+</div>
 
 <h2 id="types-and-units">Types and Units</h2>
 
