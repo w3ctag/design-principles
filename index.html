@@ -1542,6 +1542,10 @@ However, this remains contentious and does not yet have consensus in TC39 or amo
    <p>Consistency is a good principle that helps to create a platform that users can navigate intuitively
 and by name association.</p>
    <p>Please consult widely on names in your APIs.</p>
+   <p>Boolean properties, options, or API parameters which are asking a question about
+their argument <em>should not</em> be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, <em>should</em> be
+prefixed with <code>is</code> to be consistent with the rest of the platform.</p>
    <h3 class="heading settled" data-level="2.2" id="feature-detect"><span class="secno">2.2. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
    <p>The existence of new features should generally be detectable,
 so that web content can act appropriately whether the feature is present or not.
