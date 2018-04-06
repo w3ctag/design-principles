@@ -399,6 +399,10 @@ It's tempting to create subclasses of {{Event}} for all event types. This is fre
 
 Several recent additions to the platform employ an Observer pattern. {{MutationObserver}}, {{IntersectionObserver}}, {{ResizeObserver}}, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.
 
+Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
+
+In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
+
 Observers have the following properties:
 
 * Each instance is constructed with a callback, and optionally with some global options.
@@ -415,10 +419,6 @@ Observers have the following properties:
 <p class="example">
     {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
 </p>
-
-Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
-
-In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
 
 Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
 
