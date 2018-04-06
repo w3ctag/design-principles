@@ -417,8 +417,7 @@ for libraries that may be used in either secure or non-secure contexts.
 If a feature would pose a risk to user privacy or security
 without the authentication, integrity, or confidentiality
 that is present only in secure contexts,
-then the feature must be limited to secure contexts,
-even if the other factors above could justify exposing it in non-secure contexts.
+then the feature must be limited to secure contexts.
 For example, a feature that communicates with USB devices
 if those devices have allowed
 Web content from the site's origin
