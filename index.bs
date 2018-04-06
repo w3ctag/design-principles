@@ -430,6 +430,21 @@ on the authentication of the origin
 and the integrity of the data,
 and requires secure contexts.
 
+<h3 id="string-constants">Constants, enums, and bitmasks</h3>
+
+In many other platforms and programming languages, constants and enums are
+commonly expressed using a integer constant, sometimes in conjunction with
+a bitmask mechanism.
+
+However on the Web platform, it is more common to use a string constant for
+the cases where a constant is needed. This is much more inspection friendly
+for both development and expressing the constant codes through a user facing
+interface.
+
+Strings, unfortunately do not cover the use case for bitmasks. For these cases,
+it is recommended to use an object dictionary which contains the state that the
+bitmask is attempting to express.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
