@@ -418,15 +418,17 @@ If a feature would pose a risk to user privacy or security
 without the authentication, integrity, or confidentiality
 that is present only in secure contexts,
 then the feature must be limited to secure contexts.
-For example, a feature that communicates with USB devices
-if those devices have allowed
-Web content from the site's origin
-to communicate with those USB devices
-depends on the authentication of the origin
-and the integrity of the data
-sent to the USB device,
+One example of a feature that should be limited to secure contexts
+is geolocation, since the authentication and confidentiality provided by
+secure contexts reduce the risks to user privacy.
+Another example is:
+Web USB devices grant elevated privileges to specific origins that they name,
 since sending untrusted data to a USB device could damage that device
-or compromise computers that the device connects to.
+or compromise computers that it connects to.
+Thus the feature depends
+on the authentication of the origin
+and the integrity of the data,
+and requires secure contexts.
 
 <h2 id="event-design">Event Design</h2>
 
