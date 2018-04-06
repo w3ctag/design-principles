@@ -1449,7 +1449,8 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#always-add-event-handlers"><span class="secno">3.1</span> <span class="content">Always add event handler attributes</span></a>
       <li><a href="#events-are-for-notification"><span class="secno">3.2</span> <span class="content">Events are for notification</span></a>
       <li><a href="#favor-asynchronous-events"><span class="secno">3.3</span> <span class="content">Favor asynchronous events</span></a>
-      <li><a href="#state-and-subclassing"><span class="secno">3.4</span> <span class="content">State and Event subclasses</span></a>
+      <li><a href="#state-and-subclassing"><span class="secno">3.4</span> <span class="content">State and <code class="idl"><span>Event</span></code> subclasses</span></a>
+      <li><a href="#events-vs-observers"><span class="secno">3.5</span> <span class="content">How to decide between Events and Observers</span></a>
      </ol>
     <li>
      <a href="#types-and-units"><span class="secno">4</span> <span class="content">Types and Units</span></a>
@@ -1477,7 +1478,6 @@ Parts of this work may be from another specification document.  If so, those par
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -1830,11 +1830,71 @@ important to continue to define event handler IDL attributes because:</p>
    <p class="note" role="note">Note that for HTML and SVG elements, it is traditional to add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface, instead of directly on
 the relevant element interface(s).</p>
    <h3 class="heading settled" data-level="3.2" id="events-are-for-notification"><span class="secno">3.2. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
-   <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
+   <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent">dispatchEvent()</a></code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
    <h3 class="heading settled" data-level="3.3" id="favor-asynchronous-events"><span class="secno">3.3. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
-   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement. If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
-   <h3 class="heading settled" data-level="3.4" id="state-and-subclassing"><span class="secno">3.4. </span><span class="content">State and Event subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
-   <p>It’s tempting to create subclasses of <code>Event</code> for all event types. This is frequently unnecessary. Consider subclassing <code>Event</code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code>.target</code> object.</p>
+   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.</p>
+   <p>If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
+   <h3 class="heading settled" data-level="3.4" id="state-and-subclassing"><span class="secno">3.4. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <p>It’s tempting to create subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> for all event types. This is frequently unnecessary. Consider subclassing <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
+   <h3 class="heading settled" data-level="3.5" id="events-vs-observers"><span class="secno">3.5. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
+   <p>Several recent additions to the platform employ an Observer pattern. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/">IntersectionObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://wicg.github.io/ResizeObserver/" id="ref-for-https://wicg.github.io/ResizeObserver/">ResizeObserver</a></code>, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.</p>
+   <p>Many designs can be described as either Observers or <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget③">EventTarget</a></code>s. How to decide?</p>
+   <p>In general, start your design process using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget④">EventTarget</a></code> and only move to Observers if and when events can’t be made to work well. Using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code> ensures your feature benefits from improvements to the shared base class, such as the recent addition of the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once" id="ref-for-dom-addeventlisteneroptions-once">once</a></code>.</p>
+   <p>Observers have the following properties:</p>
+   <ul>
+    <li data-md="">
+     <p>Each instance is constructed with a callback, and optionally with some global options.</p>
+    <li data-md="">
+     <p>Instances observe specific targets, using the <code>observe()</code> and <code>unobserve()</code> methods. The callback provided in the constructor is invoked when something interesting happens to those targets.</p>
+    <li data-md="">
+     <p>Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.</p>
+    <li data-md="">
+     <p>Observation can be customized with additional options passed to <code>observe()</code>.</p>
+    <li data-md="">
+     <p><code>disconnect()</code> stops observation.</p>
+    <li data-md="">
+     <p><code>takeRecords()</code> synchronously returns records for all observed-but-not-yet-delivered occurrences.</p>
+   </ul>
+   <p class="example" id="example-b3706650"><a class="self-link" href="#example-b3706650"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver①">MutationObserver</a></code> takes a callback which receives <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationrecord" id="ref-for-mutationrecord">MutationRecord</a></code>s. It cannot be customized at construction time, but each observation can be customized using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dictdef-mutationobserverinit" id="ref-for-dictdef-mutationobserverinit">MutationObserverInit</a></code> set of options. It observes <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>s as targets. </p>
+   <p class="example" id="example-23bbd556"><a class="self-link" href="#example-23bbd556"></a> <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/①">IntersectionObserver</a></code> takes a callback which receives <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/②">IntersectionObserverEntry</a></code>s. It can be customized at construction time using the <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/③">IntersectionObserverInit</a></code> set of options, but each observation is not further customizable. It observers <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>s as targets. </p>
+   <p>Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:</p>
+   <ul>
+    <li data-md="">
+     <p>Instances can be customized at observation time. The <code>observe()</code> method of an <code>Observer</code> can take options, allowing per-callback customization. This is not possible with <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener②">addEventListener()</a></code>.</p>
+    <li data-md="">
+     <p>Reuse of their creation-time customizations on multiple targets.</p>
+    <li data-md="">
+     <p>Easy disconnection from multiple targets via <code>disconnect()</code>.</p>
+    <li data-md="">
+     <p>Built-in support for synchronously probing system state. Both <code>Observer</code>s and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑥">EventTarget</a></code>s can batch occurrences and deliver them later, but <code>Observer</code>s have a <code>takeRecords()</code> method which allows synchronously probing waiting until the next batched delivery.</p>
+    <li data-md="">
+     <p>Because they are single-purpose, you don’t need to specify an event type.</p>
+   </ul>
+   <p><code>Observer</code>s and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑦">EventTarget</a></code>s overlap in the following ways:</p>
+   <ul>
+    <li data-md="">
+     <p>Both can be customized at creation time.</p>
+    <li data-md="">
+     <p>Both can batch occurences and deliver them at any time. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑧">EventTarget</a></code>s don’t need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don’t need an <code>Observer</code> to get special timing or batching.</p>
+    <li data-md="">
+     <p>Neither <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code>s nor <code>Observer</code>s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s in the DOM tree, but many other events are standalone; e.g. <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IndexedDB/#idbdatabase" id="ref-for-idbdatabase">IDBDatabase</a></code> and <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget" id="ref-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a></code>. Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node②">Node</a></code>s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that <code>Observer</code>-esque feel.</p>
+   </ul>
+   <div class="example" id="example-b2db6bd0">
+    <a class="self-link" href="#example-b2db6bd0"></a> Here is an example of using a hypothetical version of <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/④">IntersectionObserver</a></code> that is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> subclass: 
+<pre class="highlight"><span class="kr">const</span> io <span class="o">=</span> <span class="k">new</span> ETIntersectionObserver<span class="p">(</span>element<span class="p">,</span> <span class="p">{</span> root<span class="p">,</span> rootMargin<span class="p">,</span> threshold <span class="p">});</span>
+
+<span class="kd">function</span> listener<span class="p">(</span>e<span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> change <span class="k">of</span> e<span class="p">.</span>changes<span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+<span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+
+io<span class="p">.</span>addEventListener<span class="p">(</span><span class="s2">"intersect"</span><span class="p">,</span> listener<span class="p">);</span>
+io<span class="p">.</span>removeEventListener<span class="p">(</span><span class="s2">"intersect"</span><span class="p">,</span> listener<span class="p">);</span>
+</pre>
+    <p>As you can see, we’ve lost some functionality compared to the <code>Observer</code> version: the ability to easily observe multiple elements with the same options, or the <code>takeRecords()</code> and <code>disconnect()</code> methods. We’re also forced to add the rather-redundant <code>"intersect"</code> event type to our subscription calls.</p>
+    <p>However, we haven’t lost the batching, timing, or creation-time customization, and the <code>ETIntersectionObserver</code> doesn’t participate in a hierarchy. These aspects can be achieved with either design.</p>
+   </div>
    <h2 class="heading settled" data-level="4" id="types-and-units"><span class="secno">4. </span><span class="content">Types and Units</span><a class="self-link" href="#types-and-units"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="numeric-types"><span class="secno">4.1. </span><span class="content">Use numeric types appropriately</span><a class="self-link" href="#numeric-types"></a></h3>
    <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> contains many numeric types. However, it is very
@@ -2156,11 +2216,20 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
      <li><a href="https://dom.spec.whatwg.org/#domerror">DOMError</a>
+     <li><a href="https://dom.spec.whatwg.org/#element">Element</a>
+     <li><a href="https://dom.spec.whatwg.org/#event">Event</a>
      <li><a href="https://dom.spec.whatwg.org/#eventtarget">EventTarget</a>
+     <li><a href="https://dom.spec.whatwg.org/#mutationobserver">MutationObserver</a>
+     <li><a href="https://dom.spec.whatwg.org/#dictdef-mutationobserverinit">MutationObserverInit</a>
+     <li><a href="https://dom.spec.whatwg.org/#mutationrecord">MutationRecord</a>
+     <li><a href="https://dom.spec.whatwg.org/#node">Node</a>
      <li><a href="https://dom.spec.whatwg.org/#nodelist">NodeList</a>
      <li><a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">addEventListener(type, callback)</a>
+     <li><a href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent">dispatchEvent(event)</a>
      <li><a href="https://dom.spec.whatwg.org/#dom-document-getelementsbytagname">getElementsByTagName(qualifiedName)</a>
+     <li><a href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once">once</a>
      <li><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall">querySelectorAll(selectors)</a>
+     <li><a href="https://dom.spec.whatwg.org/#dom-event-target">target</a>
     </ul>
    <li>
     <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
@@ -2183,6 +2252,11 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
      <li><a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflect</a>
     </ul>
    <li>
+    <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
+    <ul>
+     <li><a href="https://w3c.github.io/IndexedDB/#idbdatabase">IDBDatabase</a>
+    </ul>
+   <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><a href="https://url.spec.whatwg.org/#urlsearchparams">URLSearchParams</a>
@@ -2201,6 +2275,7 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
     <a data-link-type="biblio">[XHR]</a> defines the following terms:
     <ul>
      <li><a href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a>
+     <li><a href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2218,15 +2293,14 @@ Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
    <dd>Ilya Grigorik; James Simonsen; Jatinder Mann. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-indexeddb-2">[IndexedDB-2]
+   <dd>Ali Alabbas; Joshua Bell. <a href="https://w3c.github.io/IndexedDB/">Indexed Database API 2.0</a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
-  </dl>
-  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
-  <dl>
    <dt id="biblio-xhr">[XHR]
    <dd>Anne van Kesteren. <a href="https://xhr.spec.whatwg.org/">XMLHttpRequest Standard</a>. Living Standard. URL: <a href="https://xhr.spec.whatwg.org/">https://xhr.spec.whatwg.org/</a>
   </dl>
