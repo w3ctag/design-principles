@@ -395,18 +395,18 @@ If you feel you need a synchronous event in your design, please reconsider and a
 
 It's tempting to create subclasses of {{Event}} for all event types. This is frequently unnecessary. Consider subclassing {{Event}} when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the {{Event/target}} object.
 
-<h3 id="events-vs-observers">Use events and XObservers appropriately</h3>
+<h3 id="events-vs-observers">How to decide between Events and Observers</h3>
 
-A pattern that has become popular in recent years is "`XObserver`" classes. Starting with {{MutationObserver}}, we now have {{IntersectionObserver}}, {{ResizeObserver}}, and a design for <a href="https://github.com/WICG/indexed-db-observers">IndexedDB observers</a>.
+Several recent additions to the platform employ an Observer pattern. {{MutationObserver}}, {{IntersectionObserver}}, {{ResizeObserver}}, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.
 
-The `XObserver` pattern is briefly summarized as follows:
+Observers have the following properties:
 
-* Each `XObserver` instance is constructed with a callback, and optionally with some global options.
-* Then, it can observe and unobserve specific targets, using the `observe()` and `unobserve()` methods, such that the callback will be called when something interesting happens to those targets.
-* The callback will receive change records as arguments; these contain the details about the interesting thing that happened. Typically, multiple such records are delivered at once, in a batch.
-* Optionally, this observation process can be customized with additional observation-time options to the `observe()` method.
-* There's a `disconnect()` method that stops all observation.
-* There's a `takeRecords()` method which synchronously returns records for all observed-but-not-yet-delivered occurrences.
+* Each instance is constructed with a callback, and optionally with some global options.
+* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
+* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
+* Observation can be customized with additional options passed to `observe()`.
+* `disconnect()` stops observation.
+* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
 
 <p class="example">
     {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
@@ -416,23 +416,23 @@ The `XObserver` pattern is briefly summarized as follows:
     {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
 </p>
 
-Since `XObserver` classes conceptually compete with {{EventTarget}}s, it is important to understand when they are and are not appropriate.
+Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
 
-By default, you should use an {{EventTarget}}. These integrate well with the platform, fit developer expectations, and interoperate with a wealth of third-party libraries. Using an {{EventTarget}} ensures you automatically benefit from additions or improvements we make to that shared base class in the future, such as the recent addition of the {{AddEventListenerOptions/once}} option.
+In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits improvements to that shared base class in the future, such as the recent addition of the {{AddEventListenerOptions/once}}.
 
-In contrast, `XObserver` designs are relatively heavyweight. They do not interoperate well with the ecosystem, and involve defining a new class, new dictionaries for options, and a new type for the delivered records. But, they make up for it with the following advantages:
+Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
 
-* They can be customized at observation time. The `observe()` method of an `XObserver` class can take a large variety of options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
-* They allow easy reuse of their creation-time customizations on multiple targets.
-* They allow easily stopping all observations on multiple targets, with their `disconnect()` method.
-* They have built-in support for synchronously probing what has happened so far. That is, while both `XObserver`s and {{EventTarget}}s can batch occurrences and deliver them later, `XObserver`s have a `takeRecords()` method which allows synchronously probing the occurences that have accumulated so far, without waiting until the next batch delivery.
+* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
+* Reuse of their creation-time customizations on multiple targets.
+* Easy disconnection from multiple targets via `disconnect()`.
+* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
 * Because they are single-purpose, you don't need to specify an event type.
 
-Note that `XObserver`s are <em>not</em> unique in the following ways:
+`Observer`s and {{EventTarget}}s overlap in the following ways:
 
-* Both {{EventTarget}}s and `XObserver`s can be customized at creation time.
-* Both {{EventTarget}}s and `XObserver`s can batch occurences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, or anything else. You don't need an `XObserver` to get special timing or batching.
-* Neither {{EventTarget}}s nor `XObserver`s need to participate in a tree structure, with bubbling/capture and cancelation. Although some of the most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, there are many other {{EventTarget}}-derived classes that are standalone, such as {{IDBDatabase}} or {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events as non-bubbling and non-cancelable to get that lightweight `XObserver`-esque feel.
+* Both can be customized at creation time.
+* Both can batch occurences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
+* Neither {{EventTarget}}s nor `Observer`s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, but many other events are standalone; e.g. {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that `Observer`-esque feel.
 
 <div class="example">
     Here is an example of using a hypothetical version of {{IntersectionObserver}} that is an {{EventTarget}} subclass:
@@ -450,7 +450,7 @@ Note that `XObserver`s are <em>not</em> unique in the following ways:
     io.removeEventListener("intersect", listener);
     </pre>
 
-    As you can see, we've lost some functionality compared to the `XObserver` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
+    As you can see, we've lost some functionality compared to the `Observer` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
 
     However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
 </div>
