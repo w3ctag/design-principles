@@ -111,6 +111,11 @@ and by name association.
 
 Please consult widely on names in your APIs.
 
+Boolean properties, options, or API parameters which are asking a question about
+their argument *should not* be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, *should* be
+prefixed with <code>is</code> to be consistent with the rest of the platform.
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 The existence of new features should generally be detectable,
