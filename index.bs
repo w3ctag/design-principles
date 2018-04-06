@@ -521,7 +521,7 @@ Observers involve defining a new class, dictionaries for options, and a new type
 `Observer`s and {{EventTarget}}s overlap in the following ways:
 
 * Both can be customized at creation time.
-* Both can batch occurences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
+* Both can batch occurrences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
 * Neither {{EventTarget}}s nor `Observer`s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, but many other events are standalone; e.g. {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that `Observer`-esque feel.
 
 <div class="example">
