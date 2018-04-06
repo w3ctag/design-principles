@@ -728,6 +728,16 @@ Please take advantage of these other excellent resources in your design process:
 * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
 * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
 
+<h3 id="polyfills">Polyfills</h3>
+
+Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The 
+Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
+that should be considered in the development of new features, notably:
+
+* Don't be constrained by what is 'polyfillable'
+* Make your feature easily detectable
+* Work with polyfill authors
+
 <h2 id="spec-writing">Advice on specification writing</h2>
 
 This document covers API design for the Web,
