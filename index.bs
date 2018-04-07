@@ -662,7 +662,7 @@ or {{DOMException}}
 should be used for errors,
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">Device APIs</h2>
+<h2 id="device-apis">Device and Wrapper APIs</h2>
 
 It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their
@@ -717,6 +717,56 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministically produce
      the same id in subsequent sessions.
 
+<h3 id="wrapper-apis">Wrapper API considerations</h3>
+
+Many modern operating systems come with convenient APIs which abstract away
+normally complex technology in the form of user-friendly APIs. Exposing these
+APIs to the web platform is getting more and more common, but you need to be
+careful when these are being exposed to the web platform.
+
+ : Generalize interface when underlying API is overly specific
+ :: If the wrapped native API is extremely specific to a certain library, it is
+    recommended to design a generic API which allows different browsers to not
+    have to implement this by emulating behavior in the event a different underlying
+    native API or library is used.
+
+    A common example of bad practice is exposing the exact lifecycle and structs
+    of the underlying native API.
+
+ : Make API promise based whenever it makes sense
+ :: Even if the underlying API is synchronous, this does not necessarily mean it
+    translates well when ported to the web platform. Exposing a synchronous native
+    API to the web platform is generally considered bad taste, and should be
+    reinterpreted into a promise based API whenever possible.
+
+    Doing this also allows putting the API behind a permission when it is deemed
+    necessary, which may be necessary for powerful features.
+
+ : Prevent underlying OS fragmentation
+ :: When designing a wrapper API, you should refer to how different implementations
+    (operating systems and platforms) provide this functionality, and specify based
+    on common denominators rather than ship different functionality sets.
+
+ : Do not propose black-box proprietary library or dedicated processor dependencies
+ :: Black-box dependencies are strongly discouraged, as this prevents wide
+    implementor adoption, which can cause serious fragmentation on the final
+    implementation quality and availability.
+
+ : Underlying protocols should be open
+ :: APIs which require exchange with external hardware or services should not depend
+    on closed protocols.
+
+ : Say no to external online service dependencies
+ :: Web platform APIs should ideally not discreetely depend on online services.
+    The availability of these services across different regions may vary, users
+    may be offline, and the online services have no guarantee of being always
+    available.
+
+ : Prevent additional fingerprinting surfaces
+ :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting
+    surface. This can happen API calls returning slightly different results or very
+    specific results/quirks which exposes the granular details about the underlying
+    hardware device(s).
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
