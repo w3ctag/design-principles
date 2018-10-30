@@ -738,16 +738,90 @@ that should be considered in the development of new features, notably:
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
-<h2 id="spec-writing">Advice on specification writing</h2>
+<h2 id="spec-writing">Writing good specifications</h2>
 
-This document covers API design for the Web,
+This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.
+
+<h3 id="writing-resources">Other resources</h3>
+
 Some useful advice on how to write specifications is available elsewhere:
   * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
     specifications: Kinds of statements</a> (Ian Hickson, 2006)
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
+
+<h3 id="algorithms">Specify clearly enough so that algorithms are unambiguous</h3>
+
+Specification text is often more precise
+when it is written using an explicit sequence of steps.
+Using an ordered sequence of steps makes it clear how the required behaviors interact.
+For example, if there are multiple error conditions present,
+a specification that describes the behavior using a sequence of steps
+will make it clear which error will be reported,
+since the different errors would be checked and reported in different steps.
+
+Likewise, describing state using explicit flags also makes behavior clearer.
+Using explicit flags makes it clear
+whether or not the state changes in different error conditions,
+and makes it clear when the state described by the flags is reset.
+
+Whenever these differences could be observable to web content
+and there isn't a good reason to allow variation between implementations,
+it is important that they be specified unambiguously,
+so that implementations interoperate
+and web content doesn't end up
+depending on the behavior of one implementation and failing in another
+(which can cause higher development costs to fix the content for all browsers,
+or costs to users of broken content if it wasn't detected).
+
+However, sequences of steps are not the only way of making the specification precise enough.
+When there are particular characteristics
+that specification authors want to ensure the specification always satisfies,
+it may be better to use a less algorithmic way of formal specification
+that ensures these characteristics are always true.
+Developing these other ways of specifying behavior formally
+is more important when the algorithms would be more repetitive.
+These formal specification techniques can include dependencies on
+languages such as [[WEBIDL]], on grammar productions,
+or the development of new languages for defining pieces of the specification.
+Merely having a formal syntax is not sufficient, though;
+the requirements that the formal definitions place on implementations must still be clearly defined,
+which generally requires specifying some algorithms (or, sometimes, another layer of formal syntax) that define what the formal syntax means,
+and then using the more-readable formal syntax to avoid
+excessive repetition of the less-readable algorithms.
+There are also possibilities in-between, for example,
+if it is desirable to ensure that an algorithm can be implemented with a state machine,
+it may be preferable to specify it in an algorithmic way that incorporates explicit states
+so that the specification authors avoid accidentally creating more states than intended.
+
+When specifying in an algorithmic way,
+it is generally good to match the algorithms that implementations would use,
+even if this is somewhat less convenient for specification authors.
+For example, it is better to specify CSS selector matching
+by moving right to left across <a>combinators</a>,
+since that is what implementations do.
+This avoids the risk of future problems caused by new features
+that would be slightly different (in unimportant ways)
+between implementations based on one algorithm and implementations based on a different one.
+Thus, it avoids small future divergence in behavior between specification and implementations.
+It also helps to keep the costs of specifying features aligned with implementing them,
+since the complexity of adding a feature to the specification is more likely to be related
+to the cost of adding it to implementations.
+
+Algorithms in specifications should also reflect best practices in programming.
+For example, they should explictly describe the inputs and outputs of the algorithm,
+rather than relying on "stack introspection" or handwaving.
+They should also avoid side-effects when possible.
+
+Specifications that define things using step-by-step algorithms should still be readable.
+Partly, this is through good practices that also apply to writing code,
+such as avoiding unneeded extra steps, and by using good naming.
+However, it's often useful to explain the purpose of the algorithm in prose
+(e.g., "take the following steps, which ensure that there is at most one pending X
+callback per toplevel browsing context")
+so that readers can quickly decide whether they need to read the steps in detail.
 
 <pre class="anchors">
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
