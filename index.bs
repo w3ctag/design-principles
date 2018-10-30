@@ -379,6 +379,33 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
+<h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
+
+Async functions that need cancellation should take an `AbortSignal` as part
+of an options dictionary.
+
+Example:
+
+```js
+const controller = new AbortController();
+const signal = controller.signal;
+geolocation.read({ signal });
+```
+
+Reusing the same primitive everywhere has multiplicative effects throughout
+the platform. In particular, there's a common pattern of using a single
+`AbortSignal` for a bunch of ongoing operations, and then aborting them
+(with the corresponding `AbortController`) when e.g. the user presses cancel,
+or a single-page-app navigation occurs, or similar. So the minor extra
+complexity for an individual API leads to a large reduction in complexity
+when used with multiple APIs together.
+
+There might be cases where cancellation cannot be guaranteed. That is not a
+problem because a call to `abort()` on `AbortController` is a request to abort.
+How you react to it depends on your spec.
+
+We could have given it a verbose name like `requestAbort()` but we went for brevity.
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 It may save you significant time and effort
@@ -460,6 +487,24 @@ around from method to method as needed as easily as the state in a single
 bitmask value.
 
 <h2 id="event-design">Event Design</h2>
+
+<h3 id="dont-invent-event-like">Don't invent your own event listener-like infrastructure</h3>
+
+In some cases you might not have an object to inherit from `EventTarget` but
+it is usually possible to create such an object.
+
+For instance with Web Bluetooth you can add event listeners on a `Characteristic`
+object, which is obtained via `getCharacteristic()`. If you need to filter events,
+it might be possible to create a filter like
+
+```js
+const filter = navigator.nfc.createReadFilter({
+  recordType: "json"
+});
+
+const onMessage = message => { … };
+filter.addEventListener('exchange', onMessage);
+```
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
