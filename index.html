@@ -1514,8 +1514,9 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#casing-rules"><span class="secno">2.5</span> <span class="content">Use casing rules consistent with existing APIs</span></a>
       <li><a href="#prefer-dict-to-bool"><span class="secno">2.6</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
       <li><a href="#promises"><span class="secno">2.7</span> <span class="content">Design asynchronous APIs using Promises</span></a>
-      <li><a href="#secure-context"><span class="secno">2.8</span> <span class="content">Consider limiting new features to secure contexts</span></a>
-      <li><a href="#string-constants"><span class="secno">2.9</span> <span class="content">Constants, enums, and bitmasks</span></a>
+      <li><a href="#aborting"><span class="secno">2.8</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
+      <li><a href="#secure-context"><span class="secno">2.9</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#string-constants"><span class="secno">2.10</span> <span class="content">Constants, enums, and bitmasks</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">3</span> <span class="content">Event Design</span></a>
@@ -1833,7 +1834,25 @@ process before returning the result.</p>
 and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.</p>
-   <h3 class="heading settled" data-level="2.8" id="secure-context"><span class="secno">2.8. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
+   <h3 class="heading settled" data-level="2.8" id="aborting"><span class="secno">2.8. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
+   <p>Async functions that need cancellation should take an <code>AbortSignal</code> as part
+of an options dictionary.</p>
+   <p>Example:</p>
+<pre class="language-js highlight"><c- kr>const</c-> controller <c- o>=</c-> <c- k>new</c-> AbortController<c- p>();</c->
+<c- kr>const</c-> signal <c- o>=</c-> controller<c- p>.</c->signal<c- p>;</c->
+geolocation<c- p>.</c->read<c- p>({</c-> signal <c- p>});</c->
+</pre>
+   <p>Reusing the same primitive everywhere has multiplicative effects throughout
+the platform. In particular, there’s a common pattern of using a single <code>AbortSignal</code> for a bunch of ongoing operations, and then aborting them
+(with the corresponding <code>AbortController</code>) when e.g. the user presses cancel,
+or a single-page-app navigation occurs, or similar. So the minor extra
+complexity for an individual API leads to a large reduction in complexity
+when used with multiple APIs together.</p>
+   <p>There might be cases where cancellation cannot be guaranteed. In these cases,
+the <code>AbortController</code> can still be used because a call to <code>abort()</code> on <code>AbortController</code> is a request to abort. How you react to it depends on your spec.
+Note, requestAbort() was considered in the AbortController design instead
+of abort(), but the latter was chosen for brevity.</p>
+   <h3 class="heading settled" data-level="2.9" id="secure-context"><span class="secno">2.9. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>It may save you significant time and effort
 to pre-emptively restrict your feature to Secure Contexts.</p>
    <p>The TAG is on the record in supporting
@@ -1884,7 +1903,7 @@ Thus the feature depends
 on the authentication of the origin
 and the integrity of the data,
 and requires secure contexts.</p>
-   <h3 class="heading settled" data-level="2.9" id="string-constants"><span class="secno">2.9. </span><span class="content">Constants, enums, and bitmasks</span><a class="self-link" href="#string-constants"></a></h3>
+   <h3 class="heading settled" data-level="2.10" id="string-constants"><span class="secno">2.10. </span><span class="content">Constants, enums, and bitmasks</span><a class="self-link" href="#string-constants"></a></h3>
    <p>In many other platforms and programming languages, constants and enums are
 commonly expressed using a integer constant, sometimes in conjunction with
 a bitmask mechanism.</p>
