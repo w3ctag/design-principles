@@ -1673,9 +1673,9 @@ necessary, but should be held as a goal for normal code paths.)</p>
    <h3 class="heading settled" data-level="2.4" id="live-vs-static"><span class="secno">2.4. </span><span class="content">Consider whether objects should be live or static</span><a class="self-link" href="#live-vs-static"></a></h3>
    <p>Objects returned from functions, attribute getters, etc.,
 can either be live or static.
-A <dfn data-dfn-type="dfn" data-noexport id="live-object">live object<a class="self-link" href="#live-object"></a></dfn> is one that continues to reflect
+A <dfn data-dfn-type="dfn" data-export id="live-object">live object<a class="self-link" href="#live-object"></a></dfn> is one that continues to reflect
 changes made after it was returned to the caller.
-A <dfn data-dfn-type="dfn" data-noexport id="static-object">static object<a class="self-link" href="#static-object"></a></dfn> is one that reflects
+A <dfn data-dfn-type="dfn" data-export id="static-object">static object<a class="self-link" href="#static-object"></a></dfn> is one that reflects
 the state at the time it was returned.</p>
    <p>Objects that are the way state is mutated are generally live.
 For example, DOM nodes are returned as live objects,
