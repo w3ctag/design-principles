@@ -755,17 +755,16 @@ need to be careful when exposing these to the web platform.
     (operating systems and platforms) provide this functionality, and specify based
     on common denominators rather than ship different functionality sets.
 
- : Do not propose black-box proprietary library or dedicated processor dependencies
- :: Black-box dependencies are strongly discouraged, as this prevents wide
-    implementor adoption, which can cause serious fragmentation on the final
-    implementation quality and availability.
+ : Do not propose black-box proprietary library or dedicated hardware processor dependencies
+ :: Black-box dependencies are strongly discouraged, as this not only prevents wide
+    implementor adoption, but is unhealthy to the open nature of the web.
 
  : Underlying protocols should be open
  :: APIs which require exchange with external hardware or services should not depend
     on closed protocols.
 
  : Be offline friendly
- :: Web platform APIs should ideally not discreetely depend on online services.
+ :: Web platform APIs should ideally not have a hard dependency on online services.
     The availability of these services across different regions may vary, users
     may be offline, and the online services have no guarantee of being always
     available.
