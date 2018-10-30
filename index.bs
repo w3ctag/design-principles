@@ -675,9 +675,9 @@ accelerometer),
 section contains principles for consideration when designing APIs for devices.
 
 These can be functionality provided by the underlying operating system, or provided by a native
-third-party library to interact with a device. These are a thin abstraction which "wrap" the
-native functionality without introducing significant complexity to the browser, hence are called
-wrapper APIs.
+third-party library to interact with a device. These are an abstraction which "wrap" the
+native functionality without introducing significant complexity while securing the API surface
+to the browser, hence are called wrapper APIs.
 
 <h3 id="device-ids">Use care when exposing device identifiers</h3>
 
@@ -752,9 +752,12 @@ need to be careful when exposing these to the web platform.
     be isolated to a separate process.
 
  : Don't overconstrain or overfit the API to the underlying (wrapped) OS
- :: When designing a wrapper API, you should refer to how different implementations
-    (operating systems and platforms) provide this functionality, and specify based
-    on common denominators rather than ship different functionality sets.
+ :: When designing a wrapper API, you should consider how different implementations
+    (operating systems and platforms) provide this functionality. Ideally the entire
+    specification is implementable across platforms, but in some cases it may be
+    desirable to expose distinctions made on only some platforms.
+
+    These distinctions should be clearly noted if they are known in advance.
 
  : Do not propose black-box proprietary library or dedicated hardware processor dependencies
  :: Black-box dependencies are strongly discouraged, as this not only prevents wide
@@ -770,7 +773,7 @@ need to be careful when exposing these to the web platform.
     may be offline, and the online services have no guarantee of being always
     available.
 
- : Prevent additional fingerprinting surfaces
+ : Avoid additional fingerprinting surfaces
  :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting surface.
     Please read the TAG's finding on
     <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
