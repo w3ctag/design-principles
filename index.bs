@@ -770,10 +770,10 @@ need to be careful when exposing these to the web platform.
     available.
 
  : Prevent additional fingerprinting surfaces
- :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting
-    surface. This can happen API calls returning slightly different results or very
-    specific results/quirks which exposes the granular details about the underlying
-    hardware device(s).
+ :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting surface.
+    Please read the TAG's finding on
+    <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
+    for additional details.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
