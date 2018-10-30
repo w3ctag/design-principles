@@ -379,6 +379,33 @@ and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
 
+<h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
+
+Async functions that need cancellation should take an `AbortSignal` as part
+of an options dictionary.
+
+Example:
+
+```js
+const controller = new AbortController();
+const signal = controller.signal;
+geolocation.read({ signal });
+```
+
+Reusing the same primitive everywhere has multiplicative effects throughout
+the platform. In particular, there's a common pattern of using a single
+`AbortSignal` for a bunch of ongoing operations, and then aborting them
+(with the corresponding `AbortController`) when e.g. the user presses cancel,
+or a single-page-app navigation occurs, or similar. So the minor extra
+complexity for an individual API leads to a large reduction in complexity
+when used with multiple APIs together.
+
+There might be cases where cancellation cannot be guaranteed. In these cases,
+the `AbortController` can still be used because a call to `abort()` on
+`AbortController` is a request to abort. How you react to it depends on your spec.
+Note, requestAbort() was considered in the AbortController design instead
+of abort(), but the latter was chosen for brevity.
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 It may save you significant time and effort
