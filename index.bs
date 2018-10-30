@@ -848,6 +848,8 @@ need to be careful when exposing these to the web platform.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
+<h3 id="design-resources">Privacy, Security, Accessibility, and Internationalization</h3>
+
 It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
 Please take advantage of these other excellent resources in your design process:
 
