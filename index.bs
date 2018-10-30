@@ -702,7 +702,7 @@ or {{DOMException}}
 should be used for errors,
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">Device APIs</h2>
+<h2 id="device-apis">OS and Device Wrapper APIs</h2>
 
 It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their
@@ -713,6 +713,11 @@ accelerometer),
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
 <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
 section contains principles for consideration when designing APIs for devices.
+
+These can be functionality provided by the underlying operating system, or provided by a native
+third-party library to interact with a device. These are an abstraction which "wrap" the
+native functionality without introducing significant complexity while securing the API surface
+to the browser, hence are called wrapper APIs.
 
 <h3 id="device-ids">Use care when exposing device identifiers</h3>
 
@@ -757,6 +762,62 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministically produce
      the same id in subsequent sessions.
 
+<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
+
+Many modern operating systems come with convenience APIs, which abstract away
+normally complex technology in the form of higher level user-friendly APIs.
+
+Exposing these APIs to the web platform is getting more and more common, but you
+need to be careful when exposing these to the web platform.
+
+ : Generalize interface when underlying API is overly specific
+ :: Don't blindly map native convenience APIs 1:1 to the web platform.
+    Native APIs do not translate well to the web platform, and doing so may result
+    in a API shape which is difficult to implement across a variety of underlying
+    platforms and native libraries.
+
+    Especially be careful about exposing the exact lifecycle and data
+    structures of the underlying native APIs. Think about making an API that
+    [[#string-constants|fits well in with existing web platform APIs]] and which can be expressed in
+    commonly available low-level APIs.
+
+ : Prefer asynchronous function by returning promises
+ :: Even if the underlying API is synchronous, this does not necessarily mean it
+    translates well when ported to the web platform. Exposing a synchronous native
+    API to the web platform is generally discouraged, and should be
+    provided as a promise based API whenever possible.
+
+    Doing this also allows putting the API behind a permission if it is
+    necessary, especially if the API depends on I/O or in the future may need to
+    be isolated to a separate process.
+
+ : Don't overconstrain or overfit the API to the underlying (wrapped) OS
+ :: When designing a wrapper API, you should consider how different implementations
+    (operating systems and platforms) provide this functionality. Ideally the entire
+    specification is implementable across platforms, but in some cases it may be
+    desirable to expose distinctions made on only some platforms.
+
+    These distinctions should be clearly noted if they are known in advance.
+
+ : Do not propose black-box proprietary library or dedicated hardware processor dependencies
+ :: Black-box dependencies are strongly discouraged, as this not only prevents wide
+    implementor adoption, but is unhealthy to the open nature of the web.
+
+ : Underlying protocols should be open
+ :: APIs which require exchange with external hardware or services should not depend
+    on closed protocols.
+
+ : Be offline friendly
+ :: Web platform APIs should ideally not have a hard dependency on online services.
+    The availability of these services across different regions may vary, users
+    may be offline, and the online services have no guarantee of being always
+    available.
+
+ : Avoid additional fingerprinting surfaces
+ :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting surface.
+    Please read the TAG's finding on
+    <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
+    for additional details.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
