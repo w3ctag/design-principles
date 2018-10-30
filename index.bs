@@ -662,7 +662,7 @@ or {{DOMException}}
 should be used for errors,
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">Device and Wrapper APIs</h2>
+<h2 id="device-apis">OS and Device Wrapper APIs</h2>
 
 It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their
@@ -673,6 +673,11 @@ accelerometer),
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
 <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
 section contains principles for consideration when designing APIs for devices.
+
+These can be functionality provided by the underlying operating system, or provided by a native
+third-party library to interact with a device. These are a thin abstraction which "wrap" the
+native functionality without introducing significant complexity to the browser, hence are called
+wrapper APIs.
 
 <h3 id="device-ids">Use care when exposing device identifiers</h3>
 
@@ -717,21 +722,24 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministically produce
      the same id in subsequent sessions.
 
-<h3 id="wrapper-apis">Wrapper API considerations</h3>
+<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
 Many modern operating systems come with convenience APIs, which abstract away
-normally complex technology in the form of higher level user-friendly APIs. Exposing these
-APIs to the web platform is getting more and more common, but you need to be
-careful when exposing these to the web platform.
+normally complex technology in the form of higher level user-friendly APIs.
+
+Exposing these APIs to the web platform is getting more and more common, but you
+need to be careful when exposing these to the web platform.
 
  : Generalize interface when underlying API is overly specific
- :: If the wrapped native API is extremely specific to a certain library, it is
-    recommended to design a generic API which allows different browsers to not
-    have to implement this by emulating behavior in the event a different underlying
-    native API or library is used.
+ :: Don't blindly map native convenience APIs 1:1 to the web platform.
+    Native APIs do not translate well to the web platform, and doing so may result
+    in a API shape which is difficult to implement across a variety of underlying
+    platforms and native libraries.
 
-    A common example of bad practice is exposing the exact lifecycle and structs
-    of the underlying native API.
+    Especially be careful about exposing the exact lifecycle and data
+    structures of the underlying native APIs. Think about making an API that
+    fits well in with existing web platform APIs and which can be expressed in
+    commonly available low-level APIs.
 
  : Prefer asynchronous function by returning promises
  :: Even if the underlying API is synchronous, this does not necessarily mean it
@@ -739,8 +747,8 @@ careful when exposing these to the web platform.
     API to the web platform is generally discouraged, and should be
     provided as a promise based API whenever possible.
 
-    Doing this also allows putting the API behind a permission when it is deemed
-    necessary, which may be necessary for powerful features.
+    Doing this also allows putting the API behind a permission if it is
+    necessary.
 
  : Prevent underlying OS fragmentation
  :: When designing a wrapper API, you should refer to how different implementations
@@ -756,7 +764,7 @@ careful when exposing these to the web platform.
  :: APIs which require exchange with external hardware or services should not depend
     on closed protocols.
 
- : Say no to external online service dependencies
+ : Be offline friendly
  :: Web platform APIs should ideally not discreetely depend on online services.
     The availability of these services across different regions may vary, users
     may be offline, and the online services have no guarantee of being always
