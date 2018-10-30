@@ -748,7 +748,8 @@ need to be careful when exposing these to the web platform.
     provided as a promise based API whenever possible.
 
     Doing this also allows putting the API behind a permission if it is
-    necessary.
+    necessary, especially if the API depends on I/O or in the future may need to
+    be isolated to a separate process.
 
  : Prevent underlying OS fragmentation
  :: When designing a wrapper API, you should refer to how different implementations
