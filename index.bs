@@ -719,10 +719,10 @@ is done in a consistent and privacy-friendly way:
 
 <h3 id="wrapper-apis">Wrapper API considerations</h3>
 
-Many modern operating systems come with convenient APIs which abstract away
-normally complex technology in the form of user-friendly APIs. Exposing these
+Many modern operating systems come with convenience APIs, which abstract away
+normally complex technology in the form of higher level user-friendly APIs. Exposing these
 APIs to the web platform is getting more and more common, but you need to be
-careful when these are being exposed to the web platform.
+careful when exposing these to the web platform.
 
  : Generalize interface when underlying API is overly specific
  :: If the wrapped native API is extremely specific to a certain library, it is
@@ -733,11 +733,11 @@ careful when these are being exposed to the web platform.
     A common example of bad practice is exposing the exact lifecycle and structs
     of the underlying native API.
 
- : Make API promise based whenever it makes sense
+ : Prefer asynchronous function by returning promises
  :: Even if the underlying API is synchronous, this does not necessarily mean it
     translates well when ported to the web platform. Exposing a synchronous native
-    API to the web platform is generally considered bad taste, and should be
-    reinterpreted into a promise based API whenever possible.
+    API to the web platform is generally discouraged, and should be
+    provided as a promise based API whenever possible.
 
     Doing this also allows putting the API behind a permission when it is deemed
     necessary, which may be necessary for powerful features.
