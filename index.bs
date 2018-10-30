@@ -734,7 +734,7 @@ Polyfills can be hugely beneficial in helping to roll out new features to the we
 Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
 that should be considered in the development of new features, notably:
 
-* Being 'polyfillable' is not essential but <strong>is</strong> beneficial
+* Being "polyfillable" is not essential but <strong>is</strong> beneficial
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
