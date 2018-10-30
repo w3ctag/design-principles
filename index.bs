@@ -174,9 +174,9 @@ much like a data property as possible. Specific guidance in this regard includes
 
 Objects returned from functions, attribute getters, etc.,
 can either be live or static.
-A <dfn>live object</dfn> is one that continues to reflect
+A <dfn export>live object</dfn> is one that continues to reflect
 changes made after it was returned to the caller.
-A <dfn>static object</dfn> is one that reflects
+A <dfn export>static object</dfn> is one that reflects
 the state at the time it was returned.
 
 Objects that are the way state is mutated are generally live.
