@@ -738,7 +738,7 @@ need to be careful when exposing these to the web platform.
 
     Especially be careful about exposing the exact lifecycle and data
     structures of the underlying native APIs. Think about making an API that
-    fits well in with existing web platform APIs and which can be expressed in
+    [[#string-constants|fits well in with existing web platform APIs]] and which can be expressed in
     commonly available low-level APIs.
 
  : Prefer asynchronous function by returning promises
@@ -751,7 +751,7 @@ need to be careful when exposing these to the web platform.
     necessary, especially if the API depends on I/O or in the future may need to
     be isolated to a separate process.
 
- : Prevent underlying OS fragmentation
+ : Don't overconstrain or overfit the API to the underlying (wrapped) OS
  :: When designing a wrapper API, you should refer to how different implementations
     (operating systems and platforms) provide this functionality, and specify based
     on common denominators rather than ship different functionality sets.
