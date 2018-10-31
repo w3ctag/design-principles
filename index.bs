@@ -25,6 +25,12 @@ spec:webidl; type:extended-attribute; text:Constructor
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
 url: https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto; type: interface; text: Crypto
 url: https://w3c.github.io/touch-events/#idl-def-touchevent; type: interface; text: TouchEvent
+url: https://w3c.github.io/IntersectionObserver/;
+    type: interface; text: IntersectionObserver; url: #intersectionobserver
+    type: interface; text: IntersectionObserverEntry; url: #intersectionobserverentry
+    type: dictionary; text: IntersectionObserverInit; url: #dictdef-intersectionobserverinit
+url: https://wicg.github.io/ResizeObserver/;
+    type: interface; text: ResizeObserver; url: #resizeobserver
 </pre>
 
 <style>
@@ -34,7 +40,7 @@ url: https://w3c.github.io/touch-events/#idl-def-touchevent; type: interface; te
     }
 </style>
 
-<h2 id="js">JavaScript language</h2>
+<h2 id="js">JavaScript Language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
@@ -98,7 +104,7 @@ href="https://github.com/tc39/proposal-weakrefs">stage 1 proposal under discussi
 However, this remains contentious and does not yet have consensus in TC39 or among implementers.
 </div>
 
-<h2 id="api-surface">API surface concerns</h2>
+<h2 id="api-surface">API Surface Concerns</h2>
 
 <h3 id="naming-is-hard">Naming things</h3>
 
@@ -172,9 +178,9 @@ much like a data property as possible. Specific guidance in this regard includes
 
 Objects returned from functions, attribute getters, etc.,
 can either be live or static.
-A <dfn>live object</dfn> is one that continues to reflect
+A <dfn export>live object</dfn> is one that continues to reflect
 changes made after it was returned to the caller.
-A <dfn>static object</dfn> is one that reflects
+A <dfn export>static object</dfn> is one that reflects
 the state at the time it was returned.
 
 Objects that are the way state is mutated are generally live.
@@ -350,8 +356,6 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
-<h2 id="api-choices">Designing idiomatic and useful APIs</h2>
-
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
 By default, [[!WEBIDL]] interfaces are reified in JavaScript as "non-constructible" classes: trying
@@ -444,96 +448,8 @@ discuss.</p>
     tricks (or their equivalents in C++/Rust/etc.) whenever reasonable.</p>
 </div>
 
-<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
-separate getter and setter functions which can react independently. This is in contrast to the
-"default" style of JavaScript properties, data properties, which do not have configurable behavior
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
-set.
-
-Data property semantics are what are generally expected by JavaScript developers when interfacing
-with objects. As such, although getters and setters allow infinite customizability when defining
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
-much like a data property as possible. Specific guidance in this regard includes:
-
-* Getters must not have any (observable) side effects.
-* Getters should not perform any expensive operations. (A notable failure of the platform in this
-    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
-* Ensure that your attribute's getter returns the same object each time it is called, until some
-    occurrence in another part of the system causes a logical "reset" of the property's value. In
-    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
-    new value from the getter each time is not allowed.
-* Whenever possible, preserve values given to the setter for return from the getter. That is,
-    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
-    true. (This will not always be the case, e.g. if a normalization or type conversion step is
-    necessary, but should be held as a goal for normal code paths.)
-
-<h3 id="live-vs-static">Consider whether objects should be live or static</h3>
-
-Objects returned from functions, attribute getters, etc.,
-can either be live or static.
-A <dfn>live object</dfn> is one that continues to reflect
-changes made after it was returned to the caller.
-A <dfn>static object</dfn> is one that reflects
-the state at the time it was returned.
-
-Objects that are the way state is mutated are generally live.
-For example, DOM nodes are returned as live objects,
-since they are the API through which attributes are set and other changes
-to the DOM are made.
-They also reflect changes to the DOM made in other ways
-(such as through user interaction with forms).
-
-Objects that represent a collection
-that might change over time
-(and that are not the way state is mutated)
-should generally be returned as static objects.
-This is because it is confusing to users of the API when
-a collection changes while being iterated.
-Because of this,
-it is generally considered a mistake that methods like
-{{Document/getElementsByTagName()}} return live objects;
-{{ParentNode/querySelectorAll()}} was made to return static objects
-as a result of this experience.
-On the other hand, even though {{URLSearchParams}} represents a collection,
-it should be live because the collection is mutated through that object.
-
-Note:  It's possible that some of this advice should be reconsidered
-for <a>maplike</a> and <a>setlike</a> types,
-where iterators have reasonable behavior
-for mutation that happens during iteration.
-This point likely needs further discussion,
-and perhaps further experience of use of these types.
-
-It's also worth considering the implications of having
-live versus static objects for the speed of implementations of the API.
-When the data needed by an object are expensive to compute up-front,
-there is an advantage for that object to be live so that the results
-can be computed lazily, such as for {{Window/getComputedStyle()}}.
-On the other hand,
-if the data needed by an object are expensive to keep up-to-date,
-such as for the {{NodeList}} returned from {{ParentNode/querySelectorAll()}},
-then providing a static object avoids
-having to keep the object updated until it is garbage collected
-(which may be substantially after its last use).
-
-Likewise, the choice of live versus static objects
-can influence the memory use of an API.
-If each call of a method returns a new static object,
-and the objects are large,
-then substantial amounts of memory can be wasted
-until the next garbage collection.
-
-The choice of whether an object is live or static may also
-influence whether it should be returned
-from an attribute getter or from a method.
-See [[#attributes-like-data]].
-In particular,
-if a result that changes frequently is returned as a static object,
-it should probably be returned from a method rather than an attribute getter.
-
-<h3 id="promises">Design asynchronous APIs using promises</h3>
+<h3 id="promises">Design asynchronous APIs using Promises</h3>
 
 Asynchronous APIs should generally be designed using promises
 rather than callback functions.
@@ -559,6 +475,33 @@ For more information on how to design APIs using promises,
 and on when to use promises and when not to use promises,
 see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong>.
+
+<h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
+
+Async functions that need cancellation should take an `AbortSignal` as part
+of an options dictionary.
+
+Example:
+
+```js
+const controller = new AbortController();
+const signal = controller.signal;
+geolocation.read({ signal });
+```
+
+Reusing the same primitive everywhere has multiplicative effects throughout
+the platform. In particular, there's a common pattern of using a single
+`AbortSignal` for a bunch of ongoing operations, and then aborting them
+(with the corresponding `AbortController`) when e.g. the user presses cancel,
+or a single-page-app navigation occurs, or similar. So the minor extra
+complexity for an individual API leads to a large reduction in complexity
+when used with multiple APIs together.
+
+There might be cases where cancellation cannot be guaranteed. In these cases,
+the `AbortController` can still be used because a call to `abort()` on
+`AbortController` is a request to abort. How you react to it depends on your spec.
+Note, requestAbort() was considered in the AbortController design instead
+of abort(), but the latter was chosen for brevity.
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
@@ -622,7 +565,65 @@ on the authentication of the origin
 and the integrity of the data,
 and requires secure contexts.
 
+<h3 id="string-constants">Constants, enums, and bitmasks</h3>
+
+In many other platforms and programming languages, constants and enums are
+commonly expressed using a integer constant, sometimes in conjunction with
+a bitmask mechanism.
+
+However on the Web platform, it is more common to use a string constant for
+the cases where a constant is needed. This is much more inspection friendly
+for both development and expressing the constant codes through a user facing
+interface, and in JavaScript engines, using integers offers no significant
+performance benefit over strings.
+
+Strings do not directly address the use case for bitmasks. For these cases,
+you should use an object dictionary which contains the state that the
+bitmask is attempting to express, as object dictionaries can then be passed
+around from method to method as needed as easily as the state in a single
+bitmask value.
+
 <h2 id="event-design">Event Design</h2>
+
+<h3 id="one-time-events">Use promises for one time events</h3>
+
+Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a>
+in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
+Promise-Using Specifications</a></strong> guideline.
+
+<h3 id="dont-invent-event-like">Don't invent your own event listener-like infrastructure</h3>
+
+For recurring events, it could be convenient to create a custom pair of APIs to
+`"register"`/`"unregister"`, `"subscribe"`/`"unsubscribe"`, etc., that take a
+callback and get invoked multiple times until paired cancel API is called.
+
+Instead, use the existing event registration pattern and separate API controls
+to start/stop the underlying process (since event listeners should not have
+<a href="#events-are-for-notification">side-effects</a>).
+
+If the callback would have been provided specific data, then this data should
+be added to an `Event` object (but see <a href="#state-and-subclassing">State
+and `Event` subclasses</a> as this is not always necessary).
+
+In some cases, you can transfer the state that would be surfaced in callback
+parameters into a more persistent object which, in turn, can inherit from
+`EventTarget`.
+
+In some cases you might not have an object to inherit from `EventTarget` but
+it is usually possible to create such an object.
+
+For instance with Web Bluetooth you can add event listeners on a `Characteristic`
+object, which is obtained via `getCharacteristic()`. If you need to filter events,
+it might be possible to create a filter like
+
+```js
+const filter = navigator.nfc.createReadFilter({
+  recordType: "json"
+});
+
+const onMessage = message => { … };
+filter.addEventListener('exchange', onMessage);
+```
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
@@ -654,17 +655,79 @@ the relevant element interface(s).</p>
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
 
-Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code>dispatchEvent</code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
+Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of {{EventTarget/dispatchEvent()}}, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
 
 <h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement. If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
+A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.
 
-<h3 id="state-and-subclassing">State and Event subclasses</h3>
+If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
 
-It's tempting to create subclasses of `Event` for all event types. This is frequently unnecessary. Consider subclassing `Event` when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the `.target` object.
+<h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
 
-<h2 id="types-and-units">Types and units</h2>
+It's tempting to create subclasses of {{Event}} for all event types. This is frequently unnecessary. Consider subclassing {{Event}} when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the {{Event/target}} object.
+
+<h3 id="events-vs-observers">How to decide between Events and Observers</h3>
+
+Several recent additions to the platform employ an Observer pattern. {{MutationObserver}}, {{IntersectionObserver}}, {{ResizeObserver}}, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.
+
+Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
+
+In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
+
+Observers have the following properties:
+
+* Each instance is constructed with a callback, and optionally with some global options.
+* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
+* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
+* Observation can be customized with additional options passed to `observe()`.
+* `disconnect()` stops observation.
+* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
+
+<p class="example">
+    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
+</p>
+
+<p class="example">
+    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
+</p>
+
+Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
+
+* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
+* Reuse of their creation-time customizations on multiple targets.
+* Easy disconnection from multiple targets via `disconnect()`.
+* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
+* Because they are single-purpose, you don't need to specify an event type.
+
+`Observer`s and {{EventTarget}}s overlap in the following ways:
+
+* Both can be customized at creation time.
+* Both can batch occurrences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
+* Neither {{EventTarget}}s nor `Observer`s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, but many other events are standalone; e.g. {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that `Observer`-esque feel.
+
+<div class="example">
+    Here is an example of using a hypothetical version of {{IntersectionObserver}} that is an {{EventTarget}} subclass:
+
+    <pre highlight="js">
+    const io = new ETIntersectionObserver(element, { root, rootMargin, threshold });
+
+    function listener(e) {
+        for (const change of e.changes) {
+            // ...
+        }
+    }
+
+    io.addEventListener("intersect", listener);
+    io.removeEventListener("intersect", listener);
+    </pre>
+
+    As you can see, we've lost some functionality compared to the `Observer` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
+
+    However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
+</div>
+
+<h2 id="types-and-units">Types and Units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
@@ -763,7 +826,7 @@ or {{DOMException}}
 should be used for errors,
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">Device APIs</h2>
+<h2 id="device-apis">OS and Device Wrapper APIs</h2>
 
 It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their
@@ -774,6 +837,11 @@ accelerometer),
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
 <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
 section contains principles for consideration when designing APIs for devices.
+
+These can be functionality provided by the underlying operating system, or provided by a native
+third-party library to interact with a device. These are an abstraction which "wrap" the
+native functionality without introducing significant complexity while securing the API surface
+to the browser, hence are called wrapper APIs.
 
 <h3 id="device-ids">Use care when exposing device identifiers</h3>
 
@@ -818,8 +886,66 @@ is done in a consistent and privacy-friendly way:
      stable id during the session for the given origin, but also be able to deterministically produce
      the same id in subsequent sessions.
 
+<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
+
+Many modern operating systems come with convenience APIs, which abstract away
+normally complex technology in the form of higher level user-friendly APIs.
+
+Exposing these APIs to the web platform is getting more and more common, but you
+need to be careful when exposing these to the web platform.
+
+ : Generalize interface when underlying API is overly specific
+ :: Don't blindly map native convenience APIs 1:1 to the web platform.
+    Native APIs do not translate well to the web platform, and doing so may result
+    in a API shape which is difficult to implement across a variety of underlying
+    platforms and native libraries.
+
+    Especially be careful about exposing the exact lifecycle and data
+    structures of the underlying native APIs. Think about making an API that
+    [[#string-constants|fits well in with existing web platform APIs]] and which can be expressed in
+    commonly available low-level APIs.
+
+ : Prefer asynchronous function by returning promises
+ :: Even if the underlying API is synchronous, this does not necessarily mean it
+    translates well when ported to the web platform. Exposing a synchronous native
+    API to the web platform is generally discouraged, and should be
+    provided as a promise based API whenever possible.
+
+    Doing this also allows putting the API behind a permission if it is
+    necessary, especially if the API depends on I/O or in the future may need to
+    be isolated to a separate process.
+
+ : Don't overconstrain or overfit the API to the underlying (wrapped) OS
+ :: When designing a wrapper API, you should consider how different implementations
+    (operating systems and platforms) provide this functionality. Ideally the entire
+    specification is implementable across platforms, but in some cases it may be
+    desirable to expose distinctions made on only some platforms.
+
+    These distinctions should be clearly noted if they are known in advance.
+
+ : Do not propose black-box proprietary library or dedicated hardware processor dependencies
+ :: Black-box dependencies are strongly discouraged, as this not only prevents wide
+    implementor adoption, but is unhealthy to the open nature of the web.
+
+ : Underlying protocols should be open
+ :: APIs which require exchange with external hardware or services should not depend
+    on closed protocols.
+
+ : Be offline friendly
+ :: Web platform APIs should ideally not have a hard dependency on online services.
+    The availability of these services across different regions may vary, users
+    may be offline, and the online services have no guarantee of being always
+    available.
+
+ : Avoid additional fingerprinting surfaces
+ :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting surface.
+    Please read the TAG's finding on
+    <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
+    for additional details.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
+
+<h3 id="design-resources">Privacy, Security, Accessibility, and Internationalization</h3>
 
 It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
 Please take advantage of these other excellent resources in your design process:
@@ -828,6 +954,16 @@ Please take advantage of these other excellent resources in your design process:
 * <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
 * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
 * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
+
+<h3 id="polyfills">Polyfills</h3>
+
+Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The 
+Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
+that should be considered in the development of new features, notably:
+
+* Being "polyfillable" is not essential but <strong>is</strong> beneficial
+* [[#feature-detect]]
+* Polyfill development should be encouraged
 
 <h2 id="spec-writing">Advice on specification writing</h2>
 
