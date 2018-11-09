@@ -778,7 +778,7 @@ or costs to users of broken content if it wasn't detected).
 
 However, sequences of steps are not the only way of making the specification precise enough.
 When there are particular characteristics
-that specification authors want to ensure the specification always satisfies,
+that specification editors want to ensure the specification always satisfies,
 it may be better to use a less algorithmic way of formal specification
 that ensures these characteristics are always true.
 Developing these other ways of specifying behavior formally
@@ -798,7 +798,8 @@ so that the specification authors avoid accidentally creating more states than i
 
 When specifying in an algorithmic way,
 it is generally good to match the algorithms that implementations would use,
-even if this is somewhat less convenient for specification authors.
+even if this is somewhat less convenient for specification authors,
+as long as doing so would not significantly increase the specification's complexity.
 For example, it is better to specify CSS selector matching
 by moving right to left across <a>combinators</a>,
 since that is what implementations do.
@@ -814,6 +815,11 @@ Algorithms in specifications should also reflect best practices in programming.
 For example, they should explictly describe the inputs and outputs of the algorithm,
 rather than relying on "stack introspection" or handwaving.
 They should also avoid side-effects when possible.
+
+The Infra Standard offers
+<a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
+and terminology</a>
+for defining algorithms.
 
 Specifications that define things using step-by-step algorithms should still be readable.
 Partly, this is through good practices that also apply to writing code,
