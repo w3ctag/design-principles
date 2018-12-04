@@ -638,7 +638,7 @@ Observers involve defining a new class, dictionaries for options, and a new type
 rare that its more specific ones are actually appropriate.
 
 JavaScript has only one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.
+floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65536 before doing any further processing". That is very rarely a useful thing to do.
 
 Instead, you will want to stick with one of:
 
@@ -659,7 +659,7 @@ Instead, you will want to stick with one of:
 Additionally, you can combine any of the above with an extra line in your algorithm to validate
 that the number is within the expected domain-specific range, and throwing or performing other
 actions in response. (While it is very rarely appropriate to modify author input by taking it
-modulo 65535, it might be appropriate to take it modulo 360, for example.)
+modulo 65536, it might be appropriate to take it modulo 360, for example.)
 
 A special case of domain-specific validation, which Web IDL already has you covered for, is the
 0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in
