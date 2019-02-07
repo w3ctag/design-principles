@@ -552,8 +552,9 @@ So, if the object inherits from {{EventTarget}}, add a corresponding
 <code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
 
 <p class="note">Note that for HTML and SVG elements, it is traditional to add the
-[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface, instead of directly on
-the relevant element interface(s).</p>
+[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface mixin, instead of
+directly on the relevant element interface(s). Similarly, [=event handler IDL attributes=]
+are traditionally added to {{WindowEventHandlers}} rather than {{Window}}.</p>
 
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
