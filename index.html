@@ -2046,7 +2046,27 @@ directly on the relevant element interface(s). Similarly, <a data-link-type="dfn
    <h3 class="heading settled" data-level="3.4" id="events-are-for-notification"><span class="secno">3.4. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
    <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent">dispatchEvent()</a></code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
    <h3 class="heading settled" data-level="3.5" id="favor-asynchronous-events"><span class="secno">3.5. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
-   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.</p>
+   <p>A few events (or other kinds of notifications) in the platform
+are specified to dispatch synchronously
+within a larger algorithm that is implemented in native code.</p>
+   <p>Events that fire synchronously cause both performance and correctness bugs
+in both engines and applications
+because they can lead to
+re-entering code in ways that that code’s author did not expect,
+and because they can constrain the order in which things must happen
+and prevent optimizations.
+The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance,
+has caused many years of security issues.
+Similarly, if a <code>focus</code> event fires in the middle of the steps to change focus,
+the event handler might try to change the focus again,
+leading to confusion when the event is complete and the steps to change focus continue;
+thus it is best for the <code>focus</code> event to fire after the steps for changing focus have completed.</p>
+   <p>In general, firing events or calling callbacks should happen as part of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task">task</a> (perhaps on a regular <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue" id="ref-for-dfn-service-worker-registration-task-queue">task queue</a>, or a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask" id="ref-for-microtask">microtask</a> queue, etc.).</p>
+   <p>In some cases,
+particularly when large numbers of (or a high rate of) events
+might cause a performance problem,
+the approach embodied in <a href="https://developer.mozilla.org/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way
+which is easier to develop with and implement.</p>
    <p>If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
    <h3 class="heading settled" data-level="3.6" id="state-and-subclassing"><span class="secno">3.6. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
    <p>It’s tempting to create subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> for all event types. This is frequently unnecessary. Consider subclassing <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
@@ -2795,6 +2815,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-attr-img-ismap">2.5. Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-microtask">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask">https://html.spec.whatwg.org/multipage/webappapis.html#microtask</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-microtask">3.5. Favor asynchronous events</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-open">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open">https://html.spec.whatwg.org/multipage/window-object.html#dom-open</a><b>Referenced in:</b>
    <ul>
@@ -2813,6 +2839,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-reflect">2.5. Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-task">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task">https://html.spec.whatwg.org/multipage/webappapis.html#concept-task</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-task">3.5. Favor asynchronous events</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idbdatabase">
    <a href="https://w3c.github.io/IndexedDB/#idbdatabase">https://w3c.github.io/IndexedDB/#idbdatabase</a><b>Referenced in:</b>
    <ul>
@@ -2823,6 +2855,12 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://drafts.csswg.org/selectors-4/#selector-combinator">https://drafts.csswg.org/selectors-4/#selector-combinator</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-selector-combinator">7.2. Specify clearly enough so that algorithms are unambiguous</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-service-worker-registration-task-queue">
+   <a href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue">https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-service-worker-registration-task-queue">3.5. Favor asynchronous events</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mouseevent">
@@ -2956,9 +2994,11 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-dom-img-ismap" style="color:initial">isMap</span>
      <li><span class="dfn-paneled" id="term-for-attr-img-ismap" style="color:initial">ismap</span>
+     <li><span class="dfn-paneled" id="term-for-microtask" style="color:initial">microtask</span>
      <li><span class="dfn-paneled" id="term-for-dom-open" style="color:initial">open()</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-concept-task" style="color:initial">task</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
@@ -2969,6 +3009,11 @@ so that readers can quickly decide whether they need to read the steps in detail
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-selector-combinator" style="color:initial">combinator</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[service-workers-1]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dfn-service-worker-registration-task-queue" style="color:initial">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[uievents]</a> defines the following terms:
@@ -3020,6 +3065,8 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
    <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors/">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors/">https://drafts.csswg.org/selectors/</a>
+   <dt id="biblio-service-workers-1">[SERVICE-WORKERS-1]
+   <dd>Alex Russell; et al. <a href="https://w3c.github.io/ServiceWorker/">Service Workers 1</a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
