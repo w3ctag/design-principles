@@ -660,38 +660,42 @@ Instead, you will want to stick with one of:
   : <code>bigint</code>
   :: When the possible integer values range more broadly than JavaScript numbers can accurately represent
 
-Additionally, you can combine any of the above with an extra line in your algorithm to validate
-that the number is within the expected domain-specific range, and throwing or performing other
-actions in response. (While it is very rarely appropriate to modify author input by taking it
-modulo 65536, it might be appropriate to take it modulo 360, for example.)
+Additionally, you can combine any of the above with an extra line in your
+algorithm to validate that the number is within the expected domain-specific
+range, and throwing or performing other actions in response. (While it is very
+rarely appropriate to modify author input by taking it modulo 65536, it might be appropriate to take it modulo 360, for example.)
 
-A special case of domain-specific validation, which Web IDL already has you covered for, is the
-0–255 range. This can be written as <code>[EnforceRange] octet</code>: any JavaScript number in
-the range 0–255, throwing a <code highlight="js">TypeError</code> outside the range and rounding inside of it.
-(And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for
-your domain, such that you want the modulo or range-checking behavior, feel free to use them.)
+A special case of domain-specific validation, which Web IDL already has you
+covered for, is the 0–255 range. This can be written as <code>[EnforceRange]
+octet</code>: any JavaScript number in the range 0–255, throwing a <code
+highlight="js">TypeError</code> outside the range and rounding inside of it.
+(And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for your domain, such that you want the modulo or range-checking behavior, feel free to use them.)
 
 <div class="note">
-Those coming from other languages should carefully note that despite their names,
-<code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and
-not 64.
+Those coming from other languages should carefully note that despite their
+names, <code>long long</code> and <code>unsigned long long</code> only have 53
+bits of precision, and not 64.
 </div>
 
-<code>bigint</code> is recommended to be used <em>only</em> in circumstances where a <code>[EnforceRange] long long</code>
-or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when values
-greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In particular, APIs should not use the <code>bigint</code>
-type simply because the input is an integer&mdash;<code>bigint</code> is for big integers (hence the name!).
+<code>bigint</code> is recommended to be used <em>only</em> in circumstances
+where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned
+long long</code> would not work in terms of expressivity: that is, only when
+values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In particular, APIs should not use the <code>bigint</code> type simply because
+the input is an integer&mdash;<code>bigint</code> is for big integers (hence the name!).
 
-Transparent support for inputs being either JavaScript Number of BigInt types is discouraged, unless there is a
-domain-specific requirement to support it. As far as ergonomics, JavaScript developers are expected to keep track
-of whether their values are Numbers or BigInts. Sloppiness or implicit conversions here could lead to a loss of
-precision, defeating the purpose of using BigInt.
+Transparent support for inputs being either JavaScript Number of BigInt types
+is discouraged, unless there is a domain-specific requirement to support it.
+As far as ergonomics, JavaScript developers are expected to keep track of whether their values are Numbers or BigInts. Sloppiness or implicit
+conversions here could lead to a loss of precision, defeating the purpose
+of using BigInt.
+
+Further, try to resist doubling up the surface area of an API in order to provide both `BigInt` and `Number` variants of an API. As an API designer, consider it your job to chose the correct numeric type for the feature being exposed.
 
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
-Any web API that accepts a time measurement should do so in milliseconds. This is a tradition
-stemming from <code highlight="js">setTimeout</code> and the <code highlight="js">Date</code> API, and carried through since
-then.
+Any web API that accepts a time measurement should do so in milliseconds. This
+is a tradition stemming from <code highlight="js">setTimeout</code> and the
+<code highlight="js">Date</code> API, and carried through since then.
 
 Even if seconds (or some other unit) are more natural in the domain of an API, sticking with
 milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with
@@ -874,7 +878,7 @@ Please take advantage of these other excellent resources in your design process:
 
 <h3 id="polyfills">Polyfills</h3>
 
-Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The 
+Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The
 Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
 that should be considered in the development of new features, notably:
 
