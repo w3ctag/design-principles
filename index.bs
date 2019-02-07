@@ -18,9 +18,13 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:html; type:dfn; for:/; text:browsing context
+spec:webidl; type:dfn; text:namespace
+spec:webidl; type:extended-attribute; text:Constructor
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
+url: https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto; type: interface; text: Crypto
+url: https://w3c.github.io/touch-events/#idl-def-touchevent; type: interface; text: TouchEvent
 url: https://w3c.github.io/IntersectionObserver/;
     type: interface; text: IntersectionObserver; url: #intersectionobserver
     type: interface; text: IntersectionObserverEntry; url: #intersectionobserverentry
@@ -352,6 +356,99 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
+<h3 id="constructors">Classes should have constructors when possible</h3>
+
+By default, [[!WEBIDL]] interfaces are reified in JavaScript as "non-constructible" classes: trying
+to create instances of them using the normal pattern in JavaScript, `new X()`, will throw a
+{{TypeError}}. This is a poor experience for JavaScript developers, and doesn't match the design of
+most of the JavaScript standard library or of the classes JavaScript developers themselves create.
+
+From a naive perspective, it's not even coherent: how can instances of this thing ever exist, if
+they can't be constructed? The answer is that the platform has magic powers: it can create instances
+of Web IDL-derived classes without ever actually calling their constructor.
+
+You should strive to reduce such magic in designing your own APIs, and give them constructors which
+allow JavaScript developers to create them, just like the platform does. This means adding an
+appropriate [{{Constructor}}] extended attribute to your interface, and defining the algorithm for
+creating new instances of your class.
+
+Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
+create instances of the class for their own purposes, such as testing, mocking, or interfacing with
+third-party libraries which accept instances of that class. Additionally, because of how
+JavaScript's class design works, it is only possible to create a subclass of the class if it is
+constructible.
+
+Sometimes this isn't the right answer: for example, some objects essentially wrap handles to
+privileged resources, and it isn't reasonable to create some representation of that privileged
+resource in JavaScript so that you can pass it to the constructor. Or the object's lifecycle needs
+to be very carefully controlled, so that creating new ones is only possible through privileged
+operations. Or the interface represents an abstract base class for which it doesn't make sense to
+construct an instance, or create an author-defined subclass. But cases like these should be the
+exception, not the norm.
+
+<p class="example">The {{Event}} class, and all its derived interfaces, are constructible. This
+allows JavaScript developers to synthesize instances of them, which can be useful in testing or
+shimming scenarios. For example, a library designed for {{MouseEvent}} instances can still be used
+by another library that accepts as input {{TouchEvent}} instances, by writing a small bit of adapter
+code that creates synthetic {{MouseEvent}}s.</p>
+
+<p class="example">The {{DOMTokenList}} class is, very unfortunately, <a
+href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>. This prevents the
+creation of <a>custom elements</a> that expose their token list attributes as {{DOMTokenList}}s.</p>
+
+<p class="example">No HTML elements are constructible. This is largely due to some unfortunate
+design decisions that <a href="https://github.com/whatwg/html/issues/896">would take some effort to
+work around</a>. In the meantime, for the purposes of the <a>customized built-in elements</a>
+feature, they have been made subclassable through a specifically-designed one-off solution: the
+[{{HTMLConstructor}}] extended attribute.</p>
+
+<p class="example">The {{Window}} class is not constructible, because creating a new window is a
+privileged operation with significant side effects. Instead, the {{window/open()|window.open()}}
+method is used to create new windows.</p>
+
+<p class="example">The {{ImageBitmap}} class is not constructible, as it represents an immutable,
+ready-to-paint bitmap image, and the process of getting it ready to paint must be done
+asynchronously. Instead, the {{createImageBitmap()}} method is used to create it.</p>
+
+<p class="example">Several non-constructible classes, like {{Navigator}}, {{History}}, or
+{{Crypto}}, are non-constructible because they are singletons representing access to per-window
+information. In these cases, the Web IDL <a>namespace</a> feature or some evolution of it might have
+been a better fit, but they were designed before namespaces existed, and somewhat exceed the current
+capabilities of namespaces. If you're designing a new singleton, strongly consider using a
+<a>namespace</a> instead of a non-constructible class; if namespaces don't yet have enough
+capabilities, <a href="https://github.com/heycam/webidl/issues/new">file an issue on Web IDL</a> to
+discuss.</p>
+
+<div class="note">
+    <p>For any JavaScript developers still incredulous that it is possible to create an instance of
+    a non-constructible class, we provide the following code example:</p>
+
+    <pre highlight="js">
+        const secret = {};
+
+        class NonConstructible {
+            constructor(theSecret = undefined) {
+                if (theSecret !== secret) {
+                    throw new TypeError("Illegal constructor.");
+                }
+
+                // Set up the object.
+            }
+        }
+    </pre>
+
+    <p>If the author of this code never exposes the `secret` variable to the outside world, they can
+    reserve the ability to create instances of `NonConstructible` for themself: they can always do
+    <code highlight="js">const instance = new NonConstructible(secret)</code>. But the outside world
+    can never successfully "guess" the secret, and thus will always receive a {{TypeError}} when
+    trying to construct an instance of `NonConstructible`.</p>
+
+    <p>From this perspective, what browsers are doing when they create non-constructible classes
+    isn't magic: it's just very tricky. The above section is aimed at urging browsers to avoid such
+    tricks (or their equivalents in C++/Rust/etc.) whenever reasonable.</p>
+</div>
+
+
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
 Asynchronous APIs should generally be designed using promises
@@ -577,6 +674,33 @@ Several recent additions to the platform employ an Observer pattern. {{MutationO
 
 Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
 
+
+In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
+
+Observers have the following properties:
+
+* Each instance is constructed with a callback, and optionally with some global options.
+* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
+* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
+* Observation can be customized with additional options passed to `observe()`.
+* `disconnect()` stops observation.
+* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
+
+<p class="example">
+    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
+</p>
+
+<p class="example">
+    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
+</p>
+
+Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
+
+* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
+* Reuse of their creation-time customizations on multiple targets.
+* Easy disconnection from multiple targets via `disconnect()`.
+* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
+* Because they are single-purpose, you don't need to specify an event type.
 In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
 
 Observers have the following properties:
