@@ -678,8 +678,8 @@ not 64.
 </div>
 
 <code>bigint</code> is recommended to be used <em>only</em> in circumstances where a <code>[EnforceRange] long long</code>
-or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when the value
-ranges greater than 2<sup>53</sup> or less than -2<sup>53</sup>. In particular, APIs should not use the <code>bigint</code>
+or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when values
+greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In particular, APIs should not use the <code>bigint</code>
 type simply because the input is an integer&mdash;<code>bigint</code> is for big integers (hence the name!).
 
 Transparent support for inputs being either JavaScript Number of BigInt types is discouraged, unless there is a
