@@ -151,7 +151,7 @@ in the language where it is used
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
+[[!WEBIDL]] attributes are represented in JavaScript as accessor properties, i.e. properties with
 separate getter and setter functions which can react independently. This is in contrast to the
 "default" style of JavaScript properties, data properties, which do not have configurable behavior
 but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
@@ -358,7 +358,7 @@ is more readable than
 
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
-By default, [[!WEBIDL]] interfaces are reified in JavaScript as "non-constructible" classes: trying
+By default, [[!WEBIDL]] interfaces are represented in JavaScript as "non-constructible" classes: trying
 to create instances of them using the normal pattern in JavaScript, `new X()`, will throw a
 {{TypeError}}. This is a poor experience for JavaScript developers, and doesn't match the design of
 most of the JavaScript standard library or of the classes JavaScript developers themselves create.
