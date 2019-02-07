@@ -1523,12 +1523,13 @@ Parts of this work may be from another specification document.  If so, those par
      <a href="#event-design"><span class="secno">3</span> <span class="content">Event Design</span></a>
      <ol class="toc">
       <li><a href="#one-time-events"><span class="secno">3.1</span> <span class="content">Use promises for one time events</span></a>
-      <li><a href="#dont-invent-event-like"><span class="secno">3.2</span> <span class="content">Don’t invent your own event listener-like infrastructure</span></a>
-      <li><a href="#always-add-event-handlers"><span class="secno">3.3</span> <span class="content">Always add event handler attributes</span></a>
-      <li><a href="#events-are-for-notification"><span class="secno">3.4</span> <span class="content">Events are for notification</span></a>
-      <li><a href="#favor-asynchronous-events"><span class="secno">3.5</span> <span class="content">Favor asynchronous events</span></a>
-      <li><a href="#state-and-subclassing"><span class="secno">3.6</span> <span class="content">State and <code class="idl"><span>Event</span></code> subclasses</span></a>
-      <li><a href="#events-vs-observers"><span class="secno">3.7</span> <span class="content">How to decide between Events and Observers</span></a>
+      <li><a href="#promises-and-events"><span class="secno">3.2</span> <span class="content">Events should fire before promises resolve</span></a>
+      <li><a href="#dont-invent-event-like"><span class="secno">3.3</span> <span class="content">Don’t invent your own event listener-like infrastructure</span></a>
+      <li><a href="#always-add-event-handlers"><span class="secno">3.4</span> <span class="content">Always add event handler attributes</span></a>
+      <li><a href="#events-are-for-notification"><span class="secno">3.5</span> <span class="content">Events are for notification</span></a>
+      <li><a href="#favor-asynchronous-events"><span class="secno">3.6</span> <span class="content">Favor asynchronous events</span></a>
+      <li><a href="#state-and-subclassing"><span class="secno">3.7</span> <span class="content">State and <code class="idl"><span>Event</span></code> subclasses</span></a>
+      <li><a href="#events-vs-observers"><span class="secno">3.8</span> <span class="content">How to decide between Events and Observers</span></a>
      </ol>
     <li>
      <a href="#types-and-units"><span class="secno">4</span> <span class="content">Types and Units</span></a>
@@ -1656,7 +1657,7 @@ but in some cases the feature should also be detectable
 in the language where it is used
 (such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a> in CSS).</p>
    <h3 class="heading settled" data-level="2.3" id="attributes-like-data"><span class="secno">2.3. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes are represented in JavaScript as accessor properties, i.e. properties with
+   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes are reified in JavaScript as accessor properties, i.e. properties with
 separate getter and setter functions which can react independently. This is in contrast to the
 "default" style of JavaScript properties, data properties, which do not have configurable behavior
 but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
@@ -1814,7 +1815,7 @@ or “private” versus “public”.</p>
 of difficult to understand sequences of parameters.
 For example, <code class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mi>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mi>0</c-> <c- p>})</c-></code> is more readable than <code class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mi>50</c-><c- p>,</c-> <c- mi>0</c-><c- p>)</c-></code>.</p>
    <h3 class="heading settled" data-level="2.7" id="constructors"><span class="secno">2.7. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
-   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are represented in JavaScript as "non-constructible" classes: trying
+   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are reified in JavaScript as "non-constructible" classes: trying
 to create instances of them using the normal pattern in JavaScript, <code>new X()</code>, will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>. This is a poor experience for JavaScript developers, and doesn’t match the design of
 most of the JavaScript standard library or of the classes JavaScript developers themselves create.</p>
    <p>From a naive perspective, it’s not even coherent: how can instances of this thing ever exist, if
@@ -1997,7 +1998,11 @@ bitmask value.</p>
    <h3 class="heading settled" data-level="3.1" id="one-time-events"><span class="secno">3.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong> guideline.</p>
-   <h3 class="heading settled" data-level="3.2" id="dont-invent-event-like"><span class="secno">3.2. </span><span class="content">Don’t invent your own event listener-like infrastructure</span><a class="self-link" href="#dont-invent-event-like"></a></h3>
+   <h3 class="heading settled" data-level="3.2" id="promises-and-events"><span class="secno">3.2. </span><span class="content">Events should fire before promises resolve</span><a class="self-link" href="#promises-and-events"></a></h3>
+   <p>In the case that an event is being dispatched as part of a promise being
+resolved, then the event should be dispatched before the promise resolves, rather
+than after.</p>
+   <h3 class="heading settled" data-level="3.3" id="dont-invent-event-like"><span class="secno">3.3. </span><span class="content">Don’t invent your own event listener-like infrastructure</span><a class="self-link" href="#dont-invent-event-like"></a></h3>
    <p>For recurring events, it could be convenient to create a custom pair of APIs to <code>"register"</code>/<code>"unregister"</code>, <code>"subscribe"</code>/<code>"unsubscribe"</code>, etc., that take a
 callback and get invoked multiple times until paired cancel API is called.</p>
    <p>Instead, use the existing event registration pattern and separate API controls
@@ -2018,7 +2023,7 @@ it might be possible to create a filter like</p>
 <c- kr>const</c-> onMessage <c- o>=</c-> message <c- p>=></c-> <c- p>{</c-> … <c- p>};</c->
 filter<c- p>.</c->addEventListener<c- p>(</c-><c- t>'exchange'</c-><c- p>,</c-> onMessage<c- p>);</c->
 </pre>
-   <h3 class="heading settled" data-level="3.3" id="always-add-event-handlers"><span class="secno">3.3. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
+   <h3 class="heading settled" data-level="3.4" id="always-add-event-handlers"><span class="secno">3.4. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
    <p>For an object that inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code>, there are two techniques available for registering
 an event handler (e.g., an event named "somethingchanged"):</p>
    <ol>
@@ -2043,34 +2048,14 @@ important to continue to define event handler IDL attributes because:</p>
    <p>So, if the object inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code>, add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attribute</a> to the interface.</p>
    <p class="note" role="note">Note that for HTML and SVG elements, it is traditional to add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin, instead of
 directly on the relevant element interface(s). Similarly, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes③">event handler IDL attributes</a> are traditionally added to <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers" id="ref-for-windoweventhandlers">WindowEventHandlers</a></code> rather than <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window①">Window</a></code>.</p>
-   <h3 class="heading settled" data-level="3.4" id="events-are-for-notification"><span class="secno">3.4. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
+   <h3 class="heading settled" data-level="3.5" id="events-are-for-notification"><span class="secno">3.5. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
    <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent">dispatchEvent()</a></code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
-   <h3 class="heading settled" data-level="3.5" id="favor-asynchronous-events"><span class="secno">3.5. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
-   <p>A few events (or other kinds of notifications) in the platform
-are specified to dispatch synchronously
-within a larger algorithm that is implemented in native code.</p>
-   <p>Events that fire synchronously cause both performance and correctness bugs
-in both engines and applications
-because they can lead to
-re-entering code in ways that that code’s author did not expect,
-and because they can constrain the order in which things must happen
-and prevent optimizations.
-The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance,
-has caused many years of security issues.
-Similarly, if a <code>focus</code> event fires in the middle of the steps to change focus,
-the event handler might try to change the focus again,
-leading to confusion when the event is complete and the steps to change focus continue;
-thus it is best for the <code>focus</code> event to fire after the steps for changing focus have completed.</p>
-   <p>In general, firing events or calling callbacks should happen as part of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task">task</a> (perhaps on a regular <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue" id="ref-for-dfn-service-worker-registration-task-queue">task queue</a>, or a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask" id="ref-for-microtask">microtask</a> queue, etc.).</p>
-   <p>In some cases,
-particularly when large numbers of (or a high rate of) events
-might cause a performance problem,
-the approach embodied in <a href="https://developer.mozilla.org/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way
-which is easier to develop with and implement.</p>
+   <h3 class="heading settled" data-level="3.6" id="favor-asynchronous-events"><span class="secno">3.6. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
+   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.</p>
    <p>If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
-   <h3 class="heading settled" data-level="3.6" id="state-and-subclassing"><span class="secno">3.6. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <h3 class="heading settled" data-level="3.7" id="state-and-subclassing"><span class="secno">3.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
    <p>It’s tempting to create subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> for all event types. This is frequently unnecessary. Consider subclassing <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
-   <h3 class="heading settled" data-level="3.7" id="events-vs-observers"><span class="secno">3.7. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
+   <h3 class="heading settled" data-level="3.8" id="events-vs-observers"><span class="secno">3.8. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
    <p>Several recent additions to the platform employ an Observer pattern. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/">IntersectionObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://wicg.github.io/ResizeObserver/" id="ref-for-https://wicg.github.io/ResizeObserver/">ResizeObserver</a></code>, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.</p>
    <p>Many designs can be described as either Observers or <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget③">EventTarget</a></code>s. How to decide?</p>
    <p>In general, start your design process using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget④">EventTarget</a></code> and only move to Observers if and when events can’t be made to work well. Using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code> ensures your feature benefits from improvements to the shared base class, such as the recent addition of the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once" id="ref-for-dom-addeventlisteneroptions-once">once</a></code>.</p>
@@ -2616,45 +2601,45 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-element">
    <a href="https://dom.spec.whatwg.org/#element">https://dom.spec.whatwg.org/#element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-element">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-element">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event">
    <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-event">2.7. Classes should have constructors when possible</a>
-    <li><a href="#ref-for-event①">3.6. State and Event subclasses</a> <a href="#ref-for-event②">(2)</a> <a href="#ref-for-event③">(3)</a>
+    <li><a href="#ref-for-event①">3.7. State and Event subclasses</a> <a href="#ref-for-event②">(2)</a> <a href="#ref-for-event③">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventtarget">
    <a href="https://dom.spec.whatwg.org/#eventtarget">https://dom.spec.whatwg.org/#eventtarget</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-eventtarget">3.3. Always add event handler attributes</a> <a href="#ref-for-eventtarget①">(2)</a> <a href="#ref-for-eventtarget②">(3)</a>
-    <li><a href="#ref-for-eventtarget③">3.7. How to decide between Events and Observers</a> <a href="#ref-for-eventtarget④">(2)</a> <a href="#ref-for-eventtarget⑤">(3)</a> <a href="#ref-for-eventtarget⑥">(4)</a> <a href="#ref-for-eventtarget⑦">(5)</a> <a href="#ref-for-eventtarget⑧">(6)</a> <a href="#ref-for-eventtarget⑨">(7)</a> <a href="#ref-for-eventtarget①⓪">(8)</a> <a href="#ref-for-eventtarget①①">(9)</a>
+    <li><a href="#ref-for-eventtarget">3.4. Always add event handler attributes</a> <a href="#ref-for-eventtarget①">(2)</a> <a href="#ref-for-eventtarget②">(3)</a>
+    <li><a href="#ref-for-eventtarget③">3.8. How to decide between Events and Observers</a> <a href="#ref-for-eventtarget④">(2)</a> <a href="#ref-for-eventtarget⑤">(3)</a> <a href="#ref-for-eventtarget⑥">(4)</a> <a href="#ref-for-eventtarget⑦">(5)</a> <a href="#ref-for-eventtarget⑧">(6)</a> <a href="#ref-for-eventtarget⑨">(7)</a> <a href="#ref-for-eventtarget①⓪">(8)</a> <a href="#ref-for-eventtarget①①">(9)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mutationobserver">
    <a href="https://dom.spec.whatwg.org/#mutationobserver">https://dom.spec.whatwg.org/#mutationobserver</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-mutationobserver">3.7. How to decide between Events and Observers</a> <a href="#ref-for-mutationobserver①">(2)</a>
+    <li><a href="#ref-for-mutationobserver">3.8. How to decide between Events and Observers</a> <a href="#ref-for-mutationobserver①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dictdef-mutationobserverinit">
    <a href="https://dom.spec.whatwg.org/#dictdef-mutationobserverinit">https://dom.spec.whatwg.org/#dictdef-mutationobserverinit</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dictdef-mutationobserverinit">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dictdef-mutationobserverinit">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mutationrecord">
    <a href="https://dom.spec.whatwg.org/#mutationrecord">https://dom.spec.whatwg.org/#mutationrecord</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-mutationrecord">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-mutationrecord">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-node">
    <a href="https://dom.spec.whatwg.org/#node">https://dom.spec.whatwg.org/#node</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-node">3.7. How to decide between Events and Observers</a> <a href="#ref-for-node①">(2)</a> <a href="#ref-for-node②">(3)</a>
+    <li><a href="#ref-for-node">3.8. How to decide between Events and Observers</a> <a href="#ref-for-node①">(2)</a> <a href="#ref-for-node②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-nodelist">
@@ -2666,14 +2651,14 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-addeventlistener">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener">3.3. Always add event handler attributes</a> <a href="#ref-for-dom-eventtarget-addeventlistener①">(2)</a>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener②">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener">3.4. Always add event handler attributes</a> <a href="#ref-for-dom-eventtarget-addeventlistener①">(2)</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener②">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-dispatchevent">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent">https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-eventtarget-dispatchevent">3.4. Events are for notification</a>
+    <li><a href="#ref-for-dom-eventtarget-dispatchevent">3.5. Events are for notification</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-document-getelementsbytagname">
@@ -2685,7 +2670,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-dom-addeventlisteneroptions-once">
    <a href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once">https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-addeventlisteneroptions-once">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dom-addeventlisteneroptions-once">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-parentnode-queryselectorall">
@@ -2697,7 +2682,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-dom-event-target">
    <a href="https://dom.spec.whatwg.org/#dom-event-target">https://dom.spec.whatwg.org/#dom-event-target</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-event-target">3.6. State and Event subclasses</a>
+    <li><a href="#ref-for-dom-event-target">3.7. State and Event subclasses</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
@@ -2709,7 +2694,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-globaleventhandlers">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers">https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-globaleventhandlers">3.3. Always add event handler attributes</a>
+    <li><a href="#ref-for-globaleventhandlers">3.4. Always add event handler attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-htmlconstructor">
@@ -2752,13 +2737,13 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-window">2.7. Classes should have constructors when possible</a>
-    <li><a href="#ref-for-window①">3.3. Always add event handler attributes</a>
+    <li><a href="#ref-for-window①">3.4. Always add event handler attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-windoweventhandlers">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers">https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-windoweventhandlers">3.3. Always add event handler attributes</a>
+    <li><a href="#ref-for-windoweventhandlers">3.4. Always add event handler attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-browsing-context">
@@ -2788,7 +2773,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-event-handler-idl-attributes">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes">https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-handler-idl-attributes">3.3. Always add event handler attributes</a> <a href="#ref-for-event-handler-idl-attributes①">(2)</a> <a href="#ref-for-event-handler-idl-attributes②">(3)</a> <a href="#ref-for-event-handler-idl-attributes③">(4)</a>
+    <li><a href="#ref-for-event-handler-idl-attributes">3.4. Always add event handler attributes</a> <a href="#ref-for-event-handler-idl-attributes①">(2)</a> <a href="#ref-for-event-handler-idl-attributes②">(3)</a> <a href="#ref-for-event-handler-idl-attributes③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-img-element">
@@ -2815,12 +2800,6 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-attr-img-ismap">2.5. Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-microtask">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask">https://html.spec.whatwg.org/multipage/webappapis.html#microtask</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-microtask">3.5. Favor asynchronous events</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-open">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open">https://html.spec.whatwg.org/multipage/window-object.html#dom-open</a><b>Referenced in:</b>
    <ul>
@@ -2839,28 +2818,16 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-reflect">2.5. Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-task">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task">https://html.spec.whatwg.org/multipage/webappapis.html#concept-task</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-task">3.5. Favor asynchronous events</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-idbdatabase">
    <a href="https://w3c.github.io/IndexedDB/#idbdatabase">https://w3c.github.io/IndexedDB/#idbdatabase</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idbdatabase">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-idbdatabase">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-selector-combinator">
    <a href="https://drafts.csswg.org/selectors-4/#selector-combinator">https://drafts.csswg.org/selectors-4/#selector-combinator</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-selector-combinator">7.2. Specify clearly enough so that algorithms are unambiguous</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-service-worker-registration-task-queue">
-   <a href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue">https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-service-worker-registration-task-queue">3.5. Favor asynchronous events</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mouseevent">
@@ -2933,7 +2900,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-xmlhttprequesteventtarget">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget">https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequesteventtarget">3.7. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-xmlhttprequesteventtarget">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2994,11 +2961,9 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-dom-img-ismap" style="color:initial">isMap</span>
      <li><span class="dfn-paneled" id="term-for-attr-img-ismap" style="color:initial">ismap</span>
-     <li><span class="dfn-paneled" id="term-for-microtask" style="color:initial">microtask</span>
      <li><span class="dfn-paneled" id="term-for-dom-open" style="color:initial">open()</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
-     <li><span class="dfn-paneled" id="term-for-concept-task" style="color:initial">task</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
@@ -3009,11 +2974,6 @@ so that readers can quickly decide whether they need to read the steps in detail
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-selector-combinator" style="color:initial">combinator</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[service-workers-1]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-dfn-service-worker-registration-task-queue" style="color:initial">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[uievents]</a> defines the following terms:
@@ -3065,8 +3025,6 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
    <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors/">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors/">https://drafts.csswg.org/selectors/</a>
-   <dt id="biblio-service-workers-1">[SERVICE-WORKERS-1]
-   <dd>Alex Russell; et al. <a href="https://w3c.github.io/ServiceWorker/">Service Workers 1</a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
