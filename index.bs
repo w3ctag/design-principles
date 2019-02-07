@@ -124,7 +124,7 @@ prefixed with <code>is</code> to be consistent with the rest of the platform.
 
 The name should not be directly associated with a brand or specific revision of
 the underlying technology whenever possible; technology becomes obsolete, but
-since removing APIs from the web is difficult naming should be generic and
+since removing APIs from the web is difficult, naming should be generic and
 future-proof whenever possible.
 
 <h3 id="feature-detect">New features should be detectable</h3>
