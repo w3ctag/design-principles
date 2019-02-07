@@ -2059,6 +2059,9 @@ floating point, including ±0, ±Infinity, and NaN (although thankfully only one
     <dt data-md><code>[EnforceRange] unsigned long long</code>
     <dd data-md>
      <p>Any nonnegative JavaScript number in the integer-representable range, throwing a <code class="highlight">TypeError</code> outside the range and rounding inside of it</p>
+    <dt data-md><code>bigint</code>
+    <dd data-md>
+     <p>When the possible integer values range more broadly than JavaScript numbers can accurately represent</p>
    </dl>
    <p>Additionally, you can combine any of the above with an extra line in your algorithm to validate
 that the number is within the expected domain-specific range, and throwing or performing other
@@ -2071,6 +2074,12 @@ the range 0–255, throwing a <code class="highlight">TypeError</code> outside t
 your domain, such that you want the modulo or range-checking behavior, feel free to use them.)</p>
    <div class="note" role="note"> Those coming from other languages should carefully note that despite their names, <code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and
 not 64. </div>
+   <p><code>bigint</code> is recommended to be used <em>only</em> in circumstances where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when the value
+ranges greater than 2<sup>53</sup> or less than -2<sup>53</sup>. In particular, APIs should not use the <code>bigint</code> type simply because the input is an integer—<code>bigint</code> is for big integers (hence the name!).</p>
+   <p>Transparent support for inputs being either JavaScript Number of BigInt types is discouraged, unless there is a
+domain-specific requirement to support it. As far as ergonomics, JavaScript developers are expected to keep track
+of whether their values are Numbers or BigInts. Sloppiness or implicit conversions here could lead to a loss of
+precision, defeating the purpose of using BigInt.</p>
    <h3 class="heading settled" data-level="4.2" id="milliseconds"><span class="secno">4.2. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
    <p>Any web API that accepts a time measurement should do so in milliseconds. This is a tradition
 stemming from <code class="highlight">setTimeout</code> and the <code class="highlight">Date</code> API, and carried through since
