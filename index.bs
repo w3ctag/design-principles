@@ -660,7 +660,32 @@ Try to design DOM events to deliver after-the-fact notifications of changes. It 
 
 <h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.
+A few events (or other kinds of notifications) in the platform
+are specified to dispatch synchronously
+within a larger algorithm that is implemented in native code.
+
+Events that fire synchronously cause both performance and correctness bugs
+in both engines and applications
+because they can lead to
+re-entering code in ways that that code's author did not expect,
+and because they can constrain the order in which things must happen
+and prevent optimizations.
+The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance,
+has caused many years of security issues.
+Similarly, if a `focus` event fires in the middle of the steps to change focus,
+the event handler might try to change the focus again,
+leading to confusion when the event is complete and the steps to change focus continue;
+thus it is best for the `focus` event to fire after the steps for changing focus have completed.
+
+In general, firing events or calling callbacks should happen as part of a <a>task</a>
+(perhaps on a regular <a>task queue</a>, or a <a>microtask</a> queue, etc.).
+
+In some cases,
+particularly when large numbers of (or a high rate of) events
+might cause a performance problem,
+the approach embodied in [Mutation Observers](https://developer.mozilla.org/docs/Web/API/MutationObserver)
+addresses most of the same use-cases in a higher-performance way
+which is easier to develop with and implement.
 
 If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
 
