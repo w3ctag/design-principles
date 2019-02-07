@@ -403,7 +403,7 @@ feature, they have been made subclassable through a specifically-designed one-of
 [{{HTMLConstructor}}] extended attribute.</p>
 
 <p class="example">The {{Window}} class is not constructible, because creating a new window is a
-privileged operation with significant side effects. Instead, the {{window/open()|window.open()}}
+privileged operation with significant side effects. Instead, the {{Window/open|window.open()}}
 method is used to create new windows.</p>
 
 <p class="example">The {{ImageBitmap}} class is not constructible, as it represents an immutable,
@@ -674,33 +674,6 @@ Several recent additions to the platform employ an Observer pattern. {{MutationO
 
 Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
 
-
-In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
-
-Observers have the following properties:
-
-* Each instance is constructed with a callback, and optionally with some global options.
-* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
-* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
-* Observation can be customized with additional options passed to `observe()`.
-* `disconnect()` stops observation.
-* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
-
-<p class="example">
-    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
-</p>
-
-<p class="example">
-    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
-</p>
-
-Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
-
-* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
-* Reuse of their creation-time customizations on multiple targets.
-* Easy disconnection from multiple targets via `disconnect()`.
-* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
-* Because they are single-purpose, you don't need to specify an event type.
 In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
 
 Observers have the following properties:
