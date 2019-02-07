@@ -689,7 +689,10 @@ As far as ergonomics, JavaScript developers are expected to keep track of whethe
 conversions here could lead to a loss of precision, defeating the purpose
 of using BigInt.
 
-Further, try to resist doubling up the surface area of an API in order to provide both `BigInt` and `Number` variants of an API. As an API designer, consider it your job to chose the correct numeric type for the feature being exposed.
+Further, try to resist doubling up the surface area of an API in order to
+provide both `BigInt` and `Number` variants of an API. As an API designer,
+consider it your job to chose the correct numeric type for the feature being
+exposed.
 
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
