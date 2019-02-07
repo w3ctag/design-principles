@@ -1212,7 +1212,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 30dbdcf66519991ec52011cac10c49a7b5b449c5" name="generator">
+  <meta content="Bikeshed version d76ab51ece93be5af3a1621c820b89fd4f9cc432" name="generator">
 <style>
     table.data {
         text-align: left;
@@ -1465,7 +1465,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2018-11-09">9 November 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-02-06">6 February 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt class="editor">Editors:
@@ -1483,7 +1483,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 9 November 2018,
+In addition, as of 6 February 2019,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2044,7 +2044,7 @@ io<c- p>.</c->removeEventListener<c- p>(</c-><c- u>"intersect"</c-><c- p>,</c-> 
    <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> contains many numeric types. However, it is very
 rare that its more specific ones are actually appropriate.</p>
    <p>JavaScript has only one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65535 before doing any further processing". That is very rarely a useful thing to do.</p>
+floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65536 before doing any further processing". That is very rarely a useful thing to do.</p>
    <p>Instead, you will want to stick with one of:</p>
    <dl>
     <dt data-md><code>unrestricted double</code>
@@ -2063,7 +2063,7 @@ floating point, including ±0, ±Infinity, and NaN (although thankfully only one
    <p>Additionally, you can combine any of the above with an extra line in your algorithm to validate
 that the number is within the expected domain-specific range, and throwing or performing other
 actions in response. (While it is very rarely appropriate to modify author input by taking it
-modulo 65535, it might be appropriate to take it modulo 360, for example.)</p>
+modulo 65536, it might be appropriate to take it modulo 360, for example.)</p>
    <p>A special case of domain-specific validation, which Web IDL already has you covered for, is the
 0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in
 the range 0–255, throwing a <code class="highlight">TypeError</code> outside the range and rounding inside of it.
@@ -2823,7 +2823,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors">https://drafts.csswg.org/selectors</a>
+   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors/">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors/">https://drafts.csswg.org/selectors/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
