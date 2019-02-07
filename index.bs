@@ -122,6 +122,11 @@ their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
 
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, but
+since removing APIs from the web is difficult naming should be generic and
+future-proof whenever possible.
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 The existence of new features should generally be detectable,
@@ -874,7 +879,7 @@ Please take advantage of these other excellent resources in your design process:
 
 <h3 id="polyfills">Polyfills</h3>
 
-Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The 
+Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The
 Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
 that should be considered in the development of new features, notably:
 
