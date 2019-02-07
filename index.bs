@@ -666,7 +666,7 @@ actions in response. (While it is very rarely appropriate to modify author input
 modulo 65536, it might be appropriate to take it modulo 360, for example.)
 
 A special case of domain-specific validation, which Web IDL already has you covered for, is the
-0–255 range. This can be written as <code>[EnforcedRange] octet</code>: any JavaScript number in
+0–255 range. This can be written as <code>[EnforceRange] octet</code>: any JavaScript number in
 the range 0–255, throwing a <code highlight="js">TypeError</code> outside the range and rounding inside of it.
 (And indeed, if it turns out that the other power-of-two ranges are semantically meaningful for
 your domain, such that you want the modulo or range-checking behavior, feel free to use them.)
