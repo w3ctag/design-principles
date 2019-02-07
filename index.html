@@ -1656,7 +1656,7 @@ but in some cases the feature should also be detectable
 in the language where it is used
 (such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a> in CSS).</p>
    <h3 class="heading settled" data-level="2.3" id="attributes-like-data"><span class="secno">2.3. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes are reified in JavaScript as accessor properties, i.e. properties with
+   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes are represented in JavaScript as accessor properties, i.e. properties with
 separate getter and setter functions which can react independently. This is in contrast to the
 "default" style of JavaScript properties, data properties, which do not have configurable behavior
 but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
@@ -1814,7 +1814,7 @@ or “private” versus “public”.</p>
 of difficult to understand sequences of parameters.
 For example, <code class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mi>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mi>0</c-> <c- p>})</c-></code> is more readable than <code class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mi>50</c-><c- p>,</c-> <c- mi>0</c-><c- p>)</c-></code>.</p>
    <h3 class="heading settled" data-level="2.7" id="constructors"><span class="secno">2.7. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
-   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are reified in JavaScript as "non-constructible" classes: trying
+   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are represented in JavaScript as "non-constructible" classes: trying
 to create instances of them using the normal pattern in JavaScript, <code>new X()</code>, will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>. This is a poor experience for JavaScript developers, and doesn’t match the design of
 most of the JavaScript standard library or of the classes JavaScript developers themselves create.</p>
    <p>From a naive perspective, it’s not even coherent: how can instances of this thing ever exist, if
