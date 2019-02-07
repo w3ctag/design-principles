@@ -2074,8 +2074,8 @@ the range 0–255, throwing a <code class="highlight">TypeError</code> outside t
 your domain, such that you want the modulo or range-checking behavior, feel free to use them.)</p>
    <div class="note" role="note"> Those coming from other languages should carefully note that despite their names, <code>long long</code> and <code>unsigned long long</code> only have 53 bits of precision, and
 not 64. </div>
-   <p><code>bigint</code> is recommended to be used <em>only</em> in circumstances where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when the value
-ranges greater than 2<sup>53</sup> or less than -2<sup>53</sup>. In particular, APIs should not use the <code>bigint</code> type simply because the input is an integer—<code>bigint</code> is for big integers (hence the name!).</p>
+   <p><code>bigint</code> is recommended to be used <em>only</em> in circumstances where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned long long</code> would not work in terms of expressivity: that is, only when values
+greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In particular, APIs should not use the <code>bigint</code> type simply because the input is an integer—<code>bigint</code> is for big integers (hence the name!).</p>
    <p>Transparent support for inputs being either JavaScript Number of BigInt types is discouraged, unless there is a
 domain-specific requirement to support it. As far as ergonomics, JavaScript developers are expected to keep track
 of whether their values are Numbers or BigInts. Sloppiness or implicit conversions here could lead to a loss of
