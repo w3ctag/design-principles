@@ -101,9 +101,12 @@ original in order to create interoperability. This would cause current garbage c
 strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript
 virtual machine technology.
 
-In particular, this means that you should not expose any API that acts as a weak reference, e.g. with a
-property that becomes <code highlight="js">null</code> once garbage collection runs. Such freeing of memory
-should be entirely deterministic.
+For example, currently, {{Document/getElementsByTagName}} permits reusing the {{HTMLCollection}}
+which it creates, when it's called with the same receiver and tag name. In practice, engines reuse
+the output if it has not been garbage collected. This creates behavior which differs based on the
+details of garbage collection, which is strongly discouraged. If {{Document/getElementsByTagName}}
+were designed today, the advice to the specification authors would be to either reliably reuse
+the output, or to produce a new {{HTMLCollection}} each time it's invoked.
 
 <h2 id="api-surface">API Surface Concerns</h2>
 
