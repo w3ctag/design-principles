@@ -574,14 +574,6 @@ then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.
-Another example is:
-Web USB devices grant elevated privileges to specific origins that they name,
-since sending untrusted data to a USB device could damage that device
-or compromise computers that it connects to.
-Thus the feature depends
-on the authentication of the origin
-and the integrity of the data,
-and requires secure contexts.
 
 <h3 id="string-constants">Constants, enums, and bitmasks</h3>
 
