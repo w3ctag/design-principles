@@ -1212,7 +1212,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 30aa90d768746168deba12493f1f3622df2814b6" name="generator">
+  <meta content="Bikeshed version e083b97d279e61e6afd0a5513a243eb8c7d6df6c" name="generator">
 <style>
     table.data {
         text-align: left;
@@ -1465,7 +1465,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-07-03">3 July 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-10-16">16 October 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt class="editor">Editors:
@@ -1483,7 +1483,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 3 July 2019,
+In addition, as of 16 October 2019,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1836,7 +1836,7 @@ they can’t be constructed? The answer is that the platform has magic powers: i
 of Web IDL-derived classes without ever actually calling their constructor.</p>
    <p>You should strive to reduce such magic in designing your own APIs, and give them constructors which
 allow JavaScript developers to create them, just like the platform does. This means adding an
-appropriate [<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#Constructor" id="ref-for-Constructor">Constructor</a></code>] extended attribute to your interface, and defining the algorithm for
+appropriate [<code class="idl"><a data-link-type="idl">Constructor</a></code>] extended attribute to your interface, and defining the algorithm for
 creating new instances of your class.</p>
    <p>Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
 create instances of the class for their own purposes, such as testing, mocking, or interfacing with
@@ -1984,15 +1984,7 @@ that is present only in secure contexts,
 then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
-secure contexts reduce the risks to user privacy.
-Another example is:
-Web USB devices grant elevated privileges to specific origins that they name,
-since sending untrusted data to a USB device could damage that device
-or compromise computers that it connects to.
-Thus the feature depends
-on the authentication of the origin
-and the integrity of the data,
-and requires secure contexts.</p>
+secure contexts reduce the risks to user privacy.</p>
    <h3 class="heading settled" data-level="2.11" id="string-constants"><span class="secno">2.11. </span><span class="content">Constants, enums, and bitmasks</span><a class="self-link" href="#string-constants"></a></h3>
    <p>In many other platforms and programming languages, constants and enums are
 commonly expressed using a integer constant, sometimes in conjunction with
@@ -2865,12 +2857,6 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-urlsearchparams">2.4. Consider whether objects should be live or static</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-Constructor">
-   <a href="https://heycam.github.io/webidl/#Constructor">https://heycam.github.io/webidl/#Constructor</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-Constructor">2.7. Classes should have constructors when possible</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMException">
    <a href="https://heycam.github.io/webidl/#idl-DOMException">https://heycam.github.io/webidl/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
@@ -3006,7 +2992,6 @@ so that readers can quickly decide whether they need to read the steps in detail
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-Constructor" style="color:initial">Constructor</span>
      <li><span class="dfn-paneled" id="term-for-idl-DOMException" style="color:initial">DOMException</span>
      <li><span class="dfn-paneled" id="term-for-DOMTimeStamp" style="color:initial">DOMTimeStamp</span>
      <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror" style="color:initial">TypeError</span>
@@ -3031,7 +3016,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
-   <dd><a href="https://tc39.github.io/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.github.io/ecma262/">https://tc39.github.io/ecma262/</a>
+   <dd><a href="https://tc39.es/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.es/ecma262/">https://tc39.es/ecma262/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
    <dd>Ilya Grigorik; James Simonsen; Jatinder Mann. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
