@@ -1212,7 +1212,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version e083b97d279e61e6afd0a5513a243eb8c7d6df6c" name="generator">
+  <meta content="Bikeshed version 087ea90e1ebd0321c20373d89950d1c6b73d5df1" name="generator">
 <style>
     table.data {
         text-align: left;
@@ -1465,7 +1465,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-10-16">16 October 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-12-12">12 December 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt class="editor">Editors:
@@ -1483,7 +1483,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 16 October 2019,
+In addition, as of 12 December 2019,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2105,7 +2105,7 @@ directly on the relevant element interface(s). Similarly, <a data-link-type="dfn
     <li data-md>
      <p>Both can batch occurrences and deliver them at any time. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑧">EventTarget</a></code>s don’t need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don’t need an <code>Observer</code> to get special timing or batching.</p>
     <li data-md>
-     <p>Neither <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code>s nor <code>Observer</code>s need participate in a DOM tree (bubbling/capture and cancelation). Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s in the DOM tree, but many other events are standalone; e.g. <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IndexedDB/#idbdatabase" id="ref-for-idbdatabase">IDBDatabase</a></code> and <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget" id="ref-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a></code>. Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node②">Node</a></code>s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that <code>Observer</code>-esque feel.</p>
+     <p>Neither <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code>s nor <code>Observer</code>s need participate in a DOM tree (bubbling/capture and cancellation). Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s in the DOM tree, but many other events are standalone; e.g. <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IndexedDB/#idbdatabase" id="ref-for-idbdatabase">IDBDatabase</a></code> and <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget" id="ref-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a></code>. Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node②">Node</a></code>s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that <code>Observer</code>-esque feel.</p>
    </ul>
    <div class="example" id="example-5ebfa3a4">
     <a class="self-link" href="#example-5ebfa3a4"></a> Here is an example of using a hypothetical version of <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/④">IntersectionObserver</a></code> that is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> subclass: 
@@ -2418,7 +2418,7 @@ It also helps to keep the costs of specifying features aligned with implementing
 since the complexity of adding a feature to the specification is more likely to be related
 to the cost of adding it to implementations.</p>
    <p>Algorithms in specifications should also reflect best practices in programming.
-For example, they should explictly describe the inputs and outputs of the algorithm,
+For example, they should explicitly describe the inputs and outputs of the algorithm,
 rather than relying on "stack introspection" or handwaving.
 They should also avoid side-effects when possible.</p>
    <p>The Infra Standard offers <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
@@ -3018,7 +3018,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.es/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.es/ecma262/">https://tc39.es/ecma262/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
-   <dd>Ilya Grigorik; James Simonsen; Jatinder Mann. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
+   <dd>Ilya Grigorik. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-indexeddb-2">[IndexedDB-2]
