@@ -19,7 +19,6 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:html; type:dfn; for:/; text:browsing context
 spec:webidl; type:dfn; text:namespace
-spec:webidl; type:extended-attribute; text:Constructor
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
@@ -387,7 +386,7 @@ of Web IDL-derived classes without ever actually calling their constructor.
 
 You should strive to reduce such magic in designing your own APIs, and give them constructors which
 allow JavaScript developers to create them, just like the platform does. This means adding an
-appropriate [{{Constructor}}] extended attribute to your interface, and defining the algorithm for
+appropriate [=constructor operation=] to your interface, and defining the algorithm for
 creating new instances of your class.
 
 Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
@@ -939,7 +938,7 @@ See [[!HIGHRES-TIME]] for more details.
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
 Errors in web APIs should be represented as
-<a>ECMAScript error objects</a> (perhaps via the WebIDL {{Error}} type)
+<a>ECMAScript error objects</a> (e.g., [=ECMAScript error objects|Error=])
 or as {{DOMException}}.
 There was at one point a trend to use {{DOMError}} when
 objects had a property representing an error.
