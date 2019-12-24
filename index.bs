@@ -17,11 +17,13 @@ Boilerplate: feedback-header off
 Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
-spec:html; type:dfn; for:/; text:browsing context
+spec:html; type:dfn; for:/; 
+    text:browsing context
+    text:focus update steps
 spec:webidl; type:dfn; text:namespace
 </pre>
 <pre class="anchors">
-url: https://tc39.github.io/ecma262/#sec-error-objects; type: dfn; text: ECMAScript error objects;
+url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
 url: https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto; type: interface; text: Crypto
 url: https://w3c.github.io/touch-events/#idl-def-touchevent; type: interface; text: TouchEvent
 url: https://w3c.github.io/IntersectionObserver/;
@@ -619,7 +621,7 @@ callback and get invoked multiple times until paired cancel API is called.
 
 Instead, use the existing event registration pattern and separate API controls
 to start/stop the underlying process (since event listeners should not have
-<a href="#events-are-for-notification">side-effects</a>).
+[[#events-are-for-notification|side-effects]]).
 
 If the callback would have been provided specific data, then this data should
 be added to an `Event` object (but see <a href="#state-and-subclassing">State
@@ -680,46 +682,50 @@ Try to design DOM events to deliver after-the-fact notifications of changes. It 
 
 <h3 id="guard-against-recursion">Guard against potential recursion</h3>
 
-When designing a long-running or complicated algorithm which is initiated by an 
-API call, events are appropriate for <a href="#events-are-for-notification">notifying</a>
-user code of the ongoing process, but also introduce the possibility of unexpected
+When designing a long-running or complicated algorithm that is initiated by an 
+API call, events are appropriate for [[#events-are-for-notification|notifying]]
+user code of the ongoing process. However, they also introduce the possibility of unexpected
 re-execution of the current algorithm before it has finished! Because user code gets
 to run in the middle of the algorithm, recursion can happen if that user code triggers
 the algorithm again (directly or indirectly).
 
-If the complexity of the algorithm is reasonably understood, you may add appropriate
-state to track that the algorithm is in progress and terminate early if the algorithm
+If the algorithmic complexity and call graph is reasonably understood, add appropriate
+state to track that the algorithm is in progress and terminate immediately if the algorithm
 is already concurrently running. This technique is "guarding" the algorithm:
 
 <div class="example">
-    A technique (e.g., used for [abort()](https://dom.spec.whatwg.org/#abortsignal-add)
-    or as a stack-based variation in
-    [focus()](https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps))
-    for guarding against unplanned recursion. This example is given in JavaScript
-    for terseness but would be applied in algorithmic prose in a spec.
+    A technique (e.g., as used in the [=AbortSignal/add|AbortSignal's add algorithm=]
+    or as a stack-based variation in the [=focus update steps=])
+    for guarding against unplanned recursion. 
+    
+    In this example, an object of type <dfn noexport interface>MyObject</dfn> has
+    a method <dfn method for="MyObject">doComplexOpWithEvents()</dfn>. {{MyObject}}
+    also has an internal state attribute
+    {{MyObject}}.[[<dfn noexport attribute for="MyObject">started</dfn>]] whose initial
+    value is `false`.
 
-    <pre highlight="js">
-    const isStarted = false;
-
-    function doComplexOperationWithEvents() {
-        if ( isStarted ) {
-            return; // Terminate early
-        }
-        isStarted = true;
-        // Do complex stuff
+    The {{doComplexOpWithEvents()}} method MUST act as follows:
+    
+    1. If {{MyObject}}.[[{{started}}]] is not `false` then throw an {{InvalidStateError}}
+        {{DOMException}} and terminate this algorithm.
         
-        // Notify the developer of progress by firing events
-        //   Note: any other code may run here, including calling 
-        //   doComplexOperationWithEvents() again!
+        Note: {{doComplexOpWithEvents()}} is not allowed to be run again
+        (e.g., from within a `"currentlyinprogress"` event handler) before it finishes
+        its original execution.
 
-        // Finishe doing complex stuff
-        isStarted = false;        
-    }
-    </pre>
+    2. Set {{MyObject}}.[[{{started}}]] to `true`.
+
+    3. ...Do complex stuff...
+
+    4. [=Fire an event=] named `"currentlyinprogress"` at {{MyObject}}.
+
+    5. ...Finish up complex stuff...
+
+    6. Set {{MyObject}}.[[{{started}}]] to `false`.
 </div>
 
 Sometimes "guarding" as illustrated above cannot be done because of the complexity
-of the algorithm, the number of potential algorithm entrypoints or the side-effects
+of the algorithm, the number of potential algorithm entry-points or the side-effects
 beyond the algorithm's control. In these cases another form of protecting the integrity
 of the algorithm's state is to "defer" the event to a subsequent task or microtask.
 Deferral ensures that any stack-based recursion is avoided (but does not eliminate
@@ -732,9 +738,9 @@ By way of illustration, the deprecated
 were specified to fire in the middle of node insertion and removal algorithms, which
 are triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
 from recursivly running node mutation algorithms caused many years of security issues.
-A more modern approach embodied in
-[Mutation Observers](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
-applies the principle of deferral of notification--in this case to the microtask queue
+A more robust approach is embodied in
+{{MutationObserver}}
+applies the principle of deferral of notification — in this case to the microtask queue
 following the algorithm.
 
 Weigh the trade-offs when considering deferral as an alternative to guarding as noted
@@ -748,11 +754,11 @@ earlier. Guarding is generally the preferred approach. With guarding:
     that state).
 
 Deferral as an option generally means *all* API entrypoints need guards, which is
-usually more work. If this is not the case, then its likely the algorithm is already
-finished when the event fires (there's no other state changes expected), in which
-case, perhaps you should be
-[considering a Promise-based design](https://www.w3.org/2001/tag/doc/promises-guide)
-instead.
+usually more work for the spec author. If there seems to be no need for guards, then
+perhaps this is because all of the state transitions have been completed and the event
+is meant to signal completion of the algorithm. In this case, it's likely that instead
+of using an event to signal completion, the API should be designed to return and complete
+a {{Promise}} instead. See [[#one-time-events]].
 
 Note: events that expose the possibility of recursion as described in this section
 were sometimes called "synchronous events". This terminology is discouraged as it
@@ -938,7 +944,7 @@ See [[!HIGHRES-TIME]] for more details.
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
 Errors in web APIs should be represented as
-<a>ECMAScript error objects</a> (e.g., [=ECMAScript error objects|Error=])
+ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
 There was at one point a trend to use {{DOMError}} when
 objects had a property representing an error.
