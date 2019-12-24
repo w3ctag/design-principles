@@ -681,18 +681,85 @@ Try to design DOM events to deliver after-the-fact notifications of changes. It 
 
 <h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These
-events cause problems for engines and performance issues in applications due to
-the possibility for re-entrant behavior they open up. The deprecated
-[Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events),
-for instance, has caused many years of security issues. A more modern approach
-embodied in
-[Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
-addresses most of the same use-cases in a higher-performance way which is easier
-to develop with and implement.
+When designing a long-running or complicated algorithm which is initiated by an 
+API call, events are appropriate for <a href="#events-are-for-notification">notifying</a>
+user code of the ongoing process, but also introduce the possibility of unexpected
+re-execution of the current algorithm before it has finished! Because user code gets
+to run in the middle of the algorithm, recursion can happen if that user code triggers
+the algorithm again (directly or indirectly).
 
-If you feel you need a synchronous event in your design, please reconsider and
-ask the TAG for help in redesigning the API.
+If the complexity of the algorithm is reasonably understood, you may add appropriate
+state to track that the algorithm is in progress and terminate early if the algorithm
+is already concurrently running. This technique is "guarding" the algorithm:
+
+<div class="example">
+    A technique (e.g., used for [abort()](https://dom.spec.whatwg.org/#abortsignal-add)
+    or as a stack-based variation in
+    [focus()](https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps))
+    for guarding against unplanned recursion. This example is given in JavaScript
+    for terseness but would be applied in algorithmic prose in a spec.
+
+    <pre highlight="js">
+    const isStarted = false;
+
+    function doComplexOperationWithEvents() {
+        if ( isStarted ) {
+            return; // Terminate early
+        }
+        isStarted = true;
+        // Do complex stuff
+        
+        // Notify the developer of progress by firing events
+        //   Note: any other code may run here, including calling 
+        //   doComplexOperationWithEvents() again!
+
+        // Finishe doing complex stuff
+        isStarted = false;        
+    }
+    </pre>
+</div>
+
+Sometimes "guarding" as illustrated above cannot be done because of the complexity
+of the algorithm, the number of potential algorithm entrypoints or the side-effects
+beyond the algorithm's control. In these cases another form of protecting the integrity
+of the algorithm's state is to "defer" the event to a subsequent task or microtask.
+Deferral ensures that any stack-based recursion is avoided (but does not eliminate
+potentially problematic loops, as they could now occur as unending follow-up tasks).
+
+Defering an event is often specified as "[=queue a task=] to [=fire an event=]...".
+
+By way of illustration, the deprecated
+[Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events),
+were specified to fire in the middle of node insertion and removal algorithms, which
+are triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
+from recursivly running node mutation algorithms caused many years of security issues.
+A more modern approach embodied in
+[Mutation Observers](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+applies the principle of deferral of notification--in this case to the microtask queue
+following the algorithm.
+
+Weigh the trade-offs when considering deferral as an alternative to guarding as noted
+earlier. Guarding is generally the preferred approach. With guarding:
+
+* all state management can be rationalized within one "turn" of the algorithm (no
+    need to consider any state changes or API invocations between the time the algorithm
+    completes and when the event fires).
+* events can reveal internal state changes as early as possible when dispatched immediately
+    in the algorithm (resulting in minimal delay to user code that wants to act on
+    that state).
+
+Deferral as an option generally means *all* API entrypoints need guards, which is
+usually more work. If this is not the case, then its likely the algorithm is already
+finished when the event fires (there's no other state changes expected), in which
+case, perhaps you should be
+[considering a Promise-based design](https://www.w3.org/2001/tag/doc/promises-guide)
+instead.
+
+Note: events that expose the possibility of recursion as described in this section
+were sometimes called "synchronous events". This terminology is discouraged as it
+implies that it is possible to dispatch an event asynchronously. All events are dispatched
+synchronously. What is more often implied by "asynchronous event" is to defer firing
+an event.
 
 <h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
 
