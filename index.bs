@@ -678,7 +678,7 @@ are traditionally added to {{WindowEventHandlers}} rather than {{Window}}.</p>
 
 Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of {{EventTarget/dispatchEvent()}}, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
 
-<h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
+<h3 id="guard-against-recursion">Guard against potential recursion</h3>
 
 When designing a long-running or complicated algorithm which is initiated by an 
 API call, events are appropriate for <a href="#events-are-for-notification">notifying</a>
