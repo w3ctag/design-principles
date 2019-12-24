@@ -681,9 +681,18 @@ Try to design DOM events to deliver after-the-fact notifications of changes. It 
 
 <h3 id="favor-asynchronous-events">Favor asynchronous events</h3>
 
-A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events), for instance, has caused many years of security issues. A more modern approach embodied in [Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.
+A few events in the platform are specified to dispatch synchronously. These
+events cause problems for engines and performance issues in applications due to
+the possibility for re-entrant behavior they open up. The deprecated
+[Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events),
+for instance, has caused many years of security issues. A more modern approach
+embodied in
+[Mutation Observers](ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+addresses most of the same use-cases in a higher-performance way which is easier
+to develop with and implement.
 
-If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.
+If you feel you need a synchronous event in your design, please reconsider and
+ask the TAG for help in redesigning the API.
 
 <h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
 
