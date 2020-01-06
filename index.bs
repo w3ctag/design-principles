@@ -699,33 +699,34 @@ is already concurrently running. This technique is "guarding" the algorithm:
     for guarding against unplanned recursion. 
     
     In this example, an object of type <dfn noexport interface>MyObject</dfn> has
-    a method <dfn method for="MyObject">doComplexOpWithEvents()</dfn>. {{MyObject}}
-    also has an internal state attribute
-    {{MyObject}}.[[<dfn noexport attribute for="MyObject">started</dfn>]] whose initial
+    a method <dfn method for="MyObject">doComplexOpWithEvents()</dfn> and
+    an internal state attribute [[<dfn noexport attribute for="MyObject">started</dfn>]]
+    referenced below as
+    {{MyObject|this}}.[[{{started}}]] whose initial
     value is `false`.
 
-    The {{doComplexOpWithEvents()}} method MUST act as follows:
+    The {{doComplexOpWithEvents()}} method must act as follows:
     
-    1. If {{MyObject}}.[[{{started}}]] is not `false` then throw an {{InvalidStateError}}
+    1. If {{MyObject|this}}.[[{{started}}]] is not `false` then throw an {{InvalidStateError}}
         {{DOMException}} and terminate this algorithm.
         
         Note: {{doComplexOpWithEvents()}} is not allowed to be run again
         (e.g., from within a `"currentlyinprogress"` event handler) before it finishes
         its original execution.
 
-    2. Set {{MyObject}}.[[{{started}}]] to `true`.
+    2. Set {{MyObject|this}}.[[{{started}}]] to `true`.
 
     3. ...Do complex stuff...
 
-    4. [=Fire an event=] named `"currentlyinprogress"` at {{MyObject}}.
+    4. [=Fire an event=] named `"currentlyinprogress"` at {{MyObject|this}}.
 
     5. ...Finish up complex stuff...
 
-    6. Set {{MyObject}}.[[{{started}}]] to `false`.
+    6. Set {{MyObject|this}}.[[{{started}}]] to `false`.
 </div>
 
 Sometimes "guarding" as illustrated above cannot be done because of the complexity
-of the algorithm, the number of potential algorithm entry-points or the side-effects
+of the algorithm, the number of potential algorithm entry-points, or the side-effects
 beyond the algorithm's control. In these cases another form of protecting the integrity
 of the algorithm's state is to "defer" the event to a subsequent task or microtask.
 Deferral ensures that any stack-based recursion is avoided (but does not eliminate
@@ -752,10 +753,35 @@ earlier. Guarding is generally the preferred approach. With guarding:
 * events can reveal internal state changes as early as possible when dispatched immediately
     in the algorithm (resulting in minimal delay to user code that wants to act on
     that state).
+* events do not need to carry snapshots (copies) of internal state because user code
+    running in the event handler can observe relevant state directly on the instance
+    object they were fired on (avoiding the need to derive a new type of {{Event}}
+    to hold such state snapshots).
 
-Deferral as an option generally means *all* API entrypoints need guards, which is
-usually more work for the spec author. If there seems to be no need for guards, then
-perhaps this is because all of the state transitions have been completed and the event
+Conversely, when deferring, event handlers will run after the algorithm ends (or starts 
+to run [=in parallel=]) and any number of other tasks or microtasks may run in between 
+that invalidate the object's state. Since the object's state will be unknown when
+the deffered event is dispatched:
+
+* state relevant to the event should be packaged with the deferred event, usually 
+    involving a new {{Event}}-derived type with new attributes to hold the state.
+    For exmple, the {{ProgressEvent}} adds {{ProgressEvent/loaded}}, 
+    {{ProgressEvent/total}}, etc. attributes to hold the state.
+* any coordination needed among parts of an algorithm using deferred events often
+    requires defining an explicit state machine (well-defined state transitions) to
+    ensure that when a deferred event fires, the behavior of inspecting or changing
+    state is well-defined. For example, in [[payment-request]], the {{PaymentRequest}}'s
+    \[[state]] internal slot explicitly tracks the object's state
+    through its well-defined transitions.
+    * in addition to defining state transitions, each coordinated algorithm usually 
+        applies the gaurding technique (anyway) to ensure the algorithm can only proceed
+        under the appropriate set of states. For example, in [[payment-request]] note
+        the guards used often around the \[[state]] internal
+        slot such as in the {{MerchantValidationEvent/complete()}} algorithm.
+    
+Finally, consider that dispatching a deferred event that does not seem to require
+packaging extra state or defining a state machine for the algorithm as mentioned above,
+could mean that all of the state transitions have been completed and that the event 
 is meant to signal completion of the algorithm. In this case, it's likely that instead
 of using an event to signal completion, the API should be designed to return and complete
 a {{Promise}} instead. See [[#one-time-events]].
