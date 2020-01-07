@@ -20,6 +20,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 spec:html; type:dfn; for:/; 
     text:browsing context
     text:focus update steps
+    text:task queue
 spec:webidl; type:dfn; text:namespace
 </pre>
 <pre class="anchors">
@@ -740,10 +741,14 @@ By way of illustration, the deprecated
 were specified to fire in the middle of node insertion and removal algorithms, which
 are triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
 from recursively running node mutation algorithms caused many years of security issues.
-A more robust approach is embodied in
+A more robust approach embodied in
 {{MutationObserver}}
 applies the principle of deferral of notification — in this case to the microtask queue
 following the algorithm.
+
+Also note that deferral of events is always necessary if the algorithm that triggers
+the event could be running on a different thread or process. In this case deferral 
+ensures the events can be processed on the correct task in the [=task queue=].
 
 Weigh the trade-offs when considering deferral as an alternative to guarding as noted
 earlier. Guarding is generally the preferred approach. With guarding:
