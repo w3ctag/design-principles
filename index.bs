@@ -774,7 +774,7 @@ the deffered event is dispatched:
     \[[state]] internal slot explicitly tracks the object's state
     through its well-defined transitions.
     * in addition to defining state transitions, each coordinated algorithm usually 
-        applies the gaurding technique (anyway) to ensure the algorithm can only proceed
+        applies the guarding technique (anyway) to ensure the algorithm can only proceed
         under the appropriate set of states. For example, in [[payment-request]] note
         the guards used often around the \[[state]] internal
         slot such as in the {{MerchantValidationEvent/complete()}} algorithm.
