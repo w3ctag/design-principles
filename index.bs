@@ -25,6 +25,7 @@ spec:webidl; type:dfn; text:namespace
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
 url: https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto; type: interface; text: Crypto
+url: https://www.w3.org/TR/payment-request/#dfn-state; type: dfn; spec: payment-request; text: [[state]];
 url: https://w3c.github.io/touch-events/#idl-def-touchevent; type: interface; text: TouchEvent
 url: https://w3c.github.io/IntersectionObserver/;
     type: interface; text: IntersectionObserver; url: #intersectionobserver
@@ -771,12 +772,12 @@ the deffered event is dispatched:
     requires defining an explicit state machine (well-defined state transitions) to
     ensure that when a deferred event fires, the behavior of inspecting or changing
     state is well-defined. For example, in [[payment-request]], the {{PaymentRequest}}'s
-    \[[state]] internal slot explicitly tracks the object's state
+    [=[[state]]=] internal slot explicitly tracks the object's state
     through its well-defined transitions.
     * in addition to defining state transitions, each coordinated algorithm usually 
         applies the guarding technique (anyway) to ensure the algorithm can only proceed
         under the appropriate set of states. For example, in [[payment-request]] note
-        the guards used often around the \[[state]] internal
+        the guards used often around the [=[[state]]=] internal
         slot such as in the {{MerchantValidationEvent/complete()}} algorithm.
     
 Finally, consider that dispatching a deferred event that does not seem to require
