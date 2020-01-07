@@ -739,7 +739,7 @@ By way of illustration, the deprecated
 [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events),
 were specified to fire in the middle of node insertion and removal algorithms, which
 are triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
-from recursivly running node mutation algorithms caused many years of security issues.
+from recursively running node mutation algorithms caused many years of security issues.
 A more robust approach is embodied in
 {{MutationObserver}}
 applies the principle of deferral of notification — in this case to the microtask queue
@@ -766,7 +766,7 @@ the deffered event is dispatched:
 
 * state relevant to the event should be packaged with the deferred event, usually 
     involving a new {{Event}}-derived type with new attributes to hold the state.
-    For exmple, the {{ProgressEvent}} adds {{ProgressEvent/loaded}}, 
+    For example, the {{ProgressEvent}} adds {{ProgressEvent/loaded}}, 
     {{ProgressEvent/total}}, etc. attributes to hold the state.
 * any coordination needed among parts of an algorithm using deferred events often
     requires defining an explicit state machine (well-defined state transitions) to
