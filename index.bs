@@ -691,12 +691,12 @@ re-execution of the current algorithm before it has finished! Because user code 
 to run in the middle of the algorithm, recursion can happen if that user code triggers
 the algorithm again (directly or indirectly).
 
-If the algorithmic complexity and call graph is reasonably understood, add appropriate
+To address this, if the algorithmic complexity and call graph is reasonably understood, add appropriate
 state to track that the algorithm is in progress and terminate immediately if the algorithm
 is already concurrently running. This technique is "guarding" the algorithm:
 
 <div class="example">
-    A technique (e.g., as used in the [=AbortSignal/add|AbortSignal's add algorithm=]
+    The following is a technique (e.g., as used in the [=AbortSignal/add|AbortSignal's add algorithm=]
     or as a stack-based variation in the [=focus update steps=])
     for guarding against unplanned recursion. 
     
@@ -727,6 +727,16 @@ is already concurrently running. This technique is "guarding" the algorithm:
     6. Set {{MyObject|this}}.[[{{started}}]] to `false`.
 </div>
 
+Note: A caution about early termination: if the algorithm being terminated would go 
+on to ensure some critical state consistency, be sure to also make the relevant adjustments 
+in state before early termination of the algorithm. Not doing so can lead to inconsistent
+state and end-user-visible bugs when implemented as-specified.
+
+Note: A caution about throwing exceptions in early termination: keep in mind the scenario
+in which developers will be invoking the algorithm, and whether they would reasonably
+expect to handle an exception in this [perhaps rare] case. For example, will this
+be the only exception in the algorithm?
+
 Sometimes "guarding" as illustrated above cannot be done because of the complexity
 of the algorithm, the number of potential algorithm entry-points, or the side-effects
 beyond the algorithm's control. In these cases another form of protecting the integrity
@@ -737,9 +747,9 @@ potentially problematic loops, as they could now occur as unending follow-up tas
 Defering an event is often specified as "[=queue a task=] to [=fire an event=]...".
 
 By way of illustration, the deprecated
-[Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events),
-were specified to fire in the middle of node insertion and removal algorithms, which
-are triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
+[Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events)
+fired in the middle of node insertion and removal algorithms, and
+could be triggered by a variety of common API calls like {{Node/appendChild()}}. The side-effects
 from recursively running node mutation algorithms caused many years of security issues.
 A more robust approach embodied in
 {{MutationObserver}}
@@ -750,8 +760,8 @@ Also note that deferral of events is always necessary if the algorithm that trig
 the event could be running on a different thread or process. In this case deferral 
 ensures the events can be processed on the correct task in the [=task queue=].
 
-Weigh the trade-offs when considering deferral as an alternative to guarding as noted
-earlier. Guarding is generally the preferred approach. With guarding:
+Both approaches to protecting against unwanted recursion have trade-offs. Some things
+to consider when chosing the guarding approach:
 
 * all state management can be rationalized within one "turn" of the algorithm (no
     need to consider any state changes or API invocations between the time the algorithm
@@ -764,10 +774,10 @@ earlier. Guarding is generally the preferred approach. With guarding:
     object they were fired on (avoiding the need to derive a new type of {{Event}}
     to hold such state snapshots).
 
-Conversely, when deferring, event handlers will run after the algorithm ends (or starts 
+When deferring, event handlers will run after the algorithm ends (or starts 
 to run [=in parallel=]) and any number of other tasks or microtasks may run in between 
 that invalidate the object's state. Since the object's state will be unknown when
-the deffered event is dispatched:
+the deffered event is dispatched, consider the following:
 
 * state relevant to the event should be packaged with the deferred event, usually 
     involving a new {{Event}}-derived type with new attributes to hold the state.
@@ -785,7 +795,7 @@ the deffered event is dispatched:
         the guards used often around the [=[[state]]=] internal
         slot such as in the {{MerchantValidationEvent/complete()}} algorithm.
     
-Finally, consider that dispatching a deferred event that does not seem to require
+Finally, dispatching a deferred event that does not seem to require
 packaging extra state or defining a state machine for the algorithm as mentioned above,
 could mean that all of the state transitions have been completed and that the event 
 is meant to signal completion of the algorithm. In this case, it's likely that instead
