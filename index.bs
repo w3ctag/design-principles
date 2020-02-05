@@ -744,7 +744,7 @@ of the algorithm's state is to "defer" the event to a subsequent task or microta
 Deferral ensures that any stack-based recursion is avoided (but does not eliminate
 potentially problematic loops, as they could now occur as unending follow-up tasks).
 
-Defering an event is often specified as "[=queue a task=] to [=fire an event=]...".
+Deferring an event is often specified as "[=queue a task=] to [=fire an event=]...".
 
 By way of illustration, the deprecated
 [Mutation Events](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events)
@@ -761,7 +761,7 @@ the event could be running on a different thread or process. In this case deferr
 ensures the events can be processed on the correct task in the [=task queue=].
 
 Both approaches to protecting against unwanted recursion have trade-offs. Some things
-to consider when chosing the guarding approach:
+to consider when choosing the guarding approach:
 
 * all state management can be rationalized within one "turn" of the algorithm (no
     need to consider any state changes or API invocations between the time the algorithm
@@ -777,7 +777,7 @@ to consider when chosing the guarding approach:
 When deferring, event handlers will run after the algorithm ends (or starts 
 to run [=in parallel=]) and any number of other tasks or microtasks may run in between 
 that invalidate the object's state. Since the object's state will be unknown when
-the deffered event is dispatched, consider the following:
+the deferred event is dispatched, consider the following:
 
 * state relevant to the event should be packaged with the deferred event, usually 
     involving a new {{Event}}-derived type with new attributes to hold the state.
