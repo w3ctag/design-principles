@@ -1167,6 +1167,18 @@ Possible extra rowspan handling
 		margin-left: auto;
 		margin-right: auto;
 	}
+	.overlarge {
+		/* Magic to create good table positioning:
+		   "content column" is 50ems wide at max; less on smaller screens.
+		   Extra space (after ToC + content) is empty on the right.
+
+		   1. When table < content column, centers table in column.
+		   2. When content < table < available, left-aligns.
+		   3. When table > available, fills available + scroll bar.
+		*/ 
+		display: grid;
+		grid-template-columns: minmax(0, 50em);
+	}
 	.overlarge > table {
 		/* limit preferred width of table */
 		max-width: 50em;
@@ -1176,7 +1188,6 @@ Possible extra rowspan handling
 
 	@media (min-width: 55em) {
 		.overlarge {
-			margin-left: calc(13px + 26.5rem - 50vw);
 			margin-right: calc(13px + 26.5rem - 50vw);
 			max-width: none;
 		}
@@ -1184,14 +1195,12 @@ Possible extra rowspan handling
 	@media screen and (min-width: 78em) {
 		body:not(.toc-inline) .overlarge {
 			/* 30.5em body padding 50em content area */
-			margin-left: calc(40em - 50vw) !important;
 			margin-right: calc(40em - 50vw) !important;
 		}
 	}
 	@media screen and (min-width: 90em) {
 		body:not(.toc-inline) .overlarge {
 			/* 4em html margin 30.5em body padding 50em content area */
-			margin-left: 0 !important;
 			margin-right: calc(84.5em - 100vw) !important;
 		}
 	}
@@ -1212,7 +1221,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 087ea90e1ebd0321c20373d89950d1c6b73d5df1" name="generator">
+  <meta content="Bikeshed version 8bc2fccb49a45a0af18c5e75ce18049d75f824b6" name="generator">
 <style>
     table.data {
         text-align: left;
@@ -1465,7 +1474,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2019-12-12">12 December 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2020-02-05">5 February 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt class="editor">Editors:
@@ -1483,7 +1492,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 12 December 2019,
+In addition, as of 5 February 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1527,7 +1536,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#dont-invent-event-like"><span class="secno">3.3</span> <span class="content">Don’t invent your own event listener-like infrastructure</span></a>
       <li><a href="#always-add-event-handlers"><span class="secno">3.4</span> <span class="content">Always add event handler attributes</span></a>
       <li><a href="#events-are-for-notification"><span class="secno">3.5</span> <span class="content">Events are for notification</span></a>
-      <li><a href="#favor-asynchronous-events"><span class="secno">3.6</span> <span class="content">Favor asynchronous events</span></a>
+      <li><a href="#guard-against-recursion"><span class="secno">3.6</span> <span class="content">Guard against potential recursion</span></a>
       <li><a href="#state-and-subclassing"><span class="secno">3.7</span> <span class="content">State and <code class="idl"><span>Event</span></code> subclasses</span></a>
       <li><a href="#events-vs-observers"><span class="secno">3.8</span> <span class="content">How to decide between Events and Observers</span></a>
      </ol>
@@ -1836,7 +1845,7 @@ they can’t be constructed? The answer is that the platform has magic powers: i
 of Web IDL-derived classes without ever actually calling their constructor.</p>
    <p>You should strive to reduce such magic in designing your own APIs, and give them constructors which
 allow JavaScript developers to create them, just like the platform does. This means adding an
-appropriate [<code class="idl"><a data-link-type="idl">Constructor</a></code>] extended attribute to your interface, and defining the algorithm for
+appropriate <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-constructors" id="ref-for-idl-constructors">constructor operation</a> to your interface, and defining the algorithm for
 creating new instances of your class.</p>
    <p>Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
 create instances of the class for their own purposes, such as testing, mocking, or interfacing with
@@ -2059,13 +2068,120 @@ important to continue to define event handler IDL attributes because:</p>
 directly on the relevant element interface(s). Similarly, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes③">event handler IDL attributes</a> are traditionally added to <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers" id="ref-for-windoweventhandlers">WindowEventHandlers</a></code> rather than <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window①">Window</a></code>.</p>
    <h3 class="heading settled" data-level="3.5" id="events-are-for-notification"><span class="secno">3.5. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
    <p>Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent">dispatchEvent()</a></code>, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.</p>
-   <h3 class="heading settled" data-level="3.6" id="favor-asynchronous-events"><span class="secno">3.6. </span><span class="content">Favor asynchronous events</span><a class="self-link" href="#favor-asynchronous-events"></a></h3>
-   <p>A few events in the platform are specified to dispatch synchronously. These events cause problems for engines and performance issues in applications due to the possibility for re-entrant behavior they open up. The deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a>, for instance, has caused many years of security issues. A more modern approach embodied in <a href="ihttps://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">Mutation Observers</a> addresses most of the same use-cases in a higher-performance way which is easier to develop with and implement.</p>
-   <p>If you feel you need a synchronous event in your design, please reconsider and ask the TAG for help in redesigning the API.</p>
-   <h3 class="heading settled" data-level="3.7" id="state-and-subclassing"><span class="secno">3.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
-   <p>It’s tempting to create subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> for all event types. This is frequently unnecessary. Consider subclassing <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
+   <h3 class="heading settled" data-level="3.6" id="guard-against-recursion"><span class="secno">3.6. </span><span class="content">Guard against potential recursion</span><a class="self-link" href="#guard-against-recursion"></a></h3>
+   <p>When designing a long-running or complicated algorithm that is initiated by an
+API call, events are appropriate for <a href="#events-are-for-notification">notifying</a> user code of the ongoing process. However, they also introduce the possibility of unexpected
+re-execution of the current algorithm before it has finished! Because user code gets
+to run in the middle of the algorithm, recursion can happen if that user code triggers
+the algorithm again (directly or indirectly).</p>
+   <p>To address this, if the algorithmic complexity and call graph is reasonably understood, add appropriate
+state to track that the algorithm is in progress and terminate immediately if the algorithm
+is already concurrently running. This technique is "guarding" the algorithm:</p>
+   <div class="example" id="example-d2738176">
+    <a class="self-link" href="#example-d2738176"></a> The following is a technique (e.g., as used in the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">AbortSignal’s add algorithm</a> or as a stack-based variation in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps" id="ref-for-focus-update-steps">focus update steps</a>)
+    for guarding against unplanned recursion. 
+    <p>In this example, an object of type <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-noexport id="myobject"><code>MyObject</code></dfn> has
+    a method <dfn class="dfn-paneled idl-code" data-dfn-for="MyObject" data-dfn-type="method" data-export id="dom-myobject-docomplexopwithevents"><code>doComplexOpWithEvents()</code></dfn> and
+    an internal state attribute [[<dfn class="dfn-paneled idl-code" data-dfn-for="MyObject" data-dfn-type="attribute" data-noexport id="dom-myobject-started"><code>started</code></dfn>]]
+    referenced below as <code class="idl"><a data-link-type="idl" href="#myobject" id="ref-for-myobject">this</a></code>.[[<code class="idl"><a data-link-type="idl" href="#dom-myobject-started" id="ref-for-dom-myobject-started">started</a></code>]] whose initial
+    value is <code>false</code>.</p>
+    <p>The <code class="idl"><a data-link-type="idl" href="#dom-myobject-docomplexopwithevents" id="ref-for-dom-myobject-docomplexopwithevents">doComplexOpWithEvents()</a></code> method must act as follows:</p>
+    <ol>
+     <li data-md>
+      <p>If <code class="idl"><a data-link-type="idl" href="#myobject" id="ref-for-myobject①">this</a></code>.[[<code class="idl"><a data-link-type="idl" href="#dom-myobject-started" id="ref-for-dom-myobject-started①">started</a></code>]] is not <code>false</code> then throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code> and terminate this algorithm.</p>
+      <p class="note" role="note"><span>Note:</span> <code class="idl"><a data-link-type="idl" href="#dom-myobject-docomplexopwithevents" id="ref-for-dom-myobject-docomplexopwithevents①">doComplexOpWithEvents()</a></code> is not allowed to be run again
+(e.g., from within a <code>"currentlyinprogress"</code> event handler) before it finishes
+its original execution.</p>
+     <li data-md>
+      <p>Set <code class="idl"><a data-link-type="idl" href="#myobject" id="ref-for-myobject②">this</a></code>.[[<code class="idl"><a data-link-type="idl" href="#dom-myobject-started" id="ref-for-dom-myobject-started②">started</a></code>]] to <code>true</code>.</p>
+     <li data-md>
+      <p>...Do complex stuff...</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">Fire an event</a> named <code>"currentlyinprogress"</code> at <code class="idl"><a data-link-type="idl" href="#myobject" id="ref-for-myobject③">this</a></code>.</p>
+     <li data-md>
+      <p>...Finish up complex stuff...</p>
+     <li data-md>
+      <p>Set <code class="idl"><a data-link-type="idl" href="#myobject" id="ref-for-myobject④">this</a></code>.[[<code class="idl"><a data-link-type="idl" href="#dom-myobject-started" id="ref-for-dom-myobject-started③">started</a></code>]] to <code>false</code>.</p>
+    </ol>
+   </div>
+   <p class="note" role="note"><span>Note:</span> A caution about early termination: if the algorithm being terminated would go
+on to ensure some critical state consistency, be sure to also make the relevant adjustments 
+in state before early termination of the algorithm. Not doing so can lead to inconsistent
+state and end-user-visible bugs when implemented as-specified.</p>
+   <p class="note" role="note"><span>Note:</span> A caution about throwing exceptions in early termination: keep in mind the scenario
+in which developers will be invoking the algorithm, and whether they would reasonably
+expect to handle an exception in this [perhaps rare] case. For example, will this
+be the only exception in the algorithm?</p>
+   <p>Sometimes "guarding" as illustrated above cannot be done because of the complexity
+of the algorithm, the number of potential algorithm entry-points, or the side-effects
+beyond the algorithm’s control. In these cases another form of protecting the integrity
+of the algorithm’s state is to "defer" the event to a subsequent task or microtask.
+Deferral ensures that any stack-based recursion is avoided (but does not eliminate
+potentially problematic loops, as they could now occur as unending follow-up tasks).</p>
+   <p>Defering an event is often specified as "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">fire an event</a>...".</p>
+   <p>By way of illustration, the deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a> fired in the middle of node insertion and removal algorithms, and
+could be triggered by a variety of common API calls like <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-node-appendchild" id="ref-for-dom-node-appendchild">appendChild()</a></code>. The side-effects
+from recursively running node mutation algorithms caused many years of security issues.
+A more robust approach embodied in <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code> applies the principle of deferral of notification — in this case to the microtask queue
+following the algorithm.</p>
+   <p>Also note that deferral of events is always necessary if the algorithm that triggers
+the event could be running on a different thread or process. In this case deferral 
+ensures the events can be processed on the correct task in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue" id="ref-for-task-queue">task queue</a>.</p>
+   <p>Both approaches to protecting against unwanted recursion have trade-offs. Some things
+to consider when chosing the guarding approach:</p>
+   <ul>
+    <li data-md>
+     <p>all state management can be rationalized within one "turn" of the algorithm (no
+need to consider any state changes or API invocations between the time the algorithm
+completes and when the event fires).</p>
+    <li data-md>
+     <p>events can reveal internal state changes as early as possible when dispatched immediately
+in the algorithm (resulting in minimal delay to user code that wants to act on
+that state).</p>
+    <li data-md>
+     <p>events do not need to carry snapshots (copies) of internal state because user code
+running in the event handler can observe relevant state directly on the instance
+object they were fired on (avoiding the need to derive a new type of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> to hold such state snapshots).</p>
+   </ul>
+   <p>When deferring, event handlers will run after the algorithm ends (or starts
+to run <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in parallel</a>) and any number of other tasks or microtasks may run in between 
+that invalidate the object’s state. Since the object’s state will be unknown when
+the deffered event is dispatched, consider the following:</p>
+   <ul>
+    <li data-md>
+     <p>state relevant to the event should be packaged with the deferred event, usually
+involving a new <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code>-derived type with new attributes to hold the state.
+For example, the <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#progressevent" id="ref-for-progressevent">ProgressEvent</a></code> adds <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-loaded" id="ref-for-dom-progressevent-loaded">loaded</a></code>, <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-total" id="ref-for-dom-progressevent-total">total</a></code>, etc. attributes to hold the state.</p>
+    <li data-md>
+     <p>any coordination needed among parts of an algorithm using deferred events often
+requires defining an explicit state machine (well-defined state transitions) to
+ensure that when a deferred event fires, the behavior of inspecting or changing
+state is well-defined. For example, in <a data-link-type="biblio" href="#biblio-payment-request">[payment-request]</a>, the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest" id="ref-for-dom-paymentrequest">PaymentRequest</a></code>'s <a data-link-type="dfn" href="https://www.w3.org/TR/payment-request/#dfn-state" id="ref-for-dfn-state">[[state]]</a> internal slot explicitly tracks the object’s state
+through its well-defined transitions.</p>
+     <ul>
+      <li data-md>
+       <p>in addition to defining state transitions, each coordinated algorithm usually
+applies the guarding technique (anyway) to ensure the algorithm can only proceed
+under the appropriate set of states. For example, in <a data-link-type="biblio" href="#biblio-payment-request">[payment-request]</a> note
+the guards used often around the <a data-link-type="dfn" href="https://www.w3.org/TR/payment-request/#dfn-state" id="ref-for-dfn-state①">[[state]]</a> internal
+slot such as in the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete" id="ref-for-dom-merchantvalidationevent-complete">complete()</a></code> algorithm.</p>
+     </ul>
+   </ul>
+   <p>Finally, dispatching a deferred event that does not seem to require
+packaging extra state or defining a state machine for the algorithm as mentioned above,
+could mean that all of the state transitions have been completed and that the event 
+is meant to signal completion of the algorithm. In this case, it’s likely that instead
+of using an event to signal completion, the API should be designed to return and complete
+a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise">Promise</a></code> instead. See <a href="#one-time-events">§ 3.1 Use promises for one time events</a>.</p>
+   <p class="note" role="note"><span>Note:</span> events that expose the possibility of recursion as described in this section
+were sometimes called "synchronous events". This terminology is discouraged as it
+implies that it is possible to dispatch an event asynchronously. All events are dispatched
+synchronously. What is more often implied by "asynchronous event" is to defer firing
+an event.</p>
+   <h3 class="heading settled" data-level="3.7" id="state-and-subclassing"><span class="secno">3.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <p>It’s tempting to create subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code> for all event types. This is frequently unnecessary. Consider subclassing <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code> when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
    <h3 class="heading settled" data-level="3.8" id="events-vs-observers"><span class="secno">3.8. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
-   <p>Several recent additions to the platform employ an Observer pattern. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/">IntersectionObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://wicg.github.io/ResizeObserver/" id="ref-for-https://wicg.github.io/ResizeObserver/">ResizeObserver</a></code>, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.</p>
+   <p>Several recent additions to the platform employ an Observer pattern. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver①">MutationObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/">IntersectionObserver</a></code>, <code class="idl"><a data-link-type="idl" href="#https://wicg.github.io/ResizeObserver/" id="ref-for-https://wicg.github.io/ResizeObserver/">ResizeObserver</a></code>, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.</p>
    <p>Many designs can be described as either Observers or <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget③">EventTarget</a></code>s. How to decide?</p>
    <p>In general, start your design process using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget④">EventTarget</a></code> and only move to Observers if and when events can’t be made to work well. Using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code> ensures your feature benefits from improvements to the shared base class, such as the recent addition of the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once" id="ref-for-dom-addeventlisteneroptions-once">once</a></code>.</p>
    <p>Observers have the following properties:</p>
@@ -2083,7 +2199,7 @@ directly on the relevant element interface(s). Similarly, <a data-link-type="dfn
     <li data-md>
      <p><code>takeRecords()</code> synchronously returns records for all observed-but-not-yet-delivered occurrences.</p>
    </ul>
-   <p class="example" id="example-7553a3ea"><a class="self-link" href="#example-7553a3ea"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver①">MutationObserver</a></code> takes a callback which receives <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationrecord" id="ref-for-mutationrecord">MutationRecord</a></code>s. It cannot be customized at construction time, but each observation can be customized using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dictdef-mutationobserverinit" id="ref-for-dictdef-mutationobserverinit">MutationObserverInit</a></code> set of options. It observes <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>s as targets. </p>
+   <p class="example" id="example-7553a3ea"><a class="self-link" href="#example-7553a3ea"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver②">MutationObserver</a></code> takes a callback which receives <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationrecord" id="ref-for-mutationrecord">MutationRecord</a></code>s. It cannot be customized at construction time, but each observation can be customized using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dictdef-mutationobserverinit" id="ref-for-dictdef-mutationobserverinit">MutationObserverInit</a></code> set of options. It observes <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>s as targets. </p>
    <p class="example" id="example-4a2bf527"><a class="self-link" href="#example-4a2bf527"></a> <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/①">IntersectionObserver</a></code> takes a callback which receives <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/②">IntersectionObserverEntry</a></code>s. It can be customized at construction time using the <code class="idl"><a data-link-type="idl" href="#https://w3c.github.io/IntersectionObserver/" id="ref-for-https://w3c.github.io/IntersectionObserver/③">IntersectionObserverInit</a></code> set of options, but each observation is not further customizable. It observers <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>s as targets. </p>
    <p>Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:</p>
    <ul>
@@ -2213,13 +2329,14 @@ which provides monotonically non-decreasing sub-millisecond timestamps
 that are comparable within a single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> or web worker.
 See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
    <h3 class="heading settled" data-level="4.4" id="error-types"><span class="secno">4.4. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
-   <p>Errors in web APIs should be represented as <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">ECMAScript error objects</a> (perhaps via the WebIDL <code class="idl"><a data-link-type="idl">Error</a></code> type)
-or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
+   <p>Errors in web APIs should be represented as
+ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
+or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.
 There was at one point a trend to use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domerror" id="ref-for-domerror">DOMError</a></code> when
 objects had a property representing an error.
 However, we no longer believe there was value in this split,
 and therefore suggest that ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code>)
-or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code> should be used for errors,
+or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code> should be used for errors,
 whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="5" id="device-apis"><span class="secno">5. </span><span class="content">OS and Device Wrapper APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>It is increasingly common to see new APIs developed in the web platform for interacting with
@@ -2580,7 +2697,10 @@ so that readers can quickly decide whether they need to read the steps in detail
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#dom-myobject-docomplexopwithevents">doComplexOpWithEvents()</a><span>, in §3.6</span>
    <li><a href="#live-object">live object</a><span>, in §2.4</span>
+   <li><a href="#myobject">MyObject</a><span>, in §3.6</span>
+   <li><a href="#dom-myobject-started">started</a><span>, in §3.6</span>
    <li><a href="#static-object">static object</a><span>, in §2.4</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-at-ruledef-supports">
@@ -2617,7 +2737,8 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-event">2.7. Classes should have constructors when possible</a>
-    <li><a href="#ref-for-event①">3.7. State and Event subclasses</a> <a href="#ref-for-event②">(2)</a> <a href="#ref-for-event③">(3)</a>
+    <li><a href="#ref-for-event①">3.6. Guard against potential recursion</a> <a href="#ref-for-event②">(2)</a>
+    <li><a href="#ref-for-event③">3.7. State and Event subclasses</a> <a href="#ref-for-event④">(2)</a> <a href="#ref-for-event⑤">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventtarget">
@@ -2636,7 +2757,8 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-mutationobserver">
    <a href="https://dom.spec.whatwg.org/#mutationobserver">https://dom.spec.whatwg.org/#mutationobserver</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-mutationobserver">3.8. How to decide between Events and Observers</a> <a href="#ref-for-mutationobserver①">(2)</a>
+    <li><a href="#ref-for-mutationobserver">3.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-mutationobserver①">3.8. How to decide between Events and Observers</a> <a href="#ref-for-mutationobserver②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dictdef-mutationobserverinit">
@@ -2663,6 +2785,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-nodelist">2.4. Consider whether objects should be live or static</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-abortsignal-add">
+   <a href="https://dom.spec.whatwg.org/#abortsignal-add">https://dom.spec.whatwg.org/#abortsignal-add</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-abortsignal-add">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-addeventlistener">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
@@ -2670,10 +2798,22 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-dom-eventtarget-addeventlistener②">3.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-node-appendchild">
+   <a href="https://dom.spec.whatwg.org/#dom-node-appendchild">https://dom.spec.whatwg.org/#dom-node-appendchild</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-node-appendchild">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-dispatchevent">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent">https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-eventtarget-dispatchevent">3.5. Events are for notification</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-event-fire">
+   <a href="https://dom.spec.whatwg.org/#concept-event-fire">https://dom.spec.whatwg.org/#concept-event-fire</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-event-fire">3.6. Guard against potential recursion</a> <a href="#ref-for-concept-event-fire①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-document-getelementsbytagname">
@@ -2791,6 +2931,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-event-handler-idl-attributes">3.4. Always add event handler attributes</a> <a href="#ref-for-event-handler-idl-attributes①">(2)</a> <a href="#ref-for-event-handler-idl-attributes②">(3)</a> <a href="#ref-for-event-handler-idl-attributes③">(4)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-focus-update-steps">
+   <a href="https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps">https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-focus-update-steps">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-the-img-element">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element">https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element</a><b>Referenced in:</b>
    <ul>
@@ -2801,6 +2947,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel">https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-in-parallel">1.2. Preserve run-to-completion semantics</a>
+    <li><a href="#ref-for-in-parallel①">3.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-img-ismap">
@@ -2825,6 +2972,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-queue-a-task">1.2. Preserve run-to-completion semantics</a>
+    <li><a href="#ref-for-queue-a-task①">3.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-reflect">
@@ -2833,10 +2981,34 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-reflect">2.5. Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-task-queue">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue">https://html.spec.whatwg.org/multipage/webappapis.html#task-queue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-task-queue">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idbdatabase">
    <a href="https://w3c.github.io/IndexedDB/#idbdatabase">https://w3c.github.io/IndexedDB/#idbdatabase</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idbdatabase">3.8. How to decide between Events and Observers</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-paymentrequest">
+   <a href="https://www.w3.org/TR/payment-request/#dom-paymentrequest">https://www.w3.org/TR/payment-request/#dom-paymentrequest</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-paymentrequest">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-state">
+   <a href="https://www.w3.org/TR/payment-request/#dfn-state">https://www.w3.org/TR/payment-request/#dfn-state</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-state">3.6. Guard against potential recursion</a> <a href="#ref-for-dfn-state①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-merchantvalidationevent-complete">
+   <a href="https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete">https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-merchantvalidationevent-complete">3.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-selector-combinator">
@@ -2860,7 +3032,8 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-idl-DOMException">
    <a href="https://heycam.github.io/webidl/#idl-DOMException">https://heycam.github.io/webidl/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-DOMException">4.4. Use Error or DOMException for errors</a> <a href="#ref-for-idl-DOMException①">(2)</a>
+    <li><a href="#ref-for-idl-DOMException">3.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-idl-DOMException①">4.4. Use Error or DOMException for errors</a> <a href="#ref-for-idl-DOMException②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-DOMTimeStamp">
@@ -2869,11 +3042,29 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-DOMTimeStamp">4.3. Use the appropriate type to represent times and dates</a> <a href="#ref-for-DOMTimeStamp①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-invalidstateerror">
+   <a href="https://heycam.github.io/webidl/#invalidstateerror">https://heycam.github.io/webidl/#invalidstateerror</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-invalidstateerror">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-promise">
+   <a href="https://heycam.github.io/webidl/#idl-promise">https://heycam.github.io/webidl/#idl-promise</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-promise">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
    <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-exceptiondef-typeerror">2.7. Classes should have constructors when possible</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a>
     <li><a href="#ref-for-exceptiondef-typeerror②">4.4. Use Error or DOMException for errors</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-constructors">
+   <a href="https://heycam.github.io/webidl/#idl-constructors">https://heycam.github.io/webidl/#idl-constructors</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-constructors">2.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-maplike">
@@ -2894,6 +3085,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-dfn-setlike">2.4. Consider whether objects should be live or static</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-progressevent">
+   <a href="https://xhr.spec.whatwg.org/#progressevent">https://xhr.spec.whatwg.org/#progressevent</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-progressevent">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequest">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequest">https://xhr.spec.whatwg.org/#xmlhttprequest</a><b>Referenced in:</b>
    <ul>
@@ -2904,6 +3101,18 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget">https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-xmlhttprequesteventtarget">3.8. How to decide between Events and Observers</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-progressevent-loaded">
+   <a href="https://xhr.spec.whatwg.org/#dom-progressevent-loaded">https://xhr.spec.whatwg.org/#dom-progressevent-loaded</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-progressevent-loaded">3.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-progressevent-total">
+   <a href="https://xhr.spec.whatwg.org/#dom-progressevent-total">https://xhr.spec.whatwg.org/#dom-progressevent-total</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-progressevent-total">3.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2932,8 +3141,11 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-mutationrecord" style="color:initial">MutationRecord</span>
      <li><span class="dfn-paneled" id="term-for-node" style="color:initial">Node</span>
      <li><span class="dfn-paneled" id="term-for-nodelist" style="color:initial">NodeList</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-add" style="color:initial">add</span>
      <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener" style="color:initial">addEventListener(type, callback)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-node-appendchild" style="color:initial">appendChild(node)</span>
      <li><span class="dfn-paneled" id="term-for-dom-eventtarget-dispatchevent" style="color:initial">dispatchEvent(event)</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-getelementsbytagname" style="color:initial">getElementsByTagName(qualifiedName)</span>
      <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once" style="color:initial">once</span>
      <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall" style="color:initial">querySelectorAll(selectors)</span>
@@ -2961,6 +3173,7 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
      <li><span class="dfn-paneled" id="term-for-customized-built-in-element" style="color:initial">customized built-in element</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
+     <li><span class="dfn-paneled" id="term-for-focus-update-steps" style="color:initial">focus update steps</span>
      <li><span class="dfn-paneled" id="term-for-the-img-element" style="color:initial">img</span>
      <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-dom-img-ismap" style="color:initial">isMap</span>
@@ -2968,11 +3181,19 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-dom-open" style="color:initial">open()</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-task-queue" style="color:initial">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-idbdatabase" style="color:initial">IDBDatabase</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[payment-request]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">PaymentRequest</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-state" style="color:initial">[[state]]</span>
+     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete" style="color:initial">complete()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
@@ -2994,7 +3215,10 @@ so that readers can quickly decide whether they need to read the steps in detail
     <ul>
      <li><span class="dfn-paneled" id="term-for-idl-DOMException" style="color:initial">DOMException</span>
      <li><span class="dfn-paneled" id="term-for-DOMTimeStamp" style="color:initial">DOMTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-invalidstateerror" style="color:initial">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-promise" style="color:initial">Promise</span>
      <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror" style="color:initial">TypeError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-constructors" style="color:initial">constructor operations</span>
      <li><span class="dfn-paneled" id="term-for-dfn-maplike" style="color:initial">maplike</span>
      <li><span class="dfn-paneled" id="term-for-dfn-namespace" style="color:initial">namespace</span>
      <li><span class="dfn-paneled" id="term-for-dfn-setlike" style="color:initial">setlike</span>
@@ -3002,8 +3226,11 @@ so that readers can quickly decide whether they need to read the steps in detail
    <li>
     <a data-link-type="biblio">[XHR]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-progressevent" style="color:initial">ProgressEvent</span>
      <li><span class="dfn-paneled" id="term-for-xmlhttprequest" style="color:initial">XMLHttpRequest</span>
      <li><span class="dfn-paneled" id="term-for-xmlhttprequesteventtarget" style="color:initial">XMLHttpRequestEventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-loaded" style="color:initial">loaded</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-total" style="color:initial">total</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -3023,6 +3250,8 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-indexeddb-2">[IndexedDB-2]
    <dd>Ali Alabbas; Joshua Bell. <a href="https://w3c.github.io/IndexedDB/">Indexed Database API 2.0</a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
+   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
+   <dd>Marcos Caceres; et al. <a href="https://w3c.github.io/payment-request/">Payment Request API</a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
@@ -3039,6 +3268,24 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://w3c.github.io/uievents/">UI Events</a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
   </dl>
+  <aside class="dfn-panel" data-for="myobject">
+   <b><a href="#myobject">#myobject</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-myobject">3.6. Guard against potential recursion</a> <a href="#ref-for-myobject①">(2)</a> <a href="#ref-for-myobject②">(3)</a> <a href="#ref-for-myobject③">(4)</a> <a href="#ref-for-myobject④">(5)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-myobject-docomplexopwithevents">
+   <b><a href="#dom-myobject-docomplexopwithevents">#dom-myobject-docomplexopwithevents</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-myobject-docomplexopwithevents">3.6. Guard against potential recursion</a> <a href="#ref-for-dom-myobject-docomplexopwithevents①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-myobject-started">
+   <b><a href="#dom-myobject-started">#dom-myobject-started</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-myobject-started">3.6. Guard against potential recursion</a> <a href="#ref-for-dom-myobject-started①">(2)</a> <a href="#ref-for-dom-myobject-started②">(3)</a> <a href="#ref-for-dom-myobject-started③">(4)</a>
+   </ul>
+  </aside>
 <script>/* script-dfn-panel */
 
 document.body.addEventListener("click", function(e) {
