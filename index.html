@@ -2118,7 +2118,7 @@ beyond the algorithm’s control. In these cases another form of protecting the 
 of the algorithm’s state is to "defer" the event to a subsequent task or microtask.
 Deferral ensures that any stack-based recursion is avoided (but does not eliminate
 potentially problematic loops, as they could now occur as unending follow-up tasks).</p>
-   <p>Defering an event is often specified as "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">fire an event</a>...".</p>
+   <p>Deferring an event is often specified as "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">fire an event</a>...".</p>
    <p>By way of illustration, the deprecated <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events">Mutation Events</a> fired in the middle of node insertion and removal algorithms, and
 could be triggered by a variety of common API calls like <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-node-appendchild" id="ref-for-dom-node-appendchild">appendChild()</a></code>. The side-effects
 from recursively running node mutation algorithms caused many years of security issues.
@@ -2128,7 +2128,7 @@ following the algorithm.</p>
 the event could be running on a different thread or process. In this case deferral 
 ensures the events can be processed on the correct task in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue" id="ref-for-task-queue">task queue</a>.</p>
    <p>Both approaches to protecting against unwanted recursion have trade-offs. Some things
-to consider when chosing the guarding approach:</p>
+to consider when choosing the guarding approach:</p>
    <ul>
     <li data-md>
      <p>all state management can be rationalized within one "turn" of the algorithm (no
@@ -2146,7 +2146,7 @@ object they were fired on (avoiding the need to derive a new type of <code class
    <p>When deferring, event handlers will run after the algorithm ends (or starts
 to run <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in parallel</a>) and any number of other tasks or microtasks may run in between 
 that invalidate the object’s state. Since the object’s state will be unknown when
-the deffered event is dispatched, consider the following:</p>
+the deferred event is dispatched, consider the following:</p>
    <ul>
     <li data-md>
      <p>state relevant to the event should be packaged with the deferred event, usually
