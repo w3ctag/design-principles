@@ -50,23 +50,19 @@ url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: in
 
 Hyperlinks, links from one page to another, are one of the foundations of the Web.
 
-Following a link, or visiting a web page, should be safe.
-Users who are following a link to a web page they haven't seen before
+Following a link, or visiting a web page, should be safe:
+users doing this
 should not have to fear for the security of their computer
 or for essential aspects of their privacy.
-(One caveat here is that users of the Web
-should not assume that they are free from consequences
+(But it's not completely safe,
+in the sense that users may face consequences
 if their use of the Web is harming others.)
+Furthermore, users should understand that it is safe (and how it isn't)
+so they can make informed decisions between use of the Web versus other technologies.
 
 Saying “essential aspects” here skips over quite a bit of detail.
-The Web isn't perfectly private.
-But we can probably make it better than it is today.
-In doing so, we may want to focus on the cases where
-user expectations of what information is revealed when using the Web
-don't match the technical details.
-We might be able to use the design of user interfaces
-to make it clear what users of the Web should expect,
-since one aspect of privacy problems is when reality doesn't meet expectations.
+The Web today is far from being perfectly private.
+One aspect of privacy problems is when reality doesn't meet expectations.
 For example,
 a person walking down the street generally expects to be recognized by their friends,
 but depending on the country,
@@ -74,6 +70,16 @@ may not expect that they were walking down that street to be recorded in a perma
 Online, people might have less understanding of what is or isn't possible,
 and their expectations might differ more widely.
 <!-- Can we cite research on this??? -->
+
+We can probably make privacy on the Web better than it is today:
+  * We can improve the user interfaces through which the Web is used
+    to make it clearer what users of the Web should expect.
+  * We can change the technical foundations of the Web
+    so that they match user expectations of privacy.
+  * We can consider the cases where users would be better off
+    if expectations were higher,
+    and in those cases
+    try to change both technical foundations and expectations
 
 When we add new features to the Web
 that might weaken the security or privacy characteristics that the Web currently has,
@@ -88,7 +94,8 @@ and this erodes one of the core values of the Web:  that it is safe to visit web
 We should seek to give users a true picture of the safety of the Web
 so that they can act based on that understanding of safety
 (in comparison to the safety of alternatives),
-and at the same time we should seek to keep the Web safe for its users.
+and at the same time we should seek to keep the Web safe for its users
+and work to make it safer.
 
 <h3 id="trusted-ui">Trusted user interface should be trustworthy</h3>
 
@@ -99,29 +106,39 @@ such as by displaying part or all of the URL or other information about the site
 or whether the connection is secure.
 Since users rely on this information to learn what site they're on
 and to make judgments about whether it is trustworthy,
-it is important that sites not be able to spoof or override this user interface.
-
-When we add new features to the web,
+this software is designed so that
+sites are not able to override this user interface
+or spoof it in a way that would confuse users.
+Therefore, when we add new features to the web,
 we should consider whether they require new complexity in this user interface,
 and whether that complexity would reduce users' ability
 to make correct judgments about who they're interacting with
-and whether the user interface is trustworthy or spoofed.
+or whether the user interface is trustworthy or spoofed.
 
 <h3 id="informed-consent">Ask users for informed consent when appropriate</h3>
 
 In some cases,
 we might add features to the Web that are not appropriate to allow for any website a user visits,
-but that are reasonable to have if the user gives informed consent.
-An example of such a feature might be support for location:
+but that are reasonable to have if the user agrees to use the feature
+based on a reasonable understanding of what will happen as a result.
+One example of such a feature might be support for location:
 many users seem likely to understand what it means to share their current location with a website
 and be able to consent to doing so
 (even though they might not fully understand the privacy implications of doing so).
+Another example of such a feature would be camera access,
+where users understand that they're sharing the image
+in the rectangle visible to the camera
+(even if they might not understand everything someone might do with the data).
 
 We should not depend on asking the user for consent
 (via a permission prompt or other mechanism)
 if we don't have a way to express that request in a way
 that users will understand what is being requested
 and the main implications of giving their consent.
+Understanding whether this is the case may require
+studying users understanding of potential user interfaces,
+although in many cases experienced user experience designers
+may be able to extrapolate from previous experience.
 
 We should also not ask users to consent to something
 that can also happen if the user does not consent.
@@ -138,7 +155,7 @@ which they learned from trusted user interface,
 did not match reality.
 
 Asking users for consent via permission prompts
-can both reinforce the idea that the web is safe
+can both reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
 by showing the user that certain things won't happen without their permission,
 and can also show how scary a place the web is
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.
