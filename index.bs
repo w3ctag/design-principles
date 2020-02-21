@@ -65,8 +65,9 @@ The Web today is far from being perfectly private.
 One aspect of privacy problems is when reality doesn't meet expectations.
 For example,
 a person walking down the street generally expects to be recognized by their friends,
-but depending on the country,
-may not expect that they were walking down that street to be recorded in a permanent government database.
+but (depending on the country)
+may not expect that they walked down that street at that time
+to be recorded in a permanent government database.
 Online, people might have less understanding of what is or isn't possible,
 and their expectations might differ more widely.
 <!-- Can we cite research on this??? -->
