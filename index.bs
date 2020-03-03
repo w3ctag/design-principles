@@ -116,7 +116,7 @@ and whether that complexity would reduce users' ability
 to make correct judgments about who they're interacting with
 or whether the user interface is trustworthy or spoofed.
 
-<h3 id="informed-consent">Ask users for informed consent when appropriate</h3>
+<h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 In some cases,
 we might add features to the Web that are not appropriate to allow for any website a user visits,
@@ -156,9 +156,9 @@ which they learned from trusted user interface,
 did not match reality.
 
 Asking users for consent via permission prompts
-can both reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
-by showing the user that certain things won't happen without their permission,
-and can also show how scary a place the web is
+can reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
+by showing the user that certain things won't happen without their permission.
+But frequently asking users for consent can also show how scary a place the web is
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.
 
 <h2 id="js">JavaScript Language</h2>
