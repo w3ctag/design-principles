@@ -44,6 +44,123 @@ url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: in
     }
 </style>
 
+<h2 id="api-principles">Principles behind design of Web APIs</h2>
+
+<h3 id="safe-to-browse">It should be safe to visit a web page</h3>
+
+Hyperlinks, links from one page to another, are one of the foundations of the Web.
+
+Following a link, or visiting a web page, should be safe:
+users doing this
+should not have to fear for the security of their computer
+or for essential aspects of their privacy.
+(But it's not completely safe,
+in the sense that users may face consequences
+if their use of the Web is harming others.)
+Furthermore, users should understand that it is safe (and how it isn't)
+so they can make informed decisions between use of the Web versus other technologies.
+
+Saying “essential aspects” here skips over quite a bit of detail.
+The Web today is far from being perfectly private.
+One aspect of privacy problems is when reality doesn't meet expectations.
+For example,
+a person walking down the street generally expects to be recognized by their friends,
+but (depending on the country)
+may not expect that they walked down that street at that time
+to be recorded in a permanent government database.
+Online, people might have less understanding of what is or isn't possible,
+and their expectations might differ more widely.
+<!-- Can we cite research on this??? -->
+
+We can probably make privacy on the Web better than it is today:
+  * We can improve the user interfaces through which the Web is used
+    to make it clearer what users of the Web should expect.
+  * We can change the technical foundations of the Web
+    so that they match user expectations of privacy.
+  * We can consider the cases where users would be better off
+    if expectations were higher,
+    and in those cases
+    try to change both technical foundations and expectations
+
+When we add new features to the Web
+that might weaken the security or privacy characteristics that the Web currently has,
+we should consider the tradeoffs involved in that particular feature.
+A new feature with security risks might still make users safer, for example,
+because they would download and run native binary software less often,
+and downloading and running binaries is much riskier than visiting a Web page.
+However, we should also consider the tradeoff
+against the *idea* that it is safe to visit Web pages:
+adding a risky feature to the Web teaches the Web's users that the Web is less safe,
+and this erodes one of the core values of the Web:  that it is safe to visit websites.
+We should seek to give users a true picture of the safety of the Web
+so that they can act based on that understanding of safety
+(in comparison to the safety of alternatives),
+and at the same time we should seek to keep the Web safe for its users
+and work to make it safer.
+
+<h3 id="trusted-ui">Trusted user interface should be trustworthy</h3>
+
+Since users of the Web can follow links to sites they might not know already,
+software that lets them access the Web generally provides user interface
+to show the user who they're interacting with and how,
+such as by displaying part or all of the URL or other information about the site,
+or whether the connection is secure.
+Since users rely on this information to learn what site they're on
+and to make judgments about whether it is trustworthy,
+this software is designed so that
+sites are not able to override this user interface
+or spoof it in a way that would confuse users.
+Therefore, when we add new features to the web,
+we should consider whether they require new complexity in this user interface,
+and whether that complexity would reduce users' ability
+to make correct judgments about who they're interacting with
+or whether the user interface is trustworthy or spoofed.
+
+<h3 id="consent">Ask users for meaningful consent when appropriate</h3>
+
+In some cases,
+we might add features to the Web that are not appropriate to allow for any website a user visits,
+but that are reasonable to have if the user agrees to use the feature
+based on a reasonable understanding of what will happen as a result.
+One example of such a feature might be support for location:
+many users seem likely to understand what it means to share their current location with a website
+and be able to consent to doing so
+(even though they might not fully understand the privacy implications of doing so).
+Another example of such a feature would be camera access,
+where users understand that they're sharing the image
+in the rectangle visible to the camera
+(even if they might not understand everything someone might do with the data).
+
+We should not depend on asking the user for consent
+(via a permission prompt or other mechanism)
+if we don't have a way to express that request in a way
+that users will understand what is being requested
+and the main implications of giving their consent.
+Understanding whether this is the case may require
+studying users understanding of potential user interfaces,
+although in many cases experienced user experience designers
+may be able to extrapolate from previous experience.
+
+We should also not ask users to consent to something
+that can also happen if the user does not consent.
+The existence of prompts
+that request a user's consent for something
+(from trusted user interface in their browser or other user agent)
+imply that the thing for which consent is being requested
+will not happen if the user doesn't consent.
+Therefore we should not have user agents request consent
+for something that they can't effectively prevent.
+Doing so would send the wrong message about the safety characteristics of the Web
+and would lead users to be disappointed when the expectations of privacy,
+which they learned from trusted user interface,
+did not match reality.
+
+Asking users for consent via permission prompts
+can reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
+by showing the user that certain things won't happen without their permission.
+But frequently asking users for consent can also show how scary a place the web is
+by showing how many sites are willing to ask for intrusive and unnecessary permissions.
+
 <h2 id="js">JavaScript Language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
