@@ -137,9 +137,11 @@ and by name association.
 
 Please consult widely on names in your APIs.
 
-API naming *must* be done in easily readable US-English language and fall into the ASCII range. 
-For example `horizontalAlignment` is a more English-readable name than `alignmentHorizontal`. 
-Whenever possible consider readability over brevity.
+API naming *must* be done in easily readable US English. For example `horizontalAlignment` is a 
+more English-readable name than `alignmentHorizontal`. Whenever possible consider readability over brevity.
+
+Names should adhere to the local language restrictions, for example CSS ident rules etc. 
+and *should* be in the [ASCII range](https://infra.spec.whatwg.org/#ascii-code-point).
 
 Boolean properties, options, or API parameters which are asking a question about
 their argument *should not* be prefixed with <code>is</code>, while methods
