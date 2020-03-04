@@ -44,7 +44,7 @@ url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: in
     }
 </style>
 
-<h2 id="principles">Principles behind design of Web APIs</h2>
+<h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
 
