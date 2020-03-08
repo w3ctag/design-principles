@@ -349,6 +349,41 @@ One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.
 
+<h2 id="css">Cascading Style Sheets (CSS)</h2>
+
+<h3 id="css-versus-markup">Presentation should be in CSS, content should be in HTML</h3>
+
+CSS originally intended as optional... maybe we've moved past that?
+
+But still:
+- a11y tools
+- copy/paste
+
+Things that are essential to understanding the content should be in the markup.
+For example, the content's language belongs in the <{html/lang}> attribute, not in CSS.
+
+<h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
+
+<h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
+
+- font-size or color versus background or width
+
+- interesting cases like text-decoration
+
+- performance implications
+
+<h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
+
+- what computed and resolved values are
+- `getComputedStyle` is the resolved value
+- computed value affects what inherits
+
+<h3 id="css-naming">CSS properties are nouns, values are adjectives</h3>
+
+- nouns and adjectives
+- words separated by hyphens
+- see general naming section
+
 <h2 id="js">JavaScript Language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
