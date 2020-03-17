@@ -4,9 +4,9 @@ Group: W3C TAG
 Shortname: design-principles
 Repository: w3ctag/design-principles
 Status: DREAM
+Editor: Travis Leithead, Microsoft, travil@microsoft.com
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
-Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
 Abstract: This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.
 Default Biblio Status: current
 Markup Shorthands: markdown on
