@@ -179,7 +179,7 @@ and by name association.
 Please consult widely on names in your APIs.
 
 API naming *must* be done in easily readable US English. For example `horizontalAlignment` 
-is more English-readable name than `alignmentHorizontal`. Whenever possible consider 
+is a more English-readable name than `alignmentHorizontal`. Whenever possible consider 
 readability over brevity.
 
 Names should adhere to the local language restrictions, for example CSS ident rules etc. 
