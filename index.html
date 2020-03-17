@@ -1221,7 +1221,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 7dd49ddf2b095c0a9accc859934f2349a4fb5d3c" name="generator">
+  <meta content="Bikeshed version 1aa55c4b12206b757a7f28d827148354589319fb" name="generator">
 <style>
     table.data {
         text-align: left;
@@ -1714,6 +1714,10 @@ by showing how many sites are willing to ask for intrusive and unnecessary permi
    <p>Consistency is a good principle that helps to create a platform that users can navigate intuitively
 and by name association.</p>
    <p>Please consult widely on names in your APIs.</p>
+   <p>API naming <em>must</em> be done in easily readable US English. For example <code>horizontalAlignment</code> is a more English-readable name than <code>alignmentHorizontal</code>. Whenever possible consider 
+readability over brevity.</p>
+   <p>Names should adhere to the local language restrictions, for example CSS ident rules etc.
+and <em>should</em> be in the <a href="https://infra.spec.whatwg.org/#ascii-code-point">ASCII range</a>.</p>
    <p>Boolean properties, options, or API parameters which are asking a question about
 their argument <em>should not</em> be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, <em>should</em> be
