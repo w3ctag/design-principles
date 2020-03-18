@@ -53,7 +53,7 @@ consider users over authors over implementors over specifiers over theoretical p
 In other words costs or difficulties to the user
 should be given more weight than costs to authors;
 which in turn should be given more weight than costs to implementors;
-which should be given more weight than costs to authors of the spec itself,
+which should be given more weight than costs to authors of the specification itself,
 which should be given more weight than those proposing changes for theoretical reasons alone.
 Of course, it is preferred to make things better for multiple constituencies at once.
 
