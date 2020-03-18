@@ -182,37 +182,61 @@ by showing how many sites are willing to ask for intrusive and unnecessary permi
 
 <h3 id="naming-is-hard">Naming things</h3>
 
-Naming is hard! We would all like a silver-bullet for naming APIs...
-
 Names take meaning from:
 
 * signposting (the name itself)
 * use (how people come to understand the name over time)
 * context (the object on the left-hand side, for example)
 
-Consistency is a good principle that helps to create a platform that users can navigate intuitively
-and by name association.
+<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
+
+API naming *must* be done in easily readable US English.
+Keep in mind that most web developers are not native English speakers.
+Whenever possible, names should be chosen that use common vocabulary
+non-native English speakers are likely to understand when first encountering the name.
+Always value readability over brevity.
+
+<p class="example"For example `horizontalAlignment` is a more
+English-readable name than `alignmentHorizontal`.
+
+Note: It may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined;
+this principle applies only to the API names themselves.
+
+<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
+
+Names must adhere to the local language restrictions, for example CSS ident rules etc.
+and *should* be in the [ASCII range](https://infra.spec.whatwg.org/#ascii-code-point).
+
+<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
 
 Please consult widely on names in your APIs.
 
-API naming *must* be done in easily readable US English. For example `horizontalAlignment` 
-is a more English-readable name than `alignmentHorizontal`. Whenever possible consider 
-readability over brevity.
+<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
 
-Names should adhere to the local language restrictions, for example CSS ident rules etc. 
-and *should* be in the [ASCII range](https://infra.spec.whatwg.org/#ascii-code-point).
+Naming should be generic and future-proof whenever possible.
+
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.
+
+<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
+Naming schemes should aim for consistency, to avoid confusion.
+
+Sets of related names should agree with each other in:
+  * part of speech  - noun, verb, etc.
+  * negation, for example all of the names in a set should either describe what is allowed
+    or they should all describe what is denied
+
+<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
+  boolean-returning methods</h5>
 
 Boolean properties, options, or API parameters which are asking a question about
 their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
 
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, but
-since removing APIs from the web is difficult, naming should be generic and
-future-proof whenever possible.
-
-<h3 id="casing-rules">Use casing rules consistent with existing APIs</h3>
+<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
 
 Although they haven't always been uniformly followed, through the history of web platform API
 design, the following rules have emerged:
