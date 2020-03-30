@@ -459,6 +459,10 @@ much like a data property as possible. Specific guidance in this regard includes
     true. (This will not always be the case, e.g. if a normalization or type conversion step is
     necessary, but should be held as a goal for normal code paths.)
 
+If you were thinking about using an attribute,
+but it doesn't behave this way,
+you should probably use a method instead.
+
 <h3 id="live-vs-static">Consider whether objects should be live or static</h3>
 
 Objects returned from functions, attribute getters, etc.,
