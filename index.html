@@ -1943,6 +1943,9 @@ given <code class="highlight">obj<c- p>.</c->attribute <c- o>=</c-> x</code>, a 
 true. (This will not always be the case, e.g. if a normalization or type conversion step is
 necessary, but should be held as a goal for normal code paths.)</p>
    </ul>
+   <p>If you were thinking about using an attribute,
+but it doesn’t behave this way,
+you should probably use a method instead.</p>
    <h3 class="heading settled" data-level="4.2" id="live-vs-static"><span class="secno">4.2. </span><span class="content">Consider whether objects should be live or static</span><a class="self-link" href="#live-vs-static"></a></h3>
    <p>Objects returned from functions, attribute getters, etc.,
 can either be live or static.
