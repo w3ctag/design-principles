@@ -46,6 +46,22 @@ url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: in
 
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
+<h3 id="priority-of-constituencies">Priority of constituencies</h3>
+
+In case of conflict,
+consider users over authors over implementors over specifiers over theoretical purity.
+In other words costs or difficulties to the user
+should be given more weight than costs to authors;
+which in turn should be given more weight than costs to implementors;
+which should be given more weight than costs to authors of the specification itself,
+which should be given more weight than those proposing changes for theoretical reasons alone.
+Of course, it is preferred to make things better for multiple constituencies at once.
+
+See also
+
+* <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
+* <a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The Internet is for End Users</a>
+
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
 
 Hyperlinks, links from one page to another, are one of the foundations of the Web.
