@@ -1221,98 +1221,13 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 1aa55c4b12206b757a7f28d827148354589319fb" name="generator">
+  <meta content="Bikeshed version c80ee3ab, updated Thu Mar 26 10:21:28 2020 -0700" name="generator">
 <style>
     table.data {
         text-align: left;
         font-size: small;
     }
 </style>
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1375,6 +1290,35 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
 .dfn-panel {
@@ -1412,6 +1356,62 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: gray;
+    color: white;
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: black;
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-syntax-highlighting */
 
 .highlight:not(.idl) { background: hsl(24, 20%, 95%); }
@@ -1474,7 +1474,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Client-side API Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2020-03-17">17 March 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2020-03-31">31 March 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt class="editor">Editor:
@@ -1492,7 +1492,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 17 March 2020,
+In addition, as of 31 March 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1509,9 +1509,10 @@ Parts of this work may be from another specification document.  If so, those par
     <li>
      <a href="#basic-principles"><span class="secno">1</span> <span class="content">Principles behind design of Web APIs</span></a>
      <ol class="toc">
-      <li><a href="#safe-to-browse"><span class="secno">1.1</span> <span class="content">It should be safe to visit a web page</span></a>
-      <li><a href="#trusted-ui"><span class="secno">1.2</span> <span class="content">Trusted user interface should be trustworthy</span></a>
-      <li><a href="#consent"><span class="secno">1.3</span> <span class="content">Ask users for meaningful consent when appropriate</span></a>
+      <li><a href="#priority-of-constituencies"><span class="secno">1.1</span> <span class="content">Priority of constituencies</span></a>
+      <li><a href="#safe-to-browse"><span class="secno">1.2</span> <span class="content">It should be safe to visit a web page</span></a>
+      <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
+      <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent when appropriate</span></a>
      </ol>
     <li>
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
@@ -1594,7 +1595,23 @@ Parts of this work may be from another specification document.  If so, those par
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="basic-principles"><span class="secno">1. </span><span class="content">Principles behind design of Web APIs</span><a class="self-link" href="#basic-principles"></a></h2>
-   <h3 class="heading settled" data-level="1.1" id="safe-to-browse"><span class="secno">1.1. </span><span class="content">It should be safe to visit a web page</span><a class="self-link" href="#safe-to-browse"></a></h3>
+   <h3 class="heading settled" data-level="1.1" id="priority-of-constituencies"><span class="secno">1.1. </span><span class="content">Priority of constituencies</span><a class="self-link" href="#priority-of-constituencies"></a></h3>
+   <p>In case of conflict,
+consider users over authors over implementors over specifiers over theoretical purity.
+In other words costs or difficulties to the user
+should be given more weight than costs to authors;
+which in turn should be given more weight than costs to implementors;
+which should be given more weight than costs to authors of the specification itself,
+which should be given more weight than those proposing changes for theoretical reasons alone.
+Of course, it is preferred to make things better for multiple constituencies at once.</p>
+   <p>See also</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a></p>
+    <li data-md>
+     <p><a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The Internet is for End Users</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="1.2" id="safe-to-browse"><span class="secno">1.2. </span><span class="content">It should be safe to visit a web page</span><a class="self-link" href="#safe-to-browse"></a></h3>
    <p>Hyperlinks, links from one page to another, are one of the foundations of the Web.</p>
    <p>Following a link, or visiting a web page, should be safe:
 users doing this
@@ -1644,7 +1661,7 @@ so that they can act based on that understanding of safety
 (in comparison to the safety of alternatives),
 and at the same time we should seek to keep the Web safe for its users
 and work to make it safer.</p>
-   <h3 class="heading settled" data-level="1.2" id="trusted-ui"><span class="secno">1.2. </span><span class="content">Trusted user interface should be trustworthy</span><a class="self-link" href="#trusted-ui"></a></h3>
+   <h3 class="heading settled" data-level="1.3" id="trusted-ui"><span class="secno">1.3. </span><span class="content">Trusted user interface should be trustworthy</span><a class="self-link" href="#trusted-ui"></a></h3>
    <p>Since users of the Web can follow links to sites they might not know already,
 software that lets them access the Web generally provides user interface
 to show the user who they’re interacting with and how,
@@ -1660,7 +1677,7 @@ we should consider whether they require new complexity in this user interface,
 and whether that complexity would reduce users' ability
 to make correct judgments about who they’re interacting with
 or whether the user interface is trustworthy or spoofed.</p>
-   <h3 class="heading settled" data-level="1.3" id="consent"><span class="secno">1.3. </span><span class="content">Ask users for meaningful consent when appropriate</span><a class="self-link" href="#consent"></a></h3>
+   <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent when appropriate</span><a class="self-link" href="#consent"></a></h3>
    <p>In some cases,
 we might add features to the Web that are not appropriate to allow for any website a user visits,
 but that are reasonable to have if the user agrees to use the feature
