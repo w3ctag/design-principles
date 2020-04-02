@@ -318,6 +318,19 @@ but in some cases the feature should also be detectable
 in the language where it is used
 (such as ''@supports'' in CSS).
 
+<h3 id="restriction-options">Use appropriate methods for restricting features</h3>
+
+The Web has a number of somewhat-related features:
+
+* The <{iframe}> element's <{iframe/sandbox}> attribute
+* [Feature policy](https://w3c.github.io/webappsec-feature-policy/) (and the the <{iframe}> element's <{iframe/allow}> attribute)
+* The <{iframe}> element's <{iframe/allowfullscreen}> and <{iframe/allowpaymentrequest}> attributes
+* The [{{SecureContext}}] WebIDL attribute.
+* [Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+
+(There are also even more obsolete features, like
+<code>[X-Frame-Options](https://tools.ietf.org/html/rfc7034)</code>, which was obsoleted by CSP.)
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 It may save you significant time and effort
