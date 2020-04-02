@@ -366,7 +366,8 @@ which remain a major use of web technology.
 If non-visual consumers of a page (such as search engines or screenreaders)
 seem likely to need the information (at least for well-designed pages),
 then it probably belongs in the markup rather than in the CSS.
-For example, information about the human language (English, Chinese, Arabic, etc.)
+
+<p class="example">For example, information about the human language (English, Chinese, Arabic, etc.)
 that the text is in belongs in the markup
 (in particular, the <code><a href="https://html.spec.whatwg.org/multipage/dom.html#the-lang-and-xml:lang-attributes">lang</a></code> attribute),
 even though a number of the uses of that information (such as font selection or hyphenation)
@@ -388,7 +389,7 @@ to override one another in a process called the cascade.
 Thus things that should always be set together belong in the same properties,
 but things that make sense to set in different places should be in separate properties.
 
-For example, the "size" and "sink" aspects of the 'initial-letters' property
+<p class="example">For example, the "size" and "sink" aspects of the 'initial-letters' property
 belong in a single property
 because they are part of a single initial letter effect
 (e.g., a drop cap, sunken cap, or raised cap)
