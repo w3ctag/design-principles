@@ -546,11 +546,20 @@ These integer values are generally the preferred values to use for 'line-height'
 because they inherit better than length values.
 </div>
 
-<h3 id="css-naming">CSS properties are nouns, values are adjectives</h3>
+<h3 id="css-naming">Naming of CSS properties and values</h3>
 
-- nouns and adjectives
-- words separated by hyphens
-- see general naming section
+The names of CSS properties are usually nouns,
+and the names of their values are usually adjectives (although sometimes nouns).
+
+Words in properties and values are separated by hyphens.
+Abbreviations are generally avoided.
+
+The list of values of a property should generally be chosen
+so that new values can be added.
+Avoid values like ''yes'', ''no'', ''true'', ''false'',
+or things with more complex names that are basically equivalent to them.
+
+See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
 <h2 id="js">JavaScript Language</h2>
 
