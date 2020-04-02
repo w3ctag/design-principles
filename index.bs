@@ -491,9 +491,60 @@ of walking up the ancestor chain looking for text decorations on ancestors.
 
 <h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
 
-- what computed and resolved values are
-- `getComputedStyle` is the resolved value
-- computed value affects what inherits
+Another important choice in the design of every CSS property
+is what its <a>computed value</a> is.
+This is an abstract description of the value that is inherited when the property inherits.
+This is most important for inherited properties, but it does matter for all properties.
+
+Due to a somewhat unfortunate history,
+this is *not* the value that is returned by {{getComputedStyle()}},
+which is actually the <a>resolved value</a>,
+which can be the result of further computation starting from the computed value.
+
+The definition of a CSS property often has interactions with other CSS properties.
+Whether those interactions affect the property's computed value is a design choice,
+and it affects the behavior of inheritance.
+
+<a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
+that do affect computed values</a>
+are required not be circular.
+
+Making decisions about whether dependencies should affect computed values
+often involves tradeoffs of complexity.
+Sometimes it is less complex
+for the behavior to happen as part of the computation of the computed value;
+sometimes it is less complex 
+for the behavior to happen in whatever handles the computed value.
+(This complexity might be in the specification, in implementations, or both.
+Complexity in implementations might affect how fast things run for end users.)
+
+<div class="example">
+For example, the 'line-height' property accepts values that are integers,
+such as ''line-height: 1.4''.
+This value is a multiple of the 'font-size',
+so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
+
+However, the computed value in this case is the number ''1.4'', not the length ''28px''.
+This is important because the value can inherit to elements that have a different font size:
+
+  <pre highlight=html>
+&lt;body style="line-height: 1.4"&gt;
+
+  &lt;p&gt;For example, this body text has a line height
+  that's 1.4 times its font size.&lt;/p&gt;
+
+  &lt;h2 style="font-size: 200%"&gt;
+    And this heading also has a line-height that's
+    1.4 times the h2's larger font size, and *not*
+    1.4 times the body's font size, which would lead
+    to text overlap
+  &lt;/h2&gt;
+&lt;/body&gt;
+  </pre>
+
+These integer values are generally the preferred values to use for 'line-height'
+because they inherit better than length values.
+</div>
 
 <h3 id="css-naming">CSS properties are nouns, values are adjectives</h3>
 
