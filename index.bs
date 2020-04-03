@@ -319,6 +319,12 @@ but in some cases the feature should also be detectable
 in the language where it is used
 (such as ''@supports'' in CSS).
 
+Note that some features should not be detectable.
+For instance,
+sites should not be able to detect
+if [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/) is engaged,
+or if assistive technologies are being used. See [[#do-not-expose-use-of-private-browsing-mode]], [[#do-not-expose-use-of-assistive-tech]], and the [Observations on Private Browsing Modes](https://www.w3.org/2001/tag/doc/private-browsing-modes/) TAG Finding.
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 It may save you significant time and effort
@@ -372,6 +378,136 @@ then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.
+
+<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+
+In general,
+APIs should behave the same in and out of [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/).
+This is because
+the use of private browsing mode should not be revealed to sites.
+See [[#do-not-expose-use-of-private-browsing-mode]].
+
+However,
+there are some situations in which
+APIs should consider behaving differently
+when private browsing mode is engaged,
+as discussed in our [privacy & security questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing).
+
+For instance,
+if your API would reveal information
+that would allow for the correlation
+of a single user’s activity
+both in and out of private browsing mode,
+consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations) such as
+introducing noise
+or augmenting permission prompts with additional information
+which would help users meaningfully consent to such correlation
+(see [[#consent]]).
+
+<div class="example">
+
+The [Payment Request API](https://www.w3.org/TR/payment-request/)'s [show() method](https://www.w3.org/TR/payment-request/#show-method), when called,
+allows User Agents to <q cite="https://www.w3.org/TR/payment-request/#show-method">to act as if the user had immediately [aborted the payment request](https://www.w3.org/TR/payment-request/#dfn-user-aborts-the-payment-request)</q>.
+
+This enables User Agents to automatically abort payment requests
+in private browsing mode
+(thus protecting [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
+such as the user's shipping or billing address)
+without revealing that private browsing mode is engaged.
+
+</div>
+
+Private browsing modes enable users to browse the web
+without leaving any trace of their private browsing on their device.
+Therefore, APIs which provide client-side storage
+should not persist data stored
+while private browsing mode is engaged
+after it is disengaged.
+
+<div class="example">
+  
+User Agents which support [localStorage](https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage)
+should not persist storage area changes
+made while private browsing mode is engaged.
+
+If the User Agent has two simultaneous sessions with a site,
+one in private browsing mode and one not,
+storage area changes made in the private browsing mode session
+should not be revealed to the other browsing session.
+(The [storage event](https://html.spec.whatwg.org/multipage/indices.html#event-storage) should not be fired
+at the other session's [window object](https://html.spec.whatwg.org/multipage/window-object.html#window).)
+
+</div>
+
+See also
+
+* [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
+
+<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
+
+Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
+for their own <a href="#safe-to-browse">safety</a>;
+just the fact that they have or are using private browsing mode
+may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
+their use of private browsing mode revealed
+to others who weild power over them
+(such as employers,
+parents,
+partners,
+or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
+
+Given such dangers,
+websites should not be able to detect that private browsing mode is engaged.
+
+<div class="example">
+  
+User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
+should not disable it in private browsing mode,
+because that would reveal that private browsing mode is engaged
+
+</div>
+
+See also
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+
+<h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
+
+[The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
+APIs which reveal the use of assistive technologies to sites
+enable sites to deny access to services
+to those who make use of assistive technologies.
+
+People who make use of assistive technologies
+are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
+their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+It should be <a href="#safe-to-browse">safe for them to browse the web</a>.
+Consider the risks of revealing their use of assistive technologies to others
+(including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
+who may wish them harm.
+
+Given these two concerns,
+websites should not be able to detect that assitive technologies are being used.
+
+<div class="example">
+
+The [Accessibility Object Model](https://wicg.github.io/aom/) (AOM)
+used to define a set of events which, when fired,
+[revealed the use of assistive technology](https://github.com/WICG/aom/issues/81).
+
+AOM has since removed these events and
+[replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
+which do not reveal the use of assistive technology.
+
+</div>
+
+See also
+
+* [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
