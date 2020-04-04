@@ -507,7 +507,7 @@ and it affects the behavior of inheritance.
 
 <a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
 that do affect computed values</a>
-are required not be circular.
+are required to not be circular.
 
 Making decisions about whether dependencies should affect computed values
 often involves tradeoffs of complexity.
@@ -525,7 +525,9 @@ This value is a multiple of the 'font-size',
 so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
 
 However, the computed value in this case is the number ''1.4'', not the length ''28px''.
-This is important because the value can inherit to elements that have a different font size:
+This is important because the value can inherit to elements that have a different font size,
+and preserving the "multiple of the current element's font" behavior would be broken
+if it turned into a length at computed-value time:
 
   <pre highlight=html>
 &lt;body style="line-height: 1.4"&gt;
@@ -1561,4 +1563,3 @@ so that readers can quickly decide whether they need to read the steps in detail
 url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
     text: DOMHighResTimeStamp
 </pre>
-
