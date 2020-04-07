@@ -503,7 +503,7 @@ of walking up the ancestor chain looking for text decorations on ancestors.
 Another important choice in the design of every CSS property
 is what its <a>computed value</a> is.
 This is an abstract description of the value that is inherited when the property inherits.
-It is also important for starting and animation [=CSS Transitions=].
+It is also important for starting and animation of [=CSS Transitions=].
 This is most important for inherited properties, but it does matter for all properties.
 
 Note: Due to a somewhat unfortunate history,
