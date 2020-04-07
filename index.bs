@@ -416,6 +416,14 @@ If setting the property on a descendant element is a separate effect
 that adds to setting it on an ancestor,
 then the property should probably not be inherited.
 
+One specific example that is common is that if a property has an effect on text,
+then it is almost always in the class where
+a descendant element needs to override (rather than add to) the effect of setting it on an ancestor,
+and the property should be inherited.
+This is also needed to maintain the design principle that
+inserting an unstyled inline element around a piece of text
+does not change the appearance of that text.
+
 A specification of an non-inherited property requiring that the handling of an element
 look at the value of that property on its ancestors (which may also be slow)
 is a "code smell" that suggests that the property likely should have been inherited.
