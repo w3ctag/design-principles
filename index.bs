@@ -502,8 +502,11 @@ which is actually the <a>resolved value</a>,
 which can be the result of further computation starting from the computed value.
 
 The definition of a CSS property often has interactions with other CSS properties.
-Whether those interactions affect the property's computed value is a design choice,
-and it affects the behavior of inheritance.
+It is often possible for these interactions to happen at the [=computed value=] stage
+or at a later stage such as the [=used value=].
+Since inheritance operates on the [=computed value=],
+whether an interaction should affect the value that descendants inherit
+is a major factor in the choice of where that interaction should be handled.
 
 <a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
 that do affect computed values</a>
