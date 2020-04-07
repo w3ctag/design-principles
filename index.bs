@@ -353,7 +353,7 @@ secure contexts reduce the risks to user privacy.
 
 <h3 id="css-versus-markup">Presentation should be in CSS, content should be in HTML</h3>
 
-The separation between CSS and HTML was originally designed around the idea
+The separation between CSS (style) and HTML (markup) was originally designed around the idea
 that the HTML is for the *content* and
 the CSS is for the *presentation* of that content.
 The CSS was intended to be optional,
@@ -374,7 +374,7 @@ even though a number of the uses of that information (such as font selection or 
 are related to the presentation.
 On the other hand, information about the font size makes sense to be in the style,
 since in pages that use HTML correctly
-the information in font sizes should also be obtainable from the markup
+the information shown by font sizes should also be obtainable from the markup
 (e.g., <code highlight="html">&lt;h1&gt;</code>, <code highlight="html">&lt;strong&gt;</code>)
 even though on some poorly designed pages the notion of what is a heading might not be visible to search engines or screenreaders except through the style
 (e.g., <code highlight="html">&lt;div style="font-size: 1.8em"&gt;</code>).
@@ -530,7 +530,7 @@ for the behavior to happen in whatever handles the computed value.
 Complexity in implementations might affect how fast things run for end users.)
 
 <div class="example">
-For example, the 'line-height' property accepts values that are integers,
+For example, the 'line-height' property accepts values that are numbers,
 such as ''line-height: 1.4''.
 This value is a multiple of the 'font-size',
 so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
@@ -555,7 +555,7 @@ if it turned into a length at computed-value time:
 &lt;/body&gt;
   </pre>
 
-These integer values are generally the preferred values to use for 'line-height'
+These number values are generally the preferred values to use for 'line-height'
 because they inherit better than length values.
 </div>
 
