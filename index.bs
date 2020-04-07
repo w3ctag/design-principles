@@ -567,10 +567,17 @@ and the names of their values are usually adjectives (although sometimes nouns).
 Words in properties and values are separated by hyphens.
 Abbreviations are generally avoided.
 
+Use the root form of words when possible
+rather than a form with a grammatical prefix or suffix
+(for example, "size" rather than "sizing").
+
 The list of values of a property should generally be chosen
 so that new values can be added.
 Avoid values like ''yes'', ''no'', ''true'', ''false'',
 or things with more complex names that are basically equivalent to them.
+
+Avoid words like "mode" or "state" in the names of properties,
+since properties are generally setting a mode or state.
 
 See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
