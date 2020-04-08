@@ -352,34 +352,6 @@ secure contexts reduce the risks to user privacy.
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
-<h3 id="css-versus-markup">Presentation should be in CSS, content should be in HTML</h3>
-
-The separation between CSS (style) and HTML (markup) was originally designed around the idea
-that the HTML is for the *content* and
-the CSS is for the *presentation* of that content.
-The CSS was intended to be optional,
-and the HTML intended so that it could be fully understood without the CSS.
-While the idea that the CSS can be dropped and the markup can still be usable
-may not make sense for *applications* built using web technologies,
-it still seems like a separation worth maintaining for *documents*,
-which remain a major use of web technology.
-
-If non-visual consumers of a page (such as search engines or screenreaders)
-seem likely to need the information (at least for well-designed pages),
-then it probably belongs in the markup rather than in the CSS.
-
-<p class="example">For example, information about the human language (English, Chinese, Arabic, etc.)
-that the text is in belongs in the markup
-(in particular, the <code><a href="https://html.spec.whatwg.org/multipage/dom.html#the-lang-and-xml:lang-attributes">lang</a></code> attribute),
-even though a number of the uses of that information (such as font selection or hyphenation)
-are related to the presentation.
-On the other hand, information about the font size makes sense to be in the style,
-since in pages that use HTML correctly
-the information shown by font sizes should also be obtainable from the markup
-(e.g., <code highlight="html">&lt;h1&gt;</code>, <code highlight="html">&lt;strong&gt;</code>)
-even though on some poorly designed pages the notion of what is a heading might not be visible to search engines or screenreaders except through the style
-(e.g., <code highlight="html">&lt;div style="font-size: 1.8em"&gt;</code>).
-
 <h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
 
 Decisions about what should be in the same CSS property or in different CSS properties
