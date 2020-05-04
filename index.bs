@@ -259,6 +259,25 @@ The name should not be directly associated with a brand or specific revision of
 the underlying technology whenever possible; technology becomes obsolete, and
 removing APIs from the web is difficult.
 
+<div class="example">
+
+The Remote Playback API was not named
+after one of the pre-existing, proprietary systems it was inspired by
+(such as Chromecast or AirPlay).
+Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
+
+</div>
+
+<div class="example">
+
+The `keydown` and `keyup` {{KeyboardEvent}}s were not named
+for the specific hardware bus that keyboards used at the time.
+Instead, generic names were chosen
+that are as applicable to today's Bluetooth and USB keyboards
+as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
+
+</div>
+
 <h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
 Naming schemes should aim for consistency, to avoid confusion.
 
