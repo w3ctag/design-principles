@@ -211,6 +211,26 @@ and *should* be in the [ASCII range](https://infra.spec.whatwg.org/#ascii-code-p
 <h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
 
 Please consult widely on names in your APIs.
+You may find good names or inspiration in surprising places.
+What are similar APIs named on other platforms,
+or in popular libraries in various programming languages?
+Ask end users and developers what they call
+things that your API works with or manipulates.
+Look at other web platform specifications,
+and seek advice from others working in related areas of the platform.
+
+Pay particular attention to advice you receive
+with clearly-stated rationale based on underlying principles.
+
+<div class="example">
+
+Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
+how to name the various pieces of a URL.
+The editors of the [URL spec](https://url.spec.whatwg.org)
+have relied on this research
+when editing that document. [[URL]]
+
+</div>
 
 <h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
 
