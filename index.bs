@@ -320,6 +320,10 @@ in the language where it is used
 (such as ''@supports'' in CSS).
 
 Note that some features should not be detectable.
+In general,
+features which add capabilities that sites can use should be detectable,
+whereas features which are for end users of the web rather than for developers
+should not be detectable.
 For instance,
 sites should not be able to detect
 if [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/) is engaged,
@@ -423,6 +427,8 @@ Therefore, APIs which provide client-side storage
 should not persist data stored
 while private browsing mode is engaged
 after it is disengaged.
+This can and should be done
+without revealing any detectable API differences to the site.
 
 <div class="example">
   
@@ -433,7 +439,8 @@ made while private browsing mode is engaged.
 If the User Agent has two simultaneous sessions with a site,
 one in private browsing mode and one not,
 storage area changes made in the private browsing mode session
-should not be revealed to the other browsing session.
+should not be revealed to the other browsing session,
+and vice versa.
 (The [storage event](https://html.spec.whatwg.org/multipage/indices.html#event-storage) should not be fired
 at the other session's [window object](https://html.spec.whatwg.org/multipage/window-object.html#window).)
 
