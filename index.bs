@@ -194,14 +194,33 @@ API naming *must* be done in easily readable US English.
 Keep in mind that most web developers are not native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
 non-native English speakers are likely to understand when first encountering the name.
-Always value readability over brevity.
 
-<p class="example"For example `horizontalAlignment` is a more
-English-readable name than `alignmentHorizontal`.
+<div class="example">
 
-Note: It may be appropriate to use technical language or well-known terms of art
-in the specification where the API is defined;
-this principle applies only to the API names themselves.
+For example `horizontalAlignment` is
+a more English-readable name
+than `alignmentHorizontal`.
+
+</div>
+
+Value readability over brevity,
+though always keep in mind that sometimes
+the shorter name is the clearer one.
+For instance,
+it may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined.
+
+<div class="example">
+
+For example,
+the Fetch API's {{Body}} mixin's {{Body/json()}} method
+is named for the kind of object it returns.
+JSON is a well-known term of art
+among web developers likely to use the Fetch API.
+It would harm comprehension
+to name this API less directly connected to its return type. [[FETCH]]
+
+</div>
 
 <h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
 
