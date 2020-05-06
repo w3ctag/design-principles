@@ -1521,6 +1521,9 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#casing-rules"><span class="secno">2.2</span> <span class="content">Use casing rules consistent with existing APIs</span></a>
       <li><a href="#feature-detect"><span class="secno">2.3</span> <span class="content">New features should be detectable</span></a>
       <li><a href="#secure-context"><span class="secno">2.4</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#private-browsing-mode"><span class="secno">2.5</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
+      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6</span> <span class="content">Do not reveal that private browsing mode is engaged</span></a>
+      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.7</span> <span class="content">Do not reveal that assistive technologies are being used</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">3</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -1826,6 +1829,15 @@ the feature is limited to secure contexts).</p>
 but in some cases the feature should also be detectable
 in the language where it is used
 (such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a> in CSS).</p>
+   <p>Note that some features should not be detectable.
+In general,
+features which add capabilities that sites can use should be detectable,
+whereas features which are for end users of the web rather than for developers
+should not be detectable.
+For instance,
+sites should not be able to detect
+if <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> is engaged,
+or if assistive technologies are being used. See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>, <a href="#do-not-expose-use-of-assistive-tech">§ 2.7 Do not reveal that assistive technologies are being used</a>, and the <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">Observations on Private Browsing Modes</a> TAG Finding.</p>
    <h3 class="heading settled" data-level="2.4" id="secure-context"><span class="secno">2.4. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>It may save you significant time and effort
 to pre-emptively restrict your feature to Secure Contexts.</p>
@@ -1869,6 +1881,116 @@ then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.</p>
+   <h3 class="heading settled" data-level="2.5" id="private-browsing-mode"><span class="secno">2.5. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
+   <p>In general,
+APIs should behave the same in and out of <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a>.
+This is because
+the use of private browsing mode should not be revealed to sites.
+See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>.</p>
+   <p>However,
+there are some situations in which
+APIs should consider behaving differently
+when private browsing mode is engaged,
+as discussed in our <a href="https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing">privacy &amp; security questionnaire</a>.</p>
+   <p>For instance,
+if your API would reveal information
+that would allow for the correlation
+of a single user’s activity
+both in and out of private browsing mode,
+consider possible <a href="https://www.w3.org/TR/security-privacy-questionnaire/#mitigations">mitigations</a> such as
+introducing noise
+or augmenting permission prompts with additional information
+which would help users meaningfully consent to such correlation
+(see <a href="#consent">§ 1.4 Ask users for meaningful consent when appropriate</a>).</p>
+   <div class="example" id="example-bc7df47d">
+    <a class="self-link" href="#example-bc7df47d"></a> 
+    <p>The <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>'s <a href="https://www.w3.org/TR/payment-request/#show-method">show() method</a>,
+when called,
+allows User Agents <q cite="https://www.w3.org/TR/payment-request/#show-method">to act
+as if the user had immediately <a href="https://www.w3.org/TR/payment-request/#dfn-user-aborts-the-payment-request">aborted the payment request</a></q>.</p>
+    <p>This enables User Agents to automatically abort payment requests
+in private browsing mode
+(thus protecting <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> such as the user’s shipping or billing address)
+without revealing that private browsing mode is engaged.</p>
+   </div>
+   <p>Private browsing modes enable users to browse the web
+without leaving any trace of their private browsing on their device.
+Therefore, APIs which provide client-side storage
+should not persist data stored
+while private browsing mode is engaged
+after it is disengaged.
+This can and should be done
+without revealing any detectable API differences to the site.</p>
+   <div class="example" id="example-fb11a26c">
+    <a class="self-link" href="#example-fb11a26c"></a> 
+    <p>User Agents which support <a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">localStorage</a> should not persist storage area changes
+made while private browsing mode is engaged.</p>
+    <p>If the User Agent has two simultaneous sessions with a site,
+one in private browsing mode and one not,
+storage area changes made in the private browsing mode session
+should not be revealed to the other browsing session,
+and vice versa.
+(The <a href="https://html.spec.whatwg.org/multipage/indices.html#event-storage">storage event</a> should not be fired
+at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="termref-for-">window object</a>.)</p>
+   </div>
+   <p>See also</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state">Does this specification introduce new state for an origin that persists across browsing sessions?</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="2.6" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6. </span><span class="content">Do not reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
+   <p>Some people use <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> for their own <a href="#safe-to-browse">safety</a>;
+just the fact that they have or are using private browsing mode
+may be <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">Consider the harm</a> that could be visited upon people—especially vulnerable people—were
+their use of private browsing mode revealed
+to others who wield power over them
+(such as employers,
+parents,
+partners,
+or <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression">state actors</a>).</p>
+   <p>Given such dangers,
+websites should not be able to detect that private browsing mode is engaged.</p>
+   <div class="example" id="example-52cad010">
+    <a class="self-link" href="#example-52cad010"></a> 
+    <p>User Agents which support <a href="https://www.w3.org/TR/IndexedDB/">IndexedDB</a> should not disable it in private browsing mode,
+because that would reveal that private browsing mode is engaged</p>
+   </div>
+   <p>See also</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="2.7" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.7. </span><span class="content">Do not reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
+   <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a> APIs which reveal the use of assistive technologies to sites
+enable sites to deny access to services
+to those who make use of assistive technologies.</p>
+   <p>People who make use of assistive technologies
+are often <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">vulnerable members of society</a>;
+their use of assistive technologies is <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them.
+It should be <a href="#safe-to-browse">safe for them to browse the web</a>.
+Consider the risks of revealing their use of assistive technologies to others
+(including <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression">state actors</a>)
+who may wish them harm.</p>
+   <p>Given these two concerns,
+websites should not be able to detect that assitive technologies are being used.</p>
+   <div class="example" id="example-b4e80415">
+    <a class="self-link" href="#example-b4e80415"></a> 
+    <p>The <a href="https://wicg.github.io/aom/">Accessibility Object Model</a> (AOM)
+used to define a set of events which, when fired, <a href="https://github.com/WICG/aom/issues/81">revealed the use of assistive technology</a>.</p>
+    <p>AOM has since removed these events and <a href="https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology">replaced them</a> with synthetic DOM events
+which do not reveal the use of assistive technology.</p>
+   </div>
+   <p>See also</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a></p>
+    <li data-md>
+     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
+   </ul>
    <h2 class="heading settled" data-level="3" id="css"><span class="secno">3. </span><span class="content">Cascading Style Sheets (CSS)</span><a class="self-link" href="#css"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="css-property-separation"><span class="secno">3.1. </span><span class="content">Separate CSS properties based on what should cascade separately</span><a class="self-link" href="#css-property-separation"></a></h3>
    <p>Decisions about what should be in the same CSS property or in different CSS properties
@@ -3269,6 +3391,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
+    <li><a href="#termref-for-">2.5. Consider how your API should behave in private browsing mode</a>
     <li><a href="#ref-for-window">5.4. Classes should have constructors when possible</a>
     <li><a href="#ref-for-window①">6.4. Always add event handler attributes</a>
    </ul>
