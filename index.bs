@@ -1360,56 +1360,170 @@ devices. For example, authors wish to be able to use the web to connect with the
 accelerometer),
 <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
-<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
-section contains principles for consideration when designing APIs for devices.
+<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc.
 
 These can be functionality provided by the underlying operating system, or provided by a native
 third-party library to interact with a device. These are an abstraction which "wrap" the
 native functionality without introducing significant complexity while securing the API surface
 to the browser, hence are called wrapper APIs.
 
-<h3 id="device-ids">Use care when exposing device identifiers</h3>
+This section contains principles for consideration when designing APIs for devices.
 
-Exposing device identifiers increases the fingerprinting surface of a user
-agent conversely reducing the user's privacy. Think carefully about whether it is really necessary
-to expose the unique identifier at all. Please read the TAG's finding on
-<a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for
-additional details. Despite this general concern, it may be very useful or necessary to expose a
-device's unique identifier to the web platform. The following guidelines will help ensure that this
-is done in a consistent and privacy-friendly way:
+<h3 id="device-ids">Use care when exposing identifying information about devices</h3>
 
- : Limit identifiable information in the id
- :: As much as possible, device ids exposed to the web platform should not contain identifiable
-     information such as branding, make and model numbers, etc. In many cases using a randomized
-     number or unique id is preferable to a generic string identifier such as "device1".
- :: Device ids expressed as numbers should contain sufficient entropy so as to avoid re-use or
-     potential sharing among other devices, and should not be easily guessable.
+Exposing device identifiers
+(or information about a device
+or its capabilities
+that may be used to synthesize such an identifier)
+increases the fingerprinting surface of a user agent,
+thus harming user privacy.
+Merely exposing the presence of a device
+is itself a fingerprinting concern.
+Please read the TAG's finding
+on [unsanctioned tracking](http://www.w3.org/2001/tag/doc/unsanctioned-tracking/)
+for additional details.
 
- : Keep the user in control
- :: Any existing device ids mapped to or stored with the current session by the user agent should
-     be cleared when users elect to "clear their cookies" (and other related settings). Above all,
-     the user should be in control of this potential tracking state and be able to reset it on
-     demand.
+Think carefully about
+whether it is really necessary
+to expose identifying information about the device at all.
+Please consider if your use cases could be satisfied
+by a less powerful API. [[LEAST-POWER]]
 
- : Hide sensitive ids behind a user permission
- :: Where device identification does not make sense to be expressed in an anonymous way, access to
-     the identifier should be limited by default. One way to limit exposure is to only surface the
-     identifier to author code <em>after</em> obtaining permission from the user.
+Despite these concerns,
+you may find that it is necessary
+to expose identifying information about a device to the web platform.
 
- : Tie ids to the same-origin model
- :: Identifiers should be unique to the origin of the web content that is attempting to access
-     them. Web content from one origin should receive an identifier that is distinct from the
-     identifier given to web content from any other origin despite the physical device being the
-     same.
- :: Within an origin, ids may have a stable representation to web content. This ensures a
-     consistent developer experience if requesting the same device twice.
+The following guidelines will help ensure
+that this is done in a consistent and privacy-friendly way:
 
- : Persistable when necessary
- :: Device identifiers obtained after a complex or time-consuming device selection process may
-     prefer that author code be allowed to persist the id for use in a later session in order to
-     avoid the selection process a second time. In this case, the API should not only provide a
-     stable id during the session for the given origin, but also be able to deterministically produce
-     the same id in subsequent sessions.
+: Limit identifiable information in the id
+:: As much as possible,
+    device ids exposed to the web platform
+    should not contain identifiable information
+    such as branding, make and model numbers, etc.
+    In many cases
+    using a randomized number or unique id
+    is preferable to
+    a generic string identifier such as "device1".
+
+    Device ids expressed as numbers
+    should contain sufficient entropy
+    so as to avoid re-use or potential sharing among other devices,
+    and should not be easily guessable.
+: Keep the user in control
+:: Any existing device ids
+    mapped to or stored with the current session by the user agent
+    should be cleared
+    when users elect to "clear their cookies" (and other related settings).
+    Above all,
+    the user should be in control of this potential tracking state
+    and be able to reset it on demand.
+: Hide sensitive ids behind a user permission
+:: Where device identification does not make sense to be expressed in an anonymous way,
+    access to the identifier
+    should be limited by default.
+    One way to limit exposure
+    is to only surface the identifier to author code
+    <em>after</em> obtaining permission from the user.
+: Tie ids to the same-origin model
+:: Identifiers should be unique
+    to the origin of the web content that is attempting to access them.
+    Web content from one origin should receive an identifier that is distinct
+    from the identifier given to web content from any other origin
+    despite the physical device being the same.
+:: Within an origin,
+    ids may have a stable representation to web content.
+    This ensures a consistent developer experience if requesting the same device twice.
+: Persistable when necessary
+:: Device identifiers
+    obtained after a complex or time-consuming device selection process
+    may prefer that author code
+    be allowed to persist the id
+    for use in a later session
+    in order to avoid the selection process a second time.
+    In this case,
+    the API should not only provide a stable id during the session for the given origin,
+    but also be able to deterministically produce the same id in subsequent sessions.
+
+<h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3> 
+
+APIs which expose the the existence, capabilities, and/or identifiers of many devices
+risk multiplying the harm described in [[#device-ids]]
+(since they expose fingerprinting entropy per exposed device)
+and thus require additional consideration.
+
+As in the previous section,
+please consider if your use cases could be satisfied
+by a less powerful API. [[LEAST-POWER]]
+
+If the purpose of the API
+is to enable the user **to select a device**
+from the set of available devices of a particular kind,
+you may not need to expose a list to script at all.
+An API which invokes a User Agent-provided device picker
+could suffice.
+Such an API
+keeps the user in control,
+hides the device behind a user permission,
+does not expose any fingerprinting data about the user's environment by default,
+and, when used, only exposes information about one device.
+
+<div class=example>
+File selection form controls
+(<{input/type/file|&lt;input type=file>}>)
+invoke a User Agent-provided file picker.
+This elegant design ensures that
+the website only gets access to file(s) the user explicitly selected,
+and does not receive any other information
+about the user's file system.
+[[HTML]]
+
+</div>
+
+When designing such an API,
+it may be necessary to also expose
+the fact that there are devices are available to be picked.
+Such a feature exposes
+a small amount (one bit) of fingerprinting data about the user's environment
+to websites,
+so it isn't quite as safe as
+an API which does not have such a feature.
+
+<div class=example>
+
+The {{RemotePlayback}} interface
+does not expose a list of available [=remote playback devices=].
+Like <{input/type/file|&lt;input type=file>}>, it invokes a User Agent-defined device picker,
+which has the same desirable properties.
+[[REMOTE-PLAYBACK]]
+
+Unlike <{input/type/file|&lt;input type=file>}>, it also
+enables websites to detect whether or not
+any [=remote playback device=] is available,
+so the website can show or hide a control
+the user can use to invoke the picker.
+
+</div>
+
+If you must expose a list of devices,
+try to **expose the smallest subset**
+that satisfies your use cases.
+Consider an API which allows the website
+to request **a filtered or constrained list** of devices,
+but keep in mind that
+constraint-matching systems may reveal more information than intended
+when repeatedly invoked with different constraints.
+
+If you must expose the full list of devices of a particular kind,
+please rigorously **define the order** in which devices will be listed.
+This can reduce interoperability issues,
+and helps to mitigate fingerprinting
+(because sort order could reveal other information;
+see [[FINGERPRINTING-GUIDANCE#a_standardized_profile]] for more.)
+
+While APIs should not
+expose a full list of devices in an [=implementation-defined=] order,
+they may need to for web compatibility reasons.
 
 <h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
@@ -1581,7 +1695,20 @@ However, it's often useful to explain the purpose of the algorithm in prose
 callback per toplevel browsing context")
 so that readers can quickly decide whether they need to read the steps in detail.
 
+<!-- Route around bugs in other specs.
+     https://github.com/w3c/hr-time/issues/90
+     https://github.com/whatwg/html/issues/5515
+     https://github.com/w3c/remote-playback/issues/137
+     https://github.com/w3c/mediacapture-main/issues/695
+     -->
 <pre class="anchors">
-url: https://w3c.github.io/hr-time/#dom-domhighrestimestamp; spec: HIGHRES-TIME; type: typedef
-    text: DOMHighResTimeStamp
+urlPrefix: https://w3c.github.io/hr-time/; spec: HIGHRES-TIME
+    text: DOMHighResTimeStamp; type: typedef; url: #dom-domhighrestimestamp
+urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
+    text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
+urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
+    text: RemotePlayback; type:interface; url: #remoteplayback-interface
+    text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
+urlPrefix: https://w3c.github.io/mediacapture-main/getusermedia.html; spec: MEDIACAPTURE-STREAMS
+    text: constrainable object; type:dfn; url: #constrainable-interface
 </pre>
