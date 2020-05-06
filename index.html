@@ -1518,12 +1518,11 @@ Parts of this work may be from another specification document.  If so, those par
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
      <ol class="toc">
       <li><a href="#naming-is-hard"><span class="secno">2.1</span> <span class="content">Naming things</span></a>
-      <li><a href="#casing-rules"><span class="secno">2.2</span> <span class="content">Use casing rules consistent with existing APIs</span></a>
-      <li><a href="#feature-detect"><span class="secno">2.3</span> <span class="content">New features should be detectable</span></a>
-      <li><a href="#secure-context"><span class="secno">2.4</span> <span class="content">Consider limiting new features to secure contexts</span></a>
-      <li><a href="#private-browsing-mode"><span class="secno">2.5</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
-      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6</span> <span class="content">Do not reveal that private browsing mode is engaged</span></a>
-      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.7</span> <span class="content">Do not reveal that assistive technologies are being used</span></a>
+      <li><a href="#feature-detect"><span class="secno">2.2</span> <span class="content">New features should be detectable</span></a>
+      <li><a href="#secure-context"><span class="secno">2.3</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#private-browsing-mode"><span class="secno">2.4</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
+      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.5</span> <span class="content">Do not reveal that private browsing mode is engaged</span></a>
+      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.6</span> <span class="content">Do not reveal that assistive technologies are being used</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">3</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -1729,7 +1728,6 @@ But frequently asking users for consent can also show how scary a place the web 
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.</p>
    <h2 class="heading settled" data-level="2" id="api-across-languages"><span class="secno">2. </span><span class="content">API Design Across Languages</span><a class="self-link" href="#api-across-languages"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="naming-is-hard"><span class="secno">2.1. </span><span class="content">Naming things</span><a class="self-link" href="#naming-is-hard"></a></h3>
-   <p>Naming is hard! We would all like a silver-bullet for naming APIs...</p>
    <p>Names take meaning from:</p>
    <ul>
     <li data-md>
@@ -1739,22 +1737,90 @@ by showing how many sites are willing to ask for intrusive and unnecessary permi
     <li data-md>
      <p>context (the object on the left-hand side, for example)</p>
    </ul>
-   <p>Consistency is a good principle that helps to create a platform that users can navigate intuitively
-and by name association.</p>
-   <p>Please consult widely on names in your APIs.</p>
-   <p>API naming <em>must</em> be done in easily readable US English. For example <code>horizontalAlignment</code> is a more English-readable name than <code>alignmentHorizontal</code>. Whenever possible consider 
-readability over brevity.</p>
-   <p>Names should adhere to the local language restrictions, for example CSS ident rules etc.
+   <h4 class="no-num no-toc heading settled" id="naming-common-words"><span class="content">Use common words</span><a class="self-link" href="#naming-common-words"></a></h4>
+   <p>API naming <em>must</em> be done in easily readable US English.
+Keep in mind that most web developers are not native English speakers.
+Whenever possible, names should be chosen that use common vocabulary
+non-native English speakers are likely to understand when first encountering the name.</p>
+   <div class="example" id="example-b4086946">
+    <a class="self-link" href="#example-b4086946"></a> 
+    <p>For example <code>horizontalAlignment</code> is
+a more English-readable name
+than <code>alignmentHorizontal</code>.</p>
+   </div>
+   <p>Value readability over brevity,
+though always keep in mind that sometimes
+the shorter name is the clearer one.
+For instance,
+it may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined.</p>
+   <div class="example" id="example-3cd78f17">
+    <a class="self-link" href="#example-3cd78f17"></a> 
+    <p>For example,
+the Fetch API’s <code class="idl"><a data-link-type="idl" href="https://fetch.spec.whatwg.org/#body" id="ref-for-body">Body</a></code> mixin’s <code class="idl"><a data-link-type="idl" href="https://fetch.spec.whatwg.org/#dom-body-json" id="ref-for-dom-body-json">json()</a></code> method
+is named for the kind of object it returns.
+JSON is a well-known term of art
+among web developers likely to use the Fetch API.
+It would harm comprehension
+to name this API less directly connected to its return type. <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a></p>
+   </div>
+   <h4 class="no-num no-toc heading settled" id="naming-charset"><span class="content">Use ASCII names</span><a class="self-link" href="#naming-charset"></a></h4>
+   <p>Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and <em>should</em> be in the <a href="https://infra.spec.whatwg.org/#ascii-code-point">ASCII range</a>.</p>
+   <h4 class="no-num no-toc heading settled" id="naming-consultation"><span class="content">Consultation</span><a class="self-link" href="#naming-consultation"></a></h4>
+   <p>Please consult widely on names in your APIs.
+You may find good names or inspiration in surprising places.
+What are similar APIs named on other platforms,
+or in popular libraries in various programming languages?
+Ask end users and developers what they call
+things that your API works with or manipulates.
+Look at other web platform specifications,
+and seek advice from others working in related areas of the platform.</p>
+   <p>Pay particular attention to advice you receive
+with clearly-stated rationale based on underlying principles.</p>
+   <div class="example" id="example-1f37c106">
+    <a class="self-link" href="#example-1f37c106"></a> 
+    <p>Tantek Çelik <a href="https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces">extensively researched</a> how to name the various pieces of a URL.
+The editors of the <a href="https://url.spec.whatwg.org">URL spec</a> have relied on this research
+when editing that document. <a data-link-type="biblio" href="#biblio-url">[URL]</a></p>
+   </div>
+   <h4 class="no-num no-toc heading settled" id="naming-future-proofing"><span class="content">Future-proofing</span><a class="self-link" href="#naming-future-proofing"></a></h4>
+   <p>Naming should be generic and future-proof whenever possible.</p>
+   <p>The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.</p>
+   <div class="example" id="example-fd8a196a">
+    <a class="self-link" href="#example-fd8a196a"></a> 
+    <p>The Remote Playback API was not named
+after one of the pre-existing, proprietary systems it was inspired by
+(such as Chromecast or AirPlay).
+Instead, general terms that describe what the API does were chosen. <a data-link-type="biblio" href="#biblio-remote-playback">[REMOTE-PLAYBACK]</a></p>
+   </div>
+   <div class="example" id="example-c1204afc">
+    <a class="self-link" href="#example-c1204afc"></a> 
+    <p>The <code>keydown</code> and <code>keyup</code> <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#keyboardevent" id="ref-for-keyboardevent">KeyboardEvent</a></code>s were not named
+for the specific hardware bus that keyboards used at the time.
+Instead, generic names were chosen
+that are as applicable to today’s Bluetooth and USB keyboards
+as they were to PS/2 and ADB keyboards back then. <a data-link-type="biblio" href="#biblio-uievents">[UIEVENTS]</a></p>
+   </div>
+   <h4 class="no-num no-toc heading settled" id="naming-consistency"><span class="content">Consistency</span><a class="self-link" href="#naming-consistency"></a></h4>
+    Naming schemes should aim for consistency, to avoid confusion. 
+   <p>Sets of related names should agree with each other in:</p>
+   <ul>
+    <li data-md>
+     <p>part of speech  - noun, verb, etc.</p>
+    <li data-md>
+     <p>negation, for example all of the names in a set should either describe what is allowed
+or they should all describe what is denied</p>
+   </ul>
+   <h5 class="no-num no-toc heading settled" id="naming-booleans"><span class="content">Boolean properties vs.
+  boolean-returning methods</span><a class="self-link" href="#naming-booleans"></a></h5>
    <p>Boolean properties, options, or API parameters which are asking a question about
 their argument <em>should not</em> be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, <em>should</em> be
 prefixed with <code>is</code> to be consistent with the rest of the platform.</p>
-   <p>The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, but
-since removing APIs from the web is difficult, naming should be generic and
-future-proof whenever possible.</p>
-   <h3 class="heading settled" data-level="2.2" id="casing-rules"><span class="secno">2.2. </span><span class="content">Use casing rules consistent with existing APIs</span><a class="self-link" href="#casing-rules"></a></h3>
+   <h5 class="no-num no-toc heading settled" id="casing-rules"><span class="content">Use casing rules consistent with existing APIs</span><a class="self-link" href="#casing-rules"></a></h5>
    <p>Although they haven’t always been uniformly followed, through the history of web platform API
 design, the following rules have emerged:</p>
    <table class="data complex">
@@ -1810,7 +1876,7 @@ or stored on disk, and don’t apply to the general notion of JavaScript object 
 examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Do not follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
-   <h3 class="heading settled" data-level="2.3" id="feature-detect"><span class="secno">2.3. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
+   <h3 class="heading settled" data-level="2.2" id="feature-detect"><span class="secno">2.2. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
    <p>The existence of new features should generally be detectable,
 so that web content can act appropriately whether the feature is present or not.
 This applies both to features that
@@ -1837,8 +1903,8 @@ should not be detectable.
 For instance,
 sites should not be able to detect
 if <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> is engaged,
-or if assistive technologies are being used. See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>, <a href="#do-not-expose-use-of-assistive-tech">§ 2.7 Do not reveal that assistive technologies are being used</a>, and the <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">Observations on Private Browsing Modes</a> TAG Finding.</p>
-   <h3 class="heading settled" data-level="2.4" id="secure-context"><span class="secno">2.4. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
+or if assistive technologies are being used. See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.5 Do not reveal that private browsing mode is engaged</a>, <a href="#do-not-expose-use-of-assistive-tech">§ 2.6 Do not reveal that assistive technologies are being used</a>, and the <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">Observations on Private Browsing Modes</a> TAG Finding.</p>
+   <h3 class="heading settled" data-level="2.3" id="secure-context"><span class="secno">2.3. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>It may save you significant time and effort
 to pre-emptively restrict your feature to Secure Contexts.</p>
    <p>The TAG is on the record in supporting
@@ -1862,7 +1928,7 @@ to other major points where the Web platform is extended over time
 However, for some types of extension points (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.</p>
-   <p>As described in <a href="#feature-detect">§ 2.3 New features should be detectable</a>,
+   <p>As described in <a href="#feature-detect">§ 2.2 New features should be detectable</a>,
 the existence of features should generally be detectable,
 so that web content can act appropriately if the feature is present or not.
 Since the detection should be the same no matter why the feature is unavailable,
@@ -1881,12 +1947,12 @@ then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.</p>
-   <h3 class="heading settled" data-level="2.5" id="private-browsing-mode"><span class="secno">2.5. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.4" id="private-browsing-mode"><span class="secno">2.4. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
    <p>In general,
 APIs should behave the same in and out of <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a>.
 This is because
 the use of private browsing mode should not be revealed to sites.
-See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>.</p>
+See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.5 Do not reveal that private browsing mode is engaged</a>.</p>
    <p>However,
 there are some situations in which
 APIs should consider behaving differently
@@ -1938,7 +2004,7 @@ at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state">Does this specification introduce new state for an origin that persists across browsing sessions?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.6" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6. </span><span class="content">Do not reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.5" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.5. </span><span class="content">Do not reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
    <p>Some people use <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> for their own <a href="#safe-to-browse">safety</a>;
 just the fact that they have or are using private browsing mode
 may be <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">Consider the harm</a> that could be visited upon people—especially vulnerable people—were
@@ -1962,7 +2028,7 @@ because that would reveal that private browsing mode is engaged</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.7" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.7. </span><span class="content">Do not reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
+   <h3 class="heading settled" data-level="2.6" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.6. </span><span class="content">Do not reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
    <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a> APIs which reveal the use of assistive technologies to sites
 enable sites to deny access to services
 to those who make use of assistive technologies.</p>
@@ -2499,7 +2565,7 @@ important to continue to define event handler IDL attributes because:</p>
     <li data-md>
      <p>they preserve consistency in the platform</p>
     <li data-md>
-     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.3 New features should be detectable</a>)</p>
+     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.2 New features should be detectable</a>)</p>
    </ul>
    <p>So, if the object inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code>, add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attribute</a> to the interface.</p>
    <p class="note" role="note">Note that for HTML and SVG elements, it is traditional to add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin, instead of
@@ -2901,7 +2967,7 @@ that should be considered in the development of new features, notably:</p>
     <li data-md>
      <p>Being "polyfillable" is not essential but <strong>is</strong> beneficial</p>
     <li data-md>
-     <p><a href="#feature-detect">§ 2.3 New features should be detectable</a></p>
+     <p><a href="#feature-detect">§ 2.2 New features should be detectable</a></p>
     <li data-md>
      <p>Polyfill development should be encouraged</p>
    </ul>
@@ -3162,7 +3228,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-at-ruledef-supports">
    <a href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports">https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-at-ruledef-supports">2.3. New features should be detectable</a>
+    <li><a href="#ref-for-at-ruledef-supports">2.2. New features should be detectable</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-font-size">
@@ -3340,6 +3406,18 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-dom-event-target">6.7. State and Event subclasses</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-body">
+   <a href="https://fetch.spec.whatwg.org/#body">https://fetch.spec.whatwg.org/#body</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-body">Use common words</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-body-json">
+   <a href="https://fetch.spec.whatwg.org/#dom-body-json">https://fetch.spec.whatwg.org/#dom-body-json</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-body-json">Use common words</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
    <a href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">https://w3c.github.io/hr-time/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
@@ -3361,13 +3439,13 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-htmlhtmlelement">
    <a href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement">https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-htmlhtmlelement">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-htmlhtmlelement">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-htmlimageelement">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement">https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-htmlimageelement">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-htmlimageelement">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-history-3">
@@ -3391,7 +3469,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#termref-for-">2.5. Consider how your API should behave in private browsing mode</a>
+    <li><a href="#termref-for-">2.4. Consider how your API should behave in private browsing mode</a>
     <li><a href="#ref-for-window">5.4. Classes should have constructors when possible</a>
     <li><a href="#ref-for-window①">6.4. Always add event handler attributes</a>
    </ul>
@@ -3441,7 +3519,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-the-img-element">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element">https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-img-element">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-the-img-element">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-in-parallel">
@@ -3454,13 +3532,13 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-dom-img-ismap">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap">https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-img-ismap">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-dom-img-ismap">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-attr-img-ismap">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap">https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-attr-img-ismap">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-attr-img-ismap">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-open">
@@ -3479,7 +3557,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-reflect">
    <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reflect">2.2. Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect①">(2)</a>
+    <li><a href="#ref-for-reflect">Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-task-queue">
@@ -3528,6 +3606,12 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://drafts.csswg.org/selectors-4/#selector-combinator">https://drafts.csswg.org/selectors-4/#selector-combinator</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-selector-combinator">10.2. Specify clearly enough so that algorithms are unambiguous</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-keyboardevent">
+   <a href="https://www.w3.org/TR/uievents/#keyboardevent">https://www.w3.org/TR/uievents/#keyboardevent</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-keyboardevent">Future-proofing</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mouseevent">
@@ -3607,7 +3691,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-xmlhttprequest">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequest">https://xhr.spec.whatwg.org/#xmlhttprequest</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequest">2.2. Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-xmlhttprequest">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequesteventtarget">
@@ -3699,6 +3783,12 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-dom-event-target" style="color:initial">target</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[FETCH]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-body" style="color:initial">Body</span>
+     <li><span class="dfn-paneled" id="term-for-dom-body-json" style="color:initial">json()</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp" style="color:initial">DOMHighResTimeStamp</span>
@@ -3754,8 +3844,9 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-selector-combinator" style="color:initial">combinator</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[uievents]</a> defines the following terms:
+    <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-keyboardevent" style="color:initial">KeyboardEvent</span>
      <li><span class="dfn-paneled" id="term-for-mouseevent" style="color:initial">MouseEvent</span>
     </ul>
    <li>
@@ -3832,6 +3923,10 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>Elika Etemad; Koji Ishii. <a href="https://drafts.csswg.org/css-text-decor-4/">CSS Text Decoration Module Level 4</a>. URL: <a href="https://drafts.csswg.org/css-text-decor-4/">https://drafts.csswg.org/css-text-decor-4/</a>
    <dt id="biblio-css2">[CSS2]
    <dd>Bert Bos; et al. <a href="http://dev.w3.org/csswg/css2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. URL: <a href="http://dev.w3.org/csswg/css2/">http://dev.w3.org/csswg/css2/</a>
+   <dt id="biblio-fetch">[FETCH]
+   <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
+   <dd>Mounir Lamouri; Anton Vayvod. <a href="https://w3c.github.io/remote-playback/">Remote Playback API</a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://w3c.github.io/uievents/">UI Events</a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
   </dl>
