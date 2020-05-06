@@ -1699,7 +1699,6 @@ so that readers can quickly decide whether they need to read the steps in detail
      https://github.com/w3c/hr-time/issues/90
      https://github.com/whatwg/html/issues/5515
      https://github.com/w3c/remote-playback/issues/137
-     https://github.com/w3c/mediacapture-main/issues/695
      -->
 <pre class="anchors">
 urlPrefix: https://w3c.github.io/hr-time/; spec: HIGHRES-TIME
@@ -1709,6 +1708,4 @@ urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     text: RemotePlayback; type:interface; url: #remoteplayback-interface
     text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
-urlPrefix: https://w3c.github.io/mediacapture-main/getusermedia.html; spec: MEDIACAPTURE-STREAMS
-    text: constrainable object; type:dfn; url: #constrainable-interface
 </pre>
