@@ -1696,13 +1696,10 @@ callback per toplevel browsing context")
 so that readers can quickly decide whether they need to read the steps in detail.
 
 <!-- Route around bugs in other specs.
-     https://github.com/w3c/hr-time/issues/90
      https://github.com/whatwg/html/issues/5515
      https://github.com/w3c/remote-playback/issues/137
      -->
 <pre class="anchors">
-urlPrefix: https://w3c.github.io/hr-time/; spec: HIGHRES-TIME
-    text: DOMHighResTimeStamp; type: typedef; url: #dom-domhighrestimestamp
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
     text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
