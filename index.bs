@@ -1,9 +1,11 @@
 <pre class="metadata">
 Title: Client-side API Design Principles
-Group: W3C TAG
+Group: tag
 Shortname: design-principles
 Repository: w3ctag/design-principles
-Status: DREAM
+Status: ED
+Level: none
+ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
