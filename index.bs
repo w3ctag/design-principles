@@ -1729,7 +1729,7 @@ of that metadata is different. Application metadata should be added to the Web A
 Parameters for a specific function (like Payment Method Manifest) are a completely different type. Publication Manifest,
 using JSON-LD is another type as well.
 
-Note that in all cases, the naming conventions should be harmonised (see section 2.2)
+Note that in all cases, the naming conventions should be harmonized (see section 2.2)
  
 [Note: Due to historical reasons, existing manifests use lowercase, underscore-delimited names. There have been times 
 where it has been beneficial to re-use dictionaries from a manifest in DOM APIs as well, which are camel-cased. 
