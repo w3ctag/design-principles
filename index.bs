@@ -182,6 +182,26 @@ by showing how many sites are willing to ask for intrusive and unnecessary permi
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
+<h3 id="simplicity">Prefer simple solutions</h3>
+<!-- was "Avoid Needless Complexity" in the HTML Design Principles -->
+
+Simple solutions are preferred to complex ones, when possible.
+Simpler features are easier for user agents to implement and test,
+more likely to be interoperable,
+and easier for authors to understand. [[LEAST-POWER]]
+
+But this should not be used as an excuse to avoid satisfying the other principles.
+
+<h3 id="handle-errors">Prefer graceful error recovery</h3>
+<!-- was "Handle Erros" in the HTML Design Principles -->
+
+Error handling should be defined
+so that interoperable implementations can be achieved.
+
+Prefer graceful error recovery to hard failure,
+so that users are not exposed to authoring errors,
+per the [[#priority-of-constituencies]].
+
 <h3 id="naming-is-hard">Naming things</h3>
 
 Names take meaning from:
@@ -1882,7 +1902,28 @@ Some useful advice on how to write specifications is available elsewhere:
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
 
-<h3 id="algorithms">Specify clearly enough so that algorithms are unambiguous</h3>
+<h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
+<!-- was "Well-defined behavior" in the HTML Design Principles -->
+
+Whenever differences could be observable to web content
+and there isn't a good reason to allow variation between implementations,
+it is important that they be specified unambiguously,
+so that implementations interoperate
+and web content doesn't end up
+depending on the [=implementation-defined=] behavior
+in one implementation and failing in another
+(which can cause higher development costs to fix the content for all browsers,
+or costs to users of broken content if it wasn't detected).
+This way,
+it is easier to author content
+that works in a variety of user agents.
+However,
+implementations should still be free
+to make improvements
+in areas such as user interface
+and quality of rendering.
+
+<h4 id="algorithms">Defining algorithms in specifications</h4>
 
 Specification text is often more precise
 when it is written using an explicit sequence of steps.
@@ -1892,21 +1933,8 @@ a specification that describes the behavior using a sequence of steps
 will make it clear which error will be reported,
 since the different errors would be checked and reported in different steps.
 
-Likewise, describing state using explicit flags also makes behavior clearer.
-Using explicit flags makes it clear
-whether or not the state changes in different error conditions,
-and makes it clear when the state described by the flags is reset.
-
-Whenever these differences could be observable to web content
-and there isn't a good reason to allow variation between implementations,
-it is important that they be specified unambiguously,
-so that implementations interoperate
-and web content doesn't end up
-depending on the behavior of one implementation and failing in another
-(which can cause higher development costs to fix the content for all browsers,
-or costs to users of broken content if it wasn't detected).
-
-However, sequences of steps are not the only way of making the specification precise enough.
+However, sequences of steps
+are not the only way to make a specification precise enough.
 When there are particular characteristics
 that specification editors want to ensure the specification always satisfies,
 it may be better to use a less algorithmic way of formal specification
@@ -1958,6 +1986,13 @@ However, it's often useful to explain the purpose of the algorithm in prose
 (e.g., "take the following steps, which ensure that there is at most one pending X
 callback per toplevel browsing context")
 so that readers can quickly decide whether they need to read the steps in detail.
+
+<h4 id="use-flags-for-states">Use explicit flags for state</h4>
+
+Describing state using explicit flags makes behavior clearer.
+Using explicit flags makes it clear
+whether or not the state changes in different error conditions,
+and makes it clear when the state described by the flags is reset.
 
 <!-- Route around bugs in other specs.
      https://github.com/whatwg/html/issues/5515
