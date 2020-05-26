@@ -1746,7 +1746,7 @@ Some of the existing manifest files include
 * <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a>
 * <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a>
 
-We encourage people to think of manifest files as extensible. So attempt to get the changes into the original spec, 
+We encourage people to think of manifest files as extensible. Always try to get the changes into the original spec, 
 or at least have a discussion around the extension with the spec editors, as that will usually lead to a better design
 and to something that can be integrated into the spec. There are certain times the spec authors might not want to 
 integrate immediately due to process (like going to CR) or due to it having a different scope, like extension to Web App
