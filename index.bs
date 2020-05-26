@@ -1894,13 +1894,31 @@ This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.
 
-<h3 id="writing-resources">Other resources</h3>
+<h3 id="requirements-on-authors-and-implementers">Identify the audience of the requirements in your specification</h3>
+<!-- was "Conformance for Documents and Implementations" in the HTML Design Principles -->
 
-Some useful advice on how to write specifications is available elsewhere:
-  * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
-    specifications: Kinds of statements</a> (Ian Hickson, 2006)
-  * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
-    Specification Guidelines</a> (W3C QA Working Group, 2005)
+Many language specifications
+define a set of conformance requirements for valid documents,
+and corresponding conformance requirements
+for implementations processing these valid documents.
+The web platform is somewhat unusual
+in also defining implementation conformance requirements
+for many constructs that are not allowed in conforming documents.
+
+This allows us to
+have a relatively clean and understandable language for authors,
+while at the same time supporting existing documents
+that make use of older or nonstandard constructs,
+and enabling better interoperability in error handling.
+
+Some of the design principles in this document apply much more
+to conformance requirements for content (the "conforming language")
+while others apply much more
+to conformance requirements for implementations (the "supported language").
+Since the supported language is a strict superset of the conforming language,
+there is considerable overlap,
+but we have tried to be clear
+which set of requirements each principle applies to.
 
 <h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
@@ -1993,6 +2011,14 @@ Describing state using explicit flags makes behavior clearer.
 Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
+
+<h3 id="writing-resources">Other resources</h3>
+
+Some useful advice on how to write specifications is available elsewhere:
+  * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
+    specifications: Kinds of statements</a> (Ian Hickson, 2006)
+  * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
+    Specification Guidelines</a> (W3C QA Working Group, 2005)
 
 <!-- Route around bugs in other specs.
      https://github.com/whatwg/html/issues/5515
