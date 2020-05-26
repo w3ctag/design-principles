@@ -1433,17 +1433,23 @@ that this is done in a consistent and privacy-friendly way:
     despite the physical device being the same.
 :: Within an origin,
     ids may have a stable representation to web content.
-    This ensures a consistent developer experience if requesting the same device twice.
+    This ensures a consistent developer experience
+    if requesting the same device twice.
 : Persistable when necessary
-:: Device identifiers
-    obtained after a complex or time-consuming device selection process
-    may prefer that author code
-    be allowed to persist the id
+:: Some device identifiers
+    can only be obtained
+    via a complex or time-consuming device selection process.
+    In such cases,
+    it may make sense for author code
+    to be able to persist such identifiers
     for use in a later session
     in order to avoid the selection process a second time.
-    In this case,
-    the API should not only provide a stable id during the session for the given origin,
-    but also be able to deterministically produce the same id in subsequent sessions.
+    When this is the case,
+    the API should not only
+    provide a stable id during the session for the given origin,
+    but it should also be capable of
+    deterministically producing the same id
+    in subsequent sessions.
 
 <h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3> 
 
