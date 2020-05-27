@@ -327,6 +327,10 @@ The Web has a number of somewhat-related features:
 * The <{iframe}> element's <{iframe/allowfullscreen}> and <{iframe/allowpaymentrequest}> attributes
 * The [{{SecureContext}}] WebIDL attribute.
 * [Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+* [Referrer Policy](https://w3c.github.io/webappsec-referrer-policy/)
+* [Document Policy](https://w3c.github.io/webappsec-feature-policy/document-policy.html)
+
+TODO: Separate out the ones that are not yet interoperable into their own category.
 
 (There are also even more obsolete features, like
 <code>[X-Frame-Options](https://tools.ietf.org/html/rfc7034)</code>, which was obsoleted by CSP.)
