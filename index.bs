@@ -1721,9 +1721,9 @@ that should be considered in the development of new features, notably:
 
 <h3>Extend existing manifest files rather than creating new ones</h3>
 
-New web features should be self-contained and self-descriving and ideally should not require an additional manifest file
-which can add complexity to the development and deployment process for web technologies.  However, sometimes manifest 
-files are required. However, they can also add complexity to the web platform, which creates developer confusion.
+New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
+Manifest files can add complexity to the development and deployment process for web technologies.  However, sometimes manifest 
+files are required.
 The use of different manifests on the web should therefore be kept to a minimum.
 
 Metadata can reside inside a new manifest if that is related to a different function or the fetch timing 
@@ -1747,7 +1747,7 @@ Some of the existing manifest files include
 * <a href="https://www.w3.org/TR/appmanifest/">Web App Manifest</a> which contains features related to web applications.
 * <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a> which is used for payment methods in the context of the web payment API
 * <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a> which is used by some web publications working group standards
-* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used t set security policies
+* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used to set security policies.
 
 We encourage people to think of manifest files as extensible. Always try to get the changes into the original spec, 
 or at least have a discussion around the extension with the spec editors, as that will usually lead to a better design
