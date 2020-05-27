@@ -1722,14 +1722,16 @@ that should be considered in the development of new features, notably:
 <h3>Extend existing manifest files rather than creating new ones</h3>
 
 New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
-Manifest files can add complexity to the development and deployment process for web technologies.  However, sometimes manifest 
-files are required.
-The use of different manifests on the web should therefore be kept to a minimum.
+Manifest files can add complexity to the development and deployment process for web technologies.  Sometimes manifest 
+files are required but the use of different manifests on the web should be kept to a minimum.
 
-Metadata can reside inside a new manifest if that is related to a different function or the fetch timing 
-of that metadata is different. Application metadata should be added to the Web App Manifest or be an extension of it. 
+You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files,
+if the fetch timing is different, or if the complexity of the manifest warrents it.  Application metadata should be added 
+to the Web App Manifest or be an extension of it. 
 Parameters for a specific function may require different approaches.
 Payment Method Manifest, Publication Manifest, and Origin Policy are examples of these cases.
+
+For example, if you have a single piece of metadata, even if the fetech timing is different than an exisiting manfiest, it is probabluy best to use an existing manifest (or ideally design the feature in such a way that a manifest is not required). However, if your feature requires a complex set of metadata that is specific to a functional domain, then creation of a new manifest may be warented.
 
 Note that in all cases, the naming conventions should be harmonized (see section 2.2)
  
