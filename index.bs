@@ -1727,7 +1727,7 @@ which creates developer confusion. The use of different manifests on the web sho
 Metadata can reside inside a new manifest if that is related to a different function or the fetch timing 
 of that metadata is different. Application metadata should be added to the Web App Manifest or be an extension of it. 
 Parameters for a specific function may require different approaches.
-Payment Method Manifest and Publication Manifest are examples of these cases.
+Payment Method Manifest, Publication Manifest, and Origin Policy are examples of these cases.
 
 Note that in all cases, the naming conventions should be harmonized (see section 2.2)
  
@@ -1745,6 +1745,7 @@ Some of the existing manifest files include
 * <a href="https://www.w3.org/TR/appmanifest/">Web App Manifest</a>
 * <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a>
 * <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a>
+* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a>
 
 We encourage people to think of manifest files as extensible. Always try to get the changes into the original spec, 
 or at least have a discussion around the extension with the spec editors, as that will usually lead to a better design
