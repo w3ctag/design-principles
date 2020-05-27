@@ -1728,7 +1728,7 @@ files are required but the use of different manifests on the web should be kept 
 You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files,
 if the fetch timing is different, or if the complexity of the manifest warrents it.  Application metadata should be added 
 to the Web App Manifest or be an extension of it. 
-Parameters for a specific function may require different approaches.
+Manifests designated to be used for specific applications or which require interoperability with non-browsers may need to take a different approach.
 Payment Method Manifest, Publication Manifest, and Origin Policy are examples of these cases.
 
 For example, if you have a single piece of metadata, even if the fetech timing is different than an exisiting manfiest, it is probabluy best to use an existing manifest (or ideally design the feature in such a way that a manifest is not required). However, if your feature requires a complex set of metadata that is specific to a functional domain, then creation of a new manifest may be warented.
