@@ -1731,12 +1731,12 @@ using JSON-LD is another type as well.
 
 Note that in all cases, the naming conventions should be harmonized (see section 2.2)
  
-[Note: Due to historical reasons, existing manifests use lowercase, underscore-delimited names. There have been times 
+Note: For historical reasons, existing manifests use lowercase, underscore-delimited names. There have been times 
 where it has been beneficial to re-use dictionaries from a manifest in DOM APIs as well, which are camel-cased. 
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>. For this reason, if a 
-key can clearly be expressed as a single word, that is recommended.]
+key can clearly be expressed as a single word, that is recommended.
  
-When designing new keys and values for a manifest, make sure they are really needed (thus, define well thought out use-cases).
+When designing new keys and values for a manifest, make sure they are really needed (that is, they enable well-thought-out use-cases).
 Also please check if a similar key exists. If an existing key/value pair does more or less what is needed, 
 work with the existing spec to extend it to your use-case if possible.
 
@@ -1749,11 +1749,13 @@ Some of the existing manifest files include
 We encourage people to think of manifest files as extensible. Always try to get the changes into the original spec, 
 or at least have a discussion around the extension with the spec editors, as that will usually lead to a better design
 and to something that can be integrated into the spec. There are certain times the spec authors might not want to 
-integrate immediately due to process (like going to CR) or due to it having a different scope, like extension to Web App
+integrate immediately due to process (like going to CR) or due to it having a different scope, like extensions to Web App
 Manifest only affecting store or payment use-cases. In that case it is fine to monkey-patch as long as that is agreed 
 with the original spec editors.
 
-An example of something that was done as a monkey patch but scheduled to be integrated into the web app manifest in 
+ISSUE(184): when we write up a principle on monkey patching, be sure to take this nuance into account.
+
+An example of something that was done as a monkey patch that is scheduled to be integrated into the web app manifest in 
 a future level (post CR):
 
 * https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest 
