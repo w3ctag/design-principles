@@ -1726,8 +1726,8 @@ which creates developer confusion. The use of different manifests on the web sho
 
 Metadata can reside inside a new manifest if that is related to a different function or the fetch timing 
 of that metadata is different. Application metadata should be added to the Web App Manifest or be an extension of it. 
-Parameters for a specific function (like Payment Method Manifest) are a completely different type. Publication Manifest,
-using JSON-LD is another type as well.
+Parameters for a specific function may require different approaches.
+Payment Method Manifest and Publication Manifest are examples of these cases.
 
 Note that in all cases, the naming conventions should be harmonized (see section 2.2)
  
