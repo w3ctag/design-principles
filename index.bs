@@ -189,10 +189,10 @@ Simple solutions are generally better than complex solutions,
 although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
-and easier for authors to understand. [[LEAST-POWER]]
+and easier for authors to understand. See related [[LEAST-POWER]]
 
 <h3 id="handle-errors">Prefer graceful error recovery</h3>
-<!-- was "Handle Erros" in the HTML Design Principles -->
+<!-- was "Handle Errors" in the HTML Design Principles -->
 
 Error handling should be defined
 so that interoperable implementations can be achieved.
@@ -1895,10 +1895,12 @@ This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.
 
-<h3 id="requirements-on-authors-and-implementers">Identify the audience of the requirements in your specification</h3>
+<h3 id="requirements-on-authors-and-implementers">Identify the audience of each requirement in your specification</h3>
 <!-- was "Conformance for Documents and Implementations" in the HTML Design Principles -->
 
-Many language specifications
+The web platform is, unusually, designed to be robust in accepting poorly formed markup.
+
+When writing specifications for the web, be sure to note authoring requirements for well formed markup ("conforming language"), but also implementation requirements for handling poorly formed markup ("supported language").
 define a set of conformance requirements for valid documents,
 and corresponding conformance requirements
 for implementations processing these valid documents.
@@ -1924,7 +1926,13 @@ which set of requirements each principle applies to.
 <h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
 
-Whenever differences could be observable to web content
+If the specification leaves room for implementations to make different choices
+which mean authors need to write different markup for different implementations,
+this adds a maintenance burden for authors. 
+
+The specification should be complete enough 
+for implementations to be interoperable,
+without depending on referring to the details of other implementations.
 and there isn't a good reason to allow variation between implementations,
 it is important that they be specified unambiguously,
 so that implementations interoperate
