@@ -1025,7 +1025,7 @@ reduces overhead when the function is used,
 and increases user-friendliness.
 
 Optional parameters should be consolidated into a dictionary,
-and empty parameters should be treated equal to when the parameter is omitted.
+and empty parameters should be treated identically to when the parameter is omitted.
 
 <p class="example">For example, 
 <code highlight="js">element.scrollIntoView(false, {});</code> 
