@@ -1594,8 +1594,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#device-apis"><span class="secno">8</span> <span class="content">OS and Device Wrapper APIs</span></a>
      <ol class="toc">
-      <li><a href="#device-ids"><span class="secno">8.1</span> <span class="content">Use care when exposing device identifiers</span></a>
-      <li><a href="#wrapper-apis"><span class="secno">8.2</span> <span class="content">Native APIs don’t typically translate well to the web</span></a>
+      <li><a href="#device-ids"><span class="secno">8.1</span> <span class="content">Use care when exposing identifying information about devices</span></a>
+      <li><a href="#device-enumeration"><span class="secno">8.2</span> <span class="content">Use care when exposing APIs for selecting or enumerating devices</span></a>
+      <li><a href="#wrapper-apis"><span class="secno">8.3</span> <span class="content">Native APIs don’t typically translate well to the web</span></a>
      </ol>
     <li>
      <a href="#other-considerations"><span class="secno">9</span> <span class="content">Other API Design Considerations</span></a>
@@ -2861,7 +2862,7 @@ which may sometimes move backwards
 causing the timestamp values to decrease over time.
 They may also remain the same due to the limitation of millisecond resolution.
 Thus, for time stamps that do not need to correspond to an absolute time,
-consider using <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
+consider using <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
 which provides monotonically non-decreasing sub-millisecond timestamps
 that are comparable within a single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> or web worker.
 See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
@@ -2878,57 +2879,157 @@ whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="8" id="device-apis"><span class="secno">8. </span><span class="content">OS and Device Wrapper APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>It is increasingly common to see new APIs developed in the web platform for interacting with
 devices. For example, authors wish to be able to use the web to connect with their <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>, <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
-accelerometer), <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals, <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc. This
-section contains principles for consideration when designing APIs for devices.</p>
+accelerometer), <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals, <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc.</p>
    <p>These can be functionality provided by the underlying operating system, or provided by a native
 third-party library to interact with a device. These are an abstraction which "wrap" the
 native functionality without introducing significant complexity while securing the API surface
 to the browser, hence are called wrapper APIs.</p>
-   <h3 class="heading settled" data-level="8.1" id="device-ids"><span class="secno">8.1. </span><span class="content">Use care when exposing device identifiers</span><a class="self-link" href="#device-ids"></a></h3>
-   <p>Exposing device identifiers increases the fingerprinting surface of a user
-agent conversely reducing the user’s privacy. Think carefully about whether it is really necessary
-to expose the unique identifier at all. Please read the TAG’s finding on <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for
-additional details. Despite this general concern, it may be very useful or necessary to expose a
-device’s unique identifier to the web platform. The following guidelines will help ensure that this
-is done in a consistent and privacy-friendly way:</p>
+   <p>This section contains principles for consideration when designing APIs for devices.</p>
+   <h3 class="heading settled" data-level="8.1" id="device-ids"><span class="secno">8.1. </span><span class="content">Use care when exposing identifying information about devices</span><a class="self-link" href="#device-ids"></a></h3>
+   <p>Merely exposing the presence of a device
+may harm user privacy.
+Exposing
+additional information about a device
+or its capabilities
+increases this risk further.
+Exposing device identifiers
+increases this risk even more.
+Any such information
+increases the set of fingerprinting data available to sites.
+But there are possible user privacy harms here
+that go beyond fingerprinting.
+Please read <a data-link-type="biblio" href="#biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]</a> and <a data-link-type="biblio" href="#biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]</a> for additional details.</p>
+   <p>Think carefully about
+whether it is really necessary
+to expose identifying information about the device at all.
+Please consider if your use cases could be satisfied
+by a less powerful API. <a data-link-type="biblio" href="#biblio-least-power">[LEAST-POWER]</a></p>
+   <p>Despite these concerns,
+you may find that it is necessary
+to expose identifying information about a device to the web platform.</p>
+   <p>The following guidelines will help ensure
+that this is done in a consistent and privacy-friendly way:</p>
    <dl>
     <dt data-md>Limit identifiable information in the id
     <dd data-md>
-     <p>As much as possible, device ids exposed to the web platform should not contain identifiable
- information such as branding, make and model numbers, etc. In many cases using a randomized
- number or unique id is preferable to a generic string identifier such as "device1".</p>
-    <dd data-md>
-     <p>Device ids expressed as numbers should contain sufficient entropy so as to avoid re-use or
- potential sharing among other devices, and should not be easily guessable.</p>
+     <p>As much as possible,
+device ids exposed to the web platform
+should not contain identifiable information
+such as branding, make and model numbers, etc.
+In many cases
+using a randomized number or unique id
+is preferable to
+a generic string identifier such as "device1".</p>
+     <p>Device ids expressed as numbers
+should contain sufficient entropy
+so as to avoid re-use or potential sharing among other devices,
+and should not be easily guessable.</p>
     <dt data-md>Keep the user in control
     <dd data-md>
-     <p>Any existing device ids mapped to or stored with the current session by the user agent should
- be cleared when users elect to "clear their cookies" (and other related settings). Above all,
- the user should be in control of this potential tracking state and be able to reset it on
- demand.</p>
+     <p>Any existing device ids
+mapped to or stored with the current session by the user agent
+should be cleared
+when users elect to "clear their cookies" (and other related settings).
+Above all,
+the user should be in control of this potential tracking state
+and be able to reset it on demand.</p>
     <dt data-md>Hide sensitive ids behind a user permission
     <dd data-md>
-     <p>Where device identification does not make sense to be expressed in an anonymous way, access to
- the identifier should be limited by default. One way to limit exposure is to only surface the
- identifier to author code <em>after</em> obtaining permission from the user.</p>
+     <p>Where device identification does not make sense to be expressed in an anonymous way,
+access to the identifier
+should be limited by default.
+One way to limit exposure
+is to only surface the identifier to author code <em>after</em> obtaining permission from the user.</p>
     <dt data-md>Tie ids to the same-origin model
     <dd data-md>
-     <p>Identifiers should be unique to the origin of the web content that is attempting to access
- them. Web content from one origin should receive an identifier that is distinct from the
- identifier given to web content from any other origin despite the physical device being the
- same.</p>
+     <p>Identifiers should be unique
+to the origin of the web content that is attempting to access them.
+Web content from one origin should receive an identifier that is distinct
+from the identifier given to web content from any other origin
+despite the physical device being the same.</p>
     <dd data-md>
-     <p>Within an origin, ids may have a stable representation to web content. This ensures a
- consistent developer experience if requesting the same device twice.</p>
+     <p>Within an origin,
+ids may have a stable representation to web content.
+This ensures a consistent developer experience
+if requesting the same device twice.</p>
     <dt data-md>Persistable when necessary
     <dd data-md>
-     <p>Device identifiers obtained after a complex or time-consuming device selection process may
- prefer that author code be allowed to persist the id for use in a later session in order to
- avoid the selection process a second time. In this case, the API should not only provide a
- stable id during the session for the given origin, but also be able to deterministically produce
- the same id in subsequent sessions.</p>
+     <p>Some device identifiers
+can only be obtained
+via a complex or time-consuming device selection process.
+In such cases,
+it may make sense for author code
+to be able to persist such identifiers
+for use in a later session
+in order to avoid the selection process a second time.
+When this is the case,
+the API should not only
+provide a stable id during the session for the given origin,
+but it should also be capable of
+deterministically producing the same id
+in subsequent sessions.</p>
    </dl>
-   <h3 class="heading settled" data-level="8.2" id="wrapper-apis"><span class="secno">8.2. </span><span class="content">Native APIs don’t typically translate well to the web</span><a class="self-link" href="#wrapper-apis"></a></h3>
+   <h3 class="heading settled" data-level="8.2" id="device-enumeration"><span class="secno">8.2. </span><span class="content">Use care when exposing APIs for selecting or enumerating devices</span><a class="self-link" href="#device-enumeration"></a></h3>
+   <p>APIs which expose the the existence, capabilities, and/or identifiers of many devices
+risk multiplying the harm described in <a href="#device-ids">§ 8.1 Use care when exposing identifying information about devices</a> (since they expose fingerprinting entropy per exposed device)
+and thus require additional consideration.</p>
+   <p>As in the previous section,
+please consider if your use cases could be satisfied
+by a less powerful API. <a data-link-type="biblio" href="#biblio-least-power">[LEAST-POWER]</a></p>
+   <p>If the purpose of the API
+is to enable the user <strong>to select a device</strong> from the set of available devices of a particular kind,
+you may not need to expose a list to script at all.
+An API which invokes a User-Agent-provided device picker
+could suffice.
+Such an API
+keeps the user in control,
+hides the device behind a user permission,
+does not expose any fingerprinting data about the user’s environment by default,
+and, when used, only exposes information about one device.</p>
+   <div class="example" id="example-a9dc32f5"><a class="self-link" href="#example-a9dc32f5"></a> File selection form controls
+(<code><a data-link-type="attr-value" href="https://html.spec.whatwg.org/multipage/input.html#file-upload-state-%28type=file%29" id="ref-for-file-upload-state-%28type=file%29">&lt;input type=file></a></code>)
+invoke a User Agent-provided file picker.
+This elegant design ensures that
+the website only gets access to file(s) the user explicitly selected,
+and does not receive any other information
+about the user’s file system. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </div>
+   <p>When designing such an API,
+it may be necessary to also expose
+the fact that there are devices are available to be picked.
+Such a feature exposes
+a small amount (one bit) of fingerprinting data about the user’s environment
+to websites,
+so it isn’t quite as safe as
+an API which does not have such a feature.</p>
+   <div class="example" id="example-6f843853">
+    <a class="self-link" href="#example-6f843853"></a> 
+    <p>The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/remote-playback/#remoteplayback-interface" id="ref-for-remoteplayback-interface">RemotePlayback</a></code> interface
+does not expose a list of available <a data-link-type="dfn" href="https://w3c.github.io/remote-playback/#dfn-remote-playback-devices" id="ref-for-dfn-remote-playback-devices">remote playback devices</a>.
+Like <code><a data-link-type="attr-value" href="https://html.spec.whatwg.org/multipage/input.html#file-upload-state-%28type=file%29" id="ref-for-file-upload-state-%28type=file%29①">&lt;input type=file></a></code>, it invokes a User Agent-defined device picker,
+which has the same desirable properties. <a data-link-type="biblio" href="#biblio-remote-playback">[REMOTE-PLAYBACK]</a></p>
+    <p>Unlike <code><a data-link-type="attr-value" href="https://html.spec.whatwg.org/multipage/input.html#file-upload-state-%28type=file%29" id="ref-for-file-upload-state-%28type=file%29②">&lt;input type=file></a></code>, it also
+enables websites to detect whether or not
+any <a data-link-type="dfn" href="https://w3c.github.io/remote-playback/#dfn-remote-playback-devices" id="ref-for-dfn-remote-playback-devices①">remote playback device</a> is available,
+so the website can show or hide a control
+the user can use to invoke the picker.</p>
+   </div>
+   <p>If you must expose a list of devices,
+try to <strong>expose the smallest subset</strong> that satisfies your use cases.
+Consider an API which allows the website
+to request <strong>a filtered or constrained list</strong> of devices,
+but keep in mind that
+constraint-matching systems may reveal more information than intended
+when repeatedly invoked with different constraints.</p>
+   <p>If you must expose the full list of devices of a particular kind,
+please rigorously <strong>define the order</strong> in which devices will be listed.
+This can reduce interoperability issues,
+and helps to mitigate fingerprinting
+(because sort order could reveal other information;
+see <a href="https://w3c.github.io/fingerprinting-guidance/#a_standardized_profile">Fingerprinting Guidance §5.2 Standardization</a> for more.)</p>
+   <p>While APIs should not
+expose a full list of devices in an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined">implementation-defined</a> order,
+they may need to for web compatibility reasons.</p>
+   <h3 class="heading settled" data-level="8.3" id="wrapper-apis"><span class="secno">8.3. </span><span class="content">Native APIs don’t typically translate well to the web</span><a class="self-link" href="#wrapper-apis"></a></h3>
    <p>Many modern operating systems come with convenience APIs, which abstract away
 normally complex technology in the form of higher level user-friendly APIs.</p>
    <p>Exposing these APIs to the web platform is getting more and more common, but you
@@ -3452,7 +3553,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
-   <a href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">https://w3c.github.io/hr-time/#dom-domhighrestimestamp</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp">https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-domhighrestimestamp">7.3. Use the appropriate type to represent times and dates</a>
    </ul>
@@ -3543,6 +3644,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-event-handler-idl-attributes">6.4. Always add event handler attributes</a> <a href="#ref-for-event-handler-idl-attributes①">(2)</a> <a href="#ref-for-event-handler-idl-attributes②">(3)</a> <a href="#ref-for-event-handler-idl-attributes③">(4)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-file-upload-state-%28type=file%29">
+   <a href="https://html.spec.whatwg.org/multipage/input.html#file-upload-state-%28type=file%29">https://html.spec.whatwg.org/multipage/input.html#file-upload-state-%28type=file%29</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-file-upload-state-%2528type=file%2529">8.2. Use care when exposing APIs for selecting or enumerating devices</a> <a href="#ref-for-file-upload-state-%2528type=file%2529①">(2)</a> <a href="#ref-for-file-upload-state-%2528type=file%2529②">(3)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-focus-update-steps">
    <a href="https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps">https://html.spec.whatwg.org/multipage/interaction.html#focus-update-steps</a><b>Referenced in:</b>
    <ul>
@@ -3605,6 +3712,12 @@ so that readers can quickly decide whether they need to read the steps in detail
     <li><a href="#ref-for-idbdatabase">6.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-implementation-defined">
+   <a href="https://infra.spec.whatwg.org/#implementation-defined">https://infra.spec.whatwg.org/#implementation-defined</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-implementation-defined">8.2. Use care when exposing APIs for selecting or enumerating devices</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-custom-media-false">
    <a href="https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false">https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false</a><b>Referenced in:</b>
    <ul>
@@ -3633,6 +3746,18 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete">https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-merchantvalidationevent-complete">6.6. Guard against potential recursion</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-remoteplayback-interface">
+   <a href="https://w3c.github.io/remote-playback/#remoteplayback-interface">https://w3c.github.io/remote-playback/#remoteplayback-interface</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-remoteplayback-interface">8.2. Use care when exposing APIs for selecting or enumerating devices</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-remote-playback-devices">
+   <a href="https://w3c.github.io/remote-playback/#dfn-remote-playback-devices">https://w3c.github.io/remote-playback/#dfn-remote-playback-devices</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-remote-playback-devices">8.2. Use care when exposing APIs for selecting or enumerating devices</a> <a href="#ref-for-dfn-remote-playback-devices①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-selector-combinator">
@@ -3843,6 +3968,7 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
      <li><span class="dfn-paneled" id="term-for-customized-built-in-element" style="color:initial">customized built-in element</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
+     <li><span class="dfn-paneled" id="term-for-file-upload-state-%28type=file%29" style="color:initial">file</span>
      <li><span class="dfn-paneled" id="term-for-focus-update-steps" style="color:initial">focus update steps</span>
      <li><span class="dfn-paneled" id="term-for-the-img-element" style="color:initial">img</span>
      <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
@@ -3859,6 +3985,11 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-idbdatabase" style="color:initial">IDBDatabase</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-implementation-defined" style="color:initial">implementation-defined</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false" style="color:initial">false</span>
@@ -3870,6 +4001,12 @@ so that readers can quickly decide whether they need to read the steps in detail
      <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">PaymentRequest</span>
      <li><span class="dfn-paneled" id="term-for-dfn-state" style="color:initial">[[state]]</span>
      <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete" style="color:initial">complete()</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[REMOTE-PLAYBACK]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-remoteplayback-interface" style="color:initial">RemotePlayback</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices" style="color:initial">remote playback device</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
@@ -3929,6 +4066,8 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-indexeddb-2">[IndexedDB-2]
    <dd>Ali Alabbas; Joshua Bell. <a href="https://w3c.github.io/IndexedDB/">Indexed Database API 2.0</a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
+   <dt id="biblio-infra">[INFRA]
+   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
    <dd>Dean Jackson; Florian Rivoal; Tab Atkins Jr.. <a href="https://drafts.csswg.org/mediaqueries-5/">Media Queries Level 5</a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
@@ -3958,10 +4097,16 @@ so that readers can quickly decide whether they need to read the steps in detail
    <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
+   <dd>Nick Doty. <a href="https://www.w3.org/TR/fingerprinting-guidance/">Mitigating Browser Fingerprinting in Web Specifications</a>. 28 March 2019. NOTE. URL: <a href="https://www.w3.org/TR/fingerprinting-guidance/">https://www.w3.org/TR/fingerprinting-guidance/</a>
+   <dt id="biblio-least-power">[LEAST-POWER]
+   <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower">The Rule of Least Power</a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
    <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
    <dd>Mounir Lamouri; Anton Vayvod. <a href="https://w3c.github.io/remote-playback/">Remote Playback API</a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://w3c.github.io/uievents/">UI Events</a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
+   <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
+   <dd>Mark Nottingham. <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">Unsanctioned Web Tracking</a>. 17 July 2015. TAG Finding. URL: <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">http://www.w3.org/2001/tag/doc/unsanctioned-tracking/</a>
   </dl>
   <aside class="dfn-panel" data-for="myobject">
    <b><a href="#myobject">#myobject</a></b><b>Referenced in:</b>
