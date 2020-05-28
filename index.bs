@@ -1020,7 +1020,7 @@ is more readable than
 <h3 id="constructors">Make non-critical function parameters optional</h3>
 
 Parameters that are not strictly necessary should be made optional.
-Making arguments optional with reasonable defaults reduce overhead when the function is used,
+Making arguments optional with reasonable defaults reduces overhead when the function is used,
 and increases user-friendliness.
 
 Optional parameters should treat empty or undefined as equal to the omission of the parameter.
