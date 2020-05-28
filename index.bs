@@ -1892,7 +1892,7 @@ designed to be robust in accepting poorly formed markup.
 
 When writing specifications for the web,
 be sure to note authoring requirements
-for well formed markup (the "conforming language"),
+for well-formed markup (the "conforming language"),
 and also
 implementation requirements
 for handling poorly formed markup (the "supported language").
@@ -1902,15 +1902,6 @@ have a relatively clean and understandable language for authors,
 while at the same time supporting existing documents
 that make use of older or nonstandard constructs,
 and enabling better interoperability in error handling.
-
-Some of the design principles in this document apply much more
-to conformance requirements for content (the "conforming language")
-while others apply much more
-to conformance requirements for implementations (the "supported language").
-Since the supported language is a strict superset of the conforming language,
-there is considerable overlap,
-but we have tried to be clear
-which set of requirements each principle applies to.
 
 <h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
@@ -1922,8 +1913,8 @@ this adds a maintenance burden for authors.
 The specification should be complete enough 
 for implementations to be interoperable,
 without depending on or referring to the details of other implementations.
-and there isn't a good reason to allow variation between implementations,
-it is important that they be specified unambiguously,
+When there isn't a good reason to allow variation between implementations,
+it is important that things be specified unambiguously,
 so that implementations interoperate
 and web content doesn't end up
 depending on the [=implementation-defined=] behavior
