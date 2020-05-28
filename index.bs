@@ -1371,16 +1371,19 @@ This section contains principles for consideration when designing APIs for devic
 
 <h3 id="device-ids">Use care when exposing identifying information about devices</h3>
 
-Exposing device identifiers
-(or information about a device
-or its capabilities
-that may be used to synthesize such an identifier)
-increases the fingerprinting surface of a user agent,
-thus harming user privacy.
 Merely exposing the presence of a device
-is itself a fingerprinting concern.
-Please read the TAG's finding
-on [unsanctioned tracking](http://www.w3.org/2001/tag/doc/unsanctioned-tracking/)
+may harm user privacy.
+Exposing
+additional information about a device
+or its capabilities
+increases this risk further.
+Exposing device identifiers
+increases this risk even more.
+Any such information
+increases the set of fingerprinting data available to sites.
+But there are possible user privacy harms here
+that go beyond fingerprinting.
+Please read [[FINGERPRINTING-GUIDANCE]] and [[UNSANCTIONED-TRACKING]]
 for additional details.
 
 Think carefully about
