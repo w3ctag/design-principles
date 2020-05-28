@@ -1574,14 +1574,18 @@ There are exceptions, however, for which Web IDL provides
 {{USVString}} and {{ByteString}}. [[!INFRA]] [[!WEBIDL]]
 
 {{USVString}} is the Web IDL type that represents [=scalar value strings=].
-For strings whose most common algorithms operate on [=code points=],
+For strings whose most common algorithms operate on [=scalar values=],
 such as I/O operations,
+or for operations which cannot handle [=surrogates=] in input,
 {{USVString}} should be used.
 
 <p class=example>
 For example,
 the {{FormData}} API uses {{USVString}} exclusively,
-because form data gets [$percent-encode|percent-encoded$] so often. [[HTML]]
+because form data gets [$percent-encode|percent-encoded$] so often,
+and
+[$percent-encode|percent-encoding$] is an operation
+which operates on [=scalar values=]. [[HTML]]
 </p>
 
 <p class=example>
