@@ -1029,7 +1029,7 @@ foo(undefined) and foo() should be equal,
 along with foo({}) and foo() if the optional parameter accepts a dictionary.
 
 Exceptions have been made for legacy interoperability reasons (such as XMLHttpRequest),
-but this should be considered an exception rather than recommended practice.
+but this should be considered a design mistake rather than recommended practice.
 
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
