@@ -191,18 +191,6 @@ Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand. See related [[LEAST-POWER]]
 
-<h3 id="handle-errors">Prefer graceful error recovery</h3>
-<!-- was "Handle Errors" in the HTML Design Principles -->
-
-Error handling should be defined
-so that interoperable implementations can be achieved.
-
-Prefer graceful error recovery to hard failure,
-so that users are not exposed to authoring errors,
-per the [[#priority-of-constituencies]].
-
-<!-- TODO: add an example and a counter-example -->
-
 <h3 id="naming-is-hard">Naming things</h3>
 
 Names take meaning from:
