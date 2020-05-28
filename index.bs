@@ -1466,7 +1466,7 @@ If the purpose of the API
 is to enable the user **to select a device**
 from the set of available devices of a particular kind,
 you may not need to expose a list to script at all.
-An API which invokes a User Agent-provided device picker
+An API which invokes a User-Agent-provided device picker
 could suffice.
 Such an API
 keeps the user in control,
