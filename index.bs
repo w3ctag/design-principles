@@ -1,5 +1,5 @@
 <pre class="metadata">
-Title: Web Platform API Design Principles
+Title: Web Platform Design Principles
 Group: tag
 Shortname: design-principles
 Repository: w3ctag/design-principles
