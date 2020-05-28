@@ -180,6 +180,30 @@ by showing the user that certain things won't happen without their permission.
 But frequently asking users for consent can also show how scary a place the web is
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.
 
+<h3 id="devices-platforms">Support the full range of devices and platforms</h3>
+
+Features on the web should work across different input and output devices,
+different platforms, and different media,
+as much as this is reasonably possible.
+For example, they should not be specific to a particular screen size,
+a particular operating system or browser engine,
+or assume the user is using a mouse.
+Some features don't reasonably work across all of these cases:
+for example, hyperlinks don't work when printed on paper,
+and '':hover'' doesn't work on touch input devices where there isn't a mouse pointer position,
+but these features are still valuable across a range of devices,
+and could be adapted to devices that don't support their original intent
+(for example, hyperlink targets could be converted to footnotes when printing).
+
+Features should also be designed so that the easiest way to use them
+works across devices as well.
+For example, the simplest way of using a feature for positioning of content
+should encourage doing so based on where the other content is
+rather than using pixel positions,
+so that it works across devices of various sizes,
+across browsers and operating systems that have different fonts available,
+and across different user settings for default text size.
+
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="naming-is-hard">Naming things</h3>
