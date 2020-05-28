@@ -1898,15 +1898,16 @@ for the APIs that they design.
 <h3 id="requirements-on-authors-and-implementers">Identify the audience of each requirement in your specification</h3>
 <!-- was "Conformance for Documents and Implementations" in the HTML Design Principles -->
 
-The web platform is, unusually, designed to be robust in accepting poorly formed markup.
+The web platform is,
+unusually,
+designed to be robust in accepting poorly formed markup.
 
-When writing specifications for the web, be sure to note authoring requirements for well formed markup ("conforming language"), but also implementation requirements for handling poorly formed markup ("supported language").
-define a set of conformance requirements for valid documents,
-and corresponding conformance requirements
-for implementations processing these valid documents.
-The web platform is somewhat unusual
-in also defining implementation conformance requirements
-for many constructs that are not allowed in conforming documents.
+When writing specifications for the web,
+be sure to note authoring requirements
+for well formed markup (the "conforming language"),
+and also
+implementation requirements
+for handling poorly formed markup (the "supported language").
 
 This allows us to
 have a relatively clean and understandable language for authors,
@@ -1932,7 +1933,7 @@ this adds a maintenance burden for authors.
 
 The specification should be complete enough 
 for implementations to be interoperable,
-without depending on referring to the details of other implementations.
+without depending on or referring to the details of other implementations.
 and there isn't a good reason to allow variation between implementations,
 it is important that they be specified unambiguously,
 so that implementations interoperate
