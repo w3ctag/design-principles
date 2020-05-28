@@ -1020,15 +1020,25 @@ is more readable than
 <h3 id="constructors">Make non-critical function parameters optional</h3>
 
 Parameters that are not strictly necessary should be made optional.
-Making arguments optional with reasonable defaults reduces overhead when the function is used,
+Making arguments optional with reasonable defaults
+reduces overhead when the function is used,
 and increases user-friendliness.
 
-Optional parameters should treat empty or undefined as equal to the omission of the parameter.
-For example, given a function foo() which takes a single optional parameter,
-foo(undefined) and foo() should be equal,
-along with foo({}) and foo() if the optional parameter accepts a dictionary.
+Optional parameters should be consolidated into a dictionary,
+and empty parameters should be treated equal to when the parameter is omitted.
 
-Exceptions have been made for legacy interoperability reasons (such as XMLHttpRequest),
+<p class="example">For example, 
+<code highlight="js">element.scrollIntoView(false, {});</code> 
+is equivalent to 
+<code highlight="js">element.scrollIntoView(false);</code>,
+and
+<code highlight="js">element.addEventListener("click", onClick, undefined);</code>
+is equivalent to 
+<code highlight="js">element.addEventListener("click", onClick)</code>.
+</p>
+
+Exceptions have been made for legacy interoperability reasons
+(such as XMLHttpRequest),
 but this should be considered a design mistake rather than recommended practice.
 
 <h3 id="constructors">Classes should have constructors when possible</h3>
