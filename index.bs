@@ -1017,6 +1017,30 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
+<h3 id="constructors">Make non-critical function parameters optional</h3>
+
+Parameters that are not strictly necessary should be made optional.
+Making arguments optional with reasonable defaults
+reduces overhead when the function is used,
+and increases user-friendliness.
+
+Optional parameters should be consolidated into a dictionary,
+and empty parameters should be treated identically to when the parameter is omitted.
+
+<p class="example">For example, 
+<code highlight="js">element.scrollIntoView(false, {});</code> 
+is equivalent to 
+<code highlight="js">element.scrollIntoView(false);</code>,
+and
+<code highlight="js">element.addEventListener("click", onClick, undefined);</code>
+is equivalent to 
+<code highlight="js">element.addEventListener("click", onClick)</code>.
+</p>
+
+Exceptions have been made for legacy interoperability reasons
+(such as XMLHttpRequest),
+but this should be considered a design mistake rather than recommended practice.
+
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
 By default, [[!WEBIDL]] interfaces are reified in JavaScript as "non-constructible" classes: trying
