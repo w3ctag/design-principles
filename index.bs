@@ -185,12 +185,11 @@ by showing how many sites are willing to ask for intrusive and unnecessary permi
 <h3 id="simplicity">Prefer simple solutions</h3>
 <!-- was "Avoid Needless Complexity" in the HTML Design Principles -->
 
-Simple solutions are preferred to complex ones, when possible.
+Simple solutions are generally better than complex solutions,
+although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand. [[LEAST-POWER]]
-
-But this should not be used as an excuse to avoid satisfying the other principles.
 
 <h3 id="handle-errors">Prefer graceful error recovery</h3>
 <!-- was "Handle Erros" in the HTML Design Principles -->
@@ -201,6 +200,8 @@ so that interoperable implementations can be achieved.
 Prefer graceful error recovery to hard failure,
 so that users are not exposed to authoring errors,
 per the [[#priority-of-constituencies]].
+
+<!-- TODO: add an example and a counter-example -->
 
 <h3 id="naming-is-hard">Naming things</h3>
 
@@ -2011,6 +2012,8 @@ Describing state using explicit flags makes behavior clearer.
 Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
+
+<!-- TODO: add examples -->
 
 <h3 id="writing-resources">Other resources</h3>
 
