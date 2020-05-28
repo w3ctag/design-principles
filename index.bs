@@ -227,7 +227,7 @@ to name this API less directly connected to its return type. [[FETCH]]
 <h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
 
 Names must adhere to the local language restrictions, for example CSS ident rules etc.
-and *should* be in the [ASCII range](https://infra.spec.whatwg.org/#ascii-code-point).
+and *should* be in the [=ascii code point|ASCII range=].
 
 <h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
 
@@ -434,7 +434,7 @@ What we *can* highlight is that Secure Context-restricted features
 face the least friction in gaining wide adoption amongst these varying regimes.
 
 Specification authors can limit most features defined in
-<a href="https://heycam.github.io/webidl/">WebIDL</a>,
+<a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
 <code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
@@ -1550,6 +1550,54 @@ provide both `BigInt` and `Number` variants of an API. As an API designer,
 consider it your job to chose the correct numeric type for the feature being
 exposed.
 
+<h3 id="idl-string-types">Represent strings appropriately</h3>
+
+<!--
+    This has been discussed in a number of places.
+    When editing this section,
+    please try not to lose any of the nuance
+    distilled from the discussions in these issues:
+
+    https://github.com/w3c/css-houdini-drafts/issues/687
+    https://github.com/w3c/csswg-drafts/issues/1217
+    https://github.com/w3c/csswg-drafts/issues/3307
+    https://github.com/heycam/webidl/issues/84
+    https://github.com/w3ctag/design-reviews/issues/87
+-->
+
+When designing a web platform feature which operates on [=strings=],
+{{DOMString}} is almost always the right Web IDL [=string type=] to use.
+This is because
+most string operations don't need
+to interpret the [=code units=] inside of the string.
+There are exceptions, however, for which Web IDL provides
+{{USVString}} and {{ByteString}}. [[!INFRA]] [[!WEBIDL]]
+
+{{USVString}} is the Web IDL type that represents [=scalar value strings=].
+For strings whose most common algorithms operate on [=code points=],
+such as I/O operations,
+{{USVString}} should be used.
+
+<p class=example>
+For example,
+the {{FormData}} API uses {{USVString}} exclusively,
+because form data gets [$percent-encode|percent-encoded$] so often. [[HTML]]
+</p>
+
+<p class=example>
+[=reflect|Reflecting IDL attributes=]
+whose content attribute is defined to contain a [=/URL=]
+(such as <{a/href}>)
+should use {{USVString}}. [[HTML]]
+</p>
+
+{{ByteString}} should only be used for representing
+data from protocols like HTTP
+which don't distinguish between bytes and strings.
+It is not a general-purpose string type.
+If you need to represent a [=sequence types|sequence=] of {{byte|bytes}},
+use {{Uint8Array}}.
+
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
 Any web API that accepts a time measurement should do so in milliseconds. This
@@ -1946,7 +1994,7 @@ For example, they should explicitly describe the inputs and outputs of the algor
 rather than relying on "stack introspection" or handwaving.
 They should also avoid side-effects when possible.
 
-The Infra Standard offers
+[[!INFRA]] offers
 <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
 and terminology</a>
 for defining algorithms.
@@ -1962,6 +2010,7 @@ so that readers can quickly decide whether they need to read the steps in detail
 <!-- Route around bugs in other specs.
      https://github.com/whatwg/html/issues/5515
      https://github.com/w3c/remote-playback/issues/137
+     https://github.com/whatwg/url/issues/522
      -->
 <pre class="anchors">
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
@@ -1969,4 +2018,6 @@ urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     text: RemotePlayback; type:interface; url: #remoteplayback-interface
     text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
+urlPrefix: https://url.spec.whatwg.org/; spec: URL;
+    type: abstract-op; url: #percent-encode; text: percent-encode
 </pre>
