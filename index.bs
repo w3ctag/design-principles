@@ -181,6 +181,7 @@ But frequently asking users for consent can also show how scary a place the web 
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.
 
 <h3 id="devices-platforms">Support the full range of devices and platforms</h3>
+<!-- was "Media Independence" in the HTML Design Principles -->
 
 Features on the web should work across different input and output devices,
 different platforms, and different media,
