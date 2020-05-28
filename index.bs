@@ -398,6 +398,13 @@ also works in other cases
 (e.g., a library being used in a non-secure context when
 the feature is limited to secure contexts).
 
+However, some features may be for
+interaction with devices that may or may not be available.
+Detection of device availability should generally be separate from feature detection,
+both since [the user may need to consent](#consent) to such detection,
+and since developers may want to handle device unavailability
+differently from lack of support for the feature.
+
 Detection should always be possible from script,
 but in some cases the feature should also be detectable
 in the language where it is used
