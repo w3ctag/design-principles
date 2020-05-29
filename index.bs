@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions. We suggest that specification designers read <a href="#basic-principles">section 1</a> in full and use the remainder of the document as a reference.
+Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
