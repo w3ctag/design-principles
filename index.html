@@ -1565,8 +1565,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#attributes-like-data"><span class="secno">5.1</span> <span class="content">Attributes should behave like data properties</span></a>
       <li><a href="#live-vs-static"><span class="secno">5.2</span> <span class="content">Consider whether objects should be live or static</span></a>
       <li><a href="#prefer-dict-to-bool"><span class="secno">5.3</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
-      <li><a href="#constructors"><span class="secno">5.4</span> <span class="content">Make non-critical function parameters optional</span></a>
-      <li><a href="#constructors①"><span class="secno">5.5</span> <span class="content">Classes should have constructors when possible</span></a>
+      <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make non-critical function parameters optional</span></a>
+      <li><a href="#constructors"><span class="secno">5.5</span> <span class="content">Classes should have constructors when possible</span></a>
       <li><a href="#promises"><span class="secno">5.6</span> <span class="content">Design asynchronous APIs using Promises</span></a>
       <li><a href="#aborting"><span class="secno">5.7</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">5.8</span> <span class="content">Constants, enums, and bitmasks</span></a>
@@ -2405,7 +2405,7 @@ or “private” versus “public”.</p>
    <p>Likewise, APIs should use dictionary parameters to avoid other cases
 of difficult to understand sequences of parameters.
 For example, <code class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mi>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mi>0</c-> <c- p>})</c-></code> is more readable than <code class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mi>50</c-><c- p>,</c-> <c- mi>0</c-><c- p>)</c-></code>.</p>
-   <h3 class="heading settled" data-level="5.4" id="constructors"><span class="secno">5.4. </span><span class="content">Make non-critical function parameters optional</span><a class="self-link" href="#constructors"></a></h3>
+   <h3 class="heading settled" data-level="5.4" id="optional-parameters"><span class="secno">5.4. </span><span class="content">Make non-critical function parameters optional</span><a class="self-link" href="#optional-parameters"></a></h3>
    <p>Parameters that are not strictly necessary should be made optional.
 Making arguments optional with reasonable defaults
 reduces overhead when the function is used,
@@ -2417,7 +2417,7 @@ and <code class="highlight">element<c- p>.</c->addEventListener<c- p>(</c-><c- u
    <p>Exceptions have been made for legacy interoperability reasons
 (such as XMLHttpRequest),
 but this should be considered a design mistake rather than recommended practice.</p>
-   <h3 class="heading settled" data-level="5.5" id="constructors①"><span class="secno">5.5. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors①"></a></h3>
+   <h3 class="heading settled" data-level="5.5" id="constructors"><span class="secno">5.5. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
    <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are reified in JavaScript as "non-constructible" classes: trying
 to create instances of them using the normal pattern in JavaScript, <code>new X()</code>, will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>. This is a poor experience for JavaScript developers, and doesn’t match the design of
 most of the JavaScript standard library or of the classes JavaScript developers themselves create.</p>
