@@ -51,7 +51,7 @@ url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: C
 
 <h3 id="priority-of-constituencies">Put user needs first (Priority of Constituencies)</h3>
 
-If a trade-off needs to be made, 
+If a trade-off needs to be made,
 always put user needs above all.
 
 User needs come before the needs of web page authors,
@@ -59,10 +59,10 @@ which come before than the needs of user agent implementors,
 which come before than the needs of spec writers,
 which come before theoretical purity.
 
-Similarly, when beginning to design an API, 
+Similarly, when beginning to design an API,
 be sure to understand and document the user need that the API aims to address.
 
-Like all principles, 
+Like all principles,
 this is not absolute.
 Ease of authoring impacts how content reaches users.
 User agent implementation priorities affect how features reach authors.
