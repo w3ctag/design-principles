@@ -199,9 +199,9 @@ and can be adapted to devices that don't support their original intent
 
 Features should also be designed so that the easiest way to use them
 works across devices as well.
-For example, the simplest way of using a feature for positioning of content
-should encourage doing so based on where the other content is
-rather than using pixel positions,
+For example,
+the `display:block`, `display: flex`, and `display: grid` layout models in CSS
+all default to placing content within the available space and without overlap,
 so that it works across devices of various sizes,
 across browsers and operating systems that have different fonts available,
 and across different user settings for default text size.
