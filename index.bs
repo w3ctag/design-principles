@@ -382,9 +382,10 @@ initialisms, even if they are repeated.
 
 <h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
 
-It is useful to mark features that weaken
+Where possible, mark features that weaken
 the guarantees or invariants provided to developers
 by making their names start with "unsafe" so that this is more noticeable.
+
 For example,
 [Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
 provides protection against certain types of content injection vulnerabilities.
