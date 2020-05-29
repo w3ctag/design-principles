@@ -1712,7 +1712,7 @@ Think carefully about
 whether it is really necessary
 to expose identifying information about the device at all.
 Please consider if your use cases could be satisfied
-by a less powerful API. [[LEAST-POWER]]
+by a less powerful feature. [[LEAST-POWER]]
 
 Despite these concerns,
 you may find that it is necessary
@@ -1770,30 +1770,30 @@ that this is done in a consistent and privacy-friendly way:
     for use in a later session
     in order to avoid the selection process a second time.
     When this is the case,
-    the API should not only
+    the feature should not only
     provide a stable id during the session for the given origin,
     but it should also be capable of
     deterministically producing the same id
     in subsequent sessions.
 
-<h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3> 
+<h3 id="device-enumeration">Use care when designing features for selecting or enumerating devices</h3>
 
-APIs which expose the the existence, capabilities, and/or identifiers of many devices
+Features which expose the the existence, capabilities, and/or identifiers of many devices
 risk multiplying the harm described in [[#device-ids]]
 (since they expose fingerprinting entropy per exposed device)
 and thus require additional consideration.
 
 As in the previous section,
 please consider if your use cases could be satisfied
-by a less powerful API. [[LEAST-POWER]]
+by a less powerful feature. [[LEAST-POWER]]
 
-If the purpose of the API
+If the purpose of the feature
 is to enable the user **to select a device**
 from the set of available devices of a particular kind,
 you may not need to expose a list to script at all.
-An API which invokes a User-Agent-provided device picker
+A feature which invokes a User-Agent-provided device picker
 could suffice.
-Such an API
+Such a feature
 keeps the user in control,
 hides the device behind a user permission,
 does not expose any fingerprinting data about the user's environment by default,
@@ -1811,14 +1811,14 @@ about the user's file system.
 
 </div>
 
-When designing such an API,
-it may be necessary to also expose
-the fact that there are devices are available to be picked.
-Such a feature exposes
+When designing such a feature,
+it may be necessary to also include an API which exposes
+the fact that there are devices that are available to be picked.
+Such an API exposes
 a small amount (one bit) of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as
-an API which does not have such a feature.
+a feature which does not have such an API.
 
 <div class=example>
 
@@ -1852,9 +1852,8 @@ and helps to mitigate fingerprinting
 (because sort order could reveal other information;
 see [[FINGERPRINTING-GUIDANCE#a_standardized_profile]] for more.)
 
-While APIs should not
-expose a full list of devices in an [=implementation-defined=] order,
-they may need to for web compatibility reasons.
+While a full list of devices should not be exposed in an [=implementation-defined=] order,
+they may need to be for web compatibility reasons.
 
 <h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
