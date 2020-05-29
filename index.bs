@@ -1888,14 +1888,14 @@ for the APIs that they design.
 
 The web platform is,
 unusually,
-designed to be robust in accepting poorly formed markup.
+designed to be robust in accepting poorly-formed markup.
 
 When writing specifications for the web,
 be sure to note authoring requirements
 for well-formed markup (the "conforming language"),
 and also
 implementation requirements
-for handling poorly formed markup (the "supported language").
+for handling poorly-formed markup (the "supported language").
 
 This allows us to
 have a relatively clean and understandable language for authors,
