@@ -7,4 +7,4 @@ clean:
 	rm -f index.html *~
 
 .bs.html:
-	bikeshed spec $< $@
+	bikeshed --die-on=warning spec $< $@
