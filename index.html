@@ -1537,12 +1537,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
      <ol class="toc">
-      <li><a href="#naming-is-hard"><span class="secno">2.1</span> <span class="content">Naming things</span></a>
-      <li><a href="#feature-detect"><span class="secno">2.2</span> <span class="content">New features should be detectable</span></a>
-      <li><a href="#secure-context"><span class="secno">2.3</span> <span class="content">Consider limiting new features to secure contexts</span></a>
-      <li><a href="#private-browsing-mode"><span class="secno">2.4</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
-      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.5</span> <span class="content">Do not reveal that private browsing mode is engaged</span></a>
-      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.6</span> <span class="content">Do not reveal that assistive technologies are being used</span></a>
+      <li><a href="#simplicity"><span class="secno">2.1</span> <span class="content">Prefer simple solutions</span></a>
+      <li><a href="#naming-is-hard"><span class="secno">2.2</span> <span class="content">Naming things</span></a>
+      <li><a href="#feature-detect"><span class="secno">2.3</span> <span class="content">New features should be detectable</span></a>
+      <li><a href="#secure-context"><span class="secno">2.4</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#private-browsing-mode"><span class="secno">2.5</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
+      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6</span> <span class="content">Do not reveal that private browsing mode is engaged</span></a>
+      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.7</span> <span class="content">Do not reveal that assistive technologies are being used</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">3</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -1609,8 +1610,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#spec-writing"><span class="secno">10</span> <span class="content">Writing good specifications</span></a>
      <ol class="toc">
-      <li><a href="#writing-resources"><span class="secno">10.1</span> <span class="content">Other resources</span></a>
-      <li><a href="#algorithms"><span class="secno">10.2</span> <span class="content">Specify clearly enough so that algorithms are unambiguous</span></a>
+      <li><a href="#requirements-on-authors-and-implementers"><span class="secno">10.1</span> <span class="content">Identify the audience of each requirement in your specification</span></a>
+      <li>
+       <a href="#avoid-ambiguity"><span class="secno">10.2</span> <span class="content">Specify completely and avoid ambiguity</span></a>
+       <ol class="toc">
+        <li><a href="#algorithms"><span class="secno">10.2.1</span> <span class="content">Defining algorithms in specifications</span></a>
+        <li><a href="#use-flags-for-states"><span class="secno">10.2.2</span> <span class="content">Use explicit flags for state</span></a>
+       </ol>
+      <li><a href="#writing-resources"><span class="secno">10.3</span> <span class="content">Other resources</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -1752,7 +1759,13 @@ can reinforce the idea that <a href="#safe-to-browse">the web is safe</a> by sho
 But frequently asking users for consent can also show how scary a place the web is
 by showing how many sites are willing to ask for intrusive and unnecessary permissions.</p>
    <h2 class="heading settled" data-level="2" id="api-across-languages"><span class="secno">2. </span><span class="content">API Design Across Languages</span><a class="self-link" href="#api-across-languages"></a></h2>
-   <h3 class="heading settled" data-level="2.1" id="naming-is-hard"><span class="secno">2.1. </span><span class="content">Naming things</span><a class="self-link" href="#naming-is-hard"></a></h3>
+   <h3 class="heading settled" data-level="2.1" id="simplicity"><span class="secno">2.1. </span><span class="content">Prefer simple solutions</span><a class="self-link" href="#simplicity"></a></h3>
+   <p>Simple solutions are generally better than complex solutions,
+although they may be harder to find.
+Simpler features are easier for user agents to implement and test,
+more likely to be interoperable,
+and easier for authors to understand. See related <a data-link-type="biblio" href="#biblio-least-power">[LEAST-POWER]</a></p>
+   <h3 class="heading settled" data-level="2.2" id="naming-is-hard"><span class="secno">2.2. </span><span class="content">Naming things</span><a class="self-link" href="#naming-is-hard"></a></h3>
    <p>Names take meaning from:</p>
    <ul>
     <li data-md>
@@ -1901,7 +1914,7 @@ or stored on disk, and don’t apply to the general notion of JavaScript object 
 examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Do not follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
-   <h3 class="heading settled" data-level="2.2" id="feature-detect"><span class="secno">2.2. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
+   <h3 class="heading settled" data-level="2.3" id="feature-detect"><span class="secno">2.3. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
    <p>The existence of new features should generally be detectable,
 so that web content can act appropriately whether the feature is present or not.
 This applies both to features that
@@ -1934,8 +1947,8 @@ should not be detectable.
 For instance,
 sites should not be able to detect
 if <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> is engaged,
-or if assistive technologies are being used. See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.5 Do not reveal that private browsing mode is engaged</a>, <a href="#do-not-expose-use-of-assistive-tech">§ 2.6 Do not reveal that assistive technologies are being used</a>, and the <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">Observations on Private Browsing Modes</a> TAG Finding.</p>
-   <h3 class="heading settled" data-level="2.3" id="secure-context"><span class="secno">2.3. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
+or if assistive technologies are being used. See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>, <a href="#do-not-expose-use-of-assistive-tech">§ 2.7 Do not reveal that assistive technologies are being used</a>, and the <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">Observations on Private Browsing Modes</a> TAG Finding.</p>
+   <h3 class="heading settled" data-level="2.4" id="secure-context"><span class="secno">2.4. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>It may save you significant time and effort
 to pre-emptively restrict your feature to Secure Contexts.</p>
    <p>The TAG is on the record in supporting
@@ -1959,7 +1972,7 @@ to other major points where the Web platform is extended over time
 However, for some types of extension points (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.</p>
-   <p>As described in <a href="#feature-detect">§ 2.2 New features should be detectable</a>,
+   <p>As described in <a href="#feature-detect">§ 2.3 New features should be detectable</a>,
 the existence of features should generally be detectable,
 so that web content can act appropriately if the feature is present or not.
 Since the detection should be the same no matter why the feature is unavailable,
@@ -1978,12 +1991,12 @@ then the feature must be limited to secure contexts.
 One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.</p>
-   <h3 class="heading settled" data-level="2.4" id="private-browsing-mode"><span class="secno">2.4. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.5" id="private-browsing-mode"><span class="secno">2.5. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
    <p>In general,
 APIs should behave the same in and out of <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a>.
 This is because
 the use of private browsing mode should not be revealed to sites.
-See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.5 Do not reveal that private browsing mode is engaged</a>.</p>
+See <a href="#do-not-expose-use-of-private-browsing-mode">§ 2.6 Do not reveal that private browsing mode is engaged</a>.</p>
    <p>However,
 there are some situations in which
 APIs should consider behaving differently
@@ -2035,7 +2048,7 @@ at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state">Does this specification introduce new state for an origin that persists across browsing sessions?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.5" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.5. </span><span class="content">Do not reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.6" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.6. </span><span class="content">Do not reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
    <p>Some people use <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> for their own <a href="#safe-to-browse">safety</a>;
 just the fact that they have or are using private browsing mode
 may be <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">Consider the harm</a> that could be visited upon people—especially vulnerable people—were
@@ -2059,7 +2072,7 @@ because that would reveal that private browsing mode is engaged</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.6" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.6. </span><span class="content">Do not reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
+   <h3 class="heading settled" data-level="2.7" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.7. </span><span class="content">Do not reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
    <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a> APIs which reveal the use of assistive technologies to sites
 enable sites to deny access to services
 to those who make use of assistive technologies.</p>
@@ -2253,7 +2266,7 @@ Avoid values like <span class="css">yes</span>, <span class="css">no</span>, <a 
 or things with more complex names that are basically equivalent to them.</p>
    <p>Avoid words like "mode" or "state" in the names of properties,
 since properties are generally setting a mode or state.</p>
-   <p>See <a href="#naming-is-hard">§ 2.1 Naming things</a> for general (cross-language) advice on naming.</p>
+   <p>See <a href="#naming-is-hard">§ 2.2 Naming things</a> for general (cross-language) advice on naming.</p>
    <h2 class="heading settled" data-level="4" id="js"><span class="secno">4. </span><span class="content">JavaScript Language</span><a class="self-link" href="#js"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="js-only"><span class="secno">4.1. </span><span class="content">Web APIs are for JavaScript</span><a class="self-link" href="#js-only"></a></h3>
    <p>The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as <a data-link-type="biblio" href="#biblio-ecmascript">[ECMASCRIPT]</a>). They are not language-agnostic, and are not meant to be.</p>
@@ -2608,7 +2621,7 @@ important to continue to define event handler IDL attributes because:</p>
     <li data-md>
      <p>they preserve consistency in the platform</p>
     <li data-md>
-     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.2 New features should be detectable</a>)</p>
+     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.3 New features should be detectable</a>)</p>
    </ul>
    <p>So, if the object inherits from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code>, add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attribute</a> to the interface.</p>
    <p class="note" role="note">Note that for HTML and SVG elements, it is traditional to add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin, instead of
@@ -3128,7 +3141,7 @@ that should be considered in the development of new features, notably:</p>
     <li data-md>
      <p>Being "polyfillable" is not essential but <strong>is</strong> beneficial</p>
     <li data-md>
-     <p><a href="#feature-detect">§ 2.2 New features should be detectable</a></p>
+     <p><a href="#feature-detect">§ 2.3 New features should be detectable</a></p>
     <li data-md>
      <p>Polyfill development should be encouraged</p>
    </ul>
@@ -3181,17 +3194,45 @@ a future level (post-CR):</p>
    <p>This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.</p>
-   <h3 class="heading settled" data-level="10.1" id="writing-resources"><span class="secno">10.1. </span><span class="content">Other resources</span><a class="self-link" href="#writing-resources"></a></h3>
-   <p>Some useful advice on how to write specifications is available elsewhere:</p>
-   <ul>
-    <li data-md>
-     <p><a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
-specifications: Kinds of statements</a> (Ian Hickson, 2006)</p>
-    <li data-md>
-     <p><a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
-Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
-   </ul>
-   <h3 class="heading settled" data-level="10.2" id="algorithms"><span class="secno">10.2. </span><span class="content">Specify clearly enough so that algorithms are unambiguous</span><a class="self-link" href="#algorithms"></a></h3>
+   <h3 class="heading settled" data-level="10.1" id="requirements-on-authors-and-implementers"><span class="secno">10.1. </span><span class="content">Identify the audience of each requirement in your specification</span><a class="self-link" href="#requirements-on-authors-and-implementers"></a></h3>
+   <p>The web platform is,
+unusually,
+designed to be robust in accepting poorly-formed markup.</p>
+   <p>When writing specifications for the web,
+be sure to note authoring requirements
+for well-formed markup (the "conforming language"),
+and also
+implementation requirements
+for handling poorly-formed markup (the "supported language").</p>
+   <p>This allows us to
+have a relatively clean and understandable language for authors,
+while at the same time supporting existing documents
+that make use of older or nonstandard constructs,
+and enabling better interoperability in error handling.</p>
+   <h3 class="heading settled" data-level="10.2" id="avoid-ambiguity"><span class="secno">10.2. </span><span class="content">Specify completely and avoid ambiguity</span><a class="self-link" href="#avoid-ambiguity"></a></h3>
+   <p>If the specification leaves room for implementations to make different choices
+which mean authors need to write different markup for different implementations,
+this adds a maintenance burden for authors.</p>
+   <p>The specification should be complete enough
+for implementations to be interoperable,
+without depending on or referring to the details of other implementations.
+When there isn’t a good reason to allow variation between implementations,
+it is important that things be specified unambiguously,
+so that implementations interoperate
+and web content doesn’t end up
+depending on the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined①">implementation-defined</a> behavior
+in one implementation and failing in another
+(which can cause higher development costs to fix the content for all browsers,
+or costs to users of broken content if it wasn’t detected).
+This way,
+it is easier to author content
+that works in a variety of user agents.
+However,
+implementations should still be free
+to make improvements
+in areas such as user interface
+and quality of rendering.</p>
+   <h4 class="heading settled" data-level="10.2.1" id="algorithms"><span class="secno">10.2.1. </span><span class="content">Defining algorithms in specifications</span><a class="self-link" href="#algorithms"></a></h4>
    <p>Specification text is often more precise
 when it is written using an explicit sequence of steps.
 Using an ordered sequence of steps makes it clear how the required behaviors interact.
@@ -3199,19 +3240,8 @@ For example, if there are multiple error conditions present,
 a specification that describes the behavior using a sequence of steps
 will make it clear which error will be reported,
 since the different errors would be checked and reported in different steps.</p>
-   <p>Likewise, describing state using explicit flags also makes behavior clearer.
-Using explicit flags makes it clear
-whether or not the state changes in different error conditions,
-and makes it clear when the state described by the flags is reset.</p>
-   <p>Whenever these differences could be observable to web content
-and there isn’t a good reason to allow variation between implementations,
-it is important that they be specified unambiguously,
-so that implementations interoperate
-and web content doesn’t end up
-depending on the behavior of one implementation and failing in another
-(which can cause higher development costs to fix the content for all browsers,
-or costs to users of broken content if it wasn’t detected).</p>
-   <p>However, sequences of steps are not the only way of making the specification precise enough.
+   <p>However, sequences of steps
+are not the only way to make a specification precise enough.
 When there are particular characteristics
 that specification editors want to ensure the specification always satisfies,
 it may be better to use a less algorithmic way of formal specification
@@ -3257,6 +3287,21 @@ However, it’s often useful to explain the purpose of the algorithm in prose
 (e.g., "take the following steps, which ensure that there is at most one pending X
 callback per toplevel browsing context")
 so that readers can quickly decide whether they need to read the steps in detail.</p>
+   <h4 class="heading settled" data-level="10.2.2" id="use-flags-for-states"><span class="secno">10.2.2. </span><span class="content">Use explicit flags for state</span><a class="self-link" href="#use-flags-for-states"></a></h4>
+   <p>Describing state using explicit flags makes behavior clearer.
+Using explicit flags makes it clear
+whether or not the state changes in different error conditions,
+and makes it clear when the state described by the flags is reset.</p>
+   <h3 class="heading settled" data-level="10.3" id="writing-resources"><span class="secno">10.3. </span><span class="content">Other resources</span><a class="self-link" href="#writing-resources"></a></h3>
+   <p>Some useful advice on how to write specifications is available elsewhere:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
+specifications: Kinds of statements</a> (Ian Hickson, 2006)</p>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
+Specification Guidelines</a> (W3C QA Working Group, 2005)</p>
+   </ul>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -3434,7 +3479,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-at-ruledef-supports">
    <a href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports">https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-at-ruledef-supports">2.2. New features should be detectable</a>
+    <li><a href="#ref-for-at-ruledef-supports">2.3. New features should be detectable</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-font-size">
@@ -3675,7 +3720,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#termref-for-">2.4. Consider how your API should behave in private browsing mode</a>
+    <li><a href="#termref-for-">2.5. Consider how your API should behave in private browsing mode</a>
     <li><a href="#ref-for-window">5.5. Classes should have constructors when possible</a>
     <li><a href="#ref-for-window①">6.4. Always add event handler attributes</a>
    </ul>
@@ -3801,6 +3846,7 @@ so that readers can quickly decide whether they need to read the steps in detail
    <a href="https://infra.spec.whatwg.org/#implementation-defined">https://infra.spec.whatwg.org/#implementation-defined</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-implementation-defined">8.2. Use care when exposing APIs for selecting or enumerating devices</a>
+    <li><a href="#ref-for-implementation-defined①">10.2. Specify completely and avoid ambiguity</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-scalar-value">
@@ -3872,7 +3918,7 @@ so that readers can quickly decide whether they need to read the steps in detail
   <aside class="dfn-panel" data-for="term-for-selector-combinator">
    <a href="https://drafts.csswg.org/selectors-4/#selector-combinator">https://drafts.csswg.org/selectors-4/#selector-combinator</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-selector-combinator">10.2. Specify clearly enough so that algorithms are unambiguous</a>
+    <li><a href="#ref-for-selector-combinator">10.2.1. Defining algorithms in specifications</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-AElementHrefAttribute">
