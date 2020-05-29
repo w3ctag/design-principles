@@ -1017,7 +1017,7 @@ For example,
 is more readable than
 <code highlight="js">window.scrollBy(50, 0)</code>.
 
-<h3 id="constructors">Make non-critical function parameters optional</h3>
+<h3 id="optional-parameters">Make non-critical function parameters optional</h3>
 
 Parameters that are not strictly necessary should be made optional.
 Making arguments optional with reasonable defaults
