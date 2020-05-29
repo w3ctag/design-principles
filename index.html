@@ -2245,7 +2245,7 @@ that do affect computed values</a> are required to not be circular.</p>
 often involves tradeoffs of complexity.
 Sometimes it is less complex
 for the behavior to happen as part of the computation of the computed value;
-sometimes it is less complex 
+sometimes it is less complex
 for the behavior to happen in whatever handles the computed value.
 (This complexity might be in the specification, in implementations, or both.
 Complexity in implementations might affect how fast things run for end users.)</p>
@@ -2687,7 +2687,7 @@ its original execution.</p>
     </ol>
    </div>
    <p class="note" role="note"><span>Note:</span> A caution about early termination: if the algorithm being terminated would go
-on to ensure some critical state consistency, be sure to also make the relevant adjustments 
+on to ensure some critical state consistency, be sure to also make the relevant adjustments
 in state before early termination of the algorithm. Not doing so can lead to inconsistent
 state and end-user-visible bugs when implemented as-specified.</p>
    <p class="note" role="note"><span>Note:</span> A caution about throwing exceptions in early termination: keep in mind the scenario
@@ -2707,7 +2707,7 @@ from recursively running node mutation algorithms caused many years of security 
 A more robust approach embodied in <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code> applies the principle of deferral of notification — in this case to the microtask queue
 following the algorithm.</p>
    <p>Also note that deferral of events is always necessary if the algorithm that triggers
-the event could be running on a different thread or process. In this case deferral 
+the event could be running on a different thread or process. In this case deferral
 ensures the events can be processed on the correct task in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue" id="ref-for-task-queue">task queue</a>.</p>
    <p>Both approaches to protecting against unwanted recursion have trade-offs. Some things
 to consider when choosing the guarding approach:</p>
@@ -2726,7 +2726,7 @@ running in the event handler can observe relevant state directly on the instance
 object they were fired on (avoiding the need to derive a new type of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> to hold such state snapshots).</p>
    </ul>
    <p>When deferring, event handlers will run after the algorithm ends (or starts
-to run <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in parallel</a>) and any number of other tasks or microtasks may run in between 
+to run <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in parallel</a>) and any number of other tasks or microtasks may run in between
 that invalidate the object’s state. Since the object’s state will be unknown when
 the deferred event is dispatched, consider the following:</p>
    <ul>
@@ -2751,7 +2751,7 @@ slot such as in the <code class="idl"><a data-link-type="idl" href="https://www.
    </ul>
    <p>Finally, dispatching a deferred event that does not seem to require
 packaging extra state or defining a state machine for the algorithm as mentioned above,
-could mean that all of the state transitions have been completed and that the event 
+could mean that all of the state transitions have been completed and that the event
 is meant to signal completion of the algorithm. In this case, it’s likely that instead
 of using an event to signal completion, the API should be designed to return and complete
 a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise">Promise</a></code> instead. See <a href="#one-time-events">§ 6.1 Use promises for one time events</a>.</p>
@@ -3169,11 +3169,11 @@ that should be considered in the development of new features, notably:</p>
    </ul>
    <h3 class="heading settled" data-level="9.3" id="extend-manifests"><span class="secno">9.3. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
-Manifest files can add complexity to the development and deployment process for web technologies.  Sometimes manifest 
+Manifest files can add complexity to the development and deployment process for web technologies.  Sometimes manifest
 files are required, but the use of different manifests on the web should be kept to a minimum.</p>
    <p>You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files.
-For example, if the fetch timing is different, or if the complexity of the manifest warrants it.  Application metadata should be added 
-to the Web App Manifest or be an extension of it. 
+For example, if the fetch timing is different, or if the complexity of the manifest warrants it.  Application metadata should be added
+to the Web App Manifest or be an extension of it.
 Manifests designated to be used for specific applications or which require interoperability with non-browsers may need to take a different approach.
 Payment Method Manifest, Publication Manifest, and Origin Policy are examples of these cases.</p>
    <p>For example, if you have a single piece of metadata, even if the fetch timing is different than an existing manifest,
@@ -3182,10 +3182,10 @@ However, if your feature requires a complex set of metadata specific to a functi
    <p>Note that in all cases, the naming conventions should be harmonized (see section 2.2)</p>
    <p class="note" role="note"><span>Note:</span> By principle, existing manifests use lowercase, underscore-delimited names.
 There have been times where it has been beneficial to re-use dictionaries from a manifest in DOM APIs as well, which are camel-cased.
-One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>. For this reason, if a 
+One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>. For this reason, if a
 key can clearly be expressed as a single word, that is recommended.</p>
    <p>When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).
-Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed, 
+Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,
 work with the existing spec to extend it to your use-case if possible.</p>
    <p>Some of the existing manifest files include</p>
    <ul>
@@ -3203,7 +3203,7 @@ Always try to get the changes into the original spec, or at least discuss the ex
 Having this discussion is more likely to result in a better design and lead to something that better integrates with the platform.</p>
    <p>There are certain times the spec authors might not want to
 integrate immediately due to process (like going to CR) or due to it having a different scope, like extensions to Web App
-Manifest only affecting store or payment use-cases. In that case, it is acceptable to monkey-patch as long as that is agreed 
+Manifest only affecting store or payment use-cases. In that case, it is acceptable to monkey-patch as long as that is agreed
 with the original spec editors.</p>
    <p class="issue" id="issue-05c58ddf"><a class="self-link" href="#issue-05c58ddf"></a> when we write up a principle on monkey patching, be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">&lt;https://github.com/w3ctag/design-principles/issues/184></a></p>
    <p>An example of something that was done as a monkey patch that is scheduled to be integrated into the web app manifest in
