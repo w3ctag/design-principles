@@ -1,0 +1,31 @@
+# http://editorconfig.org
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+
+[*.bs]
+indent_style = space
+indent_size = 4
+
+
+[*.sh]
+indent_style = space
+indent_size = 4
+
+
+[*.md]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = false
+
+
+[*.{yml,yaml,yamllint}]
+indent_style = space
+indent_size = 2
