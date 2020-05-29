@@ -1,5 +1,5 @@
 <pre class="metadata">
-Title: Client-side API Design Principles
+Title: Web Platform Design Principles
 Group: tag
 Shortname: design-principles
 Repository: w3ctag/design-principles
@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a small-but-growing set of design principles collected by the W3C TAG while <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> specifications.
+Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
