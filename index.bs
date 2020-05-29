@@ -54,9 +54,13 @@ url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: C
 If a trade-off needs to be made,
 always put user needs above all.
 
+[The internet is for end users](https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html):
+any change made to the web platform has the potential to affect vast numbers of people,
+and may have a profound impact on any person's life.
+
 User needs come before the needs of web page authors,
 which come before than the needs of user agent implementors,
-which come before than the needs of spec writers,
+which come before than the needs of specification writers,
 which come before theoretical purity.
 
 Similarly, when beginning to design an API,
@@ -64,12 +68,13 @@ be sure to understand and document the user need that the API aims to address.
 
 Like all principles,
 this is not absolute.
-Ease of authoring impacts how content reaches users.
-User agent implementation priorities affect how features reach authors.
-Spec writers also have finite resources,
-and theoretical concerns exist for a reason.
+Ease of authoring affects how content reaches users.
+User agents have to prioritize finite engineering resources,
+which affects how features reach authors.
+Specification writers also have finite resources,
+and theoretical concerns reflect underlying needs of all of these groups.
 
-See also
+See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
 * <a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The Internet is for End Users</a>
