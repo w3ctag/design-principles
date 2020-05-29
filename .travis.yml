@@ -1,6 +1,7 @@
+---
 sudo: false
 script: bash ./deploy-gh-pages.sh
 env:
   global:
-  - ENCRYPTION_LABEL: "db14bf8578f5"
-  - COMMIT_AUTHOR_EMAIL: "travis@w3ctag.org"
+    - ENCRYPTION_LABEL: "db14bf8578f5"
+    - COMMIT_AUTHOR_EMAIL: "travis@w3ctag.org"
