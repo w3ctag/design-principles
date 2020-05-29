@@ -1912,6 +1912,56 @@ that should be considered in the development of new features, notably:
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
+<h3>Extend existing manifest files rather than creating new ones</h3>
+
+New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
+Manifest files can add complexity to the development and deployment process for web technologies.  Sometimes manifest 
+files are required, but the use of different manifests on the web should be kept to a minimum.
+
+You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files.
+For example, if the fetch timing is different, or if the complexity of the manifest warrants it.  Application metadata should be added 
+to the Web App Manifest or be an extension of it. 
+Manifests designated to be used for specific applications or which require interoperability with non-browsers may need to take a different approach.
+Payment Method Manifest, Publication Manifest, and Origin Policy are examples of these cases.
+
+For example, if you have a single piece of metadata, even if the fetch timing is different than an existing manifest,
+it is probably best to use an existing manifest (or ideally design the feature in such a way that a manifest is not required).
+However, if your feature requires a complex set of metadata specific to a functional domain, the creation of a new manifest may be justified.
+
+Note that in all cases, the naming conventions should be harmonized (see section 2.2)
+ 
+Note: By principle, existing manifests use lowercase, underscore-delimited names.
+There have been times where it has been beneficial to re-use dictionaries from a manifest in DOM APIs as well, which are camel-cased.
+One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>. For this reason, if a 
+key can clearly be expressed as a single word, that is recommended.
+ 
+When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).
+Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed, 
+work with the existing spec to extend it to your use-case if possible.
+
+Some of the existing manifest files include
+
+* <a href="https://www.w3.org/TR/appmanifest/">Web App Manifest</a> which contains features related to web applications.
+* <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a> which is used for payment methods in the context of the web payment API
+* <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a> which is used by some web publications working group standards
+* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used to set security policies.
+
+We encourage people to think of manifest files as extensible.
+Always try to get the changes into the original spec, or at least discuss the extension with the spec editors.
+Having this discussion is more likely to result in a better design and lead to something that better integrates with the platform.
+
+There are certain times the spec authors might not want to 
+integrate immediately due to process (like going to CR) or due to it having a different scope, like extensions to Web App
+Manifest only affecting store or payment use-cases. In that case, it is acceptable to monkey-patch as long as that is agreed 
+with the original spec editors.
+
+ISSUE(184): when we write up a principle on monkey patching, be sure to take this nuance into account.
+
+An example of something that was done as a monkey patch that is scheduled to be integrated into the web app manifest in 
+a future level (post-CR):
+
+* https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest 
+
 <h2 id="spec-writing">Writing good specifications</h2>
 
 This document mostly covers API design for the Web,
