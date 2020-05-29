@@ -49,16 +49,25 @@ url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: C
 
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
-<h3 id="priority-of-constituencies">Priority of constituencies</h3>
+<h3 id="priority-of-constituencies">Put user needs first (Priority of Constituencies)</h3>
 
-In case of conflict,
-consider users over authors over implementors over specifiers over theoretical purity.
-In other words costs or difficulties to the user
-should be given more weight than costs to authors;
-which in turn should be given more weight than costs to implementors;
-which should be given more weight than costs to authors of the specification itself,
-which should be given more weight than those proposing changes for theoretical reasons alone.
-Of course, it is preferred to make things better for multiple constituencies at once.
+If a trade-off needs to be made, 
+always put user needs above all.
+
+User needs come before the needs of web page authors,
+which come before than the needs of user agent implementors,
+which come before than the needs of spec writers,
+which come before theoretical purity.
+
+Similarly, when beginning to design an API, 
+be sure to understand and document the user need that the API aims to address.
+
+Like all principles, 
+this is not absolute.
+Ease of authoring impacts how content reaches users.
+User agent implementation priorities affect how features reach authors.
+Spec writers also have finite resources,
+and theoretical concerns exist for a reason.
 
 See also
 
