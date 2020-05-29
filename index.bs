@@ -382,16 +382,15 @@ initialisms, even if they are repeated.
 
 <h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
 
-Many specifications provide guarantees or invariants to developers who use them.
-For example,
-[CSP](https://w3c.github.io/webappsec-csp/)
-provides protection against certain types of content injection vulnerabilities.
-Such specifications may also provide features that weaken their own invariants
-(or those of other specifications),
-such as CSP's `unsafe-inline` keyword,
-which allows inline scripts, reducing CSP's own protections.
-It is useful to mark features that weaken the invariants provided to developers
+It is useful to mark features that weaken
+the guarantees or invariants provided to developers
 by making their names start with "unsafe" so that this is more noticeable.
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this invariant,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
