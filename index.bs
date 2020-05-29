@@ -47,7 +47,7 @@ url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: C
     }
 </style>
 
-<h2 id="basic-principles">Principles behind design of Web APIs</h2>
+<h2 id="basic-principles">Principles Behind Design of Web Features</h2>
 
 <h3 id="priority-of-constituencies">Priority of constituencies</h3>
 
@@ -227,7 +227,7 @@ Names take meaning from:
 
 <h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
 
-API naming *must* be done in easily readable US English.
+Feature naming *must* be done in easily readable US English.
 Keep in mind that most web developers are not native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
 non-native English speakers are likely to understand when first encountering the name.
@@ -245,7 +245,7 @@ though always keep in mind that sometimes
 the shorter name is the clearer one.
 For instance,
 it may be appropriate to use technical language or well-known terms of art
-in the specification where the API is defined.
+in the specification where the feature is defined.
 
 <div class="example">
 
@@ -266,12 +266,12 @@ and *should* be in the [=ascii code point|ASCII range=].
 
 <h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
 
-Please consult widely on names in your APIs.
+Please consult widely on names in your features.
 You may find good names or inspiration in surprising places.
-What are similar APIs named on other platforms,
+What are similar features named on other platforms,
 or in popular libraries in various programming languages?
 Ask end users and developers what they call
-things that your API works with or manipulates.
+things that your feature works with or manipulates.
 Look at other web platform specifications,
 and seek advice from others working in related areas of the platform.
 
@@ -294,7 +294,7 @@ Naming should be generic and future-proof whenever possible.
 
 The name should not be directly associated with a brand or specific revision of
 the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
+removing features from the web is difficult.
 
 <div class="example">
 
@@ -331,10 +331,11 @@ their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
 
-<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing features</h5>
 
-Although they haven't always been uniformly followed, through the history of web platform API
-design, the following rules have emerged:
+Although they haven't always been uniformly followed,
+through the history of web platform feature design,
+the following rules have emerged:
 
 <table class="data complex">
     <thead>
@@ -392,6 +393,12 @@ design, the following rules have emerged:
         <td>Lowercase, concatenated</td>
         <td><code highlight="html">&lt;figcaption&gt;</code><br>
             <code highlight="html">&lt;textarea maxlength&gt;</code></td>
+    </tr>
+    <tr>
+        <th>CSS properties and values</th>
+        <td>Lowercase, dash-delimited</td>
+        <td><code highlight="html">font-family</code><br>
+            <code highlight="html">box-sizing: content-box;</code></td>
     </tr>
     <tr>
         <th>JSON keys</th>
@@ -509,22 +516,22 @@ One example of a feature that should be limited to secure contexts
 is geolocation, since the authentication and confidentiality provided by
 secure contexts reduce the risks to user privacy.
 
-<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+<h3 id="private-browsing-mode">Consider how your feature should behave in private browsing mode</h3>
 
 In general,
-APIs should behave the same in and out of [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/).
+features should behave the same in and out of [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/).
 This is because
 the use of private browsing mode should not be revealed to sites.
 See [[#do-not-expose-use-of-private-browsing-mode]].
 
 However,
 there are some situations in which
-APIs should consider behaving differently
+features should consider behaving differently
 when private browsing mode is engaged,
 as discussed in our [privacy & security questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing).
 
 For instance,
-if your API would reveal information
+if your feature would reveal information
 that would allow for the correlation
 of a single user’s activity
 both in and out of private browsing mode,
@@ -553,12 +560,12 @@ without revealing that private browsing mode is engaged.
 
 Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
-Therefore, APIs which provide client-side storage
+Therefore, features which provide client-side storage
 should not persist data stored
 while private browsing mode is engaged
 after it is disengaged.
 This can and should be done
-without revealing any detectable API differences to the site.
+without revealing any detectable differences to the site.
 
 <div class="example">
 
@@ -613,7 +620,7 @@ See also
 <h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
-APIs which reveal the use of assistive technologies to sites
+Features which reveal the use of assistive technologies to sites
 enable sites to deny access to services
 to those who make use of assistive technologies.
 
@@ -1932,11 +1939,11 @@ need to be careful when exposing these to the web platform.
     <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
     for additional details.
 
-<h2 id="other-considerations">Other API Design Considerations</h2>
+<h2 id="other-considerations">Other Design Considerations</h2>
 
 <h3 id="design-resources">Privacy, Security, Accessibility, and Internationalization</h3>
 
-It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
+It is important not to neglect other aspects of feature design such as privacy, security, accessibility, and internationalization.
 Please take advantage of these other excellent resources in your design process:
 
 * <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
@@ -2006,9 +2013,9 @@ a future level (post-CR):
 
 <h2 id="spec-writing">Writing good specifications</h2>
 
-This document mostly covers API design for the Web,
-but those who design APIs are hopefully also writing specifications
-for the APIs that they design.
+This document mostly covers feature design for the Web,
+but those who design features are hopefully also writing specifications
+for the features that they design.
 
 <h3 id="requirements-on-authors-and-implementers">Identify the audience of each requirement in your specification</h3>
 <!-- was "Conformance for Documents and Implementations" in the HTML Design Principles -->
