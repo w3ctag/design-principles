@@ -415,6 +415,19 @@ examples that violate the above rules are {{XMLHttpRequest}} and
 initialisms, even if they are repeated.
 </div>
 
+<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
+
+Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.
+
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 The existence of new features should generally be detectable,
