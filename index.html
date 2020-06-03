@@ -1529,7 +1529,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#basic-principles"><span class="secno">1</span> <span class="content">Principles behind design of Web APIs</span></a>
      <ol class="toc">
-      <li><a href="#priority-of-constituencies"><span class="secno">1.1</span> <span class="content">Priority of constituencies</span></a>
+      <li><a href="#priority-of-constituencies"><span class="secno">1.1</span> <span class="content">Put user needs first (Priority of Constituencies)</span></a>
       <li><a href="#safe-to-browse"><span class="secno">1.2</span> <span class="content">It should be safe to visit a web page</span></a>
       <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
       <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent when appropriate</span></a>
@@ -1638,16 +1638,26 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="basic-principles"><span class="secno">1. </span><span class="content">Principles behind design of Web APIs</span><a class="self-link" href="#basic-principles"></a></h2>
-   <h3 class="heading settled" data-level="1.1" id="priority-of-constituencies"><span class="secno">1.1. </span><span class="content">Priority of constituencies</span><a class="self-link" href="#priority-of-constituencies"></a></h3>
-   <p>In case of conflict,
-consider users over authors over implementors over specifiers over theoretical purity.
-In other words costs or difficulties to the user
-should be given more weight than costs to authors;
-which in turn should be given more weight than costs to implementors;
-which should be given more weight than costs to authors of the specification itself,
-which should be given more weight than those proposing changes for theoretical reasons alone.
-Of course, it is preferred to make things better for multiple constituencies at once.</p>
-   <p>See also</p>
+   <h3 class="heading settled" data-level="1.1" id="priority-of-constituencies"><span class="secno">1.1. </span><span class="content">Put user needs first (Priority of Constituencies)</span><a class="self-link" href="#priority-of-constituencies"></a></h3>
+   <p>If a trade-off needs to be made,
+always put user needs above all.</p>
+   <p><a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The internet is for end users</a>:
+any change made to the web platform has the potential to affect vast numbers of people,
+and may have a profound impact on any person’s life.</p>
+   <p>User needs come before the needs of web page authors,
+which come before than the needs of user agent implementors,
+which come before than the needs of specification writers,
+which come before theoretical purity.</p>
+   <p>Similarly, when beginning to design an API,
+be sure to understand and document the user need that the API aims to address.</p>
+   <p>Like all principles,
+this is not absolute.
+Ease of authoring affects how content reaches users.
+User agents have to prioritize finite engineering resources,
+which affects how features reach authors.
+Specification writers also have finite resources,
+and theoretical concerns reflect underlying needs of all of these groups.</p>
+   <p>See also:</p>
    <ul>
     <li data-md>
      <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a></p>
