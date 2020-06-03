@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -2152,3 +2152,101 @@ urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
 urlPrefix: https://url.spec.whatwg.org/; spec: URL;
     type: abstract-op; url: #percent-encode; text: percent-encode
 </pre>
+
+<h2 id="acks" class="no-num">Acknowledgments</h2>
+
+This document consists of
+principles which have been collected
+by TAG members past and present
+during TAG [design reviews](https://github.com/w3ctag/design-reviews/).
+We are indebted to everyone who has requested a design review from us.
+
+The TAG would like to thank
+Adrian Hope-Bailie,
+Alan Stearns,
+Aleksandar Totic,
+Alex Russell,
+<!-- Alice Boxhall, (current TAG member) -->
+Andreas Stöckel,
+Andrew Betts,
+Anne van Kesteren,
+Benjamin C. Wiley Sittler,
+Boris Zbarsky,
+Brian Kardell,
+Charles McCathieNevile,
+Chris Wilson,
+Dan Connolly,
+<!-- Daniel Appelquist, (current TAG member) -->
+Daniel Ehrenberg,
+Daniel Murphy,
+<!-- David Baron, (current TAG member) -->
+Domenic Denicola,
+Eiji Kitamura,
+Eric Shepherd,
+Ethan Resnick,
+fantasai,
+François Daoust,
+<!-- Hadley Beeman, (current TAG member) -->
+Henri Sivonen,
+HE Shi-Jun,
+Ian Hickson,
+Irene Knapp,
+Jake Archibald,
+Jeffrey Yasskin,
+Jeremy Roman,
+Jirka Kosek,
+<!-- Kenneth Rohde Christiansen, (current TAG member) -->
+Kevin Marks,
+Lachlan Hunt,
+Léonie Watson,
+L. Le Meur,
+Lukasz Olejnik,
+Maciej Stachowiak,
+Marcos Cáceres,
+Mark Nottingham,
+Martin Thomson,
+Matt Giuca,
+Matt Wolenetz,
+Michael[tm] Smith,
+Mike West,
+Nick Doty,
+Nigel Megitt,
+Nik Thierry,
+Ojan Vafai,
+Olli Pettay,
+Pete Snyder,
+<!-- Peter Linss, (current TAG member) -->
+Philip Jägenstedt,
+Philip Taylor,
+Reilly Grant,
+Richard Ishida,
+Rick Byers,
+<!-- Rossen Atanassov, (current TAG member) -->
+Ryan Sleevi,
+<!-- Sangwhan Moon, (current TAG member) -->
+Sergey Konstantinov,
+Stefan Zager,
+Stephen Stewart,
+Steven Faulkner,
+Surma,
+Tab Atkins-Bittner,
+Tantek Çelik,
+<!-- Theresa O'Connor, (current TAG member) -->
+<!-- Tim Berners-Lee, (current TAG member) -->
+Tobie Langel,
+Travis Leithead,
+and
+Yoav Weiss
+<!-- Yves Lafon (current TAG member) -->
+for their contributions to this & the [HTML Design Principles](https://www.w3.org/TR/html-design-principles/) document which preceded it.
+
+Special thanks to
+Anne van Kesteren
+and
+Maciej Stachowiak,
+who edited the [HTML Design Principles](https://www.w3.org/TR/html-design-principles/) document.
+
+If you contributed to this document
+but your name is not listed above,
+please let the editors know
+so they can correct this omission.
