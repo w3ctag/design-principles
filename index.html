@@ -1221,7 +1221,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 78f8c09c, updated Tue May 19 10:51:23 2020 -0700" name="generator">
+  <meta content="Bikeshed version bcf9ed33, updated Fri May 29 18:11:07 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
 <style>
     table.data {
@@ -1475,7 +1475,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-29">29 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-02">2 June 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1936,6 +1936,14 @@ or stored on disk, and don’t apply to the general notion of JavaScript object 
 examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Do not follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
+   <h4 class="no-num no-toc heading settled" id="naming-unsafe"><span class="content">Warning about dangerous features</span><a class="self-link" href="#naming-unsafe"></a></h4>
+   <p>Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.</p>
+   <p>For example, <a href="https://w3c.github.io/webappsec-csp/">Content Security Policy (CSP)</a> provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the <code>unsafe-inline</code> keyword,
+which reduces CSP’s own protections by allowing inline scripts.</p>
    <h3 class="heading settled" data-level="2.3" id="feature-detect"><span class="secno">2.3. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
    <p>The existence of new features should generally be detectable,
 so that web content can act appropriately whether the feature is present or not.
