@@ -39,6 +39,20 @@ url: https://wicg.github.io/ResizeObserver/;
 url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: interface; text: getElementsByTagName; for: Document
 url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: CSS Transitions
 </pre>
+<!-- Route around bugs in other specs.
+     https://github.com/whatwg/html/issues/5515
+     https://github.com/w3c/remote-playback/issues/137
+     https://github.com/whatwg/url/issues/522
+     -->
+<pre class="anchors">
+urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
+    text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
+urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
+    text: RemotePlayback; type:interface; url: #remoteplayback-interface
+    text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
+urlPrefix: https://url.spec.whatwg.org/; spec: URL;
+    type: abstract-op; url: #percent-encode; text: percent-encode
+</pre>
 
 <style>
     table.data {
@@ -2137,21 +2151,6 @@ Some useful advice on how to write specifications is available elsewhere:
     specifications: Kinds of statements</a> (Ian Hickson, 2006)
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
-
-<!-- Route around bugs in other specs.
-     https://github.com/whatwg/html/issues/5515
-     https://github.com/w3c/remote-playback/issues/137
-     https://github.com/whatwg/url/issues/522
-     -->
-<pre class="anchors">
-urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
-    text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
-urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
-    text: RemotePlayback; type:interface; url: #remoteplayback-interface
-    text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
-urlPrefix: https://url.spec.whatwg.org/; spec: URL;
-    type: abstract-op; url: #percent-encode; text: percent-encode
-</pre>
 
 <h2 id="acks" class="no-num">Acknowledgments</h2>
 
