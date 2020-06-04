@@ -699,12 +699,12 @@ to override one another in a process called the cascade.
 Thus things that should always be set together belong in the same properties,
 but things that make sense to set in different places should be in separate properties.
 
-<p class="example">For example, the "size" and "sink" aspects of the 'initial-letters' property
+<p class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
 because they are part of a single initial letter effect
 (e.g., a drop cap, sunken cap, or raised cap)
 and should nearly always be specified together.
-However, the 'initial-letters-align' property should be separate because it
+However, the 'initial-letter-align' property should be separate because it
 sets an alignment policy for all of these effects across the document
 which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.
