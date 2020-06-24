@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/spec-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -39,6 +39,20 @@ url: https://wicg.github.io/ResizeObserver/;
 url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: interface; text: getElementsByTagName; for: Document
 url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: CSS Transitions
 </pre>
+<!-- Route around bugs in other specs.
+     https://github.com/whatwg/html/issues/5515
+     https://github.com/w3c/remote-playback/issues/137
+     https://github.com/whatwg/url/issues/522
+     -->
+<pre class="anchors">
+urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
+    text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
+urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
+    text: RemotePlayback; type:interface; url: #remoteplayback-interface
+    text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
+urlPrefix: https://url.spec.whatwg.org/; spec: URL;
+    type: abstract-op; url: #percent-encode; text: percent-encode
+</pre>
 
 <style>
     table.data {
@@ -49,18 +63,32 @@ url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: C
 
 <h2 id="basic-principles">Principles Behind Design of Web Features</h2>
 
-<h3 id="priority-of-constituencies">Priority of constituencies</h3>
+<h3 id="priority-of-constituencies">Put user needs first (Priority of Constituencies)</h3>
 
-In case of conflict,
-consider users over authors over implementors over specifiers over theoretical purity.
-In other words costs or difficulties to the user
-should be given more weight than costs to authors;
-which in turn should be given more weight than costs to implementors;
-which should be given more weight than costs to authors of the specification itself,
-which should be given more weight than those proposing changes for theoretical reasons alone.
-Of course, it is preferred to make things better for multiple constituencies at once.
+If a trade-off needs to be made,
+always put user needs above all.
 
-See also
+[The internet is for end users](https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html):
+any change made to the web platform has the potential to affect vast numbers of people,
+and may have a profound impact on any person's life.
+
+User needs come before the needs of web page authors,
+which come before than the needs of user agent implementors,
+which come before than the needs of specification writers,
+which come before theoretical purity.
+
+Similarly, when beginning to design an API,
+be sure to understand and document the user need that the API aims to address.
+
+Like all principles,
+this is not absolute.
+Ease of authoring affects how content reaches users.
+User agents have to prioritize finite engineering resources,
+which affects how features reach authors.
+Specification writers also have finite resources,
+and theoretical concerns reflect underlying needs of all of these groups.
+
+See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
 * <a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The Internet is for End Users</a>
@@ -422,6 +450,19 @@ examples that violate the above rules are {{XMLHttpRequest}} and
 initialisms, even if they are repeated.
 </div>
 
+<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
+
+Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.
+
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 The existence of new features should generally be detectable,
@@ -665,12 +706,12 @@ to override one another in a process called the cascade.
 Thus things that should always be set together belong in the same properties,
 but things that make sense to set in different places should be in separate properties.
 
-<p class="example">For example, the "size" and "sink" aspects of the 'initial-letters' property
+<p class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
 because they are part of a single initial letter effect
 (e.g., a drop cap, sunken cap, or raised cap)
 and should nearly always be specified together.
-However, the 'initial-letters-align' property should be separate because it
+However, the 'initial-letter-align' property should be separate because it
 sets an alignment policy for all of these effects across the document
 which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.
@@ -2144,17 +2185,100 @@ Some useful advice on how to write specifications is available elsewhere:
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
 
-<!-- Route around bugs in other specs.
-     https://github.com/whatwg/html/issues/5515
-     https://github.com/w3c/remote-playback/issues/137
-     https://github.com/whatwg/url/issues/522
-     -->
-<pre class="anchors">
-urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
-    text: file; for: input/type; type: attr-value; url: input.html#file-upload-state-%28type=file%29
-urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
-    text: RemotePlayback; type:interface; url: #remoteplayback-interface
-    text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
-urlPrefix: https://url.spec.whatwg.org/; spec: URL;
-    type: abstract-op; url: #percent-encode; text: percent-encode
-</pre>
+<h2 id="acks" class="no-num">Acknowledgments</h2>
+
+This document consists of
+principles which have been collected
+by TAG members past and present
+during TAG [design reviews](https://github.com/w3ctag/design-reviews/).
+We are indebted to everyone who has requested a design review from us.
+
+The TAG would like to thank
+Adrian Hope-Bailie,
+Alan Stearns,
+Aleksandar Totic,
+Alex Russell,
+<!-- Alice Boxhall, (current TAG member) -->
+Andreas Stöckel,
+Andrew Betts,
+Anne van Kesteren,
+Benjamin C. Wiley Sittler,
+Boris Zbarsky,
+Brian Kardell,
+Charles McCathieNevile,
+Chris Wilson,
+Dan Connolly,
+<!-- Daniel Appelquist, (current TAG member) -->
+Daniel Ehrenberg,
+Daniel Murphy,
+<!-- David Baron, (current TAG member) -->
+Domenic Denicola,
+Eiji Kitamura,
+Eric Shepherd,
+Ethan Resnick,
+fantasai,
+François Daoust,
+<!-- Hadley Beeman, (current TAG member) -->
+Henri Sivonen,
+HE Shi-Jun,
+Ian Hickson,
+Irene Knapp,
+Jake Archibald,
+Jeffrey Yasskin,
+Jeremy Roman,
+Jirka Kosek,
+<!-- Kenneth Rohde Christiansen, (current TAG member) -->
+Kevin Marks,
+Lachlan Hunt,
+Léonie Watson,
+L. Le Meur,
+Lukasz Olejnik,
+Maciej Stachowiak,
+Marcos Cáceres,
+Mark Nottingham,
+Martin Thomson,
+Matt Giuca,
+Matt Wolenetz,
+Michael[tm] Smith,
+Mike West,
+Nick Doty,
+Nigel Megitt,
+Nik Thierry,
+Ojan Vafai,
+Olli Pettay,
+Pete Snyder,
+<!-- Peter Linss, (current TAG member) -->
+Philip Jägenstedt,
+Philip Taylor,
+Reilly Grant,
+Richard Ishida,
+Rick Byers,
+<!-- Rossen Atanassov, (current TAG member) -->
+Ryan Sleevi,
+<!-- Sangwhan Moon, (current TAG member) -->
+Sergey Konstantinov,
+Stefan Zager,
+Stephen Stewart,
+Steven Faulkner,
+Surma,
+Tab Atkins-Bittner,
+Tantek Çelik,
+<!-- Theresa O'Connor, (current TAG member) -->
+<!-- Tim Berners-Lee, (current TAG member) -->
+Tobie Langel,
+Travis Leithead,
+and
+Yoav Weiss
+<!-- Yves Lafon (current TAG member) -->
+for their contributions to this & the [HTML Design Principles](https://www.w3.org/TR/html-design-principles/) document which preceded it.
+
+Special thanks to
+Anne van Kesteren
+and
+Maciej Stachowiak,
+who edited the [HTML Design Principles](https://www.w3.org/TR/html-design-principles/) document.
+
+If you contributed to this document
+but your name is not listed above,
+please let the editors know
+so they can correct this omission.
