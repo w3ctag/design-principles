@@ -24,6 +24,7 @@ spec:html; type:dfn; for:/;
     text:focus update steps
     text:task queue
 spec:webidl; type:dfn; text:namespace
+spec:selectors-4; type:selector; text::hover
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
