@@ -1221,7 +1221,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 19c1873c, updated Thu Jun 4 14:44:17 2020 -0700" name="generator">
+  <meta content="Bikeshed version 40de15f9, updated Thu Jun 11 17:47:04 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
 <style>
     table.data {
@@ -1475,7 +1475,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-09">9 June 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-06">6 July 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1514,11 +1514,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     progress. </p>
    <p></p>
    <p> Feedback and comments on this document are welcome. Please <a href="https://github.com/w3ctag/design-principles/issues">file an issue</a> in this document’s <a href="https://github.com/w3ctag/design-principles/">GitHub repository</a>. </p>
-   <p> This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide
-    Web Consortium">W3C</abbr> Patent Policy</a>. The <abbr title="World Wide Web
-    Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/52497/status" rel="disclosure">public list of any patent disclosures</a> made in
-    connection with the deliverables of the group; that page also includes
-    instructions for disclosing a patent. </p>
    <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process
     Document</a>. </p>
   </div>
@@ -2237,7 +2232,7 @@ because the behavior of having underlines
 have a consistent color, thickness, and position
 was considered the better behavior.</p>
     <p>However, in the end, some of the characteristics of the other behavior
-(such as its interaction with <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visufx.html#propdef-visibility" id="ref-for-propdef-visibility">visibility</a> or text selection)
+(such as its interaction with <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-visibility" id="ref-for-propdef-visibility">visibility</a> or text selection)
 were also seen as desirable, and it ended up being specified in a somewhat hybrid way
 that does involve the "code smell"
 of walking up the ancestor chain looking for text decorations on ancestors.</p>
@@ -2270,8 +2265,8 @@ for the behavior to happen in whatever handles the computed value.
 Complexity in implementations might affect how fast things run for end users.)</p>
    <p>For more information about computed values, see <a href="https://wiki.csswg.org/spec/computed-values">Computed Values Patterns</a>.</p>
    <div class="example" id="example-cbedb213">
-    <a class="self-link" href="#example-cbedb213"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visudet.html#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property accepts values that are numbers,
-such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visudet.html#propdef-line-height" id="ref-for-propdef-line-height①">line-height: 1.4</a>.
+    <a class="self-link" href="#example-cbedb213"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property accepts values that are numbers,
+such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height①">line-height: 1.4</a>.
 This value is a multiple of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size③">font-size</a>,
 so if the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size④">font-size</a> is <span class="css">20px</span> then this would mean the line height is <span class="css">28px</span>. 
     <p>However, the computed value in this case is the number <span class="css">1.4</span>, not the length <span class="css">28px</span>.
@@ -2291,7 +2286,7 @@ if it turned into a length at computed-value time:</p>
   <c- p>&lt;/</c-><c- f>h2</c-><c- p>></c->
 <c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
 </pre>
-    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visudet.html#propdef-line-height" id="ref-for-propdef-line-height②">line-height</a> because they inherit better than length values.</p>
+    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height②">line-height</a> because they inherit better than length values.</p>
    </div>
    <h3 class="heading settled" data-level="3.4" id="css-naming"><span class="secno">3.4. </span><span class="content">Naming of CSS properties and values</span><a class="self-link" href="#css-naming"></a></h3>
    <p>The names of CSS properties are usually nouns,
@@ -3631,13 +3626,13 @@ so they can correct this omission.</p>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-line-height">
-   <a href="https://drafts.csswg.org/css2/visudet.html#propdef-line-height">https://drafts.csswg.org/css2/visudet.html#propdef-line-height</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-line-height">https://drafts.csswg.org/css2/#propdef-line-height</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-line-height">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-propdef-line-height①">(2)</a> <a href="#ref-for-propdef-line-height②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-visibility">
-   <a href="https://drafts.csswg.org/css2/visufx.html#propdef-visibility">https://drafts.csswg.org/css2/visufx.html#propdef-visibility</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-visibility">https://drafts.csswg.org/css2/#propdef-visibility</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-visibility">3.2. Make appropriate choices for whether CSS properties are inherited</a>
    </ul>
