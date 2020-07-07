@@ -2055,22 +2055,32 @@ for the APIs that they design.
 <h3 id="requirements-on-authors-and-implementers">Identify the audience of each requirement in your specification</h3>
 <!-- was "Conformance for Documents and Implementations" in the HTML Design Principles -->
 
-The web platform is,
-unusually,
+Document both how authors should write good code using your API,
+and how implementers of your API should handle poorly-written code.
+
+The web platform is, unusually,
 designed to be robust in accepting poorly-formed markup.
+This means that web pages which use older versions of web standards
+can still be viewed in newer user agents,
+and also that authors have a shallower learning curve.
 
-When writing specifications for the web,
-be sure to note authoring requirements
-for well-formed markup (the "conforming language"),
-and also
-implementation requirements
-for handling poorly-formed markup (the "supported language").
+To support this,
+web specification writers need to describe how to interpret
+poorly-formed markup,
+as well as well-formed markup.
 
-This allows us to
-have a relatively clean and understandable language for authors,
-while at the same time supporting existing documents
-that make use of older or nonstandard constructs,
-and enabling better interoperability in error handling.
+Implementers need to be able to understand the "supported language",
+which is more complex than the "conforming language"
+which authors should be aiming to use.
+
+<div class="example">
+For example,
+the [Processing model](https://html.spec.whatwg.org/multipage/tables.html#table-processing-model)
+for the `<table>` element
+explains how to process the contents of a `<table>` element,
+including cases where the contents do not conform
+to the [Content model](https://html.spec.whatwg.org/multipage/tables.html#the-table-element:concept-element-content-model).
+</div>
 
 <h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
