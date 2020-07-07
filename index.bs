@@ -1494,7 +1494,10 @@ What is more often implied by "asynchronous event" is to defer firing an event.
 
 <h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
 
-It's tempting to create subclasses of {{Event}} for all event types. This is frequently unnecessary. Consider subclassing {{Event}} when adding unique methods and large amounts of state. In all other cases, using a "vanilla" event with state captured in the {{Event/target}} object.
+Where possible, use a plain {{Event}} with a specified `type`,
+and capture any state information in the {{Event/target}} object.
+
+It's usually not necessary to create new subclasses of {{Event}}.
 
 <h3 id="events-vs-observers">How to decide between Events and Observers</h3>
 
