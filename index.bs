@@ -1880,11 +1880,14 @@ make sure the new web APIs are designed with web platform principles in mind.
 
 <h3 id="polyfills">Polyfills</h3>
 
-Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The
-Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
-that should be considered in the development of new features, notably:
+Issue: is this advice still current? When was the last time we saw a review with a speculative polyfill?
 
-* Being "polyfillable" is not essential but <strong>is</strong> beneficial
+Polyfills can be hugely beneficial
+in helping to roll out new features to the web platform.
+The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a>
+offers guidance that should be considered in the development of new features, notably:
+
+* Being "polyfillable" isn't essential but <strong>is</strong> beneficial
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
