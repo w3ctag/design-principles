@@ -485,6 +485,8 @@ See also:
 
 This section details design principles for features which are exposed via CSS.
 
+See also [[#css-naming]].
+
 <h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
 
 Decide which values should be grouped together as CSS properties
@@ -639,28 +641,6 @@ Complexity in implementations might affect how fast things run for end users.)
 See also:
 
 * [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
-
-<h3 id="css-naming">Naming of CSS properties and values</h3>
-
-The names of CSS properties are usually nouns,
-and the names of their values are usually adjectives (although sometimes nouns).
-
-Words in properties and values are separated by hyphens.
-Abbreviations are generally avoided.
-
-Use the root form of words when possible
-rather than a form with a grammatical prefix or suffix
-(for example, "size" rather than "sizing").
-
-The list of values of a property should generally be chosen
-so that new values can be added.
-Avoid values like ''yes'', ''no'', ''true'', ''false'',
-or things with more complex names that are basically equivalent to them.
-
-Avoid words like "mode" or "state" in the names of properties,
-since properties are generally setting a mode or state.
-
-See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
 <h2 id="js">JavaScript Language</h2>
 
@@ -2149,6 +2129,26 @@ provides protection against certain types of content injection vulnerabilities.
 CSP also provides features that weaken this guarantee,
 such as the `unsafe-inline` keyword,
 which reduces CSP's own protections by allowing inline scripts.
+
+<h3 id="css-naming">Naming of CSS properties and values</h3>
+
+The names of CSS properties are usually nouns,
+and the names of their values are usually adjectives (although sometimes nouns).
+
+Words in properties and values are separated by hyphens.
+Abbreviations are generally avoided.
+
+Use the root form of words when possible
+rather than a form with a grammatical prefix or suffix
+(for example, "size" rather than "sizing").
+
+The list of values of a property should generally be chosen
+so that new values can be added.
+Avoid values like ''yes'', ''no'', ''true'', ''false'',
+or things with more complex names that are basically equivalent to them.
+
+Avoid words like "mode" or "state" in the names of properties,
+since properties are generally setting a mode or state.
 
 <h3 id="writing-resources">Other resources</h3>
 
