@@ -1570,69 +1570,62 @@ Observers involve defining a new class, dictionaries for options, and a new type
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-[[!WEBIDL]] contains many numeric types. However, it is very
-rare that its more specific ones are actually appropriate.
+<h2 id="types-and-units">WEBIDL, Types, and Units</h2>
 
-JavaScript has only one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65536 before doing any further processing". That is very rarely a useful thing to do.
+<h3 id="numeric-types">Use numeric types appropriately</h3>
 
-Instead, you will want to stick with one of:
+If an API you're designing uses numbers,
+use one of the following [[!WEBIDL]] numeric types,
+unless there is a specific reason not to:
 
   : <code>unrestricted double</code>
-  :: When truly any JavaScript number will do, including infinities and NaN
+  :: Any JavaScript number, including infinities and NaN
 
   : <code>double</code>
-  :: Any JavaScript number excluding infinities and NaN
+  :: Any JavaScript number, excluding infinities and NaN
 
   : <code>[EnforceRange] long long</code>
-  :: Any JavaScript number in the integer-representable range, throwing a <code highlight="js">TypeError</code>
-      outside the range and rounding inside of it
+  :: Any JavaScript number between -2<sup>53</sup> and 2<sup>53</sup>,
+     rounded to the nearest integer.
+     If a number outside this range is given,
+     the generated bindings will throw a <code highlight="js">TypeError</code>.
 
   : <code>[EnforceRange] unsigned long long</code>
-  :: Any nonnegative JavaScript number in the integer-representable range, throwing a
-      <code highlight="js">TypeError</code> outside the range and rounding inside of it
+  :: Any positive or zero JavaScript number between -2<sup>53</sup> and 2<sup>53</sup>,
+     rounded to the nearest integer.
+     If a number outside this range is given,
+     the generated bindings will throw a <code highlight="js">TypeError</code>.
 
-  : <code>bigint</code>
-  :: When the possible integer values range more broadly than JavaScript numbers can accurately represent
+JavaScript has only one numeric type, `Number`:
+IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN.
+[[!WEBIDL]] numeric types represent
+rules for modifying any JavaScript number
+to belong to a subset with particular properties.
+These rules are run when a number is passed to the interface defined in IDL,
+whether a method or a property setter.
 
-Additionally, you can combine any of the above with an extra line in your
-algorithm to validate that the number is within the expected domain-specific
-range, and throwing or performing other actions in response. (While it is very
-rarely appropriate to modify author input by taking it modulo 65536, it might be
-appropriate to take it modulo 360, for example.)
-
-A special case of domain-specific validation, which Web IDL already has you
-covered for, is the 0–255 range. This can be written as <code>[EnforceRange]
-octet</code>: any JavaScript number in the range 0–255, throwing a <code
-highlight="js">TypeError</code> outside the range and rounding inside of it.
-(And indeed, if it turns out that the other power-of-two ranges are semantically
-meaningful for your domain, such that you want the modulo or range-checking
-behavior, feel free to use them.)
+If you have extra rules which need to be applied to the number,
+you can specify those in your algorithm.
 
 <div class="note">
-Those coming from other languages should carefully note that despite their
-names, <code>long long</code> and <code>unsigned long long</code> only have 53
-bits of precision, and not 64.
+The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a>
+for converting a JavaScript number to a number with fewer bits,
+such as an `octet` (8 bits, in the range [0, 255]),
+involves taking the modulo of the JavaScript number.
+For example, to convert a JavaScript number value of 300
+to an `octet`,
+the bindings will first compute 300 modulo 255,
+so the resulting number will be 45,
+which might be surprising.
+
+Instead, you can use
+<code><a href="https://heycam.github.io/webidl/#EnforceRange">[EnforceRange]</a> octet</code>
+to throw a `TypeError` for values outside of the `octet` range,
+or <code><a href="https://heycam.github.io/webidl/#Clamp">[Clamp]</a> octet</code>
+to clamp values to the octet range (for example, converting 300 to 255).
+
+This also works for the other shorter types, such as `short` or `long`.
 </div>
-
-<code>bigint</code> is recommended to be used <em>only</em> in circumstances
-where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned
-long long</code> would not work in terms of expressivity: that is, only when
-values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In
-particular, APIs should not use the <code>bigint</code> type simply because the
-input is an integer&mdash;<code>bigint</code> is for big integers (hence the
-name!).
-
-Transparent support for inputs being either JavaScript Number of BigInt types is
-discouraged, unless there is a domain-specific requirement to support it. As far
-as ergonomics, JavaScript developers are expected to keep track of whether their
-values are Numbers or BigInts. Sloppiness or implicit conversions here could
-lead to a loss of precision, defeating the purpose of using BigInt.
-
-Further, try to resist doubling up the surface area of an API in order to
-provide both `BigInt` and `Number` variants of an API. As an API designer,
-consider it your job to chose the correct numeric type for the feature being
-exposed.
 
 <h3 id="idl-string-types">Represent strings appropriately</h3>
 
