@@ -513,49 +513,37 @@ and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the documen
 
 <h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
 
-An important choice in the design of every CSS property is whether the property is
-<a href="https://drafts.csswg.org/css-cascade-3/#inherited-property">inherited</a>.
-This affects what happens when no value is specified for the property on an element.
-If the property is not inherited, then that element gets the property's initial value.
-If the property is inherited, then that element gets the parent element's computed value.
+Decide whether a property should be [inherited](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#inheritance)
+based on whether the effect of the property should be overridden or added to
+if set on an ancestor as well as a descendant.
 
-The decision about whether a property should be inherited should be based largely
-on what should happen when the property is specified on multiple elements.
 If setting the property on a descendant element needs to override (rather than add to)
 the effect of setting it on an ancestor,
 then the property should probably be inherited.
-If setting the property on a descendant element is a separate effect
-that adds to setting it on an ancestor,
-then the property should probably not be inherited.
-
-One specific example that is common is that if a property has an effect on text,
-then it is almost always in the class where
-a descendant element needs to override (rather than add to) the effect of setting it on an ancestor,
-and the property should be inherited.
-This is also needed to maintain the design principle that
-inserting an unstyled inline element around a piece of text
-does not change the appearance of that text.
-
 A specification of an non-inherited property requiring that the handling of an element
 look at the value of that property on its ancestors (which may also be slow)
 is a "code smell" that suggests that the property likely should have been inherited.
 
-Likewise, a specification of an inherited property requiring that the handling of an element
+If setting the property on a descendant element is a separate effect
+that adds to setting it on an ancestor,
+then the property should probably **not** be inherited.
+A specification of an inherited property requiring that the handling of an element
 ignore the value of a property if it's the same as the value on the parent element
 is a "code smell" that suggests that the property likely should not have been inherited.
 
+<div class="note">
+If a property has an effect on text,
+then it's almost always true that
+a descendant element needs to override (rather than add to)
+the effect of setting it on an ancestor,
+and the property should be inherited.
+This is also needed to maintain the design principle that
+inserting an unstyled inline element around a piece of text
+doesn't change the appearance of that text.
+</div>
+
 <div class="example">
-For example, the 'background-image' property is not inherited.
-It causes an image to be drawn over part or all of the element
-(though this image might not be fully opaque).
-The CSS painting model allows other things to draw on top of that background,
-including the backgrounds of descendant elements.
-But specifying ''background-image: none'' on a descendant element does not
-cause a hole to be poked in the ancestor element's background,
-since the entire effect comes from the property being used on a single element.
-Setting ''background-image: none'' is useful
-to override a declaration lower in the cascade on the same element,
-but this is a different feature from replacing the backgrounds that are drawn by ancestors.
+For example, the 'background-image' property is **not** inherited.
 
 If the 'background-image' property had been inherited,
 then the specification would have had to create a good bit of complexity
@@ -568,7 +556,7 @@ that a property likely should not have been inherited.
 </div>
 
 <div class="example">
-Another example is the 'font-size' property, which is inherited.
+Another example is the 'font-size' property, which **is** inherited.
 It sets the size of the font used for the text in the element,
 and continues to apply to any descendants that don't
 have a declaration setting 'font-size' to a different value.
@@ -579,34 +567,6 @@ that requires walking up the ancestor chain to find the nearest ancestor
 that doesn't have that value.
 This is the "code smell" mentioned above that suggests
 that a property likely should have been inherited.
-</div>
-
-<div class="example">
-A more subtle example is the 'text-decoration' property.
-It could reasonably be described as either an inherited or non-inherited property,
-but the resulting behavior is different in a number of observable ways.
-
-As an inherited property,
-'text-decoration' would draw underlines (or other decorations)
-in the style and position of each piece of text.
-As a non-inherited property, it would draw underlines
-in the style and position of the element that specifies 'text-decoration'.
-These behaviors lead to different results
-when the element that has 'text-decoration' declared
-has descendants that are at a different vertical-alignment (e.g., superscripts),
-in a different color,
-or in a different font size.
-
-The property was designed as not inherited
-because the behavior of having underlines
-have a consistent color, thickness, and position
-was considered the better behavior.
-
-However, in the end, some of the characteristics of the other behavior
-(such as its interaction with 'visibility' or text selection)
-were also seen as desirable, and it ended up being specified in a somewhat hybrid way
-that does involve the "code smell"
-of walking up the ancestor chain looking for text decorations on ancestors.
 </div>
 
 <h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
