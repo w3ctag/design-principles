@@ -1976,16 +1976,6 @@ need to be careful when exposing these to the web platform.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
-<h3 id="design-resources">Privacy, Security, Accessibility, and Internationalization</h3>
-
-It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
-Please take advantage of these other excellent resources in your design process:
-
-* <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
-* <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
-* <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
-* <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
-
 <h3 id="polyfills">Polyfills</h3>
 
 Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The
@@ -2179,6 +2169,12 @@ Some useful advice on how to write specifications is available elsewhere:
     specifications: Kinds of statements</a> (Ian Hickson, 2006)
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
+  * <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
+  * <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
+  * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
+  * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
+
+
 
 <h2 id="acks" class="no-num">Acknowledgments</h2>
 
