@@ -245,11 +245,22 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="simplicity">Prefer simple solutions</h3>
 <!-- was "Avoid Needless Complexity" in the HTML Design Principles -->
 
+Look hard for simple solutions to the
+<a href="#priority-of-constituencies">user needs</a>
+you intend to address.
+
 Simple solutions are generally better than complex solutions,
 although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
-and easier for authors to understand. See related [[LEAST-POWER]]
+and easier for authors to understand.
+
+Make sure that your <a href="#priority-of-constituencies">user needs</a>
+are well-defined, so that you can avoid scope creep.
+
+See also:
+
+* [[LEAST-POWER]]
 
 <h3 id="naming-is-hard">Naming things</h3>
 
