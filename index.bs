@@ -1053,30 +1053,32 @@ See also:
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
-Async functions that need cancellation should take an `AbortSignal` as part
-of an options dictionary.
+If an asynchronous function can be cancelled,
+allow authors to pass in an {{AbortSignal}} as part of an options dictionary.
 
-Example:
-
+<div class="example">
 ```js
 const controller = new AbortController();
 const signal = controller.signal;
 geolocation.read({ signal });
 ```
+</div>
 
-Reusing the same primitive everywhere has multiplicative effects throughout
-the platform. In particular, there's a common pattern of using a single
-`AbortSignal` for a bunch of ongoing operations, and then aborting them
-(with the corresponding `AbortController`) when e.g. the user presses cancel,
-or a single-page-app navigation occurs, or similar. So the minor extra
-complexity for an individual API leads to a large reduction in complexity
-when used with multiple APIs together.
+Using `AbortSignal` consistently
+as the way to cancel an asychronous operation
+means that authors can write less complex code.
 
-There might be cases where cancellation cannot be guaranteed. In these cases,
-the `AbortController` can still be used because a call to `abort()` on
-`AbortController` is a request to abort. How you react to it depends on your spec.
-Note, requestAbort() was considered in the AbortController design instead
-of abort(), but the latter was chosen for brevity.
+For example, there's a pattern of using a single `AbortSignal`
+for several ongoing operations,
+and then using the corresponding `AbortController`
+to cancel all of the operations at once if necessary
+(such as if the user presses "cancel",
+or a single-page app navigation occurs.)
+
+Even if cancellation can't be guaranteed,
+you can still use an {{AbortController}},
+because a call to {{AbortController/abort()}} on `AbortController`
+is a request, rather than a guarantee.
 
 <h3 id="string-constants">Constants, enums, and bitmasks</h3>
 
