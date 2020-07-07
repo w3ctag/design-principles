@@ -690,25 +690,33 @@ See also
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
+This section details design principles for features which are exposed via CSS.
+
 <h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
 
-Decisions about what should be in the same CSS property or in different CSS properties
-should be based on what makes sense to set independently.
-CSS cascading allows declarations (which are property-value pairs)
-from different rules or different style sheets
-to override one another in a process called the cascade.
-Thus things that should always be set together belong in the same properties,
-but things that make sense to set in different places should be in separate properties.
+Decide which values should be grouped together as CSS properties
+and which should be separate properties
+based on what makes sense to set independently.
 
-<p class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
+[CSS cascading](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#cascade)
+allows [declarations](https://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#declaration)
+from different rules or different style sheets
+to override one another.
+If there is a logical set of attributes which should all be overridden together,
+they should be grouped together in a single property so that they cascade together.
+Likewise, if there are attributes which should be able to be overridden independently,
+they should be separate properties.
+
+<div class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
 because they are part of a single initial letter effect
-(e.g., a drop cap, sunken cap, or raised cap)
-and should nearly always be specified together.
+(e.g., a drop cap, sunken cap, or raised cap).
+
 However, the 'initial-letter-align' property should be separate because it
 sets an alignment policy for all of these effects across the document
 which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.
+</div>
 
 <h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
 
