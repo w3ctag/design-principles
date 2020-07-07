@@ -317,6 +317,20 @@ when editing that document. [[URL]]
 
 </div>
 
+<h4 id="naming-web-considtency" class="no-num no-toc">Use Web consistent names</h4>
+When choosing a name for feature or API that has exposure in other technology stacks, 
+the preference should be towards the Web ecosystem naming convention rather than other
+communities.
+
+<div class ="example">
+
+The NFC standard uses the term `media` to refer to what the Web calls 
+[MIME type](https://mimesniff.spec.whatwg.org/#mime-type-representation).
+In such cases, the naming of features or API for the purposes of WebNFC must prefer
+naming consistent with `MIME type`. 
+
+</div>
+
 <h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
 
 Naming should be generic and future-proof whenever possible.
