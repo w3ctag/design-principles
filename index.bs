@@ -202,31 +202,43 @@ If the user refuses permission,
 no location information is available to the Web page.
 </p>
 
-<h3 id="devices-platforms">Support the full range of devices and platforms</h3>
+<h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
 
-Features on the web should work across different input and output devices,
-different platforms, and different media,
-as much as this is reasonably possible.
-For example, they should not be specific to a particular screen size,
-a particular operating system or browser engine,
-or assume the user is using a mouse.
+As much as possible,
+ensure that features on the web work across different input and output devices,
+different screen sizes, different interaction modes,
+different platforms, and different media.
 
-It is not always possible for a feature to work in all contexts:
-for example, hyperlinks don't work when printed on paper,
-and '':hover'' doesn't work on touch input devices where there isn't a mouse pointer position.
-However, these features are still valuable across a range of devices,
-and can be adapted to devices that don't support their original intent
-(for example, hyperlink targets may be converted to footnotes when printing).
+One of the main values of the Web is that it's extremely flexible:
+a Web page may be viewed on virtually any consumer computing device
+at a very wide range of screen sizes,
+may be used to generate printed media,
+and may be interacted with in a large number of different ways.
+New features should match the existing flexibility of the Web platform.
+
+<div class="note">
+This doesn't imply that features which don't work in *every• possible context should be excluded.
+For example, hyperlinks can't be visited when printed on paper,
+and the ''click'' event doesn't translate perfectly to touch input devices
+where positioning and clicking the pointer occur in the same gesture (a "tap").
+
+These features still work across a wide variety of contexts,
+and can be adapted to devices that don't support their original intent -
+for example, a tap on a mobile device will fire a ''click'' event as a fallback.
+</div>
 
 Features should also be designed so that the easiest way to use them
-works across devices as well.
-For example,
-the `display:block`, `display: flex`, and `display: grid` layout models in CSS
+maintains flexibility.
+
+<div class="example">
+The <a href="https://www.w3.org/TR/CSS2/visuren.html#block-formatting">`display: block`</a>,
+<a href="https://drafts.csswg.org/css-flexbox-1/#box-model">`display: flex`</a>
+and <a href="https://www.w3.org/TR/css-grid-1/#grid-containers">`display: grid`</a> layout models in CSS
 all default to placing content within the available space and without overlap,
-so that it works across devices of various sizes,
-across browsers and operating systems that have different fonts available,
-and across different user settings for default text size.
+so that it works across screen sizes,
+and allows users to choose their own font and font size without causing text to overflow.
+</div>
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
