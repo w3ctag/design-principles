@@ -96,55 +96,48 @@ See also:
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
 
-Hyperlinks, links from one page to another, are one of the foundations of the Web.
+When adding new features,
+design them to preserve the user expectation
+that visiting a web page is generally safe.
 
-Following a link, or visiting a web page, should be safe:
-users doing this
-should not have to fear for the security of their computer
-or for essential aspects of their privacy.
-(But it's not completely safe,
-in the sense that users may face consequences
-if their use of the Web is harming others.)
-Furthermore, users should understand that it is safe (and how it isn't)
-so they can make informed decisions between use of the Web versus other technologies.
+The Web is named for its hyperlinked structure.
+In order for the web to remain vibrant,
+users need to be able to expect that merely visiting any given link
+won't have implications for the security of their computer,
+or for any essential aspects of their privacy.
 
-Saying “essential aspects” here skips over quite a bit of detail.
-The Web today is far from being perfectly private.
-One aspect of privacy problems is when reality doesn't meet expectations.
-For example,
-a person walking down the street generally expects to be recognized by their friends,
-but (depending on the country)
-may not expect that they walked down that street at that time
-to be recorded in a permanent government database.
-Online, people might have less understanding of what is or isn't possible,
-and their expectations might differ more widely.
-<!-- Can we cite research on this??? -->
+For example, an API which allows any website to
+[detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
+may make users of these technologies feel unsafe visiting unknown web pages,
+since any web page may detect this private information.
 
-We can probably make privacy on the Web better than it is today:
+If users have a realistic expectation of safety,
+they can make informed decisions
+between Web-based technologies and other technologies.
+For example, users may choose to use a web-based food ordering page,
+rather than installing an app,
+since installing an app is riskier than visiting a web page.
+
+To work towards making sure the reality of safety on the web matches users' expectations,
+we can take complementary approaches when adding new features:
   * We can improve the user interfaces through which the Web is used
-    to make it clearer what users of the Web should expect.
+    to make it clearer what users of the Web should (and should not) expect;
   * We can change the technical foundations of the Web
-    so that they match user expectations of privacy.
+    so that they match user expectations of privacy;
   * We can consider the cases where users would be better off
     if expectations were higher,
     and in those cases
-    try to change both technical foundations and expectations
+    try to change both technical foundations and expectations.
 
-When we add new features to the Web
-that might weaken the security or privacy characteristics that the Web currently has,
-we should consider the tradeoffs involved in that particular feature.
-A new feature with security risks might still make users safer, for example,
-because they would download and run native binary software less often,
-and downloading and running binaries is much riskier than visiting a Web page.
-However, we should also consider the tradeoff
-against the *idea* that it is safe to visit Web pages:
-adding a risky feature to the Web teaches the Web's users that the Web is less safe,
-and this erodes one of the core values of the Web:  that it is safe to visit websites.
-We should seek to give users a true picture of the safety of the Web
-so that they can act based on that understanding of safety
-(in comparison to the safety of alternatives),
-and at the same time we should seek to keep the Web safe for its users
-and work to make it safer.
+A new feature which introduces safety risks may still improve user safety overall,
+if it allows users to perform a task more safely on a web page
+than it would be for them to install an app to do the same thing.
+However, this benefit needs to be weighed against the common goal
+of users having a reasonable expectation of safety on web pages.
+
+See also:
+
+* [Security and Privacy Self-Review](https://www.w3.org/TR/security-privacy-questionnaire/)
 
 <h3 id="trusted-ui">Trusted user interface should be trustworthy</h3>
 
