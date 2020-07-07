@@ -1828,81 +1828,70 @@ See also:
 
 <h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3>
 
-APIs which expose the the existence, capabilities, and/or identifiers of many devices
-risk multiplying the harm described in [[#device-ids]]
-(since they expose fingerprinting entropy per exposed device)
-and thus require additional consideration.
+Look for ways to avoid enumerating devices.
+If you can't avoid it, expose the least information possible.
 
-As in the previous section,
-please consider if your use cases could be satisfied
+If an API exposes the the existence, capabilities, or identifiers of more than one device,
+all of the risks in [[#device-ids]]
+are multiplied by the number of devices.
+For the same reasons,
+consider whether your [user needs](#priority-of-constituencies) could be satisfied
 by a less powerful API. [[LEAST-POWER]]
 
 If the purpose of the API
 is to enable the user **to select a device**
 from the set of available devices of a particular kind,
 you may not need to expose a list to script at all.
-An API which invokes a User-Agent-provided device picker
-could suffice.
-Such an API
-keeps the user in control,
-hides the device behind a user permission,
-does not expose any fingerprinting data about the user's environment by default,
-and, when used, only exposes information about one device.
+An API which invokes a User-Agent-provided device picker could suffice.
+Such an API:
+- keeps the user in control,
+- doesn't expose any device information without the user's [consent](#consent),
+- doesn't expose any fingerprinting data about the user's environment by default, and
+- only exposes information about one device at a time.
 
-<div class=example>
-File selection form controls
-(<{input/type/file|&lt;input type=file>}>)
-invoke a User Agent-provided file picker.
-This elegant design ensures that
-the website only gets access to file(s) the user explicitly selected,
-and does not receive any other information
-about the user's file system.
-[[HTML]]
-
-</div>
-
-When designing such an API,
+When designing API which allows users to select a device,
 it may be necessary to also expose
 the fact that there are devices are available to be picked.
-Such a feature exposes
-a small amount (one bit) of fingerprinting data about the user's environment
+This does expose one bit of fingerprinting data about the user's environment
 to websites,
-so it isn't quite as safe as
-an API which does not have such a feature.
+so it isn't quite as safe as an API which doesn't have such a feature.
 
 <div class=example>
-
 The {{RemotePlayback}} interface
-does not expose a list of available [=remote playback devices=].
-Like <{input/type/file|&lt;input type=file>}>, it invokes a User Agent-defined device picker,
-which has the same desirable properties.
-[[REMOTE-PLAYBACK]]
+doesn't expose a list of available [=remote playback devices=].
+Instead, it allows the user to choose one device
+from a device picker provided by the User Agent.
 
-Unlike <{input/type/file|&lt;input type=file>}>, it also
-enables websites to detect whether or not
+It does enable websites to detect whether or not
 any [=remote playback device=] is available,
 so the website can show or hide a control
-the user can use to invoke the picker.
+the user can use to show the device picker.
 
+The trade-off is that by allowing websites
+this extra bit of information,
+the API lets authors make their user interface less confusing.
+They can choose to show a button to trigger the picker
+only if at least one device is available.
 </div>
 
 If you must expose a list of devices,
 try to **expose the smallest subset**
-that satisfies your use cases.
-Consider an API which allows the website
-to request **a filtered or constrained list** of devices,
-but keep in mind that
-constraint-matching systems may reveal more information than intended
-when repeatedly invoked with different constraints.
+that satisfies your user needs.
 
-If you must expose the full list of devices of a particular kind,
+For example, an API which allows the website
+to request **a filtered or constrained list** of devices
+is one option to keep the number of devices smaller.
+However, if authors are allowed to make multiple requests with different constraints,
+they may still be able to access the full list.
+
+Finally, if you must expose the full list of devices of a particular kind,
 please rigorously **define the order** in which devices will be listed.
 This can reduce interoperability issues,
-and helps to mitigate fingerprinting
-(because sort order could reveal other information;
+and helps to mitigate fingerprinting.
+(Sort order could reveal other information:
 see [[FINGERPRINTING-GUIDANCE#a_standardized_profile]] for more.)
 
-While APIs should not
+Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
