@@ -1674,16 +1674,23 @@ use {{Uint8Array}}.
 
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
-Any web API that accepts a time measurement should do so in milliseconds. This
-is a tradition stemming from <code highlight="js">setTimeout</code> and the
-<code highlight="js">Date</code> API, and carried through since then.
+If you are designing an API that accepts a time measurement,
+express the time measurement in milliseconds.
 
-Even if seconds (or some other unit) are more natural in the domain of an API, sticking with
-milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with
-other time quantities.
+Even if seconds (or some other time unit) are more natural in the domain of an API,
+sticking with milliseconds ensures that APIs
+are interoperable with one another.
+This means that authors don't need to convert values used in one API
+to be used in another API,
+or keep track of which time unit is needed where.
 
-Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
-nanoseconds.
+This convention began with <code highlight="js">setTimeout</code> and the
+<code highlight="js">Date</code> API,
+and has been used since then.
+
+Note: high-resolution time is usually represented as fractional milliseconds
+using a floating point value,
+not as an integer value of a smaller time unit like nanoseconds.
 
 <h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
 
