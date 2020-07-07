@@ -1316,31 +1316,23 @@ Note: This section has been removed. See [[#events-vs-observers]] instead.
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
-For an object that inherits from {{EventTarget}}, there are two techniques available for registering
-an event handler (e.g., an event named "somethingchanged"):
+If your API adds a new event type,
+add a corresponding <code>on<em>yourevent</em></code> [=event handler IDL attribute=]
+to the interface of any {{EventHandler}} which may handle the new event.
 
-1. {{EventTarget/addEventListener()}} which allows authors to register for the event using the
-    event's name (i.e.,
-    <code highlight="js">someobject.addEventListener("somethingchanged", myhandler)</code>) and
-2. `onsomethingchanged` IDL attributes which allow one event handler to be directly assigned to the
-    object (i.e., <code highlight="js">someobject.onsomethingchanged</code>).
-
-Because there are two techniques for registering events on objects inheriting from {{EventTarget}},
-authors may be tempted to omit the corresponding [=event handler IDL attributes=]. They may assume
-that event handler IDL attributes are a legacy registration technique or are simply not needed
-given that {{EventTarget/addEventListener()}} is available as an alternative. However, it is
-important to continue to define event handler IDL attributes because:
+it's important to continue to define event handler IDL attributes because:
 
 * they preserve consistency in the platform
 * they enable feature-detection for the supported events (see [[#feature-detect]])
 
-So, if the object inherits from {{EventTarget}}, add a corresponding
-<code>on<em>yourevent</em></code> [=event handler IDL attribute=] to the interface.
-
-<p class="note">Note that for HTML and SVG elements, it is traditional to add the
-[=event handler IDL attributes=] on the {{GlobalEventHandlers}} interface mixin, instead of
-directly on the relevant element interface(s). Similarly, [=event handler IDL attributes=]
-are traditionally added to {{WindowEventHandlers}} rather than {{Window}}.</p>
+<p class="note">
+For consistency, if the event needs to be handled by HTML and SVG elements,
+add the [=event handler IDL attributes=]
+on the {{GlobalEventHandlers}} interface mixin,
+instead of directly on the relevant element interface(s).
+Similarly, add [=event handler IDL attributes=]
+to {{WindowEventHandlers}} rather than {{Window}}.
+</p>
 
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
