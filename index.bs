@@ -747,32 +747,29 @@ the interaction with garbage collection.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
-separate getter and setter functions which can react independently. This is in contrast to the
-"default" style of JavaScript properties, data properties, which do not have configurable behavior
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
-set.
+[[!WEBIDL]] attributes should act like simple JavaScript object properties.
 
-Data property semantics are what are generally expected by JavaScript developers when interfacing
-with objects. As such, although getters and setters allow infinite customizability when defining
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
-much like a data property as possible. Specific guidance in this regard includes:
+In reality, IDL attributes are implemented as accessor properties
+with separate getter and setter functions.
+To make them act like JavaScript object properties:
 
-* Getters must not have any (observable) side effects.
-* Getters should not perform any expensive operations. (A notable failure of the platform in this
-    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
-* Ensure that your attribute's getter returns the same object each time it is called, until some
-    occurrence in another part of the system causes a logical "reset" of the property's value. In
-    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
-    new value from the getter each time is not allowed.
-* Whenever possible, preserve values given to the setter for return from the getter. That is,
-    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
-    true. (This will not always be the case, e.g. if a normalization or type conversion step is
-    necessary, but should be held as a goal for normal code paths.)
+* Getters must not have any observable side effects.
+* Getters should not perform any complex operations.
+* Ensure that <code highlight="js">obj.attribute === obj.attribute</code> is always true.
+    Don't create a new value each time the getter is called.
+* If possible, ensure that given <code highlight="js">obj.attribute = x</code>,
+    <code highlight="js">obj.attribute === x</code> is true.
+    (This may not be possible if some kind of conversion is necessary for `x`.)
 
 If you were thinking about using an attribute,
 but it doesn't behave this way,
 you should probably use a method instead.
+
+<div class="example">
+For example, <code highlight="js">offsetTop</code> performs layout,
+which can be complex and time-consuming.
+It would have been better if this had been a method like {{Element.getBoundingClientRect()}}.
+</div>
 
 <h3 id="live-vs-static">Consider whether objects should be live or static</h3>
 
