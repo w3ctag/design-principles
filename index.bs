@@ -1757,88 +1757,74 @@ This section contains principles for consideration when designing APIs for devic
 
 <h3 id="device-ids">Use care when exposing identifying information about devices</h3>
 
-Merely exposing the presence of a device
-may harm user privacy.
-Exposing
-additional information about a device
-or its capabilities
-increases this risk further.
-Exposing device identifiers
-increases this risk even more.
-Any such information
-increases the set of fingerprinting data available to sites.
-But there are possible user privacy harms here
-that go beyond fingerprinting.
-Please read [[FINGERPRINTING-GUIDANCE]] and [[UNSANCTIONED-TRACKING]]
-for additional details.
+Issue: This gets very into the weeds.
 
-Think carefully about
-whether it is really necessary
+If you need to give web sites access to information about a device,
+use the guidelines below to decide what information to expose.
+
+Firstly, think carefully about whether it is really necessary
 to expose identifying information about the device at all.
-Please consider if your use cases could be satisfied
-by a less powerful API. [[LEAST-POWER]]
+Consider whether your [user needs](#priority-of-constituencies) could be satisfied
+by a less powerful API.
 
-Despite these concerns,
-you may find that it is necessary
-to expose identifying information about a device to the web platform.
+Exposing the presence of a device,
+additional information about a device,
+or device identifiers,
+each increase the risk of harming the user's privacy.
 
-The following guidelines will help ensure
-that this is done in a consistent and privacy-friendly way:
+One risk is that as more specific information is shared,
+the set of
+[fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
+available to sites gets larger.
+There are also [other potential risks](https://w3cping.github.io/privacy-threat-model/)
+to user privacy.
 
-: Limit identifiable information in the id
-:: As much as possible,
-    device ids exposed to the web platform
-    should not contain identifiable information
-    such as branding, make and model numbers, etc.
-    In many cases
-    using a randomized number or unique id
-    is preferable to
-    a generic string identifier such as "device1".
+Issue: Privacy Threat Model is not ready for prime time.
 
-    Device ids expressed as numbers
-    should contain sufficient entropy
-    so as to avoid re-use or potential sharing among other devices,
-    and should not be easily guessable.
+If there is no way to design a less powerful API,
+use these guidelines when exposing device information:
+
+: Limit information in the id
+:: Include as little identifiable information as possible
+    in device ids exposed to the web plaform.
+    Identifiable information includes
+    branding, make and model numbers, etc
+    You can usually use a random number
+    or a unique id instead.
+    Make sure that your ids aren't guessable,
+    and aren't re-used.
 : Keep the user in control
-:: Any existing device ids
-    mapped to or stored with the current session by the user agent
-    should be cleared
-    when users elect to "clear their cookies" (and other related settings).
-    Above all,
-    the user should be in control of this potential tracking state
-    and be able to reset it on demand.
+:: When the user chooses to clear browsing data,
+    make sure any stored device ids are cleared.
 : Hide sensitive ids behind a user permission
-:: Where device identification does not make sense to be expressed in an anonymous way,
-    access to the identifier
-    should be limited by default.
-    One way to limit exposure
-    is to only surface the identifier to author code
-    <em>after</em> obtaining permission from the user.
+:: If you can't create a device id in an anonymous way,
+    limit access to it.
+    Make sure the user can provide
+    [[#consent|meaningful consent]]
+    to a Web page accessing this information.
 : Tie ids to the same-origin model
-:: Identifiers should be unique
-    to the origin of the web content that is attempting to access them.
-    Web content from one origin should receive an identifier that is distinct
-    from the identifier given to web content from any other origin
-    despite the physical device being the same.
-:: Within an origin,
-    ids may have a stable representation to web content.
-    This ensures a consistent developer experience
-    if requesting the same device twice.
+:: Create distinct unique ids for the same physical device
+    for each origin that has has access to it.
+:: If the same device is requested more than once
+    by the same origin, return the same id for it
+    (unless the user has cleared their browsing data).
+    This allows authors to avoid having
+    several copies of the same device.
 : Persistable when necessary
-:: Some device identifiers
-    can only be obtained
-    via a complex or time-consuming device selection process.
-    In such cases,
-    it may make sense for author code
-    to be able to persist such identifiers
-    for use in a later session
-    in order to avoid the selection process a second time.
-    When this is the case,
-    the API should not only
-    provide a stable id during the session for the given origin,
-    but it should also be capable of
-    deterministically producing the same id
-    in subsequent sessions.
+:: If a device id is time consuming to obtain,
+    make sure authors can store an id generated in one session
+    for use in a later session.
+    You can do this by making sure that
+    the procedure to generate the id
+    deterministcially produces the same id
+    for the same device,
+    for each origin.
+
+See also:
+
+* [[LEAST-POWER]]
+* [[FINGERPRINTING-GUIDANCE]]
+* [[UNSANCTIONED-TRACKING]]
 
 <h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3>
 
