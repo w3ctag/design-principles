@@ -1218,6 +1218,20 @@ discuss.</p>
 </div>
 
 
+<h3 id="synchronous">Use synchronous when appropriate</h3>
+
+Synchronous APIs should be considered when minting a new API.
+Providing an API in synchronous form simplifies the usage from the caller's perspective.
+Moreover, it reduces the amount of infrastructural setup overhead needed for the function call.
+
+The general rule of thumb for an API that should be synchronous is the following:
+
+  * The API call is not expected to fail.
+  * The execution time is short and deterministic.
+
+No API call is completely fail-proof; the expectation above is for the general case.
+
+
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
 Asynchronous APIs should generally be designed using promises
