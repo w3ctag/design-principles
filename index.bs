@@ -1310,39 +1310,9 @@ For example, if an author changes some state
 in reaction to an event which the Promise dispatches,
 they can be sure that all of the state is consistentif the Promise is resolved.
 
-<h3 id="dont-invent-event-like">Don't invent your own event listener-like infrastructure</h3>
+<h3 id="dont-invent-event-like">Don’t invent your own event listener-like infrastructure</h3>
 
-For recurring events, it could be convenient to create a custom pair of APIs to
-`"register"`/`"unregister"`, `"subscribe"`/`"unsubscribe"`, etc., that take a
-callback and get invoked multiple times until paired cancel API is called.
-
-Instead, use the existing event registration pattern and separate API controls
-to start/stop the underlying process (since event listeners should not have
-[[#events-are-for-notification|side-effects]]).
-
-If the callback would have been provided specific data, then this data should
-be added to an `Event` object (but see <a href="#state-and-subclassing">State
-and `Event` subclasses</a> as this is not always necessary).
-
-In some cases, you can transfer the state that would be surfaced in callback
-parameters into a more persistent object which, in turn, can inherit from
-`EventTarget`.
-
-In some cases you might not have an object to inherit from `EventTarget` but
-it is usually possible to create such an object.
-
-For instance with Web Bluetooth you can add event listeners on a `Characteristic`
-object, which is obtained via `getCharacteristic()`. If you need to filter events,
-it might be possible to create a filter like
-
-```js
-const filter = navigator.nfc.createReadFilter({
-  recordType: "json"
-});
-
-const onMessage = message => { … };
-filter.addEventListener('exchange', onMessage);
-```
+Note: This section has been removed. See [[#events-vs-observers]] instead.
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
