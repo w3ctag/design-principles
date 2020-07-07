@@ -1337,7 +1337,16 @@ to {{WindowEventHandlers}} rather than {{Window}}.
 
 <h3 id="events-are-for-notification">Events are for notification</h3>
 
-Try to design DOM events to deliver after-the-fact notifications of changes. It may be tempting to try to trigger side-effects from the action of {{EventTarget/dispatchEvent()}}, but in general this is <a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a> as it requires changes to the DOM specification when added. Your design will proceed more quickly if you avoid this pattern.
+Issue: I can't understand this one well enough to rewrite it.
+Anyone got an example or counter-example?
+
+Try to design DOM events to deliver after-the-fact notifications of changes.
+It may be tempting to try to trigger side-effects
+from the action of {{EventTarget/dispatchEvent()}},
+but in general this is
+<a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a>
+as it requires changes to the DOM specification when added.
+Your design will proceed more quickly if you avoid this pattern.
 
 <h3 id="guard-against-recursion">Guard against potential recursion</h3>
 
