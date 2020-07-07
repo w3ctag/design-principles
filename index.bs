@@ -1985,7 +1985,7 @@ and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
 
-<h3 id="naming-is-hard">Naming things</h3>
+<h2 id="naming-is-hard">Naming principles</h2>
 
 Names take meaning from:
 
@@ -1993,23 +1993,23 @@ Names take meaning from:
 * use (how people come to understand the name over time)
 * context (the object on the left-hand side, for example)
 
-<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
+<h3 id="naming-common-words">Use common words</h4>
 
 API naming *must* be done in easily readable US English.
-Keep in mind that most web developers are not native English speakers.
+Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
-non-native English speakers are likely to understand when first encountering the name.
+a majority of English speakers are likely to understand when first encountering the name.
 
 <div class="example">
 
-For example `horizontalAlignment` is
+For example `setSize` is
 a more English-readable name
-than `alignmentHorizontal`.
+than `cardinality`.
 
 </div>
 
-Value readability over brevity,
-though always keep in mind that sometimes
+Value readability over brevity.
+Keep in mind, however, that sometimes
 the shorter name is the clearer one.
 For instance,
 it may be appropriate to use technical language or well-known terms of art
@@ -2027,20 +2027,21 @@ to name this API less directly connected to its return type. [[FETCH]]
 
 </div>
 
-<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
+<h3 id="naming-charset">Use ASCII names</h4>
 
 Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and *should* be in the [=ascii code point|ASCII range=].
 
-<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
+<h3 id="naming-consultation">Consultation</h4>
 
 Please consult widely on names in your APIs.
+
 You may find good names or inspiration in surprising places.
-What are similar APIs named on other platforms,
+- What are similar APIs named on other platforms,
 or in popular libraries in various programming languages?
-Ask end users and developers what they call
+- Ask end users and developers what they call
 things that your API works with or manipulates.
-Look at other web platform specifications,
+- Look at other web platform specifications,
 and seek advice from others working in related areas of the platform.
 
 Pay particular attention to advice you receive
@@ -2056,7 +2057,7 @@ when editing that document. [[URL]]
 
 </div>
 
-<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
+<h3 id="naming-future-proofing">Future-proofing</h4>
 
 Naming should be generic and future-proof whenever possible.
 
@@ -2083,7 +2084,7 @@ as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
 
 </div>
 
-<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
+<h3 id="naming-consistency">Consistency</h4>
 Naming schemes should aim for consistency, to avoid confusion.
 
 Sets of related names should agree with each other in:
@@ -2091,7 +2092,7 @@ Sets of related names should agree with each other in:
   * negation, for example all of the names in a set should either describe what is allowed
     or they should all describe what is denied
 
-<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
+<h4 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
   boolean-returning methods</h5>
 
 Boolean properties, options, or API parameters which are asking a question about
@@ -2099,7 +2100,7 @@ their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
 
-<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+<h4 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
 
 Although they haven't always been uniformly followed, through the history of web platform API
 design, the following rules have emerged:
@@ -2170,7 +2171,7 @@ design, the following rules have emerged:
 
 <div class="non-normative">
 Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
-and property's casings will not necessarily match. For example, the HTML attribute
+and property's casings won't necessarily match. For example, the HTML attribute
 <{img/ismap}> on <{img}> elements is <a>reflected</a> as the
 {{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
 
@@ -2179,11 +2180,11 @@ or stored on disk, and don't apply to the general notion of JavaScript object ke
 
 Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
 examples that violate the above rules are {{XMLHttpRequest}} and
-{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
+{{HTMLHtmlElement}}. Don't follow their example; instead always capitalize your
 initialisms, even if they are repeated.
 </div>
 
-<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
+<h3 id="naming-unsafe">Warning about dangerous features</h4>
 
 Where possible, mark features that weaken
 the guarantees provided to developers
