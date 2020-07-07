@@ -346,35 +346,48 @@ limiting the feature to secure contexts might cause problems
 for code (such as libraries) that may be used in either secure or non-secure contexts.
 </div>
 
-<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
+<h3 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
+
+Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
 Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
-for their own <a href="#safe-to-browse">safety</a>;
-just the fact that they have or are using private browsing mode
+for their own <a href="#safe-to-browse">safety</a>.
+Because of this, the fact that someone is using private browsing mode
 may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
-their use of private browsing mode revealed
-to others who wield power over them
-(such as employers,
-parents,
-partners,
+This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
+if it is revealed to a web site contolled by others who have power over them
+(such as employers, parents, partners,
 or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
 
 Given such dangers,
 websites should not be able to detect that private browsing mode is engaged.
 
 <div class="example">
-
 User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
 should not disable it in private browsing mode,
 because that would reveal that private browsing mode is engaged
-
 </div>
 
-See also
+<div class="example">
+The [Payment Request API](https://www.w3.org/TR/payment-request/)'s
+[show() method](https://www.w3.org/TR/payment-request/#show-method),
+when called,
+allows User Agents <q cite="https://www.w3.org/TR/payment-request/#show-method">to act
+as if the user had immediately
+[aborted the payment request](https://www.w3.org/TR/payment-request/#dfn-user-aborts-the-payment-request)</q>.
+
+This enables User Agents to automatically abort payment requests
+in private browsing mode
+(thus protecting [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
+such as the user's shipping or billing address)
+without revealing that private browsing mode is engaged.
+</div>
+
+See also:
 
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+* [[#private-browsing-mode]]
 
 <h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
 
