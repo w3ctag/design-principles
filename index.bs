@@ -163,48 +163,44 @@ If this feature was proposed today, it would probably not proceed.
 
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
-In some cases,
-we might add features to the Web that are not appropriate to allow for any website a user visits,
-but that are reasonable to have if the user agrees to use the feature
-based on a reasonable understanding of what will happen as a result.
-One example of such a feature might be support for location:
-many users seem likely to understand what it means to share their current location with a website
-and be able to consent to doing so
-(even though they might not fully understand the privacy implications of doing so).
-Another example of such a feature would be camera access,
-where users understand that they're sharing the image
-in the rectangle visible to the camera
-(even if they might not understand everything someone might do with the data).
+If a useful feature has the potential to cause harm to users,
+make sure that the user can give *meaningful consent* for that feature to be used,
+and that they can refuse consent effectively.
 
-We should not depend on asking the user for consent
-(via a permission prompt or other mechanism)
-if we don't have a way to express that request in a way
-that users will understand what is being requested
-and the main implications of giving their consent.
-Understanding whether this is the case may require
-studying users understanding of potential user interfaces,
-although in many cases experienced user experience designers
-may be able to extrapolate from previous experience.
+In order to give *meaningful consent*, the user must:
+- **understand** what permission they may choose whether to grant the web page
+- be able to choose to give or refuse that permission **effectively**.
 
-We should also not ask users to consent to something
-that can also happen if the user does not consent.
-The existence of prompts
-that request a user's consent for something
-(from trusted user interface in their browser or other user agent)
-imply that the thing for which consent is being requested
-will not happen if the user doesn't consent.
-Therefore we should not have user agents request consent
-for something that they can't effectively prevent.
-Doing so would send the wrong message about the safety characteristics of the Web
-and would lead users to be disappointed when the expectations of privacy,
-which they learned from trusted user interface,
-did not match reality.
+If a feature is powerful enough to require a user consent,
+but it's impossible to explain to a typical user what they are consenting to,
+that's a signal that you may need to reconsider the design of the feature.
 
-Asking users for consent via permission prompts
-can reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
-by showing the user that certain things won't happen without their permission.
-But frequently asking users for consent can also show how scary a place the web is
-by showing how many sites are willing to ask for intrusive and unnecessary permissions.
+If a permission prompt is shown,
+and the user doesn't grant permission,
+the Web page should not be able to do anything
+that the user believes they have refused consent for.
+
+By asking for consent,
+we can inform the user of what capabilities the web page does or doesn't have,
+reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
+However, the <a href="priority-of-constituencies">user benefit</a>
+of a new feature must justify the additional burden on users
+to decide whether to grant permission for each feature
+whenever it's requested by a Web page.
+
+<p class="example">
+For example,
+the [Geolocation API](https://www.w3.org/TR/geolocation-API/)
+grants access to a user's location.
+This can help users in some contexts,
+like a mapping application,
+but may be dangerous to some users in other contexts -
+especially if used without the user's knowledge.
+So that the user may decide whether their location may be used by a Web page,
+a permission prompt should be shown to the user asking whether to grant location access.
+If the user refuses permission,
+no location information is available to the Web page.
+</p>
 
 <h3 id="devices-platforms">Support the full range of devices and platforms</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
