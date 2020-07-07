@@ -885,30 +885,30 @@ See also:
 
 * [[#attributes-like-data]]
 
-<h3 id="optional-parameters">Make non-critical function parameters optional</h3>
+<h3 id="optional-parameters">Make function parameters optional if possible</h3>
 
-Parameters that are not strictly necessary should be made optional.
-Making arguments optional with reasonable defaults
-reduces overhead when the function is used,
-and increases user-friendliness.
+If a parameter for an API function has a reasonable default value,
+make that parameter optional and specify the default value.
 
-Optional parameters should be consolidated into a dictionary,
-and empty parameters should be treated identically to when the parameter is omitted.
+<div class="example">
+{{EventTarget/addEventListener()}} takes an optional boolean `useCapture` argument.
+Thie defaults to `false`, meaning that
+the event should be dispatched to the listener in the bubbling phase by default.
+</div>
 
-<p class="example">For example,
-<code highlight="js">element.scrollIntoView(false, {});</code>
-is equivalent to
-<code highlight="js">element.scrollIntoView(false);</code>,
-and
-<code highlight="js">element.addEventListener("click", onClick, undefined);</code>
-is equivalent to
-<code highlight="js">element.addEventListener("click", onClick)</code>.
-</p>
-
-Exceptions have been made for legacy interoperability reasons
-(such as XMLHttpRequest),
+Note: Exceptions have been made for legacy interoperability reasons
+(such as {{XMLHttpRequest}}),
 but this should be considered a design mistake rather than recommended practice.
 
+The API must be designed so that if a parameter is left out,
+the default value used is the same as
+converting `undefined` to the type of the parameter.
+For example, if a boolean parameter isn't set,
+it must default to false.
+
+See also:
+
+* [[#prefer-dict-to-bool]]
 
 <h3 id="prefer-dict-to-bool">Prefer dictionary parameters over boolean parameters or other unreadable parameters</h3>
 
