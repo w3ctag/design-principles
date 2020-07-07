@@ -437,23 +437,31 @@ See also:
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
 * [Security and privacy self review: Private Browsing](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing)
 
-<h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
+<h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
+
+Make sure that your API doesn't provide a way
+for authors to detect that a user is using assistive technology
+without the user's consent.
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
-APIs which reveal the use of assistive technologies to sites
-enable sites to deny access to services
-to those who make use of assistive technologies.
+If a site can detect that a user is using an assistive technology,
+that site can deny or restrict the user's access to the services it provides.
 
 People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-It should be <a href="#safe-to-browse">safe for them to browse the web</a>.
-Consider the risks of revealing their use of assistive technologies to others
+If an API provides access to this information
+without the user's [consent](#consent),
+this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
 
-Given these two concerns,
-websites should not be able to detect that assitive technologies are being used.
+Sometimes people propose features which aim to improve the user experience
+for users of assistive technology,
+but which would reveal the user's use of assistive technology as a side effect.
+While these are well intentioned,
+they violate [[#safe-to-browse]],
+so alternative solutions must be found.
 
 <div class="example">
 
@@ -463,11 +471,11 @@ used to define a set of events which, when fired,
 
 AOM has since removed these events and
 [replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
-which do not reveal the use of assistive technology.
+which don't reveal the use of assistive technology.
 
 </div>
 
-See also
+See also:
 
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
