@@ -646,19 +646,29 @@ See also:
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
-The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as
-[[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
+When designing imperative APIs for the Web,
+use JavaScript.
+In particular,
+you can freely rely upon language-specific semantics and conventions,
+with no need to keep things generalized.
 
-This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL
-(and at one point, included "Java Bindings"). Even today, the structure of the document contains a
-confusing and redundant division between the "Interface definition language" and the "ECMAScript
-binding". Rest assured that this division is simply a historical artifact of document structure,
-and does not imply anything about the intent of Web IDL in general. The only reason it remains is
-that nobody has taken the time to eradicate it.
+<div class="example">
+For example,
+the {{CustomElementRegistry.define()}} method takes a reference to
+a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
-As such, when designing your APIs, your primary concern should be with the interface you present to
-JavaScript developers. You can freely rely upon language-specific semantics and conventions, with
-no need to keep things generalized.
+This takes advantage of the relatively recent addition of Classes to JavaScript,
+and fact that function pointers are very easy to use in JavaScript.
+</div>
+
+<div class="note">
+JavaScript is also known as [[!ECMASCRIPT]]
+</div>
+
+<div class="note">
+[[WEBIDL]] defines a separate "ECMAScript binding" section;
+this is a historical artifact only.
+</div>
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
