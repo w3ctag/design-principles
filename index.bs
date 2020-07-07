@@ -1077,30 +1077,25 @@ if there is some problem with using them.
 
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
-Asynchronous APIs should generally be designed using promises
-rather than callback functions.
-This is the pattern that we've settled on for the Web platform,
-and having APIs consistently use promises means that the APIs are
-easier to use together (such as by chaining promises).
-This pattern also tends to produce cleaner code than the use
-of APIs with callback functions.
+If an API function needs to be asynchronous, use Promises,
+not callback functions.
 
-Furthermore, you should carefully consider whether an API might need
-to be asynchronous before making it a synchronous API.
+Using Promises consistently across the Web platform
+means that APIs are easier to use together,
+such as by chaining promises.
+Promise-using code also tends to be easier to understand
+than code using callback functions.
+
 An API might need to be asynchronous if:
-  * some implementations may (in at least some cases) wish to prompt the user
-    or ask the user for permission before allowing use of the API,
-  * implementations may need to consider information that might be stored
-    on disk in order to compute the result,
-  * implementations may need to interact with the network before returning
-    the result, or
-  * implementations may wish to do work on another thread or in another
-    process before returning the result.
+  * the user agent needs to prompt the user for [permission](#consent),
+  * some information might need to be read from disk,
+    or requested from the network,
+  * the user agent may need to do a significant amount of work on another thread,
+    or in another process, before returning the result.
 
-For more information on how to design APIs using promises,
-and on when to use promises and when not to use promises,
-see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
-Promise-Using Specifications</a></strong>.
+See also:
+
+* <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
