@@ -778,27 +778,61 @@ that a property likely should have been inherited.
 
 <h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
 
-Another important choice in the design of every CSS property
-is what its <a>computed value</a> is.
-This is an abstract description of the value that is inherited when the property inherits.
-It is also important for starting and animation of [=CSS Transitions=].
-This is most important for inherited properties, but it does matter for all properties.
+Choose the <a>computed value</a> of a CSS property
+based on how it will [=inherit=],
+and the other properties which may depend on it,
+whether or not it has been inherited.
 
-Note: Due to a somewhat unfortunate history,
-this is *not* the value that is returned by {{getComputedStyle()}},
-which is actually the <a>resolved value</a>,
-which can be the result of further computation starting from the computed value.
+<div class="note">
+Note: the <a>computed value</a> should not be confused with the [=resolved value=]
+which is returned from the {{getComputedStyle()}} method.
+</div>
 
-The definition of a CSS property often has interactions with other CSS properties.
-It is often possible for these interactions to happen at the [=computed value=] stage
-or at a later stage such as the [=used value=].
-Since inheritance operates on the computed value,
-whether an interaction should affect the value that descendants inherit
-is a major factor in the choice of where that interaction should be handled.
+Certain CSS properties are calculated with
+<a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a>
+on others:
+for example, the <a>computed value</a>
+of a property specified in 'lh' units
+depends on the 'line-height' property which applies to the element being considered.
+The <a>computed value</a> for a property should be chosen
+so that the dependent values make sense,
+regardless of whether they are inherited.
 
-<a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
-that do affect computed values</a>
-are required to not be circular.
+<div class="example">
+For example, the 'line-height' property may accept a <<number>> value,
+such as ''line-height: 1.4''.
+This value represents a multiple of the 'font-size',
+so if the 'font-size' is ''20px'',
+the [=actual value=] for the line height is ''28px''.
+
+However, the <a>computed value</a> in this case is the <<number>> ''1.4'',
+not the <<length>> ''28px''.
+
+The 'line-height' property can be inherited
+into elements that have a different 'font-size',
+and any property on those elements which depends on 'line-height'
+must take the relevant 'font-size' into account,
+rather than the 'font-size' for the element from which
+the 'line-height' value was inherited.
+
+  <pre highlight=html>
+&lt;body style="font-size: 20px; line-height: 1.4"&gt;
+
+  &lt;p&gt;This body text has a line height of 28px.&lt;/p&gt;
+
+  &lt;h2 style="font-size: 200%"&gt;
+    This heading has a line-height of 56px,
+    not 28px, even though the line-height was declared on the body.
+    This means that the 40px font won't overflow the line height.
+  &lt;/h2&gt;
+&lt;/body&gt;
+  </pre>
+
+These number values are generally the preferred values to use for 'line-height'
+because they inherit better than length values.
+</div>
+
+Issue: The paragraph below is hard to understand.
 
 Making decisions about whether dependencies should affect computed values
 often involves tradeoffs of complexity.
@@ -809,38 +843,9 @@ for the behavior to happen in whatever handles the computed value.
 (This complexity might be in the specification, in implementations, or both.
 Complexity in implementations might affect how fast things run for end users.)
 
-For more information about computed values, see
-[Computed Values Patterns](https://wiki.csswg.org/spec/computed-values).
+See also:
 
-<div class="example">
-For example, the 'line-height' property accepts values that are numbers,
-such as ''line-height: 1.4''.
-This value is a multiple of the 'font-size',
-so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
-
-However, the computed value in this case is the number ''1.4'', not the length ''28px''.
-This is important because the value can inherit to elements that have a different font size,
-and preserving the "multiple of the current element's font" behavior would be broken
-if it turned into a length at computed-value time:
-
-  <pre highlight=html>
-&lt;body style="line-height: 1.4"&gt;
-
-  &lt;p&gt;For example, this body text has a line height
-  that's 1.4 times its font size.&lt;/p&gt;
-
-  &lt;h2 style="font-size: 200%"&gt;
-    And this heading also has a line-height that's
-    1.4 times the h2's larger font size, and *not*
-    1.4 times the body's font size, which would lead
-    to text overlap
-  &lt;/h2&gt;
-&lt;/body&gt;
-  </pre>
-
-These number values are generally the preferred values to use for 'line-height'
-because they inherit better than length values.
-</div>
+* [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
 
 <h3 id="css-naming">Naming of CSS properties and values</h3>
 
