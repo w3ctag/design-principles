@@ -1564,17 +1564,18 @@ This also works for the other shorter types, such as `short` or `long`.
 -->
 
 When designing a web platform feature which operates on [=strings=],
-{{DOMString}} is almost always the right Web IDL [=string type=] to use.
-This is because
-most string operations don't need
-to interpret the [=code units=] inside of the string.
-There are exceptions, however, for which Web IDL provides
-{{USVString}} and {{ByteString}}. [[!INFRA]] [[!WEBIDL]]
+use {{DOMString}} unless you have a specific reason not to.
+
+Most string operations don't need
+to interpret the [=code units=] inside of the string,
+so {{DOMString}} is the best choice.
+In the specific cases explained below, it might be appropriate to use either
+{{USVString}} or {{ByteString}} instead. [[!INFRA]] [[!WEBIDL]]
 
 {{USVString}} is the Web IDL type that represents [=scalar value strings=].
 For strings whose most common algorithms operate on [=scalar values=]
 (such as [$percent-encode|percent-encoding$]),
-or for operations which cannot handle [=surrogates=] in input
+or for operations which can't handle [=surrogates=] in input
 (such as APIs that pass strings through to native platform APIs),
 {{USVString}} should be used.
 
@@ -1588,7 +1589,7 @@ should use {{USVString}}. [[HTML]]
 {{ByteString}} should only be used for representing
 data from protocols like HTTP
 which don't distinguish between bytes and strings.
-It is not a general-purpose string type.
+It isn't a general-purpose string type.
 If you need to represent a [=sequence types|sequence=] of {{byte|bytes}},
 use {{Uint8Array}}.
 
