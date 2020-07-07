@@ -141,21 +141,25 @@ See also:
 
 <h3 id="trusted-ui">Trusted user interface should be trustworthy</h3>
 
-Since users of the Web can follow links to sites they might not know already,
-software that lets them access the Web generally provides user interface
-to show the user who they're interacting with and how,
-such as by displaying part or all of the URL or other information about the site,
-or whether the connection is secure.
-Since users rely on this information to learn what site they're on
-and to make judgments about whether it is trustworthy,
-this software is designed so that
-sites are not able to override this user interface
-or spoof it in a way that would confuse users.
-Therefore, when we add new features to the web,
-we should consider whether they require new complexity in this user interface,
-and whether that complexity would reduce users' ability
-to make correct judgments about who they're interacting with
-or whether the user interface is trustworthy or spoofed.
+Consider whether new features impact trusted user interfaces.
+
+Users depend on trusted user interfaces
+such as the address bar, security indicators and permission prompts,
+to understand who they are interacting with and how.
+These trusted user interfaces must be able to be designed in a way
+that enables users to trust
+that the information they provide is genuine,
+and hasn't been spoofed or hijacked by the website.
+
+If a new feature allows untrusted user interfaces
+to resemble trusted user interfaces,
+this makes it more difficult for users to understand what information is trustworthy.
+
+<p class="example">
+For example, JavaScript `alert()` allows a page to show a modal dialog which looks like part of the browser.
+This is often used to attempt to trick users into visiting scam websites.
+If this feature was proposed today, it would probably not proceed.
+</p>
 
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
