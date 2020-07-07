@@ -69,6 +69,9 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL;
 If a trade-off needs to be made,
 always put user needs above all.
 
+Similarly, when beginning to design an API,
+be sure to understand and document the user need that the API aims to address.
+
 [The internet is for end users](https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html):
 any change made to the web platform has the potential to affect vast numbers of people,
 and may have a profound impact on any person's life.
@@ -78,11 +81,8 @@ which come before than the needs of user agent implementors,
 which come before than the needs of specification writers,
 which come before theoretical purity.
 
-Similarly, when beginning to design an API,
-be sure to understand and document the user need that the API aims to address.
-
 Like all principles,
-this is not absolute.
+this isn't absolute.
 Ease of authoring affects how content reaches users.
 User agents have to prioritize finite engineering resources,
 which affects how features reach authors.
