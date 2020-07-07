@@ -351,6 +351,36 @@ limiting the feature to secure contexts might cause problems
 for code (such as libraries) that may be used in either secure or non-secure contexts.
 </div>
 
+<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
+
+Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
+for their own <a href="#safe-to-browse">safety</a>;
+just the fact that they have or are using private browsing mode
+may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
+their use of private browsing mode revealed
+to others who wield power over them
+(such as employers,
+parents,
+partners,
+or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
+
+Given such dangers,
+websites should not be able to detect that private browsing mode is engaged.
+
+<div class="example">
+
+User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
+should not disable it in private browsing mode,
+because that would reveal that private browsing mode is engaged
+
+</div>
+
+See also
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+
 <h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
 
 In general,
@@ -421,36 +451,6 @@ at the other session's [window object](https://html.spec.whatwg.org/multipage/wi
 See also
 
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
-
-<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
-
-Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
-for their own <a href="#safe-to-browse">safety</a>;
-just the fact that they have or are using private browsing mode
-may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
-their use of private browsing mode revealed
-to others who wield power over them
-(such as employers,
-parents,
-partners,
-or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
-
-Given such dangers,
-websites should not be able to detect that private browsing mode is engaged.
-
-<div class="example">
-
-User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
-should not disable it in private browsing mode,
-because that would reveal that private browsing mode is engaged
-
-</div>
-
-See also
-
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
-* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
 <h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
 
