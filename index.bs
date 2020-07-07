@@ -1977,66 +1977,68 @@ to the [Content model](https://html.spec.whatwg.org/multipage/tables.html#the-ta
 <h3 id="avoid-ambiguity">Specify completely and avoid ambiguity</h3>
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
 
-If the specification leaves room for implementations to make different choices
-which mean authors need to write different markup for different implementations,
-this adds a maintenance burden for authors.
+When specifying how a feature should work,
+make sure that there is enough information
+so that authors don't have to
+write different code to work with different implementations.
 
-The specification should be complete enough
-for implementations to be interoperable,
-without depending on or referring to the details of other implementations.
-When there isn't a good reason to allow variation between implementations,
-it is important that things be specified unambiguously,
-so that implementations interoperate
-and web content doesn't end up
-depending on the [=implementation-defined=] behavior
-in one implementation and failing in another
-(which can cause higher development costs to fix the content for all browsers,
-or costs to users of broken content if it wasn't detected).
-This way,
-it is easier to author content
-that works in a variety of user agents.
-However,
-implementations should still be free
-to make improvements
-in areas such as user interface
-and quality of rendering.
+If a specification isn't specific enough,
+implementers might make different choices
+which force authors to write extra code to handle the differences.
+
+Implementers shouldn't need to check details of other implementations
+to avoid this situation.
+Instead, the specification should be complete and clear enough
+on its own.
+
+Note: This doesn't mean that implementations can't render things differently,
+or show different user interfaces for things like permission prompts.
 
 <h4 id="algorithms">Defining algorithms in specifications</h4>
 
-Specification text is often more precise
-when it is written using an explicit sequence of steps.
-Using an ordered sequence of steps makes it clear how the required behaviors interact.
-For example, if there are multiple error conditions present,
-a specification that describes the behavior using a sequence of steps
-will make it clear which error will be reported,
-since the different errors would be checked and reported in different steps.
+Write algorithms in a way that is clear and concise.
 
-However, sequences of steps
-are not the only way to make a specification precise enough.
-When there are particular characteristics
-that specification editors want to ensure the specification always satisfies,
-it may be better to use a less algorithmic way of formal specification
-that ensures these characteristics are always true.
-Developing these other ways of specifying behavior formally
-is more important when the algorithms would be more repetitive.
-These formal specification techniques can include dependencies on
-languages such as [[WEBIDL]], on grammar productions,
-or the development of new languages for defining pieces of the specification.
-Merely having a formal syntax is not sufficient, though;
-the requirements that the formal definitions place on implementations must still be clearly defined,
-which generally requires specifying some algorithms (or, sometimes, another layer of formal syntax) that define what the formal syntax means,
-and then using the more-readable formal syntax to avoid
-excessive repetition of the less-readable algorithms.
-There are also possibilities in-between, for example,
-if it is desirable to ensure that an algorithm can be implemented with a state machine,
-it may be preferable to specify it in an algorithmic way that incorporates explicit states
-so that the specification authors avoid accidentally creating more states than intended.
+The most common way to write algorithms
+is to write an explicit sequence of steps.
+This often looks like pseudo-code.
+
+<div class="example">
+The {{HTMLDialogElement/showModal()}} method is described as a numbered sequence of steps
+which clearly explains when to throw exceptions
+and when to run algorithms defined in other parts of the HTML spec.
+</div>
+
+When writing a sequence of steps,
+imagine that it is a piece of functional code.
+
+- Clearly specify the inputs and outputs,
+name the algorithm and the variables it uses well,
+and explicitly note the points in the algorithm where the algorithm may
+return a result or error.
+- As much as possible, avoid writing algorithms which have side effects.
+
+Summarize the purpose of the algorithm before going into detail,
+so that readers can decide whether to read the steps or skip over them.
+For example take the following steps, which ensure that there is at most one pending X
+callback per toplevel browsing context".
+
+Issue: The paragraph below may not be comprehensive enough.
+
+A plain sequence of steps is not always the best way to write an algorithm.
+For example, it might make sense to define
+or re-use a formal syntax or grammar
+to avoid repetition,
+or define specific states to be used in a state machine.
+When using extra constructs like these,
+the earlier advice still applies.
+
+Issue: I don't understand the paragraph below.
 
 When specifying in an algorithmic way,
 it is generally good to match the algorithms that implementations would use,
 even if this is somewhat less convenient for specification authors,
-as long as doing so would not significantly increase the specification's complexity.
-For example, it is better to specify CSS selector matching
+as long as doing so wouldn't significantly increase the specification's complexity.
+For example, it's better to specify CSS selector matching
 by moving right to left across <a>combinators</a>,
 since that is what implementations do.
 This avoids the risk of future problems caused by new features
@@ -2047,23 +2049,9 @@ It also helps to keep the costs of specifying features aligned with implementing
 since the complexity of adding a feature to the specification is more likely to be related
 to the cost of adding it to implementations.
 
-Algorithms in specifications should also reflect best practices in programming.
-For example, they should explicitly describe the inputs and outputs of the algorithm,
-rather than relying on "stack introspection" or handwaving.
-They should also avoid side-effects when possible.
-
-[[!INFRA]] offers
-<a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
-and terminology</a>
-for defining algorithms.
-
-Specifications that define things using step-by-step algorithms should still be readable.
-Partly, this is through good practices that also apply to writing code,
-such as avoiding unneeded extra steps, and by using good naming.
-However, it's often useful to explain the purpose of the algorithm in prose
-(e.g., "take the following steps, which ensure that there is at most one pending X
-callback per toplevel browsing context")
-so that readers can quickly decide whether they need to read the steps in detail.
+See also:
+* <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
+and terminology</a> from [[!INFRA]]
 
 <h4 id="use-flags-for-states">Use explicit flags for state</h4>
 
