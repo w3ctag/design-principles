@@ -1615,15 +1615,19 @@ not as an integer value of a smaller time unit like nanoseconds.
 
 <h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
 
-When representing date-times on the platform, use the {{DOMTimeStamp}} type, with values being the
- number of milliseconds relative to 1970-01-01T00:00:00Z.
+When representing date-times on the platform, use the {{DOMTimeStamp}} type.
+Use {{DOMHighResTimeStamp}} if authors
+must always be able to compare timestamps,
+regardless of the user's time settings.
 
-The JavaScript <code highlight="js">Date</code> class must not be used for this purpose. <code highlight="js">Date</code> objects
-are mutable (and there is no way to make them immutable), which comes with a host of attendant
-problems.
+Don't use the JavaScript <code highlight="js">Date</code> class for representing
+specific date-time values.
+<code highlight="js">Date</code> objects are mutable (may have their value changed),
+and there is no way to make them immutable.
 
 <div class="note">
-    For more background on why <code highlight="js">Date</code> must not be used, see the following:
+    For more background on why <code highlight="js">Date</code> must not be used,
+    see the following:
 
     * <a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on
         es-discuss
@@ -1631,16 +1635,21 @@ problems.
         on the Web IDL Bugzilla
 </div>
 
-While in theory time is monotonically increasing,
-values like {{DOMTimeStamp}} that represent time since 1970 are derived from the system's clock,
-which may sometimes move backwards
-(for example, from NTP or manual adjustment),
-causing the timestamp values to decrease over time.
-They may also remain the same due to the limitation of millisecond resolution.
-Thus, for time stamps that do not need to correspond to an absolute time,
-consider using {{DOMHighResTimeStamp}},
-which provides monotonically non-decreasing sub-millisecond timestamps
-that are comparable within a single <a>browsing context</a> or web worker.
+{{DOMTimeStamp}} values represent
+the number of milliseconds since 1970-01-01T00:00:00Z.
+They are derived from the system's clock,
+which may be changed by the user,
+or automatically for things like time zone updates
+or daylight savings.
+This means that, in practice, a {{DOMTimeStamp}}
+created later in real time
+may have a lower value than a {{DOMTimeStamp}} created earlier.
+Also, if two {{DOMTimeStamp}}s are created within the same millisecond,
+there's no way to know which was created earlier.
+
+So, if a date-time is only used to compare timing of events,
+and not to show a formatted date-time value to the user,
+consider using {{DOMHighResTimeStamp}} instead.
 See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
