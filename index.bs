@@ -313,57 +313,43 @@ See also:
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
-It may save you significant time and effort
-to pre-emptively restrict your feature to Secure Contexts.
+Always limit your feature to secure contexts
+if it would pose a risk to the user
+without the authentication, integrity, or confidentiality
+that's present only in secure contexts.
 
-The TAG is on the record in supporting
-an industry-wide move to [Secure the Web](https://www.w3.org/2001/tag/doc/web-https)
-and applaud [efforts](https://blog.mozilla.org/security/2017/01/20/communicating-the-dangers-of-non-secure-http/)
-to shift web traffic to secure connections.
-A great deal of effort has gone into debating
-which features should be restricted to [Secure Contexts](https://w3c.github.io/webappsec-secure-contexts/).
-Opinions vary amongst engine vendors, leading to difficult choices for feature designers.
-Some vendors require *all* new features be restricted this way,
-whereas others take a more selective approach.
+<div class="example">
+One example of a feature that should be limited to secure contexts
+is [Geolocation](https://www.w3.org/TR/geolocation-API/),
+since it would be a risk to users' privacy to transmit their location in an insecure way.
+</div>
 
-This backdrop makes it difficult to provide
-advice about the extent to which your feature should be restricted.
-What we *can* highlight is that Secure Context-restricted features
-face the least friction in gaining wide adoption amongst these varying regimes.
+For other features, carefully weigh up whether
+<a href="priority-of-constituencies">user needs</a> are best served
+by making the feature available in an insecure context.
 
+<div class="note">
 Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
 <code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes).
-Similar ways of marking features as limited to secure contexts should be added
-to other major points where the Web platform is extended over time
-(for example, the definition of a new CSS property).
-However, for some types of extension points (e.g., dispatching an event),
+However, for some types of API (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
+</div>
 
+<div class="note">
 As described in [[#feature-detect]],
-the existence of features should generally be detectable,
-so that web content can act appropriately if the feature is present or not.
-Since the detection should be the same no matter why the feature is unavailable,
-a feature that is limited to secure contexts should, in non-secure contexts,
-be indistinguishable from a feature that is not implemented.
-However, if, for some reason
-(a reason that itself requires serious justification),
-it is not possible for developers to detect whether a feature is present,
-limiting the feature to secure contexts
-might cause problems
-for libraries that may be used in either secure or non-secure contexts.
+you should provide a way to programmatically detect whether a feature is available,
+including cases where the feature is unavailable because the context isn't secure.
 
-If a feature would pose a risk to user privacy or security
-without the authentication, integrity, or confidentiality
-that is present only in secure contexts,
-then the feature must be limited to secure contexts.
-One example of a feature that should be limited to secure contexts
-is geolocation, since the authentication and confidentiality provided by
-secure contexts reduce the risks to user privacy.
+However, if, for some reason
+there is no way for code to gracefully handle the feature not being present,
+limiting the feature to secure contexts might cause problems
+for code (such as libraries) that may be used in either secure or non-secure contexts.
+</div>
 
 <h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
 
