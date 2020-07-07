@@ -1305,45 +1305,158 @@ It's usually not necessary to create new subclasses of {{Event}}.
 
 <h3 id="events-vs-observers">How to decide between Events and Observers</h3>
 
-Several recent additions to the platform employ an Observer pattern. {{MutationObserver}}, {{IntersectionObserver}}, {{ResizeObserver}}, and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> provide precedents for new Observer types.
+Issue: This gets very into the weeds.
 
-Many designs can be described as either Observers or {{EventTarget}}s. How to decide?
+In general, use {{EventTarget}} and notification {{Event}}s,
+rather than an Observer pattern,
+unless an {{EventTarget}} can't work well for your feature.
 
-In general, start your design process using an {{EventTarget}} and only move to Observers if and when events can't be made to work well. Using an {{EventTarget}} ensures your feature benefits from improvements to the shared base class, such as the recent addition of the {{AddEventListenerOptions/once}}.
+Using an {{EventTarget}} ensures your feature benefits from
+improvements to the shared base class,
+such as the addition of the {{AddEventListenerOptions/once}}.
 
-Observers have the following properties:
+If using events causes problems,
+such as unavoidable [[#guard-against-recursion|recursion]],
+consider using an Observer pattern instead.
 
-* Each instance is constructed with a callback, and optionally with some global options.
-* Instances observe specific targets, using the `observe()` and `unobserve()` methods. The callback provided in the constructor is invoked when something interesting happens to those targets.
-* Callbacks receive change records as arguments. These records contain the details about the interesting thing that happened. Multiple records can be delivered at once.
-* Observation can be customized with additional options passed to `observe()`.
-* `disconnect()` stops observation.
-* `takeRecords()` synchronously returns records for all observed-but-not-yet-delivered occurrences.
-
-<p class="example">
-    {{MutationObserver}} takes a callback which receives {{MutationRecord}}s. It cannot be customized at construction time, but each observation can be customized using the {{MutationObserverInit}} set of options. It observes {{Node}}s as targets.
-</p>
-
-<p class="example">
-    {{IntersectionObserver}} takes a callback which receives {{IntersectionObserverEntry}}s. It can be customized at construction time using the {{IntersectionObserverInit}} set of options, but each observation is not further customizable. It observers {{Element}}s as targets.
-</p>
-
-Observers involve defining a new class, dictionaries for options, and a new type for the delivered records. For the cost, you gain a few advantages:
-
-* Instances can be customized at observation time. The `observe()` method of an `Observer` can take options, allowing per-callback customization. This is not possible with {{EventTarget/addEventListener()}}.
-* Reuse of their creation-time customizations on multiple targets.
-* Easy disconnection from multiple targets via `disconnect()`.
-* Built-in support for synchronously probing system state. Both `Observer`s and {{EventTarget}}s can batch occurrences and deliver them later, but `Observer`s have a `takeRecords()` method which allows synchronously probing waiting until the next batched delivery.
-* Because they are single-purpose, you don't need to specify an event type.
-
-`Observer`s and {{EventTarget}}s overlap in the following ways:
-
-* Both can be customized at creation time.
-* Both can batch occurrences and deliver them at any time. {{EventTarget}}s don't need to be synchronous; they can use microtask timing, idle timing, animation-frame timing, etc. You don't need an `Observer` to get special timing or batching.
-* Neither {{EventTarget}}s nor `Observer`s need participate in a DOM tree (bubbling/capture and cancellation). Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree, but many other events are standalone; e.g. {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}. Even when using {{Node}}s, you can leave your events can be designed to be non-bubbling and non-cancelable to get that `Observer`-esque feel.
+{{MutationObserver}},
+<a href="https://w3c.github.io/IntersectionObserver">Intersection Observer</a>,
+<a href="https://drafts.csswg.org/resize-observer/#resize-observer-interface">Resize Observers</a>,
+and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a>
+are all examples of an Observer pattern.
 
 <div class="example">
-    Here is an example of using a hypothetical version of {{IntersectionObserver}} that is an {{EventTarget}} subclass:
+{{MutationObserver}} replaced the deprecated
+<a href="https://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">DOM Mutation Events</a>
+after developers [noticed](https://lists.w3.org/Archives/Public/public-webapps/2011JulSep/0779.html)
+that DOM Mutation Events
+* fire too often
+* don't benefit from event propagation, which makes them too slow to be useful
+* cause [[#guard-against-recursion|recursion]] which is too difficult to guard against.
+
+Mutation Observers:
+* can batch up mutations to be sent to observers
+  after mutations have finished being applied;
+* don't need to go through event capture and bubbling phases;
+* provide a richer API for expressing what mutations have occurred.
+
+Note: Events can also batch up notifications,
+but DOM Mutation Events were not designed to do this.
+Events don't always need to participate in event propagation,
+but events on DOM Nodes usually do.
+</div>
+
+The Observer pattern works like this:
+
+* Each instance of the Observer class
+  is constructed with a callback,
+  and optionally with some options to customize what should be observed.
+* Instances begin observing specific targets,
+  using a method named `observe()`,
+  which takes a reference to the target to be observed.
+  The options to customize what should be observed
+  may be provided here instead of to the constructor.
+  The callback provided in the constructor is invoked
+  when something interesting happens to those targets.
+* Callbacks receive *change records* as arguments.
+  These records contain the details
+  about the interesting thing that happened.
+  Multiple records can be delivered at once.
+* The author may stop observing by calling a method called
+  `unobserve()` or `disconnect()` on the Observer instance.
+* Optionally, a method may be provided to immediately return records
+  for all observed-but-not-yet-delivered occurrences.
+
+<div class="example">
+    <a href="https://w3c.github.io/IntersectionObserver">`IntersectionObserver`</a>
+    may be used like this:
+
+    <pre highlight="js">
+function checkElementStillVisible(element, observer) {
+    delete element.visibleTimeout;
+
+    // Process any observations which may still be on the task queue
+    processChanges(observer.takeRecords());
+
+    if ('isVisible' in element) {
+        delete element.isVisible;
+        logAdImpressionToServer();
+
+        // Stop observing this element
+        observer.unobserve(element);
+    }
+}
+
+function processChanges(changes) {
+    changes.forEach(function(changeRecord) {
+        var element = changeRecord.target;
+        element.isVisible = isVisible(changeRecord.boundingClientRect,
+                                      changeRecord.intersectionRect);
+        if ('isVisible' in element) {
+            // Element became visible
+            element.visibleTimeout = setTimeout(() => {
+                checkElementStillVisible(element, observer);
+            }, 1000);
+        } else {
+            // Element became hidden
+            if ('visibleTimeout' in element) {
+                clearTimeout(element.visibleTimeout);
+                delete element.visibleTimeout;
+            }
+        }
+    });
+}
+
+// Create IntersectionObserver with callback and options
+var observer = new IntersectionObserver(processChanges,
+                                        { threshold: [0.5] });
+
+// Begin observing "ad" element
+var ad = document.querySelector('#ad');
+observer.observe(ad);
+</pre>
+
+    (Example code adapted from
+    <a href="https://github.com/w3c/IntersectionObserver/blob/master/explainer.md">the `IntersectionObserver` explainer</a>.)
+</div>
+
+To use the Observer pattern, you need to define:
+1. the new Observer object type,
+2. an object type for observation options, and
+3. an object type for the records to be observed.
+
+The trade-off for this extra work is the following advantages:
+
+* Instances can be customized at observation time, or at creation time.
+  The constructor for an `Observer`,
+  or its `observe()` method,
+  can take options allowing authors to customize what is observered for each callback.
+  This isn't possible with {{EventTarget/addEventListener()}}.
+* It's easy to stop listening on multiple callbacks using the
+  `disconnect()` or `unobserve()` method on the `Observer` object.
+* You have the option to provide a method like `takeRecords()`,
+  which immediately fetches the relevant data,
+  instead of waiting for an event to fire.
+* Because Observers are single-purpose, you don't need to specify an event type.
+
+`Observer`s and {{EventTarget}}s have these things in common:
+
+* Both can be customized at creation time.
+* Both can batch occurrences and deliver them at any time.
+  {{EventTarget}}s don't need to be synchronous;
+  they can use microtask timing, idle timing, animation-frame timing, etc.
+  You don't need an `Observer` to get special timing or batching.
+* Neither {{EventTarget}}s nor `Observer`s need to participate in a DOM tree
+  (bubbling/capture and cancellation).
+  Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree,
+  but many other events are standalone;
+  for example, {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}.
+  Even when using {{Node}}s,
+  your events may be designed to be non-bubbling and non-cancelable.
+
+<div class="example">
+    Here is an example of using a hypothetical version of {{IntersectionObserver}}
+    that's an {{EventTarget}} subclass:
 
     <pre highlight="js">
     const io = new ETIntersectionObserver(element, { root, rootMargin, threshold });
@@ -1358,10 +1471,25 @@ Observers involve defining a new class, dictionaries for options, and a new type
     io.removeEventListener("intersect", listener);
     </pre>
 
-    As you can see, we've lost some functionality compared to the `Observer` version: the ability to easily observe multiple elements with the same options, or the `takeRecords()` and `disconnect()` methods. We're also forced to add the rather-redundant `"intersect"` event type to our subscription calls.
+    Compared to the `Observer` version:
+    * it's more difficult to observe multiple elements with the same options;
+    * there is no way to request data immediately;
+    * it's more work to remove multiple event listeners for the same event;
+    * the author has to provide a redundant `"intersect"` event type.
 
-    However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
+    In common with the `Observer` version:
+    * it can still do batching;
+    * it has the same timing (based on the JavaScript event queue);
+    * authors can still customize what to listen for; and
+    * events don't go through capture or bubbling.
+
+    These aspects can be achieved with either design.
 </div>
+
+See also:
+
+* [[#events-are-for-notification]]
+* [[#state-and-subclassing]]
 
 <h2 id="types-and-units">Types and Units</h2>
 
