@@ -699,43 +699,49 @@ and browser's online status changes,
 the property won't be updated until the next task.
 </div>
 
+<h3 id="js-gc">Don't expose garbage collection</h3>
 
-<h3 id="js-gc">Do not expose garbage collection</h3>
+Ensure your JavaScript Web APIs don't behave differently
+depending on the timing of garbage collection.
 
-Web APIs should not expose a way for author code to deduce when/if garbage collection of JavaScript
-objects has run.
+The timing of garbage collection is different in different user agents,
+and may change over time as user agents work on improving performance.
+If an API exposes the timing of garbage collection,
+it can cause programs to behave differently
+in different contexts.
+This means that authors need to write extra code to handle these differences.
+It may also make it more difficult for user agents
+to implement different garbage collection strategies,
+if there is enough code which depends on timing working a particular way.
 
-Although some APIs may expose garbage collection, such as some implementations of
-{{Document/getElementsByTagName}}, and the JavaScript <a
-href="https://github.com/tc39/proposal-weakrefs">WeakRefs proposal</a> (which has multiple
-implementer support), API designers are strongly encouraged to avoid points in their own APIs that
-depend on this timing.
+This means that you shouldn't expose any API that acts as a weak reference,
+e.g. with a property that becomes <code highlight="js">null</code>
+once garbage collection runs.
+Object and data lifetimes in JavaScript code should be predictable.
 
-The reason for this is somewhat subtle. The more that Web API semantics are affected by garbage
-collection timing (or whether objects are collected at all), the more programs will be affected by
-changes in this timing. But user agents differ significantly in both the timing of garbage
-collection and whether certain objects are collected at all, which means the resulting code will be
-non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this
-kind of scenario could force other user agents to copy the garbage collection timing of the
-original in order to create interoperability. This would cause current garbage collection
-strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript
-virtual machine technology.
+<div class="example">
+{{Document/getElementsByTagName}} returns an {{HTMLCollection}} object,
+which may be re-used if the method is called twice on the same Document object,
+with the same tag name.
+In practice,
+this means that the same object will be returned
+if and only if it has not been garbage collected.
+This means that the behaviour is different depending on
+the timing of garbage collection.
 
-In particular, this means that you shouldn't expose any API that acts as a weak reference, e.g. with a
-property that becomes <code highlight="js">null</code> once garbage collection runs. Such freeing of
-memory should be entirely deterministic.
+If {{Document/getElementsByTagName}} were designed today,
+the advice to the designers would be
+to either reliably reuse the output,
+or to produce a new {{HTMLCollection}} each time it's invoked.
+</div>
 
-For example, currently, {{Document/getElementsByTagName}} permits reusing the {{HTMLCollection}}
-which it creates, when it's called with the same receiver and tag name. In practice, engines reuse
-the output if it has not been garbage collected. This creates behavior which differs based on the
-details of garbage collection, which is strongly discouraged. If {{Document/getElementsByTagName}}
-were designed today, the advice to the specification authors would be to either reliably reuse
-the output, or to produce a new {{HTMLCollection}} each time it's invoked.
-
-The case of {{Document/getElementsByTagName}} is particularly insidious because nothing about
-the API visibly relates to garbage collection details. By contrast, special APIs for this particular
-purpose such as `WeakRef` and `FinalizationGroup` have their GC interaction as a specific part of
-their contract with the developer.
+{{Document/getElementsByTagName}} gives no sign that
+it may depend on the timing of garbage collection.
+In contrast, APIs which are explicitly designed
+to depend on garbage collection,
+like `WeakRef` or `FinalizationGroup`,
+set accurate author expectations about
+the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
