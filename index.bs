@@ -257,216 +257,13 @@ See also:
 
 * [[LEAST-POWER]]
 
-<h3 id="naming-is-hard">Naming things</h3>
+<h3 id="name-thoughtfully">Name things thoughtfully</h3>
 
-Names take meaning from:
+Name APIs with care.
+Naming APIs well makes it much easier for authors to use them correctly.
 
-* signposting (the name itself)
-* use (how people come to understand the name over time)
-* context (the object on the left-hand side, for example)
-
-<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
-
-API naming *must* be done in easily readable US English.
-Keep in mind that most web developers are not native English speakers.
-Whenever possible, names should be chosen that use common vocabulary
-non-native English speakers are likely to understand when first encountering the name.
-
-<div class="example">
-
-For example `horizontalAlignment` is
-a more English-readable name
-than `alignmentHorizontal`.
-
-</div>
-
-Value readability over brevity,
-though always keep in mind that sometimes
-the shorter name is the clearer one.
-For instance,
-it may be appropriate to use technical language or well-known terms of art
-in the specification where the API is defined.
-
-<div class="example">
-
-For example,
-the Fetch API's {{Body}} mixin's {{Body/json()}} method
-is named for the kind of object it returns.
-JSON is a well-known term of art
-among web developers likely to use the Fetch API.
-It would harm comprehension
-to name this API less directly connected to its return type. [[FETCH]]
-
-</div>
-
-<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
-
-Names must adhere to the local language restrictions, for example CSS ident rules etc.
-and *should* be in the [=ascii code point|ASCII range=].
-
-<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
-
-Please consult widely on names in your APIs.
-You may find good names or inspiration in surprising places.
-What are similar APIs named on other platforms,
-or in popular libraries in various programming languages?
-Ask end users and developers what they call
-things that your API works with or manipulates.
-Look at other web platform specifications,
-and seek advice from others working in related areas of the platform.
-
-Pay particular attention to advice you receive
-with clearly-stated rationale based on underlying principles.
-
-<div class="example">
-
-Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
-how to name the various pieces of a URL.
-The editors of the [URL spec](https://url.spec.whatwg.org)
-have relied on this research
-when editing that document. [[URL]]
-
-</div>
-
-<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
-
-Naming should be generic and future-proof whenever possible.
-
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
-
-<div class="example">
-
-The Remote Playback API was not named
-after one of the pre-existing, proprietary systems it was inspired by
-(such as Chromecast or AirPlay).
-Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
-
-</div>
-
-<div class="example">
-
-The `keydown` and `keyup` {{KeyboardEvent}}s were not named
-for the specific hardware bus that keyboards used at the time.
-Instead, generic names were chosen
-that are as applicable to today's Bluetooth and USB keyboards
-as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
-
-</div>
-
-<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
-Naming schemes should aim for consistency, to avoid confusion.
-
-Sets of related names should agree with each other in:
-  * part of speech  - noun, verb, etc.
-  * negation, for example all of the names in a set should either describe what is allowed
-    or they should all describe what is denied
-
-<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
-  boolean-returning methods</h5>
-
-Boolean properties, options, or API parameters which are asking a question about
-their argument *should not* be prefixed with <code>is</code>, while methods
-that serve the same purpose, given that it has no side effects, *should* be
-prefixed with <code>is</code> to be consistent with the rest of the platform.
-
-<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
-
-Although they haven't always been uniformly followed, through the history of web platform API
-design, the following rules have emerged:
-
-<table class="data complex">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Casing rule</th>
-            <th>Examples</th>
-        </tr>
-    </thead>
-    <tr>
-        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
-        <td>Camel case</td>
-        <td><code highlight="js">document.createAttribute()</code><br>
-            <code highlight="js">document.compatMode</code></td>
-    </tr>
-    <tr>
-        <th>Classes and mixins<br>(Web IDL interfaces)</th>
-        <td>Pascal case</td>
-        <td><code highlight="js">NamedNodeMap</code><br>
-            <code highlight="js">NonElementParentNode</code></td>
-    </tr>
-    <tr>
-        <th>Initialisms in APIs</th>
-        <td>All caps, except when the first word in a method or property</td>
-        <td><code highlight="js">HTMLCollection</code><br>
-            <code highlight="js">element.innerHTML</code><br>
-            <code highlight="js">document.bgColor</code></td>
-    </tr>
-    <tr>
-        <th>Repeated initialisms in APIs</th>
-        <td>Follow the same rule</td>
-        <td><code highlight="js">HTMLHRElement</code><br>
-            <code highlight="js">RTCDTMFSender</code><br>
-    </tr>
-    <tr>
-        <th>The abbreviation of "identity"</th>
-        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
-        <td><code highlight="js">node.getElementById()</code><br>
-            <code highlight="js">event.pointerId</code><br>
-            <code highlight="js">credential.id</code></td>
-    </tr>
-    <tr>
-        <th>Enumeration values</th>
-        <td>Lowercase, dash-delimited</td>
-        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
-    </tr>
-    <tr>
-        <th>Events</th>
-        <td>Lowercase, concatenated</td>
-        <td><code>autocompleteerror</code><br>
-            <code>languagechange</code></td>
-    </tr>
-    <tr>
-        <th>HTML elements and attributes</th>
-        <td>Lowercase, concatenated</td>
-        <td><code highlight="html">&lt;figcaption&gt;</code><br>
-            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
-    </tr>
-    <tr>
-        <th>JSON keys</th>
-        <td>Lowercase, underscore-delimited</td>
-        <td><code highlight="js">manifest.short_name</code></td>
-    </tr>
-</table>
-
-<div class="non-normative">
-Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
-and property's casings will not necessarily match. For example, the HTML attribute
-<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
-{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
-
-The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
-or stored on disk, and don't apply to the general notion of JavaScript object keys.
-
-Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are {{XMLHttpRequest}} and
-{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
-initialisms, even if they are repeated.
-</div>
-
-<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
-
-Where possible, mark features that weaken
-the guarantees provided to developers
-by making their names start with "unsafe" so that this is more noticeable.
-
-For example,
-[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
-provides protection against certain types of content injection vulnerabilities.
-CSP also provides features that weaken this guarantee,
-such as the `unsafe-inline` keyword,
-which reduces CSP's own protections by allowing inline scripts.
+See the more detailed <a href="#naming-is-hard">Naming principles</a> section
+for specific guidance on naming.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
@@ -2182,6 +1979,217 @@ whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
+
+<h3 id="naming-is-hard">Naming things</h3>
+
+Names take meaning from:
+
+* signposting (the name itself)
+* use (how people come to understand the name over time)
+* context (the object on the left-hand side, for example)
+
+<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
+
+API naming *must* be done in easily readable US English.
+Keep in mind that most web developers are not native English speakers.
+Whenever possible, names should be chosen that use common vocabulary
+non-native English speakers are likely to understand when first encountering the name.
+
+<div class="example">
+
+For example `horizontalAlignment` is
+a more English-readable name
+than `alignmentHorizontal`.
+
+</div>
+
+Value readability over brevity,
+though always keep in mind that sometimes
+the shorter name is the clearer one.
+For instance,
+it may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined.
+
+<div class="example">
+
+For example,
+the Fetch API's {{Body}} mixin's {{Body/json()}} method
+is named for the kind of object it returns.
+JSON is a well-known term of art
+among web developers likely to use the Fetch API.
+It would harm comprehension
+to name this API less directly connected to its return type. [[FETCH]]
+
+</div>
+
+<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
+
+Names must adhere to the local language restrictions, for example CSS ident rules etc.
+and *should* be in the [=ascii code point|ASCII range=].
+
+<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
+
+Please consult widely on names in your APIs.
+You may find good names or inspiration in surprising places.
+What are similar APIs named on other platforms,
+or in popular libraries in various programming languages?
+Ask end users and developers what they call
+things that your API works with or manipulates.
+Look at other web platform specifications,
+and seek advice from others working in related areas of the platform.
+
+Pay particular attention to advice you receive
+with clearly-stated rationale based on underlying principles.
+
+<div class="example">
+
+Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
+how to name the various pieces of a URL.
+The editors of the [URL spec](https://url.spec.whatwg.org)
+have relied on this research
+when editing that document. [[URL]]
+
+</div>
+
+<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
+
+Naming should be generic and future-proof whenever possible.
+
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.
+
+<div class="example">
+
+The Remote Playback API was not named
+after one of the pre-existing, proprietary systems it was inspired by
+(such as Chromecast or AirPlay).
+Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
+
+</div>
+
+<div class="example">
+
+The `keydown` and `keyup` {{KeyboardEvent}}s were not named
+for the specific hardware bus that keyboards used at the time.
+Instead, generic names were chosen
+that are as applicable to today's Bluetooth and USB keyboards
+as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
+
+</div>
+
+<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
+Naming schemes should aim for consistency, to avoid confusion.
+
+Sets of related names should agree with each other in:
+  * part of speech  - noun, verb, etc.
+  * negation, for example all of the names in a set should either describe what is allowed
+    or they should all describe what is denied
+
+<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
+  boolean-returning methods</h5>
+
+Boolean properties, options, or API parameters which are asking a question about
+their argument *should not* be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, *should* be
+prefixed with <code>is</code> to be consistent with the rest of the platform.
+
+<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+
+Although they haven't always been uniformly followed, through the history of web platform API
+design, the following rules have emerged:
+
+<table class="data complex">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Casing rule</th>
+            <th>Examples</th>
+        </tr>
+    </thead>
+    <tr>
+        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
+        <td>Camel case</td>
+        <td><code highlight="js">document.createAttribute()</code><br>
+            <code highlight="js">document.compatMode</code></td>
+    </tr>
+    <tr>
+        <th>Classes and mixins<br>(Web IDL interfaces)</th>
+        <td>Pascal case</td>
+        <td><code highlight="js">NamedNodeMap</code><br>
+            <code highlight="js">NonElementParentNode</code></td>
+    </tr>
+    <tr>
+        <th>Initialisms in APIs</th>
+        <td>All caps, except when the first word in a method or property</td>
+        <td><code highlight="js">HTMLCollection</code><br>
+            <code highlight="js">element.innerHTML</code><br>
+            <code highlight="js">document.bgColor</code></td>
+    </tr>
+    <tr>
+        <th>Repeated initialisms in APIs</th>
+        <td>Follow the same rule</td>
+        <td><code highlight="js">HTMLHRElement</code><br>
+            <code highlight="js">RTCDTMFSender</code><br>
+    </tr>
+    <tr>
+        <th>The abbreviation of "identity"</th>
+        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
+        <td><code highlight="js">node.getElementById()</code><br>
+            <code highlight="js">event.pointerId</code><br>
+            <code highlight="js">credential.id</code></td>
+    </tr>
+    <tr>
+        <th>Enumeration values</th>
+        <td>Lowercase, dash-delimited</td>
+        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
+    </tr>
+    <tr>
+        <th>Events</th>
+        <td>Lowercase, concatenated</td>
+        <td><code>autocompleteerror</code><br>
+            <code>languagechange</code></td>
+    </tr>
+    <tr>
+        <th>HTML elements and attributes</th>
+        <td>Lowercase, concatenated</td>
+        <td><code highlight="html">&lt;figcaption&gt;</code><br>
+            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
+    </tr>
+    <tr>
+        <th>JSON keys</th>
+        <td>Lowercase, underscore-delimited</td>
+        <td><code highlight="js">manifest.short_name</code></td>
+    </tr>
+</table>
+
+<div class="non-normative">
+Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
+and property's casings will not necessarily match. For example, the HTML attribute
+<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
+{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
+
+The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
+or stored on disk, and don't apply to the general notion of JavaScript object keys.
+
+Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
+examples that violate the above rules are {{XMLHttpRequest}} and
+{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
+initialisms, even if they are repeated.
+</div>
+
+<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
+
+Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.
+
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
 
 <h3 id="writing-resources">Other resources</h3>
 
