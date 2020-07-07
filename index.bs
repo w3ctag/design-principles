@@ -2163,7 +2163,9 @@ and terminology</a> from [[!INFRA]]
 
 <h4 id="use-flags-for-states">Use explicit flags for state</h4>
 
-Describing state using explicit flags makes behavior clearer.
+Instead of describing state in prose,
+use explicit flags for state when writing algorithms.
+
 Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
