@@ -926,24 +926,33 @@ this is a historical artifact only.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the
-JavaScript code that developers write. As such, it's important to respect the invariants that are
-in play in normal JavaScript code. One of the most important of these is <em>run-to-completion
-semantics</em>: wherein each turn of the JavaScript event loop is processed completely before
-returning control to the user agent.
+Don't modify data accessed from JavaScript APIs
+while a JavaScript <a>event loop</a> is running.
 
-In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus
-that any data observed within the function will stay constant as long as that function is active.
-This is not the case in other languages, which allow data races via multithreading or other
-techniques—a C function can be preempted at any time, with the bindings it has access to changing
-values from one line to the next.
+A JavaScript Web API is generally a wrapper around
+a feature implemented in a lower-level language,
+such as C++ or Rust.
+Unlike those languages,
+JavaScript guarantees that once a piece of code begins executing,
+it will continue executing until it has completed.
 
-This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the
-invariant must never be violated—even by web APIs, which are often implemented in languages that
-<em>do</em> allow data races. Although the user agent may be using threads or other techniques to
-modify state <a>in parallel</a>, web APIs must never expose such changing state directly to
-developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an
-object property).
+Because of that, JavaScript authors take for granted
+that the data available to a function won’t change
+(unless that function changes that data itself).
+
+So if a JavaScript Web API exposes some piece of data,
+such as an object property,
+the user agent must not update that data
+while a JavaScript task is running.
+Instead, if the underlying data changes,
+<a>queue a task</a> to modify the exposed version of the data.
+
+<div class="example">
+If a JavaScript task is has accessed the {{navigator.onLine}} property,
+and browser's online status changes,
+the property won't be updated until the next task.
+</div>
+
 
 <h3 id="js-gc">Do not expose garbage collection</h3>
 
