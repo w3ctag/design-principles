@@ -1126,23 +1126,19 @@ you can still use an {{AbortController}},
 because a call to {{AbortController/abort()}} on `AbortController`
 is a request, rather than a guarantee.
 
-<h3 id="string-constants">Constants, enums, and bitmasks</h3>
+<h3 id="string-constants">Use strings for constants and enums</h3>
 
-In many other platforms and programming languages, constants and enums are
-commonly expressed using a integer constant, sometimes in conjunction with
-a bitmask mechanism.
+If your API needs a constant, or a set of enumerated values,
+use string values.
 
-However on the Web platform, it is more common to use a string constant for
-the cases where a constant is needed. This is much more inspection friendly
-for both development and expressing the constant codes through a user facing
-interface, and in JavaScript engines, using integers offers no significant
-performance benefit over strings.
+Strings are easier for developers to inspect,
+and in JavaScript engines there is no performance benefit
+from using integers instead of strings.
 
-Strings do not directly address the use case for bitmasks. For these cases,
-you should use an object dictionary which contains the state that the
-bitmask is attempting to express, as object dictionaries can then be passed
-around from method to method as needed as easily as the state in a single
-bitmask value.
+If you need to express a state which is a combination of properties,
+which might be expressed as a bitmask in another language,
+use a dictionary object instead.
+This object can be passed around as easily as a single bitmask value.
 
 <h2 id="event-design">Event Design</h2>
 
