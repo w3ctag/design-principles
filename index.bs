@@ -1736,19 +1736,22 @@ whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">OS and Device Wrapper APIs</h2>
 
-It is increasingly common to see new APIs developed in the web platform for interacting with
-devices. For example, authors wish to be able to use the web to connect with their
+New APIs are now being developed in the web platform for interacting with devices.
+For example, authors wish to be able to use the web to connect with their
 <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>,
 <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
 accelerometer),
 <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
-<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc.
+<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, etc.
 
-These can be functionality provided by the underlying operating system, or provided by a native
-third-party library to interact with a device. These are an abstraction which "wrap" the
-native functionality without introducing significant complexity while securing the API surface
-to the browser, hence are called wrapper APIs.
+These can be functionality provided by the underlying operating system,
+or provided by a native third-party library
+to interact with a device.
+These are an abstraction which "wrap" the native functionality
+without introducing significant complexity,
+while securing the API surface to the browser.
+So, these are called wrapper APIs.
 
 This section contains principles for consideration when designing APIs for devices.
 
