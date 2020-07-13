@@ -207,8 +207,7 @@ no location information is available to the Web page.
 
 As much as possible,
 ensure that features on the web work across different input and output devices,
-different screen sizes, different interaction modes,
-different platforms, and different media.
+screen sizes, interaction modes, platforms, and  media.
 
 One of the main values of the Web is that it's extremely flexible:
 a Web page may be viewed on virtually any consumer computing device
