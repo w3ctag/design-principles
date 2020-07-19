@@ -116,7 +116,7 @@ they can make informed decisions
 between Web-based technologies and other technologies.
 For example, users may choose to use a web-based food ordering page,
 rather than installing an app,
-since installing an app is riskier than visiting a web page.
+since installing a native app is riskier than visiting a web page.
 
 To work towards making sure the reality of safety on the web matches users' expectations,
 we can take complementary approaches when adding new features:
@@ -131,7 +131,7 @@ we can take complementary approaches when adding new features:
 
 A new feature which introduces safety risks may still improve user safety overall,
 if it allows users to perform a task more safely on a web page
-than it would be for them to install an app to do the same thing.
+than it would be for them to install a native app to do the same thing.
 However, this benefit needs to be weighed against the common goal
 of users having a reasonable expectation of safety on web pages.
 
