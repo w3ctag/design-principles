@@ -267,23 +267,27 @@ for specific guidance on naming.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
-If appropriate, provide a way for authors to programmatically detect
+Provide a way for authors to programmatically detect
 whether your feature is available,
 so that web content may gracefully handle the feature not being present.
 
-An existing feature may not be available on a page for a number of reasons, including
-- because it has not been implemented yet, or
-- because it's only available in <a href="#secure-context">secure contexts</a>, or
-- because the user denied the page permission to use the feature.
+An existing feature may not be available on a page for a number of reasons.
+Two of the more common reasons are
+because it hasn't been implemented yet, or
+because it's only available in <a href="#secure-context">secure contexts</a>.
 
-Authors should need to write different code to handle each scenario,
-and should not be able to deduce which cases applied.
+Authors shouldn't need to write different code to handle each scenario,
+and shouldn't be able to know which cases applied.
 
 <p class="note">
 When a feature is available but isn't feasible to use
 because a required device isn't present,
-it may be better to expose that the feature is available
+it's better to expose that the feature is available
 and have a separate way to detect that the device isn't.
+This allows authors to handle a device not being available differently
+from the feature not being available,
+for example by suggesting the user connect or enable the device.
+
 See [[#device-enumeration]].
 </p>
 
@@ -319,9 +323,18 @@ is [Geolocation](https://www.w3.org/TR/geolocation-API/),
 since it would be a risk to users' privacy to transmit their location in an insecure way.
 </div>
 
-For other features, carefully weigh up whether
-<a href="priority-of-constituencies">user needs</a> are best served
-by making the feature available in an insecure context.
+For other features, TAG members past and present
+haven't reached consensus on general advice.
+Some believe that all new features
+(other than features which are additions to existing features)
+should be limited to secure contexts.
+This would help encourage the use of HTTPS,
+helping users be more secure in general.
+
+Others believe that features should only be limited to secure contexts
+if they have a known security or privacy impact.
+This lowers the barrier to entry for creating web pages
+that take advantage of new features which don't impact user security or privacy.
 
 <div class="note">
 Specification authors can limit most features defined in
@@ -330,9 +343,14 @@ to secure contexts
 by using the
 <code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes).
+
 However, for some types of API (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
+If this is the case,
+consider whether there might be scope for adding a similar mechanism
+to <code>[SecureContext]</code>
+to make this process easier for future API developers.
 </div>
 
 <div class="note">
@@ -355,7 +373,7 @@ for their own <a href="#safe-to-browse">safety</a>.
 Because of this, the fact that someone is using private browsing mode
 may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
 This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
-if it is revealed to a web site contolled by others who have power over them
+if it is revealed to a web site controlled by others who have power over them
 (such as employers, parents, partners,
 or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
 
@@ -395,7 +413,7 @@ If necessary, specify how your API should behave differently
 in private browsing mode.
 
 For example, if your API would reveal information
-that would allow someone to correlation
+that would allow someone to correlate
 a single user’s activity
 both in and out of private browsing mode,
 consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations)
@@ -429,6 +447,7 @@ at the other session's [window object](https://html.spec.whatwg.org/multipage/wi
 
 See also:
 
+* [[#do-not-expose-use-of-private-browsing-mode]]
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
 * [Security and privacy self review: Private Browsing](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing)
 
