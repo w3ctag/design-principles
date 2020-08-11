@@ -1736,7 +1736,6 @@ See [[!HIGHRES-TIME]] for more details.
 Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
 
-Issue: a negative example of one of the "older APIs" would be helpful.
 
 Some older APIs used {{DOMError}} when objects had a property representing an error.
 This is no longer recommended.
