@@ -1897,7 +1897,6 @@ they may need to for web compatibility reasons.
 <h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
 
-Issue: Needs (specific) examples.
 
 When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.
