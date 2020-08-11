@@ -1757,7 +1757,6 @@ This section contains principles for consideration when designing APIs for devic
 
 <h3 id="device-ids">Use care when exposing identifying information about devices</h3>
 
-Issue: This gets very into the weeds.
 
 If you need to give web sites access to information about a device,
 use the guidelines below to decide what information to expose.
