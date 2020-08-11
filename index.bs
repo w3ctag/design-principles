@@ -1815,7 +1815,7 @@ use these guidelines when exposing device information:
     for use in a later session.
     You can do this by making sure that
     the procedure to generate the id
-    deterministcially produces the same id
+    consistently produces the same id
     for the same device,
     for each origin.
 
