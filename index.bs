@@ -912,7 +912,7 @@ the {{CustomElementRegistry.define()}} method takes a reference to
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
 This takes advantage of the relatively recent addition of Classes to JavaScript,
-and fact that function references are very easy to use in JavaScript.
+and the fact that function references are very easy to use in JavaScript.
 </div>
 
 <div class="note">
