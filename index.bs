@@ -1935,7 +1935,7 @@ make sure the new web APIs are designed with web platform principles in mind.
     for any reason.
 
  : Avoid additional fingerprinting surfaces
- :: Wrapper APIs can expose unintentionally expose the user to
+ :: Wrapper APIs can unintentionally expose the user to
     a wider fingerprinting surface.
     Please read the TAG's finding on
     <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
