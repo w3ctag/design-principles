@@ -1896,7 +1896,6 @@ they may need to for web compatibility reasons.
 
 <h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
-Issue: Many of these seem like they could be first-class principles.
 
 Issue: Needs (specific) examples.
 
