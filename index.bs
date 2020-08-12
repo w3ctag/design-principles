@@ -911,17 +911,18 @@ For example,
 the {{CustomElementRegistry.define()}} method takes a reference to
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
-This takes advantage of the relatively recent addition of Classes to JavaScript,
+This takes advantage of the relatively recent addition of classes to JavaScript,
 and the fact that function references are very easy to use in JavaScript.
 </div>
 
 <div class="note">
-JavaScript is also known as [[!ECMASCRIPT]]
+JavaScript is standardized under the name [[!ECMASCRIPT]].
 </div>
 
 <div class="note">
-[[WEBIDL]] defines a separate "ECMAScript binding" section;
-this is a historical artifact only.
+[[WEBIDL]] defines a separate "ECMAScript binding" section,
+but this doesn't imply that Web IDL is intended
+to have bindings in other programming languages.
 </div>
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
@@ -937,8 +938,8 @@ JavaScript guarantees that once a piece of code begins executing,
 it will continue executing until it has completed.
 
 Because of that, JavaScript authors take for granted
-that the data available to a function won’t change
-(unless that function changes that data itself).
+that the data available to a function won’t change unexpectedly
+while the function is running.
 
 So if a JavaScript Web API exposes some piece of data,
 such as an object property,
@@ -948,9 +949,9 @@ Instead, if the underlying data changes,
 <a>queue a task</a> to modify the exposed version of the data.
 
 <div class="example">
-If a JavaScript task is has accessed the {{navigator.onLine}} property,
+If a JavaScript task has accessed the {{navigator.onLine}} property,
 and browser's online status changes,
-the property won't be updated until the next task.
+the property won't be updated until the next task runs.
 </div>
 
 <h3 id="js-gc">Don't expose garbage collection</h3>
