@@ -1226,10 +1226,8 @@ Moreover, it reduces the amount of infrastructural setup overhead needed for the
 
 The general rule of thumb for an API that should be synchronous is the following:
 
-  * The API call is not expected to be gated behind a permission.
+  * The API at not point is expected to be gated behind a permission.
   * The execution time is short and deterministic.
-
-No API call is completely fail-proof; the expectation above is for the general case.
 
 
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
