@@ -277,7 +277,10 @@ An existing feature may not be available on a page for a number of reasons.
 Two of the more common reasons are
 because it hasn't been implemented yet, or
 because it's only available in <a href="#secure-context">secure contexts</a>.
+
 Authors shouldn't need to write different code to handle each scenario.
+That way, even if an author only knows or cares about one scenario,
+the code will handle all of them.
 
 <p class="note">
 When a feature is available but isn't feasible to use
