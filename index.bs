@@ -244,344 +244,164 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="simplicity">Prefer simple solutions</h3>
 <!-- was "Avoid Needless Complexity" in the HTML Design Principles -->
 
+Look hard for simple solutions to the
+<a href="#priority-of-constituencies">user needs</a>
+you intend to address.
+
 Simple solutions are generally better than complex solutions,
 although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
-and easier for authors to understand. See related [[LEAST-POWER]]
+and easier for authors to understand.
 
-<h3 id="naming-is-hard">Naming things</h3>
+Make sure that your <a href="#priority-of-constituencies">user needs</a>
+are well-defined.
+This allows you to avoid scope creep,
+and make sure that your API does actually meet the needs of all users.
 
-Names take meaning from:
+See also:
 
-* signposting (the name itself)
-* use (how people come to understand the name over time)
-* context (the object on the left-hand side, for example)
+* [[LEAST-POWER]]
 
-<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
+<h3 id="name-thoughtfully">Name things thoughtfully</h3>
 
-API naming *must* be done in easily readable US English.
-Keep in mind that most web developers are not native English speakers.
-Whenever possible, names should be chosen that use common vocabulary
-non-native English speakers are likely to understand when first encountering the name.
+Name APIs with care.
+Naming APIs well makes it much easier for authors to use them correctly.
 
-<div class="example">
-
-For example `horizontalAlignment` is
-a more English-readable name
-than `alignmentHorizontal`.
-
-</div>
-
-Value readability over brevity,
-though always keep in mind that sometimes
-the shorter name is the clearer one.
-For instance,
-it may be appropriate to use technical language or well-known terms of art
-in the specification where the API is defined.
-
-<div class="example">
-
-For example,
-the Fetch API's {{Body}} mixin's {{Body/json()}} method
-is named for the kind of object it returns.
-JSON is a well-known term of art
-among web developers likely to use the Fetch API.
-It would harm comprehension
-to name this API less directly connected to its return type. [[FETCH]]
-
-</div>
-
-<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
-
-Names must adhere to the local language restrictions, for example CSS ident rules etc.
-and *should* be in the [=ascii code point|ASCII range=].
-
-<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
-
-Please consult widely on names in your APIs.
-You may find good names or inspiration in surprising places.
-What are similar APIs named on other platforms,
-or in popular libraries in various programming languages?
-Ask end users and developers what they call
-things that your API works with or manipulates.
-Look at other web platform specifications,
-and seek advice from others working in related areas of the platform.
-
-Pay particular attention to advice you receive
-with clearly-stated rationale based on underlying principles.
-
-<div class="example">
-
-Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
-how to name the various pieces of a URL.
-The editors of the [URL spec](https://url.spec.whatwg.org)
-have relied on this research
-when editing that document. [[URL]]
-
-</div>
-
-<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
-
-Naming should be generic and future-proof whenever possible.
-
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
-
-<div class="example">
-
-The Remote Playback API was not named
-after one of the pre-existing, proprietary systems it was inspired by
-(such as Chromecast or AirPlay).
-Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
-
-</div>
-
-<div class="example">
-
-The `keydown` and `keyup` {{KeyboardEvent}}s were not named
-for the specific hardware bus that keyboards used at the time.
-Instead, generic names were chosen
-that are as applicable to today's Bluetooth and USB keyboards
-as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
-
-</div>
-
-<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
-Naming schemes should aim for consistency, to avoid confusion.
-
-Sets of related names should agree with each other in:
-  * part of speech  - noun, verb, etc.
-  * negation, for example all of the names in a set should either describe what is allowed
-    or they should all describe what is denied
-
-<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
-  boolean-returning methods</h5>
-
-Boolean properties, options, or API parameters which are asking a question about
-their argument *should not* be prefixed with <code>is</code>, while methods
-that serve the same purpose, given that it has no side effects, *should* be
-prefixed with <code>is</code> to be consistent with the rest of the platform.
-
-<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
-
-Although they haven't always been uniformly followed, through the history of web platform API
-design, the following rules have emerged:
-
-<table class="data complex">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Casing rule</th>
-            <th>Examples</th>
-        </tr>
-    </thead>
-    <tr>
-        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
-        <td>Camel case</td>
-        <td><code highlight="js">document.createAttribute()</code><br>
-            <code highlight="js">document.compatMode</code></td>
-    </tr>
-    <tr>
-        <th>Classes and mixins<br>(Web IDL interfaces)</th>
-        <td>Pascal case</td>
-        <td><code highlight="js">NamedNodeMap</code><br>
-            <code highlight="js">NonElementParentNode</code></td>
-    </tr>
-    <tr>
-        <th>Initialisms in APIs</th>
-        <td>All caps, except when the first word in a method or property</td>
-        <td><code highlight="js">HTMLCollection</code><br>
-            <code highlight="js">element.innerHTML</code><br>
-            <code highlight="js">document.bgColor</code></td>
-    </tr>
-    <tr>
-        <th>Repeated initialisms in APIs</th>
-        <td>Follow the same rule</td>
-        <td><code highlight="js">HTMLHRElement</code><br>
-            <code highlight="js">RTCDTMFSender</code><br>
-    </tr>
-    <tr>
-        <th>The abbreviation of "identity"</th>
-        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
-        <td><code highlight="js">node.getElementById()</code><br>
-            <code highlight="js">event.pointerId</code><br>
-            <code highlight="js">credential.id</code></td>
-    </tr>
-    <tr>
-        <th>Enumeration values</th>
-        <td>Lowercase, dash-delimited</td>
-        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
-    </tr>
-    <tr>
-        <th>Events</th>
-        <td>Lowercase, concatenated</td>
-        <td><code>autocompleteerror</code><br>
-            <code>languagechange</code></td>
-    </tr>
-    <tr>
-        <th>HTML elements and attributes</th>
-        <td>Lowercase, concatenated</td>
-        <td><code highlight="html">&lt;figcaption&gt;</code><br>
-            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
-    </tr>
-    <tr>
-        <th>JSON keys</th>
-        <td>Lowercase, underscore-delimited</td>
-        <td><code highlight="js">manifest.short_name</code></td>
-    </tr>
-</table>
-
-<div class="non-normative">
-Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
-and property's casings will not necessarily match. For example, the HTML attribute
-<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
-{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
-
-The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
-or stored on disk, and don't apply to the general notion of JavaScript object keys.
-
-Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are {{XMLHttpRequest}} and
-{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
-initialisms, even if they are repeated.
-</div>
-
-<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
-
-Where possible, mark features that weaken
-the guarantees provided to developers
-by making their names start with "unsafe" so that this is more noticeable.
-
-For example,
-[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
-provides protection against certain types of content injection vulnerabilities.
-CSP also provides features that weaken this guarantee,
-such as the `unsafe-inline` keyword,
-which reduces CSP's own protections by allowing inline scripts.
+See the more detailed <a href="#naming-is-hard">Naming principles</a> section
+for specific guidance on naming.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
-The existence of new features should generally be detectable,
-so that web content can act appropriately whether the feature is present or not.
-This applies both to features that
-are not present because they are not implemented,
-and to features that may not be present in a particular configuration
-(ranging from features that are present only on particular platforms
-to features that are
-only available in secure contexts).
+Provide a way for authors to programmatically detect
+whether your feature is available,
+so that web content may gracefully handle the feature not being present.
 
-It should generally be indistinguishable why a feature is unavailable,
-so that feature detection code written for one case of unavailability
-(e.g., the feature not being implemented yet in some browsers)
-also works in other cases
-(e.g., a library being used in a non-secure context when
-the feature is limited to secure contexts).
+An existing feature may not be available on a page for a number of reasons.
+Two of the more common reasons are
+because it hasn't been implemented yet, or
+because it's only available in <a href="#secure-context">secure contexts</a>.
 
-However, some features may be for
-interaction with devices that may or may not be available.
-Detection of device availability should generally be separate from feature detection.
-This helps developers who may want to handle device unavailability
-differently from lack of support for the feature.
-It also protects users; for more detail see [[#device-enumeration]].
+Authors shouldn't need to write different code to handle each scenario.
+That way, even if an author only knows or cares about one scenario,
+the code will handle all of them.
 
-Detection should always be possible from script,
-but in some cases the feature should also be detectable
-in the language where it is used
+<p class="note">
+When a feature is available but isn't feasible to use
+because a required device isn't present,
+it's better to expose that the feature is available
+and have a separate way to detect that the device isn't.
+This allows authors to handle a device not being available differently
+from the feature not being available,
+for example by suggesting the user connect or enable the device.
+
+See [[#device-enumeration]].
+</p>
+
+Authors should always be able to detect a feature from JavaScript,
+and in some cases the feature should also be detectable
+in the language where it's used
 (such as ''@supports'' in CSS).
 
-Note that some features should not be detectable.
-In general,
-features which add capabilities that sites can use should be detectable,
-whereas features which are for end users of the web rather than for developers
-should not be detectable.
-For instance,
-sites should not be able to detect
-if [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/) is engaged,
-or if assistive technologies are being used. See [[#do-not-expose-use-of-private-browsing-mode]], [[#do-not-expose-use-of-assistive-tech]], and the [Observations on Private Browsing Modes](https://www.w3.org/2001/tag/doc/private-browsing-modes/) TAG Finding.
+In some cases, it may **not** be appropriate to allow feature detection.
+Whether the feature should be detectable or not
+should be based on the <a href="#priority-of-constituencies">user need</a>
+for the feature:
+if there is a user need or design principle which would fail
+if feature detection were available for the feature,
+then you should not support feature detection.
+
+Also, if a feature is generally not exposed to developers,
+it is not appropriate to support feature detection.
+For example, private browsing mode is a concept
+which is recognised in web specifications,
+but not exposed to authors.
+For private browsing mode to support the user's needs,
+it must not be feature detected.
+
+See also:
+
+* [[#do-not-expose-use-of-private-browsing-mode]]
+* [[#do-not-expose-use-of-assistive-tech]]
+* [[#secure-context]]
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
-It may save you significant time and effort
-to pre-emptively restrict your feature to Secure Contexts.
+Always limit your feature to secure contexts
+if it would pose a risk to the user
+without the authentication, integrity, or confidentiality
+that's present only in secure contexts.
 
-The TAG is on the record in supporting
-an industry-wide move to [Secure the Web](https://www.w3.org/2001/tag/doc/web-https)
-and applaud [efforts](https://blog.mozilla.org/security/2017/01/20/communicating-the-dangers-of-non-secure-http/)
-to shift web traffic to secure connections.
-A great deal of effort has gone into debating
-which features should be restricted to [Secure Contexts](https://w3c.github.io/webappsec-secure-contexts/).
-Opinions vary amongst engine vendors, leading to difficult choices for feature designers.
-Some vendors require *all* new features be restricted this way,
-whereas others take a more selective approach.
+<div class="example">
+One example of a feature that should be limited to secure contexts
+is [Geolocation](https://www.w3.org/TR/geolocation-API/),
+since it would be a risk to users' privacy to transmit their location in an insecure way.
+</div>
 
-This backdrop makes it difficult to provide
-advice about the extent to which your feature should be restricted.
-What we *can* highlight is that Secure Context-restricted features
-face the least friction in gaining wide adoption amongst these varying regimes.
+For other features, TAG members past and present
+haven't reached consensus on general advice.
+Some believe that all new features
+(other than features which are additions to existing features)
+should be limited to secure contexts.
+This would help encourage the use of HTTPS,
+helping users be more secure in general.
 
+Others believe that features should only be limited to secure contexts
+if they have a known security or privacy impact.
+This lowers the barrier to entry for creating web pages
+that take advantage of new features which don't impact user security or privacy.
+
+<div class="note">
 Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
 <code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes).
-Similar ways of marking features as limited to secure contexts should be added
-to other major points where the Web platform is extended over time
-(for example, the definition of a new CSS property).
-However, for some types of extension points (e.g., dispatching an event),
+
+However, for some types of API (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
+If this is the case,
+consider whether there might be scope for adding a similar mechanism
+to <code>[SecureContext]</code>
+to make this process easier for future API developers.
+</div>
 
+<div class="note">
 As described in [[#feature-detect]],
-the existence of features should generally be detectable,
-so that web content can act appropriately if the feature is present or not.
-Since the detection should be the same no matter why the feature is unavailable,
-a feature that is limited to secure contexts should, in non-secure contexts,
-be indistinguishable from a feature that is not implemented.
+you should provide a way to programmatically detect whether a feature is available,
+including cases where the feature is unavailable because the context isn't secure.
+
 However, if, for some reason
-(a reason that itself requires serious justification),
-it is not possible for developers to detect whether a feature is present,
-limiting the feature to secure contexts
-might cause problems
-for libraries that may be used in either secure or non-secure contexts.
+there is no way for code to gracefully handle the feature not being present,
+limiting the feature to secure contexts might cause problems
+for code (such as libraries) that may be used in either secure or non-secure contexts.
+</div>
 
-If a feature would pose a risk to user privacy or security
-without the authentication, integrity, or confidentiality
-that is present only in secure contexts,
-then the feature must be limited to secure contexts.
-One example of a feature that should be limited to secure contexts
-is geolocation, since the authentication and confidentiality provided by
-secure contexts reduce the risks to user privacy.
+<h3 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
 
-<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
-In general,
-APIs should behave the same in and out of [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/).
-This is because
-the use of private browsing mode should not be revealed to sites.
-See [[#do-not-expose-use-of-private-browsing-mode]].
+Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
+to protect their own personal safety.
+Because of this, the fact that someone is using private browsing mode
+may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
+if it is revealed to a web site controlled by others who have power over them
+(such as employers, parents, partners,
+or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
 
-However,
-there are some situations in which
-APIs should consider behaving differently
-when private browsing mode is engaged,
-as discussed in our [privacy & security questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing).
-
-For instance,
-if your API would reveal information
-that would allow for the correlation
-of a single user’s activity
-both in and out of private browsing mode,
-consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations) such as
-introducing noise
-or augmenting permission prompts with additional information
-which would help users meaningfully consent to such correlation
-(see [[#consent]]).
+Given such dangers,
+websites should not be able to detect that private browsing mode is engaged.
 
 <div class="example">
+User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
+should not disable it in private browsing mode,
+because that would reveal that private browsing mode is engaged
+</div>
 
+<div class="example">
 The [Payment Request API](https://www.w3.org/TR/payment-request/)'s
 [show() method](https://www.w3.org/TR/payment-request/#show-method),
 when called,
@@ -594,21 +414,40 @@ in private browsing mode
 (thus protecting [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
 such as the user's shipping or billing address)
 without revealing that private browsing mode is engaged.
-
 </div>
+
+See also:
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+* [[#private-browsing-mode]]
+
+<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+
+If necessary, specify how your API should behave differently
+in private browsing mode.
+
+For example, if your API would reveal information
+that would allow someone to correlate
+a single user’s activity
+both in and out of private browsing mode,
+consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations)
+such as introducing noise,
+or using permission prompts to give the user extra information
+to help them meaningfully consent to this tracking (see [[#consent]]).
 
 Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
 Therefore, APIs which provide client-side storage
 should not persist data stored
 while private browsing mode is engaged
-after it is disengaged.
+after it's disengaged.
 This can and should be done
 without revealing any detectable API differences to the site.
 
 <div class="example">
-
-User Agents which support [localStorage](https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage)
+User Agents which support
+[localStorage](https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage)
 should not persist storage area changes
 made while private browsing mode is engaged.
 
@@ -619,60 +458,39 @@ should not be revealed to the other browsing session,
 and vice versa.
 (The [storage event](https://html.spec.whatwg.org/multipage/indices.html#event-storage) should not be fired
 at the other session's [window object](https://html.spec.whatwg.org/multipage/window-object.html#window).)
-
 </div>
 
-See also
+See also:
 
+* [[#do-not-expose-use-of-private-browsing-mode]]
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
+* [Security and privacy self review: Private Browsing](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing)
 
-<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
+<h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
 
-Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
-for their own <a href="#safe-to-browse">safety</a>;
-just the fact that they have or are using private browsing mode
-may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
-their use of private browsing mode revealed
-to others who wield power over them
-(such as employers,
-parents,
-partners,
-or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
-
-Given such dangers,
-websites should not be able to detect that private browsing mode is engaged.
-
-<div class="example">
-
-User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
-should not disable it in private browsing mode,
-because that would reveal that private browsing mode is engaged
-
-</div>
-
-See also
-
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
-* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
-
-<h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
+Make sure that your API doesn't provide a way
+for authors to detect that a user is using assistive technology
+without the user's consent.
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
-APIs which reveal the use of assistive technologies to sites
-enable sites to deny access to services
-to those who make use of assistive technologies.
+If a site can detect that a user is using an assistive technology,
+that site can deny or restrict the user's access to the services it provides.
 
 People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-It should be <a href="#safe-to-browse">safe for them to browse the web</a>.
-Consider the risks of revealing their use of assistive technologies to others
+If an API provides access to this information
+without the user's [consent](#consent),
+this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
 
-Given these two concerns,
-websites should not be able to detect that assitive technologies are being used.
+Sometimes people propose features which aim to improve the user experience
+for users of assistive technology,
+but which would reveal the user's use of assistive technology as a side effect.
+While these are well intentioned,
+they violate [[#safe-to-browse]],
+so alternative solutions must be found.
 
 <div class="example">
 
@@ -682,11 +500,11 @@ used to define a set of events which, when fired,
 
 AOM has since removed these events and
 [replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
-which do not reveal the use of assistive technology.
+which don't reveal the use of assistive technology.
 
 </div>
 
-See also
+See also:
 
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
@@ -2142,6 +1960,218 @@ whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
+
+<h2 id="naming-is-hard">Naming principles</h2>
+
+Names take meaning from:
+
+* signposting (the name itself)
+* use (how people come to understand the name over time)
+* context (the object on the left-hand side, for example)
+
+<h3 id="naming-common-words">Use common words</h4>
+
+API naming *must* be done in easily readable US English.
+Keep in mind that most web developers aren't native English speakers.
+Whenever possible, names should be chosen that use common vocabulary
+a majority of English speakers are likely to understand when first encountering the name.
+
+<div class="example">
+
+For example `setSize` is
+a more English-readable name
+than `cardinality`.
+
+</div>
+
+Value readability over brevity.
+Keep in mind, however, that sometimes
+the shorter name is the clearer one.
+For instance,
+it may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined.
+
+<div class="example">
+
+For example,
+the Fetch API's {{Body}} mixin's {{Body/json()}} method
+is named for the kind of object it returns.
+JSON is a well-known term of art
+among web developers likely to use the Fetch API.
+It would harm comprehension
+to name this API less directly connected to its return type. [[FETCH]]
+
+</div>
+
+<h3 id="naming-charset">Use ASCII names</h4>
+
+Names must adhere to the local language restrictions, for example CSS ident rules etc.
+and *should* be in the [=ascii code point|ASCII range=].
+
+<h3 id="naming-consultation">Consultation</h4>
+
+Please consult widely on names in your APIs.
+
+You may find good names or inspiration in surprising places.
+- What are similar APIs named on other platforms,
+or in popular libraries in various programming languages?
+- Ask end users and developers what they call
+things that your API works with or manipulates.
+- Look at other web platform specifications,
+and seek advice from others working in related areas of the platform.
+
+Pay particular attention to advice you receive
+with clearly-stated rationale based on underlying principles.
+
+<div class="example">
+
+Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
+how to name the various pieces of a URL.
+The editors of the [URL spec](https://url.spec.whatwg.org)
+have relied on this research
+when editing that document. [[URL]]
+
+</div>
+
+<h3 id="naming-future-proofing">Future-proofing</h4>
+
+Naming should be generic and future-proof whenever possible.
+
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.
+
+<div class="example">
+
+The Remote Playback API was not named
+after one of the pre-existing, proprietary systems it was inspired by
+(such as Chromecast or AirPlay).
+Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
+
+</div>
+
+<div class="example">
+
+The `keydown` and `keyup` {{KeyboardEvent}}s were not named
+for the specific hardware bus that keyboards used at the time.
+Instead, generic names were chosen
+that are as applicable to today's Bluetooth and USB keyboards
+as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
+
+</div>
+
+<h3 id="naming-consistency">Consistency</h4>
+Naming schemes should aim for consistency, to avoid confusion.
+
+Sets of related names should agree with each other in:
+  * part of speech  - noun, verb, etc.
+  * negation, for example all of the names in a set should either describe what is allowed
+    or they should all describe what is denied
+
+<h4 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
+  boolean-returning methods</h5>
+
+Boolean properties, options, or API parameters which are asking a question about
+their argument *should not* be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, *should* be
+prefixed with <code>is</code> to be consistent with the rest of the platform.
+
+<h4 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+
+Although they haven't always been uniformly followed, through the history of web platform API
+design, the following rules have emerged:
+
+<table class="data complex">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Casing rule</th>
+            <th>Examples</th>
+        </tr>
+    </thead>
+    <tr>
+        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
+        <td>Camel case</td>
+        <td><code highlight="js">document.createAttribute()</code><br>
+            <code highlight="js">document.compatMode</code></td>
+    </tr>
+    <tr>
+        <th>Classes and mixins<br>(Web IDL interfaces)</th>
+        <td>Pascal case</td>
+        <td><code highlight="js">NamedNodeMap</code><br>
+            <code highlight="js">NonElementParentNode</code></td>
+    </tr>
+    <tr>
+        <th>Initialisms in APIs</th>
+        <td>All caps, except when the first word in a method or property</td>
+        <td><code highlight="js">HTMLCollection</code><br>
+            <code highlight="js">element.innerHTML</code><br>
+            <code highlight="js">document.bgColor</code></td>
+    </tr>
+    <tr>
+        <th>Repeated initialisms in APIs</th>
+        <td>Follow the same rule</td>
+        <td><code highlight="js">HTMLHRElement</code><br>
+            <code highlight="js">RTCDTMFSender</code><br>
+    </tr>
+    <tr>
+        <th>The abbreviation of "identity"</th>
+        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
+        <td><code highlight="js">node.getElementById()</code><br>
+            <code highlight="js">event.pointerId</code><br>
+            <code highlight="js">credential.id</code></td>
+    </tr>
+    <tr>
+        <th>Enumeration values</th>
+        <td>Lowercase, dash-delimited</td>
+        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
+    </tr>
+    <tr>
+        <th>Events</th>
+        <td>Lowercase, concatenated</td>
+        <td><code>autocompleteerror</code><br>
+            <code>languagechange</code></td>
+    </tr>
+    <tr>
+        <th>HTML elements and attributes</th>
+        <td>Lowercase, concatenated</td>
+        <td><code highlight="html">&lt;figcaption&gt;</code><br>
+            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
+    </tr>
+    <tr>
+        <th>JSON keys</th>
+        <td>Lowercase, underscore-delimited</td>
+        <td><code highlight="js">manifest.short_name</code></td>
+    </tr>
+</table>
+
+<div class="non-normative">
+Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
+and property's casings won't necessarily match. For example, the HTML attribute
+<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
+{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
+
+The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
+or stored on disk, and don't apply to the general notion of JavaScript object keys.
+
+Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
+examples that violate the above rules are {{XMLHttpRequest}} and
+{{HTMLHtmlElement}}. Don't follow their example; instead always capitalize your
+initialisms, even if they are repeated.
+</div>
+
+<h3 id="naming-unsafe">Warning about dangerous features</h4>
+
+Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.
+
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
 
 <h3 id="writing-resources">Other resources</h3>
 
