@@ -251,7 +251,9 @@ more likely to be interoperable,
 and easier for authors to understand.
 
 Make sure that your <a href="#priority-of-constituencies">user needs</a>
-are well-defined, so that you can avoid scope creep.
+are well-defined.
+This allows you to avoid scope creep,
+and make sure that your API does actually meet the needs of all users.
 
 See also:
 
