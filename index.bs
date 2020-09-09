@@ -303,6 +303,13 @@ if there is a user need or design principle which would fail
 if feature detection were available for the feature,
 then you should not support feature detection.
 
+Also, if a feature is generally not exposed to developers,
+it is not appropriate to support feature detection.
+For example, private browsing mode is a concept
+which is recognised in web specifications,
+but not exposed to authors.
+For private browsing mode to support the user's needs,
+it must not be feature detected.
 See also:
 
 * [[#do-not-expose-use-of-private-browsing-mode]]
