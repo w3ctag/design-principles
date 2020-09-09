@@ -377,7 +377,7 @@ for code (such as libraries) that may be used in either secure or non-secure con
 Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
 Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
-for their own <a href="#safe-to-browse">safety</a>.
+to protect their own personal safety.
 Because of this, the fact that someone is using private browsing mode
 may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
 This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
