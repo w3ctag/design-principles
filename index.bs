@@ -934,7 +934,8 @@ A JavaScript Web API is generally a wrapper around
 a feature implemented in a lower-level language,
 such as C++ or Rust.
 Unlike those languages,
-JavaScript guarantees that once a piece of code begins executing,
+Developers can expect when using JavaScript 
+that once a piece of code begins executing,
 it will continue executing until it has completed.
 
 Because of that, JavaScript authors take for granted
