@@ -277,7 +277,6 @@ because it hasn't been implemented yet, or
 because it's only available in <a href="#secure-context">secure contexts</a>.
 
 Authors shouldn't need to write different code to handle each scenario.
-and shouldn't be able to know which cases applied.
 
 <p class="note">
 When a feature is available but isn't feasible to use
