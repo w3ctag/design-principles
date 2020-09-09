@@ -1223,7 +1223,6 @@ discuss.</p>
 Synchronous APIs should be considered when minting a new API.
 Synchronous APIs are simpler to use,
 and need less infrastructure set-up (such as making functions `async`).
-Moreover, it reduces the amount of infrastructural setup overhead needed for the function call.
 
 The general rule of thumb for an API that should be synchronous is the following:
 
