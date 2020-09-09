@@ -1226,7 +1226,7 @@ Moreover, it reduces the amount of infrastructural setup overhead needed for the
 
 The general rule of thumb for an API that should be synchronous is the following:
 
-  * The API at not point is expected to be gated behind a permission or a dialog, such as a device selector.
+  * The API at no point is expected to be gated behind a permission or a dialog, such as a device selector.
   * The execution time is short and deterministic.
 
 
