@@ -310,6 +310,7 @@ which is recognised in web specifications,
 but not exposed to authors.
 For private browsing mode to support the user's needs,
 it must not be feature detected.
+
 See also:
 
 * [[#do-not-expose-use-of-private-browsing-mode]]
