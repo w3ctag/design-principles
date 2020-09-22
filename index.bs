@@ -927,7 +927,7 @@ to have bindings in other programming languages.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Don't modify data accessed from JavaScript APIs
+Don't modify data accessed via JavaScript APIs
 while a JavaScript <a>event loop</a> is running.
 
 A JavaScript Web API is generally a wrapper around
