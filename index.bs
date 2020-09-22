@@ -934,7 +934,7 @@ A JavaScript Web API is generally a wrapper around
 a feature implemented in a lower-level language,
 such as C++ or Rust.
 Unlike those languages,
-Developers can expect when using JavaScript 
+when using JavaScript developers can expect
 that once a piece of code begins executing,
 it will continue executing until it has completed.
 
@@ -957,8 +957,8 @@ the property won't be updated until the next task runs.
 
 <h3 id="js-gc">Don't expose garbage collection</h3>
 
-Ensure your JavaScript Web APIs don't behave differently
-depending on the timing of garbage collection.
+Ensure your JavaScript Web APIs don't provide a way
+for an author to know the timing of garbage collection.
 
 The timing of garbage collection is different in different user agents,
 and may change over time as user agents work on improving performance.
