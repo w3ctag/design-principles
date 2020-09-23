@@ -722,77 +722,104 @@ See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
-The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as
-[[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
+When designing imperative APIs for the Web,
+use JavaScript.
+In particular,
+you can freely rely upon language-specific semantics and conventions,
+with no need to keep things generalized.
 
-This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL
-(and at one point, included "Java Bindings"). Even today, the structure of the document contains a
-confusing and redundant division between the "Interface definition language" and the "ECMAScript
-binding". Rest assured that this division is simply a historical artifact of document structure,
-and does not imply anything about the intent of Web IDL in general. The only reason it remains is
-that nobody has taken the time to eradicate it.
+<div class="example">
+For example,
+the {{CustomElementRegistry.define()}} method takes a reference to
+a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
-As such, when designing your APIs, your primary concern should be with the interface you present to
-JavaScript developers. You can freely rely upon language-specific semantics and conventions, with
-no need to keep things generalized.
+This takes advantage of the relatively recent addition of classes to JavaScript,
+and the fact that function references are very easy to use in JavaScript.
+</div>
+
+<div class="note">
+JavaScript is standardized under the name [[!ECMASCRIPT]].
+</div>
+
+<div class="note">
+[[WEBIDL]] defines a separate "ECMAScript binding" section,
+but this doesn't imply that Web IDL is intended
+to have bindings in other programming languages.
+</div>
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the
-JavaScript code that developers write. As such, it's important to respect the invariants that are
-in play in normal JavaScript code. One of the most important of these is <em>run-to-completion
-semantics</em>: wherein each turn of the JavaScript event loop is processed completely before
-returning control to the user agent.
+Don't modify data accessed via JavaScript APIs
+while a JavaScript <a>event loop</a> is running.
 
-In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus
-that any data observed within the function will stay constant as long as that function is active.
-This is not the case in other languages, which allow data races via multithreading or other
-techniques—a C function can be preempted at any time, with the bindings it has access to changing
-values from one line to the next.
+A JavaScript Web API is generally a wrapper around
+a feature implemented in a lower-level language,
+such as C++ or Rust.
+Unlike those languages,
+when using JavaScript developers can expect
+that once a piece of code begins executing,
+it will continue executing until it has completed.
 
-This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the
-invariant must never be violated—even by web APIs, which are often implemented in languages that
-<em>do</em> allow data races. Although the user agent may be using threads or other techniques to
-modify state <a>in parallel</a>, web APIs must never expose such changing state directly to
-developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an
-object property).
+Because of that, JavaScript authors take for granted
+that the data available to a function won’t change unexpectedly
+while the function is running.
 
-<h3 id="js-gc">Do not expose garbage collection</h3>
+So if a JavaScript Web API exposes some piece of data,
+such as an object property,
+the user agent must not update that data
+while a JavaScript task is running.
+Instead, if the underlying data changes,
+<a>queue a task</a> to modify the exposed version of the data.
 
-Web APIs should not expose a way for author code to deduce when/if garbage collection of JavaScript
-objects has run.
+<div class="example">
+If a JavaScript task has accessed the {{navigator.onLine}} property,
+and browser's online status changes,
+the property won't be updated until the next task runs.
+</div>
 
-Although some APIs may expose garbage collection, such as some implementations of
-{{Document/getElementsByTagName}}, and the JavaScript <a
-href="https://github.com/tc39/proposal-weakrefs">WeakRefs proposal</a> (which has multiple
-implementer support), API designers are strongly encouraged to avoid points in their own APIs that
-depend on this timing.
+<h3 id="js-gc">Don't expose garbage collection</h3>
 
-The reason for this is somewhat subtle. The more that Web API semantics are affected by garbage
-collection timing (or whether objects are collected at all), the more programs will be affected by
-changes in this timing. But user agents differ significantly in both the timing of garbage
-collection and whether certain objects are collected at all, which means the resulting code will be
-non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this
-kind of scenario could force other user agents to copy the garbage collection timing of the
-original in order to create interoperability. This would cause current garbage collection
-strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript
-virtual machine technology.
+Ensure your JavaScript Web APIs don't provide a way
+for an author to know the timing of garbage collection.
 
-In particular, this means that you shouldn't expose any API that acts as a weak reference, e.g. with a
-property that becomes <code highlight="js">null</code> once garbage collection runs. Such freeing of
-memory should be entirely deterministic.
+The timing of garbage collection is different in different user agents,
+and may change over time as user agents work on improving performance.
+If an API exposes the timing of garbage collection,
+it can cause programs to behave differently
+in different contexts.
+This means that authors need to write extra code to handle these differences.
+It may also make it more difficult for user agents
+to implement different garbage collection strategies,
+if there is enough code which depends on timing working a particular way.
 
-For example, currently, {{Document/getElementsByTagName}} permits reusing the {{HTMLCollection}}
-which it creates, when it's called with the same receiver and tag name. In practice, engines reuse
-the output if it has not been garbage collected. This creates behavior which differs based on the
-details of garbage collection, which is strongly discouraged. If {{Document/getElementsByTagName}}
-were designed today, the advice to the specification authors would be to either reliably reuse
-the output, or to produce a new {{HTMLCollection}} each time it's invoked.
+This means that you shouldn't expose any API that acts as a weak reference,
+e.g. with a property that becomes <code highlight="js">null</code>
+once garbage collection runs.
+Object and data lifetimes in JavaScript code should be predictable.
 
-The case of {{Document/getElementsByTagName}} is particularly insidious because nothing about
-the API visibly relates to garbage collection details. By contrast, special APIs for this particular
-purpose such as `WeakRef` and `FinalizationGroup` have their GC interaction as a specific part of
-their contract with the developer.
+<div class="example">
+{{Document/getElementsByTagName}} returns an {{HTMLCollection}} object,
+which may be re-used if the method is called twice on the same Document object,
+with the same tag name.
+In practice,
+this means that the same object will be returned
+if and only if it has not been garbage collected.
+This means that the behaviour is different depending on
+the timing of garbage collection.
+
+If {{Document/getElementsByTagName}} were designed today,
+the advice to the designers would be
+to either reliably reuse the output,
+or to produce a new {{HTMLCollection}} each time it's invoked.
+</div>
+
+{{Document/getElementsByTagName}} gives no sign that
+it may depend on the timing of garbage collection.
+In contrast, APIs which are explicitly designed
+to depend on garbage collection,
+like `WeakRef` or `FinalizationGroup`,
+set accurate author expectations about
+the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
