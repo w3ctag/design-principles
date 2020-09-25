@@ -1317,12 +1317,12 @@ use the existing event infrastructure to allow listening for the notifications.
 Create separate API controls to start/stop the underlying process.
 
 <div class="example">
-For example, the Web Bluetooth API provides a `startNotifications()` method 
+For example, the Web Bluetooth API provides a `startNotifications()` method
 on the `BluetoothRemoteGATTCharacteristic` global object,
 which adds the object to the "active notification context set".
 
 When the User Agent receives a notification from the Bluetooth device,
-it fires an event at the `BluetoothRemoteGATTCharacteristic` objects 
+it fires an event at the `BluetoothRemoteGATTCharacteristic` objects
 in the active notification context set.
 </div>
 
@@ -1351,19 +1351,21 @@ Similarly, add [=event handler IDL attributes=]
 to {{WindowEventHandlers}} rather than {{Window}}.
 </p>
 
-
 <h3 id="events-are-for-notification">Events are for notification</h3>
 
-Issue: I can't understand this one well enough to rewrite it.
-Anyone got an example or counter-example?
+Events shouldn't be used to trigger changes,
+only to deliver a notification that a change has already finished happening.
 
-Try to design DOM events to deliver after-the-fact notifications of changes.
-It may be tempting to try to trigger side-effects
-from the action of {{EventTarget/dispatchEvent()}},
-but in general this is
-<a href="https://lists.w3.org/Archives/Public/public-webapps/2014AprJun/0510.html">strongly discouraged</a>
-as it requires changes to the DOM specification when added.
-Your design will proceed more quickly if you avoid this pattern.
+<div class="example">
+When a window is resized,
+an event named [`resize`](https://drafts.csswg.org/cssom-view/#eventdef-window-resize)
+is fired at the `Window` object.
+
+It's not possible to stop the resize from happening by intercepting the event.
+Nor is it possible to fire a constructed `resize` event
+to cause the window to change size.
+The event can only notify the author that the resize has already happened.
+</div>
 
 <h3 id="guard-against-recursion">Guard against potential recursion</h3>
 
