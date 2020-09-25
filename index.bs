@@ -512,71 +512,67 @@ See also:
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
+This section details design principles for features which are exposed via CSS.
+
 <h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
 
-Decisions about what should be in the same CSS property or in different CSS properties
-should be based on what makes sense to set independently.
-CSS cascading allows declarations (which are property-value pairs)
-from different rules or different style sheets
-to override one another in a process called the cascade.
-Thus things that should always be set together belong in the same properties,
-but things that make sense to set in different places should be in separate properties.
+Decide which values should be grouped together as CSS properties
+and which should be separate properties
+based on what makes sense to set independently.
 
-<p class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
+[CSS cascading](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#cascade)
+allows [declarations](https://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#declaration)
+from different rules or different style sheets
+to override one another.
+If there is a logical set of attributes which should all be overridden together,
+they should be grouped together in a single property so that they cascade together.
+Likewise, if there are attributes which should be able to be overridden independently,
+they should be separate properties.
+
+<div class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
 because they are part of a single initial letter effect
-(e.g., a drop cap, sunken cap, or raised cap)
-and should nearly always be specified together.
+(e.g., a drop cap, sunken cap, or raised cap).
+
 However, the 'initial-letter-align' property should be separate because it
 sets an alignment policy for all of these effects across the document
 which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.
+</div>
 
 <h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
 
-An important choice in the design of every CSS property is whether the property is
-<a href="https://drafts.csswg.org/css-cascade-3/#inherited-property">inherited</a>.
-This affects what happens when no value is specified for the property on an element.
-If the property is not inherited, then that element gets the property's initial value.
-If the property is inherited, then that element gets the parent element's computed value.
+Decide whether a property should be [inherited](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#inheritance)
+based on whether the effect of the property should be overridden or added to
+if set on an ancestor as well as a descendant.
 
-The decision about whether a property should be inherited should be based largely
-on what should happen when the property is specified on multiple elements.
 If setting the property on a descendant element needs to override (rather than add to)
 the effect of setting it on an ancestor,
 then the property should probably be inherited.
-If setting the property on a descendant element is a separate effect
-that adds to setting it on an ancestor,
-then the property should probably not be inherited.
-
-One specific example that is common is that if a property has an effect on text,
-then it is almost always in the class where
-a descendant element needs to override (rather than add to) the effect of setting it on an ancestor,
-and the property should be inherited.
-This is also needed to maintain the design principle that
-inserting an unstyled inline element around a piece of text
-does not change the appearance of that text.
-
 A specification of an non-inherited property requiring that the handling of an element
 look at the value of that property on its ancestors (which may also be slow)
 is a "code smell" that suggests that the property likely should have been inherited.
 
-Likewise, a specification of an inherited property requiring that the handling of an element
+If setting the property on a descendant element is a separate effect
+that adds to setting it on an ancestor,
+then the property should probably **not** be inherited.
+A specification of an inherited property requiring that the handling of an element
 ignore the value of a property if it's the same as the value on the parent element
 is a "code smell" that suggests that the property likely should not have been inherited.
 
+<div class="note">
+If a property has an effect on text,
+then it's almost always true that
+a descendant element needs to override (rather than add to)
+the effect of setting it on an ancestor,
+and the property should be inherited.
+This is also needed to maintain the design principle that
+inserting an unstyled inline element around a piece of text
+doesn't change the appearance of that text.
+</div>
+
 <div class="example">
-For example, the 'background-image' property is not inherited.
-It causes an image to be drawn over part or all of the element
-(though this image might not be fully opaque).
-The CSS painting model allows other things to draw on top of that background,
-including the backgrounds of descendant elements.
-But specifying ''background-image: none'' on a descendant element does not
-cause a hole to be poked in the ancestor element's background,
-since the entire effect comes from the property being used on a single element.
-Setting ''background-image: none'' is useful
-to override a declaration lower in the cascade on the same element,
-but this is a different feature from replacing the backgrounds that are drawn by ancestors.
+For example, the 'background-image' property is **not** inherited.
 
 If the 'background-image' property had been inherited,
 then the specification would have had to create a good bit of complexity
@@ -589,7 +585,7 @@ that a property likely should not have been inherited.
 </div>
 
 <div class="example">
-Another example is the 'font-size' property, which is inherited.
+Another example is the 'font-size' property, which **is** inherited.
 It sets the size of the font used for the text in the element,
 and continues to apply to any descendants that don't
 have a declaration setting 'font-size' to a different value.
@@ -602,92 +598,54 @@ This is the "code smell" mentioned above that suggests
 that a property likely should have been inherited.
 </div>
 
-<div class="example">
-A more subtle example is the 'text-decoration' property.
-It could reasonably be described as either an inherited or non-inherited property,
-but the resulting behavior is different in a number of observable ways.
-
-As an inherited property,
-'text-decoration' would draw underlines (or other decorations)
-in the style and position of each piece of text.
-As a non-inherited property, it would draw underlines
-in the style and position of the element that specifies 'text-decoration'.
-These behaviors lead to different results
-when the element that has 'text-decoration' declared
-has descendants that are at a different vertical-alignment (e.g., superscripts),
-in a different color,
-or in a different font size.
-
-The property was designed as not inherited
-because the behavior of having underlines
-have a consistent color, thickness, and position
-was considered the better behavior.
-
-However, in the end, some of the characteristics of the other behavior
-(such as its interaction with 'visibility' or text selection)
-were also seen as desirable, and it ended up being specified in a somewhat hybrid way
-that does involve the "code smell"
-of walking up the ancestor chain looking for text decorations on ancestors.
-</div>
-
 <h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
 
-Another important choice in the design of every CSS property
-is what its <a>computed value</a> is.
-This is an abstract description of the value that is inherited when the property inherits.
-It is also important for starting and animation of [=CSS Transitions=].
-This is most important for inherited properties, but it does matter for all properties.
+Choose the <a>computed value</a> of a CSS property
+based on how it will [=inherit=],
+and the other properties which may depend on it,
+whether or not it has been inherited.
 
-Note: Due to a somewhat unfortunate history,
-this is *not* the value that is returned by {{getComputedStyle()}},
-which is actually the <a>resolved value</a>,
-which can be the result of further computation starting from the computed value.
+<div class="note">
+Note: the <a>computed value</a> should not be confused with the [=resolved value=]
+which is returned from the {{getComputedStyle()}} method.
+</div>
 
-The definition of a CSS property often has interactions with other CSS properties.
-It is often possible for these interactions to happen at the [=computed value=] stage
-or at a later stage such as the [=used value=].
-Since inheritance operates on the computed value,
-whether an interaction should affect the value that descendants inherit
-is a major factor in the choice of where that interaction should be handled.
-
-<a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
-that do affect computed values</a>
-are required to not be circular.
-
-Making decisions about whether dependencies should affect computed values
-often involves tradeoffs of complexity.
-Sometimes it is less complex
-for the behavior to happen as part of the computation of the computed value;
-sometimes it is less complex
-for the behavior to happen in whatever handles the computed value.
-(This complexity might be in the specification, in implementations, or both.
-Complexity in implementations might affect how fast things run for end users.)
-
-For more information about computed values, see
-[Computed Values Patterns](https://wiki.csswg.org/spec/computed-values).
+Certain CSS properties are calculated with
+<a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a>
+on others:
+for example, the <a>computed value</a>
+of a property specified in 'lh' units
+depends on the 'line-height' property which applies to the element being considered.
+The <a>computed value</a> for a property should be chosen
+so that the dependent values make sense,
+regardless of whether they are inherited.
 
 <div class="example">
-For example, the 'line-height' property accepts values that are numbers,
+For example, the 'line-height' property may accept a <<number>> value,
 such as ''line-height: 1.4''.
-This value is a multiple of the 'font-size',
-so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
+This value represents a multiple of the 'font-size',
+so if the 'font-size' is ''20px'',
+the [=actual value=] for the line height is ''28px''.
 
-However, the computed value in this case is the number ''1.4'', not the length ''28px''.
-This is important because the value can inherit to elements that have a different font size,
-and preserving the "multiple of the current element's font" behavior would be broken
-if it turned into a length at computed-value time:
+However, the <a>computed value</a> in this case is the <<number>> ''1.4'',
+not the <<length>> ''28px''.
+
+The 'line-height' property can be inherited
+into elements that have a different 'font-size',
+and any property on those elements which depends on 'line-height'
+must take the relevant 'font-size' into account,
+rather than the 'font-size' for the element from which
+the 'line-height' value was inherited.
 
   <pre highlight=html>
-&lt;body style="line-height: 1.4"&gt;
+&lt;body style="font-size: 20px; line-height: 1.4"&gt;
 
-  &lt;p&gt;For example, this body text has a line height
-  that's 1.4 times its font size.&lt;/p&gt;
+  &lt;p&gt;This body text has a line height of 28px.&lt;/p&gt;
 
   &lt;h2 style="font-size: 200%"&gt;
-    And this heading also has a line-height that's
-    1.4 times the h2's larger font size, and *not*
-    1.4 times the body's font size, which would lead
-    to text overlap
+    This heading has a line-height of 56px,
+    not 28px, even though the line-height was declared on the body.
+    This means that the 40px font won't overflow the line height.
   &lt;/h2&gt;
 &lt;/body&gt;
   </pre>
@@ -695,6 +653,10 @@ if it turned into a length at computed-value time:
 These number values are generally the preferred values to use for 'line-height'
 because they inherit better than length values.
 </div>
+
+See also:
+
+* [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
 
 <h3 id="css-naming">Naming of CSS properties and values</h3>
 
