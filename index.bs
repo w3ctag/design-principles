@@ -1312,7 +1312,24 @@ they can be sure that all of the state is consistentif the Promise is resolved.
 
 <h3 id="dont-invent-event-like">Don’t invent your own event listener-like infrastructure</h3>
 
-Note: This section has been removed. See [[#events-vs-observers]] instead.
+When creating an API which allows authors to start and stop a process which generates notifications,
+use the existing event infrastructure to allow listening for the notifications.
+Create separate API controls to start/stop the underlying process.
+
+<div class="example">
+For example, the Web Bluetooth API provides a `startNotifications()` method 
+on the `BluetoothRemoteGATTCharacteristic` global object,
+which adds the object to the "active notification context set".
+
+When the User Agent receives a notification from the Bluetooth device,
+it fires an event at the `BluetoothRemoteGATTCharacteristic` objects 
+in the active notification context set.
+</div>
+
+See:
+- [[#events-are-for-notification]]
+- [[#events-vs-observers]]
+- [[#state-and-subclassing]]
 
 <h3 id="always-add-event-handlers">Always add event handler attributes</h3>
 
