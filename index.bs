@@ -1566,8 +1566,6 @@ Observers involve defining a new class, dictionaries for options, and a new type
     However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
 </div>
 
-<h2 id="types-and-units">Types and Units</h2>
-
 
 <h2 id="types-and-units">Web IDL, Types, and Units</h2>
 
