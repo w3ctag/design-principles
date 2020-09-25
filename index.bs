@@ -832,17 +832,6 @@ These number values are generally the preferred values to use for 'line-height'
 because they inherit better than length values.
 </div>
 
-Issue: The paragraph below is hard to understand.
-
-Making decisions about whether dependencies should affect computed values
-often involves tradeoffs of complexity.
-Sometimes it is less complex
-for the behavior to happen as part of the computation of the computed value;
-sometimes it is less complex
-for the behavior to happen in whatever handles the computed value.
-(This complexity might be in the specification, in implementations, or both.
-Complexity in implementations might affect how fast things run for end users.)
-
 See also:
 
 * [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
