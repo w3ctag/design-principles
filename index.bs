@@ -1627,6 +1627,14 @@ to clamp values to the octet range (for example, converting 300 to 255).
 This also works for the other shorter types, such as `short` or `long`.
 </div>
 
+<code>bigint</code> should be used only when values greater than 2<sup>53</sup> 
+ or less than -2<sup>53</sup> are expected.
+ 
+ An API should not support both `BigInt` and `Number` simultaneously, 
+either by supporting both types polymorphously,
+or by adding separate, otherwise identical APIs which take `BigInt` and `Number`.
+This risks losing precision through implicit conversions, 
+which defeats the purpose of `BigInt`.
 <h3 id="idl-string-types">Represent strings appropriately</h3>
 
 <!--
