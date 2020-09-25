@@ -1570,7 +1570,7 @@ Observers involve defining a new class, dictionaries for options, and a new type
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-<h2 id="types-and-units">WEBIDL, Types, and Units</h2>
+<h2 id="types-and-units">Web IDL, Types, and Units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
@@ -1743,12 +1743,6 @@ See [[!HIGHRES-TIME]] for more details.
 
 Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
-
-
-Some older APIs used {{DOMError}} when objects had a property representing an error.
-This is no longer recommended.
-Instead, use ECMAScript error objects (e.g., {{TypeError}})
-or {{DOMException}} for errors,
 whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">OS and Device Wrapper APIs</h2>
