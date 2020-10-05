@@ -20,11 +20,13 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:html; type:dfn; for:/;
-    text:browsing context
     text:focus update steps
     text:task queue
 spec:webidl; type:dfn; text:namespace
 spec:selectors-4; type:selector; text::hover
+spec:css-cascade-5; type:dfn; text:inherit
+spec:html; type:dfn; for:/; text:event loop
+spec:html; type:element-attr; for:a; text:href
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
@@ -39,6 +41,8 @@ url: https://wicg.github.io/ResizeObserver/;
     type: interface; text: ResizeObserver; url: #resizeobserver
 url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: interface; text: getElementsByTagName; for: Document
 url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: CSS Transitions
+url: https://html.spec.whatwg.org/multipage/browsers.html#browsing-context; type: dfn; text: browsing context;
+url: https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 </pre>
 <!-- Route around bugs in other specs.
      https://github.com/whatwg/html/issues/5515
@@ -614,7 +618,7 @@ Certain CSS properties are calculated with
 <a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a>
 on others:
 for example, the <a>computed value</a>
-of a property specified in 'lh' units
+of a property specified in ''lh'' units
 depends on the 'line-height' property which applies to the element being considered.
 The <a>computed value</a> for a property should be chosen
 so that the dependent values make sense,
@@ -692,7 +696,7 @@ with no need to keep things generalized.
 
 <div class="example">
 For example,
-the {{CustomElementRegistry.define()}} method takes a reference to
+the {{CustomElementRegistry/define(name, constructor)|CustomElementRegistry.define()}} method takes a reference to
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
 This takes advantage of the relatively recent addition of classes to JavaScript,
@@ -734,7 +738,7 @@ Instead, if the underlying data changes,
 <a>queue a task</a> to modify the exposed version of the data.
 
 <div class="example">
-If a JavaScript task has accessed the {{navigator.onLine}} property,
+If a JavaScript task has accessed the {{NavigatorOnline/onLine|navigator.onLine}} property,
 and browser's online status changes,
 the property won't be updated until the next task runs.
 </div>
@@ -983,7 +987,7 @@ feature, they have been made subclassable through a specifically-designed one-of
 [{{HTMLConstructor}}] extended attribute.</p>
 
 <p class="example">The {{Window}} class is not constructible, because creating a new window is a
-privileged operation with significant side effects. Instead, the {{Window/open|window.open()}}
+privileged operation with significant side effects. Instead, the {{Window/open(url, target, features)|window.open()}}
 method is used to create new windows.</p>
 
 <p class="example">The {{ImageBitmap}} class is not constructible, as it represents an immutable,
