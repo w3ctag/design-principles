@@ -1588,7 +1588,7 @@ unless there is a specific reason not to:
      the generated bindings will throw a <code highlight="js">TypeError</code>.
 
   : <code>[EnforceRange] unsigned long long</code>
-  :: Any positive or zero JavaScript number between -2<sup>53</sup> and 2<sup>53</sup>,
+  :: Any JavaScript number between 0 and 2<sup>54</sup>,
      rounded to the nearest integer.
      If a number outside this range is given,
      the generated bindings will throw a <code highlight="js">TypeError</code>.
