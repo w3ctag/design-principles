@@ -1628,7 +1628,7 @@ This also works for the other shorter types, such as `short` or `long`.
  or less than -2<sup>53</sup> are expected.
  
  An API should not support both `BigInt` and `Number` simultaneously, 
-either by supporting both types polymorphously,
+either by supporting both types via polymorphism,
 or by adding separate, otherwise identical APIs which take `BigInt` and `Number`.
 This risks losing precision through implicit conversions, 
 which defeats the purpose of `BigInt`.
