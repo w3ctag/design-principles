@@ -72,7 +72,7 @@ always put user needs above all.
 Similarly, when beginning to design an API,
 be sure to understand and document the user need that the API aims to address.
 
-The internet is for end users:
+[The internet is for end users](https://tools.ietf.org/html/rfc8890):
 any change made to the web platform has the potential to affect vast numbers of people,
 and may have a profound impact on any person's life. [[RFC8890]]
 
