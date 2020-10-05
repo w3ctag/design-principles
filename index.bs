@@ -2036,14 +2036,6 @@ naming consistent with `MIME type`.
 
 </div>
 
-<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
-
-Naming should be generic and future-proof whenever possible.
-
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
-
 <h3 id="naming-future-proofing">Future-proofing</h4>
 
 Naming should be generic and future-proof whenever possible.
