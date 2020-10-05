@@ -69,20 +69,20 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL;
 If a trade-off needs to be made,
 always put user needs above all.
 
-[The internet is for end users](https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html):
+Similarly, when beginning to design an API,
+be sure to understand and document the user need that the API aims to address.
+
+[The internet is for end users](https://tools.ietf.org/html/rfc8890):
 any change made to the web platform has the potential to affect vast numbers of people,
-and may have a profound impact on any person's life.
+and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
 which come before than the needs of user agent implementors,
 which come before than the needs of specification writers,
 which come before theoretical purity.
 
-Similarly, when beginning to design an API,
-be sure to understand and document the user need that the API aims to address.
-
 Like all principles,
-this is not absolute.
+this isn't absolute.
 Ease of authoring affects how content reaches users.
 User agents have to prioritize finite engineering resources,
 which affects how features reach authors.
@@ -92,506 +92,316 @@ and theoretical concerns reflect underlying needs of all of these groups.
 See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
-* <a href="https://intarchboard.github.io/for-the-users/draft-iab-for-the-users.html">The Internet is for End Users</a>
+* [[RFC8890]]
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
 
-Hyperlinks, links from one page to another, are one of the foundations of the Web.
+When adding new features,
+design them to preserve the user expectation
+that visiting a web page is generally safe.
 
-Following a link, or visiting a web page, should be safe:
-users doing this
-should not have to fear for the security of their computer
-or for essential aspects of their privacy.
-(But it's not completely safe,
-in the sense that users may face consequences
-if their use of the Web is harming others.)
-Furthermore, users should understand that it is safe (and how it isn't)
-so they can make informed decisions between use of the Web versus other technologies.
+The Web is named for its hyperlinked structure.
+In order for the web to remain vibrant,
+users need to be able to expect that merely visiting any given link
+won't have implications for the security of their computer,
+or for any essential aspects of their privacy.
 
-Saying “essential aspects” here skips over quite a bit of detail.
-The Web today is far from being perfectly private.
-One aspect of privacy problems is when reality doesn't meet expectations.
-For example,
-a person walking down the street generally expects to be recognized by their friends,
-but (depending on the country)
-may not expect that they walked down that street at that time
-to be recorded in a permanent government database.
-Online, people might have less understanding of what is or isn't possible,
-and their expectations might differ more widely.
-<!-- Can we cite research on this??? -->
+For example, an API which allows any website to
+[detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
+may make users of these technologies feel unsafe visiting unknown web pages,
+since any web page may detect this private information.
 
-We can probably make privacy on the Web better than it is today:
+If users have a realistic expectation of safety,
+they can make informed decisions
+between Web-based technologies and other technologies.
+For example, users may choose to use a web-based food ordering page,
+rather than installing an app,
+since installing a native app is riskier than visiting a web page.
+
+To work towards making sure the reality of safety on the web matches users' expectations,
+we can take complementary approaches when adding new features:
   * We can improve the user interfaces through which the Web is used
-    to make it clearer what users of the Web should expect.
+    to make it clearer what users of the Web should (and should not) expect;
   * We can change the technical foundations of the Web
-    so that they match user expectations of privacy.
+    so that they match user expectations of privacy;
   * We can consider the cases where users would be better off
     if expectations were higher,
     and in those cases
-    try to change both technical foundations and expectations
+    try to change both technical foundations and expectations.
 
-When we add new features to the Web
-that might weaken the security or privacy characteristics that the Web currently has,
-we should consider the tradeoffs involved in that particular feature.
-A new feature with security risks might still make users safer, for example,
-because they would download and run native binary software less often,
-and downloading and running binaries is much riskier than visiting a Web page.
-However, we should also consider the tradeoff
-against the *idea* that it is safe to visit Web pages:
-adding a risky feature to the Web teaches the Web's users that the Web is less safe,
-and this erodes one of the core values of the Web:  that it is safe to visit websites.
-We should seek to give users a true picture of the safety of the Web
-so that they can act based on that understanding of safety
-(in comparison to the safety of alternatives),
-and at the same time we should seek to keep the Web safe for its users
-and work to make it safer.
+A new feature which introduces safety risks may still improve user safety overall,
+if it allows users to perform a task more safely on a web page
+than it would be for them to install a native app to do the same thing.
+However, this benefit needs to be weighed against the common goal
+of users having a reasonable expectation of safety on web pages.
+
+See also:
+
+* [Security and Privacy Self-Review](https://www.w3.org/TR/security-privacy-questionnaire/)
 
 <h3 id="trusted-ui">Trusted user interface should be trustworthy</h3>
 
-Since users of the Web can follow links to sites they might not know already,
-software that lets them access the Web generally provides user interface
-to show the user who they're interacting with and how,
-such as by displaying part or all of the URL or other information about the site,
-or whether the connection is secure.
-Since users rely on this information to learn what site they're on
-and to make judgments about whether it is trustworthy,
-this software is designed so that
-sites are not able to override this user interface
-or spoof it in a way that would confuse users.
-Therefore, when we add new features to the web,
-we should consider whether they require new complexity in this user interface,
-and whether that complexity would reduce users' ability
-to make correct judgments about who they're interacting with
-or whether the user interface is trustworthy or spoofed.
+Consider whether new features impact trusted user interfaces.
+
+Users depend on trusted user interfaces
+such as the address bar, security indicators and permission prompts,
+to understand who they are interacting with and how.
+These trusted user interfaces must be able to be designed in a way
+that enables users to trust
+that the information they provide is genuine,
+and hasn't been spoofed or hijacked by the website.
+
+If a new feature allows untrusted user interfaces
+to resemble trusted user interfaces,
+this makes it more difficult for users to understand what information is trustworthy.
+
+<p class="example">
+For example, JavaScript `alert()` allows a page to show a modal dialog which looks like part of the browser.
+This is often used to attempt to trick users into visiting scam websites.
+If this feature was proposed today, it would probably not proceed.
+</p>
 
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
-In some cases,
-we might add features to the Web that are not appropriate to allow for any website a user visits,
-but that are reasonable to have if the user agrees to use the feature
-based on a reasonable understanding of what will happen as a result.
-One example of such a feature might be support for location:
-many users seem likely to understand what it means to share their current location with a website
-and be able to consent to doing so
-(even though they might not fully understand the privacy implications of doing so).
-Another example of such a feature would be camera access,
-where users understand that they're sharing the image
-in the rectangle visible to the camera
-(even if they might not understand everything someone might do with the data).
+If a useful feature has the potential to cause harm to users,
+make sure that the user can give *meaningful consent* for that feature to be used,
+and that they can refuse consent effectively.
 
-We should not depend on asking the user for consent
-(via a permission prompt or other mechanism)
-if we don't have a way to express that request in a way
-that users will understand what is being requested
-and the main implications of giving their consent.
-Understanding whether this is the case may require
-studying users understanding of potential user interfaces,
-although in many cases experienced user experience designers
-may be able to extrapolate from previous experience.
+In order to give *meaningful consent*, the user must:
+- **understand** what permission they may choose whether to grant the web page
+- be able to choose to give or refuse that permission **effectively**.
 
-We should also not ask users to consent to something
-that can also happen if the user does not consent.
-The existence of prompts
-that request a user's consent for something
-(from trusted user interface in their browser or other user agent)
-imply that the thing for which consent is being requested
-will not happen if the user doesn't consent.
-Therefore we should not have user agents request consent
-for something that they can't effectively prevent.
-Doing so would send the wrong message about the safety characteristics of the Web
-and would lead users to be disappointed when the expectations of privacy,
-which they learned from trusted user interface,
-did not match reality.
+If a feature is powerful enough to require a user consent,
+but it's impossible to explain to a typical user what they are consenting to,
+that's a signal that you may need to reconsider the design of the feature.
 
-Asking users for consent via permission prompts
-can reinforce the idea that <a href="#safe-to-browse">the web is safe</a>
-by showing the user that certain things won't happen without their permission.
-But frequently asking users for consent can also show how scary a place the web is
-by showing how many sites are willing to ask for intrusive and unnecessary permissions.
+If a permission prompt is shown,
+and the user doesn't grant permission,
+the Web page should not be able to do anything
+that the user believes they have refused consent for.
 
-<h3 id="devices-platforms">Support the full range of devices and platforms</h3>
+By asking for consent,
+we can inform the user of what capabilities the web page does or doesn't have,
+reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
+However, the <a href="priority-of-constituencies">user benefit</a>
+of a new feature must justify the additional burden on users
+to decide whether to grant permission for each feature
+whenever it's requested by a Web page.
+
+<p class="example">
+For example,
+the [Geolocation API](https://www.w3.org/TR/geolocation-API/)
+grants access to a user's location.
+This can help users in some contexts,
+like a mapping application,
+but may be dangerous to some users in other contexts -
+especially if used without the user's knowledge.
+So that the user may decide whether their location may be used by a Web page,
+a permission prompt should be shown to the user asking whether to grant location access.
+If the user refuses permission,
+no location information is available to the Web page.
+</p>
+
+<h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
 
-Features on the web should work across different input and output devices,
-different platforms, and different media,
-as much as this is reasonably possible.
-For example, they should not be specific to a particular screen size,
-a particular operating system or browser engine,
-or assume the user is using a mouse.
+As much as possible,
+ensure that features on the web work across different input and output devices,
+screen sizes, interaction modes, platforms, and  media.
 
-It is not always possible for a feature to work in all contexts:
-for example, hyperlinks don't work when printed on paper,
-and '':hover'' doesn't work on touch input devices where there isn't a mouse pointer position.
-However, these features are still valuable across a range of devices,
-and can be adapted to devices that don't support their original intent
-(for example, hyperlink targets may be converted to footnotes when printing).
+One of the main values of the Web is that it's extremely flexible:
+a Web page may be viewed on virtually any consumer computing device
+at a very wide range of screen sizes,
+may be used to generate printed media,
+and may be interacted with in a large number of different ways.
+New features should match the existing flexibility of the Web platform.
+
+<div class="note">
+This doesn't imply that features which don't work in *every• possible context should be excluded.
+For example, hyperlinks can't be visited when printed on paper,
+and the ''click'' event doesn't translate perfectly to touch input devices
+where positioning and clicking the pointer occur in the same gesture (a "tap").
+
+These features still work across a wide variety of contexts,
+and can be adapted to devices that don't support their original intent -
+for example, a tap on a mobile device will fire a ''click'' event as a fallback.
+</div>
 
 Features should also be designed so that the easiest way to use them
-works across devices as well.
-For example,
-the `display:block`, `display: flex`, and `display: grid` layout models in CSS
+maintains flexibility.
+
+<div class="example">
+The <a href="https://www.w3.org/TR/CSS2/visuren.html#block-formatting">`display: block`</a>,
+<a href="https://drafts.csswg.org/css-flexbox-1/#box-model">`display: flex`</a>
+and <a href="https://www.w3.org/TR/css-grid-1/#grid-containers">`display: grid`</a> layout models in CSS
 all default to placing content within the available space and without overlap,
-so that it works across devices of various sizes,
-across browsers and operating systems that have different fonts available,
-and across different user settings for default text size.
+so that it works across screen sizes,
+and allows users to choose their own font and font size without causing text to overflow.
+</div>
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
 <!-- was "Avoid Needless Complexity" in the HTML Design Principles -->
 
+Look hard for simple solutions to the
+<a href="#priority-of-constituencies">user needs</a>
+you intend to address.
+
 Simple solutions are generally better than complex solutions,
 although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
-and easier for authors to understand. See related [[LEAST-POWER]]
+and easier for authors to understand.
 
-<h3 id="naming-is-hard">Naming things</h3>
+Make sure that your <a href="#priority-of-constituencies">user needs</a>
+are well-defined.
+This allows you to avoid scope creep,
+and make sure that your API does actually meet the needs of all users.
 
-Names take meaning from:
+See also:
 
-* signposting (the name itself)
-* use (how people come to understand the name over time)
-* context (the object on the left-hand side, for example)
+* [[LEAST-POWER]]
 
-<h4 id="naming-common-words" class="no-num no-toc">Use common words</h4>
+<h3 id="name-thoughtfully">Name things thoughtfully</h3>
 
-API naming *must* be done in easily readable US English.
-Keep in mind that most web developers are not native English speakers.
-Whenever possible, names should be chosen that use common vocabulary
-non-native English speakers are likely to understand when first encountering the name.
+Name APIs with care.
+Naming APIs well makes it much easier for authors to use them correctly.
 
-<div class="example">
-
-For example `horizontalAlignment` is
-a more English-readable name
-than `alignmentHorizontal`.
-
-</div>
-
-Value readability over brevity,
-though always keep in mind that sometimes
-the shorter name is the clearer one.
-For instance,
-it may be appropriate to use technical language or well-known terms of art
-in the specification where the API is defined.
-
-<div class="example">
-
-For example,
-the Fetch API's {{Body}} mixin's {{Body/json()}} method
-is named for the kind of object it returns.
-JSON is a well-known term of art
-among web developers likely to use the Fetch API.
-It would harm comprehension
-to name this API less directly connected to its return type. [[FETCH]]
-
-</div>
-
-<h4 id="naming-charset" class="no-num no-toc">Use ASCII names</h4>
-
-Names must adhere to the local language restrictions, for example CSS ident rules etc.
-and *should* be in the [=ascii code point|ASCII range=].
-
-<h4 id="naming-consultation" class="no-num no-toc">Consultation</h4>
-
-Please consult widely on names in your APIs.
-You may find good names or inspiration in surprising places.
-What are similar APIs named on other platforms,
-or in popular libraries in various programming languages?
-Ask end users and developers what they call
-things that your API works with or manipulates.
-Look at other web platform specifications,
-and seek advice from others working in related areas of the platform.
-
-Pay particular attention to advice you receive
-with clearly-stated rationale based on underlying principles.
-
-<div class="example">
-
-Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
-how to name the various pieces of a URL.
-The editors of the [URL spec](https://url.spec.whatwg.org)
-have relied on this research
-when editing that document. [[URL]]
-
-</div>
-
-<h4 id="naming-web-considtency" class="no-num no-toc">Use Web consistent names</h4>
-When choosing a name for feature or API that has exposure in other technology stacks, 
-the preference should be towards the Web ecosystem naming convention rather than other
-communities.
-
-<div class ="example">
-
-The NFC standard uses the term `media` to refer to what the Web calls 
-[MIME type](https://mimesniff.spec.whatwg.org/#mime-type-representation).
-In such cases, the naming of features or API for the purposes of Web NFC must prefer
-naming consistent with `MIME type`. 
-
-</div>
-
-<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
-
-Naming should be generic and future-proof whenever possible.
-
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
-
-<div class="example">
-
-The Remote Playback API was not named
-after one of the pre-existing, proprietary systems it was inspired by
-(such as Chromecast or AirPlay).
-Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
-
-</div>
-
-<div class="example">
-
-The `keydown` and `keyup` {{KeyboardEvent}}s were not named
-for the specific hardware bus that keyboards used at the time.
-Instead, generic names were chosen
-that are as applicable to today's Bluetooth and USB keyboards
-as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
-
-</div>
-
-<h4 id="naming-consistency" class="no-num no-toc">Consistency</h4>
-Naming schemes should aim for consistency, to avoid confusion.
-
-Sets of related names should agree with each other in:
-  * part of speech  - noun, verb, etc.
-  * negation, for example all of the names in a set should either describe what is allowed
-    or they should all describe what is denied
-
-<h5 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
-  boolean-returning methods</h5>
-
-Boolean properties, options, or API parameters which are asking a question about
-their argument *should not* be prefixed with <code>is</code>, while methods
-that serve the same purpose, given that it has no side effects, *should* be
-prefixed with <code>is</code> to be consistent with the rest of the platform.
-
-<h5 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
-
-Although they haven't always been uniformly followed, through the history of web platform API
-design, the following rules have emerged:
-
-<table class="data complex">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Casing rule</th>
-            <th>Examples</th>
-        </tr>
-    </thead>
-    <tr>
-        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
-        <td>Camel case</td>
-        <td><code highlight="js">document.createAttribute()</code><br>
-            <code highlight="js">document.compatMode</code></td>
-    </tr>
-    <tr>
-        <th>Classes and mixins<br>(Web IDL interfaces)</th>
-        <td>Pascal case</td>
-        <td><code highlight="js">NamedNodeMap</code><br>
-            <code highlight="js">NonElementParentNode</code></td>
-    </tr>
-    <tr>
-        <th>Initialisms in APIs</th>
-        <td>All caps, except when the first word in a method or property</td>
-        <td><code highlight="js">HTMLCollection</code><br>
-            <code highlight="js">element.innerHTML</code><br>
-            <code highlight="js">document.bgColor</code></td>
-    </tr>
-    <tr>
-        <th>Repeated initialisms in APIs</th>
-        <td>Follow the same rule</td>
-        <td><code highlight="js">HTMLHRElement</code><br>
-            <code highlight="js">RTCDTMFSender</code><br>
-    </tr>
-    <tr>
-        <th>The abbreviation of "identity"</th>
-        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
-        <td><code highlight="js">node.getElementById()</code><br>
-            <code highlight="js">event.pointerId</code><br>
-            <code highlight="js">credential.id</code></td>
-    </tr>
-    <tr>
-        <th>Enumeration values</th>
-        <td>Lowercase, dash-delimited</td>
-        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
-    </tr>
-    <tr>
-        <th>Events</th>
-        <td>Lowercase, concatenated</td>
-        <td><code>autocompleteerror</code><br>
-            <code>languagechange</code></td>
-    </tr>
-    <tr>
-        <th>HTML elements and attributes</th>
-        <td>Lowercase, concatenated</td>
-        <td><code highlight="html">&lt;figcaption&gt;</code><br>
-            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
-    </tr>
-    <tr>
-        <th>JSON keys</th>
-        <td>Lowercase, underscore-delimited</td>
-        <td><code highlight="js">manifest.short_name</code></td>
-    </tr>
-</table>
-
-<div class="non-normative">
-Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
-and property's casings will not necessarily match. For example, the HTML attribute
-<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
-{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
-
-The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
-or stored on disk, and don't apply to the general notion of JavaScript object keys.
-
-Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are {{XMLHttpRequest}} and
-{{HTMLHtmlElement}}. Do not follow their example; instead always capitalize your
-initialisms, even if they are repeated.
-</div>
-
-<h4 id="naming-unsafe" class="no-num no-toc">Warning about dangerous features</h4>
-
-Where possible, mark features that weaken
-the guarantees provided to developers
-by making their names start with "unsafe" so that this is more noticeable.
-
-For example,
-[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
-provides protection against certain types of content injection vulnerabilities.
-CSP also provides features that weaken this guarantee,
-such as the `unsafe-inline` keyword,
-which reduces CSP's own protections by allowing inline scripts.
+See the more detailed <a href="#naming-is-hard">Naming principles</a> section
+for specific guidance on naming.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
-The existence of new features should generally be detectable,
-so that web content can act appropriately whether the feature is present or not.
-This applies both to features that
-are not present because they are not implemented,
-and to features that may not be present in a particular configuration
-(ranging from features that are present only on particular platforms
-to features that are
-only available in secure contexts).
+Provide a way for authors to programmatically detect
+whether your feature is available,
+so that web content may gracefully handle the feature not being present.
 
-It should generally be indistinguishable why a feature is unavailable,
-so that feature detection code written for one case of unavailability
-(e.g., the feature not being implemented yet in some browsers)
-also works in other cases
-(e.g., a library being used in a non-secure context when
-the feature is limited to secure contexts).
+An existing feature may not be available on a page for a number of reasons.
+Two of the more common reasons are
+because it hasn't been implemented yet, or
+because it's only available in <a href="#secure-context">secure contexts</a>.
 
-However, some features may be for
-interaction with devices that may or may not be available.
-Detection of device availability should generally be separate from feature detection.
-This helps developers who may want to handle device unavailability
-differently from lack of support for the feature.
-It also protects users; for more detail see [[#device-enumeration]].
+Authors shouldn't need to write different code to handle each scenario.
+That way, even if an author only knows or cares about one scenario,
+the code will handle all of them.
 
-Detection should always be possible from script,
-but in some cases the feature should also be detectable
-in the language where it is used
+<p class="note">
+When a feature is available but isn't feasible to use
+because a required device isn't present,
+it's better to expose that the feature is available
+and have a separate way to detect that the device isn't.
+This allows authors to handle a device not being available differently
+from the feature not being available,
+for example by suggesting the user connect or enable the device.
+
+See [[#device-enumeration]].
+</p>
+
+Authors should always be able to detect a feature from JavaScript,
+and in some cases the feature should also be detectable
+in the language where it's used
 (such as ''@supports'' in CSS).
 
-Note that some features should not be detectable.
-In general,
-features which add capabilities that sites can use should be detectable,
-whereas features which are for end users of the web rather than for developers
-should not be detectable.
-For instance,
-sites should not be able to detect
-if [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/) is engaged,
-or if assistive technologies are being used. See [[#do-not-expose-use-of-private-browsing-mode]], [[#do-not-expose-use-of-assistive-tech]], and the [Observations on Private Browsing Modes](https://www.w3.org/2001/tag/doc/private-browsing-modes/) TAG Finding.
+In some cases, it may **not** be appropriate to allow feature detection.
+Whether the feature should be detectable or not
+should be based on the <a href="#priority-of-constituencies">user need</a>
+for the feature:
+if there is a user need or design principle which would fail
+if feature detection were available for the feature,
+then you should not support feature detection.
+
+Also, if a feature is generally not exposed to developers,
+it is not appropriate to support feature detection.
+For example, private browsing mode is a concept
+which is recognised in web specifications,
+but not exposed to authors.
+For private browsing mode to support the user's needs,
+it must not be feature detected.
+
+See also:
+
+* [[#do-not-expose-use-of-private-browsing-mode]]
+* [[#do-not-expose-use-of-assistive-tech]]
+* [[#secure-context]]
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
-It may save you significant time and effort
-to pre-emptively restrict your feature to Secure Contexts.
+Always limit your feature to secure contexts
+if it would pose a risk to the user
+without the authentication, integrity, or confidentiality
+that's present only in secure contexts.
 
-The TAG is on the record in supporting
-an industry-wide move to [Secure the Web](https://www.w3.org/2001/tag/doc/web-https)
-and applaud [efforts](https://blog.mozilla.org/security/2017/01/20/communicating-the-dangers-of-non-secure-http/)
-to shift web traffic to secure connections.
-A great deal of effort has gone into debating
-which features should be restricted to [Secure Contexts](https://w3c.github.io/webappsec-secure-contexts/).
-Opinions vary amongst engine vendors, leading to difficult choices for feature designers.
-Some vendors require *all* new features be restricted this way,
-whereas others take a more selective approach.
+<div class="example">
+One example of a feature that should be limited to secure contexts
+is [Geolocation](https://www.w3.org/TR/geolocation-API/),
+since it would be a risk to users' privacy to transmit their location in an insecure way.
+</div>
 
-This backdrop makes it difficult to provide
-advice about the extent to which your feature should be restricted.
-What we *can* highlight is that Secure Context-restricted features
-face the least friction in gaining wide adoption amongst these varying regimes.
+For other features, TAG members past and present
+haven't reached consensus on general advice.
+Some believe that all new features
+(other than features which are additions to existing features)
+should be limited to secure contexts.
+This would help encourage the use of HTTPS,
+helping users be more secure in general.
 
+Others believe that features should only be limited to secure contexts
+if they have a known security or privacy impact.
+This lowers the barrier to entry for creating web pages
+that take advantage of new features which don't impact user security or privacy.
+
+<div class="note">
 Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
 <code>[<a href="https://w3c.github.io/webappsec-secure-contexts/#integration-idl">SecureContext</a>]</code> extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes).
-Similar ways of marking features as limited to secure contexts should be added
-to other major points where the Web platform is extended over time
-(for example, the definition of a new CSS property).
-However, for some types of extension points (e.g., dispatching an event),
+
+However, for some types of API (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
+If this is the case,
+consider whether there might be scope for adding a similar mechanism
+to <code>[SecureContext]</code>
+to make this process easier for future API developers.
+</div>
 
+<div class="note">
 As described in [[#feature-detect]],
-the existence of features should generally be detectable,
-so that web content can act appropriately if the feature is present or not.
-Since the detection should be the same no matter why the feature is unavailable,
-a feature that is limited to secure contexts should, in non-secure contexts,
-be indistinguishable from a feature that is not implemented.
+you should provide a way to programmatically detect whether a feature is available,
+including cases where the feature is unavailable because the context isn't secure.
+
 However, if, for some reason
-(a reason that itself requires serious justification),
-it is not possible for developers to detect whether a feature is present,
-limiting the feature to secure contexts
-might cause problems
-for libraries that may be used in either secure or non-secure contexts.
+there is no way for code to gracefully handle the feature not being present,
+limiting the feature to secure contexts might cause problems
+for code (such as libraries) that may be used in either secure or non-secure contexts.
+</div>
 
-If a feature would pose a risk to user privacy or security
-without the authentication, integrity, or confidentiality
-that is present only in secure contexts,
-then the feature must be limited to secure contexts.
-One example of a feature that should be limited to secure contexts
-is geolocation, since the authentication and confidentiality provided by
-secure contexts reduce the risks to user privacy.
+<h3 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
 
-<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
-In general,
-APIs should behave the same in and out of [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/).
-This is because
-the use of private browsing mode should not be revealed to sites.
-See [[#do-not-expose-use-of-private-browsing-mode]].
+Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
+to protect their own personal safety.
+Because of this, the fact that someone is using private browsing mode
+may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
+if it is revealed to a web site controlled by others who have power over them
+(such as employers, parents, partners,
+or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
 
-However,
-there are some situations in which
-APIs should consider behaving differently
-when private browsing mode is engaged,
-as discussed in our [privacy & security questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing).
-
-For instance,
-if your API would reveal information
-that would allow for the correlation
-of a single user’s activity
-both in and out of private browsing mode,
-consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations) such as
-introducing noise
-or augmenting permission prompts with additional information
-which would help users meaningfully consent to such correlation
-(see [[#consent]]).
+Given such dangers,
+websites should not be able to detect that private browsing mode is engaged.
 
 <div class="example">
+User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
+should not disable it in private browsing mode,
+because that would reveal that private browsing mode is engaged
+</div>
 
+<div class="example">
 The [Payment Request API](https://www.w3.org/TR/payment-request/)'s
 [show() method](https://www.w3.org/TR/payment-request/#show-method),
 when called,
@@ -604,21 +414,40 @@ in private browsing mode
 (thus protecting [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
 such as the user's shipping or billing address)
 without revealing that private browsing mode is engaged.
-
 </div>
+
+See also:
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+* [[#private-browsing-mode]]
+
+<h3 id="private-browsing-mode">Consider how your API should behave in private browsing mode</h3>
+
+If necessary, specify how your API should behave differently
+in private browsing mode.
+
+For example, if your API would reveal information
+that would allow someone to correlate
+a single user’s activity
+both in and out of private browsing mode,
+consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations)
+such as introducing noise,
+or using permission prompts to give the user extra information
+to help them meaningfully consent to this tracking (see [[#consent]]).
 
 Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
 Therefore, APIs which provide client-side storage
 should not persist data stored
 while private browsing mode is engaged
-after it is disengaged.
+after it's disengaged.
 This can and should be done
 without revealing any detectable API differences to the site.
 
 <div class="example">
-
-User Agents which support [localStorage](https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage)
+User Agents which support
+[localStorage](https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage)
 should not persist storage area changes
 made while private browsing mode is engaged.
 
@@ -629,60 +458,39 @@ should not be revealed to the other browsing session,
 and vice versa.
 (The [storage event](https://html.spec.whatwg.org/multipage/indices.html#event-storage) should not be fired
 at the other session's [window object](https://html.spec.whatwg.org/multipage/window-object.html#window).)
-
 </div>
 
-See also
+See also:
 
+* [[#do-not-expose-use-of-private-browsing-mode]]
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
+* [Security and privacy self review: Private Browsing](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing)
 
-<h3 id="do-not-expose-use-of-private-browsing-mode">Do not reveal that private browsing mode is engaged</h3>
+<h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
 
-Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-browsing-modes/)
-for their own <a href="#safe-to-browse">safety</a>;
-just the fact that they have or are using private browsing mode
-may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-[Consider the harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) that could be visited upon people—especially vulnerable people—were
-their use of private browsing mode revealed
-to others who wield power over them
-(such as employers,
-parents,
-partners,
-or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
-
-Given such dangers,
-websites should not be able to detect that private browsing mode is engaged.
-
-<div class="example">
-
-User Agents which support [IndexedDB](https://www.w3.org/TR/IndexedDB/)
-should not disable it in private browsing mode,
-because that would reveal that private browsing mode is engaged
-
-</div>
-
-See also
-
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
-* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
-
-<h3 id="do-not-expose-use-of-assistive-tech">Do not reveal that assistive technologies are being used</h3>
+Make sure that your API doesn't provide a way
+for authors to detect that a user is using assistive technology
+without the user's consent.
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
-APIs which reveal the use of assistive technologies to sites
-enable sites to deny access to services
-to those who make use of assistive technologies.
+If a site can detect that a user is using an assistive technology,
+that site can deny or restrict the user's access to the services it provides.
 
 People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-It should be <a href="#safe-to-browse">safe for them to browse the web</a>.
-Consider the risks of revealing their use of assistive technologies to others
+If an API provides access to this information
+without the user's [consent](#consent),
+this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
 
-Given these two concerns,
-websites should not be able to detect that assitive technologies are being used.
+Sometimes people propose features which aim to improve the user experience
+for users of assistive technology,
+but which would reveal the user's use of assistive technology as a side effect.
+While these are well intentioned,
+they violate [[#safe-to-browse]],
+so alternative solutions must be found.
 
 <div class="example">
 
@@ -692,11 +500,11 @@ used to define a set of events which, when fired,
 
 AOM has since removed these events and
 [replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
-which do not reveal the use of assistive technology.
+which don't reveal the use of assistive technology.
 
 </div>
 
-See also
+See also:
 
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
@@ -704,71 +512,67 @@ See also
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
+This section details design principles for features which are exposed via CSS.
+
 <h3 id="css-property-separation">Separate CSS properties based on what should cascade separately</h3>
 
-Decisions about what should be in the same CSS property or in different CSS properties
-should be based on what makes sense to set independently.
-CSS cascading allows declarations (which are property-value pairs)
-from different rules or different style sheets
-to override one another in a process called the cascade.
-Thus things that should always be set together belong in the same properties,
-but things that make sense to set in different places should be in separate properties.
+Decide which values should be grouped together as CSS properties
+and which should be separate properties
+based on what makes sense to set independently.
 
-<p class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
+[CSS cascading](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#cascade)
+allows [declarations](https://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#declaration)
+from different rules or different style sheets
+to override one another.
+If there is a logical set of attributes which should all be overridden together,
+they should be grouped together in a single property so that they cascade together.
+Likewise, if there are attributes which should be able to be overridden independently,
+they should be separate properties.
+
+<div class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
 because they are part of a single initial letter effect
-(e.g., a drop cap, sunken cap, or raised cap)
-and should nearly always be specified together.
+(e.g., a drop cap, sunken cap, or raised cap).
+
 However, the 'initial-letter-align' property should be separate because it
 sets an alignment policy for all of these effects across the document
 which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.
+</div>
 
 <h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
 
-An important choice in the design of every CSS property is whether the property is
-<a href="https://drafts.csswg.org/css-cascade-3/#inherited-property">inherited</a>.
-This affects what happens when no value is specified for the property on an element.
-If the property is not inherited, then that element gets the property's initial value.
-If the property is inherited, then that element gets the parent element's computed value.
+Decide whether a property should be [inherited](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#inheritance)
+based on whether the effect of the property should be overridden or added to
+if set on an ancestor as well as a descendant.
 
-The decision about whether a property should be inherited should be based largely
-on what should happen when the property is specified on multiple elements.
 If setting the property on a descendant element needs to override (rather than add to)
 the effect of setting it on an ancestor,
 then the property should probably be inherited.
-If setting the property on a descendant element is a separate effect
-that adds to setting it on an ancestor,
-then the property should probably not be inherited.
-
-One specific example that is common is that if a property has an effect on text,
-then it is almost always in the class where
-a descendant element needs to override (rather than add to) the effect of setting it on an ancestor,
-and the property should be inherited.
-This is also needed to maintain the design principle that
-inserting an unstyled inline element around a piece of text
-does not change the appearance of that text.
-
 A specification of an non-inherited property requiring that the handling of an element
 look at the value of that property on its ancestors (which may also be slow)
 is a "code smell" that suggests that the property likely should have been inherited.
 
-Likewise, a specification of an inherited property requiring that the handling of an element
+If setting the property on a descendant element is a separate effect
+that adds to setting it on an ancestor,
+then the property should probably **not** be inherited.
+A specification of an inherited property requiring that the handling of an element
 ignore the value of a property if it's the same as the value on the parent element
 is a "code smell" that suggests that the property likely should not have been inherited.
 
+<div class="note">
+If a property has an effect on text,
+then it's almost always true that
+a descendant element needs to override (rather than add to)
+the effect of setting it on an ancestor,
+and the property should be inherited.
+This is also needed to maintain the design principle that
+inserting an unstyled inline element around a piece of text
+doesn't change the appearance of that text.
+</div>
+
 <div class="example">
-For example, the 'background-image' property is not inherited.
-It causes an image to be drawn over part or all of the element
-(though this image might not be fully opaque).
-The CSS painting model allows other things to draw on top of that background,
-including the backgrounds of descendant elements.
-But specifying ''background-image: none'' on a descendant element does not
-cause a hole to be poked in the ancestor element's background,
-since the entire effect comes from the property being used on a single element.
-Setting ''background-image: none'' is useful
-to override a declaration lower in the cascade on the same element,
-but this is a different feature from replacing the backgrounds that are drawn by ancestors.
+For example, the 'background-image' property is **not** inherited.
 
 If the 'background-image' property had been inherited,
 then the specification would have had to create a good bit of complexity
@@ -781,7 +585,7 @@ that a property likely should not have been inherited.
 </div>
 
 <div class="example">
-Another example is the 'font-size' property, which is inherited.
+Another example is the 'font-size' property, which **is** inherited.
 It sets the size of the font used for the text in the element,
 and continues to apply to any descendants that don't
 have a declaration setting 'font-size' to a different value.
@@ -794,92 +598,54 @@ This is the "code smell" mentioned above that suggests
 that a property likely should have been inherited.
 </div>
 
-<div class="example">
-A more subtle example is the 'text-decoration' property.
-It could reasonably be described as either an inherited or non-inherited property,
-but the resulting behavior is different in a number of observable ways.
-
-As an inherited property,
-'text-decoration' would draw underlines (or other decorations)
-in the style and position of each piece of text.
-As a non-inherited property, it would draw underlines
-in the style and position of the element that specifies 'text-decoration'.
-These behaviors lead to different results
-when the element that has 'text-decoration' declared
-has descendants that are at a different vertical-alignment (e.g., superscripts),
-in a different color,
-or in a different font size.
-
-The property was designed as not inherited
-because the behavior of having underlines
-have a consistent color, thickness, and position
-was considered the better behavior.
-
-However, in the end, some of the characteristics of the other behavior
-(such as its interaction with 'visibility' or text selection)
-were also seen as desirable, and it ended up being specified in a somewhat hybrid way
-that does involve the "code smell"
-of walking up the ancestor chain looking for text decorations on ancestors.
-</div>
-
 <h3 id="css-computed-value">Choose the computed value type based on how the property should inherit</h3>
 
-Another important choice in the design of every CSS property
-is what its <a>computed value</a> is.
-This is an abstract description of the value that is inherited when the property inherits.
-It is also important for starting and animation of [=CSS Transitions=].
-This is most important for inherited properties, but it does matter for all properties.
+Choose the <a>computed value</a> of a CSS property
+based on how it will [=inherit=],
+and the other properties which may depend on it,
+whether or not it has been inherited.
 
-Note: Due to a somewhat unfortunate history,
-this is *not* the value that is returned by {{getComputedStyle()}},
-which is actually the <a>resolved value</a>,
-which can be the result of further computation starting from the computed value.
+<div class="note">
+Note: the <a>computed value</a> should not be confused with the [=resolved value=]
+which is returned from the {{getComputedStyle()}} method.
+</div>
 
-The definition of a CSS property often has interactions with other CSS properties.
-It is often possible for these interactions to happen at the [=computed value=] stage
-or at a later stage such as the [=used value=].
-Since inheritance operates on the computed value,
-whether an interaction should affect the value that descendants inherit
-is a major factor in the choice of where that interaction should be handled.
-
-<a href="https://wiki.csswg.org/spec/property-dependencies">The dependencies
-that do affect computed values</a>
-are required to not be circular.
-
-Making decisions about whether dependencies should affect computed values
-often involves tradeoffs of complexity.
-Sometimes it is less complex
-for the behavior to happen as part of the computation of the computed value;
-sometimes it is less complex
-for the behavior to happen in whatever handles the computed value.
-(This complexity might be in the specification, in implementations, or both.
-Complexity in implementations might affect how fast things run for end users.)
-
-For more information about computed values, see
-[Computed Values Patterns](https://wiki.csswg.org/spec/computed-values).
+Certain CSS properties are calculated with
+<a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a>
+on others:
+for example, the <a>computed value</a>
+of a property specified in 'lh' units
+depends on the 'line-height' property which applies to the element being considered.
+The <a>computed value</a> for a property should be chosen
+so that the dependent values make sense,
+regardless of whether they are inherited.
 
 <div class="example">
-For example, the 'line-height' property accepts values that are numbers,
+For example, the 'line-height' property may accept a <<number>> value,
 such as ''line-height: 1.4''.
-This value is a multiple of the 'font-size',
-so if the 'font-size' is ''20px'' then this would mean the line height is ''28px''.
+This value represents a multiple of the 'font-size',
+so if the 'font-size' is ''20px'',
+the [=actual value=] for the line height is ''28px''.
 
-However, the computed value in this case is the number ''1.4'', not the length ''28px''.
-This is important because the value can inherit to elements that have a different font size,
-and preserving the "multiple of the current element's font" behavior would be broken
-if it turned into a length at computed-value time:
+However, the <a>computed value</a> in this case is the <<number>> ''1.4'',
+not the <<length>> ''28px''.
+
+The 'line-height' property can be inherited
+into elements that have a different 'font-size',
+and any property on those elements which depends on 'line-height'
+must take the relevant 'font-size' into account,
+rather than the 'font-size' for the element from which
+the 'line-height' value was inherited.
 
   <pre highlight=html>
-&lt;body style="line-height: 1.4"&gt;
+&lt;body style="font-size: 20px; line-height: 1.4"&gt;
 
-  &lt;p&gt;For example, this body text has a line height
-  that's 1.4 times its font size.&lt;/p&gt;
+  &lt;p&gt;This body text has a line height of 28px.&lt;/p&gt;
 
   &lt;h2 style="font-size: 200%"&gt;
-    And this heading also has a line-height that's
-    1.4 times the h2's larger font size, and *not*
-    1.4 times the body's font size, which would lead
-    to text overlap
+    This heading has a line-height of 56px,
+    not 28px, even though the line-height was declared on the body.
+    This means that the 40px font won't overflow the line height.
   &lt;/h2&gt;
 &lt;/body&gt;
   </pre>
@@ -887,6 +653,10 @@ if it turned into a length at computed-value time:
 These number values are generally the preferred values to use for 'line-height'
 because they inherit better than length values.
 </div>
+
+See also:
+
+* [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
 
 <h3 id="css-naming">Naming of CSS properties and values</h3>
 
@@ -914,77 +684,104 @@ See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
 
-The language that web APIs are meant to be used in, and specified for, is JavaScript (also known as
-[[!ECMASCRIPT]]). They are not language-agnostic, and are not meant to be.
+When designing imperative APIs for the Web,
+use JavaScript.
+In particular,
+you can freely rely upon language-specific semantics and conventions,
+with no need to keep things generalized.
 
-This is sometimes a confusing point because [[WEBIDL]] descended from the language-agnostic OMG IDL
-(and at one point, included "Java Bindings"). Even today, the structure of the document contains a
-confusing and redundant division between the "Interface definition language" and the "ECMAScript
-binding". Rest assured that this division is simply a historical artifact of document structure,
-and does not imply anything about the intent of Web IDL in general. The only reason it remains is
-that nobody has taken the time to eradicate it.
+<div class="example">
+For example,
+the {{CustomElementRegistry.define()}} method takes a reference to
+a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
-As such, when designing your APIs, your primary concern should be with the interface you present to
-JavaScript developers. You can freely rely upon language-specific semantics and conventions, with
-no need to keep things generalized.
+This takes advantage of the relatively recent addition of classes to JavaScript,
+and the fact that function references are very easy to use in JavaScript.
+</div>
+
+<div class="note">
+JavaScript is standardized under the name [[!ECMASCRIPT]].
+</div>
+
+<div class="note">
+[[WEBIDL]] defines a separate "ECMAScript binding" section,
+but this doesn't imply that Web IDL is intended
+to have bindings in other programming languages.
+</div>
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Web APIs are essentially vehicles for extruding C++- (or Rust-) authored capabilities into the
-JavaScript code that developers write. As such, it's important to respect the invariants that are
-in play in normal JavaScript code. One of the most important of these is <em>run-to-completion
-semantics</em>: wherein each turn of the JavaScript event loop is processed completely before
-returning control to the user agent.
+Don't modify data accessed via JavaScript APIs
+while a JavaScript <a>event loop</a> is running.
 
-In particular, this means that JavaScript functions cannot be preempted mid-execution, and thus
-that any data observed within the function will stay constant as long as that function is active.
-This is not the case in other languages, which allow data races via multithreading or other
-techniques—a C function can be preempted at any time, with the bindings it has access to changing
-values from one line to the next.
+A JavaScript Web API is generally a wrapper around
+a feature implemented in a lower-level language,
+such as C++ or Rust.
+Unlike those languages,
+when using JavaScript developers can expect
+that once a piece of code begins executing,
+it will continue executing until it has completed.
 
-This no-data-races invariant is extensively relied upon in JavaScript programs. As such, the
-invariant must never be violated—even by web APIs, which are often implemented in languages that
-<em>do</em> allow data races. Although the user agent may be using threads or other techniques to
-modify state <a>in parallel</a>, web APIs must never expose such changing state directly to
-developers. Instead, they should <a>queue a task</a> to modify author-observable state (such as an
-object property).
+Because of that, JavaScript authors take for granted
+that the data available to a function won’t change unexpectedly
+while the function is running.
 
-<h3 id="js-gc">Do not expose garbage collection</h3>
+So if a JavaScript Web API exposes some piece of data,
+such as an object property,
+the user agent must not update that data
+while a JavaScript task is running.
+Instead, if the underlying data changes,
+<a>queue a task</a> to modify the exposed version of the data.
 
-Web APIs should not expose a way for author code to deduce when/if garbage collection of JavaScript
-objects has run.
+<div class="example">
+If a JavaScript task has accessed the {{navigator.onLine}} property,
+and browser's online status changes,
+the property won't be updated until the next task runs.
+</div>
 
-Although some APIs may expose garbage collection, such as some implementations of
-{{Document/getElementsByTagName}}, and the JavaScript <a
-href="https://github.com/tc39/proposal-weakrefs">WeakRefs proposal</a> (which has multiple
-implementer support), API designers are strongly encouraged to avoid points in their own APIs that
-depend on this timing.
+<h3 id="js-gc">Don't expose garbage collection</h3>
 
-The reason for this is somewhat subtle. The more that Web API semantics are affected by garbage
-collection timing (or whether objects are collected at all), the more programs will be affected by
-changes in this timing. But user agents differ significantly in both the timing of garbage
-collection and whether certain objects are collected at all, which means the resulting code will be
-non-interoperable. Worse, according to the usual rules of game theory as applied to browsers, this
-kind of scenario could force other user agents to copy the garbage collection timing of the
-original in order to create interoperability. This would cause current garbage collection
-strategies to ossify, preventing improvement in one of the most dynamic areas of JavaScript
-virtual machine technology.
+Ensure your JavaScript Web APIs don't provide a way
+for an author to know the timing of garbage collection.
 
-In particular, this means that you shouldn't expose any API that acts as a weak reference, e.g. with a
-property that becomes <code highlight="js">null</code> once garbage collection runs. Such freeing of
-memory should be entirely deterministic.
+The timing of garbage collection is different in different user agents,
+and may change over time as user agents work on improving performance.
+If an API exposes the timing of garbage collection,
+it can cause programs to behave differently
+in different contexts.
+This means that authors need to write extra code to handle these differences.
+It may also make it more difficult for user agents
+to implement different garbage collection strategies,
+if there is enough code which depends on timing working a particular way.
 
-For example, currently, {{Document/getElementsByTagName}} permits reusing the {{HTMLCollection}}
-which it creates, when it's called with the same receiver and tag name. In practice, engines reuse
-the output if it has not been garbage collected. This creates behavior which differs based on the
-details of garbage collection, which is strongly discouraged. If {{Document/getElementsByTagName}}
-were designed today, the advice to the specification authors would be to either reliably reuse
-the output, or to produce a new {{HTMLCollection}} each time it's invoked.
+This means that you shouldn't expose any API that acts as a weak reference,
+e.g. with a property that becomes <code highlight="js">null</code>
+once garbage collection runs.
+Object and data lifetimes in JavaScript code should be predictable.
 
-The case of {{Document/getElementsByTagName}} is particularly insidious because nothing about
-the API visibly relates to garbage collection details. By contrast, special APIs for this particular
-purpose such as `WeakRef` and `FinalizationGroup` have their GC interaction as a specific part of
-their contract with the developer.
+<div class="example">
+{{Document/getElementsByTagName}} returns an {{HTMLCollection}} object,
+which may be re-used if the method is called twice on the same Document object,
+with the same tag name.
+In practice,
+this means that the same object will be returned
+if and only if it has not been garbage collected.
+This means that the behaviour is different depending on
+the timing of garbage collection.
+
+If {{Document/getElementsByTagName}} were designed today,
+the advice to the designers would be
+to either reliably reuse the output,
+or to produce a new {{HTMLCollection}} each time it's invoked.
+</div>
+
+{{Document/getElementsByTagName}} gives no sign that
+it may depend on the timing of garbage collection.
+In contrast, APIs which are explicitly designed
+to depend on garbage collection,
+like `WeakRef` or `FinalizationGroup`,
+set accurate author expectations about
+the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
@@ -1750,240 +1547,207 @@ whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">OS and Device Wrapper APIs</h2>
 
-It is increasingly common to see new APIs developed in the web platform for interacting with
-devices. For example, authors wish to be able to use the web to connect with their
+New APIs are now being developed in the web platform for interacting with devices.
+For example, authors wish to be able to use the web to connect with their
 <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>,
 <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
 accelerometer),
 <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
-<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, toothbrush, etc.
+<a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, etc.
 
-These can be functionality provided by the underlying operating system, or provided by a native
-third-party library to interact with a device. These are an abstraction which "wrap" the
-native functionality without introducing significant complexity while securing the API surface
-to the browser, hence are called wrapper APIs.
+These can be functionality provided by the underlying operating system,
+or provided by a native third-party library
+to interact with a device.
+These are an abstraction which "wrap" the native functionality
+without introducing significant complexity,
+while securing the API surface to the browser.
+So, these are called wrapper APIs.
 
 This section contains principles for consideration when designing APIs for devices.
 
 <h3 id="device-ids">Use care when exposing identifying information about devices</h3>
 
-Merely exposing the presence of a device
-may harm user privacy.
-Exposing
-additional information about a device
-or its capabilities
-increases this risk further.
-Exposing device identifiers
-increases this risk even more.
-Any such information
-increases the set of fingerprinting data available to sites.
-But there are possible user privacy harms here
-that go beyond fingerprinting.
-Please read [[FINGERPRINTING-GUIDANCE]] and [[UNSANCTIONED-TRACKING]]
-for additional details.
 
-Think carefully about
-whether it is really necessary
+If you need to give web sites access to information about a device,
+use the guidelines below to decide what information to expose.
+
+Firstly, think carefully about whether it is really necessary
 to expose identifying information about the device at all.
-Please consider if your use cases could be satisfied
-by a less powerful API. [[LEAST-POWER]]
+Consider whether your [user needs](#priority-of-constituencies) could be satisfied
+by a less powerful API.
 
-Despite these concerns,
-you may find that it is necessary
-to expose identifying information about a device to the web platform.
+Exposing the presence of a device,
+additional information about a device,
+or device identifiers,
+each increase the risk of harming the user's privacy.
 
-The following guidelines will help ensure
-that this is done in a consistent and privacy-friendly way:
+One risk is that as more specific information is shared,
+the set of
+[fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
+available to sites gets larger.
+There are also [other potential risks](https://w3cping.github.io/privacy-threat-model/)
+to user privacy.
 
-: Limit identifiable information in the id
-:: As much as possible,
-    device ids exposed to the web platform
-    should not contain identifiable information
-    such as branding, make and model numbers, etc.
-    In many cases
-    using a randomized number or unique id
-    is preferable to
-    a generic string identifier such as "device1".
+Issue: Privacy Threat Model is not ready for prime time.
 
-    Device ids expressed as numbers
-    should contain sufficient entropy
-    so as to avoid re-use or potential sharing among other devices,
-    and should not be easily guessable.
+If there is no way to design a less powerful API,
+use these guidelines when exposing device information:
+
+: Limit information in the id
+:: Include as little identifiable information as possible
+    in device ids exposed to the web plaform.
+    Identifiable information includes
+    branding, make and model numbers, etc
+    You can usually use a random number
+    or a unique id instead.
+    Make sure that your ids aren't guessable,
+    and aren't re-used.
 : Keep the user in control
-:: Any existing device ids
-    mapped to or stored with the current session by the user agent
-    should be cleared
-    when users elect to "clear their cookies" (and other related settings).
-    Above all,
-    the user should be in control of this potential tracking state
-    and be able to reset it on demand.
+:: When the user chooses to clear browsing data,
+    make sure any stored device ids are cleared.
 : Hide sensitive ids behind a user permission
-:: Where device identification does not make sense to be expressed in an anonymous way,
-    access to the identifier
-    should be limited by default.
-    One way to limit exposure
-    is to only surface the identifier to author code
-    <em>after</em> obtaining permission from the user.
+:: If you can't create a device id in an anonymous way,
+    limit access to it.
+    Make sure the user can provide
+    [[#consent|meaningful consent]]
+    to a Web page accessing this information.
 : Tie ids to the same-origin model
-:: Identifiers should be unique
-    to the origin of the web content that is attempting to access them.
-    Web content from one origin should receive an identifier that is distinct
-    from the identifier given to web content from any other origin
-    despite the physical device being the same.
-:: Within an origin,
-    ids may have a stable representation to web content.
-    This ensures a consistent developer experience
-    if requesting the same device twice.
+:: Create distinct unique ids for the same physical device
+    for each origin that has has access to it.
+:: If the same device is requested more than once
+    by the same origin, return the same id for it
+    (unless the user has cleared their browsing data).
+    This allows authors to avoid having
+    several copies of the same device.
 : Persistable when necessary
-:: Some device identifiers
-    can only be obtained
-    via a complex or time-consuming device selection process.
-    In such cases,
-    it may make sense for author code
-    to be able to persist such identifiers
-    for use in a later session
-    in order to avoid the selection process a second time.
-    When this is the case,
-    the API should not only
-    provide a stable id during the session for the given origin,
-    but it should also be capable of
-    deterministically producing the same id
-    in subsequent sessions.
+:: If a device id is time consuming to obtain,
+    make sure authors can store an id generated in one session
+    for use in a later session.
+    You can do this by making sure that
+    the procedure to generate the id
+    consistently produces the same id
+    for the same device,
+    for each origin.
+
+See also:
+
+* [[LEAST-POWER]]
+* [[FINGERPRINTING-GUIDANCE]]
+* [[UNSANCTIONED-TRACKING]]
 
 <h3 id="device-enumeration">Use care when exposing APIs for selecting or enumerating devices</h3>
 
-APIs which expose the the existence, capabilities, and/or identifiers of many devices
-risk multiplying the harm described in [[#device-ids]]
-(since they expose fingerprinting entropy per exposed device)
-and thus require additional consideration.
+Look for ways to avoid enumerating devices.
+If you can't avoid it, expose the least information possible.
 
-As in the previous section,
-please consider if your use cases could be satisfied
+If an API exposes the the existence, capabilities, or identifiers of more than one device,
+all of the risks in [[#device-ids]]
+are multiplied by the number of devices.
+For the same reasons,
+consider whether your [user needs](#priority-of-constituencies) could be satisfied
 by a less powerful API. [[LEAST-POWER]]
 
 If the purpose of the API
 is to enable the user **to select a device**
 from the set of available devices of a particular kind,
 you may not need to expose a list to script at all.
-An API which invokes a User-Agent-provided device picker
-could suffice.
-Such an API
-keeps the user in control,
-hides the device behind a user permission,
-does not expose any fingerprinting data about the user's environment by default,
-and, when used, only exposes information about one device.
+An API which invokes a User-Agent-provided device picker could suffice.
+Such an API:
+- keeps the user in control,
+- doesn't expose any device information without the user's [consent](#consent),
+- doesn't expose any fingerprinting data about the user's environment by default, and
+- only exposes information about one device at a time.
 
-<div class=example>
-File selection form controls
-(<{input/type/file|&lt;input type=file>}>)
-invoke a User Agent-provided file picker.
-This elegant design ensures that
-the website only gets access to file(s) the user explicitly selected,
-and does not receive any other information
-about the user's file system.
-[[HTML]]
-
-</div>
-
-When designing such an API,
+When designing API which allows users to select a device,
 it may be necessary to also expose
 the fact that there are devices are available to be picked.
-Such a feature exposes
-a small amount (one bit) of fingerprinting data about the user's environment
+This does expose one bit of fingerprinting data about the user's environment
 to websites,
-so it isn't quite as safe as
-an API which does not have such a feature.
+so it isn't quite as safe as an API which doesn't have such a feature.
 
 <div class=example>
-
 The {{RemotePlayback}} interface
-does not expose a list of available [=remote playback devices=].
-Like <{input/type/file|&lt;input type=file>}>, it invokes a User Agent-defined device picker,
-which has the same desirable properties.
-[[REMOTE-PLAYBACK]]
+doesn't expose a list of available [=remote playback devices=].
+Instead, it allows the user to choose one device
+from a device picker provided by the User Agent.
 
-Unlike <{input/type/file|&lt;input type=file>}>, it also
-enables websites to detect whether or not
+It does enable websites to detect whether or not
 any [=remote playback device=] is available,
 so the website can show or hide a control
-the user can use to invoke the picker.
+the user can use to show the device picker.
 
+The trade-off is that by allowing websites
+this extra bit of information,
+the API lets authors make their user interface less confusing.
+They can choose to show a button to trigger the picker
+only if at least one device is available.
 </div>
 
 If you must expose a list of devices,
 try to **expose the smallest subset**
-that satisfies your use cases.
-Consider an API which allows the website
-to request **a filtered or constrained list** of devices,
-but keep in mind that
-constraint-matching systems may reveal more information than intended
-when repeatedly invoked with different constraints.
+that satisfies your user needs.
 
-If you must expose the full list of devices of a particular kind,
+For example, an API which allows the website
+to request **a filtered or constrained list** of devices
+is one option to keep the number of devices smaller.
+However, if authors are allowed to make multiple requests with different constraints,
+they may still be able to access the full list.
+
+Finally, if you must expose the full list of devices of a particular kind,
 please rigorously **define the order** in which devices will be listed.
 This can reduce interoperability issues,
-and helps to mitigate fingerprinting
-(because sort order could reveal other information;
+and helps to mitigate fingerprinting.
+(Sort order could reveal other information:
 see [[FINGERPRINTING-GUIDANCE#a_standardized_profile]] for more.)
 
-While APIs should not
+Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
 <h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
-Many modern operating systems come with convenience APIs, which abstract away
-normally complex technology in the form of higher level user-friendly APIs.
 
-Exposing these APIs to the web platform is getting more and more common, but you
-need to be careful when exposing these to the web platform.
+When adapting native operating system APIs for the web,
+make sure the new web APIs are designed with web platform principles in mind.
 
- : Generalize interface when underlying API is overly specific
- :: Don't blindly map native convenience APIs 1:1 to the web platform.
-    Native APIs do not translate well to the web platform, and doing so may result
-    in a API shape which is difficult to implement across a variety of underlying
-    platforms and native libraries.
+ : Design based on functionality, not based on the existing API
+ :: You will probably not be able to directly translate
+    an API available to native applications
+    to be a web API.
 
-    Especially be careful about exposing the exact lifecycle and data
-    structures of the underlying native APIs. Think about making an API that
-    [[#string-constants|fits well in with existing web platform APIs]] and which can be expressed in
-    commonly available low-level APIs.
+    Instead, consider the functionality available from the native API,
+    and the user needs it addresses,
+    and design an API which meets those user needs,
+    even if the implmentation depends on the existing native API.
 
- : Prefer asynchronous function by returning promises
- :: Even if the underlying API is synchronous, this does not necessarily mean it
-    translates well when ported to the web platform. Exposing a synchronous native
-    API to the web platform is generally discouraged, and should be
-    provided as a promise based API whenever possible.
+    Be particularly careful about exposing
+    the exact lifecycle and data structures of the underlying native APIs.
 
-    Doing this also allows putting the API behind a permission if it is
-    necessary, especially if the API depends on I/O or in the future may need to
-    be isolated to a separate process.
+ : Make sure the web API can be implemented on more than one platform
+ :: When designing a wrapper API,
+    consider how different platforms provide its functionality.
 
- : Don't overconstrain or overfit the API to the underlying (wrapped) OS
- :: When designing a wrapper API, you should consider how different implementations
-    (operating systems and platforms) provide this functionality. Ideally the entire
-    specification is implementable across platforms, but in some cases it may be
-    desirable to expose distinctions made on only some platforms.
-
-    These distinctions should be clearly noted if they are known in advance.
-
- : Do not propose black-box proprietary library or dedicated hardware processor dependencies
- :: Black-box dependencies are strongly discouraged, as this not only prevents wide
-    implementor adoption, but is unhealthy to the open nature of the web.
+    Ideally, all implementations should work exactly the same,
+    but in some cases you may have a reason to expose options
+    which only work on some platforms.
+    If this happens, be sure to explain
+    how authors should write code which works on all platforms.
+    See [[#feature-detect]].
 
  : Underlying protocols should be open
- :: APIs which require exchange with external hardware or services should not depend
-    on closed protocols.
+ :: APIs which require exchange with external hardware or services
+    should not depend on closed or proprietary protocols.
+    Depending on non-open protocols undermines the open nature of the web.
 
- : Be offline friendly
- :: Web platform APIs should ideally not have a hard dependency on online services.
-    The availability of these services across different regions may vary, users
-    may be offline, and the online services have no guarantee of being always
-    available.
+ : Design APIs to handle the user being off-line
+ :: If an API depends on some service which is provided by a remote server,
+    make sure that the API functions well when the user can't access the remote server
+    for any reason.
 
  : Avoid additional fingerprinting surfaces
- :: Wrapper APIs can expose unintentionally expose the user to a wider fingerprinting surface.
+ :: Wrapper APIs can unintentionally expose the user to
+    a wider fingerprinting surface.
     Please read the TAG's finding on
     <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a>
     for additional details.
@@ -2185,6 +1949,240 @@ whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
+
+<h2 id="naming-is-hard">Naming principles</h2>
+
+Names take meaning from:
+
+* signposting (the name itself)
+* use (how people come to understand the name over time)
+* context (the object on the left-hand side, for example)
+
+<h3 id="naming-common-words">Use common words</h4>
+
+API naming *must* be done in easily readable US English.
+Keep in mind that most web developers aren't native English speakers.
+Whenever possible, names should be chosen that use common vocabulary
+a majority of English speakers are likely to understand when first encountering the name.
+
+<div class="example">
+
+For example `setSize` is
+a more English-readable name
+than `cardinality`.
+
+</div>
+
+Value readability over brevity.
+Keep in mind, however, that sometimes
+the shorter name is the clearer one.
+For instance,
+it may be appropriate to use technical language or well-known terms of art
+in the specification where the API is defined.
+
+<div class="example">
+
+For example,
+the Fetch API's {{Body}} mixin's {{Body/json()}} method
+is named for the kind of object it returns.
+JSON is a well-known term of art
+among web developers likely to use the Fetch API.
+It would harm comprehension
+to name this API less directly connected to its return type. [[FETCH]]
+
+</div>
+
+<h3 id="naming-charset">Use ASCII names</h4>
+
+Names must adhere to the local language restrictions, for example CSS ident rules etc.
+and *should* be in the [=ascii code point|ASCII range=].
+
+<h3 id="naming-consultation">Consultation</h4>
+
+Please consult widely on names in your APIs.
+
+You may find good names or inspiration in surprising places.
+- What are similar APIs named on other platforms,
+or in popular libraries in various programming languages?
+- Ask end users and developers what they call
+things that your API works with or manipulates.
+- Look at other web platform specifications,
+and seek advice from others working in related areas of the platform.
+
+Pay particular attention to advice you receive
+with clearly-stated rationale based on underlying principles.
+
+<div class="example">
+
+Tantek Çelik [extensively researched](https://tantek.com/2011/238/b1/many-ways-slice-url-name-pieces)
+how to name the various pieces of a URL.
+The editors of the [URL spec](https://url.spec.whatwg.org)
+have relied on this research
+when editing that document. [[URL]]
+
+</div>
+
+<h4 id="naming-web-considtency" class="no-num no-toc">Use Web consistent names</h4>
+When choosing a name for feature or API that has exposure in other technology stacks, 
+the preference should be towards the Web ecosystem naming convention rather than other
+communities.
+
+<div class ="example">
+
+The NFC standard uses the term `media` to refer to what the Web calls 
+[MIME type](https://mimesniff.spec.whatwg.org/#mime-type-representation).
+In such cases, the naming of features or API for the purposes of Web NFC must prefer
+naming consistent with `MIME type`. 
+
+</div>
+
+<h4 id="naming-future-proofing" class="no-num no-toc">Future-proofing</h4>
+
+Naming should be generic and future-proof whenever possible.
+
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.
+
+<h3 id="naming-future-proofing">Future-proofing</h4>
+
+Naming should be generic and future-proof whenever possible.
+
+The name should not be directly associated with a brand or specific revision of
+the underlying technology whenever possible; technology becomes obsolete, and
+removing APIs from the web is difficult.
+
+<div class="example">
+
+The Remote Playback API was not named
+after one of the pre-existing, proprietary systems it was inspired by
+(such as Chromecast or AirPlay).
+Instead, general terms that describe what the API does were chosen. [[REMOTE-PLAYBACK]]
+
+</div>
+
+<div class="example">
+
+The `keydown` and `keyup` {{KeyboardEvent}}s were not named
+for the specific hardware bus that keyboards used at the time.
+Instead, generic names were chosen
+that are as applicable to today's Bluetooth and USB keyboards
+as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
+
+</div>
+
+<h3 id="naming-consistency">Consistency</h4>
+Naming schemes should aim for consistency, to avoid confusion.
+
+Sets of related names should agree with each other in:
+  * part of speech  - noun, verb, etc.
+  * negation, for example all of the names in a set should either describe what is allowed
+    or they should all describe what is denied
+
+<h4 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
+  boolean-returning methods</h5>
+
+Boolean properties, options, or API parameters which are asking a question about
+their argument *should not* be prefixed with <code>is</code>, while methods
+that serve the same purpose, given that it has no side effects, *should* be
+prefixed with <code>is</code> to be consistent with the rest of the platform.
+
+<h4 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+
+Although they haven't always been uniformly followed, through the history of web platform API
+design, the following rules have emerged:
+
+<table class="data complex">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Casing rule</th>
+            <th>Examples</th>
+        </tr>
+    </thead>
+    <tr>
+        <th>Methods and properties<br>(Web IDL attributes, operations, and dictionary keys)</th>
+        <td>Camel case</td>
+        <td><code highlight="js">document.createAttribute()</code><br>
+            <code highlight="js">document.compatMode</code></td>
+    </tr>
+    <tr>
+        <th>Classes and mixins<br>(Web IDL interfaces)</th>
+        <td>Pascal case</td>
+        <td><code highlight="js">NamedNodeMap</code><br>
+            <code highlight="js">NonElementParentNode</code></td>
+    </tr>
+    <tr>
+        <th>Initialisms in APIs</th>
+        <td>All caps, except when the first word in a method or property</td>
+        <td><code highlight="js">HTMLCollection</code><br>
+            <code highlight="js">element.innerHTML</code><br>
+            <code highlight="js">document.bgColor</code></td>
+    </tr>
+    <tr>
+        <th>Repeated initialisms in APIs</th>
+        <td>Follow the same rule</td>
+        <td><code highlight="js">HTMLHRElement</code><br>
+            <code highlight="js">RTCDTMFSender</code><br>
+    </tr>
+    <tr>
+        <th>The abbreviation of "identity"</th>
+        <td><code highlight="js">Id</code>, except when the first word in a method or property</td>
+        <td><code highlight="js">node.getElementById()</code><br>
+            <code highlight="js">event.pointerId</code><br>
+            <code highlight="js">credential.id</code></td>
+    </tr>
+    <tr>
+        <th>Enumeration values</th>
+        <td>Lowercase, dash-delimited</td>
+        <td><code highlight="js">"no-referrer-when-downgrade"</code></td>
+    </tr>
+    <tr>
+        <th>Events</th>
+        <td>Lowercase, concatenated</td>
+        <td><code>autocompleteerror</code><br>
+            <code>languagechange</code></td>
+    </tr>
+    <tr>
+        <th>HTML elements and attributes</th>
+        <td>Lowercase, concatenated</td>
+        <td><code highlight="html">&lt;figcaption&gt;</code><br>
+            <code highlight="html">&lt;textarea maxlength&gt;</code></td>
+    </tr>
+    <tr>
+        <th>JSON keys</th>
+        <td>Lowercase, underscore-delimited</td>
+        <td><code highlight="js">manifest.short_name</code></td>
+    </tr>
+</table>
+
+<div class="non-normative">
+Note that in particular, when a HTML attribute is <a>reflected</a> as a property, the attribute
+and property's casings won't necessarily match. For example, the HTML attribute
+<{img/ismap}> on <{img}> elements is <a>reflected</a> as the
+{{HTMLImageElement/isMap}} property on {{HTMLImageElement}}.
+
+The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
+or stored on disk, and don't apply to the general notion of JavaScript object keys.
+
+Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
+examples that violate the above rules are {{XMLHttpRequest}} and
+{{HTMLHtmlElement}}. Don't follow their example; instead always capitalize your
+initialisms, even if they are repeated.
+</div>
+
+<h3 id="naming-unsafe">Warning about dangerous features</h4>
+
+Where possible, mark features that weaken
+the guarantees provided to developers
+by making their names start with "unsafe" so that this is more noticeable.
+
+For example,
+[Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
+provides protection against certain types of content injection vulnerabilities.
+CSP also provides features that weaken this guarantee,
+such as the `unsafe-inline` keyword,
+which reduces CSP's own protections by allowing inline scripts.
 
 <h3 id="writing-resources">Other resources</h3>
 
