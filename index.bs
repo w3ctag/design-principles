@@ -326,7 +326,7 @@ communities.
 
 The NFC standard uses the term `media` to refer to what the Web calls 
 [MIME type](https://mimesniff.spec.whatwg.org/#mime-type-representation).
-In such cases, the naming of features or API for the purposes of WebNFC must prefer
+In such cases, the naming of features or API for the purposes of Web NFC must prefer
 naming consistent with `MIME type`. 
 
 </div>
