@@ -27,6 +27,7 @@ spec:selectors-4; type:selector; text::hover
 spec:css-cascade-5; type:dfn; text:inherit
 spec:html; type:dfn; for:/; text:event loop
 spec:html; type:element-attr; for:a; text:href
+spec:css-inline-3; type:property; text:line-height
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
