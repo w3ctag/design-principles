@@ -1,10 +1,15 @@
+specs = $(patsubst %.bs,build/%.html,$(wildcard *.bs))
+
 .PHONY: all clean
 .SUFFIXES: .bs .html
 
-all: index.html
+all: $(specs)
 
 clean:
-	rm -f index.html *~
+	rm -rf build *~
 
-.bs.html:
+build:
+	mkdir -p build
+
+build/%.html: %.bs Makefile build
 	bikeshed --die-on=warning spec $< $@
