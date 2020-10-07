@@ -1369,8 +1369,6 @@ The event can only notify the author that the resize has already happened.
 
 <h3 id="guard-against-recursion">Guard against potential recursion</h3>
 
-Issue: This gets very into the weeds.
-
 If your API includes a long-running or complicated algorithm,
 prevent calling into the algorithm if it's already running.
 
@@ -1519,8 +1517,6 @@ and capture any state information in the {{Event/target}} object.
 It's usually not necessary to create new subclasses of {{Event}}.
 
 <h3 id="events-vs-observers">How to decide between Events and Observers</h3>
-
-Issue: This gets very into the weeds.
 
 In general, use {{EventTarget}} and notification {{Event}}s,
 rather than an Observer pattern,
