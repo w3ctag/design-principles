@@ -1358,7 +1358,7 @@ only to deliver a notification that a change has already finished happening.
 
 <div class="example">
 When a window is resized,
-an event named [`resize`](https://drafts.csswg.org/cssom-view/#eventdef-window-resize)
+an event named <code>[resize](https://drafts.csswg.org/cssom-view/#eventdef-window-resize)</code>
 is fired at the `Window` object.
 
 It's not possible to stop the resize from happening by intercepting the event.
