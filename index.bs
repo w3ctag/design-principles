@@ -1955,7 +1955,8 @@ An example of something that was done as a monkey patch
 that is scheduled to be integrated into the web app manifest in a future level (post-CR):
 
 * https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
-    </div>
+
+</div>
 
 However, if your feature requires a complex set of metadata specific to a functional domain,
 the creation of a new manifest may be justified.
