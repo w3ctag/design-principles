@@ -1382,74 +1382,72 @@ Observers involve defining a new class, dictionaries for options, and a new type
     However, we haven't lost the batching, timing, or creation-time customization, and the `ETIntersectionObserver` doesn't participate in a hierarchy. These aspects can be achieved with either design.
 </div>
 
-<h2 id="types-and-units">Types and Units</h2>
+
+<h2 id="types-and-units">Web IDL, Types, and Units</h2>
 
 <h3 id="numeric-types">Use numeric types appropriately</h3>
 
-[[!WEBIDL]] contains many numeric types. However, it is very
-rare that its more specific ones are actually appropriate.
-
-JavaScript has only one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65536 before doing any further processing". That is very rarely a useful thing to do.
-
-Instead, you will want to stick with one of:
+If an API you're designing uses numbers,
+use one of the following [[!WEBIDL]] numeric types,
+unless there is a specific reason not to:
 
   : <code>unrestricted double</code>
-  :: When truly any JavaScript number will do, including infinities and NaN
+  :: Any JavaScript number, including infinities and NaN
 
   : <code>double</code>
-  :: Any JavaScript number excluding infinities and NaN
+  :: Any JavaScript number, excluding infinities and NaN
 
   : <code>[EnforceRange] long long</code>
-  :: Any JavaScript number in the integer-representable range, throwing a <code highlight="js">TypeError</code>
-      outside the range and rounding inside of it
+  :: Any JavaScript number from -2<sup>63</sup> to 2<sup>63</sup>,
+     rounded to the nearest integer.
+     If a number outside this range is given,
+     the generated bindings will throw a <code highlight="js">TypeError</code>.
 
   : <code>[EnforceRange] unsigned long long</code>
-  :: Any nonnegative JavaScript number in the integer-representable range, throwing a
-      <code highlight="js">TypeError</code> outside the range and rounding inside of it
+  :: Any JavaScript number from 0 to 2<sup>64</sup>,
+     rounded to the nearest integer.
+     If a number outside this range is given,
+     the generated bindings will throw a <code highlight="js">TypeError</code>.
 
-  : <code>bigint</code>
-  :: When the possible integer values range more broadly than JavaScript numbers can accurately represent
+JavaScript has only one numeric type, `Number`:
+IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN.
+[[!WEBIDL]] numeric types represent
+rules for modifying any JavaScript number
+to belong to a subset with particular properties.
+These rules are run when a number is passed to the interface defined in IDL,
+whether a method or a property setter.
 
-Additionally, you can combine any of the above with an extra line in your
-algorithm to validate that the number is within the expected domain-specific
-range, and throwing or performing other actions in response. (While it is very
-rarely appropriate to modify author input by taking it modulo 65536, it might be
-appropriate to take it modulo 360, for example.)
-
-A special case of domain-specific validation, which Web IDL already has you
-covered for, is the 0–255 range. This can be written as <code>[EnforceRange]
-octet</code>: any JavaScript number in the range 0–255, throwing a <code
-highlight="js">TypeError</code> outside the range and rounding inside of it.
-(And indeed, if it turns out that the other power-of-two ranges are semantically
-meaningful for your domain, such that you want the modulo or range-checking
-behavior, feel free to use them.)
+If you have extra rules which need to be applied to the number,
+you can specify those in your algorithm.
 
 <div class="note">
-Those coming from other languages should carefully note that despite their
-names, <code>long long</code> and <code>unsigned long long</code> only have 53
-bits of precision, and not 64.
+The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a>
+for converting a JavaScript number to a number with fewer bits,
+such as an `octet` (8 bits, in the range [0, 255]),
+involves taking the modulo of the JavaScript number.
+For example, to convert a JavaScript number value of 300
+to an `octet`,
+the bindings will first compute 300 modulo 255,
+so the resulting number will be 45,
+which might be surprising.
+
+Instead, you can use
+<code><a href="https://heycam.github.io/webidl/#EnforceRange">[EnforceRange]</a> octet</code>
+to throw a `TypeError` for values outside of the `octet` range,
+or <code><a href="https://heycam.github.io/webidl/#Clamp">[Clamp]</a> octet</code>
+to clamp values to the octet range (for example, converting 300 to 255).
+
+This also works for the other shorter types, such as `short` or `long`.
 </div>
 
-<code>bigint</code> is recommended to be used <em>only</em> in circumstances
-where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned
-long long</code> would not work in terms of expressivity: that is, only when
-values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In
-particular, APIs should not use the <code>bigint</code> type simply because the
-input is an integer&mdash;<code>bigint</code> is for big integers (hence the
-name!).
-
-Transparent support for inputs being either JavaScript Number of BigInt types is
-discouraged, unless there is a domain-specific requirement to support it. As far
-as ergonomics, JavaScript developers are expected to keep track of whether their
-values are Numbers or BigInts. Sloppiness or implicit conversions here could
-lead to a loss of precision, defeating the purpose of using BigInt.
-
-Further, try to resist doubling up the surface area of an API in order to
-provide both `BigInt` and `Number` variants of an API. As an API designer,
-consider it your job to chose the correct numeric type for the feature being
-exposed.
-
+<code>bigint</code> should be used only when values greater than 2<sup>53</sup> 
+ or less than -2<sup>53</sup> are expected.
+ 
+ An API should not support both `BigInt` and `Number` simultaneously, 
+either by supporting both types via polymorphism,
+or by adding separate, otherwise identical APIs which take `BigInt` and `Number`.
+This risks losing precision through implicit conversions, 
+which defeats the purpose of `BigInt`.
 <h3 id="idl-string-types">Represent strings appropriately</h3>
 
 <!--
@@ -1466,17 +1464,18 @@ exposed.
 -->
 
 When designing a web platform feature which operates on [=strings=],
-{{DOMString}} is almost always the right Web IDL [=string type=] to use.
-This is because
-most string operations don't need
-to interpret the [=code units=] inside of the string.
-There are exceptions, however, for which Web IDL provides
-{{USVString}} and {{ByteString}}. [[!INFRA]] [[!WEBIDL]]
+use {{DOMString}} unless you have a specific reason not to.
+
+Most string operations don't need
+to interpret the [=code units=] inside of the string,
+so {{DOMString}} is the best choice.
+In the specific cases explained below, it might be appropriate to use either
+{{USVString}} or {{ByteString}} instead. [[!INFRA]] [[!WEBIDL]]
 
 {{USVString}} is the Web IDL type that represents [=scalar value strings=].
 For strings whose most common algorithms operate on [=scalar values=]
 (such as [$percent-encode|percent-encoding$]),
-or for operations which cannot handle [=surrogates=] in input
+or for operations which can't handle [=surrogates=] in input
 (such as APIs that pass strings through to native platform APIs),
 {{USVString}} should be used.
 
@@ -1490,34 +1489,45 @@ should use {{USVString}}. [[HTML]]
 {{ByteString}} should only be used for representing
 data from protocols like HTTP
 which don't distinguish between bytes and strings.
-It is not a general-purpose string type.
+It isn't a general-purpose string type.
 If you need to represent a [=sequence types|sequence=] of {{byte|bytes}},
 use {{Uint8Array}}.
 
 <h3 id="milliseconds">Use milliseconds for time measurement</h3>
 
-Any web API that accepts a time measurement should do so in milliseconds. This
-is a tradition stemming from <code highlight="js">setTimeout</code> and the
-<code highlight="js">Date</code> API, and carried through since then.
+If you are designing an API that accepts a time measurement,
+express the time measurement in milliseconds.
 
-Even if seconds (or some other unit) are more natural in the domain of an API, sticking with
-milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with
-other time quantities.
+Even if seconds (or some other time unit) are more natural in the domain of an API,
+sticking with milliseconds ensures that APIs
+are interoperable with one another.
+This means that authors don't need to convert values used in one API
+to be used in another API,
+or keep track of which time unit is needed where.
 
-Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
-nanoseconds.
+This convention began with <code highlight="js">setTimeout</code> and the
+<code highlight="js">Date</code> API,
+and has been used since then.
+
+Note: high-resolution time is usually represented as fractional milliseconds
+using a floating point value,
+not as an integer value of a smaller time unit like nanoseconds.
 
 <h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
 
-When representing date-times on the platform, use the {{DOMTimeStamp}} type, with values being the
- number of milliseconds relative to 1970-01-01T00:00:00Z.
+When representing date-times on the platform, use the {{DOMTimeStamp}} type.
+Use {{DOMHighResTimeStamp}} if authors
+must always be able to compare timestamps,
+regardless of the user's time settings.
 
-The JavaScript <code highlight="js">Date</code> class must not be used for this purpose. <code highlight="js">Date</code> objects
-are mutable (and there is no way to make them immutable), which comes with a host of attendant
-problems.
+Don't use the JavaScript <code highlight="js">Date</code> class for representing
+specific date-time values.
+<code highlight="js">Date</code> objects are mutable (may have their value changed),
+and there is no way to make them immutable.
 
 <div class="note">
-    For more background on why <code highlight="js">Date</code> must not be used, see the following:
+    For more background on why <code highlight="js">Date</code> must not be used,
+    see the following:
 
     * <a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on
         es-discuss
@@ -1525,29 +1535,27 @@ problems.
         on the Web IDL Bugzilla
 </div>
 
-While in theory time is monotonically increasing,
-values like {{DOMTimeStamp}} that represent time since 1970 are derived from the system's clock,
-which may sometimes move backwards
-(for example, from NTP or manual adjustment),
-causing the timestamp values to decrease over time.
-They may also remain the same due to the limitation of millisecond resolution.
-Thus, for time stamps that do not need to correspond to an absolute time,
-consider using {{DOMHighResTimeStamp}},
-which provides monotonically non-decreasing sub-millisecond timestamps
-that are comparable within a single <a>browsing context</a> or web worker.
+{{DOMTimeStamp}} values represent
+the number of milliseconds since 1970-01-01T00:00:00Z.
+They are derived from the system's clock,
+which may be changed by the user,
+or automatically for things like time zone updates
+or daylight savings.
+This means that, in practice, a {{DOMTimeStamp}}
+created later in real time
+may have a lower value than a {{DOMTimeStamp}} created earlier.
+Also, if two {{DOMTimeStamp}}s are created within the same millisecond,
+there's no way to know which was created earlier.
+
+So, if a date-time is only used to compare timing of events,
+and not to show a formatted date-time value to the user,
+consider using {{DOMHighResTimeStamp}} instead.
 See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
-Errors in web APIs should be represented as
-ECMAScript error objects (e.g., {{Error}})
+Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
-There was at one point a trend to use {{DOMError}} when
-objects had a property representing an error.
-However, we no longer believe there was value in this split,
-and therefore suggest that ECMAScript error objects (e.g., {{TypeError}})
-or {{DOMException}}
-should be used for errors,
 whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">OS and Device Wrapper APIs</h2>
