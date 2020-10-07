@@ -2001,7 +2001,7 @@ Some of the existing manifest files include
 * <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a> which is used by some web publications working group standards
 * <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used to set security policies.
 
-We encourage people to think of manifest files as extensible.
+We encourage people to extend existing manifest files.
 Always try to get the changes into the original spec,
 or at least discuss the extension with the spec editors.
 Having this discussion is more likely to result in a better design
