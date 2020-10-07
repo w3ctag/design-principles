@@ -1198,7 +1198,7 @@ Possible extra rowspan handling
 	ul.index ul,
 	ul.index dl { font-size: smaller; }
 	@media not print {
-		ul.index li span:not(.dfn-paneled) {
+		ul.index li span {
 			white-space: nowrap;
 			color: transparent; }
 		ul.index li a:hover + span,
@@ -1321,8 +1321,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
+  <meta content="Bikeshed version f9f60c8f, updated Fri Sep 25 16:39:03 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
+  <meta content="15673f6192ca71b3962048cd2e187fdf44d20494" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1552,7 +1553,7 @@ figcaption:not(.no-marker)::before {
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a { color: black; }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -1877,7 +1878,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-05">5 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-07">7 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -4613,194 +4614,194 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[css-backgrounds-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-background-image">background-image</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-background-image" style="color:initial">background-image</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-actual-value">actual value</span>
-     <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
-     <li><span class="dfn-paneled" id="term-for-inheritance">inherit</span>
+     <li><span class="dfn-paneled" id="term-for-actual-value" style="color:initial">actual value</span>
+     <li><span class="dfn-paneled" id="term-for-computed-value" style="color:initial">computed value</span>
+     <li><span class="dfn-paneled" id="term-for-inheritance" style="color:initial">inherit</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-conditional-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports" style="color:initial">@supports</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-fonts-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-font-size">font-size</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-font-size" style="color:initial">font-size</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-inline-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter">initial-letter</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter-align">initial-letter-align</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-line-height">line-height</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter" style="color:initial">initial-letter</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter-align" style="color:initial">initial-letter-align</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-line-height" style="color:initial">line-height</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
-     <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
+     <li><span class="dfn-paneled" id="term-for-length-value" style="color:initial">&lt;length></span>
+     <li><span class="dfn-paneled" id="term-for-number-value" style="color:initial">&lt;number></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-lh">lh</span>
+     <li><span class="dfn-paneled" id="term-for-lh" style="color:initial">lh</span>
     </ul>
    <li>
     <a data-link-type="biblio">[cssom-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-window-getcomputedstyle">getComputedStyle(elt)</span>
-     <li><span class="dfn-paneled" id="term-for-resolved-value">resolved value</span>
+     <li><span class="dfn-paneled" id="term-for-dom-window-getcomputedstyle" style="color:initial">getComputedStyle(elt)</span>
+     <li><span class="dfn-paneled" id="term-for-resolved-value" style="color:initial">resolved value</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-domerror">DOMError</span>
-     <li><span class="dfn-paneled" id="term-for-domtokenlist">DOMTokenList</span>
-     <li><span class="dfn-paneled" id="term-for-element">Element</span>
-     <li><span class="dfn-paneled" id="term-for-event">Event</span>
-     <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-htmlcollection">HTMLCollection</span>
-     <li><span class="dfn-paneled" id="term-for-mutationobserver">MutationObserver</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-mutationobserverinit">MutationObserverInit</span>
-     <li><span class="dfn-paneled" id="term-for-mutationrecord">MutationRecord</span>
-     <li><span class="dfn-paneled" id="term-for-node">Node</span>
-     <li><span class="dfn-paneled" id="term-for-nodelist">NodeList</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal-add">add</span>
-     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener">addEventListener(type, callback)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-node-appendchild">appendChild(node)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-dispatchevent">dispatchEvent(event)</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-fire">fire an event</span>
-     <li><span class="dfn-paneled" id="term-for-dom-document-getelementsbytagname">getElementsByTagName(qualifiedName)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once">once</span>
-     <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall">querySelectorAll(selectors)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-target">target</span>
+     <li><span class="dfn-paneled" id="term-for-domerror" style="color:initial">DOMError</span>
+     <li><span class="dfn-paneled" id="term-for-domtokenlist" style="color:initial">DOMTokenList</span>
+     <li><span class="dfn-paneled" id="term-for-element" style="color:initial">Element</span>
+     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
+     <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-htmlcollection" style="color:initial">HTMLCollection</span>
+     <li><span class="dfn-paneled" id="term-for-mutationobserver" style="color:initial">MutationObserver</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-mutationobserverinit" style="color:initial">MutationObserverInit</span>
+     <li><span class="dfn-paneled" id="term-for-mutationrecord" style="color:initial">MutationRecord</span>
+     <li><span class="dfn-paneled" id="term-for-node" style="color:initial">Node</span>
+     <li><span class="dfn-paneled" id="term-for-nodelist" style="color:initial">NodeList</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-add" style="color:initial">add</span>
+     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener" style="color:initial">addEventListener(type, callback)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-node-appendchild" style="color:initial">appendChild(node)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-dispatchevent" style="color:initial">dispatchEvent(event)</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
+     <li><span class="dfn-paneled" id="term-for-dom-document-getelementsbytagname" style="color:initial">getElementsByTagName(qualifiedName)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once" style="color:initial">once</span>
+     <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall" style="color:initial">querySelectorAll(selectors)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-target" style="color:initial">target</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-body">Body</span>
-     <li><span class="dfn-paneled" id="term-for-dom-body-json">json()</span>
+     <li><span class="dfn-paneled" id="term-for-body" style="color:initial">Body</span>
+     <li><span class="dfn-paneled" id="term-for-dom-body-json" style="color:initial">json()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp">DOMHighResTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp" style="color:initial">DOMHighResTimeStamp</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-globaleventhandlers">GlobalEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-htmlconstructor">HTMLConstructor</span>
-     <li><span class="dfn-paneled" id="term-for-htmlhtmlelement">HTMLHtmlElement</span>
-     <li><span class="dfn-paneled" id="term-for-htmlimageelement">HTMLImageElement</span>
-     <li><span class="dfn-paneled" id="term-for-history-3">History</span>
-     <li><span class="dfn-paneled" id="term-for-imagebitmap">ImageBitmap</span>
-     <li><span class="dfn-paneled" id="term-for-navigator">Navigator</span>
-     <li><span class="dfn-paneled" id="term-for-window">Window</span>
-     <li><span class="dfn-paneled" id="term-for-windoweventhandlers">WindowEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap">createImageBitmap(image)</span>
-     <li><span class="dfn-paneled" id="term-for-custom-element">custom element</span>
-     <li><span class="dfn-paneled" id="term-for-customized-built-in-element">customized built-in element</span>
-     <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define">define(name, constructor)</span>
-     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes">event handler idl attribute</span>
-     <li><span class="dfn-paneled" id="term-for-event-loop">event loop</span>
-     <li><span class="dfn-paneled" id="term-for-focus-update-steps">focus update steps</span>
-     <li><span class="dfn-paneled" id="term-for-attr-hyperlink-href">href</span>
-     <li><span class="dfn-paneled" id="term-for-the-img-element">img</span>
-     <li><span class="dfn-paneled" id="term-for-in-parallel">in parallel</span>
-     <li><span class="dfn-paneled" id="term-for-dom-img-ismap">isMap</span>
-     <li><span class="dfn-paneled" id="term-for-attr-img-ismap">ismap</span>
-     <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
-     <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
-     <li><span class="dfn-paneled" id="term-for-reflect">reflect</span>
-     <li><span class="dfn-paneled" id="term-for-task-queue">task queues</span>
+     <li><span class="dfn-paneled" id="term-for-globaleventhandlers" style="color:initial">GlobalEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-htmlconstructor" style="color:initial">HTMLConstructor</span>
+     <li><span class="dfn-paneled" id="term-for-htmlhtmlelement" style="color:initial">HTMLHtmlElement</span>
+     <li><span class="dfn-paneled" id="term-for-htmlimageelement" style="color:initial">HTMLImageElement</span>
+     <li><span class="dfn-paneled" id="term-for-history-3" style="color:initial">History</span>
+     <li><span class="dfn-paneled" id="term-for-imagebitmap" style="color:initial">ImageBitmap</span>
+     <li><span class="dfn-paneled" id="term-for-navigator" style="color:initial">Navigator</span>
+     <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
+     <li><span class="dfn-paneled" id="term-for-windoweventhandlers" style="color:initial">WindowEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap" style="color:initial">createImageBitmap(image)</span>
+     <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
+     <li><span class="dfn-paneled" id="term-for-customized-built-in-element" style="color:initial">customized built-in element</span>
+     <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define" style="color:initial">define(name, constructor)</span>
+     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
+     <li><span class="dfn-paneled" id="term-for-event-loop" style="color:initial">event loop</span>
+     <li><span class="dfn-paneled" id="term-for-focus-update-steps" style="color:initial">focus update steps</span>
+     <li><span class="dfn-paneled" id="term-for-attr-hyperlink-href" style="color:initial">href</span>
+     <li><span class="dfn-paneled" id="term-for-the-img-element" style="color:initial">img</span>
+     <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
+     <li><span class="dfn-paneled" id="term-for-dom-img-ismap" style="color:initial">isMap</span>
+     <li><span class="dfn-paneled" id="term-for-attr-img-ismap" style="color:initial">ismap</span>
+     <li><span class="dfn-paneled" id="term-for-dom-open" style="color:initial">open(url, target, features)</span>
+     <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
+     <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-task-queue" style="color:initial">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idbdatabase">IDBDatabase</span>
+     <li><span class="dfn-paneled" id="term-for-idbdatabase" style="color:initial">IDBDatabase</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-ascii-code-point">ascii code point</span>
-     <li><span class="dfn-paneled" id="term-for-code-unit">code unit</span>
-     <li><span class="dfn-paneled" id="term-for-implementation-defined">implementation-defined</span>
-     <li><span class="dfn-paneled" id="term-for-scalar-value">scalar value</span>
-     <li><span class="dfn-paneled" id="term-for-scalar-value-string">scalar value string</span>
-     <li><span class="dfn-paneled" id="term-for-string">string</span>
-     <li><span class="dfn-paneled" id="term-for-surrogate">surrogate</span>
+     <li><span class="dfn-paneled" id="term-for-ascii-code-point" style="color:initial">ascii code point</span>
+     <li><span class="dfn-paneled" id="term-for-code-unit" style="color:initial">code unit</span>
+     <li><span class="dfn-paneled" id="term-for-implementation-defined" style="color:initial">implementation-defined</span>
+     <li><span class="dfn-paneled" id="term-for-scalar-value" style="color:initial">scalar value</span>
+     <li><span class="dfn-paneled" id="term-for-scalar-value-string" style="color:initial">scalar value string</span>
+     <li><span class="dfn-paneled" id="term-for-string" style="color:initial">string</span>
+     <li><span class="dfn-paneled" id="term-for-surrogate" style="color:initial">surrogate</span>
     </ul>
    <li>
     <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false">false</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-true">true</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false" style="color:initial">false</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-true" style="color:initial">true</span>
     </ul>
    <li>
     <a data-link-type="biblio">[payment-request]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest">PaymentRequest</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-state">[[state]]</span>
-     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete">complete()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">PaymentRequest</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-state" style="color:initial">[[state]]</span>
+     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete" style="color:initial">complete()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[REMOTE-PLAYBACK]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-remoteplayback-interface">RemotePlayback</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices">remote playback device</span>
+     <li><span class="dfn-paneled" id="term-for-remoteplayback-interface" style="color:initial">RemotePlayback</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices" style="color:initial">remote playback device</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-selector-combinator">combinator</span>
+     <li><span class="dfn-paneled" id="term-for-selector-combinator" style="color:initial">combinator</span>
     </ul>
    <li>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-keyboardevent">KeyboardEvent</span>
-     <li><span class="dfn-paneled" id="term-for-mouseevent">MouseEvent</span>
+     <li><span class="dfn-paneled" id="term-for-keyboardevent" style="color:initial">KeyboardEvent</span>
+     <li><span class="dfn-paneled" id="term-for-mouseevent" style="color:initial">MouseEvent</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-urlsearchparams">URLSearchParams</span>
-     <li><span class="dfn-paneled" id="term-for-percent-encode">percent-encode</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url">url</span>
+     <li><span class="dfn-paneled" id="term-for-urlsearchparams" style="color:initial">URLSearchParams</span>
+     <li><span class="dfn-paneled" id="term-for-percent-encode" style="color:initial">percent-encode</span>
+     <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">url</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-ByteString">ByteString</span>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMException">DOMException</span>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-DOMTimeStamp">DOMTimeStamp</span>
-     <li><span class="dfn-paneled" id="term-for-invalidstateerror">InvalidStateError</span>
-     <li><span class="dfn-paneled" id="term-for-idl-promise">Promise</span>
-     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror">TypeError</span>
-     <li><span class="dfn-paneled" id="term-for-idl-USVString">USVString</span>
-     <li><span class="dfn-paneled" id="term-for-idl-Uint8Array">Uint8Array</span>
-     <li><span class="dfn-paneled" id="term-for-idl-byte">byte</span>
-     <li><span class="dfn-paneled" id="term-for-idl-constructors">constructor operations</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-maplike">maplike</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-namespace">namespace</span>
-     <li><span class="dfn-paneled" id="term-for-sequence-type">sequence type</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-setlike">setlike</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-string-type">string types</span>
+     <li><span class="dfn-paneled" id="term-for-idl-ByteString" style="color:initial">ByteString</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMException" style="color:initial">DOMException</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-DOMTimeStamp" style="color:initial">DOMTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-invalidstateerror" style="color:initial">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-promise" style="color:initial">Promise</span>
+     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror" style="color:initial">TypeError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-USVString" style="color:initial">USVString</span>
+     <li><span class="dfn-paneled" id="term-for-idl-Uint8Array" style="color:initial">Uint8Array</span>
+     <li><span class="dfn-paneled" id="term-for-idl-byte" style="color:initial">byte</span>
+     <li><span class="dfn-paneled" id="term-for-idl-constructors" style="color:initial">constructor operations</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-maplike" style="color:initial">maplike</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-namespace" style="color:initial">namespace</span>
+     <li><span class="dfn-paneled" id="term-for-sequence-type" style="color:initial">sequence type</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-setlike" style="color:initial">setlike</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-string-type" style="color:initial">string types</span>
     </ul>
    <li>
     <a data-link-type="biblio">[XHR]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-progressevent">ProgressEvent</span>
-     <li><span class="dfn-paneled" id="term-for-xmlhttprequest">XMLHttpRequest</span>
-     <li><span class="dfn-paneled" id="term-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-progressevent-loaded">loaded</span>
-     <li><span class="dfn-paneled" id="term-for-dom-progressevent-total">total</span>
+     <li><span class="dfn-paneled" id="term-for-progressevent" style="color:initial">ProgressEvent</span>
+     <li><span class="dfn-paneled" id="term-for-xmlhttprequest" style="color:initial">XMLHttpRequest</span>
+     <li><span class="dfn-paneled" id="term-for-xmlhttprequesteventtarget" style="color:initial">XMLHttpRequestEventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-loaded" style="color:initial">loaded</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-total" style="color:initial">total</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
