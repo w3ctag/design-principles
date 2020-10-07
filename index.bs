@@ -1902,31 +1902,62 @@ make sure the new web APIs are designed with web platform principles in mind.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
-<h3 id="design-resources">Privacy, Security, Accessibility, and Internationalization</h3>
-
-It is important not to neglect other aspects of API design such as privacy, security, accessibility, and internationalization.
-Please take advantage of these other excellent resources in your design process:
-
-* <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
-* <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
-* <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
-* <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
-
 <h3 id="polyfills">Polyfills</h3>
 
-Polyfills can be hugely beneficial in helping to roll out new features to the web platform. The
-Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance
-that should be considered in the development of new features, notably:
 
-* Being "polyfillable" is not essential but <strong>is</strong> beneficial
+Polyfills can be hugely beneficial
+in helping to roll out new features to the web platform.
+The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a>
+offers guidance that should be considered in the development of new features, notably:
+
+* Being "polyfillable" isn't essential but <strong>is</strong> beneficial
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
+If your feature requires a manifest,
+investigate whether you can extend an existing manifest schema.
+
 New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
-Manifest files can add complexity to the development and deployment process for web technologies.  Sometimes manifest
-files are required, but the use of different manifests on the web should be kept to a minimum.
+Some of the existing manifest files include
+
+* <a href="https://www.w3.org/TR/appmanifest/">Web App Manifest</a> which contains features related to web applications.
+* <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a> which is used for payment methods in the context of the web payment API
+* <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a> which is used by some web publications working group standards
+* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used to set security policies.
+
+We encourage people to extend existing manifest files.
+Always try to get the changes into the original spec,
+or at least discuss the extension with the spec editors.
+Having this discussion is more likely to result in a better design
+and lead to something that better integrates with the platform.
+
+When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).	
+Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,	
+work with the existing spec to extend it to your use-case if possible.
+
+
+<div class="note">
+There are certain times the original spec authors might not want
+to integrate changes to their manifest format immediately.
+This may be due to process (like going to CR),
+or due to the addition having a different scope,
+like extensions to Web App Manifest only affecting store or payment use-cases.
+In that case, it is acceptable to monkey-patch
+as long as that is agreed with the original spec editors.
+
+ISSUE(184): when we write up a principle on monkey patching,
+be sure to take this nuance into account.
+
+An example of something that was done as a monkey patch
+that is scheduled to be integrated into the web app manifest in a future level (post-CR):
+
+* https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
+</div>
+
+However, if your feature requires a complex set of metadata specific to a functional domain,
+the creation of a new manifest may be justified.
 
 You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files.
 For example, if the fetch timing is different, or if the complexity of the manifest warrants it.  Application metadata should be added
@@ -1938,39 +1969,13 @@ For example, if you have a single piece of metadata, even if the fetch timing is
 it is probably best to use an existing manifest (or ideally design the feature in such a way that a manifest is not required).
 However, if your feature requires a complex set of metadata specific to a functional domain, the creation of a new manifest may be justified.
 
-Note that in all cases, the naming conventions should be harmonized (see section 2.2)
+Note that in all cases, the naming conventions should be harmonized (see [[#naming-is-hard]]).
 
 Note: By principle, existing manifests use lowercase, underscore-delimited names.
-There have been times where it has been beneficial to re-use dictionaries from a manifest in DOM APIs as well, which are camel-cased.
-One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>. For this reason, if a
-key can clearly be expressed as a single word, that is recommended.
-
-When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).
-Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,
-work with the existing spec to extend it to your use-case if possible.
-
-Some of the existing manifest files include
-
-* <a href="https://www.w3.org/TR/appmanifest/">Web App Manifest</a> which contains features related to web applications.
-* <a href="https://www.w3.org/TR/payment-method-manifest/">Payment Method Manifest</a> which is used for payment methods in the context of the web payment API
-* <a href="https://www.w3.org/TR/pub-manifest/">Publication Manifest</a> which is used by some web publications working group standards
-* <a href="https://wicg.github.io/origin-policy/">Origin Policy</a> which is used to set security policies.
-
-We encourage people to think of manifest files as extensible.
-Always try to get the changes into the original spec, or at least discuss the extension with the spec editors.
-Having this discussion is more likely to result in a better design and lead to something that better integrates with the platform.
-
-There are certain times the spec authors might not want to
-integrate immediately due to process (like going to CR) or due to it having a different scope, like extensions to Web App
-Manifest only affecting store or payment use-cases. In that case, it is acceptable to monkey-patch as long as that is agreed
-with the original spec editors.
-
-ISSUE(184): when we write up a principle on monkey patching, be sure to take this nuance into account.
-
-An example of something that was done as a monkey patch that is scheduled to be integrated into the web app manifest in
-a future level (post-CR):
-
-* https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
+There have been times where it was useful to re-use dictionaries from a manifest in DOM APIs as well,
+which meant converting the names to camel-cased version.
+One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
+For this reason, if a key can clearly be expressed as a single word, that is recommended.
 
 <h2 id="spec-writing">Writing good specifications</h2>
 
@@ -2331,6 +2336,12 @@ Some useful advice on how to write specifications is available elsewhere:
     specifications: Kinds of statements</a> (Ian Hickson, 2006)
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
+  * <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
+  * <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
+  * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
+  * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
+
+
 
 <h2 id="acks" class="no-num">Acknowledgments</h2>
 
