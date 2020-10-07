@@ -28,6 +28,7 @@ spec:css-cascade-5; type:dfn; text:inherit
 spec:html; type:dfn; for:/; text:event loop
 spec:html; type:element-attr; for:a; text:href
 spec:css-inline-3; type:property; text:line-height
+spec:dom; type:dfn; text:aborted flag
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
@@ -1275,48 +1276,48 @@ Both the "guarding" and the "deferring" approach have trade-offs.
 "Guarding" an algorithm guarantees:
 
 * at the time events are fired,
-  there is no chance that the state may have changed
-  between the guarded algorithm ending and the event firing.
+    there is no chance that the state may have changed
+    between the guarded algorithm ending and the event firing.
 * events fired during the algorithm,
-  such as events to notify user code of a state change made as part of the algorithm,
-  can be fired immediately,
-  notifying code of the change without needing to wait for the next task.
+    such as events to notify user code of a state change made as part of the algorithm,
+    can be fired immediately,
+    notifying code of the change without needing to wait for the next task.
 * user code running in the event handler can observe relevant state directly
-  on the instance object they were fired on,
-  rather than needing to be given a copy of the relevant state with the event.
+    on the instance object they were fired on,
+    rather than needing to be given a copy of the relevant state with the event.
 
 If the events are deferred instead:
 
 * there is no guarantee that they will be first in the [=task queue=]
-  once the algorithm completes.
+    once the algorithm completes.
 * any other task may change the object's state
-  you should include any state relevant to the event with the deferred event.
-   * This usually involves a new subclass of {{Event}},
-     with new attributes to hold the state.
+    you should include any state relevant to the event with the deferred event.
+    * This usually involves a new subclass of {{Event}},
+        with new attributes to hold the state.
 
-     For example, the {{ProgressEvent}} adds {{ProgressEvent/loaded}},
-     {{ProgressEvent/total}}, etc. attributes to hold the state.
+        For example, the {{ProgressEvent}} adds {{ProgressEvent/loaded}},
+        {{ProgressEvent/total}}, etc. attributes to hold the state.
 * if different parts of an algorithm need to coordinate,
-  you may need to define an explicit state machine (well-defined state transitions)
-  to ensure that when a deferred event fires,
-  the behavior of inspecting or changing state is well-defined.
+    you may need to define an explicit state machine (well-defined state transitions)
+    to ensure that when a deferred event fires,
+    the behavior of inspecting or changing state is well-defined.
 
-  For example, in [[payment-request]],
-  the {{PaymentRequest}}'s [=[[state]]=] internal slot
-  explicitly tracks the object's state
-  through its well-defined transitions.
+    For example, in [[payment-request]],
+    the {{PaymentRequest}}'s [=[[state]]=] internal slot
+    explicitly tracks the object's state
+    through its well-defined transitions.
     * These state transitions often use the guarding technique themselves,
-      to ensure the state transitions happen appropriately.
+         to ensure the state transitions happen appropriately.
 
-      For example, in [[payment-request]]
-      note the guards used around the [=[[state]]=] internal slot,
-      such as in the {{MerchantValidationEvent/complete()}} algorithm.
+         For example, in [[payment-request]]
+         note the guards used around the [=[[state]]=] internal slot,
+         such as in the {{MerchantValidationEvent/complete()}} algorithm.
 * if the deferred event doesn't need extra state,
-  or a state machine,
-  this probably means that the event is just signalling the completion of the algorithm.
-  If this is true, the API should probably return a {{Promise}}
-  instead of firint the event.
-  See [[#one-time-events]].
+    or a state machine,
+    this probably means that the event is just signalling the completion of the algorithm.
+    If this is true, the API should probably return a {{Promise}}
+    instead of firint the event.
+    See [[#one-time-events]].
 
 Note: events that expose the possibility of recursion as described in this section
 were sometimes called "synchronous events".
@@ -1363,7 +1364,7 @@ that DOM Mutation Events
 
 Mutation Observers:
 * can batch up mutations to be sent to observers
-  after mutations have finished being applied;
+    after mutations have finished being applied;
 * don't need to go through event capture and bubbling phases;
 * provide a richer API for expressing what mutations have occurred.
 
@@ -1376,23 +1377,23 @@ but events on DOM Nodes usually do.
 The Observer pattern works like this:
 
 * Each instance of the Observer class
-  is constructed with a callback,
-  and optionally with some options to customize what should be observed.
+    is constructed with a callback,
+    and optionally with some options to customize what should be observed.
 * Instances begin observing specific targets,
-  using a method named `observe()`,
-  which takes a reference to the target to be observed.
-  The options to customize what should be observed
-  may be provided here instead of to the constructor.
-  The callback provided in the constructor is invoked
-  when something interesting happens to those targets.
+    using a method named `observe()`,
+    which takes a reference to the target to be observed.
+    The options to customize what should be observed
+    may be provided here instead of to the constructor.
+    The callback provided in the constructor is invoked
+    when something interesting happens to those targets.
 * Callbacks receive *change records* as arguments.
-  These records contain the details
-  about the interesting thing that happened.
-  Multiple records can be delivered at once.
+    These records contain the details
+    about the interesting thing that happened.
+    Multiple records can be delivered at once.
 * The author may stop observing by calling a method called
-  `unobserve()` or `disconnect()` on the Observer instance.
+    `unobserve()` or `disconnect()` on the Observer instance.
 * Optionally, a method may be provided to immediately return records
-  for all observed-but-not-yet-delivered occurrences.
+    for all observed-but-not-yet-delivered occurrences.
 
 <div class="example">
     <a href="https://w3c.github.io/IntersectionObserver">`IntersectionObserver`</a>
@@ -1455,31 +1456,31 @@ To use the Observer pattern, you need to define:
 The trade-off for this extra work is the following advantages:
 
 * Instances can be customized at observation time, or at creation time.
-  The constructor for an `Observer`,
-  or its `observe()` method,
-  can take options allowing authors to customize what is observered for each callback.
-  This isn't possible with {{EventTarget/addEventListener()}}.
+    The constructor for an `Observer`,
+    or its `observe()` method,
+    can take options allowing authors to customize what is observered for each callback.
+    This isn't possible with {{EventTarget/addEventListener()}}.
 * It's easy to stop listening on multiple callbacks using the
-  `disconnect()` or `unobserve()` method on the `Observer` object.
+    `disconnect()` or `unobserve()` method on the `Observer` object.
 * You have the option to provide a method like `takeRecords()`,
-  which immediately fetches the relevant data,
-  instead of waiting for an event to fire.
+    which immediately fetches the relevant data,
+    instead of waiting for an event to fire.
 * Because Observers are single-purpose, you don't need to specify an event type.
 
 `Observer`s and {{EventTarget}}s have these things in common:
 
 * Both can be customized at creation time.
 * Both can batch occurrences and deliver them at any time.
-  {{EventTarget}}s don't need to be synchronous;
-  they can use microtask timing, idle timing, animation-frame timing, etc.
-  You don't need an `Observer` to get special timing or batching.
+    {{EventTarget}}s don't need to be synchronous;
+    they can use microtask timing, idle timing, animation-frame timing, etc.
+    You don't need an `Observer` to get special timing or batching.
 * Neither {{EventTarget}}s nor `Observer`s need to participate in a DOM tree
-  (bubbling/capture and cancellation).
-  Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree,
-  but many other events are standalone;
-  for example, {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}.
-  Even when using {{Node}}s,
-  your events may be designed to be non-bubbling and non-cancelable.
+    (bubbling/capture and cancellation).
+    Most prominent {{EventTarget}}s are {{Node}}s in the DOM tree,
+    but many other events are standalone;
+    for example, {{IDBDatabase}} and {{XMLHttpRequestEventTarget}}.
+    Even when using {{Node}}s,
+    your events may be designed to be non-bubbling and non-cancelable.
 
 <div class="example">
     Here is an example of using a hypothetical version of {{IntersectionObserver}}
@@ -1575,13 +1576,13 @@ to clamp values to the octet range (for example, converting 300 to 255).
 This also works for the other shorter types, such as `short` or `long`.
 </div>
 
-<code>bigint</code> should be used only when values greater than 2<sup>53</sup> 
+<code>bigint</code> should be used only when values greater than 2<sup>53</sup>
  or less than -2<sup>53</sup> are expected.
- 
- An API should not support both `BigInt` and `Number` simultaneously, 
+
+ An API should not support both `BigInt` and `Number` simultaneously,
 either by supporting both types via polymorphism,
 or by adding separate, otherwise identical APIs which take `BigInt` and `Number`.
-This risks losing precision through implicit conversions, 
+This risks losing precision through implicit conversions,
 which defeats the purpose of `BigInt`.
 <h3 id="idl-string-types">Represent strings appropriately</h3>
 
@@ -1933,8 +1934,8 @@ or at least discuss the extension with the spec editors.
 Having this discussion is more likely to result in a better design
 and lead to something that better integrates with the platform.
 
-When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).	
-Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,	
+When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).
+Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,
 work with the existing spec to extend it to your use-case if possible.
 
 
@@ -1954,6 +1955,7 @@ An example of something that was done as a monkey patch
 that is scheduled to be integrated into the web app manifest in a future level (post-CR):
 
 * https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
+
 </div>
 
 However, if your feature requires a complex set of metadata specific to a functional domain,
@@ -2176,16 +2178,16 @@ when editing that document. [[URL]]
 </div>
 
 <h4 id="naming-web-considtency" class="no-num no-toc">Use Web consistent names</h4>
-When choosing a name for feature or API that has exposure in other technology stacks, 
+When choosing a name for feature or API that has exposure in other technology stacks,
 the preference should be towards the Web ecosystem naming convention rather than other
 communities.
 
 <div class ="example">
 
-The NFC standard uses the term `media` to refer to what the Web calls 
+The NFC standard uses the term `media` to refer to what the Web calls
 [MIME type](https://mimesniff.spec.whatwg.org/#mime-type-representation).
 In such cases, the naming of features or API for the purposes of Web NFC must prefer
-naming consistent with `MIME type`. 
+naming consistent with `MIME type`.
 
 </div>
 
