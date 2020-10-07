@@ -1323,7 +1323,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version f9f60c8f, updated Fri Sep 25 16:39:03 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="15673f6192ca71b3962048cd2e187fdf44d20494" name="document-revision">
+  <meta content="4f5f94c37726cc00fd264fc7fd3a3d1588f1edf0" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1984,7 +1984,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#events-vs-observers"><span class="secno">6.8</span> <span class="content">How to decide between Events and Observers</span></a>
      </ol>
     <li>
-     <a href="#types-and-units"><span class="secno">7</span> <span class="content">Types and Units</span></a>
+     <a href="#types-and-units"><span class="secno">7</span> <span class="content">Web IDL, Types, and Units</span></a>
      <ol class="toc">
       <li><a href="#numeric-types"><span class="secno">7.1</span> <span class="content">Use numeric types appropriately</span></a>
       <li><a href="#idl-string-types"><span class="secno">7.2</span> <span class="content">Represent strings appropriately</span></a>
@@ -3081,94 +3081,102 @@ io<c- p>.</c->removeEventListener<c- p>(</c-><c- u>"intersect"</c-><c- p>,</c-> 
     <p>As you can see, we’ve lost some functionality compared to the <code>Observer</code> version: the ability to easily observe multiple elements with the same options, or the <code>takeRecords()</code> and <code>disconnect()</code> methods. We’re also forced to add the rather-redundant <code>"intersect"</code> event type to our subscription calls.</p>
     <p>However, we haven’t lost the batching, timing, or creation-time customization, and the <code>ETIntersectionObserver</code> doesn’t participate in a hierarchy. These aspects can be achieved with either design.</p>
    </div>
-   <h2 class="heading settled" data-level="7" id="types-and-units"><span class="secno">7. </span><span class="content">Types and Units</span><a class="self-link" href="#types-and-units"></a></h2>
+   <h2 class="heading settled" data-level="7" id="types-and-units"><span class="secno">7. </span><span class="content">Web IDL, Types, and Units</span><a class="self-link" href="#types-and-units"></a></h2>
    <h3 class="heading settled" data-level="7.1" id="numeric-types"><span class="secno">7.1. </span><span class="content">Use numeric types appropriately</span><a class="self-link" href="#numeric-types"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> contains many numeric types. However, it is very
-rare that its more specific ones are actually appropriate.</p>
-   <p>JavaScript has only one numeric type, Number: IEEE 754 double-precision
-floating point, including ±0, ±Infinity, and NaN (although thankfully only one). The Web IDL "types" are coercion rules that apply when accepting an argument or triggering a setter. For example, a Web IDL <code>unsigned short</code> roughly says: "when someone passes this as an argument, take it modulo 65536 before doing any further processing". That is very rarely a useful thing to do.</p>
-   <p>Instead, you will want to stick with one of:</p>
+   <p>If an API you’re designing uses numbers,
+use one of the following <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> numeric types,
+unless there is a specific reason not to:</p>
    <dl>
     <dt data-md><code>unrestricted double</code>
     <dd data-md>
-     <p>When truly any JavaScript number will do, including infinities and NaN</p>
+     <p>Any JavaScript number, including infinities and NaN</p>
     <dt data-md><code>double</code>
     <dd data-md>
-     <p>Any JavaScript number excluding infinities and NaN</p>
+     <p>Any JavaScript number, excluding infinities and NaN</p>
     <dt data-md><code>[EnforceRange] long long</code>
     <dd data-md>
-     <p>Any JavaScript number in the integer-representable range, throwing a <code class="highlight">TypeError</code> outside the range and rounding inside of it</p>
+     <p>Any JavaScript number from -2<sup>63</sup> to 2<sup>63</sup>,
+ rounded to the nearest integer.
+ If a number outside this range is given,
+ the generated bindings will throw a <code class="highlight">TypeError</code>.</p>
     <dt data-md><code>[EnforceRange] unsigned long long</code>
     <dd data-md>
-     <p>Any nonnegative JavaScript number in the integer-representable range, throwing a <code class="highlight">TypeError</code> outside the range and rounding inside of it</p>
-    <dt data-md><code>bigint</code>
-    <dd data-md>
-     <p>When the possible integer values range more broadly than JavaScript numbers can accurately represent</p>
+     <p>Any JavaScript number from 0 to 2<sup>64</sup>,
+ rounded to the nearest integer.
+ If a number outside this range is given,
+ the generated bindings will throw a <code class="highlight">TypeError</code>.</p>
    </dl>
-   <p>Additionally, you can combine any of the above with an extra line in your
-algorithm to validate that the number is within the expected domain-specific
-range, and throwing or performing other actions in response. (While it is very
-rarely appropriate to modify author input by taking it modulo 65536, it might be
-appropriate to take it modulo 360, for example.)</p>
-   <p>A special case of domain-specific validation, which Web IDL already has you
-covered for, is the 0–255 range. This can be written as <code>[EnforceRange]
-octet</code>: any JavaScript number in the range 0–255, throwing a <code class="highlight">TypeError</code> outside the range and rounding inside of it.
-(And indeed, if it turns out that the other power-of-two ranges are semantically
-meaningful for your domain, such that you want the modulo or range-checking
-behavior, feel free to use them.)</p>
-   <div class="note" role="note"> Those coming from other languages should carefully note that despite their
-names, <code>long long</code> and <code>unsigned long long</code> only have 53
-bits of precision, and not 64. </div>
-   <p><code>bigint</code> is recommended to be used <em>only</em> in circumstances
-where a <code>[EnforceRange] long long</code> or <code>[EnforceRange] unsigned
-long long</code> would not work in terms of expressivity: that is, only when
-values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected. In
-particular, APIs should not use the <code>bigint</code> type simply because the
-input is an integer—<code>bigint</code> is for big integers (hence the
-name!).</p>
-   <p>Transparent support for inputs being either JavaScript Number of BigInt types is
-discouraged, unless there is a domain-specific requirement to support it. As far
-as ergonomics, JavaScript developers are expected to keep track of whether their
-values are Numbers or BigInts. Sloppiness or implicit conversions here could
-lead to a loss of precision, defeating the purpose of using BigInt.</p>
-   <p>Further, try to resist doubling up the surface area of an API in order to
-provide both <code>BigInt</code> and <code>Number</code> variants of an API. As an API designer,
-consider it your job to chose the correct numeric type for the feature being
-exposed.</p>
+   <p>JavaScript has only one numeric type, <code>Number</code>:
+IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN. <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> numeric types represent
+rules for modifying any JavaScript number
+to belong to a subset with particular properties.
+These rules are run when a number is passed to the interface defined in IDL,
+whether a method or a property setter.</p>
+   <p>If you have extra rules which need to be applied to the number,
+you can specify those in your algorithm.</p>
+   <div class="note" role="note">
+     The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a> for converting a JavaScript number to a number with fewer bits,
+such as an <code>octet</code> (8 bits, in the range [0, 255]),
+involves taking the modulo of the JavaScript number.
+For example, to convert a JavaScript number value of 300
+to an <code>octet</code>,
+the bindings will first compute 300 modulo 255,
+so the resulting number will be 45,
+which might be surprising. 
+    <p>Instead, you can use <code><a href="https://heycam.github.io/webidl/#EnforceRange">[EnforceRange]</a> octet</code> to throw a <code>TypeError</code> for values outside of the <code>octet</code> range,
+or <code><a href="https://heycam.github.io/webidl/#Clamp">[Clamp]</a> octet</code> to clamp values to the octet range (for example, converting 300 to 255).</p>
+    <p>This also works for the other shorter types, such as <code>short</code> or <code>long</code>.</p>
+   </div>
+   <p><code>bigint</code> should be used only when values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected.</p>
+   <p>An API should not support both <code>BigInt</code> and <code>Number</code> simultaneously,
+either by supporting both types via polymorphism,
+or by adding separate, otherwise identical APIs which take <code>BigInt</code> and <code>Number</code>.
+This risks losing precision through implicit conversions, 
+which defeats the purpose of <code>BigInt</code>.</p>
    <h3 class="heading settled" data-level="7.2" id="idl-string-types"><span class="secno">7.2. </span><span class="content">Represent strings appropriately</span><a class="self-link" href="#idl-string-types"></a></h3>
-   <p>When designing a web platform feature which operates on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">strings</a>, <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString">DOMString</a></code> is almost always the right Web IDL <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-string-type" id="ref-for-dfn-string-type">string type</a> to use.
-This is because
-most string operations don’t need
-to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code units</a> inside of the string.
-There are exceptions, however, for which Web IDL provides <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code> and <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code>. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
+   <p>When designing a web platform feature which operates on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">strings</a>,
+use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString">DOMString</a></code> unless you have a specific reason not to.</p>
+   <p>Most string operations don’t need
+to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code units</a> inside of the string,
+so <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
+In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
    <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
 For strings whose most common algorithms operate on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value" id="ref-for-scalar-value">scalar values</a> (such as <a data-link-type="abstract-op" href="https://url.spec.whatwg.org/#percent-encode" id="ref-for-percent-encode">percent-encoding</a>),
-or for operations which cannot handle <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#surrogate" id="ref-for-surrogate">surrogates</a> in input
+or for operations which can’t handle <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#surrogate" id="ref-for-surrogate">surrogates</a> in input
 (such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> should be used.</p>
    <p class="example" id="example-fe96b598"><a class="self-link" href="#example-fe96b598"></a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect">Reflecting IDL attributes</a> whose content attribute is defined to contain a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> (such as <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code>)
 should use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code>. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </p>
    <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-ByteString" id="ref-for-idl-ByteString①">ByteString</a></code> should only be used for representing
 data from protocols like HTTP
 which don’t distinguish between bytes and strings.
-It is not a general-purpose string type.
+It isn’t a general-purpose string type.
 If you need to represent a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
 use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>.</p>
    <h3 class="heading settled" data-level="7.3" id="milliseconds"><span class="secno">7.3. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
-   <p>Any web API that accepts a time measurement should do so in milliseconds. This
-is a tradition stemming from <code class="highlight">setTimeout</code> and the <code class="highlight">Date</code> API, and carried through since then.</p>
-   <p>Even if seconds (or some other unit) are more natural in the domain of an API, sticking with
-milliseconds ensures interoperability with the rest of the platform, allowing easy arithmetic with
-other time quantities.</p>
-   <p>Note that high-resolution time is usually represented as fractional milliseconds, not e.g. as
-nanoseconds.</p>
+   <p>If you are designing an API that accepts a time measurement,
+express the time measurement in milliseconds.</p>
+   <p>Even if seconds (or some other time unit) are more natural in the domain of an API,
+sticking with milliseconds ensures that APIs
+are interoperable with one another.
+This means that authors don’t need to convert values used in one API
+to be used in another API,
+or keep track of which time unit is needed where.</p>
+   <p>This convention began with <code class="highlight">setTimeout</code> and the <code class="highlight">Date</code> API,
+and has been used since then.</p>
+   <p class="note" role="note"><span>Note:</span> high-resolution time is usually represented as fractional milliseconds
+using a floating point value,
+not as an integer value of a smaller time unit like nanoseconds.</p>
    <h3 class="heading settled" data-level="7.4" id="times-and-dates"><span class="secno">7.4. </span><span class="content">Use the appropriate type to represent times and dates</span><a class="self-link" href="#times-and-dates"></a></h3>
-   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp">DOMTimeStamp</a></code> type, with values being the
- number of milliseconds relative to 1970-01-01T00:00:00Z.</p>
-   <p>The JavaScript <code class="highlight">Date</code> class must not be used for this purpose. <code class="highlight">Date</code> objects
-are mutable (and there is no way to make them immutable), which comes with a host of attendant
-problems.</p>
+   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp">DOMTimeStamp</a></code> type.
+Use <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code> if authors
+must always be able to compare timestamps,
+regardless of the user’s time settings.</p>
+   <p>Don’t use the JavaScript <code class="highlight">Date</code> class for representing
+specific date-time values. <code class="highlight">Date</code> objects are mutable (may have their value changed),
+and there is no way to make them immutable.</p>
    <div class="note" role="note">
-     For more background on why <code class="highlight">Date</code> must not be used, see the following: 
+     For more background on why <code class="highlight">Date</code> must not be used,
+    see the following: 
     <ul>
      <li data-md>
       <p><a href="https://esdiscuss.org/topic/frozen-date-objects">Frozen date objects?</a> on
@@ -3177,26 +3185,23 @@ es-discuss</p>
       <p><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web IDL</a> on the Web IDL Bugzilla</p>
     </ul>
    </div>
-   <p>While in theory time is monotonically increasing,
-values like <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp①">DOMTimeStamp</a></code> that represent time since 1970 are derived from the system’s clock,
-which may sometimes move backwards
-(for example, from NTP or manual adjustment),
-causing the timestamp values to decrease over time.
-They may also remain the same due to the limitation of millisecond resolution.
-Thus, for time stamps that do not need to correspond to an absolute time,
-consider using <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>,
-which provides monotonically non-decreasing sub-millisecond timestamps
-that are comparable within a single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> or web worker.
+   <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp①">DOMTimeStamp</a></code> values represent
+the number of milliseconds since 1970-01-01T00:00:00Z.
+They are derived from the system’s clock,
+which may be changed by the user,
+or automatically for things like time zone updates
+or daylight savings.
+This means that, in practice, a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp②">DOMTimeStamp</a></code> created later in real time
+may have a lower value than a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp③">DOMTimeStamp</a></code> created earlier.
+Also, if two <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp④">DOMTimeStamp</a></code>s are created within the same millisecond,
+there’s no way to know which was created earlier.</p>
+   <p>So, if a date-time is only used to compare timing of events,
+and not to show a formatted date-time value to the user,
+consider using <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code> instead.
 See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
    <h3 class="heading settled" data-level="7.5" id="error-types"><span class="secno">7.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
-   <p>Errors in web APIs should be represented as
-ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
+   <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
 or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.
-There was at one point a trend to use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domerror" id="ref-for-domerror">DOMError</a></code> when
-objects had a property representing an error.
-However, we no longer believe there was value in this split,
-and therefore suggest that ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code>)
-or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code> should be used for errors,
 whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="8" id="device-apis"><span class="secno">8. </span><span class="content">OS and Device Wrapper APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>New APIs are now being developed in the web platform for interacting with devices.
@@ -4057,12 +4062,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-resolved-value">3.3. Choose the computed value type based on how the property should inherit</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-domerror">
-   <a href="https://dom.spec.whatwg.org/#domerror">https://dom.spec.whatwg.org/#domerror</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-domerror">7.5. Use Error or DOMException for errors</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-domtokenlist">
    <a href="https://dom.spec.whatwg.org/#domtokenlist">https://dom.spec.whatwg.org/#domtokenlist</a><b>Referenced in:</b>
    <ul>
@@ -4197,7 +4196,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
    <a href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp">https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-domhighrestimestamp">7.4. Use the appropriate type to represent times and dates</a>
+    <li><a href="#ref-for-dom-domhighrestimestamp">7.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-globaleventhandlers">
@@ -4491,19 +4490,19 @@ so they can correct this omission.</p>
    <a href="https://heycam.github.io/webidl/#idl-DOMException">https://heycam.github.io/webidl/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMException">6.6. Guard against potential recursion</a>
-    <li><a href="#ref-for-idl-DOMException①">7.5. Use Error or DOMException for errors</a> <a href="#ref-for-idl-DOMException②">(2)</a>
+    <li><a href="#ref-for-idl-DOMException①">7.5. Use Error or DOMException for errors</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
    <a href="https://heycam.github.io/webidl/#idl-DOMString">https://heycam.github.io/webidl/#idl-DOMString</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-DOMString">7.2. Represent strings appropriately</a>
+    <li><a href="#ref-for-idl-DOMString">7.2. Represent strings appropriately</a> <a href="#ref-for-idl-DOMString①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-DOMTimeStamp">
    <a href="https://heycam.github.io/webidl/#DOMTimeStamp">https://heycam.github.io/webidl/#DOMTimeStamp</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-DOMTimeStamp">7.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-DOMTimeStamp①">(2)</a>
+    <li><a href="#ref-for-DOMTimeStamp">7.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-DOMTimeStamp①">(2)</a> <a href="#ref-for-DOMTimeStamp②">(3)</a> <a href="#ref-for-DOMTimeStamp③">(4)</a> <a href="#ref-for-DOMTimeStamp④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-invalidstateerror">
@@ -4522,7 +4521,6 @@ so they can correct this omission.</p>
    <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-exceptiondef-typeerror">5.5. Classes should have constructors when possible</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a>
-    <li><a href="#ref-for-exceptiondef-typeerror②">7.5. Use Error or DOMException for errors</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
@@ -4571,12 +4569,6 @@ so they can correct this omission.</p>
    <a href="https://heycam.github.io/webidl/#dfn-setlike">https://heycam.github.io/webidl/#dfn-setlike</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-setlike">5.2. Consider whether objects should be live or static</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-string-type">
-   <a href="https://heycam.github.io/webidl/#dfn-string-type">https://heycam.github.io/webidl/#dfn-string-type</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-string-type">7.2. Represent strings appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-progressevent">
@@ -4660,7 +4652,6 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-domerror" style="color:initial">DOMError</span>
      <li><span class="dfn-paneled" id="term-for-domtokenlist" style="color:initial">DOMTokenList</span>
      <li><span class="dfn-paneled" id="term-for-element" style="color:initial">Element</span>
      <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
@@ -4792,7 +4783,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dfn-namespace" style="color:initial">namespace</span>
      <li><span class="dfn-paneled" id="term-for-sequence-type" style="color:initial">sequence type</span>
      <li><span class="dfn-paneled" id="term-for-dfn-setlike" style="color:initial">setlike</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-string-type" style="color:initial">string types</span>
     </ul>
    <li>
     <a data-link-type="biblio">[XHR]</a> defines the following terms:
