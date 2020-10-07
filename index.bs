@@ -2007,6 +2007,11 @@ or at least discuss the extension with the spec editors.
 Having this discussion is more likely to result in a better design
 and lead to something that better integrates with the platform.
 
+When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).	
+Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,	
+work with the existing spec to extend it to your use-case if possible.
+
+
 <div class="note">
 There are certain times the original spec authors might not want
 to integrate changes to their manifest format immediately.
