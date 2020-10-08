@@ -29,6 +29,7 @@ spec:html; type:dfn; for:/; text:event loop
 spec:html; type:element-attr; for:a; text:href
 spec:css-inline-3; type:property; text:line-height
 spec:dom; type:dfn; text:aborted flag
+spec:dom; type:method; for:Document; text:getElementsByTagName(qualifiedName)
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
@@ -814,7 +815,7 @@ you should probably use a method instead.
 <div class="example">
 For example, <code highlight="js">offsetTop</code> performs layout,
 which can be complex and time-consuming.
-It would have been better if this had been a method like {{Element.getBoundingClientRect()}}.
+It would have been better if this had been a method like {{Element/getBoundingClientRect()}}.
 </div>
 
 <h3 id="live-vs-static">Consider whether objects should be live or static</h3>
@@ -853,12 +854,12 @@ This is so that code iterating over the list
 doesn't need to handle the possibility of the list changing in the middle.
 
 <div class="example">
-{{Document/getElementsByTagName()}} returns a live object which represents a list,
+{{Document/getElementsByTagName}} returns a live object which represents a list,
 meaning that authors need to take care when iterating over its items.
 
 <!-- does anyone know more specifics here? -->
 The choice to have {{ParentNode/querySelectorAll()}} return static objects
-was made after spec authors noticed that {{getElementsByTagName()}}
+was made after spec authors noticed that {{getElementsByTagName}}
 was causing problems.
 
 {{URLSearchParams}} isn't static,
@@ -979,7 +980,7 @@ This applies whether they are provided in a [dictionary](#prefer-dict-to-bool)
 or as [single parameters](#optional-parameters).
 
 <div class="example">
-{{EventTarget.addEventListener()}} takes an `options` object
+{{EventTarget/addEventListener()}} takes an `options` object
 which includes an option named `once`.
 This indicates that the listener should **not** be invoked repeatedly.
 
@@ -993,6 +994,7 @@ Other examples:
 * `passive` rather than `active`, or
 * `isolate` rather than `connect`, or
 * `private` rather than `public`
+
 </div>
 
 See also:
@@ -1021,13 +1023,13 @@ because of the way JavaScript handles subclasses.
 This won't be appropriate in all cases.
 For example:
 * Some objects represent access to privileged resources,
-  so they need to be constructed by factory methods
-  which can access those resources.
+    so they need to be constructed by factory methods
+    which can access those resources.
 * Some objects have very carefully controlled lifecycles,
-  so they need to be created and accessed through specific methods.
+    so they need to be created and accessed through specific methods.
 * Some objects represent an abstract base class,
-  which shouldn't be constructed,
-  and which authors should not be able to define subclasses for.
+    which shouldn't be constructed,
+    and which authors should not be able to define subclasses for.
 
 <p class="example">
 The {{Event}} class, and all its derived interfaces, are constructible.
