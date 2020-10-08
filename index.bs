@@ -29,6 +29,7 @@ spec:html; type:dfn; for:/; text:event loop
 spec:html; type:element-attr; for:a; text:href
 spec:css-inline-3; type:property; text:line-height
 spec:dom; type:dfn; text:aborted flag
+spec:dom; type:method; for:Document; text:getElementsByTagName(qualifiedName)
 </pre>
 <pre class="anchors">
 url: https://tc39.github.io/ecma262/#sec-error-objects; type: interface; text: Error;
@@ -793,319 +794,366 @@ the interaction with garbage collection.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
-[[!WEBIDL]] attributes are reified in JavaScript as accessor properties, i.e. properties with
-separate getter and setter functions which can react independently. This is in contrast to the
-"default" style of JavaScript properties, data properties, which do not have configurable behavior
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
-set.
+[[!WEBIDL]] attributes should act like simple JavaScript object properties.
 
-Data property semantics are what are generally expected by JavaScript developers when interfacing
-with objects. As such, although getters and setters allow infinite customizability when defining
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
-much like a data property as possible. Specific guidance in this regard includes:
+In reality, IDL attributes are implemented as accessor properties
+with separate getter and setter functions.
+To make them act like JavaScript object properties:
 
-* Getters must not have any (observable) side effects.
-* Getters should not perform any expensive operations. (A notable failure of the platform in this
-    regard is getters like <code highlight="js">offsetTop</code> performing layout; do not repeat this mistake.)
-* Ensure that your attribute's getter returns the same object each time it is called, until some
-    occurrence in another part of the system causes a logical "reset" of the property's value. In
-    particular, <code highlight="js">obj.attribute === obj.attribute</code> must always hold, and so returning a
-    new value from the getter each time is not allowed.
-* Whenever possible, preserve values given to the setter for return from the getter. That is,
-    given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be
-    true. (This will not always be the case, e.g. if a normalization or type conversion step is
-    necessary, but should be held as a goal for normal code paths.)
+* Getters must not have any observable side effects.
+* Getters should not perform any complex operations.
+* Ensure that <code highlight="js">obj.attribute === obj.attribute</code> is always true.
+    Don't create a new value each time the getter is called.
+* If possible, ensure that given <code highlight="js">obj.attribute = x</code>,
+    <code highlight="js">obj.attribute === x</code> is true.
+    (This may not be possible if some kind of conversion is necessary for `x`.)
 
 If you were thinking about using an attribute,
 but it doesn't behave this way,
 you should probably use a method instead.
 
+<div class="example">
+For example, <code highlight="js">offsetTop</code> performs layout,
+which can be complex and time-consuming.
+It would have been better if this had been a method like {{Element/getBoundingClientRect()}}.
+</div>
+
 <h3 id="live-vs-static">Consider whether objects should be live or static</h3>
 
-Objects returned from functions, attribute getters, etc.,
-can either be live or static.
-A <dfn export>live object</dfn> is one that continues to reflect
-changes made after it was returned to the caller.
-A <dfn export>static object</dfn> is one that reflects
-the state at the time it was returned.
+If an API gives access to an object
+representing some internal state,
+decide whether that object should continue to be updated as the state changes.
 
-Objects that are the way state is mutated are generally live.
-For example, DOM nodes are returned as live objects,
-since they are the API through which attributes are set and other changes
-to the DOM are made.
-They also reflect changes to the DOM made in other ways
-(such as through user interaction with forms).
+An object which represents the current state at all times
+is a <dfn export>live object</dfn>,
+while an object which represents the state at the time it was created
+is a <dfn export>static object</dfn>.
 
-Objects that represent a collection
-that might change over time
-(and that are not the way state is mutated)
-should generally be returned as static objects.
-This is because it is confusing to users of the API when
-a collection changes while being iterated.
-Because of this,
-it is generally considered a mistake that methods like
-{{Document/getElementsByTagName()}} return live objects;
-{{ParentNode/querySelectorAll()}} was made to return static objects
-as a result of this experience.
-On the other hand, even though {{URLSearchParams}} represents a collection,
-it should be live because the collection is mutated through that object.
+<h4 id="live-objects" class="no-num no-toc">Live objects</h4>
 
-Note:  It's possible that some of this advice should be reconsidered
-for <a>maplike</a> and <a>setlike</a> types,
-where iterators have reasonable behavior
-for mutation that happens during iteration.
-This point likely needs further discussion,
-and perhaps further experience of use of these types.
+If an object allows the author to change the internal state,
+that object should be live.
+For example, DOM {{Node}}s are live objects,
+to allow the author to make changes to the document
+with an understanding of the current state.
 
-It's also worth considering the implications of having
-live versus static objects for the speed of implementations of the API.
-When the data needed by an object are expensive to compute up-front,
-there is an advantage for that object to be live so that the results
-can be computed lazily, such as for {{Window/getComputedStyle()}}.
-On the other hand,
-if the data needed by an object are expensive to keep up-to-date,
-such as for the {{NodeList}} returned from {{ParentNode/querySelectorAll()}},
-then providing a static object avoids
-having to keep the object updated until it is garbage collected
-(which may be substantially after its last use).
+Properties of live objects may be computed as they are accessed,
+instead of when the object is created.
+This makes live objects sometimes a better choice
+if the data needed is complex to compute,
+since there is no need to compute all the data before the object is returned.
 
-Likewise, the choice of live versus static objects
-can influence the memory use of an API.
-If each call of a method returns a new static object,
-and the objects are large,
-then substantial amounts of memory can be wasted
-until the next garbage collection.
+A live object may also use less memory,
+since there is no need to copy data to a static version.
 
-The choice of whether an object is live or static may also
-influence whether it should be returned
-from an attribute getter or from a method.
-See [[#attributes-like-data]].
-In particular,
-if a result that changes frequently is returned as a static object,
-it should probably be returned from a method rather than an attribute getter.
+<h4 id="static-objects" class="no-num no-toc">Static objects</h4>
 
-<h3 id="prefer-dict-to-bool">Prefer dictionary parameters over boolean parameters or other unreadable parameters</h3>
+If an object represents a list that might change,
+most often the object should be static.
+This is so that code iterating over the list
+doesn't need to handle the possibility of the list changing in the middle.
 
-APIs should generally prefer dictionary parameters
-(with named booleans in the dictionary)
-over boolean parameters.
-This makes the code that calls the API
-<a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">much more readable</a>.
+<div class="example">
+{{Document/getElementsByTagName}} returns a live object which represents a list,
+meaning that authors need to take care when iterating over its items:
+
+```js
+let list = document.getElementsByTagName("td");
+
+for (let i = 0; i < list.length; i++) {
+    let td = list[i];
+    let tr = document.createElement("tr");
+    tr.innerHTML = td.outerHTML;
+
+    // This has the side-effect of removing td from the list,
+    // causing the iteration to become unpredictable.
+    td.parentNode.replaceChild(tr, td);
+}
+```
+
+The choice to have {{ParentNode/querySelectorAll()}} return static objects
+was made after spec authors noticed that {{getElementsByTagName}}
+was causing problems.
+
+{{URLSearchParams}} isn't static,
+even though it represents a list,
+because it's the way for authors to change the query string of a URL.
+</div>
+
+Note:  For <a>maplike</a> and <a>setlike</a> types,
+this advice may not apply,
+since these types were designed to behave well
+when they change while being iterated.
+
+If it would not be possible to compute properties
+at the time they are accessed,
+a static object avoids having to keep the object updated
+until it's garbage collected,
+even if it isn't being used.
+
+If a static object represents some state which may change frequently,
+it should be returned from a method,
+rather than available as an attribute.
+
+See also:
+
+* [[#attributes-like-data]]
+
+<h3 id="prefer-dict-to-bool">Prefer dictionary parameters over primitive parameters</h3>
+
+API methods should generally use dictionary parameters
+instead of a series of optional primitive parameters.
+
+This makes the code that calls the method much more readable.
 It also makes the API more extensible in the future,
-particularly if multiple booleans are needed.
+particularly if multiple parameters with the same type are needed.
 
-<p class="example">For example,
-<code highlight="js">new Event("exampleevent", { bubbles: true, cancelable: false})</code>
-is much more readable than
-<code highlight="js">new Event("exampleevent", true, false)</code>.
-
-Furthermore,
-the booleans in dictionaries need to be designed so that they all default to false.
-If booleans default to true, then
-<a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">users of the API will find unexpected JavaScript behavior</a> since <code highlight="js">{ passive: false }</code> and <code highlight="js">{ passive: undefined }</code> will produce different results.
-But at the same time, it's important to avoid naming booleans in negative ways,
-because then code will have confusing double-negatives.
-These pieces of advice may sometimes conflict,
-but the conflict can be avoided by using opposite words without negatives,
-such as &ldquo;repeat&rdquo; versus &ldquo;once&rdquo;,
-&ldquo;isolate&rdquo; versus &ldquo;connect&rdquo;,
-or &ldquo;private&rdquo; versus &ldquo;public&rdquo;.
-
-Likewise, APIs should use dictionary parameters to avoid other cases
-of difficult to understand sequences of parameters.
+<div class="example">
 For example,
-<code highlight="js">window.scrollBy({ left: 50, top: 0 })</code>
+
+<pre highlight="js">
+new Event("example",
+          { bubbles: true,
+            cancelable: false})
+</pre>
+
+is much more readable than
+
+<pre highlight="js">
+new Event("example", true, false)
+</pre>
+
+Also,
+
+<pre highlight="js">
+window.scrollBy({ left: 50, top: 0 })
+</pre>
+
 is more readable than
-<code highlight="js">window.scrollBy(50, 0)</code>.
 
-<h3 id="optional-parameters">Make non-critical function parameters optional</h3>
+<pre highlight="js">
+window.scrollBy(50, 0)
+</pre>
 
-Parameters that are not strictly necessary should be made optional.
-Making arguments optional with reasonable defaults
-reduces overhead when the function is used,
-and increases user-friendliness.
+</div>
 
-Optional parameters should be consolidated into a dictionary,
-and empty parameters should be treated identically to when the parameter is omitted.
+The dictionary itself should be an optional parameter,
+so that if the author is happy with all of the default options,
+they can avoid passing an extra argument.
 
-<p class="example">For example,
-<code highlight="js">element.scrollIntoView(false, {});</code>
+<div class="example">
+For example,
+<pre highlight="js">
+element.scrollIntoView(false, {});
+</pre>
 is equivalent to
-<code highlight="js">element.scrollIntoView(false);</code>,
-and
-<code highlight="js">element.addEventListener("click", onClick, undefined);</code>
-is equivalent to
-<code highlight="js">element.addEventListener("click", onClick)</code>.
-</p>
+<pre highlight="js">
+element.scrollIntoView(false);
+</pre>
+</div>
 
-Exceptions have been made for legacy interoperability reasons
-(such as XMLHttpRequest),
+See also:
+
+* <a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">Hall of API Shame: Boolean Trap</a>.
+* <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a>
+* [[#optional-parameters]]
+* [[#naming-optional-parameters]]
+
+<h3 id="optional-parameters">Make function parameters optional if possible</h3>
+
+If a parameter for an API function has a reasonable default value,
+make that parameter optional and specify the default value.
+
+<div class="example">
+{{EventTarget/addEventListener()}} takes an optional boolean `useCapture` argument.
+Thie defaults to `false`, meaning that
+the event should be dispatched to the listener in the bubbling phase by default.
+</div>
+
+Note: Exceptions have been made for legacy interoperability reasons
+(such as {{XMLHttpRequest}}),
 but this should be considered a design mistake rather than recommended practice.
+
+The API must be designed so that if a parameter is left out,
+the default value used is the same as
+converting `undefined` to the type of the parameter.
+For example, if a boolean parameter isn't set,
+it must default to false.
+
+See also:
+
+* [[#prefer-dict-to-bool]]
+
+<h3 id="naming-optional-parameters">Naming optional parameters</h3>
+
+Name optional parameters to make the default behavior obvious
+without being named negatively.
+
+This applies whether they are provided in a [dictionary](#prefer-dict-to-bool)
+or as [single parameters](#optional-parameters).
+
+<div class="example">
+{{EventTarget/addEventListener()}} takes an `options` object
+which includes an option named `once`.
+This indicates that the listener should **not** be invoked repeatedly.
+
+This option could have been named `repeat`,
+but that would require the [default](#optional-parameters) to be `true`.
+Instead of naming it `noRepeat`,
+the API authors named it `once`,
+to reflect the default behaviour without using a negative.
+
+Other examples:
+* `passive` rather than `active`, or
+* `isolate` rather than `connect`, or
+* `private` rather than `public`
+
+</div>
+
+See also:
+
+* [[#naming-is-hard]]
 
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
-By default, [[!WEBIDL]] interfaces are reified in JavaScript as "non-constructible" classes: trying
-to create instances of them using the normal pattern in JavaScript, `new X()`, will throw a
-{{TypeError}}. This is a poor experience for JavaScript developers, and doesn't match the design of
-most of the JavaScript standard library or of the classes JavaScript developers themselves create.
+Make sure that any class that's part of your API has a constructor,
+if appropriate.
 
-From a naive perspective, it's not even coherent: how can instances of this thing ever exist, if
-they can't be constructed? The answer is that the platform has magic powers: it can create instances
-of Web IDL-derived classes without ever actually calling their constructor.
+By default, [[!WEBIDL]] interfaces generate "non-constructible" classes:
+trying to create instances of them using `new X()` will throw a {{TypeError}}.
+To make them constructible,
+you can add appropriate [=constructor operation=] to your interface,
+and defining the algorithm for creating new instances of your class.
 
-You should strive to reduce such magic in designing your own APIs, and give them constructors which
-allow JavaScript developers to create them, just like the platform does. This means adding an
-appropriate [=constructor operation=] to your interface, and defining the algorithm for
-creating new instances of your class.
+This allows JavaScript developers
+to create instances of the class
+for purposes such as testing, mocking,
+or interfacing with third-party libraries which accept instances of that class.
+It also gives authors the ability to create a subclass of the class,
+which is otherwise prevented,
+because of the way JavaScript handles subclasses.
 
-Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
-create instances of the class for their own purposes, such as testing, mocking, or interfacing with
-third-party libraries which accept instances of that class. Additionally, because of how
-JavaScript's class design works, it is only possible to create a subclass of the class if it is
-constructible.
+This won't be appropriate in all cases.
+For example:
+* Some objects represent access to privileged resources,
+    so they need to be constructed by factory methods
+    which can access those resources.
+* Some objects have very carefully controlled lifecycles,
+    so they need to be created and accessed through specific methods.
+* Some objects represent an abstract base class,
+    which shouldn't be constructed,
+    and which authors should not be able to define subclasses for.
 
-Sometimes this isn't the right answer: for example, some objects essentially wrap handles to
-privileged resources, and it isn't reasonable to create some representation of that privileged
-resource in JavaScript so that you can pass it to the constructor. Or the object's lifecycle needs
-to be very carefully controlled, so that creating new ones is only possible through privileged
-operations. Or the interface represents an abstract base class for which it doesn't make sense to
-construct an instance, or create an author-defined subclass. But cases like these should be the
-exception, not the norm.
+<p class="example">
+The {{Event}} class, and all its derived interfaces, are constructible.
+This is useful when testing code which handles events:
+an author can construct an {{Event}} to pass to a method
+which handles that type of event.
+</p>
 
-<p class="example">The {{Event}} class, and all its derived interfaces, are constructible. This
-allows JavaScript developers to synthesize instances of them, which can be useful in testing or
-shimming scenarios. For example, a library designed for {{MouseEvent}} instances can still be used
-by another library that accepts as input {{TouchEvent}} instances, by writing a small bit of adapter
-code that creates synthetic {{MouseEvent}}s.</p>
+<p class="example">
+The {{Window}} class isn't constructible,
+because creating a new window is a privileged operation
+with significant side effects.
+Instead, the {{Window/open(url, target, features)|window.open()}} method
+is used to create new windows.
+</p>
 
-<p class="example">The {{DOMTokenList}} class is, very unfortunately, <a
-href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>. This prevents the
-creation of <a>custom elements</a> that expose their token list attributes as {{DOMTokenList}}s.</p>
+<p class="example">
+The {{ImageBitmap}} class isn't constructible,
+as it represents an immutable, ready-to-paint bitmap image,
+and the process of getting it ready to paint must be done asynchronously.
+Instead, the {{createImageBitmap()}} factory method is used to create it.
+</p>
 
-<p class="example">No HTML elements are constructible. This is largely due to some unfortunate
-design decisions that <a href="https://github.com/whatwg/html/issues/896">would take some effort to
-work around</a>. In the meantime, for the purposes of the <a>customized built-in elements</a>
-feature, they have been made subclassable through a specifically-designed one-off solution: the
-[{{HTMLConstructor}}] extended attribute.</p>
 
-<p class="example">The {{Window}} class is not constructible, because creating a new window is a
-privileged operation with significant side effects. Instead, the {{Window/open(url, target, features)|window.open()}}
-method is used to create new windows.</p>
+<p class="example">
+The {{DOMTokenList}} class is, sadly,
+<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>.
+This prevents the creation of <a>custom elements</a>
+that expose their token list attributes as {{DOMTokenList}}s.
+</p>
 
-<p class="example">The {{ImageBitmap}} class is not constructible, as it represents an immutable,
-ready-to-paint bitmap image, and the process of getting it ready to paint must be done
-asynchronously. Instead, the {{createImageBitmap()}} method is used to create it.</p>
+<div class="example">
+Several non-constructible classes,
+like {{Navigator}}, {{History}}, or {{Crypto}},
+are non-constructible because they are singletons
+representing access to per-window information.
+In these cases, something like the Web IDL <a>namespace</a> feature
+might have been a better fit,
+but these features were designed before namespaces,
+and go beyond what is currently possible with namespaces.
 
-<p class="example">Several non-constructible classes, like {{Navigator}}, {{History}}, or
-{{Crypto}}, are non-constructible because they are singletons representing access to per-window
-information. In these cases, the Web IDL <a>namespace</a> feature or some evolution of it might have
-been a better fit, but they were designed before namespaces existed, and somewhat exceed the current
-capabilities of namespaces. If you're designing a new singleton, strongly consider using a
-<a>namespace</a> instead of a non-constructible class; if namespaces don't yet have enough
-capabilities, <a href="https://github.com/heycam/webidl/issues/new">file an issue on Web IDL</a> to
-discuss.</p>
-
-<div class="note">
-    <p>For any JavaScript developers still incredulous that it is possible to create an instance of
-    a non-constructible class, we provide the following code example:</p>
-
-    <pre highlight="js">
-        const secret = {};
-
-        class NonConstructible {
-            constructor(theSecret = undefined) {
-                if (theSecret !== secret) {
-                    throw new TypeError("Illegal constructor.");
-                }
-
-                // Set up the object.
-            }
-        }
-    </pre>
-
-    <p>If the author of this code never exposes the `secret` variable to the outside world, they can
-    reserve the ability to create instances of `NonConstructible` for themself: they can always do
-    <code highlight="js">const instance = new NonConstructible(secret)</code>. But the outside world
-    can never successfully "guess" the secret, and thus will always receive a {{TypeError}} when
-    trying to construct an instance of `NonConstructible`.</p>
-
-    <p>From this perspective, what browsers are doing when they create non-constructible classes
-    isn't magic: it's just very tricky. The above section is aimed at urging browsers to avoid such
-    tricks (or their equivalents in C++/Rust/etc.) whenever reasonable.</p>
+If your API requires this type of singleton,
+consider using a <a>namespace</a>,
+and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a>
+if there is some problem with using them.
 </div>
-
 
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
-Asynchronous APIs should generally be designed using promises
-rather than callback functions.
-This is the pattern that we've settled on for the Web platform,
-and having APIs consistently use promises means that the APIs are
-easier to use together (such as by chaining promises).
-This pattern also tends to produce cleaner code than the use
-of APIs with callback functions.
+If an API function needs to be asynchronous, use Promises,
+not callback functions.
 
-Furthermore, you should carefully consider whether an API might need
-to be asynchronous before making it a synchronous API.
+Using Promises consistently across the Web platform
+means that APIs are easier to use together,
+such as by chaining promises.
+Promise-using code also tends to be easier to understand
+than code using callback functions.
+
 An API might need to be asynchronous if:
-  * some implementations may (in at least some cases) wish to prompt the user
-    or ask the user for permission before allowing use of the API,
-  * implementations may need to consider information that might be stored
-    on disk in order to compute the result,
-  * implementations may need to interact with the network before returning
-    the result, or
-  * implementations may wish to do work on another thread or in another
-    process before returning the result.
+  * the user agent needs to prompt the user for [permission](#consent),
+  * some information might need to be read from disk,
+    or requested from the network,
+  * the user agent may need to do a significant amount of work on another thread,
+    or in another process, before returning the result.
 
-For more information on how to design APIs using promises,
-and on when to use promises and when not to use promises,
-see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
-Promise-Using Specifications</a></strong>.
+See also:
+
+* <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
-Async functions that need cancellation should take an `AbortSignal` as part
-of an options dictionary.
+If an asynchronous function can be cancelled,
+allow authors to pass in an {{AbortSignal}} as part of an options dictionary.
 
-Example:
-
+<div class="example">
 ```js
 const controller = new AbortController();
 const signal = controller.signal;
 geolocation.read({ signal });
 ```
+</div>
 
-Reusing the same primitive everywhere has multiplicative effects throughout
-the platform. In particular, there's a common pattern of using a single
-`AbortSignal` for a bunch of ongoing operations, and then aborting them
-(with the corresponding `AbortController`) when e.g. the user presses cancel,
-or a single-page-app navigation occurs, or similar. So the minor extra
-complexity for an individual API leads to a large reduction in complexity
-when used with multiple APIs together.
+Using `AbortSignal` consistently
+as the way to cancel an asychronous operation
+means that authors can write less complex code.
 
-There might be cases where cancellation cannot be guaranteed. In these cases,
-the `AbortController` can still be used because a call to `abort()` on
-`AbortController` is a request to abort. How you react to it depends on your spec.
-Note, requestAbort() was considered in the AbortController design instead
-of abort(), but the latter was chosen for brevity.
+For example, there's a pattern of using a single `AbortSignal`
+for several ongoing operations,
+and then using the corresponding `AbortController`
+to cancel all of the operations at once if necessary
+(such as if the user presses "cancel",
+or a single-page app navigation occurs.)
 
-<h3 id="string-constants">Constants, enums, and bitmasks</h3>
+Even if cancellation can't be guaranteed,
+you can still use an {{AbortController}},
+because a call to {{AbortController/abort()}} on `AbortController`
+is a request, rather than a guarantee.
 
-In many other platforms and programming languages, constants and enums are
-commonly expressed using a integer constant, sometimes in conjunction with
-a bitmask mechanism.
+<h3 id="string-constants">Use strings for constants and enums</h3>
 
-However on the Web platform, it is more common to use a string constant for
-the cases where a constant is needed. This is much more inspection friendly
-for both development and expressing the constant codes through a user facing
-interface, and in JavaScript engines, using integers offers no significant
-performance benefit over strings.
+If your API needs a constant, or a set of enumerated values,
+use string values.
 
-Strings do not directly address the use case for bitmasks. For these cases,
-you should use an object dictionary which contains the state that the
-bitmask is attempting to express, as object dictionaries can then be passed
-around from method to method as needed as easily as the state in a single
-bitmask value.
+Strings are easier for developers to inspect,
+and in JavaScript engines there is no performance benefit
+from using integers instead of strings.
+
+If you need to express a state which is a combination of properties,
+which might be expressed as a bitmask in another language,
+use a dictionary object instead.
+This object can be passed around as easily as a single bitmask value.
 
 <h2 id="event-design">Event Design</h2>
 
