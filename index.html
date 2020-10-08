@@ -1323,7 +1323,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version f9f60c8f, updated Fri Sep 25 16:39:03 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="75aaee6c48d02e0472890fdfcbaedd1f1359f205" name="document-revision">
+  <meta content="665ca0e13ea5e878feb3a998b7e9ee09caed896e" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1878,7 +1878,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-07">7 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-08">8 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1964,12 +1964,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#attributes-like-data"><span class="secno">5.1</span> <span class="content">Attributes should behave like data properties</span></a>
       <li><a href="#live-vs-static"><span class="secno">5.2</span> <span class="content">Consider whether objects should be live or static</span></a>
-      <li><a href="#prefer-dict-to-bool"><span class="secno">5.3</span> <span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span></a>
-      <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make non-critical function parameters optional</span></a>
-      <li><a href="#constructors"><span class="secno">5.5</span> <span class="content">Classes should have constructors when possible</span></a>
-      <li><a href="#promises"><span class="secno">5.6</span> <span class="content">Design asynchronous APIs using Promises</span></a>
-      <li><a href="#aborting"><span class="secno">5.7</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
-      <li><a href="#string-constants"><span class="secno">5.8</span> <span class="content">Constants, enums, and bitmasks</span></a>
+      <li><a href="#prefer-dict-to-bool"><span class="secno">5.3</span> <span class="content">Prefer dictionary parameters over primitive parameters</span></a>
+      <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make function parameters optional if possible</span></a>
+      <li><a href="#naming-optional-parameters"><span class="secno">5.5</span> <span class="content">Naming optional parameters</span></a>
+      <li><a href="#constructors"><span class="secno">5.6</span> <span class="content">Classes should have constructors when possible</span></a>
+      <li><a href="#promises"><span class="secno">5.7</span> <span class="content">Design asynchronous APIs using Promises</span></a>
+      <li><a href="#aborting"><span class="secno">5.8</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
+      <li><a href="#string-constants"><span class="secno">5.9</span> <span class="content">Use strings for constants and enums</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">6</span> <span class="content">Event Design</span></a>
@@ -2604,251 +2605,295 @@ set accurate author expectations about
 the interaction with garbage collection.</p>
    <h2 class="heading settled" data-level="5" id="api-surface"><span class="secno">5. </span><span class="content">JavaScript API Surface Concerns</span><a class="self-link" href="#api-surface"></a></h2>
    <h3 class="heading settled" data-level="5.1" id="attributes-like-data"><span class="secno">5.1. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes are reified in JavaScript as accessor properties, i.e. properties with
-separate getter and setter functions which can react independently. This is in contrast to the
-"default" style of JavaScript properties, data properties, which do not have configurable behavior
-but instead can simply be set and retrieved, or optionally marked read-only so that they cannot be
-set.</p>
-   <p>Data property semantics are what are generally expected by JavaScript developers when interfacing
-with objects. As such, although getters and setters allow infinite customizability when defining
-your Web IDL attributes, you should endeavor to make the resulting accessor properties behave as
-much like a data property as possible. Specific guidance in this regard includes:</p>
+   <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes should act like simple JavaScript object properties.</p>
+   <p>In reality, IDL attributes are implemented as accessor properties
+with separate getter and setter functions.
+To make them act like JavaScript object properties:</p>
    <ul>
     <li data-md>
-     <p>Getters must not have any (observable) side effects.</p>
+     <p>Getters must not have any observable side effects.</p>
     <li data-md>
-     <p>Getters should not perform any expensive operations. (A notable failure of the platform in this
-regard is getters like <code class="highlight">offsetTop</code> performing layout; do not repeat this mistake.)</p>
+     <p>Getters should not perform any complex operations.</p>
     <li data-md>
-     <p>Ensure that your attribute’s getter returns the same object each time it is called, until some
-occurrence in another part of the system causes a logical "reset" of the property’s value. In
-particular, <code class="highlight">obj<c- p>.</c->attribute <c- o>===</c-> obj<c- p>.</c->attribute</code> must always hold, and so returning a
-new value from the getter each time is not allowed.</p>
+     <p>Ensure that <code class="highlight">obj<c- p>.</c->attribute <c- o>===</c-> obj<c- p>.</c->attribute</code> is always true.
+Don’t create a new value each time the getter is called.</p>
     <li data-md>
-     <p>Whenever possible, preserve values given to the setter for return from the getter. That is,
-given <code class="highlight">obj<c- p>.</c->attribute <c- o>=</c-> x</code>, a subsequent <code class="highlight">obj<c- p>.</c->attribute <c- o>===</c-> x</code> should be
-true. (This will not always be the case, e.g. if a normalization or type conversion step is
-necessary, but should be held as a goal for normal code paths.)</p>
+     <p>If possible, ensure that given <code class="highlight">obj<c- p>.</c->attribute <c- o>=</c-> x</code>, <code class="highlight">obj<c- p>.</c->attribute <c- o>===</c-> x</code> is true.
+(This may not be possible if some kind of conversion is necessary for <code>x</code>.)</p>
    </ul>
    <p>If you were thinking about using an attribute,
 but it doesn’t behave this way,
 you should probably use a method instead.</p>
+   <div class="example" id="example-92914693"><a class="self-link" href="#example-92914693"></a> For example, <code class="highlight">offsetTop</code> performs layout,
+which can be complex and time-consuming.
+It would have been better if this had been a method like <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect" id="ref-for-dom-element-getboundingclientrect">getBoundingClientRect()</a></code>. </div>
    <h3 class="heading settled" data-level="5.2" id="live-vs-static"><span class="secno">5.2. </span><span class="content">Consider whether objects should be live or static</span><a class="self-link" href="#live-vs-static"></a></h3>
-   <p>Objects returned from functions, attribute getters, etc.,
-can either be live or static.
-A <dfn data-dfn-type="dfn" data-export id="live-object">live object<a class="self-link" href="#live-object"></a></dfn> is one that continues to reflect
-changes made after it was returned to the caller.
-A <dfn data-dfn-type="dfn" data-export id="static-object">static object<a class="self-link" href="#static-object"></a></dfn> is one that reflects
-the state at the time it was returned.</p>
-   <p>Objects that are the way state is mutated are generally live.
-For example, DOM nodes are returned as live objects,
-since they are the API through which attributes are set and other changes
-to the DOM are made.
-They also reflect changes to the DOM made in other ways
-(such as through user interaction with forms).</p>
-   <p>Objects that represent a collection
-that might change over time
-(and that are not the way state is mutated)
-should generally be returned as static objects.
-This is because it is confusing to users of the API when
-a collection changes while being iterated.
-Because of this,
-it is generally considered a mistake that methods like <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-getelementsbytagname" id="ref-for-dom-document-getelementsbytagname">getElementsByTagName()</a></code> return live objects; <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall" id="ref-for-dom-parentnode-queryselectorall">querySelectorAll()</a></code> was made to return static objects
-as a result of this experience.
-On the other hand, even though <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#urlsearchparams" id="ref-for-urlsearchparams">URLSearchParams</a></code> represents a collection,
-it should be live because the collection is mutated through that object.</p>
-   <p class="note" role="note"><span>Note:</span> It’s possible that some of this advice should be reconsidered
-for <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
-where iterators have reasonable behavior
-for mutation that happens during iteration.
-This point likely needs further discussion,
-and perhaps further experience of use of these types.</p>
-   <p>It’s also worth considering the implications of having
-live versus static objects for the speed of implementations of the API.
-When the data needed by an object are expensive to compute up-front,
-there is an advantage for that object to be live so that the results
-can be computed lazily, such as for <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle①">getComputedStyle()</a></code>.
-On the other hand,
-if the data needed by an object are expensive to keep up-to-date,
-such as for the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#nodelist" id="ref-for-nodelist">NodeList</a></code> returned from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall" id="ref-for-dom-parentnode-queryselectorall①">querySelectorAll()</a></code>,
-then providing a static object avoids
-having to keep the object updated until it is garbage collected
-(which may be substantially after its last use).</p>
-   <p>Likewise, the choice of live versus static objects
-can influence the memory use of an API.
-If each call of a method returns a new static object,
-and the objects are large,
-then substantial amounts of memory can be wasted
-until the next garbage collection.</p>
-   <p>The choice of whether an object is live or static may also
-influence whether it should be returned
-from an attribute getter or from a method.
-See <a href="#attributes-like-data">§ 5.1 Attributes should behave like data properties</a>.
-In particular,
-if a result that changes frequently is returned as a static object,
-it should probably be returned from a method rather than an attribute getter.</p>
-   <h3 class="heading settled" data-level="5.3" id="prefer-dict-to-bool"><span class="secno">5.3. </span><span class="content">Prefer dictionary parameters over boolean parameters or other unreadable parameters</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
-   <p>APIs should generally prefer dictionary parameters
-(with named booleans in the dictionary)
-over boolean parameters.
-This makes the code that calls the API <a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">much more readable</a>.
-It also makes the API more extensible in the future,
-particularly if multiple booleans are needed.</p>
-   <p class="example" id="example-44c12439"><a class="self-link" href="#example-44c12439"></a>For example, <code class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"exampleevent"</c-><c- p>,</c-> <c- p>{</c-> bubbles<c- o>:</c-> <c- kc>true</c-><c- p>,</c-> cancelable<c- o>:</c-> <c- kc>false</c-><c- p>})</c-></code> is much more readable than <code class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"exampleevent"</c-><c- p>,</c-> <c- kc>true</c-><c- p>,</c-> <c- kc>false</c-><c- p>)</c-></code>. </p>
-   <p>Furthermore,
-the booleans in dictionaries need to be designed so that they all default to false.
-If booleans default to true, then <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">users of the API will find unexpected JavaScript behavior</a> since <code class="highlight"><c- p>{</c-> passive<c- o>:</c-> <c- kc>false</c-> <c- p>}</c-></code> and <code class="highlight"><c- p>{</c-> passive<c- o>:</c-> <c- kc>undefined</c-> <c- p>}</c-></code> will produce different results.
-But at the same time, it’s important to avoid naming booleans in negative ways,
-because then code will have confusing double-negatives.
-These pieces of advice may sometimes conflict,
-but the conflict can be avoided by using opposite words without negatives,
-such as “repeat” versus “once”,
-“isolate” versus “connect”,
-or “private” versus “public”.</p>
-   <p>Likewise, APIs should use dictionary parameters to avoid other cases
-of difficult to understand sequences of parameters.
-For example, <code class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mi>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mi>0</c-> <c- p>})</c-></code> is more readable than <code class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mi>50</c-><c- p>,</c-> <c- mi>0</c-><c- p>)</c-></code>.</p>
-   <h3 class="heading settled" data-level="5.4" id="optional-parameters"><span class="secno">5.4. </span><span class="content">Make non-critical function parameters optional</span><a class="self-link" href="#optional-parameters"></a></h3>
-   <p>Parameters that are not strictly necessary should be made optional.
-Making arguments optional with reasonable defaults
-reduces overhead when the function is used,
-and increases user-friendliness.</p>
-   <p>Optional parameters should be consolidated into a dictionary,
-and empty parameters should be treated identically to when the parameter is omitted.</p>
-   <p class="example" id="example-8813fc13"><a class="self-link" href="#example-8813fc13"></a>For example, <code class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>,</c-> <c- p>{});</c-></code> is equivalent to <code class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>);</c-></code>,
-and <code class="highlight">element<c- p>.</c->addEventListener<c- p>(</c-><c- u>"click"</c-><c- p>,</c-> onClick<c- p>,</c-> <c- kc>undefined</c-><c- p>);</c-></code> is equivalent to <code class="highlight">element<c- p>.</c->addEventListener<c- p>(</c-><c- u>"click"</c-><c- p>,</c-> onClick<c- p>)</c-></code>. </p>
-   <p>Exceptions have been made for legacy interoperability reasons
-(such as XMLHttpRequest),
-but this should be considered a design mistake rather than recommended practice.</p>
-   <h3 class="heading settled" data-level="5.5" id="constructors"><span class="secno">5.5. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
-   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces are reified in JavaScript as "non-constructible" classes: trying
-to create instances of them using the normal pattern in JavaScript, <code>new X()</code>, will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>. This is a poor experience for JavaScript developers, and doesn’t match the design of
-most of the JavaScript standard library or of the classes JavaScript developers themselves create.</p>
-   <p>From a naive perspective, it’s not even coherent: how can instances of this thing ever exist, if
-they can’t be constructed? The answer is that the platform has magic powers: it can create instances
-of Web IDL-derived classes without ever actually calling their constructor.</p>
-   <p>You should strive to reduce such magic in designing your own APIs, and give them constructors which
-allow JavaScript developers to create them, just like the platform does. This means adding an
-appropriate <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-constructors" id="ref-for-idl-constructors">constructor operation</a> to your interface, and defining the algorithm for
-creating new instances of your class.</p>
-   <p>Apart from reducing the magic in the platform, adding constructors allows JavaScript developers to
-create instances of the class for their own purposes, such as testing, mocking, or interfacing with
-third-party libraries which accept instances of that class. Additionally, because of how
-JavaScript’s class design works, it is only possible to create a subclass of the class if it is
-constructible.</p>
-   <p>Sometimes this isn’t the right answer: for example, some objects essentially wrap handles to
-privileged resources, and it isn’t reasonable to create some representation of that privileged
-resource in JavaScript so that you can pass it to the constructor. Or the object’s lifecycle needs
-to be very carefully controlled, so that creating new ones is only possible through privileged
-operations. Or the interface represents an abstract base class for which it doesn’t make sense to
-construct an instance, or create an author-defined subclass. But cases like these should be the
-exception, not the norm.</p>
-   <p class="example" id="example-6f8cdca8"><a class="self-link" href="#example-6f8cdca8"></a>The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> class, and all its derived interfaces, are constructible. This
-allows JavaScript developers to synthesize instances of them, which can be useful in testing or
-shimming scenarios. For example, a library designed for <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> instances can still be used
-by another library that accepts as input <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/touch-events/#idl-def-touchevent" id="ref-for-idl-def-touchevent">TouchEvent</a></code> instances, by writing a small bit of adapter
-code that creates synthetic <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code>s.</p>
-   <p class="example" id="example-520732fa"><a class="self-link" href="#example-520732fa"></a>The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist">DOMTokenList</a></code> class is, very unfortunately, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>. This prevents the
-creation of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element">custom elements</a> that expose their token list attributes as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①">DOMTokenList</a></code>s.</p>
-   <p class="example" id="example-de08c31c"><a class="self-link" href="#example-de08c31c"></a>No HTML elements are constructible. This is largely due to some unfortunate
-design decisions that <a href="https://github.com/whatwg/html/issues/896">would take some effort to
-work around</a>. In the meantime, for the purposes of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element" id="ref-for-customized-built-in-element">customized built-in elements</a> feature, they have been made subclassable through a specifically-designed one-off solution: the
-[<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/dom.html#htmlconstructor" id="ref-for-htmlconstructor">HTMLConstructor</a></code>] extended attribute.</p>
-   <p class="example" id="example-4d1db045"><a class="self-link" href="#example-4d1db045"></a>The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code> class is not constructible, because creating a new window is a
-privileged operation with significant side effects. Instead, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open" id="ref-for-dom-open">window.open()</a></code> method is used to create new windows.</p>
-   <p class="example" id="example-38c742ca"><a class="self-link" href="#example-38c742ca"></a>The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap" id="ref-for-imagebitmap">ImageBitmap</a></code> class is not constructible, as it represents an immutable,
-ready-to-paint bitmap image, and the process of getting it ready to paint must be done
-asynchronously. Instead, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap" id="ref-for-dom-createimagebitmap">createImageBitmap()</a></code> method is used to create it.</p>
-   <p class="example" id="example-09c8f087"><a class="self-link" href="#example-09c8f087"></a>Several non-constructible classes, like <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator">Navigator</a></code>, <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/history.html#history-3" id="ref-for-history-3">History</a></code>, or <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto" id="ref-for-dfn-Crypto">Crypto</a></code>, are non-constructible because they are singletons representing access to per-window
-information. In these cases, the Web IDL <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace">namespace</a> feature or some evolution of it might have
-been a better fit, but they were designed before namespaces existed, and somewhat exceed the current
-capabilities of namespaces. If you’re designing a new singleton, strongly consider using a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a> instead of a non-constructible class; if namespaces don’t yet have enough
-capabilities, <a href="https://github.com/heycam/webidl/issues/new">file an issue on Web IDL</a> to
-discuss.</p>
-   <div class="note" role="note">
-    <p>For any JavaScript developers still incredulous that it is possible to create an instance of
-    a non-constructible class, we provide the following code example:</p>
-<pre class="highlight"><c- kr>const</c-> secret <c- o>=</c-> <c- p>{};</c->
+   <p>If an API gives access to an object
+representing some internal state,
+decide whether that object should continue to be updated as the state changes.</p>
+   <p>An object which represents the current state at all times
+is a <dfn data-dfn-type="dfn" data-export id="live-object">live object<a class="self-link" href="#live-object"></a></dfn>,
+while an object which represents the state at the time it was created
+is a <dfn data-dfn-type="dfn" data-export id="static-object">static object<a class="self-link" href="#static-object"></a></dfn>.</p>
+   <h4 class="no-num no-toc heading settled" id="live-objects"><span class="content">Live objects</span><a class="self-link" href="#live-objects"></a></h4>
+   <p>If an object allows the author to change the internal state,
+that object should be live.
+For example, DOM <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>s are live objects,
+to allow the author to make changes to the document
+with an understanding of the current state.</p>
+   <p>Properties of live objects may be computed as they are accessed,
+instead of when the object is created.
+This makes live objects sometimes a better choice
+if the data needed is complex to compute,
+since there is no need to compute all the data before the object is returned.</p>
+   <p>A live object may also use less memory,
+since there is no need to copy data to a static version.</p>
+   <h4 class="no-num no-toc heading settled" id="static-objects"><span class="content">Static objects</span><a class="self-link" href="#static-objects"></a></h4>
+   <p>If an object represents a list that might change,
+most often the object should be static.
+This is so that code iterating over the list
+doesn’t need to handle the possibility of the list changing in the middle.</p>
+   <div class="example" id="example-05004f68">
+    <a class="self-link" href="#example-05004f68"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname" id="ref-for-ref-for-concept-getelementsbytagname③">getElementsByTagName</a></code> returns a live object which represents a list,
+meaning that authors need to take care when iterating over its items: 
+<pre class="language-js highlight"><c- a>let</c-> list <c- o>=</c-> document<c- p>.</c->getElementsByTagName<c- p>(</c-><c- u>"td"</c-><c- p>);</c->
 
-<c- kr>class</c-> NonConstructible <c- p>{</c->
-    constructor<c- p>(</c->theSecret <c- o>=</c-> <c- kc>undefined</c-><c- p>)</c-> <c- p>{</c->
-        <c- k>if</c-> <c- p>(</c->theSecret <c- o>!==</c-> secret<c- p>)</c-> <c- p>{</c->
-            <c- k>throw</c-> <c- k>new</c-> TypeError<c- p>(</c-><c- u>"Illegal constructor."</c-><c- p>);</c->
-        <c- p>}</c->
+<c- k>for</c-> <c- p>(</c-><c- a>let</c-> i <c- o>=</c-> <c- mi>0</c-><c- p>;</c-> i <c- o>&lt;</c-> list<c- p>.</c->length<c- p>;</c-> i<c- o>++</c-><c- p>)</c-> <c- p>{</c->
+    <c- a>let</c-> td <c- o>=</c-> list<c- p>[</c->i<c- p>];</c->
+    <c- a>let</c-> tr <c- o>=</c-> document<c- p>.</c->createElement<c- p>(</c-><c- u>"tr"</c-><c- p>);</c->
+    tr<c- p>.</c->innerHTML <c- o>=</c-> td<c- p>.</c->outerHTML<c- p>;</c->
 
-        <c- c1>// Set up the object.</c->
-    <c- p>}</c->
+    <c- c1>// This has the side-effect of removing td from the list,</c->
+    <c- c1>// causing the iteration to become unpredictable.</c->
+    td<c- p>.</c->parentNode<c- p>.</c->replaceChild<c- p>(</c->tr<c- p>,</c-> td<c- p>);</c->
 <c- p>}</c->
 </pre>
-    <p>If the author of this code never exposes the <code>secret</code> variable to the outside world, they can
-    reserve the ability to create instances of <code>NonConstructible</code> for themself: they can always do <code class="highlight"><c- kr>const</c-> instance <c- o>=</c-> <c- k>new</c-> NonConstructible<c- p>(</c->secret<c- p>)</c-></code>. But the outside world
-    can never successfully "guess" the secret, and thus will always receive a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code> when
-    trying to construct an instance of <code>NonConstructible</code>.</p>
-    <p>From this perspective, what browsers are doing when they create non-constructible classes
-    isn’t magic: it’s just very tricky. The above section is aimed at urging browsers to avoid such
-    tricks (or their equivalents in C++/Rust/etc.) whenever reasonable.</p>
+    <p>The choice to have <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall" id="ref-for-dom-parentnode-queryselectorall">querySelectorAll()</a></code> return static objects
+was made after spec authors noticed that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname" id="ref-for-ref-for-concept-getelementsbytagname④">getElementsByTagName</a></code> was causing problems.</p>
+    <p><code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#urlsearchparams" id="ref-for-urlsearchparams">URLSearchParams</a></code> isn’t static,
+even though it represents a list,
+because it’s the way for authors to change the query string of a URL.</p>
    </div>
-   <h3 class="heading settled" data-level="5.6" id="promises"><span class="secno">5.6. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
-   <p>Asynchronous APIs should generally be designed using promises
-rather than callback functions.
-This is the pattern that we’ve settled on for the Web platform,
-and having APIs consistently use promises means that the APIs are
-easier to use together (such as by chaining promises).
-This pattern also tends to produce cleaner code than the use
-of APIs with callback functions.</p>
-   <p>Furthermore, you should carefully consider whether an API might need
-to be asynchronous before making it a synchronous API.
-An API might need to be asynchronous if:</p>
+   <p class="note" role="note"><span>Note:</span> For <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
+this advice may not apply,
+since these types were designed to behave well
+when they change while being iterated.</p>
+   <p>If it would not be possible to compute properties
+at the time they are accessed,
+a static object avoids having to keep the object updated
+until it’s garbage collected,
+even if it isn’t being used.</p>
+   <p>If a static object represents some state which may change frequently,
+it should be returned from a method,
+rather than available as an attribute.</p>
+   <p>See also:</p>
    <ul>
     <li data-md>
-     <p>some implementations may (in at least some cases) wish to prompt the user
-or ask the user for permission before allowing use of the API,</p>
-    <li data-md>
-     <p>implementations may need to consider information that might be stored
-on disk in order to compute the result,</p>
-    <li data-md>
-     <p>implementations may need to interact with the network before returning
-the result, or</p>
-    <li data-md>
-     <p>implementations may wish to do work on another thread or in another
-process before returning the result.</p>
+     <p><a href="#attributes-like-data">§ 5.1 Attributes should behave like data properties</a></p>
    </ul>
-   <p>For more information on how to design APIs using promises,
-and on when to use promises and when not to use promises,
-see <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
-Promise-Using Specifications</a></strong>.</p>
-   <h3 class="heading settled" data-level="5.7" id="aborting"><span class="secno">5.7. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
-   <p>Async functions that need cancellation should take an <code>AbortSignal</code> as part
-of an options dictionary.</p>
-   <p>Example:</p>
+   <h3 class="heading settled" data-level="5.3" id="prefer-dict-to-bool"><span class="secno">5.3. </span><span class="content">Prefer dictionary parameters over primitive parameters</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
+   <p>API methods should generally use dictionary parameters
+instead of a series of optional primitive parameters.</p>
+   <p>This makes the code that calls the method much more readable.
+It also makes the API more extensible in the future,
+particularly if multiple parameters with the same type are needed.</p>
+   <div class="example" id="example-148797d6">
+    <a class="self-link" href="#example-148797d6"></a> For example, 
+<pre class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c->
+          <c- p>{</c-> bubbles<c- o>:</c-> <c- kc>true</c-><c- p>,</c->
+            cancelable<c- o>:</c-> <c- kc>false</c-><c- p>})</c->
+</pre>
+    <p>is much more readable than</p>
+<pre class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c-> <c- kc>true</c-><c- p>,</c-> <c- kc>false</c-><c- p>)</c->
+</pre>
+    <p>Also,</p>
+<pre class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mi>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mi>0</c-> <c- p>})</c->
+</pre>
+    <p>is more readable than</p>
+<pre class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mi>50</c-><c- p>,</c-> <c- mi>0</c-><c- p>)</c->
+</pre>
+   </div>
+   <p>The dictionary itself should be an optional parameter,
+so that if the author is happy with all of the default options,
+they can avoid passing an extra argument.</p>
+   <div class="example" id="example-c7e8a584">
+    <a class="self-link" href="#example-c7e8a584"></a> For example, 
+<pre class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>,</c-> <c- p>{});</c->
+</pre>
+    <p>is equivalent to</p>
+<pre class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>);</c->
+</pre>
+   </div>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">Hall of API Shame: Boolean Trap</a>.</p>
+    <li data-md>
+     <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
+    <li data-md>
+     <p><a href="#optional-parameters">§ 5.4 Make function parameters optional if possible</a></p>
+    <li data-md>
+     <p><a href="#naming-optional-parameters">§ 5.5 Naming optional parameters</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="5.4" id="optional-parameters"><span class="secno">5.4. </span><span class="content">Make function parameters optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
+   <p>If a parameter for an API function has a reasonable default value,
+make that parameter optional and specify the default value.</p>
+   <div class="example" id="example-b823d8cb"><a class="self-link" href="#example-b823d8cb"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
+Thie defaults to <code>false</code>, meaning that
+the event should be dispatched to the listener in the bubbling phase by default. </div>
+   <p class="note" role="note"><span>Note:</span> Exceptions have been made for legacy interoperability reasons
+(such as <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code>),
+but this should be considered a design mistake rather than recommended practice.</p>
+   <p>The API must be designed so that if a parameter is left out,
+the default value used is the same as
+converting <code>undefined</code> to the type of the parameter.
+For example, if a boolean parameter isn’t set,
+it must default to false.</p>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="#prefer-dict-to-bool">§ 5.3 Prefer dictionary parameters over primitive parameters</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="5.5" id="naming-optional-parameters"><span class="secno">5.5. </span><span class="content">Naming optional parameters</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
+   <p>Name optional parameters to make the default behavior obvious
+without being named negatively.</p>
+   <p>This applies whether they are provided in a <a href="#prefer-dict-to-bool">dictionary</a> or as <a href="#optional-parameters">single parameters</a>.</p>
+   <div class="example" id="example-cc7dcba0">
+    <a class="self-link" href="#example-cc7dcba0"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener①">addEventListener()</a></code> takes an <code>options</code> object
+which includes an option named <code>once</code>.
+This indicates that the listener should <strong>not</strong> be invoked repeatedly. 
+    <p>This option could have been named <code>repeat</code>,
+but that would require the <a href="#optional-parameters">default</a> to be <code>true</code>.
+Instead of naming it <code>noRepeat</code>,
+the API authors named it <code>once</code>,
+to reflect the default behaviour without using a negative.</p>
+    <p>Other examples:</p>
+    <ul>
+     <li data-md>
+      <p><code>passive</code> rather than <code>active</code>, or</p>
+     <li data-md>
+      <p><code>isolate</code> rather than <code>connect</code>, or</p>
+     <li data-md>
+      <p><code>private</code> rather than <code>public</code></p>
+    </ul>
+   </div>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="#naming-is-hard">§ 11 Naming principles</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="5.6" id="constructors"><span class="secno">5.6. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
+   <p>Make sure that any class that’s part of your API has a constructor,
+if appropriate.</p>
+   <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces generate "non-constructible" classes:
+trying to create instances of them using <code>new X()</code> will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>.
+To make them constructible,
+you can add appropriate <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-constructors" id="ref-for-idl-constructors">constructor operation</a> to your interface,
+and defining the algorithm for creating new instances of your class.</p>
+   <p>This allows JavaScript developers
+to create instances of the class
+for purposes such as testing, mocking,
+or interfacing with third-party libraries which accept instances of that class.
+It also gives authors the ability to create a subclass of the class,
+which is otherwise prevented,
+because of the way JavaScript handles subclasses.</p>
+   <p>This won’t be appropriate in all cases.
+For example:</p>
+   <ul>
+    <li data-md>
+     <p>Some objects represent access to privileged resources,
+so they need to be constructed by factory methods
+which can access those resources.</p>
+    <li data-md>
+     <p>Some objects have very carefully controlled lifecycles,
+so they need to be created and accessed through specific methods.</p>
+    <li data-md>
+     <p>Some objects represent an abstract base class,
+which shouldn’t be constructed,
+and which authors should not be able to define subclasses for.</p>
+   </ul>
+   <p class="example" id="example-b036c85f"><a class="self-link" href="#example-b036c85f"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> class, and all its derived interfaces, are constructible.
+This is useful when testing code which handles events:
+an author can construct an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> to pass to a method
+which handles that type of event. </p>
+   <p class="example" id="example-efe51367"><a class="self-link" href="#example-efe51367"></a> The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code> class isn’t constructible,
+because creating a new window is a privileged operation
+with significant side effects.
+Instead, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open" id="ref-for-dom-open">window.open()</a></code> method
+is used to create new windows. </p>
+   <p class="example" id="example-c23596fe"><a class="self-link" href="#example-c23596fe"></a> The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap" id="ref-for-imagebitmap">ImageBitmap</a></code> class isn’t constructible,
+as it represents an immutable, ready-to-paint bitmap image,
+and the process of getting it ready to paint must be done asynchronously.
+Instead, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap" id="ref-for-dom-createimagebitmap">createImageBitmap()</a></code> factory method is used to create it. </p>
+   <p class="example" id="example-97798904"><a class="self-link" href="#example-97798904"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist">DOMTokenList</a></code> class is, sadly, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>.
+This prevents the creation of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element">custom elements</a> that expose their token list attributes as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①">DOMTokenList</a></code>s. </p>
+   <div class="example" id="example-ebdfca9b">
+    <a class="self-link" href="#example-ebdfca9b"></a> Several non-constructible classes,
+like <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator">Navigator</a></code>, <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/history.html#history-3" id="ref-for-history-3">History</a></code>, or <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/WebCryptoAPI/#dfn-Crypto" id="ref-for-dfn-Crypto">Crypto</a></code>,
+are non-constructible because they are singletons
+representing access to per-window information.
+In these cases, something like the Web IDL <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace">namespace</a> feature
+might have been a better fit,
+but these features were designed before namespaces,
+and go beyond what is currently possible with namespaces. 
+    <p>If your API requires this type of singleton,
+consider using a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a>,
+and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a> if there is some problem with using them.</p>
+   </div>
+   <h3 class="heading settled" data-level="5.7" id="promises"><span class="secno">5.7. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
+   <p>If an API function needs to be asynchronous, use Promises,
+not callback functions.</p>
+   <p>Using Promises consistently across the Web platform
+means that APIs are easier to use together,
+such as by chaining promises.
+Promise-using code also tends to be easier to understand
+than code using callback functions.</p>
+   <p>An API might need to be asynchronous if:</p>
+   <ul>
+    <li data-md>
+     <p>the user agent needs to prompt the user for <a href="#consent">permission</a>,</p>
+    <li data-md>
+     <p>some information might need to be read from disk,
+or requested from the network,</p>
+    <li data-md>
+     <p>the user agent may need to do a significant amount of work on another thread,
+or in another process, before returning the result.</p>
+   </ul>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a></p>
+   </ul>
+   <h3 class="heading settled" data-level="5.8" id="aborting"><span class="secno">5.8. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
+   <p>If an asynchronous function can be cancelled,
+allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
+   <div class="example" id="example-52de31d9">
+    <a class="self-link" href="#example-52de31d9"></a> 
 <pre class="language-js highlight"><c- kr>const</c-> controller <c- o>=</c-> <c- k>new</c-> AbortController<c- p>();</c->
 <c- kr>const</c-> signal <c- o>=</c-> controller<c- p>.</c->signal<c- p>;</c->
 geolocation<c- p>.</c->read<c- p>({</c-> signal <c- p>});</c->
 </pre>
-   <p>Reusing the same primitive everywhere has multiplicative effects throughout
-the platform. In particular, there’s a common pattern of using a single <code>AbortSignal</code> for a bunch of ongoing operations, and then aborting them
-(with the corresponding <code>AbortController</code>) when e.g. the user presses cancel,
-or a single-page-app navigation occurs, or similar. So the minor extra
-complexity for an individual API leads to a large reduction in complexity
-when used with multiple APIs together.</p>
-   <p>There might be cases where cancellation cannot be guaranteed. In these cases,
-the <code>AbortController</code> can still be used because a call to <code>abort()</code> on <code>AbortController</code> is a request to abort. How you react to it depends on your spec.
-Note, requestAbort() was considered in the AbortController design instead
-of abort(), but the latter was chosen for brevity.</p>
-   <h3 class="heading settled" data-level="5.8" id="string-constants"><span class="secno">5.8. </span><span class="content">Constants, enums, and bitmasks</span><a class="self-link" href="#string-constants"></a></h3>
-   <p>In many other platforms and programming languages, constants and enums are
-commonly expressed using a integer constant, sometimes in conjunction with
-a bitmask mechanism.</p>
-   <p>However on the Web platform, it is more common to use a string constant for
-the cases where a constant is needed. This is much more inspection friendly
-for both development and expressing the constant codes through a user facing
-interface, and in JavaScript engines, using integers offers no significant
-performance benefit over strings.</p>
-   <p>Strings do not directly address the use case for bitmasks. For these cases,
-you should use an object dictionary which contains the state that the
-bitmask is attempting to express, as object dictionaries can then be passed
-around from method to method as needed as easily as the state in a single
-bitmask value.</p>
+   </div>
+   <p>Using <code>AbortSignal</code> consistently
+as the way to cancel an asychronous operation
+means that authors can write less complex code.</p>
+   <p>For example, there’s a pattern of using a single <code>AbortSignal</code> for several ongoing operations,
+and then using the corresponding <code>AbortController</code> to cancel all of the operations at once if necessary
+(such as if the user presses "cancel",
+or a single-page app navigation occurs.)</p>
+   <p>Even if cancellation can’t be guaranteed,
+you can still use an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code>,
+because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code> is a request, rather than a guarantee.</p>
+   <h3 class="heading settled" data-level="5.9" id="string-constants"><span class="secno">5.9. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
+   <p>If your API needs a constant, or a set of enumerated values,
+use string values.</p>
+   <p>Strings are easier for developers to inspect,
+and in JavaScript engines there is no performance benefit
+from using integers instead of strings.</p>
+   <p>If you need to express a state which is a combination of properties,
+which might be expressed as a bitmask in another language,
+use a dictionary object instead.
+This object can be passed around as easily as a single bitmask value.</p>
    <h2 class="heading settled" data-level="6" id="event-design"><span class="secno">6. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="6.1" id="one-time-events"><span class="secno">6.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
@@ -2920,7 +2965,7 @@ causing the same event handler to be fired, and so on.</p>
    <p>To prevent this, make sure that any "recursive" call into the API method
 simply returns immediately. This technique is "guarding" the algorithm.</p>
    <div class="example" id="example-32d23c03">
-    <a class="self-link" href="#example-32d23c03"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">add</a>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-remove" id="ref-for-abortsignal-remove">remove</a> and <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort">signal abort</a> each begin with a check
+    <a class="self-link" href="#example-32d23c03"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal①">AbortSignal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">add</a>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-remove" id="ref-for-abortsignal-remove">remove</a> and <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort">signal abort</a> each begin with a check
 of the signal’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted-flag" id="ref-for-abortsignal-aborted-flag">aborted flag</a>.
 If the flag is set, the rest of the algorithm doesn’t run. 
     <p>In this case, a lot of the important complexity is
@@ -2928,11 +2973,11 @@ in the algorithms run during the <a data-link-type="dfn" href="https://dom.spec.
 These steps iterate through a collection of algorithms
 which are managed by the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add①">add</a> and <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-remove" id="ref-for-abortsignal-remove①">remove</a> methods.</p>
     <p>For example, the <a href="https://streams.spec.whatwg.org/#readable-stream-pipe-to">ReadableStreamPipeTo</a> definition <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add②">add</a>s an algorithm
-into the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal①">AbortSignal</a></code>'s set of algorithms to be run
+into the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal②">AbortSignal</a></code>'s set of algorithms to be run
 when the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort②">signal abort</a> steps are triggered,
-by calling <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code> associated with the signal.</p>
+by calling <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort①">abort()</a></code> on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller①">AbortController</a></code> associated with the signal.</p>
     <p>This algorithm is likely to resolve promises causing code to run,
-which may include attempting to call any of the methods on <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal②">AbortSignal</a></code>.
+which may include attempting to call any of the methods on <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal③">AbortSignal</a></code>.
 Since <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort③">signal abort</a> involves iterating through the collection of algorithms,
 it should not be possible to modify that collection while it’s running.</p>
     <p>And since <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort④">signal abort</a> would have triggered the code which caused
@@ -2992,7 +3037,7 @@ rather than needing to be given a copy of the relevant state with the event.</p>
 you should include any state relevant to the event with the deferred event.</p>
      <ul>
       <li data-md>
-       <p>This usually involves a new subclass of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code>,
+       <p>This usually involves a new subclass of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code>,
 with new attributes to hold the state.</p>
        <p>For example, the <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#progressevent" id="ref-for-progressevent">ProgressEvent</a></code> adds <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-loaded" id="ref-for-dom-progressevent-loaded">loaded</a></code>, <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-total" id="ref-for-dom-progressevent-total">total</a></code>, etc. attributes to hold the state.</p>
      </ul>
@@ -3025,12 +3070,12 @@ This terminology is discouraged
 as it implies that it’s possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.</p>
-   <h3 class="heading settled" data-level="6.7" id="state-and-subclassing"><span class="secno">6.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
-   <p>Where possible, use a plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> with a specified <code>type</code>,
+   <h3 class="heading settled" data-level="6.7" id="state-and-subclassing"><span class="secno">6.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <p>Where possible, use a plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code> with a specified <code>type</code>,
 and capture any state information in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
-   <p>It’s usually not necessary to create new subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code>.</p>
+   <p>It’s usually not necessary to create new subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>.</p>
    <h3 class="heading settled" data-level="6.8" id="events-vs-observers"><span class="secno">6.8. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
-   <p>In general, use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code> and notification <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>s,
+   <p>In general, use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code> and notification <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑥">Event</a></code>s,
 rather than an Observer pattern,
 unless an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①">EventTarget</a></code> can’t work well for your feature.</p>
    <p>Using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code> ensures your feature benefits from
@@ -3154,7 +3199,7 @@ observer<c- p>.</c->observe<c- p>(</c->ad<c- p>);</c->
 The constructor for an <code>Observer</code>,
 or its <code>observe()</code> method,
 can take options allowing authors to customize what is observered for each callback.
-This isn’t possible with <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code>.</p>
+This isn’t possible with <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener②">addEventListener()</a></code>.</p>
     <li data-md>
      <p>It’s easy to stop listening on multiple callbacks using the <code>disconnect()</code> or <code>unobserve()</code> method on the <code>Observer</code> object.</p>
     <li data-md>
@@ -3175,10 +3220,10 @@ You don’t need an <code>Observer</code> to get special timing or batching.</p>
     <li data-md>
      <p>Neither <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code>s nor <code>Observer</code>s need to participate in a DOM tree
 (bubbling/capture and cancellation).
-Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑥">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>s in the DOM tree,
+Most prominent <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑥">EventTarget</a></code>s are <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s in the DOM tree,
 but many other events are standalone;
 for example, <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IndexedDB/#idbdatabase" id="ref-for-idbdatabase">IDBDatabase</a></code> and <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget" id="ref-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</a></code>.
-Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node①">Node</a></code>s,
+Even when using <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node②">Node</a></code>s,
 your events may be designed to be non-bubbling and non-cancelable.</p>
    </ul>
    <div class="example" id="example-211011c7">
@@ -3859,7 +3904,7 @@ and property’s casings won’t necessarily match. For example, the HTML attrib
     <p>The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
 or stored on disk, and don’t apply to the general notion of JavaScript object keys.</p>
     <p>Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
+examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
    <h3 class="heading settled" data-level="11.6" id="naming-unsafe"><span class="secno">11.6. </span><span class="content">Warning about dangerous features</span><a class="self-link" href="#naming-unsafe"></a></h3>
@@ -4200,7 +4245,6 @@ so they can correct this omission.</p>
    <a href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle">https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-window-getcomputedstyle">3.3. Choose the computed value type based on how the property should inherit</a>
-    <li><a href="#ref-for-dom-window-getcomputedstyle①">5.2. Consider whether objects should be live or static</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-resolved-value">
@@ -4209,31 +4253,39 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-resolved-value">3.3. Choose the computed value type based on how the property should inherit</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-element-getboundingclientrect">
+   <a href="https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect">https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-element-getboundingclientrect">5.1. Attributes should behave like data properties</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-abortcontroller">
    <a href="https://dom.spec.whatwg.org/#abortcontroller">https://dom.spec.whatwg.org/#abortcontroller</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortcontroller">6.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-abortcontroller">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortcontroller①">6.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal">
    <a href="https://dom.spec.whatwg.org/#abortsignal">https://dom.spec.whatwg.org/#abortsignal</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortsignal">6.6. Guard against potential recursion</a> <a href="#ref-for-abortsignal①">(2)</a> <a href="#ref-for-abortsignal②">(3)</a>
+    <li><a href="#ref-for-abortsignal">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortsignal①">6.6. Guard against potential recursion</a> <a href="#ref-for-abortsignal②">(2)</a> <a href="#ref-for-abortsignal③">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-domtokenlist">
    <a href="https://dom.spec.whatwg.org/#domtokenlist">https://dom.spec.whatwg.org/#domtokenlist</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-domtokenlist">5.5. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist①">(2)</a>
+    <li><a href="#ref-for-domtokenlist">5.6. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event">
    <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event">5.5. Classes should have constructors when possible</a>
-    <li><a href="#ref-for-event①">6.6. Guard against potential recursion</a>
-    <li><a href="#ref-for-event②">6.7. State and Event subclasses</a> <a href="#ref-for-event③">(2)</a> <a href="#ref-for-event④">(3)</a>
-    <li><a href="#ref-for-event⑤">6.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-event">5.6. Classes should have constructors when possible</a> <a href="#ref-for-event①">(2)</a>
+    <li><a href="#ref-for-event②">6.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-event③">6.7. State and Event subclasses</a> <a href="#ref-for-event④">(2)</a> <a href="#ref-for-event⑤">(3)</a>
+    <li><a href="#ref-for-event⑥">6.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventtarget">
@@ -4257,19 +4309,15 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-node">
    <a href="https://dom.spec.whatwg.org/#node">https://dom.spec.whatwg.org/#node</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-node">6.8. How to decide between Events and Observers</a> <a href="#ref-for-node①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-nodelist">
-   <a href="https://dom.spec.whatwg.org/#nodelist">https://dom.spec.whatwg.org/#nodelist</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-nodelist">5.2. Consider whether objects should be live or static</a>
+    <li><a href="#ref-for-node">Live objects</a>
+    <li><a href="#ref-for-node①">6.8. How to decide between Events and Observers</a> <a href="#ref-for-node②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-abortcontroller-abort">
    <a href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort">https://dom.spec.whatwg.org/#dom-abortcontroller-abort</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-abortcontroller-abort">6.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-dom-abortcontroller-abort">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-dom-abortcontroller-abort①">6.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal-aborted-flag">
@@ -4287,19 +4335,15 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-addeventlistener">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener">6.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener">5.4. Make function parameters optional if possible</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">5.5. Naming optional parameters</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener②">6.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-event-fire">
    <a href="https://dom.spec.whatwg.org/#concept-event-fire">https://dom.spec.whatwg.org/#concept-event-fire</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-event-fire">6.6. Guard against potential recursion</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-document-getelementsbytagname">
-   <a href="https://dom.spec.whatwg.org/#dom-document-getelementsbytagname">https://dom.spec.whatwg.org/#dom-document-getelementsbytagname</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-document-getelementsbytagname">5.2. Consider whether objects should be live or static</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-addeventlisteneroptions-once">
@@ -4311,7 +4355,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-parentnode-queryselectorall">
    <a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall">https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-parentnode-queryselectorall">5.2. Consider whether objects should be live or static</a> <a href="#ref-for-dom-parentnode-queryselectorall①">(2)</a>
+    <li><a href="#ref-for-dom-parentnode-queryselectorall">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal-remove">
@@ -4362,12 +4406,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-globaleventhandlers">6.4. Always add event handler attributes</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-htmlconstructor">
-   <a href="https://html.spec.whatwg.org/multipage/dom.html#htmlconstructor">https://html.spec.whatwg.org/multipage/dom.html#htmlconstructor</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-htmlconstructor">5.5. Classes should have constructors when possible</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-htmlhtmlelement">
    <a href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement">https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement</a><b>Referenced in:</b>
    <ul>
@@ -4383,26 +4421,26 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-history-3">
    <a href="https://html.spec.whatwg.org/multipage/history.html#history-3">https://html.spec.whatwg.org/multipage/history.html#history-3</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-history-3">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-history-3">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-imagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-imagebitmap">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-imagebitmap">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-navigator">
    <a href="https://html.spec.whatwg.org/multipage/system-state.html#navigator">https://html.spec.whatwg.org/multipage/system-state.html#navigator</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-navigator">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-navigator">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#termref-for-">2.6. Consider how your API should behave in private browsing mode</a>
-    <li><a href="#ref-for-window">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-window">5.6. Classes should have constructors when possible</a>
     <li><a href="#ref-for-window①">6.4. Always add event handler attributes</a>
    </ul>
   </aside>
@@ -4415,19 +4453,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-createimagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-createimagebitmap">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dom-createimagebitmap">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-custom-element">
    <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element">https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-custom-element">5.5. Classes should have constructors when possible</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-customized-built-in-element">
-   <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element">https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-customized-built-in-element">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-custom-element">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-customelementregistry-define">
@@ -4475,7 +4507,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-open">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open">https://html.spec.whatwg.org/multipage/window-object.html#dom-open</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-open">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dom-open">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-queue-a-task">
@@ -4601,16 +4633,10 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-keyboardevent">11.4. Future-proofing</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-mouseevent">
-   <a href="https://www.w3.org/TR/uievents/#mouseevent">https://www.w3.org/TR/uievents/#mouseevent</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-mouseevent">5.5. Classes should have constructors when possible</a> <a href="#ref-for-mouseevent①">(2)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-urlsearchparams">
    <a href="https://url.spec.whatwg.org/#urlsearchparams">https://url.spec.whatwg.org/#urlsearchparams</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-urlsearchparams">5.2. Consider whether objects should be live or static</a>
+    <li><a href="#ref-for-urlsearchparams">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-percent-encode">
@@ -4658,7 +4684,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
    <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-exceptiondef-typeerror">5.5. Classes should have constructors when possible</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a>
+    <li><a href="#ref-for-exceptiondef-typeerror">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
@@ -4682,19 +4708,19 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idl-constructors">
    <a href="https://heycam.github.io/webidl/#idl-constructors">https://heycam.github.io/webidl/#idl-constructors</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-constructors">5.5. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-idl-constructors">5.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-maplike">
    <a href="https://heycam.github.io/webidl/#dfn-maplike">https://heycam.github.io/webidl/#dfn-maplike</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-maplike">5.2. Consider whether objects should be live or static</a>
+    <li><a href="#ref-for-dfn-maplike">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-namespace">
    <a href="https://heycam.github.io/webidl/#dfn-namespace">https://heycam.github.io/webidl/#dfn-namespace</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-namespace">5.5. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
+    <li><a href="#ref-for-dfn-namespace">5.6. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
@@ -4706,7 +4732,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dfn-setlike">
    <a href="https://heycam.github.io/webidl/#dfn-setlike">https://heycam.github.io/webidl/#dfn-setlike</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-setlike">5.2. Consider whether objects should be live or static</a>
+    <li><a href="#ref-for-dfn-setlike">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-progressevent">
@@ -4718,7 +4744,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequest">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequest">https://xhr.spec.whatwg.org/#xmlhttprequest</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequest">Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-xmlhttprequest">5.4. Make function parameters optional if possible</a>
+    <li><a href="#ref-for-xmlhttprequest①">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequesteventtarget">
@@ -4788,6 +4815,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-resolved-value" style="color:initial">resolved value</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[cssom-view-1]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-element-getboundingclientrect" style="color:initial">getBoundingClientRect()</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-abortcontroller" style="color:initial">AbortController</span>
@@ -4798,13 +4830,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-htmlcollection" style="color:initial">HTMLCollection</span>
      <li><span class="dfn-paneled" id="term-for-mutationobserver" style="color:initial">MutationObserver</span>
      <li><span class="dfn-paneled" id="term-for-node" style="color:initial">Node</span>
-     <li><span class="dfn-paneled" id="term-for-nodelist" style="color:initial">NodeList</span>
      <li><span class="dfn-paneled" id="term-for-dom-abortcontroller-abort" style="color:initial">abort()</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-aborted-flag" style="color:initial">aborted flag</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-add" style="color:initial">add</span>
      <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener" style="color:initial">addEventListener(type, callback)</span>
      <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
-     <li><span class="dfn-paneled" id="term-for-dom-document-getelementsbytagname" style="color:initial">getElementsByTagName(qualifiedName)</span>
      <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once" style="color:initial">once</span>
      <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall" style="color:initial">querySelectorAll(selectors)</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-remove" style="color:initial">remove</span>
@@ -4827,7 +4857,6 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
      <li><span class="dfn-paneled" id="term-for-globaleventhandlers" style="color:initial">GlobalEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-htmlconstructor" style="color:initial">HTMLConstructor</span>
      <li><span class="dfn-paneled" id="term-for-htmlhtmlelement" style="color:initial">HTMLHtmlElement</span>
      <li><span class="dfn-paneled" id="term-for-htmlimageelement" style="color:initial">HTMLImageElement</span>
      <li><span class="dfn-paneled" id="term-for-history-3" style="color:initial">History</span>
@@ -4837,7 +4866,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-windoweventhandlers" style="color:initial">WindowEventHandlers</span>
      <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap" style="color:initial">createImageBitmap(image)</span>
      <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
-     <li><span class="dfn-paneled" id="term-for-customized-built-in-element" style="color:initial">customized built-in element</span>
      <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define" style="color:initial">define(name, constructor)</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
      <li><span class="dfn-paneled" id="term-for-event-loop" style="color:initial">event loop</span>
@@ -4894,7 +4922,6 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-keyboardevent" style="color:initial">KeyboardEvent</span>
-     <li><span class="dfn-paneled" id="term-for-mouseevent" style="color:initial">MouseEvent</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -4942,8 +4969,6 @@ so they can correct this omission.</p>
    <dd>Dave Cramer; Elika Etemad; Steve Zilles. <a href="https://drafts.csswg.org/css-inline-3/">CSS Inline Layout Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/">CSS Values and Units Module Level 4</a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
-   <dt id="biblio-cssom-1">[CSSOM-1]
-   <dd>Simon Pieters; Glenn Adams. <a href="https://drafts.csswg.org/cssom/">CSS Object Model (CSSOM)</a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
@@ -4979,6 +5004,10 @@ so they can correct this omission.</p>
    <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://drafts.csswg.org/css-fonts/">CSS Fonts Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-fonts/">https://drafts.csswg.org/css-fonts/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-3/">CSS Values and Units Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-values-3/">https://drafts.csswg.org/css-values-3/</a>
+   <dt id="biblio-cssom-1">[CSSOM-1]
+   <dd>Simon Pieters; Glenn Adams. <a href="https://drafts.csswg.org/cssom/">CSS Object Model (CSSOM)</a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
+   <dt id="biblio-cssom-view-1">[CSSOM-VIEW-1]
+   <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/">CSSOM View Module</a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
