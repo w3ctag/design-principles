@@ -1173,7 +1173,7 @@ This guarantees that once the Promise resolves,
 all effects of the algorithm have been applied.
 For example, if an author changes some state
 in reaction to an event which the Promise dispatches,
-they can be sure that all of the state is consistentif the Promise is resolved.
+they can be sure that all of the state is consistent if the Promise is resolved.
 
 <h3 id="dont-invent-event-like">Don’t invent your own event listener-like infrastructure</h3>
 
