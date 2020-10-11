@@ -45,12 +45,12 @@ url: https://wicg.github.io/ResizeObserver/;
 url: https://dom.spec.whatwg.org/#ref-for-concept-getelementsbytagname; type: interface; text: getElementsByTagName; for: Document
 url: https://drafts.csswg.org/css-transitions-1/#transitions; type: dfn; text: CSS Transitions
 url: https://html.spec.whatwg.org/multipage/browsers.html#browsing-context; type: dfn; text: browsing context;
-url: https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 </pre>
 <!-- Route around bugs in other specs.
      https://github.com/whatwg/html/issues/5515
      https://github.com/w3c/remote-playback/issues/137
      https://github.com/whatwg/url/issues/522
+     https://github.com/whatwg/html/issues/6053
      -->
 <pre class="anchors">
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
@@ -60,6 +60,7 @@ urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     text: remote playback device; type:dfn; url: #dfn-remote-playback-devices
 urlPrefix: https://url.spec.whatwg.org/; spec: URL;
     type: abstract-op; url: #percent-encode; text: percent-encode
+url: https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 </pre>
 
 <style>
