@@ -1224,7 +1224,7 @@ Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
 and need less infrastructure set-up (such as making functions `async`).
 
-The general rule of thumb for an API that should be synchronous is the following:
+An API should generally be synchronous if the following rules of thumb apply:
 
   * The API at no point is expected to be gated behind a permission or a dialog, such as a device selector.
   * The execution time is short and deterministic.
