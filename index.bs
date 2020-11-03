@@ -2128,7 +2128,7 @@ return a result or error.
 Summarize the purpose of the algorithm before going into detail,
 so that readers can decide whether to read the steps or skip over them.
 For example take the following steps, which ensure that there is at most one pending X
-callback per toplevel browsing context".
+callback per toplevel browsing context.
 
 Issue: The paragraph below may not be comprehensive enough.
 
