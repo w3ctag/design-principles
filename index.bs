@@ -1220,7 +1220,7 @@ discuss.</p>
 
 <h3 id="synchronous">Use synchronous when appropriate</h3>
 
-Synchronous APIs should be considered when creating a new API.
+Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
 and need less infrastructure set-up (such as making functions `async`).
 
