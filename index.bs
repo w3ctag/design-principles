@@ -2102,6 +2102,9 @@ on its own.
 Note: This doesn't mean that implementations can't render things differently,
 or show different user interfaces for things like permission prompts.
 
+Note: Implementers should file bugs against specifications
+which don't give them clear enough information to write the implementation.
+
 <h4 id="algorithms">Defining algorithms in specifications</h4>
 
 Write algorithms in a way that is clear and concise.
@@ -2140,22 +2143,26 @@ or define specific states to be used in a state machine.
 When using extra constructs like these,
 the earlier advice still applies.
 
-Issue: I don't understand the paragraph below.
+As much as possible,
+describe algorithms as closely as possible to how they would be implmented.
+This may make the spec harder to write,
+but it means that implementations don't need to figure out
+how to translate what's written in the specification
+to how it should actually be implemented.
+In particular, that may mean that different implementations
+make different decisions
+that may lead to later features being feasible in one implementation
+but not another.
 
-When specifying in an algorithmic way,
-it is generally good to match the algorithms that implementations would use,
-even if this is somewhat less convenient for specification authors,
-as long as doing so wouldn't significantly increase the specification's complexity.
-For example, it's better to specify CSS selector matching
-by moving right to left across <a>combinators</a>,
-since that is what implementations do.
-This avoids the risk of future problems caused by new features
-that would be slightly different (in unimportant ways)
-between implementations based on one algorithm and implementations based on a different one.
-Thus, it avoids small future divergence in behavior between specification and implementations.
-It also helps to keep the costs of specifying features aligned with implementing them,
-since the complexity of adding a feature to the specification is more likely to be related
-to the cost of adding it to implementations.
+<p class="example">
+CSS selectors are read and understood from left to right,
+but in practice are matched from right to left in implementations.
+This allows the most specific term to be matched or not matched
+quickly, avoiding unnecessary work.
+The CSS selector matching algorithm is written this way,
+instead of a hypothetical algorithm which would more closely match
+how CSS selectors are often read by CSS authors.
+</p>
 
 See also:
 * <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
