@@ -2133,8 +2133,6 @@ so that readers can decide whether to read the steps or skip over them.
 For example take the following steps, which ensure that there is at most one pending X
 callback per top-level browsing context.
 
-Issue: The paragraph below may not be comprehensive enough.
-
 A plain sequence of steps is not always the best way to write an algorithm.
 For example, it might make sense to define
 or re-use a formal syntax or grammar
