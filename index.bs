@@ -1227,7 +1227,7 @@ and need less infrastructure set-up (such as making functions `async`).
 An API should generally be synchronous if the following rules of thumb apply:
 
   * The API is not expected to ever be gated behind a permission prompt, or another dialog such as a device selector.
-  * The API implementation will not be blocked by filesystem or network access.
+  * The API implementation will not be blocked by filesystem or network access, for example, inter-process communication.
   * The execution time is short and deterministic.
 
 
