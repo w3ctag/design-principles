@@ -2058,7 +2058,7 @@ for the APIs that they design.
 Document both how authors should write good code using your API,
 and how implementers of your API should handle poorly-written code.
 
-The web platform is, unusually,
+The web, especially in comparison to other platforms,  is
 designed to be robust in accepting poorly-formed markup.
 This means that web pages which use older versions of web standards
 can still be viewed in newer user agents,
