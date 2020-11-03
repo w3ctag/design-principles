@@ -2170,7 +2170,7 @@ and terminology</a> from [[!INFRA]]
 
 <h4 id="use-flags-for-states">Use explicit flags for state</h4>
 
-Instead of describing state in prose,
+Instead of describing state with words,
 use explicit flags for state when writing algorithms.
 
 Using explicit flags makes it clear
