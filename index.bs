@@ -2116,9 +2116,9 @@ When writing a sequence of steps,
 imagine that it is a piece of functional code.
 
 - Clearly specify the inputs and outputs,
-name the algorithm and the variables it uses well,
-and explicitly note the points in the algorithm where the algorithm may
-return a result or error.
+    name the algorithm and the variables it uses well,
+    and explicitly note the points in the algorithm where the algorithm may
+    return a result or error.
 - As much as possible, avoid writing algorithms which have side effects.
 
 Summarize the purpose of the algorithm before going into detail,
@@ -2157,7 +2157,7 @@ how CSS selectors are often read by CSS authors.
 
 See also:
 * <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
-and terminology</a> from [[!INFRA]]
+    and terminology</a> from [[!INFRA]]
 
 <h4 id="use-flags-for-states">Use explicit flags for state</h4>
 
