@@ -1198,7 +1198,7 @@ Possible extra rowspan handling
 	ul.index ul,
 	ul.index dl { font-size: smaller; }
 	@media not print {
-		ul.index li span {
+		ul.index li span:not(.dfn-paneled) {
 			white-space: nowrap;
 			color: transparent; }
 		ul.index li a:hover + span,
@@ -1321,9 +1321,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version f9f60c8f, updated Fri Sep 25 16:39:03 2020 -0700" name="generator">
+  <meta content="Bikeshed version 89ebb6ab, updated Fri Oct 9 15:32:07 2020 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="665ca0e13ea5e878feb3a998b7e9ee09caed896e" name="document-revision">
+  <meta content="f5a116e0d1329aabe7af31f7efcc66ff7de0476d" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1553,7 +1553,7 @@ figcaption:not(.no-marker)::before {
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -1878,7 +1878,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-08">8 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-11-04">4 November 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1968,9 +1968,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make function parameters optional if possible</span></a>
       <li><a href="#naming-optional-parameters"><span class="secno">5.5</span> <span class="content">Naming optional parameters</span></a>
       <li><a href="#constructors"><span class="secno">5.6</span> <span class="content">Classes should have constructors when possible</span></a>
-      <li><a href="#promises"><span class="secno">5.7</span> <span class="content">Design asynchronous APIs using Promises</span></a>
-      <li><a href="#aborting"><span class="secno">5.8</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
-      <li><a href="#string-constants"><span class="secno">5.9</span> <span class="content">Use strings for constants and enums</span></a>
+      <li><a href="#synchronous"><span class="secno">5.7</span> <span class="content">Use synchronous when appropriate</span></a>
+      <li><a href="#promises"><span class="secno">5.8</span> <span class="content">Design asynchronous APIs using Promises</span></a>
+      <li><a href="#aborting"><span class="secno">5.9</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
+      <li><a href="#string-constants"><span class="secno">5.10</span> <span class="content">Use strings for constants and enums</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">6</span> <span class="content">Event Design</span></a>
@@ -2478,23 +2479,23 @@ whether or not it has been inherited.</p>
    <div class="note" role="note"> Note: the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①">computed value</a> should not be confused with the <a data-link-type="dfn" href="https://drafts.csswg.org/cssom-1/#resolved-value" id="ref-for-resolved-value">resolved value</a> which is returned from the <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle">getComputedStyle()</a></code> method. </div>
    <p>Certain CSS properties are calculated with <a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a> on others:
 for example, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed value</a> of a property specified in <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-values-4/#lh" id="ref-for-lh">lh</a> units
-depends on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property which applies to the element being considered.
+depends on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property which applies to the element being considered.
 The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value③">computed value</a> for a property should be chosen
 so that the dependent values make sense,
 regardless of whether they are inherited.</p>
    <div class="example" id="example-05827ee2">
-    <a class="self-link" href="#example-05827ee2"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height①">line-height</a> property may accept a <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a> value,
-such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height②">line-height: 1.4</a>.
+    <a class="self-link" href="#example-05827ee2"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height①">line-height</a> property may accept a <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a> value,
+such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height②">line-height: 1.4</a>.
 This value represents a multiple of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size③">font-size</a>,
 so if the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size④">font-size</a> is <span class="css">20px</span>,
 the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#actual-value" id="ref-for-actual-value">actual value</a> for the line height is <span class="css">28px</span>. 
     <p>However, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value④">computed value</a> in this case is the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value①">&lt;number></a> <span class="css">1.4</span>,
 not the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <span class="css">28px</span>.</p>
-    <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height③">line-height</a> property can be inherited
+    <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height③">line-height</a> property can be inherited
 into elements that have a different <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑤">font-size</a>,
-and any property on those elements which depends on <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height④">line-height</a> must take the relevant <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑥">font-size</a> into account,
+and any property on those elements which depends on <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height④">line-height</a> must take the relevant <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑥">font-size</a> into account,
 rather than the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑦">font-size</a> for the element from which
-the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height⑤">line-height</a> value was inherited.</p>
+the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height⑤">line-height</a> value was inherited.</p>
 <pre class="highlight"><c- p>&lt;</c-><c- f>body</c-> <c- e>style</c-><c- o>=</c-><c- s>"font-size: 20px; line-height: 1.4"</c-><c- p>></c->
 
   <c- p>&lt;</c-><c- f>p</c-><c- p>></c->This body text has a line height of 28px.<c- p>&lt;/</c-><c- f>p</c-><c- p>></c->
@@ -2506,7 +2507,7 @@ the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org
   <c- p>&lt;/</c-><c- f>h2</c-><c- p>></c->
 <c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
 </pre>
-    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-line-height" id="ref-for-propdef-line-height⑥">line-height</a> because they inherit better than length values.</p>
+    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height⑥">line-height</a> because they inherit better than length values.</p>
    </div>
    <p>See also:</p>
    <ul>
@@ -2840,7 +2841,20 @@ and go beyond what is currently possible with namespaces.
 consider using a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a>,
 and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a> if there is some problem with using them.</p>
    </div>
-   <h3 class="heading settled" data-level="5.7" id="promises"><span class="secno">5.7. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
+   <h3 class="heading settled" data-level="5.7" id="synchronous"><span class="secno">5.7. </span><span class="content">Use synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
+   <p>Where possible, prefer synchronous APIs when designing a new API.
+Synchronous APIs are simpler to use,
+and need less infrastructure set-up (such as making functions <code>async</code>).</p>
+   <p>An API should generally be synchronous if the following rules of thumb apply:</p>
+   <ul>
+    <li data-md>
+     <p>The API is not expected to ever be gated behind a permission prompt, or another dialog such as a device selector.</p>
+    <li data-md>
+     <p>The API implementation will not be blocked by a lock, filesystem or network access, for example, inter-process communication.</p>
+    <li data-md>
+     <p>The execution time is short and deterministic.</p>
+   </ul>
+   <h3 class="heading settled" data-level="5.8" id="promises"><span class="secno">5.8. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
    <p>If an API function needs to be asynchronous, use Promises,
 not callback functions.</p>
    <p>Using Promises consistently across the Web platform
@@ -2864,7 +2878,7 @@ or in another process, before returning the result.</p>
     <li data-md>
      <p><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a></p>
    </ul>
-   <h3 class="heading settled" data-level="5.8" id="aborting"><span class="secno">5.8. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
+   <h3 class="heading settled" data-level="5.9" id="aborting"><span class="secno">5.9. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
    <p>If an asynchronous function can be cancelled,
 allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
    <div class="example" id="example-52de31d9">
@@ -2884,7 +2898,7 @@ or a single-page app navigation occurs.)</p>
    <p>Even if cancellation can’t be guaranteed,
 you can still use an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code>,
 because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code> is a request, rather than a guarantee.</p>
-   <h3 class="heading settled" data-level="5.9" id="string-constants"><span class="secno">5.9. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
+   <h3 class="heading settled" data-level="5.10" id="string-constants"><span class="secno">5.10. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
    <p>If your API needs a constant, or a set of enumerated values,
 use string values.</p>
    <p>Strings are easier for developers to inspect,
@@ -2906,7 +2920,7 @@ rather than after.</p>
 all effects of the algorithm have been applied.
 For example, if an author changes some state
 in reaction to an event which the Promise dispatches,
-they can be sure that all of the state is consistentif the Promise is resolved.</p>
+they can be sure that all of the state is consistent if the Promise is resolved.</p>
    <h3 class="heading settled" data-level="6.3" id="dont-invent-event-like"><span class="secno">6.3. </span><span class="content">Don’t invent your own event listener-like infrastructure</span><a class="self-link" href="#dont-invent-event-like"></a></h3>
    <p>When creating an API which allows authors to start and stop a process which generates notifications,
 use the existing event infrastructure to allow listening for the notifications.
@@ -3646,101 +3660,98 @@ For this reason, if a key can clearly be expressed as a single word, that is rec
 but those who design APIs are hopefully also writing specifications
 for the APIs that they design.</p>
    <h3 class="heading settled" data-level="10.1" id="requirements-on-authors-and-implementers"><span class="secno">10.1. </span><span class="content">Identify the audience of each requirement in your specification</span><a class="self-link" href="#requirements-on-authors-and-implementers"></a></h3>
-   <p>The web platform is,
-unusually,
-designed to be robust in accepting poorly-formed markup.</p>
-   <p>When writing specifications for the web,
-be sure to note authoring requirements
-for well-formed markup (the "conforming language"),
-and also
-implementation requirements
-for handling poorly-formed markup (the "supported language").</p>
-   <p>This allows us to
-have a relatively clean and understandable language for authors,
-while at the same time supporting existing documents
-that make use of older or nonstandard constructs,
-and enabling better interoperability in error handling.</p>
+   <p>Document both how authors should write good code using your API,
+and how implementers of your API should handle poorly-written code.</p>
+   <p>The web, especially in comparison to other platforms,  is
+designed to be robust in accepting poorly-formed markup.
+This means that web pages which use older versions of web standards
+can still be viewed in newer user agents,
+and also that authors have a shallower learning curve.</p>
+   <p>To support this,
+web specification writers need to describe how to interpret
+poorly-formed markup,
+as well as well-formed markup.</p>
+   <p>Implementers need to be able to understand the "supported language",
+which is more complex than the "conforming language"
+which authors should be aiming to use.</p>
+   <div class="example" id="example-52a8e009"><a class="self-link" href="#example-52a8e009"></a> For example,
+the <a href="https://html.spec.whatwg.org/multipage/tables.html#table-processing-model">Processing model</a> for the <code>&lt;table></code> element
+explains how to process the contents of a <code>&lt;table></code> element,
+including cases where the contents do not conform
+to the <a href="https://html.spec.whatwg.org/multipage/tables.html#the-table-element:concept-element-content-model">Content model</a>. </div>
    <h3 class="heading settled" data-level="10.2" id="avoid-ambiguity"><span class="secno">10.2. </span><span class="content">Specify completely and avoid ambiguity</span><a class="self-link" href="#avoid-ambiguity"></a></h3>
-   <p>If the specification leaves room for implementations to make different choices
-which mean authors need to write different markup for different implementations,
-this adds a maintenance burden for authors.</p>
-   <p>The specification should be complete enough
-for implementations to be interoperable,
-without depending on or referring to the details of other implementations.
-When there isn’t a good reason to allow variation between implementations,
-it is important that things be specified unambiguously,
-so that implementations interoperate
-and web content doesn’t end up
-depending on the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined①">implementation-defined</a> behavior
-in one implementation and failing in another
-(which can cause higher development costs to fix the content for all browsers,
-or costs to users of broken content if it wasn’t detected).
-This way,
-it is easier to author content
-that works in a variety of user agents.
-However,
-implementations should still be free
-to make improvements
-in areas such as user interface
-and quality of rendering.</p>
+   <p>When specifying how a feature should work,
+make sure that there is enough information
+so that authors don’t have to
+write different code to work with different implementations.</p>
+   <p>If a specification isn’t specific enough,
+implementers might make different choices
+which force authors to write extra code to handle the differences.</p>
+   <p>Implementers shouldn’t need to check details of other implementations
+to avoid this situation.
+Instead, the specification should be complete and clear enough
+on its own.</p>
+   <p class="note" role="note"><span>Note:</span> This doesn’t mean that implementations can’t render things differently,
+or show different user interfaces for things like permission prompts.</p>
+   <p class="note" role="note"><span>Note:</span> Implementers should file bugs against specifications
+which don’t give them clear enough information to write the implementation.</p>
    <h4 class="heading settled" data-level="10.2.1" id="algorithms"><span class="secno">10.2.1. </span><span class="content">Defining algorithms in specifications</span><a class="self-link" href="#algorithms"></a></h4>
-   <p>Specification text is often more precise
-when it is written using an explicit sequence of steps.
-Using an ordered sequence of steps makes it clear how the required behaviors interact.
-For example, if there are multiple error conditions present,
-a specification that describes the behavior using a sequence of steps
-will make it clear which error will be reported,
-since the different errors would be checked and reported in different steps.</p>
-   <p>However, sequences of steps
-are not the only way to make a specification precise enough.
-When there are particular characteristics
-that specification editors want to ensure the specification always satisfies,
-it may be better to use a less algorithmic way of formal specification
-that ensures these characteristics are always true.
-Developing these other ways of specifying behavior formally
-is more important when the algorithms would be more repetitive.
-These formal specification techniques can include dependencies on
-languages such as <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a>, on grammar productions,
-or the development of new languages for defining pieces of the specification.
-Merely having a formal syntax is not sufficient, though;
-the requirements that the formal definitions place on implementations must still be clearly defined,
-which generally requires specifying some algorithms (or, sometimes, another layer of formal syntax) that define what the formal syntax means,
-and then using the more-readable formal syntax to avoid
-excessive repetition of the less-readable algorithms.
-There are also possibilities in-between, for example,
-if it is desirable to ensure that an algorithm can be implemented with a state machine,
-it may be preferable to specify it in an algorithmic way that incorporates explicit states
-so that the specification authors avoid accidentally creating more states than intended.</p>
-   <p>When specifying in an algorithmic way,
-it is generally good to match the algorithms that implementations would use,
-even if this is somewhat less convenient for specification authors,
-as long as doing so would not significantly increase the specification’s complexity.
-For example, it is better to specify CSS selector matching
-by moving right to left across <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#selector-combinator" id="ref-for-selector-combinator">combinators</a>,
-since that is what implementations do.
-This avoids the risk of future problems caused by new features
-that would be slightly different (in unimportant ways)
-between implementations based on one algorithm and implementations based on a different one.
-Thus, it avoids small future divergence in behavior between specification and implementations.
-It also helps to keep the costs of specifying features aligned with implementing them,
-since the complexity of adding a feature to the specification is more likely to be related
-to the cost of adding it to implementations.</p>
-   <p>Algorithms in specifications should also reflect best practices in programming.
-For example, they should explicitly describe the inputs and outputs of the algorithm,
-rather than relying on "stack introspection" or handwaving.
-They should also avoid side-effects when possible.</p>
-   <p><a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> offers <a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
-and terminology</a> for defining algorithms.</p>
-   <p>Specifications that define things using step-by-step algorithms should still be readable.
-Partly, this is through good practices that also apply to writing code,
-such as avoiding unneeded extra steps, and by using good naming.
-However, it’s often useful to explain the purpose of the algorithm in prose
-(e.g., "take the following steps, which ensure that there is at most one pending X
-callback per toplevel browsing context")
-so that readers can quickly decide whether they need to read the steps in detail.</p>
+   <p>Write algorithms in a way that is clear and concise.</p>
+   <p>The most common way to write algorithms
+is to write an explicit sequence of steps.
+This often looks like pseudo-code.</p>
+   <div class="example" id="example-5e6a38a5"><a class="self-link" href="#example-5e6a38a5"></a> The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal" id="ref-for-dom-dialog-showmodal">showModal()</a></code> method is described as a numbered sequence of steps
+which clearly explains when to throw exceptions
+and when to run algorithms defined in other parts of the HTML spec. </div>
+   <p>When writing a sequence of steps,
+imagine that it is a piece of functional code.</p>
+   <ul>
+    <li data-md>
+     <p>Clearly specify the inputs and outputs,
+name the algorithm and the variables it uses well,
+and explicitly note the points in the algorithm where the algorithm may
+return a result or error.</p>
+    <li data-md>
+     <p>As much as possible, avoid writing algorithms which have side effects.</p>
+   </ul>
+   <p>Summarize the purpose of the algorithm before going into detail,
+so that readers can decide whether to read the steps or skip over them.
+For example take the following steps, which ensure that there is at most one pending X
+callback per top-level browsing context.</p>
+   <p>A plain sequence of steps is not always the best way to write an algorithm.
+For example, it might make sense to define
+or re-use a formal syntax or grammar
+to avoid repetition,
+or define specific states to be used in a state machine.
+When using extra constructs like these,
+the earlier advice still applies.</p>
+   <p>As much as possible,
+describe algorithms as closely as possible to how they would be implmented.
+This may make the spec harder to write,
+but it means that implementations don’t need to figure out
+how to translate what’s written in the specification
+to how it should actually be implemented.
+In particular, that may mean that different implementations
+make different decisions
+that may lead to later features being feasible in one implementation
+but not another.</p>
+   <p class="example" id="example-e379a9a7"><a class="self-link" href="#example-e379a9a7"></a> CSS selectors are read and understood from left to right,
+but in practice are matched from right to left in implementations.
+This allows the most specific term to be matched or not matched
+quickly, avoiding unnecessary work.
+The CSS selector matching algorithm is written this way,
+instead of a hypothetical algorithm which would more closely match
+how CSS selectors are often read by CSS authors. </p>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://infra.spec.whatwg.org/#algorithms">some useful definitions
+and terminology</a> from <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a></p>
+   </ul>
    <h4 class="heading settled" data-level="10.2.2" id="use-flags-for-states"><span class="secno">10.2.2. </span><span class="content">Use explicit flags for state</span><a class="self-link" href="#use-flags-for-states"></a></h4>
-   <p>Describing state using explicit flags makes behavior clearer.
-Using explicit flags makes it clear
+   <p>Instead of describing state with words,
+use explicit flags for state when writing algorithms.</p>
+   <p>Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.</p>
    <h2 class="heading settled" data-level="11" id="naming-is-hard"><span class="secno">11. </span><span class="content">Naming principles</span><a class="self-link" href="#naming-is-hard"></a></h2>
@@ -4217,12 +4228,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-propdef-initial-letter-align">3.1. Separate CSS properties based on what should cascade separately</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-propdef-line-height">
-   <a href="https://drafts.csswg.org/css-inline-3/#propdef-line-height">https://drafts.csswg.org/css-inline-3/#propdef-line-height</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-propdef-line-height">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-propdef-line-height①">(2)</a> <a href="#ref-for-propdef-line-height②">(3)</a> <a href="#ref-for-propdef-line-height③">(4)</a> <a href="#ref-for-propdef-line-height④">(5)</a> <a href="#ref-for-propdef-line-height⑤">(6)</a> <a href="#ref-for-propdef-line-height⑥">(7)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-length-value">
    <a href="https://drafts.csswg.org/css-values-3/#length-value">https://drafts.csswg.org/css-values-3/#length-value</a><b>Referenced in:</b>
    <ul>
@@ -4239,6 +4244,12 @@ so they can correct this omission.</p>
    <a href="https://drafts.csswg.org/css-values-4/#lh">https://drafts.csswg.org/css-values-4/#lh</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-lh">3.3. Choose the computed value type based on how the property should inherit</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-propdef-line-height">
+   <a href="https://drafts.csswg.org/css2/#propdef-line-height">https://drafts.csswg.org/css2/#propdef-line-height</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-propdef-line-height">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-propdef-line-height①">(2)</a> <a href="#ref-for-propdef-line-height②">(3)</a> <a href="#ref-for-propdef-line-height③">(4)</a> <a href="#ref-for-propdef-line-height④">(5)</a> <a href="#ref-for-propdef-line-height⑤">(6)</a> <a href="#ref-for-propdef-line-height⑥">(7)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-window-getcomputedstyle">
@@ -4262,14 +4273,14 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-abortcontroller">
    <a href="https://dom.spec.whatwg.org/#abortcontroller">https://dom.spec.whatwg.org/#abortcontroller</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortcontroller">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortcontroller">5.9. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-abortcontroller①">6.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal">
    <a href="https://dom.spec.whatwg.org/#abortsignal">https://dom.spec.whatwg.org/#abortsignal</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortsignal">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortsignal">5.9. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-abortsignal①">6.6. Guard against potential recursion</a> <a href="#ref-for-abortsignal②">(2)</a> <a href="#ref-for-abortsignal③">(3)</a>
    </ul>
   </aside>
@@ -4316,7 +4327,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-abortcontroller-abort">
    <a href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort">https://dom.spec.whatwg.org/#dom-abortcontroller-abort</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-abortcontroller-abort">5.8. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-dom-abortcontroller-abort">5.9. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-dom-abortcontroller-abort①">6.6. Guard against potential recursion</a>
    </ul>
   </aside>
@@ -4524,6 +4535,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-reflect①">Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect②">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-dialog-showmodal">
+   <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal">https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-dialog-showmodal">10.2.1. Defining algorithms in specifications</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-task-queue">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue">https://html.spec.whatwg.org/multipage/webappapis.html#task-queue</a><b>Referenced in:</b>
    <ul>
@@ -4552,7 +4569,6 @@ so they can correct this omission.</p>
    <a href="https://infra.spec.whatwg.org/#implementation-defined">https://infra.spec.whatwg.org/#implementation-defined</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-implementation-defined">8.2. Use care when exposing APIs for selecting or enumerating devices</a>
-    <li><a href="#ref-for-implementation-defined①">10.2. Specify completely and avoid ambiguity</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-scalar-value">
@@ -4619,12 +4635,6 @@ so they can correct this omission.</p>
    <a href="https://w3c.github.io/remote-playback/#dfn-remote-playback-devices">https://w3c.github.io/remote-playback/#dfn-remote-playback-devices</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-remote-playback-devices">8.2. Use care when exposing APIs for selecting or enumerating devices</a> <a href="#ref-for-dfn-remote-playback-devices①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-selector-combinator">
-   <a href="https://drafts.csswg.org/selectors-4/#selector-combinator">https://drafts.csswg.org/selectors-4/#selector-combinator</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-selector-combinator">10.2.1. Defining algorithms in specifications</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-keyboardevent">
@@ -4771,191 +4781,191 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[css-backgrounds-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-background-image" style="color:initial">background-image</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-background-image">background-image</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-actual-value" style="color:initial">actual value</span>
-     <li><span class="dfn-paneled" id="term-for-computed-value" style="color:initial">computed value</span>
-     <li><span class="dfn-paneled" id="term-for-inheritance" style="color:initial">inherit</span>
+     <li><span class="dfn-paneled" id="term-for-actual-value">actual value</span>
+     <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
+     <li><span class="dfn-paneled" id="term-for-inheritance">inherit</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-conditional-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports" style="color:initial">@supports</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-fonts-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-font-size" style="color:initial">font-size</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-font-size">font-size</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-inline-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter" style="color:initial">initial-letter</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter-align" style="color:initial">initial-letter-align</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-line-height" style="color:initial">line-height</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter">initial-letter</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-initial-letter-align">initial-letter-align</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-length-value" style="color:initial">&lt;length></span>
-     <li><span class="dfn-paneled" id="term-for-number-value" style="color:initial">&lt;number></span>
+     <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
+     <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-lh" style="color:initial">lh</span>
+     <li><span class="dfn-paneled" id="term-for-lh">lh</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS2]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-propdef-line-height">line-height</span>
     </ul>
    <li>
     <a data-link-type="biblio">[cssom-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-window-getcomputedstyle" style="color:initial">getComputedStyle(elt)</span>
-     <li><span class="dfn-paneled" id="term-for-resolved-value" style="color:initial">resolved value</span>
+     <li><span class="dfn-paneled" id="term-for-dom-window-getcomputedstyle">getComputedStyle(elt)</span>
+     <li><span class="dfn-paneled" id="term-for-resolved-value">resolved value</span>
     </ul>
    <li>
     <a data-link-type="biblio">[cssom-view-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-element-getboundingclientrect" style="color:initial">getBoundingClientRect()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-element-getboundingclientrect">getBoundingClientRect()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-abortcontroller" style="color:initial">AbortController</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal" style="color:initial">AbortSignal</span>
-     <li><span class="dfn-paneled" id="term-for-domtokenlist" style="color:initial">DOMTokenList</span>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-htmlcollection" style="color:initial">HTMLCollection</span>
-     <li><span class="dfn-paneled" id="term-for-mutationobserver" style="color:initial">MutationObserver</span>
-     <li><span class="dfn-paneled" id="term-for-node" style="color:initial">Node</span>
-     <li><span class="dfn-paneled" id="term-for-dom-abortcontroller-abort" style="color:initial">abort()</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal-aborted-flag" style="color:initial">aborted flag</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal-add" style="color:initial">add</span>
-     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener" style="color:initial">addEventListener(type, callback)</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
-     <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once" style="color:initial">once</span>
-     <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall" style="color:initial">querySelectorAll(selectors)</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal-remove" style="color:initial">remove</span>
-     <li><span class="dfn-paneled" id="term-for-abortsignal-signal-abort" style="color:initial">signal abort</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-target" style="color:initial">target</span>
+     <li><span class="dfn-paneled" id="term-for-abortcontroller">AbortController</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal">AbortSignal</span>
+     <li><span class="dfn-paneled" id="term-for-domtokenlist">DOMTokenList</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-htmlcollection">HTMLCollection</span>
+     <li><span class="dfn-paneled" id="term-for-mutationobserver">MutationObserver</span>
+     <li><span class="dfn-paneled" id="term-for-node">Node</span>
+     <li><span class="dfn-paneled" id="term-for-dom-abortcontroller-abort">abort()</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-aborted-flag">aborted flag</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-add">add</span>
+     <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener">addEventListener(type, callback)</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-fire">fire an event</span>
+     <li><span class="dfn-paneled" id="term-for-dom-addeventlisteneroptions-once">once</span>
+     <li><span class="dfn-paneled" id="term-for-dom-parentnode-queryselectorall">querySelectorAll(selectors)</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-remove">remove</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-signal-abort">signal abort</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-target">target</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-body" style="color:initial">Body</span>
-     <li><span class="dfn-paneled" id="term-for-dom-body-json" style="color:initial">json()</span>
+     <li><span class="dfn-paneled" id="term-for-body">Body</span>
+     <li><span class="dfn-paneled" id="term-for-dom-body-json">json()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp" style="color:initial">DOMHighResTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp">DOMHighResTimeStamp</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
-     <li><span class="dfn-paneled" id="term-for-globaleventhandlers" style="color:initial">GlobalEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-htmlhtmlelement" style="color:initial">HTMLHtmlElement</span>
-     <li><span class="dfn-paneled" id="term-for-htmlimageelement" style="color:initial">HTMLImageElement</span>
-     <li><span class="dfn-paneled" id="term-for-history-3" style="color:initial">History</span>
-     <li><span class="dfn-paneled" id="term-for-imagebitmap" style="color:initial">ImageBitmap</span>
-     <li><span class="dfn-paneled" id="term-for-navigator" style="color:initial">Navigator</span>
-     <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
-     <li><span class="dfn-paneled" id="term-for-windoweventhandlers" style="color:initial">WindowEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap" style="color:initial">createImageBitmap(image)</span>
-     <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
-     <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define" style="color:initial">define(name, constructor)</span>
-     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
-     <li><span class="dfn-paneled" id="term-for-event-loop" style="color:initial">event loop</span>
-     <li><span class="dfn-paneled" id="term-for-attr-hyperlink-href" style="color:initial">href</span>
-     <li><span class="dfn-paneled" id="term-for-the-img-element" style="color:initial">img</span>
-     <li><span class="dfn-paneled" id="term-for-dom-img-ismap" style="color:initial">isMap</span>
-     <li><span class="dfn-paneled" id="term-for-attr-img-ismap" style="color:initial">ismap</span>
-     <li><span class="dfn-paneled" id="term-for-dom-open" style="color:initial">open(url, target, features)</span>
-     <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
-     <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
-     <li><span class="dfn-paneled" id="term-for-task-queue" style="color:initial">task queues</span>
+     <li><span class="dfn-paneled" id="term-for-eventhandler">EventHandler</span>
+     <li><span class="dfn-paneled" id="term-for-globaleventhandlers">GlobalEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-htmlhtmlelement">HTMLHtmlElement</span>
+     <li><span class="dfn-paneled" id="term-for-htmlimageelement">HTMLImageElement</span>
+     <li><span class="dfn-paneled" id="term-for-history-3">History</span>
+     <li><span class="dfn-paneled" id="term-for-imagebitmap">ImageBitmap</span>
+     <li><span class="dfn-paneled" id="term-for-navigator">Navigator</span>
+     <li><span class="dfn-paneled" id="term-for-window">Window</span>
+     <li><span class="dfn-paneled" id="term-for-windoweventhandlers">WindowEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap">createImageBitmap(image)</span>
+     <li><span class="dfn-paneled" id="term-for-custom-element">custom element</span>
+     <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define">define(name, constructor)</span>
+     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes">event handler idl attribute</span>
+     <li><span class="dfn-paneled" id="term-for-event-loop">event loop</span>
+     <li><span class="dfn-paneled" id="term-for-attr-hyperlink-href">href</span>
+     <li><span class="dfn-paneled" id="term-for-the-img-element">img</span>
+     <li><span class="dfn-paneled" id="term-for-dom-img-ismap">isMap</span>
+     <li><span class="dfn-paneled" id="term-for-attr-img-ismap">ismap</span>
+     <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
+     <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
+     <li><span class="dfn-paneled" id="term-for-reflect">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-dom-dialog-showmodal">showModal()</span>
+     <li><span class="dfn-paneled" id="term-for-task-queue">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idbdatabase" style="color:initial">IDBDatabase</span>
+     <li><span class="dfn-paneled" id="term-for-idbdatabase">IDBDatabase</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-ascii-code-point" style="color:initial">ascii code point</span>
-     <li><span class="dfn-paneled" id="term-for-code-unit" style="color:initial">code unit</span>
-     <li><span class="dfn-paneled" id="term-for-implementation-defined" style="color:initial">implementation-defined</span>
-     <li><span class="dfn-paneled" id="term-for-scalar-value" style="color:initial">scalar value</span>
-     <li><span class="dfn-paneled" id="term-for-scalar-value-string" style="color:initial">scalar value string</span>
-     <li><span class="dfn-paneled" id="term-for-string" style="color:initial">string</span>
-     <li><span class="dfn-paneled" id="term-for-surrogate" style="color:initial">surrogate</span>
+     <li><span class="dfn-paneled" id="term-for-ascii-code-point">ascii code point</span>
+     <li><span class="dfn-paneled" id="term-for-code-unit">code unit</span>
+     <li><span class="dfn-paneled" id="term-for-implementation-defined">implementation-defined</span>
+     <li><span class="dfn-paneled" id="term-for-scalar-value">scalar value</span>
+     <li><span class="dfn-paneled" id="term-for-scalar-value-string">scalar value string</span>
+     <li><span class="dfn-paneled" id="term-for-string">string</span>
+     <li><span class="dfn-paneled" id="term-for-surrogate">surrogate</span>
     </ul>
    <li>
     <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false" style="color:initial">false</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-true" style="color:initial">true</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false">false</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-custom-media-true">true</span>
     </ul>
    <li>
     <a data-link-type="biblio">[payment-request]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">PaymentRequest</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-state" style="color:initial">[[state]]</span>
-     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete" style="color:initial">complete()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest">PaymentRequest</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-state">[[state]]</span>
+     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete">complete()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[REMOTE-PLAYBACK]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-remoteplayback-interface" style="color:initial">RemotePlayback</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices" style="color:initial">remote playback device</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-selector-combinator" style="color:initial">combinator</span>
+     <li><span class="dfn-paneled" id="term-for-remoteplayback-interface">RemotePlayback</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices">remote playback device</span>
     </ul>
    <li>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-keyboardevent" style="color:initial">KeyboardEvent</span>
+     <li><span class="dfn-paneled" id="term-for-keyboardevent">KeyboardEvent</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-urlsearchparams" style="color:initial">URLSearchParams</span>
-     <li><span class="dfn-paneled" id="term-for-percent-encode" style="color:initial">percent-encode</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">url</span>
+     <li><span class="dfn-paneled" id="term-for-urlsearchparams">URLSearchParams</span>
+     <li><span class="dfn-paneled" id="term-for-percent-encode">percent-encode</span>
+     <li><span class="dfn-paneled" id="term-for-concept-url">url</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-ByteString" style="color:initial">ByteString</span>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMException" style="color:initial">DOMException</span>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-DOMTimeStamp" style="color:initial">DOMTimeStamp</span>
-     <li><span class="dfn-paneled" id="term-for-idl-promise" style="color:initial">Promise</span>
-     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror" style="color:initial">TypeError</span>
-     <li><span class="dfn-paneled" id="term-for-idl-USVString" style="color:initial">USVString</span>
-     <li><span class="dfn-paneled" id="term-for-idl-Uint8Array" style="color:initial">Uint8Array</span>
-     <li><span class="dfn-paneled" id="term-for-idl-byte" style="color:initial">byte</span>
-     <li><span class="dfn-paneled" id="term-for-idl-constructors" style="color:initial">constructor operations</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-maplike" style="color:initial">maplike</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-namespace" style="color:initial">namespace</span>
-     <li><span class="dfn-paneled" id="term-for-sequence-type" style="color:initial">sequence type</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-setlike" style="color:initial">setlike</span>
+     <li><span class="dfn-paneled" id="term-for-idl-ByteString">ByteString</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMException">DOMException</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-DOMTimeStamp">DOMTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-idl-promise">Promise</span>
+     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror">TypeError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-USVString">USVString</span>
+     <li><span class="dfn-paneled" id="term-for-idl-Uint8Array">Uint8Array</span>
+     <li><span class="dfn-paneled" id="term-for-idl-byte">byte</span>
+     <li><span class="dfn-paneled" id="term-for-idl-constructors">constructor operations</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-maplike">maplike</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-namespace">namespace</span>
+     <li><span class="dfn-paneled" id="term-for-sequence-type">sequence type</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-setlike">setlike</span>
     </ul>
    <li>
     <a data-link-type="biblio">[XHR]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-progressevent" style="color:initial">ProgressEvent</span>
-     <li><span class="dfn-paneled" id="term-for-xmlhttprequest" style="color:initial">XMLHttpRequest</span>
-     <li><span class="dfn-paneled" id="term-for-xmlhttprequesteventtarget" style="color:initial">XMLHttpRequestEventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-progressevent-loaded" style="color:initial">loaded</span>
-     <li><span class="dfn-paneled" id="term-for-dom-progressevent-total" style="color:initial">total</span>
+     <li><span class="dfn-paneled" id="term-for-progressevent">ProgressEvent</span>
+     <li><span class="dfn-paneled" id="term-for-xmlhttprequest">XMLHttpRequest</span>
+     <li><span class="dfn-paneled" id="term-for-xmlhttprequesteventtarget">XMLHttpRequestEventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-loaded">loaded</span>
+     <li><span class="dfn-paneled" id="term-for-dom-progressevent-total">total</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -4965,10 +4975,10 @@ so they can correct this omission.</p>
    <dd>CSS Cascading and Inheritance Level 5 URL: <a href="https://drafts.csswg.org/css-cascade-5/">https://drafts.csswg.org/css-cascade-5/</a>
    <dt id="biblio-css-conditional-3">[CSS-CONDITIONAL-3]
    <dd>CSS Conditional Rules Module Level 3 URL: <a href="https://drafts.csswg.org/css-conditional-3/">https://drafts.csswg.org/css-conditional-3/</a>
-   <dt id="biblio-css-inline-3">[CSS-INLINE-3]
-   <dd>Dave Cramer; Elika Etemad; Steve Zilles. <a href="https://drafts.csswg.org/css-inline-3/">CSS Inline Layout Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/">CSS Values and Units Module Level 4</a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
+   <dt id="biblio-css2">[CSS2]
+   <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
@@ -4987,8 +4997,6 @@ so they can correct this omission.</p>
    <dd>Marcos Caceres; et al. <a href="https://w3c.github.io/payment-request/">Payment Request API</a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
-   <dt id="biblio-selectors-4">[SELECTORS-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors/">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors/">https://drafts.csswg.org/selectors/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
@@ -5001,7 +5009,9 @@ so they can correct this omission.</p>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
    <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://drafts.csswg.org/css-backgrounds/">CSS Backgrounds and Borders Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-backgrounds/">https://drafts.csswg.org/css-backgrounds/</a>
    <dt id="biblio-css-fonts-3">[CSS-FONTS-3]
-   <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://drafts.csswg.org/css-fonts/">CSS Fonts Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-fonts/">https://drafts.csswg.org/css-fonts/</a>
+   <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://drafts.csswg.org/css-fonts-3/">CSS Fonts Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-fonts-3/">https://drafts.csswg.org/css-fonts-3/</a>
+   <dt id="biblio-css-inline-3">[CSS-INLINE-3]
+   <dd>Dave Cramer; Elika Etemad; Steve Zilles. <a href="https://drafts.csswg.org/css-inline-3/">CSS Inline Layout Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-3/">CSS Values and Units Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-values-3/">https://drafts.csswg.org/css-values-3/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
