@@ -1184,7 +1184,7 @@ Sometimes it is unclear whether to use an attribute or a method.
 For attributes, whenever possible, preserve values given to the setter for return from the getter. That is,
 given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
 
-The object you want to return may be live or static. (add link to 5.2) This means:
+The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
 
   * If live, then return the same object each time, until a state change requires a different object to be returned.
     This can be returned from either an attribute or a method.
