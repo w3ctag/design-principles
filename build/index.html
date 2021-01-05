@@ -1486,7 +1486,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version c5172e83, updated Fri Nov 20 15:35:20 2020 -0800" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="5165272f031160a2bb241f20fd221d1574c09d7e" name="document-revision">
+  <meta content="10d4701f427d20da9bc8f659248c8ba34bac7022" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -3103,7 +3103,7 @@ If this does not hold, the getter should be a method.</p>
    </ul>
    <p>For attributes, whenever possible, preserve values given to the setter for return from the getter. That is,
 given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)</p>
-   <p>The object you want to return may be live or static. (add link to 5.2) This means:</p>
+   <p>The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:</p>
    <ul>
     <li data-md>
      <p>If live, then return the same object each time, until a state change requires a different object to be returned.
