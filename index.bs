@@ -1518,7 +1518,7 @@ The trade-off for this extra work is the following advantages:
 * Instances can be customized at observation time, or at creation time.
     The constructor for an `Observer`,
     or its `observe()` method,
-    can take options allowing authors to customize what is observered for each callback.
+    can take options allowing authors to customize what is observed for each callback.
     This isn't possible with {{EventTarget/addEventListener()}}.
 * It's easy to stop listening on multiple callbacks using the
     `disconnect()` or `unobserve()` method on the `Observer` object.
