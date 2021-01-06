@@ -223,7 +223,7 @@ and may be interacted with in a large number of different ways.
 New features should match the existing flexibility of the Web platform.
 
 <div class="note">
-This doesn't imply that features which don't work in *every• possible context should be excluded.
+This doesn't imply that features which don't work in *every* possible context should be excluded.
 For example, hyperlinks can't be visited when printed on paper,
 and the ''click'' event doesn't translate perfectly to touch input devices
 where positioning and clicking the pointer occur in the same gesture (a "tap").
