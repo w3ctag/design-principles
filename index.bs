@@ -362,7 +362,7 @@ Specification authors can limit most features defined in
 <a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
-{{SecureContext}} extended attribute
+[{{SecureContext}}] extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes).
 
 However, for some types of API (e.g., dispatching an event),
@@ -370,7 +370,7 @@ limitation to secure contexts should just
 be defined in normative prose in the specification.
 If this is the case,
 consider whether there might be scope for adding a similar mechanism
-to {{SecureContext}}
+to [{{SecureContext}}]
 to make this process easier for future API developers.
 </div>
 
