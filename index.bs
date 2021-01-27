@@ -1999,7 +1999,7 @@ and HTMLCanvasElement.toDataURL().
 
 For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
 the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
-and instead recommend enforcing strict MIME types for newer formats.
+due to security implications, and instead recommend enforcing strict MIME types for newer formats.
 
 New MIME types should be submitted to the Internet Engineering Steering Group (IESG) for review,
 approval, and registration with the Internet Assigned Numbers Authority (IANA).
