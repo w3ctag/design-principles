@@ -2257,6 +2257,7 @@ You may find good names or inspiration in surprising places.
     things that your API works with or manipulates.
 - Look at other web platform specifications,
     and seek advice from others working in related areas of the platform.
+- Also, consult if the names used are inclusive.
 
 Pay particular attention to advice you receive
 with clearly-stated rationale based on underlying principles.
@@ -2271,7 +2272,7 @@ when editing that document. [[URL]]
 
 </div>
 
-<h4 id="naming-web-considtency" class="no-num no-toc">Use Web consistent names</h4>
+<h4 id="naming-web-consistency" class="no-num no-toc">Use Web consistent names</h4>
 When choosing a name for feature or API that has exposure in other technology stacks,
 the preference should be towards the Web ecosystem naming convention rather than other
 communities.
@@ -2284,6 +2285,15 @@ In such cases, the naming of features or API for the purposes of Web NFC must pr
 naming consistent with `MIME type`.
 
 </div>
+
+<h4 id="naming-inclusive" class="no-num no-toc">Use Inclusive Language</h4>
+
+Use inclusive language whenever possible.
+For example,
+you should use blocklist and allowlist
+instead of blacklist and whitelist,
+and source and replica
+instead of master and slave.
 
 <h3 id="naming-future-proofing">Future-proofing</h4>
 
