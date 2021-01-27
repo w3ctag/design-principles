@@ -1965,7 +1965,6 @@ make sure the new web APIs are designed with web platform principles in mind.
 
 <h3 id="polyfills">Polyfills</h3>
 
-
 Polyfills can be hugely beneficial
 in helping to roll out new features to the web platform.
 The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a>
@@ -1974,6 +1973,36 @@ offers guidance that should be considered in the development of new features, no
 * Being "polyfillable" isn't essential but <strong>is</strong> beneficial
 * [[#feature-detect]]
 * Polyfill development should be encouraged
+
+<h3 id="new-data-formats">New Data Formats</h3>
+
+Always define a corresponding MIME type and extend existing APIs to support this type
+for any new data format.
+
+There are cases when a new capability on the web involves adding a new data format.
+This can be an image, video, audio, or any other type of data that a browser is expected
+to ingest. New formats should have a standardized MIME type, which is strictly validated.
+
+While legacy media formats do not always have strict enforcement for MIME types (and
+sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
+compatibility reasons and should not be expected or implemented for new formats.
+
+It is expected that spec authors also integrate the new format to existing APIs, so that
+they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
+(e.g. encoding to a WriteableStream) points from a browser's perspective.
+
+For example. if you are to add an image format to the web platform, first add a new MIME
+type for the format. After this, you would naturally add a decoder (and presumably an
+encoder) for said image format to support decoding in HTMLImageElements. On top of this,
+you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
+and HTMLCanvasElement.toDataURL().
+
+For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
+the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
+due to security implications, and instead recommend enforcing strict MIME types for newer formats.
+
+New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
+
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
