@@ -2295,6 +2295,10 @@ instead of blacklist and whitelist,
 and source and replica
 instead of master and slave.
 
+If you need to refer to a generic persona, 
+such as an author or user, 
+use the generic pronoun "they", "their", etc.
+For example, "A user may wish to adjust their preferences".
 <h3 id="naming-future-proofing">Future-proofing</h4>
 
 Naming should be generic and future-proof whenever possible.
