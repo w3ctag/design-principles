@@ -2044,12 +2044,13 @@ For this reason, if a key can clearly be expressed as a single word, that is rec
 Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.
 
-Error messages must be meaningful.
-When a developer or user encounters an error,
+While error text in exceptions should be generic,
+developer-oriented error messages (such as those from a developer console) must be meaningful.
+When a developer encounters an error,
 the message should be specific to that error case,
 and not overly generic.
 
-Ideally, the error message should have enough information
+Ideally, developer-oriented error messages should have enough information
 to guide the developer in pinpointing where the problem is.
 
 Declarative features such as CSS,
