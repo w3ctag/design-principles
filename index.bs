@@ -2289,6 +2289,7 @@ naming consistent with `MIME type`.
 <h4 id="naming-inclusive" class="no-num no-toc">Use Inclusive Language</h4>
 
 Use inclusive language whenever possible.
+
 For example,
 you should use blocklist and allowlist
 instead of blacklist and whitelist,
