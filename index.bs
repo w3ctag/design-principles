@@ -2001,7 +2001,7 @@ For legacy reasons browsers support MIME type sniffing, but we do not recommend 
 the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.
 
-New MIME types should be registered with the Internet Assigned Numbers Authority (IANA).
+New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
