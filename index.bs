@@ -686,6 +686,19 @@ since properties are generally setting a mode or state.
 
 See [[#naming-is-hard]] for general (cross-language) advice on naming.
 
+<h3 id="css-content-should-be-visible">Content should be viewable and accessible by default</h3>
+
+Design CSS properties or CSS layout systems (which are typically values of the `display` property), 
+to preserve the content as viewable, accessible and usable by default.  
+
+<div class="example">
+For example, the default behavior of all layout systems in CSS will not lead to content being clipped, 
+content overlapping other content, or content being unreachable by scrolling. 
+These things should only happen if CSS features are used that are more explicitly choosing 
+such a behavior (for example, `overflow: hidden` or `left: -40em`). They should not happen by 
+default as a result of something like `display: flex` or `position: relative`.
+</div>
+
 <h2 id="js">JavaScript Language</h2>
 
 <h3 id="js-only">Web APIs are for JavaScript</h3>
