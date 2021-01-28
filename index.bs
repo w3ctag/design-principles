@@ -530,10 +530,10 @@ based on what makes sense to set independently.
 allows [declarations](https://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#declaration)
 from different rules or different style sheets
 to override one another.
-If there is a logical set of attributes which should all be overridden together,
-they should be grouped together in a single property so that they cascade together.
-Likewise, if there are attributes which should be able to be overridden independently,
-they should be separate properties.
+A set of values that should all be overridden together
+should be grouped together in a single property so that they cascade together.
+Likewise, values that should be able to be overridden independently
+should be separate properties.
 
 <div class="example">For example, the "size" and "sink" aspects of the 'initial-letter' property
 belong in a single property
@@ -548,20 +548,21 @@ and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the documen
 
 <h3 id="css-inherited-or-not">Make appropriate choices for whether CSS properties are inherited</h3>
 
-Decide whether a property should be [inherited](https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#inheritance)
+Decide whether a property should be [inherited](https://drafts.csswg.org/css-cascade-3/#inherited-property)
 based on whether the effect of the property should be overridden or added to
 if set on an ancestor as well as a descendant.
 
 If setting the property on a descendant element needs to override (rather than add to)
 the effect of setting it on an ancestor,
 then the property should probably be inherited.
-A specification of an non-inherited property requiring that the handling of an element
-look at the value of that property on its ancestors (which may also be slow)
-is a "code smell" that suggests that the property likely should have been inherited.
 
 If setting the property on a descendant element is a separate effect
 that adds to setting it on an ancestor,
 then the property should probably **not** be inherited.
+
+A specification of an non-inherited property requiring that the handling of an element
+look at the value of that property on its ancestors (which may also be slow)
+is a "code smell" that suggests that the property likely should have been inherited.
 A specification of an inherited property requiring that the handling of an element
 ignore the value of a property if it's the same as the value on the parent element
 is a "code smell" that suggests that the property likely should not have been inherited.
