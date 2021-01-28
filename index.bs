@@ -609,23 +609,18 @@ that a property likely should have been inherited.
 
 Choose the <a>computed value</a> of a CSS property
 based on how it will [=inherit=],
-and the other properties which may depend on it,
-whether or not it has been inherited.
+including how values where it depends on other properties should inherit.
+
+Inheritance means that
+an element gets the same computed value for a property that its parent has.
+This means that processing steps that happen before reaching the computed value
+affect the value that is inherited,
+and those that happen after (such as for the <a>used value</a>) do not.
 
 <div class="note">
 Note: the <a>computed value</a> should not be confused with the [=resolved value=]
 which is returned from the {{getComputedStyle()}} method.
 </div>
-
-Certain CSS properties are calculated with
-<a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a>
-on others:
-for example, the <a>computed value</a>
-of a property specified in ''lh'' units
-depends on the 'line-height' property which applies to the element being considered.
-The <a>computed value</a> for a property should be chosen
-so that the dependent values make sense,
-regardless of whether they are inherited.
 
 <div class="example">
 For example, the 'line-height' property may accept a <<number>> value,
@@ -636,6 +631,7 @@ the [=actual value=] for the line height is ''28px''.
 
 However, the <a>computed value</a> in this case is the <<number>> ''1.4'',
 not the <<length>> ''28px''.
+(The <a>used value</a> is ''28px''.)
 
 The 'line-height' property can be inherited
 into elements that have a different 'font-size',
