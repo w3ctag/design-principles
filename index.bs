@@ -1381,7 +1381,7 @@ If the events are deferred instead:
 
          For example, in [[payment-request]]
          note the guards used around the [=[[state]]=] internal slot,
-         such as in the {{MerchantValidationEvent/complete()}} algorithm.
+         such as in the {{PaymentRequest/show()}} algorithm.
 * if the deferred event doesn't need extra state,
     or a state machine,
     this probably means that the event is just signalling the completion of the algorithm.
