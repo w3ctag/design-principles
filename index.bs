@@ -613,7 +613,7 @@ including how values where it depends on other properties should inherit.
 
 Inheritance means that
 an element gets the same computed value for a property that its parent has.
-This means that processing steps that happen before the computed value
+This means that processing steps that happen before reaching the computed value
 affect the value that is inherited,
 and those that happen after (such as for the <a>used value</a>) do not.
 
