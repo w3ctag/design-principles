@@ -26,6 +26,7 @@
  *   - .figure and .caption (HTML4) and figure and figcaption (HTML5)
  *     -> .sidefigure for right-floated figures
  *   - ins/del
+ *     -> ins/del.c### for candidate and proposed changes (amendments)
  *
  * Code
  *   - pre and code
@@ -34,9 +35,12 @@
  *   - .note       for informative notes             (div, p, span, aside, details)
  *   - .example    for informative examples          (div, p, pre, span)
  *   - .issue      for issues                        (div, p, span)
- *   - .assertion  for assertions                    (div, p, span)
  *   - .advisement for loud normative statements     (div, p, strong)
  *   - .annoying-warning for spec obsoletion notices (div, aside, details)
+ *   - .correction for "candidate corrections"       (div, aside, details, section)
+ *   - .addition   for "candidate additions"         (div, aside, details, section)
+ *   - .correction.proposed for "proposed corrections" (div, aside, details, section)
+ *   - .addition.proposed   for "proposed additions"   (div, aside, details, section)
  *
  * Definition Boxes
  *   - pre.def   for WebIDL definitions
@@ -57,6 +61,8 @@
  *   - .head for the header
  *   - .copyright for the copyright
  *
+ * Outdated warning for old specs
+ *
  * Miscellaneous
  *   - .overlarge for things that should be as wide as possible, even if
  *     that overflows the body text area. This can be used on an item or
@@ -64,6 +70,7 @@
  *     Note that this styling basically doesn't help at all when printing,
  *     since A4 paper isn't much wider than the max-width here.
  *     It's better to design things to fit into a narrower measure if possible.
+ *
  *   - js-added ToC jump links (see fixup.js)
  *
  ******************************************************************************/
@@ -71,24 +78,20 @@
 /* color variables included separately for reliability */
 
 /******************************************************************************/
-/*                                   Body                                     */
+/*                                    Body                                    */
 /******************************************************************************/
 
 	html {
-		color: black;
-		color: var(--text);
-		background-color: white;
-		background-color: var(--bg);
 	}
 
 	body {
 		counter-reset: example figure issue;
 
 		/* Layout */
-		max-width: 50em;               /* limit line length to 50em for readability   */
-		margin: 0 auto;                /* center text within page                     */
+		max-width: 50em;			  /* limit line length to 50em for readability   */
+		margin: 0 auto;				/* center text within page                    */
 		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
-		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag     */
+		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag    */
 
 		/* Typography */
 		line-height: 1.5;
@@ -99,7 +102,10 @@
 		overflow-wrap: break-word;
 		hyphens: auto;
 
-		background: transparent top left fixed no-repeat;
+		color: black;
+		color: var(--text);
+		background: white top left fixed no-repeat;
+		background: var(--bg) top left fixed no-repeat;
 		background-size: 25px auto;
 	}
 
@@ -110,7 +116,7 @@
 
 /** Header ********************************************************************/
 
-	div.head { margin-bottom: 1em }
+	div.head { margin-bottom: 1em; }
 	div.head hr { border-style: solid; }
 
 	div.head h1 {
@@ -158,7 +164,7 @@
 /** Copyright *****************************************************************/
 
 	p.copyright,
-	p.copyright small { font-size: small }
+	p.copyright small { font-size: small; }
 
 /** Back to Top / ToC Toggle **************************************************/
 
@@ -170,7 +176,7 @@
 	@media not print {
 		#toc-nav {
 			position: fixed;
-			z-index: 2;
+			z-index: 3;
 			bottom: 0; left: 0;
 			margin: 0;
 			min-width: 1.33em;
@@ -337,9 +343,9 @@
 		page-break-after: avoid;
 		page-break-inside: avoid;
 		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
-		font-family: inherit;    /* Inherit the font family. */
-		line-height: 1.2;        /* Keep wrapped headings compact */
-		hyphens: manual;         /* Hyphenated headings look weird */
+		font-family: inherit;	/* Inherit the font family. */
+		line-height: 1.2;		/* Keep wrapped headings compact */
+		hyphens: manual;		/* Hyphenated headings look weird */
 	}
 
 	h2, h3, h4, h5, h6 {
@@ -423,51 +429,51 @@
 	/* Style for algorithms */
 	ol.algorithm ol:not(.algorithm),
 	.algorithm > ol ol:not(.algorithm) {
-	 border-left: 0.5em solid #DEF;
-	 border-left: 0.5em solid var(--algo-border);
+	border-left: 0.5em solid #DEF;
+	border-left: 0.5em solid var(--algo-border);
 	}
 
 	/* Put nice boxes around each algorithm. */
 	[data-algorithm]:not(.heading) {
-	  padding: .5em;
-	  border: thin solid #ddd;
-	  border: thin solid var(--algo-border);
-	  border-radius: .5em;
-	  margin: .5em calc(-0.5em - 1px);
+	 padding: .5em;
+	 border: thin solid #ddd;
+	 border: thin solid var(--algo-border);
+	 border-radius: .5em;
+	 margin: .5em calc(-0.5em - 1px);
 	}
 	[data-algorithm]:not(.heading) > :first-child {
-	  margin-top: 0;
+	 margin-top: 0;
 	}
 	[data-algorithm]:not(.heading) > :last-child {
-	  margin-bottom: 0;
+	 margin-bottom: 0;
 	}
 
 	/* Style for switch/case <dl>s */
 	dl.switch > dd > ol.only,
 	dl.switch > dd > .only > ol {
-	 margin-left: 0;
+	margin-left: 0;
 	}
 	dl.switch > dd > ol.algorithm,
 	dl.switch > dd > .algorithm > ol {
-	 margin-left: -2em;
+	margin-left: -2em;
 	}
 	dl.switch {
-	 padding-left: 2em;
+	padding-left: 2em;
 	}
 	dl.switch > dt {
-	 text-indent: -1.5em;
-	 margin-top: 1em;
+	text-indent: -1.5em;
+	margin-top: 1em;
 	}
 	dl.switch > dt + dt {
-	 margin-top: 0;
+	margin-top: 0;
 	}
 	dl.switch > dt::before {
-	 content: '\21AA';
-	 padding: 0 0.5em 0 0;
-	 display: inline-block;
-	 width: 1em;
-	 text-align: right;
-	 line-height: 0.5em;
+	content: '\21AA';
+	padding: 0 0.5em 0 0;
+	display: inline-block;
+	width: 1em;
+	text-align: right;
+	line-height: 0.5em;
 	}
 
 /** Terminology Markup ********************************************************/
@@ -485,7 +491,7 @@
 		font-style: normal;
 	}
 	dt dfn code, code.idl {
-		font-size: medium;
+		font-size: inherit;
 	}
 	dfn var {
 		font-style: normal;
@@ -494,18 +500,37 @@
 /** Change Marking ************************************************************/
 
 	del {
-		color: red;
+		color: #aa0000;
 		color: var(--del-text);
 		background: transparent;
 		background: var(--del-bg);
 		text-decoration: line-through;
 	}
 	ins {
-		color: #080;
+		color: #006100;
 		color: var(--ins-text);
 		background: transparent;
 		background: var(--ins-bg);
 		text-decoration: underline;
+	}
+
+	/* for amendments (candidate/proposed changes) */
+
+	.amendment ins, .correction ins, .addition ins,
+	ins[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment del, .correction del, .addition del,
+	del[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment.proposed ins, .correction.proposed ins, .addition.proposed ins,
+	ins[class^=c].proposed {
+		text-decoration-style: double;
+	}
+	.amendment.proposed del, .correction.proposed del, .addition.proposed del,
+	del[class^=c].proposed {
+		text-decoration-style: double;
 	}
 
 /** Miscellaneous improvements to inline formatting ***************************/
@@ -546,7 +571,7 @@
 
 /** Inline Code fragments *****************************************************/
 
-  /* Do something nice. */
+	/* Do something nice. */
 
 /******************************************************************************/
 /*                                    Links                                   */
@@ -610,7 +635,7 @@
 	}
 
 	/* For autogen numbers, add
-	   .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
+	  .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
 	*/
 
 	figure, .figure, .sidefigure {
@@ -618,7 +643,7 @@
 		text-align: center;
 		margin: 2.5em 0;
 	}
-	.figure img,    .sidefigure img,    figure img,
+	.figure img,	.sidefigure img,	figure img,
 	.figure object, .sidefigure object, figure object {
 		max-width: 100%;
 		margin: auto;
@@ -636,7 +661,7 @@
 		.sidefigure {
 			float: right;
 			width: 50%;
-			margin: 0 0 0.5em 0.5em
+			margin: 0 0 0.5em 0.5em;
 		}
 	}
 	.caption, figcaption, caption {
@@ -651,13 +676,15 @@
 	}
 
 	/* DL list is indented 2em, but figure inside it is not */
-	dd > .figure, dd > figure { margin-left: -2em }
+	dd > .figure, dd > figure { margin-left: -2em; }
 
 /******************************************************************************/
 /*                             Colored Boxes                                  */
 /******************************************************************************/
 
-	.issue, .note, .example, .assertion, .advisement, blockquote {
+	.issue, .note, .example, .assertion, .advisement, blockquote,
+	.amendment, .correction, .addition {
+		margin: 1em auto;
 		padding: .5em;
 		border: .5em;
 		border-left-style: solid;
@@ -668,20 +695,20 @@
 		border-right-style: solid;
 	}
 
-	.issue,
-	.note,
-	.example,
-	.advisement,
-	.assertion,
-	blockquote {
-		margin: 1em auto;
-	}
+	blockquote > :first-child,
 	.note  > p:first-child,
 	.issue > p:first-child,
-	blockquote > :first-child {
+	.amendment > p:first-child,
+	.correction > p:first-child,
+	.addition > p:first-child {
 		margin-top: 0;
 	}
-	blockquote > :last-child {
+	blockquote > :last-child,
+	.note  > p:last-child,
+	.issue > p:last-child,
+	.amendment > p:last-child,
+	.correction > p:last-child,
+	.addition > p:last-child {
 		margin-bottom: 0;
 	}
 
@@ -689,7 +716,14 @@
 	.issue::before, .issue > .marker,
 	.example::before, .example > .marker,
 	.note::before, .note > .marker,
-	details.note > summary > .marker {
+	details.note > summary > .marker,
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary > .marker,
+	.addition::before, .addition > .marker,
+	addition.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	correction.amendment > summary > .marker
+	{
 		text-transform: uppercase;
 		padding-right: 1em;
 	}
@@ -727,7 +761,7 @@
 		color: var(--issueheading-text);
 	}
 	/* Add .issue::before { content: "Issue " counter(issue) " "; } for autogen numbers,
-	   or use class="marker" to mark up the issue number in source. */
+	  or use class="marker" to mark up the issue number in source. */
 
 /** Example *******************************************************************/
 
@@ -747,7 +781,7 @@
 		color: var(--exampleheading-text);
 	}
 	/* Add .example::before { content: "Example " counter(example) " "; } for autogen numbers,
-	   or use class="marker" to mark up the example number in source. */
+	  or use class="marker" to mark up the example number in source. */
 
 /** Non-normative Note ********************************************************/
 
@@ -767,7 +801,7 @@
 		color: var(--noteheading-text);
 	}
 	/* Add .note::before { content: "Note "; } for autogen label,
-	   or use class="marker" to mark up the label in source. */
+	  or use class="marker" to mark up the label in source. */
 
 	details.note[open] > summary {
 		border-bottom: 1px silver solid;
@@ -807,6 +841,38 @@
 		color: var(--advisementheading-text);
 	}
 
+/** Amendment Box *************************************************************/
+
+	.amendment, .correction, .addition {
+		border-color: #330099;
+		border-color: var(--amendment-border);
+		background: #F5F0FF;
+		background: var(--amendment-bg);
+		color: black;
+		color: var(--amendment-text);
+	}
+	.amendment.proposed, .correction.proposed, .addition.proposed {
+		border-style: solid;
+		border-block-width: 0.25em;
+	}
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary::before, details.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	details.correction > summary::before, details.correction > summary > .marker,
+	.addition::before, .addition > .marker,
+	details.addition > summary::before, details.addition > summary > .marker {
+		color: #220066;
+		color: var(--amendmentheading-text);
+	}
+	.amendment.proposed::before, .amendment.proposed > .marker,
+	details.amendment.proposed > summary::before, details.amendment.proposed > summary > .marker,
+	.correction.proposed::before, .correction.proposed > .marker,
+	details.correction.proposed > summary::before, details.correction.proposed > summary > .marker,
+	.addition.proposed::before, .addition.proposed > .marker,
+	details.addition.proposed > summary::before, details.addition.proposed > summary > .marker {
+		font-weight: bold;
+	}
+
 /** Spec Obsoletion Notice ****************************************************/
 	/* obnoxious obsoletion notice for older/abandoned specs. */
 
@@ -835,15 +901,15 @@
 		margin-bottom: 0;
 	}
 
-	@media not print {
-		details.annoying-warning[open] {
-			position: fixed;
-			left: 0;
-			right: 0;
-			bottom: 2em;
-			z-index: 1000;
-		}
+@media not print {
+	details.annoying-warning[open] {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 2em;
+		z-index: 1000;
 	}
+}
 
 	details.annoying-warning:not([open]) > summary {
 		text-align: center;
@@ -918,15 +984,15 @@
 
 /** Data tables (and properly marked-up index tables) *************************/
 	/*
-		 <table class="data"> highlights structural relationships in a table
-		 when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
+		<table class="data"> highlights structural relationships in a table
+		when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
 
-		 Use class="complex data" for particularly complicated tables --
-		 (This will draw more lines: busier, but clearer.)
+		Use class="complex data" for particularly complicated tables --
+		(This will draw more lines: busier, but clearer.)
 
-		 Use class="long" on table cells with paragraph-like contents
-		 (This will adjust text alignment accordingly.)
-		 Alternately use class="longlastcol" on tables, to have the last column assume "long".
+		Use class="long" on table cells with paragraph-like contents
+		(This will adjust text alignment accordingly.)
+		Alternately use class="longlastcol" on tables, to have the last column assume "long".
 	*/
 
 	table {
@@ -1075,22 +1141,22 @@ Possible extra rowspan handling
 		/* because generated content isn't search/selectable and markers can't do multilevel yet */
 		margin:  0;
 		padding: 0;
-		line-height: 1.1rem; /* consistent spacing */
+	}
+	.toc {
+		line-height: 1.1em;
 	}
 
 	/* ToC not indented until third level, but font style & margins show hierarchy */
-	.toc > li             { font-weight: bold;   }
-	.toc > li li          { font-weight: normal; }
-	.toc > li li li       { font-size:   95%;    }
-	.toc > li li li li    { font-size:   90%;    }
-	.toc > li li li li .secno { font-size: 85%; }
-	.toc > li li li li li { font-size:   85%;    }
-	.toc > li li li li li .secno { font-size: 100%; }
+	.toc > li			{ font-weight: bold;   }
+	.toc > li li		 { font-weight: normal; }
+	.toc > li li li	  { font-size:   95%;	}
+	.toc > li li li li	{ font-size:   90%;	}
+	.toc > li li li li li { font-size:   85%;	}
 
 	/* @supports not (display:grid) { */
-		.toc > li             { margin: 1.5rem 0;    }
-		.toc > li li          { margin: 0.3rem 0;    }
-		.toc > li li li       { margin-left: 2rem;   }
+		.toc > li			{ margin: 1.5rem 0;	}
+		.toc > li li		 { margin: 0.3rem 0;	}
+		.toc > li li li	  { margin-left: 2rem;   }
 
 		/* Section numbers in a column of their own */
 		.toc .secno {
@@ -1098,33 +1164,35 @@ Possible extra rowspan handling
 			width: 4rem;
 			white-space: nowrap;
 		}
+		.toc > li li li li .secno { font-size: 85%; }
+		.toc > li li li li li .secno { font-size: 100%; }
 
 		.toc li {
 			clear: both;
 		}
 
-		:not(li) > .toc              { margin-left:  5rem; }
-		.toc .secno                  { margin-left: -5rem; }
-		.toc > li li li .secno       { margin-left: -7rem; }
-		.toc > li li li li .secno    { margin-left: -9rem; }
+		:not(li) > .toc			 { margin-left:  5rem; }
+		.toc .secno				 { margin-left: -5rem; }
+		.toc > li li li .secno	  { margin-left: -7rem; }
+		.toc > li li li li .secno	{ margin-left: -9rem; }
 		.toc > li li li li li .secno { margin-left: -11rem; }
 
 		/* Tighten up indentation in narrow ToCs */
 		@media (max-width: 30em) {
-			:not(li) > .toc              { margin-left:  4rem; }
-			.toc .secno                  { margin-left: -4rem; }
-			.toc > li li li              { margin-left:  1rem; }
-			.toc > li li li .secno       { margin-left: -5rem; }
-			.toc > li li li li .secno    { margin-left: -6rem; }
+			:not(li) > .toc			 { margin-left:  4rem; }
+			.toc .secno				 { margin-left: -4rem; }
+			.toc > li li li			 { margin-left:  1rem; }
+			.toc > li li li .secno	  { margin-left: -5rem; }
+			.toc > li li li li .secno	{ margin-left: -6rem; }
 			.toc > li li li li li .secno { margin-left: -7rem; }
 		}
 		/* Loosen it on wide screens */
 		@media screen and (min-width: 78em) {
-			body:not(.toc-inline) :not(li) > .toc              { margin-left:  4rem; }
-			body:not(.toc-inline) .toc .secno                  { margin-left: -4rem; }
-			body:not(.toc-inline) .toc > li li li              { margin-left:  1rem; }
-			body:not(.toc-inline) .toc > li li li .secno       { margin-left: -5rem; }
-			body:not(.toc-inline) .toc > li li li li .secno    { margin-left: -6rem; }
+			body:not(.toc-inline) :not(li) > .toc			 { margin-left:  4rem; }
+			body:not(.toc-inline) .toc .secno				 { margin-left: -4rem; }
+			body:not(.toc-inline) .toc > li li li			 { margin-left:  1rem; }
+			body:not(.toc-inline) .toc > li li li .secno	  { margin-left: -5rem; }
+			body:not(.toc-inline) .toc > li li li li .secno	{ margin-left: -6rem; }
 			body:not(.toc-inline) .toc > li li li li li .secno { margin-left: -7rem; }
 	}
 	/* } */
@@ -1155,7 +1223,7 @@ Possible extra rowspan handling
 		}
 		#toc > .toc > li > a > span {
 			/* The spans of the top-level list,
-			   comprising the first items of each top-level section. */
+			  comprising the first items of each top-level section. */
 			margin-top: 1.1rem;
 		}
 		#toc#toc .secno { /* Ugh, need more specificity to override base.css */
@@ -1188,12 +1256,12 @@ Possible extra rowspan handling
 /** Index *********************************************************************/
 
 	/* Index Lists: Layout */
-	ul.index       { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
-	ul.index li    { margin-left: 0; list-style: none; break-inside: avoid; }
-	ul.index li li { margin-left: 1em }
-	ul.index dl    { margin-top: 0; }
-	ul.index dt    { margin: .2em 0 .2em 20px;}
-	ul.index dd    { margin: .2em 0 .2em 40px;}
+	ul.index	  { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
+	ul.index li	{ margin-left: 0; list-style: none; break-inside: avoid; }
+	ul.index li li { margin-left: 1em; }
+	ul.index dl	{ margin-top: 0; }
+	ul.index dt	{ margin: .2em 0 .2em 20px;}
+	ul.index dd	{ margin: .2em 0 .2em 40px;}
 	/* Index Lists: Typography */
 	ul.index ul,
 	ul.index dl { font-size: smaller; }
@@ -1237,6 +1305,91 @@ Possible extra rowspan handling
 		font-weight: bold;
 	}
 
+/** Outdated warning **********************************************************/
+
+.outdated-spec {
+	color: black;
+	color: var(--outdatedspec-text);
+	background-color: rgba(0,0,0,0.5);
+	background-color: var(--outdatedspec-bg);
+}
+
+.outdated-warning {
+	position: fixed;
+	bottom: 50%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 50%;
+	background: maroon;
+	background: var(--outdated-bg);
+	color: white;
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	position: absolute;
+	top: 0;
+	right:0;
+	margin: 0;
+	border: 0;
+	padding: 0.25em 0.5em;
+	background: transparent;
+	color: white;
+	color: var(--outdated-text);
+	font:1em sans-serif;
+	text-align:center;
+}
+
+.outdated-warning span {
+	display: block;
+}
+
+.outdated-collapsed {
+	bottom: 0;
+	border-radius: 0;
+	width: 100%;
+	padding: 0;
+}
+
 /******************************************************************************/
 /*                                    Print                                   */
 /******************************************************************************/
@@ -1249,6 +1402,16 @@ Possible extra rowspan handling
 		/* Serif for print. */
 		body {
 			font-family: serif;
+		}
+
+		.outdated-warning {
+			position: absolute;
+			border-style: solid;
+			border-color: red;
+		}
+
+		.outdated-warning input {
+			display: none;
 		}
 	}
 	@page {
@@ -1268,13 +1431,13 @@ Possible extra rowspan handling
 		margin-right: auto;
 	}
 	.overlarge {
-		/* Magic to create good table positioning:
-		   "content column" is 50ems wide at max; less on smaller screens.
-		   Extra space (after ToC + content) is empty on the right.
+		/* Magic to create good item positioning:
+		  "content column" is 50ems wide at max; less on smaller screens.
+		  Extra space (after ToC + content) is empty on the right.
 
-		   1. When table < content column, centers table in column.
-		   2. When content < table < available, left-aligns.
-		   3. When table > available, fills available + scroll bar.
+		  1. When item < content column, centers item in column.
+		  2. When content < item < available, left-aligns.
+		  3. When item > available, fills available + scroll bar.
 		*/
 		display: grid;
 		grid-template-columns: minmax(0, 50em);
@@ -1309,21 +1472,21 @@ Possible extra rowspan handling
 		.overlarge {
 			overflow-x: auto;
 			/* See Lea Verou's explanation background-attachment:
-			 * http://lea.verou.me/2012/04/background-attachment-local/
-			 *
+			* http://lea.verou.me/2012/04/background-attachment-local/
+			*
 			background: top left  / 4em 100% linear-gradient(to right,  #ffffff, rgba(255, 255, 255, 0)) local,
-			            top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
-			            top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            white;
+						top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
+						top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						white;
 			background-repeat: no-repeat;
 			*/
 		}
 	}
 </style>
-  <meta content="Bikeshed version 89ebb6ab, updated Fri Oct 9 15:32:07 2020 -0700" name="generator">
+  <meta content="Bikeshed version c5172e83, updated Fri Nov 20 15:35:20 2020 -0800" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="f5a116e0d1329aabe7af31f7efcc66ff7de0476d" name="document-revision">
+  <meta content="5703024355985dc7849691fd145a7b0cd44ea2d6" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1395,17 +1558,13 @@ pre .property::before, pre .property::after {
 <style>/* style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
-html {
-    color: black;
-    color: var(--text);
-    background-color: white;
-    background-color: var(--bg);
-}
 :root {
     color-scheme: light dark;
 
     --text: black;
     --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
 
     --logo-bg: #1a5e9a;
     --logo-active-bg: #c00;
@@ -1479,6 +1638,11 @@ html {
     --warning-border: red;
     --warning-bg: hsla(40,100%,50%,0.95);
     --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
 
     --def-border: #8ccbf2;
     --def-bg: #def;
@@ -1637,7 +1801,7 @@ dfn > a.self-link::before      { content: "#"; }
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
 
-.highlight:not(.idl) { background: #fdf6e3; }
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -1697,6 +1861,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     :root {
         --text: #ddd;
         --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
 
         --logo-bg: #1a5e9a;
         --logo-active-bg: #c00;
@@ -1772,6 +1938,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         --warning-border: red;
         --warning-bg: hsla(40,100%,20%,0.95);
         --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
 
         --def-border: #8ccbf2;
         --def-bg: #080818;
@@ -1876,9 +2047,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
  <body class="h-entry">
   <div class="head">
-   <p data-fill-with="logo"></p>
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-11-04">4 November 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-01-28">28 January 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1896,7 +2067,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2020 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). <abbr title="World Wide Web Consortium">W3C</abbr> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2021 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). <abbr title="World Wide Web Consortium">W3C</abbr> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -1951,6 +2122,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#css-inherited-or-not"><span class="secno">3.2</span> <span class="content">Make appropriate choices for whether CSS properties are inherited</span></a>
       <li><a href="#css-computed-value"><span class="secno">3.3</span> <span class="content">Choose the computed value type based on how the property should inherit</span></a>
       <li><a href="#css-naming"><span class="secno">3.4</span> <span class="content">Naming of CSS properties and values</span></a>
+      <li><a href="#css-content-should-be-visible"><span class="secno">3.5</span> <span class="content">Content should be viewable and accessible by default</span></a>
      </ol>
     <li>
      <a href="#js"><span class="secno">4</span> <span class="content">JavaScript Language</span></a>
@@ -2005,7 +2177,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#other-considerations"><span class="secno">9</span> <span class="content">Other API Design Considerations</span></a>
      <ol class="toc">
       <li><a href="#polyfills"><span class="secno">9.1</span> <span class="content">Polyfills</span></a>
-      <li><a href="#extend-manifests"><span class="secno">9.2</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#new-data-formats"><span class="secno">9.2</span> <span class="content">New Data Formats</span></a>
+      <li><a href="#extend-manifests"><span class="secno">9.3</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#debuggability"><span class="secno">9.4</span> <span class="content">Features should be developer-friendly</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">10</span> <span class="content">Writing good specifications</span></a>
@@ -2030,7 +2204,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#writing-resources"><span class="secno">11.7</span> <span class="content">Other resources</span></a>
      </ol>
     <li><a href="#acks"><span class="secno"></span> <span class="content">Acknowledgments</span></a>
-    <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+    <li>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <ol class="toc">
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
+     </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
      <ol class="toc">
@@ -2176,7 +2355,7 @@ may be used to generate printed media,
 and may be interacted with in a large number of different ways.
 New features should match the existing flexibility of the Web platform.</p>
    <div class="note" role="note">
-     This doesn’t imply that features which don’t work in *every• possible context should be excluded.
+     This doesn’t imply that features which don’t work in <em>every</em> possible context should be excluded.
 For example, hyperlinks can’t be visited when printed on paper,
 and the <span class="css">click</span> event doesn’t translate perfectly to touch input devices
 where positioning and clicking the pointer occur in the same gesture (a "tap"). 
@@ -2411,10 +2590,10 @@ and which should be separate properties
 based on what makes sense to set independently.</p>
    <p><a href="https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#cascade">CSS cascading</a> allows <a href="https://www.w3.org/TR/2011/REC-CSS2-20110607/syndata.html#declaration">declarations</a> from different rules or different style sheets
 to override one another.
-If there is a logical set of attributes which should all be overridden together,
-they should be grouped together in a single property so that they cascade together.
-Likewise, if there are attributes which should be able to be overridden independently,
-they should be separate properties.</p>
+A set of values that should all be overridden together
+should be grouped together in a single property so that they cascade together.
+Likewise, values that should be able to be overridden independently
+should be separate properties.</p>
    <div class="example" id="example-e15a5479">
     <a class="self-link" href="#example-e15a5479"></a>For example, the "size" and "sink" aspects of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-inline-3/#propdef-initial-letter" id="ref-for-propdef-initial-letter">initial-letter</a> property
 belong in a single property
@@ -2426,17 +2605,17 @@ which is a general stylistic choice
 and a function of the script (e.g., Latin, Cyrillic, Arabic) used in the document.</p>
    </div>
    <h3 class="heading settled" data-level="3.2" id="css-inherited-or-not"><span class="secno">3.2. </span><span class="content">Make appropriate choices for whether CSS properties are inherited</span><a class="self-link" href="#css-inherited-or-not"></a></h3>
-   <p>Decide whether a property should be <a href="https://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html#inheritance">inherited</a> based on whether the effect of the property should be overridden or added to
+   <p>Decide whether a property should be <a href="https://drafts.csswg.org/css-cascade-3/#inherited-property">inherited</a> based on whether the effect of the property should be overridden or added to
 if set on an ancestor as well as a descendant.</p>
    <p>If setting the property on a descendant element needs to override (rather than add to)
 the effect of setting it on an ancestor,
-then the property should probably be inherited.
-A specification of an non-inherited property requiring that the handling of an element
-look at the value of that property on its ancestors (which may also be slow)
-is a "code smell" that suggests that the property likely should have been inherited.</p>
+then the property should probably be inherited.</p>
    <p>If setting the property on a descendant element is a separate effect
 that adds to setting it on an ancestor,
-then the property should probably <strong>not</strong> be inherited.
+then the property should probably <strong>not</strong> be inherited.</p>
+   <p>A specification of an non-inherited property requiring that the handling of an element
+look at the value of that property on its ancestors (which may also be slow)
+is a "code smell" that suggests that the property likely should have been inherited.
 A specification of an inherited property requiring that the handling of an element
 ignore the value of a property if it’s the same as the value on the parent element
 is a "code smell" that suggests that the property likely should not have been inherited.</p>
@@ -2474,28 +2653,27 @@ that a property likely should have been inherited.</p>
    <h3 class="heading settled" data-level="3.3" id="css-computed-value"><span class="secno">3.3. </span><span class="content">Choose the computed value type based on how the property should inherit</span><a class="self-link" href="#css-computed-value"></a></h3>
    <p>Choose the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value">computed value</a> of a CSS property
 based on how it will <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#inheritance" id="ref-for-inheritance">inherit</a>,
-and the other properties which may depend on it,
-whether or not it has been inherited.</p>
+including how values where it depends on other properties should inherit.</p>
+   <p>Inheritance means that
+an element gets the same computed value for a property that its parent has.
+This means that processing steps that happen before reaching the computed value
+affect the value that is inherited,
+and those that happen after (such as for the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value">used value</a>) do not.</p>
    <div class="note" role="note"> Note: the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①">computed value</a> should not be confused with the <a data-link-type="dfn" href="https://drafts.csswg.org/cssom-1/#resolved-value" id="ref-for-resolved-value">resolved value</a> which is returned from the <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle">getComputedStyle()</a></code> method. </div>
-   <p>Certain CSS properties are calculated with <a href="https://wiki.csswg.org/spec/property-dependencies">dependencies</a> on others:
-for example, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed value</a> of a property specified in <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-values-4/#lh" id="ref-for-lh">lh</a> units
-depends on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property which applies to the element being considered.
-The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value③">computed value</a> for a property should be chosen
-so that the dependent values make sense,
-regardless of whether they are inherited.</p>
-   <div class="example" id="example-05827ee2">
-    <a class="self-link" href="#example-05827ee2"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height①">line-height</a> property may accept a <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a> value,
-such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height②">line-height: 1.4</a>.
+   <div class="example" id="example-bdfc8e34">
+    <a class="self-link" href="#example-bdfc8e34"></a> For example, the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property may accept a <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a> value,
+such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height①">line-height: 1.4</a>.
 This value represents a multiple of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size③">font-size</a>,
 so if the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size④">font-size</a> is <span class="css">20px</span>,
 the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#actual-value" id="ref-for-actual-value">actual value</a> for the line height is <span class="css">28px</span>. 
-    <p>However, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value④">computed value</a> in this case is the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value①">&lt;number></a> <span class="css">1.4</span>,
-not the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <span class="css">28px</span>.</p>
-    <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height③">line-height</a> property can be inherited
+    <p>However, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed value</a> in this case is the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value①">&lt;number></a> <span class="css">1.4</span>,
+not the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <span class="css">28px</span>.
+(The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value①">used value</a> is <span class="css">28px</span>.)</p>
+    <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height②">line-height</a> property can be inherited
 into elements that have a different <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑤">font-size</a>,
-and any property on those elements which depends on <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height④">line-height</a> must take the relevant <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑥">font-size</a> into account,
+and any property on those elements which depends on <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height③">line-height</a> must take the relevant <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑥">font-size</a> into account,
 rather than the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size⑦">font-size</a> for the element from which
-the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height⑤">line-height</a> value was inherited.</p>
+the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height④">line-height</a> value was inherited.</p>
 <pre class="highlight"><c- p>&lt;</c-><c- f>body</c-> <c- e>style</c-><c- o>=</c-><c- s>"font-size: 20px; line-height: 1.4"</c-><c- p>></c->
 
   <c- p>&lt;</c-><c- f>p</c-><c- p>></c->This body text has a line height of 28px.<c- p>&lt;/</c-><c- f>p</c-><c- p>></c->
@@ -2507,7 +2685,7 @@ the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org
   <c- p>&lt;/</c-><c- f>h2</c-><c- p>></c->
 <c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
 </pre>
-    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height⑥">line-height</a> because they inherit better than length values.</p>
+    <p>These number values are generally the preferred values to use for <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height⑤">line-height</a> because they inherit better than length values.</p>
    </div>
    <p>See also:</p>
    <ul>
@@ -2529,6 +2707,14 @@ or things with more complex names that are basically equivalent to them.</p>
    <p>Avoid words like "mode" or "state" in the names of properties,
 since properties are generally setting a mode or state.</p>
    <p>See <a href="#naming-is-hard">§ 11 Naming principles</a> for general (cross-language) advice on naming.</p>
+   <h3 class="heading settled" data-level="3.5" id="css-content-should-be-visible"><span class="secno">3.5. </span><span class="content">Content should be viewable and accessible by default</span><a class="self-link" href="#css-content-should-be-visible"></a></h3>
+   <p>Design CSS properties or CSS layout systems (which are typically values of the <code>display</code> property),
+to preserve the content as viewable, accessible and usable by default.</p>
+   <div class="example" id="example-c09bf2e2"><a class="self-link" href="#example-c09bf2e2"></a> For example, the default behavior of all layout systems in CSS will not lead to content being clipped, 
+content overlapping other content, or content being unreachable by scrolling. 
+These things should only happen if CSS features are used that are more explicitly choosing 
+such a behavior (for example, <code>overflow: hidden</code> or <code>left: -40em</code>). They should not happen by 
+default as a result of something like <code>display: flex</code> or <code>position: relative</code>. </div>
    <h2 class="heading settled" data-level="4" id="js"><span class="secno">4. </span><span class="content">JavaScript Language</span><a class="self-link" href="#js"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="js-only"><span class="secno">4.1. </span><span class="content">Web APIs are for JavaScript</span><a class="self-link" href="#js-only"></a></h3>
    <p>When designing imperative APIs for the Web,
@@ -3069,7 +3255,7 @@ through its well-defined transitions.</p>
        <p>These state transitions often use the guarding technique themselves,
  to ensure the state transitions happen appropriately.</p>
        <p>For example, in <a data-link-type="biblio" href="#biblio-payment-request">[payment-request]</a> note the guards used around the <a data-link-type="dfn" href="https://www.w3.org/TR/payment-request/#dfn-state" id="ref-for-dfn-state①">[[state]]</a> internal slot,
- such as in the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete" id="ref-for-dom-merchantvalidationevent-complete">complete()</a></code> algorithm.</p>
+ such as in the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show">show()</a></code> algorithm.</p>
      </ul>
     <li data-md>
      <p>if the deferred event doesn’t need extra state,
@@ -3212,7 +3398,7 @@ observer<c- p>.</c->observe<c- p>(</c->ad<c- p>);</c->
      <p>Instances can be customized at observation time, or at creation time.
 The constructor for an <code>Observer</code>,
 or its <code>observe()</code> method,
-can take options allowing authors to customize what is observered for each callback.
+can take options allowing authors to customize what is observed for each callback.
 This isn’t possible with <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener②">addEventListener()</a></code>.</p>
     <li data-md>
      <p>It’s easy to stop listening on multiple callbacks using the <code>disconnect()</code> or <code>unobserve()</code> method on the <code>Observer</code> object.</p>
@@ -3599,7 +3785,28 @@ The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfi
     <li data-md>
      <p>Polyfill development should be encouraged</p>
    </ul>
-   <h3 class="heading settled" data-level="9.2" id="extend-manifests"><span class="secno">9.2. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="9.2" id="new-data-formats"><span class="secno">9.2. </span><span class="content">New Data Formats</span><a class="self-link" href="#new-data-formats"></a></h3>
+   <p>Always define a corresponding MIME type and extend existing APIs to support this type
+for any new data format.</p>
+   <p>There are cases when a new capability on the web involves adding a new data format.
+This can be an image, video, audio, or any other type of data that a browser is expected
+to ingest. New formats should have a standardized MIME type, which is strictly validated.</p>
+   <p>While legacy media formats do not always have strict enforcement for MIME types (and
+sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
+compatibility reasons and should not be expected or implemented for new formats.</p>
+   <p>It is expected that spec authors also integrate the new format to existing APIs, so that
+they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
+(e.g. encoding to a WriteableStream) points from a browser’s perspective.</p>
+   <p>For example. if you are to add an image format to the web platform, first add a new MIME
+type for the format. After this, you would naturally add a decoder (and presumably an
+encoder) for said image format to support decoding in HTMLImageElements. On top of this,
+you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
+and HTMLCanvasElement.toDataURL().</p>
+   <p>For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
+the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
+due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
+   <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
+   <h3 class="heading settled" data-level="9.3" id="extend-manifests"><span class="secno">9.3. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -3655,6 +3862,22 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
+   <h3 class="heading settled" data-level="9.4" id="debuggability"><span class="secno">9.4. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <p>Any new feature should be developer-friendly.
+While it is hard to quantify friendliness, at least consider the following points.</p>
+   <p>While error text in exceptions should be generic,
+developer-oriented error messages (such as those from a developer console) must be meaningful.
+When a developer encounters an error,
+the message should be specific to that error case,
+and not overly generic.</p>
+   <p>Ideally, developer-oriented error messages should have enough information
+to guide the developer in pinpointing where the problem is.</p>
+   <p>Declarative features such as CSS,
+may require extra work in the implementation for debuggability.
+Defining this in the specification not only makes the feature more developer-friendly,
+it also ensures a consistent development experience for the users.</p>
+   <p>A good example where debuggability was defined as
+part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
    <h2 class="heading settled" data-level="10" id="spec-writing"><span class="secno">10. </span><span class="content">Writing good specifications</span><a class="self-link" href="#spec-writing"></a></h2>
    <p>This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
@@ -3807,6 +4030,8 @@ things that your API works with or manipulates.</p>
     <li data-md>
      <p>Look at other web platform specifications,
 and seek advice from others working in related areas of the platform.</p>
+    <li data-md>
+     <p>Also, consult if the names used are inclusive.</p>
    </ul>
    <p>Pay particular attention to advice you receive
 with clearly-stated rationale based on underlying principles.</p>
@@ -3816,7 +4041,7 @@ with clearly-stated rationale based on underlying principles.</p>
 The editors of the <a href="https://url.spec.whatwg.org">URL spec</a> have relied on this research
 when editing that document. <a data-link-type="biblio" href="#biblio-url">[URL]</a></p>
    </div>
-   <h4 class="no-num no-toc heading settled" id="naming-web-considtency"><span class="content">Use Web consistent names</span><a class="self-link" href="#naming-web-considtency"></a></h4>
+   <h4 class="no-num no-toc heading settled" id="naming-web-consistency"><span class="content">Use Web consistent names</span><a class="self-link" href="#naming-web-consistency"></a></h4>
     When choosing a name for feature or API that has exposure in other technology stacks,
 the preference should be towards the Web ecosystem naming convention rather than other
 communities. 
@@ -3826,6 +4051,17 @@ communities.
 In such cases, the naming of features or API for the purposes of Web NFC must prefer
 naming consistent with <code>MIME type</code>.</p>
    </div>
+   <h4 class="no-num no-toc heading settled" id="naming-inclusive"><span class="content">Use Inclusive Language</span><a class="self-link" href="#naming-inclusive"></a></h4>
+   <p>Use inclusive language whenever possible.</p>
+   <p>For example,
+you should use blocklist and allowlist
+instead of blacklist and whitelist,
+and source and replica
+instead of master and slave.</p>
+   <p>If you need to refer to a generic persona,
+such as an author or user, 
+use the generic pronoun "they", "their", etc.
+For example, "A user may wish to adjust their preferences".</p>
    <h3 class="heading settled" data-level="11.4" id="naming-future-proofing"><span class="secno">11.4. </span><span class="content">Future-proofing</span><a class="self-link" href="#naming-future-proofing"></a></h3>
    <p>Naming should be generic and future-proof whenever possible.</p>
    <p>The name should not be directly associated with a brand or specific revision of
@@ -4028,151 +4264,47 @@ please let the editors know
 so they can correct this omission.</p>
   </main>
   <div data-fill-with="conformance">
-   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-   <p> Conformance requirements are expressed with a combination of descriptive assertions and RFC 2119 terminology.
-            The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
-            in the normative parts of this document
-            are to be interpreted as described in RFC 2119.
-            However, for readability,
-            these words do not appear in all uppercase letters in this specification. </p>
-   <p> All of the text of this specification is normative
-            except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
-   <p> Examples in this specification are introduced with the words “for example”
-            or are set apart from the normative text with <code>class="example"</code>, like this: </p>
-   <div class="example" id="example-example"><a class="self-link" href="#example-example"></a> This is an example of an informative example. </div>
-   <p> Informative notes begin with the word “Note”
-            and are set apart from the normative text with <code>class="note"</code>, like this: </p>
-   <p class="note" role="note"> Note, this is an informative note. </p>
+   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <p>Conformance requirements are expressed
+    with a combination of descriptive assertions
+    and RFC 2119 terminology.
+    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+    in the normative parts of this document
+    are to be interpreted as described in RFC 2119.
+    However, for readability,
+    these words do not appear in all uppercase letters in this specification. </p>
+   <p>All of the text of this specification is normative
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+   <p>Examples in this specification are introduced with the words “for example”
+    or are set apart from the normative text
+    with <code>class="example"</code>,
+    like this: </p>
+   <div class="example" id="w3c-example">
+    <a class="self-link" href="#w3c-example"></a> 
+    <p>This is an example of an informative example. </p>
+   </div>
+   <p>Informative notes begin with the word “Note”
+    and are set apart from the normative text
+    with <code>class="note"</code>,
+    like this: </p>
+   <p class="note" role="note">Note, this is an informative note. </p>
+   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
+   <p>Requirements phrased in the imperative as part of algorithms
+    (such as "strip any leading space characters"
+    or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word
+    ("must", "should", "may", etc)
+    used in introducing the algorithm. </p>
+   <p>Conformance requirements phrased as algorithms or specific steps
+    can be implemented in any manner,
+    so long as the end result is equivalent.
+    In particular, the algorithms defined in this specification
+    are intended to be easy to understand
+    and are not intended to be performant.
+    Implementers are encouraged to optimize. </p>
   </div>
-<script>
-(function() {
-  "use strict";
-  var collapseSidebarText = '<span aria-hidden="true">←</span> '
-                          + '<span>Collapse Sidebar</span>';
-  var expandSidebarText   = '<span aria-hidden="true">→</span> '
-                          + '<span>Pop Out Sidebar</span>';
-  var tocJumpText         = '<span aria-hidden="true">↑</span> '
-                          + '<span>Jump to Table of Contents</span>';
-
-  var sidebarMedia = window.matchMedia('screen and (min-width: 78em)');
-  var autoToggle   = function(e){ toggleSidebar(e.matches) };
-  if(sidebarMedia.addListener) {
-    sidebarMedia.addListener(autoToggle);
-  }
-
-  function toggleSidebar(on) {
-    if (on == undefined) {
-      on = !document.body.classList.contains('toc-sidebar');
-    }
-
-    /* Don’t scroll to compensate for the ToC if we’re above it already. */
-    var headY = 0;
-    var head = document.querySelector('.head');
-    if (head) {
-      // terrible approx of "top of ToC"
-      headY += head.offsetTop + head.offsetHeight;
-    }
-    var skipScroll = window.scrollY < headY;
-
-    var toggle = document.getElementById('toc-toggle');
-    var tocNav = document.getElementById('toc');
-    if (on) {
-      var tocHeight = tocNav.offsetHeight;
-      document.body.classList.add('toc-sidebar');
-      document.body.classList.remove('toc-inline');
-      toggle.innerHTML = collapseSidebarText;
-      if (!skipScroll) {
-        window.scrollBy(0, 0 - tocHeight);
-      }
-      tocNav.focus();
-      sidebarMedia.addListener(autoToggle); // auto-collapse when out of room
-    }
-    else {
-      document.body.classList.add('toc-inline');
-      document.body.classList.remove('toc-sidebar');
-      toggle.innerHTML = expandSidebarText;
-      if (!skipScroll) {
-        window.scrollBy(0, tocNav.offsetHeight);
-      }
-      if (toggle.matches(':hover')) {
-        /* Unfocus button when not using keyboard navigation,
-           because I don’t know where else to send the focus. */
-        toggle.blur();
-      }
-    }
-  }
-
-  function createSidebarToggle() {
-    /* Create the sidebar toggle in JS; it shouldn’t exist when JS is off. */
-    var toggle = document.createElement('a');
-      /* This should probably be a button, but appearance isn’t standards-track.*/
-    toggle.id = 'toc-toggle';
-    toggle.class = 'toc-toggle';
-    toggle.href = '#toc';
-    toggle.innerHTML = collapseSidebarText;
-
-    sidebarMedia.addListener(autoToggle);
-    var toggler = function(e) {
-      e.preventDefault();
-      sidebarMedia.removeListener(autoToggle); // persist explicit off states
-      toggleSidebar();
-      return false;
-    }
-    toggle.addEventListener('click', toggler, false);
-
-
-    /* Get <nav id=toc-nav>, or make it if we don’t have one. */
-    var tocNav = document.getElementById('toc-nav');
-    if (!tocNav) {
-      tocNav = document.createElement('p');
-      tocNav.id = 'toc-nav';
-      /* Prepend for better keyboard navigation */
-      document.body.insertBefore(tocNav, document.body.firstChild);
-    }
-    /* While we’re at it, make sure we have a Jump to Toc link. */
-    var tocJump = document.getElementById('toc-jump');
-    if (!tocJump) {
-      tocJump = document.createElement('a');
-      tocJump.id = 'toc-jump';
-      tocJump.href = '#toc';
-      tocJump.innerHTML = tocJumpText;
-      tocNav.appendChild(tocJump);
-    }
-
-    tocNav.appendChild(toggle);
-  }
-
-  var toc = document.getElementById('toc');
-  if (toc) {
-    createSidebarToggle();
-    toggleSidebar(sidebarMedia.matches);
-
-    /* If the sidebar has been manually opened and is currently overlaying the text
-       (window too small for the MQ to add the margin to body),
-       then auto-close the sidebar once you click on something in there. */
-    toc.addEventListener('click', function(e) {
-      if(e.target.tagName.toLowerCase() == "a" && document.body.classList.contains('toc-sidebar') && !sidebarMedia.matches) {
-        toggleSidebar(false);
-      }
-    }, false);
-  }
-  else {
-    console.warn("Can’t find Table of Contents. Please use <nav id='toc'> around the ToC.");
-  }
-
-  /* Wrap tables in case they overflow */
-  var tables = document.querySelectorAll(':not(.overlarge) > table.data, :not(.overlarge) > table.index');
-  var numTables = tables.length;
-  for (var i = 0; i < numTables; i++) {
-    var table = tables[i];
-    var wrapper = document.createElement('div');
-    wrapper.className = 'overlarge';
-    table.parentNode.insertBefore(wrapper, table);
-    wrapper.appendChild(table);
-  }
-
-})();
-</script>
+<script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -4194,13 +4326,19 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-computed-value">
    <a href="https://drafts.csswg.org/css-cascade-5/#computed-value">https://drafts.csswg.org/css-cascade-5/#computed-value</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-computed-value">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-computed-value①">(2)</a> <a href="#ref-for-computed-value②">(3)</a> <a href="#ref-for-computed-value③">(4)</a> <a href="#ref-for-computed-value④">(5)</a>
+    <li><a href="#ref-for-computed-value">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-computed-value①">(2)</a> <a href="#ref-for-computed-value②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-inheritance">
    <a href="https://drafts.csswg.org/css-cascade-5/#inheritance">https://drafts.csswg.org/css-cascade-5/#inheritance</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-inheritance">3.3. Choose the computed value type based on how the property should inherit</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-used-value">
+   <a href="https://drafts.csswg.org/css-cascade-5/#used-value">https://drafts.csswg.org/css-cascade-5/#used-value</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-used-value">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-used-value①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-at-ruledef-supports">
@@ -4240,16 +4378,10 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-number-value">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-number-value①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-lh">
-   <a href="https://drafts.csswg.org/css-values-4/#lh">https://drafts.csswg.org/css-values-4/#lh</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-lh">3.3. Choose the computed value type based on how the property should inherit</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-line-height">
    <a href="https://drafts.csswg.org/css2/#propdef-line-height">https://drafts.csswg.org/css2/#propdef-line-height</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-propdef-line-height">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-propdef-line-height①">(2)</a> <a href="#ref-for-propdef-line-height②">(3)</a> <a href="#ref-for-propdef-line-height③">(4)</a> <a href="#ref-for-propdef-line-height④">(5)</a> <a href="#ref-for-propdef-line-height⑤">(6)</a> <a href="#ref-for-propdef-line-height⑥">(7)</a>
+    <li><a href="#ref-for-propdef-line-height">3.3. Choose the computed value type based on how the property should inherit</a> <a href="#ref-for-propdef-line-height①">(2)</a> <a href="#ref-for-propdef-line-height②">(3)</a> <a href="#ref-for-propdef-line-height③">(4)</a> <a href="#ref-for-propdef-line-height④">(5)</a> <a href="#ref-for-propdef-line-height⑤">(6)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-window-getcomputedstyle">
@@ -4619,10 +4751,10 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dfn-state">6.6. Guard against potential recursion</a> <a href="#ref-for-dfn-state①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-merchantvalidationevent-complete">
-   <a href="https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete">https://www.w3.org/TR/payment-request/#dom-merchantvalidationevent-complete</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-paymentrequest-show">
+   <a href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show">https://www.w3.org/TR/payment-request/#dom-paymentrequest-show</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-merchantvalidationevent-complete">6.6. Guard against potential recursion</a>
+    <li><a href="#ref-for-dom-paymentrequest-show">6.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-remoteplayback-interface">
@@ -4789,6 +4921,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-actual-value">actual value</span>
      <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
      <li><span class="dfn-paneled" id="term-for-inheritance">inherit</span>
+     <li><span class="dfn-paneled" id="term-for-used-value">used value</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-conditional-3]</a> defines the following terms:
@@ -4813,12 +4946,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-lh">lh</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[CSS2]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS21]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-propdef-line-height">line-height</span>
     </ul>
@@ -4920,7 +5048,7 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-paymentrequest">PaymentRequest</span>
      <li><span class="dfn-paneled" id="term-for-dfn-state">[[state]]</span>
-     <li><span class="dfn-paneled" id="term-for-dom-merchantvalidationevent-complete">complete()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest-show">show()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[REMOTE-PLAYBACK]</a> defines the following terms:
@@ -4972,13 +5100,9 @@ so they can correct this omission.</p>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-cascade-5">[CSS-CASCADE-5]
-   <dd>CSS Cascading and Inheritance Level 5 URL: <a href="https://drafts.csswg.org/css-cascade-5/">https://drafts.csswg.org/css-cascade-5/</a>
+   <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://drafts.csswg.org/css-cascade/">CSS Cascading and Inheritance Level 5</a>. URL: <a href="https://drafts.csswg.org/css-cascade/">https://drafts.csswg.org/css-cascade/</a>
    <dt id="biblio-css-conditional-3">[CSS-CONDITIONAL-3]
-   <dd>CSS Conditional Rules Module Level 3 URL: <a href="https://drafts.csswg.org/css-conditional-3/">https://drafts.csswg.org/css-conditional-3/</a>
-   <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/">CSS Values and Units Module Level 4</a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
-   <dt id="biblio-css2">[CSS2]
-   <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
+   <dd>David Baron; Elika Etemad; Chris Lilley. <a href="https://drafts.csswg.org/css-conditional-3/">CSS Conditional Rules Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-conditional-3/">https://drafts.csswg.org/css-conditional-3/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
@@ -5014,6 +5138,8 @@ so they can correct this omission.</p>
    <dd>Dave Cramer; Elika Etemad; Steve Zilles. <a href="https://drafts.csswg.org/css-inline-3/">CSS Inline Layout Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-3/">CSS Values and Units Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-values-3/">https://drafts.csswg.org/css-values-3/</a>
+   <dt id="biblio-css21">[CSS21]
+   <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
    <dd>Simon Pieters; Glenn Adams. <a href="https://drafts.csswg.org/cssom/">CSS Object Model (CSSOM)</a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
    <dt id="biblio-cssom-view-1">[CSSOM-VIEW-1]
