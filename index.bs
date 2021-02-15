@@ -2017,7 +2017,7 @@ New MIME types should have a specification and should be registered with the Int
 
 If you really need to define a new HTTP header, it is important that its syntax does not go against [the HTTP specification](https://tools.ietf.org/html/rfc7230#section-3.2).
 
-For more than basic values; If the new header must convey structured data, like lists or dictionnaries, typed values
+For more than basic values; If the new header must convey structured data, like lists or dictionaries, typed values
 like decimals, strings, booleans, then it is recommended to use the syntax defined in [Structured Field Values for HTTP](https://tools.ietf.org/html/rfc8941), to avoid having to write and maintain specific micro-parsers, or even worse
 something that would break those existing parsers. [[RFC8941]]
 
