@@ -1988,7 +1988,7 @@ If the events are deferred instead:
     * These state transitions often use the guarding technique themselves,
          to ensure the state transitions happen appropriately.
 
-         For example, in [[payment-request]]
+         For example, in [[PAYMENT-REQUEST]]
          note the guards used around the [=[[state]]=] internal slot,
          such as in the {{PaymentRequest/show()}} algorithm.
 * if the deferred event doesn't need extra state,
@@ -2480,7 +2480,7 @@ This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
 
-<div class=example>
+<div class=example id=remoteplayback>
 The {{RemotePlayback}} interface
 doesn't expose a list of available [=remote playback devices=].
 Instead, it allows the user to choose one device
@@ -2975,6 +2975,139 @@ Modularization is considered a good practice.
 
 It's also usually ok to extend a specification using WebIDL's [=partial interfaces=], [=partial dictionaries=], and so on.
 But even in those cases, it's highly advisable to coordinate with the authors of the specification being extended.
+
+<h3 id="implementability">Resolving tension between interoperability and implementability</h3>
+
+<!--
+See "How do we balance concerns between interoperability and implementability?"
+https://github.com/w3ctag/design-principles/issues/142
+  -->
+
+Specifying a feature,
+like all engineering work,
+requires weighing tradeoffs
+and compromising.
+
+Sometimes,
+despite the best efforts of all involved,
+we fail to find a way
+to interoperably specify a feature
+that every implementor agrees
+is implementable in their engine.
+This is a failure of the standards process.
+
+There are many possibile next steps when this happens.
+Choosing a way forward should be guided by
+[what is best for the end user](#priority-of-constituencies).
+
+First,
+examine the nature of the implementability concerns.
+Perhaps the implementor identified potential end-user harm
+and decided that the feature should not be implemented.
+In this situation,
+it may be best to not specify the feature,
+and for any implementors who have shipped the feature
+to un-ship it.
+Un-shipping features may result in user and author
+confusion.
+
+<div class=example id=sharedarraybuffer>
+
+When the Spectre attack was discovered,
+{{SharedArrayBuffer}} was unshipped in every implementation
+because it can be used to create a high-precision timer
+that could be used for a Spectre attack.
+
+</div>
+
+Sometimes the same API is implementable in every engine,
+but its behavior cannot be made to be fully interoperable.
+Whenever behavior differs between implementations,
+the end-user impact must be considered.
+Depending on the severity and frequency of the behavior differences,
+this may or may not be an acceptable outcome.
+One downside to this approach
+is that the difference in behavior is not [feature detectable](#feature-detect).
+On the other hand,
+if something changes in the future
+that enables all implementations to converge on the same behavior,
+sites will not need to be updated
+to take advantage of this.
+
+Note: Authors may assume the behavior of the dominant implemnentation is correct
+and any other behavior is buggy,
+which may further entrench the dominant implementaiton.
+
+<div class=example id=unknown1>
+
+The 'backdrop-filter' property is known to have a number of visible
+behavior differences between implementations.
+At the present time,
+those working on it believe
+the benefits of sharing an API
+outweigh the interoperability costs of the differences.
+
+</div>
+
+If the behavior differences are serious enough,
+it may be preferable to specify different APIs.
+
+In this scenario,
+each implementor goes with the alternative
+that they are able to implement.
+If implementations are eventually able to converge on the same behavior,
+both APIs may need to be supported indefinitely,
+which can increase implementation maintenance costs.
+
+Exposing two different APIs
+that are intended to address the same use cases
+can be confusing to authors.
+Authors can use [feature detection](#feature-detect)
+to write different code for different browsers.
+
+Note: There is a risk that authors may assume
+the API variant supported by the dominant implementation
+is the "correct" one,
+or they may simply be unaware of the API variants supported
+in implementations they do not use regularly,
+which may further entrench the dominant implementaiton.
+
+If you do go this route,
+try to reduce the cost to authors
+by minimizing the differences between the APIs.
+It may be possible to design things
+such that the non-standard part
+is a small, isolated component
+of a larger, standardized framework.
+
+<div class=example id=eme-and-payment-request>
+
+[[ENCRYPTED-MEDIA]] and [[PAYMENT-REQUEST]] are both examples of specifications
+which minimize API differences by isolating a non-standard component
+([=Content Decryption Modules=] and [=payment methods=], respectively)
+from the rest of the (shared) API surface.
+
+</div>
+
+It is also possible to specify an API that not all browsers will implement.
+Authors may use feature detection to only use the API it is implemented,
+and users may benefit where the feature is supported and used.
+This is always a problematic outcome,
+though how severe the problem is may depend somewhat on
+the number and market share of the implementations willing or unwilling
+to implement the feature.
+
+Note: This is worst when there is only one willing implementor.
+Some standards venues have rules
+explicitly disallowing the standardization of features
+which only have a single interested implementor.
+Even if you are not operating in such a group,
+standardization of single-implementation features is strongly discouraged.
+
+You may also find that none of these options is acceptable to your group.
+While the best path forward may be to choose not to specify the feature,
+there is the risk that some implementations
+may ship the feature as a nonstandard API.
 
 <h2 id="naming-is-hard">Naming principles</h2>
 
