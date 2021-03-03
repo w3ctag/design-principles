@@ -3034,7 +3034,7 @@ that enables all implementations to converge on the same behavior,
 sites will not need to be updated
 to take advantage of this.
 
-Note: Authors may assume the behavior of the dominant implemnentation is correct
+Note: Authors may assume the behavior of the dominant implementation is correct
 and any other behavior is buggy,
 which may further entrench the dominant implementaiton.
 
