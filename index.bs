@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -69,6 +69,12 @@ urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
 </style>
 
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
+
+The Design Principles are directly informed by the ethical framework
+set out in the Ethical Web Principles [[ETHICAL-WEB]].
+These principles provide concrete practical advice
+in response to the higher level ethical responsibilities
+that come with developing the web platform.
 
 <h3 id="priority-of-constituencies">Put user needs first (Priority of Constituencies)</h3>
 
