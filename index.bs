@@ -2428,14 +2428,14 @@ design, the following rules have emerged:
     <tr>
         <th>Events</th>
         <td>Lowercase, concatenated</td>
-        <td><code>autocompleteerror}}<br>
-            <code>languagechange}}</td>
+        <td><code>{{autocompleteerror}}<br>
+            <code>{{languagechange}}</td>
     </tr>
     <tr>
         <th>HTML elements and attributes</th>
         <td>Lowercase, concatenated</td>
         <td><{figcaption}><br>
-            <{textarea maxlength}></td>
+            <{textarea/maxlength}></td>
     </tr>
     <tr>
         <th>JSON keys</th>
