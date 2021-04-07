@@ -299,7 +299,7 @@ is not adequate for the use case at hand.
 
 Whenever possible, design high level APIs in terms of
 building blocks over lower level APIs.
-Note that it may not be possible to expose the lower level building blocks.
+Note that it isn't always possible to expose the lower level building blocks as API themselves.
 That may guide decisions on how high level the API needs to be.
 
 A well-layered solution should ensure continuity
