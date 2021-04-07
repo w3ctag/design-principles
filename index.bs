@@ -292,7 +292,7 @@ a general Font Enumeration API.
 </div>
 
 Low-level APIs afford authors room for experimentation
-so that what the high level APIs can organically emerge
+so that high level APIs can organically emerge
 from usage patterns over time.
 They also provide an escape hatch when the higher-level API
 is not adequate for the use case at hand.
