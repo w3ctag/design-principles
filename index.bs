@@ -297,10 +297,6 @@ from usage patterns over time.
 They also provide an escape hatch when the higher-level API
 is not adequate for the use case at hand.
 
-Whenever possible, design high level APIs in terms of
-building blocks over lower level APIs.
-Note that it isn't always possible to expose the lower level building blocks as API themselves.
-
 Lower level building blocks cannot always be exposed as Web APIs.
 A few possible reasons for this are
 to preserve the user's security and privacy,
