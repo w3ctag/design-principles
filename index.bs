@@ -300,7 +300,15 @@ is not adequate for the use case at hand.
 Whenever possible, design high level APIs in terms of
 building blocks over lower level APIs.
 Note that it isn't always possible to expose the lower level building blocks as API themselves.
-That may guide decisions on how high level the API needs to be.
+
+Lower level building blocks cannot always be exposed as Web APIs.
+A few possible reasons for this are
+to preserve the user's security and privacy,
+or to avoid tying Web APIs to specific hardware implementations.
+However, high level APIs should be designed in terms of
+building blocks over lower level APIs
+whenever possible.
+This may guide decisions on how high level the API needs to be.
 
 A well-layered solution should ensure continuity
 of the ease-of-use vs power tradeoff curve
