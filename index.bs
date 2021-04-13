@@ -2196,7 +2196,7 @@ When using extra constructs like these,
 the earlier advice still applies.
 
 As much as possible,
-describe algorithms as closely as possible to how they would be implmented.
+describe algorithms as closely as possible to how they would be implemented.
 This may make the spec harder to write,
 but it means that implementations don't need to figure out
 how to translate what's written in the specification
