@@ -265,11 +265,18 @@ although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand.
+If you expect authors will use your feature often,
+it's especially important to make it easy to use.
 
 Make sure that your <a href="#priority-of-constituencies">user needs</a>
 are well-defined.
 This allows you to avoid scope creep,
 and make sure that your API does actually meet the needs of all users.
+Of course,
+complex or rare use cases are also worth solving,
+though their solutions may be more complicated to use.
+As Alan Kay said,
+"simple things should be simple, complex things should be possible."
 
 See also:
 
