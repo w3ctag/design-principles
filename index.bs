@@ -2446,7 +2446,7 @@ design, the following rules have emerged:
     <tr>
         <th>JSON keys</th>
         <td>Lowercase, underscore-delimited</td>
-        <td>{{WebAppManifest/short_name}}</td>
+        <td>[=manifest/short_name=]</td>
     </tr>
 </table>
 
