@@ -2428,7 +2428,7 @@ design, the following rules have emerged:
     <tr>
         <th>Events</th>
         <td>Lowercase, concatenated</td>
-        <td><code>{{autocompleteerror}}<br>
+        <td><code>{{canplaythrough}}<br>
             <code>{{languagechange}}</td>
     </tr>
     <tr>
