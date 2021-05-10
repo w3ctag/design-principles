@@ -368,8 +368,8 @@
 /** Subheadings ***************************************************************/
 
 	h1 + h2,
-	#subtitle {
-		/* #subtitle is a subtitle in an H2 under the H1 */
+	#profile-and-date {
+		/* #profile-and-date is a subtitle in an H2 under the H1 */
 		margin-top: 0;
 	}
 	h2 + h3,
@@ -583,34 +583,28 @@
 	a[href] {
 		color: #034575;
 		color: var(--a-normal-text);
-		text-decoration: none;
-		border-bottom: 1px solid #707070;
-		border-bottom: 1px solid var(--a-normal-underline);
-		/* Need a bit of extending for it to look okay */
-		padding: 0 1px 0;
-		margin: 0 -1px 0;
+		text-decoration: underline #707070;
+		text-decoration: underline var(--a-normal-underline);
+		text-decoration-skip-ink: none;
 	}
 	a:visited {
 		color: #034575;
 		color: var(--a-visited-text);
-		border-bottom-color: #bbb;
-		border-bottom-color: var(--a-visited-underline);
+		text-decoration-color: #bbb;
+		text-decoration-color: var(--a-visited-underline);
 	}
 
-	/* Use distinguishing colors when user is interacting with the link */
+	/* Indicate interaction with the link */
 	a[href]:focus,
 	a[href]:hover {
-		background: #f8f8f8;
-		background: rgba(75%, 75%, 75%, .25);
-		background: var(--a-hover-bg);
-		border-bottom-width: 3px;
-		margin-bottom: -2px;
+		text-decoration-thickness: 2px;
+		text-decoratin
 	}
 	a[href]:active {
 		color: #c00;
 		color: var(--a-active-text);
-		border-color: #c00;
-		border-color: var(--a-active-underline);
+		text-decoration-color: #c00;
+		text-decoration-color: var(--a-active-underline);
 	}
 
 	/* Backout above styling for W3C logo */
@@ -1116,9 +1110,12 @@ Possible extra rowspan handling
 
 	.toc a {
 		/* More spacing; use padding to make it part of the click target. */
-		padding-top: 0.1rem;
+		padding: 0.1rem 1px 0;
 		/* Larger, more consistently-sized click target */
 		display: block;
+		/* Switch to using border-bottom for underlines */
+		text-decoration: none;
+		border-bottom: 1px solid;
 		/* Reverse color scheme */
 		color: black;
 		color: var(--toclink-text);
@@ -1130,6 +1127,13 @@ Possible extra rowspan handling
 		color: var(--toclink-visited-text);
 		border-color: #054572;
 		border-color: var(--toclink-visited-underline);
+	}
+	.toc a:focus,
+	.toc a:hover {
+		background: rgba(75%, 75%, 75%, .25);
+		background: var(--a-hover-bg);
+		border-bottom-width: 3px;
+		margin-bottom: -2px;
 	}
 	.toc a:not(:focus):not(:hover) {
 		/* Allow colors to cascade through from link styling */
@@ -1484,9 +1488,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version c5fd42b86, updated Mon Apr 5 16:27:33 2021 -0700" name="generator">
+  <meta content="Bikeshed version c6f50773a, updated Fri Apr 16 16:45:47 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="98bb0d413eb2ecd8c58cf8eab60e6b1b7f922de2" name="document-revision">
+  <meta content="4044c94cb386bfd3ef2e5cbada75f1e4c0761e2c" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1599,9 +1603,9 @@ pre .property::before, pre .property::after {
     --ins-bg: transparent;
 
     --a-normal-text: #034575;
-    --a-normal-underline: #707070;
+    --a-normal-underline: #bbb;
     --a-visited-text: var(--a-normal-text);
-    --a-visited-underline: #bbb;
+    --a-visited-underline: #707070;
     --a-hover-bg: rgba(75%, 75%, 75%, .25);
     --a-active-text: #c00;
     --a-active-underline: #c00;
@@ -2049,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-04-16">16 April 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-10">10 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -4144,11 +4148,11 @@ design, the following rules have emerged:</p>
      <tr>
       <th>Events
       <td>Lowercase, concatenated
-      <td><code>autocompleteerror}}<br> <code>languagechange}}</code></code>
+      <td><code><code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough" id="ref-for-event-media-canplaythrough">canplaythrough</a></code><br> <code><code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-languagechange" id="ref-for-event-languagechange">languagechange</a></code></code></code>
      <tr>
       <th>HTML elements and attributes
       <td>Lowercase, concatenated
-      <td><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element" id="ref-for-the-figcaption-element">figcaption</a></code><br> &lt;{textarea maxlength}>
+      <td><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element" id="ref-for-the-figcaption-element">figcaption</a></code><br> <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength" id="ref-for-attr-textarea-maxlength">maxlength</a></code>
      <tr>
       <th>JSON keys
       <td>Lowercase, underscore-delimited
@@ -4719,6 +4723,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-document-bgcolor">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-event-media-canplaythrough">
+   <a href="https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough">https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-event-media-canplaythrough">Use casing rules consistent with existing APIs</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-createimagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap</a><b>Referenced in:</b>
    <ul>
@@ -4777,6 +4787,18 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap">https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-img-ismap">Use casing rules consistent with existing APIs</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-event-languagechange">
+   <a href="https://html.spec.whatwg.org/multipage/indices.html#event-languagechange">https://html.spec.whatwg.org/multipage/indices.html#event-languagechange</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-event-languagechange">Use casing rules consistent with existing APIs</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-textarea-maxlength">
+   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength">https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-textarea-maxlength">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-navigator-online">
@@ -5275,7 +5297,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dom-body-json">json()</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
+    <a data-link-type="biblio">[hr-time-2]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp">DOMHighResTimeStamp</span>
     </ul>
@@ -5294,6 +5316,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-windoweventhandlers">WindowEventHandlers</span>
      <li><span class="dfn-paneled" id="term-for-dom-alert-noargs">alert()</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-bgcolor">bgColor</span>
+     <li><span class="dfn-paneled" id="term-for-event-media-canplaythrough">canplaythrough</span>
      <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap">createImageBitmap(image)</span>
      <li><span class="dfn-paneled" id="term-for-custom-element">custom element</span>
      <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define">define(name, constructor)</span>
@@ -5304,6 +5327,8 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-the-img-element">img</span>
      <li><span class="dfn-paneled" id="term-for-dom-img-ismap">isMap</span>
      <li><span class="dfn-paneled" id="term-for-attr-img-ismap">ismap</span>
+     <li><span class="dfn-paneled" id="term-for-event-languagechange">languagechange</span>
+     <li><span class="dfn-paneled" id="term-for-attr-textarea-maxlength">maxlength</span>
      <li><span class="dfn-paneled" id="term-for-dom-navigator-online">onLine</span>
      <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
@@ -5437,6 +5462,8 @@ so they can correct this omission.</p>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.es/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.es/ecma262/">https://tc39.es/ecma262/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
+   <dd>Yoav Weiss; et al. <a href="https://w3c.github.io/hr-time/">High Resolution Time</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
+   <dt id="biblio-hr-time-2">[HR-TIME-2]
    <dd>Ilya Grigorik. <a href="https://w3c.github.io/hr-time/">High Resolution Time Level 2</a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
