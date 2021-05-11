@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version c6f50773a, updated Fri Apr 16 16:45:47 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="4044c94cb386bfd3ef2e5cbada75f1e4c0761e2c" name="document-revision">
+  <meta content="2f553a7dfcbb8c879be073fb5fee6a6d35d639de" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2053,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-10">10 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-11">11 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2181,8 +2181,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#polyfills"><span class="secno">9.1</span> <span class="content">Polyfills</span></a>
       <li><a href="#new-data-formats"><span class="secno">9.2</span> <span class="content">New Data Formats</span></a>
-      <li><a href="#extend-manifests"><span class="secno">9.3</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#debuggability"><span class="secno">9.4</span> <span class="content">Features should be developer-friendly</span></a>
+      <li><a href="#new-http-header-syntax"><span class="secno">9.3</span> <span class="content">New HTTP Headers</span></a>
+      <li><a href="#extend-manifests"><span class="secno">9.4</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#debuggability"><span class="secno">9.5</span> <span class="content">Features should be developer-friendly</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">10</span> <span class="content">Writing good specifications</span></a>
@@ -3819,7 +3820,25 @@ and HTMLCanvasElement.toDataURL().</p>
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="9.3" id="extend-manifests"><span class="secno">9.3. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="9.3" id="new-http-header-syntax"><span class="secno">9.3. </span><span class="content">New HTTP Headers</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
+   <p>If you are defining a new HTTP header,
+its syntax mustn’t go against <a href="https://tools.ietf.org/html/rfc7230#section-3.2">the HTTP specification</a>.</p>
+   <p>If the new header must convey structured data,
+such as lists, dictionaries, or typed values
+like decimals, strings, or booleans,
+then the header should use the syntax
+defined in <a href="https://tools.ietf.org/html/rfc8941">Structured Field Values for HTTP</a>.
+This avoids consumers of the header
+having to write and maintain specific micro-parsers,
+or even worse,
+something that would break those existing parsers.
+If the new header requires data
+that can’t be represented by Structured Field Values,
+then either engage with IETF about
+extending the Structured Field Values syntax,
+or re-consider if an HTTP header is a right place
+to expose the data before inventing a new syntax. <a data-link-type="biblio" href="#biblio-rfc8941">[RFC8941]</a></p>
+   <h3 class="heading settled" data-level="9.4" id="extend-manifests"><span class="secno">9.4. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -3875,7 +3894,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="9.4" id="debuggability"><span class="secno">9.4. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="9.5" id="debuggability"><span class="secno">9.5. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -5524,6 +5543,8 @@ so they can correct this omission.</p>
    <dd>Mounir Lamouri; Anton Vayvod. <a href="https://w3c.github.io/remote-playback/">Remote Playback API</a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://datatracker.ietf.org/doc/html/rfc8890">The Internet is for End Users</a>. August 2020. Informational. URL: <a href="https://datatracker.ietf.org/doc/html/rfc8890">https://datatracker.ietf.org/doc/html/rfc8890</a>
+   <dt id="biblio-rfc8941">[RFC8941]
+   <dd>M. Nottingham; P-H. Kamp. <a href="https://datatracker.ietf.org/doc/html/rfc8941">Structured Field Values for HTTP</a>. February 2021. Proposed Standard. URL: <a href="https://datatracker.ietf.org/doc/html/rfc8941">https://datatracker.ietf.org/doc/html/rfc8941</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://w3c.github.io/uievents/">UI Events</a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
