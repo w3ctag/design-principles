@@ -2019,6 +2019,27 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
+<h3 id="new-http-header-syntax">New HTTP Headers</h3>
+
+If you are defining a new HTTP header,
+its syntax mustn't go against
+[the HTTP specification](https://tools.ietf.org/html/rfc7230#section-3.2).
+
+If the new header must convey structured data,
+such as lists, dictionaries, or typed values
+like decimals, strings, or booleans,
+then the header should use the syntax
+defined in [Structured Field Values for HTTP](https://tools.ietf.org/html/rfc8941).
+This avoids consumers of the header
+having to write and maintain specific micro-parsers,
+or even worse,
+something that would break those existing parsers.
+If the new header requires data
+that can't be represented by Structured Field Values,
+then either engage with IETF about
+extending the Structured Field Values syntax,
+or re-consider if an HTTP header is a right place
+to expose the data before inventing a new syntax. [[RFC8941]]
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
