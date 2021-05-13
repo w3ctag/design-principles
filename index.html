@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version c6f50773a, updated Fri Apr 16 16:45:47 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="2f553a7dfcbb8c879be073fb5fee6a6d35d639de" name="document-revision">
+  <meta content="1c64d388d2cf299abf1f5277214460e389ccaffd" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2053,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-11">11 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-13">13 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2949,6 +2949,16 @@ the default value used is the same as
 converting <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the parameter.
 For example, if a boolean parameter isn’t set,
 it must default to false.</p>
+   <p>When deciding between different list data types for your API,
+unless otherwise required, use the following list types:</p>
+   <ul>
+    <li data-md>
+     <p>Method list arguments should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type">sequence&lt;T></a></p>
+    <li data-md>
+     <p>Method return values should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type①">sequence&lt;T></a></p>
+    <li data-md>
+     <p>Attributes should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-observable-array-type" id="ref-for-dfn-observable-array-type">ObservableArray&lt;T></a></p>
+   </ul>
    <p>See also:</p>
    <ul>
     <li data-md>
@@ -3553,7 +3563,7 @@ should use <code class="idl"><a data-link-type="idl" href="https://heycam.github
 data from protocols like HTTP
 which don’t distinguish between bytes and strings.
 It isn’t a general-purpose string type.
-If you need to represent a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
+If you need to represent a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type②">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
 use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>.</p>
    <h3 class="heading settled" data-level="7.3" id="milliseconds"><span class="secno">7.3. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
    <p>If you are designing an API that accepts a time measurement,
@@ -5123,6 +5133,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dfn-namespace">5.6. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-observable-array-type">
+   <a href="https://heycam.github.io/webidl/#dfn-observable-array-type">https://heycam.github.io/webidl/#dfn-observable-array-type</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-observable-array-type">5.4. Make function parameters optional if possible</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-octet">
    <a href="https://heycam.github.io/webidl/#idl-octet">https://heycam.github.io/webidl/#idl-octet</a><b>Referenced in:</b>
    <ul>
@@ -5132,7 +5148,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
    <a href="https://heycam.github.io/webidl/#sequence-type">https://heycam.github.io/webidl/#sequence-type</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-sequence-type">7.2. Represent strings appropriately</a>
+    <li><a href="#ref-for-sequence-type">5.4. Make function parameters optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
+    <li><a href="#ref-for-sequence-type②">7.2. Represent strings appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-setlike">
@@ -5446,6 +5463,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-idl-long-long">long long</span>
      <li><span class="dfn-paneled" id="term-for-dfn-maplike">maplike</span>
      <li><span class="dfn-paneled" id="term-for-dfn-namespace">namespace</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-observable-array-type">observable array type</span>
      <li><span class="dfn-paneled" id="term-for-idl-octet">octet</span>
      <li><span class="dfn-paneled" id="term-for-sequence-type">sequence type</span>
      <li><span class="dfn-paneled" id="term-for-dfn-setlike">setlike</span>
