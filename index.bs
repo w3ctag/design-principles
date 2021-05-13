@@ -995,6 +995,13 @@ converting {{undefined}} to the type of the parameter.
 For example, if a boolean parameter isn't set,
 it must default to false.
 
+When deciding between different list data types for your API, 
+unless otherwise required, use the following list types:
+
+* Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
+* Method return values should be of type [=sequence types|sequence&ltT&gt=]
+* Attributes should be of type [=observable array type|ObservableArray&ltT&gt=]
+
 See also:
 
 * [[#prefer-dict-to-bool]]
