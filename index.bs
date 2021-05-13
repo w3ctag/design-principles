@@ -990,9 +990,9 @@ For example, if a boolean parameter isn't set,
 it must default to false.
 
 When deciding between different list data types for your API, 
-and if possible, consider using the following static list types:
+unless otherwise required use the following list types:
 
-* Method list parameters should be of type [=sequence types|sequence&ltT&gt=]
+* Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
 * Method return values should be of type [=sequence types|sequence&ltT&gt=]
 * Attributes should be of type [=observable array type|ObservableArray&ltT&gt=]
 
