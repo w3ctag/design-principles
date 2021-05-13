@@ -283,6 +283,53 @@ Naming APIs well makes it much easier for authors to use them correctly.
 See the more detailed <a href="#naming-is-hard">Naming principles</a> section
 for specific guidance on naming.
 
+<h3 id="consistency">Consistency</h3>
+
+It is good practice to consider precedent in the design of your API
+and to try to be consistent with it.
+
+There is often a tension between API ergonomics and consistency,
+when existing precedent is of poor usability.
+In some cases it makes sense to break consistency to improve usability,
+but the improvement should be very significant to justify this.
+
+<!-- TODO: example? -->
+
+Since the Web Platform has gradually evolved over time,
+there are often multiple conflicting precedents
+which are mutually exclusive.
+You can weigh which precdent to follow by taking into account
+prevalence (all else being equal, follow the more popular precedent),
+API ergonomics (all else being equal, follow the more usable precedent),
+and API age (all else being equal, follow the newer precedent).
+
+<!-- TODO: example? -->
+
+There is often a tension between internal and external consistency.
+<em>Internal consistency</em> is consistency with the rest of the system,
+whereas <em>external consistency</em> is consistency with the rest of the world.
+In the Web Platform, that might materialize in three layers:
+consistency within the technology the API belongs to (e.g. CSS),
+consistency with the rest of the Web Platform,
+and in some cases external precedent,
+when the API relates to a particular specialized outside domain.
+In those cases, it is useful to consider what the majority of users will be.
+Since for most APIs the target user is someone who is familiar with the
+technology they are defined in,
+err on the side of favoring consistency with that.
+
+<div class="example">
+One example is
+<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">Lab colors</a>:
+It would be more consistent with the rest of CSS to use percentages for L (0%-100%),
+but more consistent with the rest of Color Science to use a unitless number (0-100).
+There was a lot of heated debate,
+which resolved in favor of percentages,
+i.e. consistency within CSS.
+</div>
+
+There is also a separate section on <a href="#naming-consistency">naming consistency</a>.
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 Provide a way for authors to programmatically detect
@@ -995,7 +1042,7 @@ converting {{undefined}} to the type of the parameter.
 For example, if a boolean parameter isn't set,
 it must default to false.
 
-When deciding between different list data types for your API, 
+When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
 * Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
