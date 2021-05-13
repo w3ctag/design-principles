@@ -1167,27 +1167,27 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
-<h3 id="attributes-vs-methods">Attributes vs. Methods</h3>
+<h3 id="properties-vs-methods">Properties vs. Methods</h3>
 
-Sometimes it is unclear whether to use an attribute or a method.
+Sometimes it is unclear whether to use an property or a method.
 
-  * Attribute getters must not have any (observable) side effects.
+  * Property getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
-  * Attribute getters should not perform any expensive operations.
+  * Property getters should not perform any expensive operations.
     If a getter requires performing an expensive operation, it should be a method.
     (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
-  * If the underlying object has not changed, attribute getters should return the same object each time it is called.
-    This means <code>obj.attribute === obj.attribute</code> must always hold.
-    Returning a new value from an attribute getter each time is not allowed.
+  * If the underlying object has not changed, property getters should return the same object each time it is called.
+    This means <code>obj.property === obj.property</code> must always hold.
+    Returning a new value from an property getter each time is not allowed.
     If this does not hold, the getter should be a method.
 
-For attributes, whenever possible, preserve values given to the setter for return from the getter. That is,
-given <code>obj.attribute = x</code>, a subsequent <code>obj.attribute === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
+For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
+given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
 
 The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
 
   * If live, then return the same object each time, until a state change requires a different object to be returned.
-    This can be returned from either an attribute or a method.
+    This can be returned from either an property or a method.
   * If static, then return a new object each time.
     In which case, this should be be a method.
 
