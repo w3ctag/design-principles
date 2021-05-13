@@ -310,7 +310,7 @@ A well-layered solution should ensure continuity
 of the ease-of-use vs power tradeoff curve
 and avoid sharp cliffs
 where a small amount of incremental use case complexity
-results in a disproportionately large increase of code complexity.
+results in a large increase of code complexity.
 
 <h3 id="name-thoughtfully">Name things thoughtfully</h3>
 
