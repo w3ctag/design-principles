@@ -1967,7 +1967,7 @@ make sure the new web APIs are designed with web platform principles in mind.
 
  : Design APIs to handle the user being off-line
  :: If an API depends on some service which is provided by a remote server,
-    make sure that the API methods well when the user can't access the remote server
+    make sure that the API functions well when the user can't access the remote server
     for any reason.
 
  : Avoid additional fingerprinting surfaces
