@@ -1488,9 +1488,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version c6f50773a, updated Fri Apr 16 16:45:47 2021 -0700" name="generator">
+  <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="1c64d388d2cf299abf1f5277214460e389ccaffd" name="document-revision">
+  <meta content="b295eb7f51580092f3a5a63e777d6bb93acef1ed" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2053,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-13">13 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-18">18 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2139,9 +2139,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#attributes-like-data"><span class="secno">5.1</span> <span class="content">Attributes should behave like data properties</span></a>
       <li><a href="#live-vs-static"><span class="secno">5.2</span> <span class="content">Consider whether objects should be live or static</span></a>
-      <li><a href="#prefer-dict-to-bool"><span class="secno">5.3</span> <span class="content">Prefer dictionary parameters over primitive parameters</span></a>
-      <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make function parameters optional if possible</span></a>
-      <li><a href="#naming-optional-parameters"><span class="secno">5.5</span> <span class="content">Naming optional parameters</span></a>
+      <li><a href="#prefer-dict-to-bool"><span class="secno">5.3</span> <span class="content">Prefer dictionary arguments over primitive arguments</span></a>
+      <li><a href="#optional-parameters"><span class="secno">5.4</span> <span class="content">Make method arguments optional if possible</span></a>
+      <li><a href="#naming-optional-parameters"><span class="secno">5.5</span> <span class="content">Naming optional arguments</span></a>
       <li><a href="#constructors"><span class="secno">5.6</span> <span class="content">Classes should have constructors when possible</span></a>
       <li><a href="#synchronous"><span class="secno">5.7</span> <span class="content">Use synchronous when appropriate</span></a>
       <li><a href="#promises"><span class="secno">5.8</span> <span class="content">Design asynchronous APIs using Promises</span></a>
@@ -2735,12 +2735,12 @@ use JavaScript.
 In particular,
 you can freely rely upon language-specific semantics and conventions,
 with no need to keep things generalized.</p>
-   <div class="example" id="example-b9c0357a">
-    <a class="self-link" href="#example-b9c0357a"></a> For example,
+   <div class="example" id="example-1f61e97b">
+    <a class="self-link" href="#example-1f61e97b"></a> For example,
 the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define" id="ref-for-dom-customelementregistry-define">CustomElementRegistry.define()</a></code> method takes a reference to
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>. 
     <p>This takes advantage of the relatively recent addition of classes to JavaScript,
-and the fact that function references are very easy to use in JavaScript.</p>
+and the fact that method references are very easy to use in JavaScript.</p>
    </div>
    <div class="note" role="note"> JavaScript is standardized under the name <a data-link-type="biblio" href="#biblio-ecmascript">[ECMASCRIPT]</a>. </div>
    <div class="note" role="note"> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> defines a separate "ECMAScript binding" section,
@@ -2807,7 +2807,7 @@ the interaction with garbage collection.</p>
    <h3 class="heading settled" data-level="5.1" id="attributes-like-data"><span class="secno">5.1. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
    <p><a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> attributes should act like simple JavaScript object properties.</p>
    <p>In reality, IDL attributes are implemented as accessor properties
-with separate getter and setter functions.
+with separate getter and setter methods.
 To make them act like JavaScript object properties:</p>
    <ul>
     <li data-md>
@@ -2891,12 +2891,12 @@ rather than available as an attribute.</p>
     <li data-md>
      <p><a href="#attributes-like-data">§ 5.1 Attributes should behave like data properties</a></p>
    </ul>
-   <h3 class="heading settled" data-level="5.3" id="prefer-dict-to-bool"><span class="secno">5.3. </span><span class="content">Prefer dictionary parameters over primitive parameters</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
-   <p>API methods should generally use dictionary parameters
-instead of a series of optional primitive parameters.</p>
+   <h3 class="heading settled" data-level="5.3" id="prefer-dict-to-bool"><span class="secno">5.3. </span><span class="content">Prefer dictionary arguments over primitive arguments</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
+   <p>API methods should generally use dictionary arguments
+instead of a series of optional primitive arguments.</p>
    <p>This makes the code that calls the method much more readable.
 It also makes the API more extensible in the future,
-particularly if multiple parameters with the same type are needed.</p>
+particularly if multiple arguments with the same type are needed.</p>
    <div class="example" id="example-148797d6">
     <a class="self-link" href="#example-148797d6"></a> For example, 
 <pre class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c->
@@ -2913,7 +2913,7 @@ particularly if multiple parameters with the same type are needed.</p>
 <pre class="highlight">window<c- p>.</c->scrollBy<c- p>(</c-><c- mf>50</c-><c- p>,</c-> <c- mf>0</c-><c- p>)</c->
 </pre>
    </div>
-   <p>The dictionary itself should be an optional parameter,
+   <p>The dictionary itself should be an optional argument,
 so that if the author is happy with all of the default options,
 they can avoid passing an extra argument.</p>
    <div class="example" id="example-c7e8a584">
@@ -2931,23 +2931,23 @@ they can avoid passing an extra argument.</p>
     <li data-md>
      <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
     <li data-md>
-     <p><a href="#optional-parameters">§ 5.4 Make function parameters optional if possible</a></p>
+     <p><a href="#optional-parameters">§ 5.4 Make method arguments optional if possible</a></p>
     <li data-md>
-     <p><a href="#naming-optional-parameters">§ 5.5 Naming optional parameters</a></p>
+     <p><a href="#naming-optional-parameters">§ 5.5 Naming optional arguments</a></p>
    </ul>
-   <h3 class="heading settled" data-level="5.4" id="optional-parameters"><span class="secno">5.4. </span><span class="content">Make function parameters optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
-   <p>If a parameter for an API function has a reasonable default value,
-make that parameter optional and specify the default value.</p>
+   <h3 class="heading settled" data-level="5.4" id="optional-parameters"><span class="secno">5.4. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
+   <p>If an argument for an API method has a reasonable default value,
+make that argument optional and specify the default value.</p>
    <div class="example" id="example-b823d8cb"><a class="self-link" href="#example-b823d8cb"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
 Thie defaults to <code>false</code>, meaning that
 the event should be dispatched to the listener in the bubbling phase by default. </div>
    <p class="note" role="note"><span>Note:</span> Exceptions have been made for legacy interoperability reasons
 (such as <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code>),
 but this should be considered a design mistake rather than recommended practice.</p>
-   <p>The API must be designed so that if a parameter is left out,
+   <p>The API must be designed so that if an argument is left out,
 the default value used is the same as
-converting <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the parameter.
-For example, if a boolean parameter isn’t set,
+converting <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the argument.
+For example, if a boolean argument isn’t set,
 it must default to false.</p>
    <p>When deciding between different list data types for your API,
 unless otherwise required, use the following list types:</p>
@@ -2962,12 +2962,12 @@ unless otherwise required, use the following list types:</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#prefer-dict-to-bool">§ 5.3 Prefer dictionary parameters over primitive parameters</a></p>
+     <p><a href="#prefer-dict-to-bool">§ 5.3 Prefer dictionary arguments over primitive arguments</a></p>
    </ul>
-   <h3 class="heading settled" data-level="5.5" id="naming-optional-parameters"><span class="secno">5.5. </span><span class="content">Naming optional parameters</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
-   <p>Name optional parameters to make the default behavior obvious
+   <h3 class="heading settled" data-level="5.5" id="naming-optional-parameters"><span class="secno">5.5. </span><span class="content">Naming optional arguments</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
+   <p>Name optional arguments to make the default behavior obvious
 without being named negatively.</p>
-   <p>This applies whether they are provided in a <a href="#prefer-dict-to-bool">dictionary</a> or as <a href="#optional-parameters">single parameters</a>.</p>
+   <p>This applies whether they are provided in a <a href="#prefer-dict-to-bool">dictionary</a> or as <a href="#optional-parameters">single arguments</a>.</p>
    <div class="example" id="example-cc7dcba0">
     <a class="self-link" href="#example-cc7dcba0"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener①">addEventListener()</a></code> takes an <code>options</code> object
 which includes an option named <code>once</code>.
@@ -3064,7 +3064,7 @@ and need less infrastructure set-up (such as making functions <code>async</code>
      <p>The execution time is short and deterministic.</p>
    </ul>
    <h3 class="heading settled" data-level="5.8" id="promises"><span class="secno">5.8. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
-   <p>If an API function needs to be asynchronous, use Promises,
+   <p>If an API method needs to be asynchronous, use Promises,
 not callback functions.</p>
    <p>Using Promises consistently across the Web platform
 means that APIs are easier to use together,
@@ -3088,7 +3088,7 @@ or in another process, before returning the result.</p>
      <p><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a></p>
    </ul>
    <h3 class="heading settled" data-level="5.9" id="aborting"><span class="secno">5.9. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
-   <p>If an asynchronous function can be cancelled,
+   <p>If an asynchronous method can be cancelled,
 allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
    <div class="example" id="example-52de31d9">
     <a class="self-link" href="#example-52de31d9"></a> 
@@ -4136,7 +4136,7 @@ or they should all describe what is denied</p>
    </ul>
    <h4 class="no-num no-toc heading settled" id="naming-booleans"><span class="content">Boolean properties vs.
   boolean-returning methods</span><a class="self-link" href="#naming-booleans"></a></h4>
-   <p>Boolean properties, options, or API parameters which are asking a question about
+   <p>Boolean properties, options, or API arguments which are asking a question about
 their argument <em>should not</em> be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, <em>should</em> be
 prefixed with <code>is</code> to be consistent with the rest of the platform.</p>
@@ -4551,8 +4551,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-addeventlistener">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener">5.4. Make function parameters optional if possible</a>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">5.5. Naming optional parameters</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener">5.4. Make method arguments optional if possible</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">5.5. Naming optional arguments</a>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener②">6.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
@@ -5136,7 +5136,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dfn-observable-array-type">
    <a href="https://heycam.github.io/webidl/#dfn-observable-array-type">https://heycam.github.io/webidl/#dfn-observable-array-type</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-observable-array-type">5.4. Make function parameters optional if possible</a>
+    <li><a href="#ref-for-dfn-observable-array-type">5.4. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-octet">
@@ -5148,7 +5148,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
    <a href="https://heycam.github.io/webidl/#sequence-type">https://heycam.github.io/webidl/#sequence-type</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-sequence-type">5.4. Make function parameters optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
+    <li><a href="#ref-for-sequence-type">5.4. Make method arguments optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
     <li><a href="#ref-for-sequence-type②">7.2. Represent strings appropriately</a>
    </ul>
   </aside>
@@ -5167,7 +5167,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idl-undefined">
    <a href="https://heycam.github.io/webidl/#idl-undefined">https://heycam.github.io/webidl/#idl-undefined</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-undefined">5.4. Make function parameters optional if possible</a>
+    <li><a href="#ref-for-idl-undefined">5.4. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-unrestricted-double">
@@ -5197,7 +5197,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequest">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequest">https://xhr.spec.whatwg.org/#xmlhttprequest</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequest">5.4. Make function parameters optional if possible</a>
+    <li><a href="#ref-for-xmlhttprequest">5.4. Make method arguments optional if possible</a>
     <li><a href="#ref-for-xmlhttprequest①">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
