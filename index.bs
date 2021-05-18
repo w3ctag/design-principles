@@ -1178,7 +1178,7 @@ Sometimes it is unclear whether to use a property or a method.
     (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
   * If the underlying object has not changed, property getters should return the same object each time it is called.
     This means <code>obj.property === obj.property</code> must always hold.
-    Returning a new value from an property getter each time is not allowed.
+    Returning a new value from a property getter each time is not allowed.
     If this does not hold, the getter should be a method.
 
 For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
