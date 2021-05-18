@@ -1169,7 +1169,7 @@ This object can be passed around as easily as a single bitmask value.
 
 <h3 id="properties-vs-methods">Properties vs. Methods</h3>
 
-Sometimes it is unclear whether to use an property or a method.
+Sometimes it is unclear whether to use a property or a method.
 
   * Property getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
