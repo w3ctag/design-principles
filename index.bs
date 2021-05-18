@@ -718,7 +718,7 @@ the {{CustomElementRegistry/define(name, constructor)|CustomElementRegistry.defi
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
 This takes advantage of the relatively recent addition of classes to JavaScript,
-and the fact that function references are very easy to use in JavaScript.
+and the fact that method references are very easy to use in JavaScript.
 </div>
 
 <div class="note">
@@ -812,7 +812,7 @@ the interaction with garbage collection.
 [[!WEBIDL]] attributes should act like simple JavaScript object properties.
 
 In reality, IDL attributes are implemented as accessor properties
-with separate getter and setter functions.
+with separate getter and setter methods.
 To make them act like JavaScript object properties:
 
 * Getters must not have any observable side effects.
@@ -914,14 +914,14 @@ See also:
 
 * [[#attributes-like-data]]
 
-<h3 id="prefer-dict-to-bool">Prefer dictionary parameters over primitive parameters</h3>
+<h3 id="prefer-dict-to-bool">Prefer dictionary arguments over primitive arguments</h3>
 
-API methods should generally use dictionary parameters
-instead of a series of optional primitive parameters.
+API methods should generally use dictionary arguments
+instead of a series of optional primitive arguments.
 
 This makes the code that calls the method much more readable.
 It also makes the API more extensible in the future,
-particularly if multiple parameters with the same type are needed.
+particularly if multiple arguments with the same type are needed.
 
 <div class="example">
 For example,
@@ -952,7 +952,7 @@ window.scrollBy(50, 0)
 
 </div>
 
-The dictionary itself should be an optional parameter,
+The dictionary itself should be an optional argument,
 so that if the author is happy with all of the default options,
 they can avoid passing an extra argument.
 
@@ -974,10 +974,10 @@ See also:
 * [[#optional-parameters]]
 * [[#naming-optional-parameters]]
 
-<h3 id="optional-parameters">Make function parameters optional if possible</h3>
+<h3 id="optional-parameters">Make method arguments optional if possible</h3>
 
-If a parameter for an API function has a reasonable default value,
-make that parameter optional and specify the default value.
+If an argument for an API method has a reasonable default value,
+make that argument optional and specify the default value.
 
 <div class="example">
 {{EventTarget/addEventListener()}} takes an optional boolean `useCapture` argument.
@@ -989,10 +989,10 @@ Note: Exceptions have been made for legacy interoperability reasons
 (such as {{XMLHttpRequest}}),
 but this should be considered a design mistake rather than recommended practice.
 
-The API must be designed so that if a parameter is left out,
+The API must be designed so that if an argument is left out,
 the default value used is the same as
-converting {{undefined}} to the type of the parameter.
-For example, if a boolean parameter isn't set,
+converting {{undefined}} to the type of the argument.
+For example, if a boolean argument isn't set,
 it must default to false.
 
 When deciding between different list data types for your API, 
@@ -1006,13 +1006,13 @@ See also:
 
 * [[#prefer-dict-to-bool]]
 
-<h3 id="naming-optional-parameters">Naming optional parameters</h3>
+<h3 id="naming-optional-parameters">Naming optional arguments</h3>
 
-Name optional parameters to make the default behavior obvious
+Name optional arguments to make the default behavior obvious
 without being named negatively.
 
 This applies whether they are provided in a [dictionary](#prefer-dict-to-bool)
-or as [single parameters](#optional-parameters).
+or as [single arguments](#optional-parameters).
 
 <div class="example">
 {{EventTarget/addEventListener()}} takes an `options` object
@@ -1127,7 +1127,7 @@ An API should generally be synchronous if the following rules of thumb apply:
 
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
-If an API function needs to be asynchronous, use Promises,
+If an API method needs to be asynchronous, use Promises,
 not callback functions.
 
 Using Promises consistently across the Web platform
@@ -1149,7 +1149,7 @@ See also:
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
-If an asynchronous function can be cancelled,
+If an asynchronous method can be cancelled,
 allow authors to pass in an {{AbortSignal}} as part of an options dictionary.
 
 <div class="example">
@@ -2404,7 +2404,7 @@ Sets of related names should agree with each other in:
 <h4 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
   boolean-returning methods</h5>
 
-Boolean properties, options, or API parameters which are asking a question about
+Boolean properties, options, or API arguments which are asking a question about
 their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
