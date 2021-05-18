@@ -287,7 +287,7 @@ A font picker (high level API)
 over a Font Enumeration API (low level API)
 as it addresses the bulk of use cases,
 without the fingerprinting concerns that accompany
-a general Font Enumeration API.
+a general Font Enumeration API, while preserving accessibility and privacy.
 
 </div>
 
