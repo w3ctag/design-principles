@@ -1173,8 +1173,9 @@ Sometimes it is unclear whether to use a property or a method.
 
   * Property getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
-  * Property getters should not perform any expensive operations.
-    If a getter requires performing an expensive operation, it should be a method.
+  * Property getters are expected to represent the state of a given object.
+    This means a getter should be able to efficiently return a value using the existing state.
+    If a getter does not satisfy this, it should be a method.
     (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
   * If the underlying object has not changed, property getters should return the same object each time it is called.
     This means <code>obj.property === obj.property</code> must always hold.
