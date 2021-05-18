@@ -1120,7 +1120,7 @@ An API should generally be synchronous if the following rules of thumb apply:
 
 <h3 id="promises">Design asynchronous APIs using Promises</h3>
 
-If an API methods needs to be asynchronous, use Promises,
+If an API method needs to be asynchronous, use Promises,
 not callback functions.
 
 Using Promises consistently across the Web platform
