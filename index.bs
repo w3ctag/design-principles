@@ -587,7 +587,7 @@ since another page could then take that lock.
 If there is an API to signal to the page that this has happened,
 it may be acceptable but beware that if the only time this happens is with BFCache,
 then it's likely many pages are not prepared for it. If it is not possible to support BFCache,
-follow the "Make non-"[=Document/fully active=]" documents unsalvageable for situations that can't be supported" pattern described below.
+follow the "Discard non-"[=Document/fully active=]" documents for situations that can't be supported" pattern described below.
   
 Additionally, when a document becomes "[=Document/fully active=]" again,
 it can be useful to update it with the current state of the world,
@@ -638,9 +638,12 @@ Note: This should be rare since cross-document-spanning APIs are themselves rela
   but correct implementations should only return "[=Document/fully active=]" clients.
 </div>
 
-<h4 id="make-unsalvageable">Make non-"[=Document/fully active=]" documents unsalvageable for situations that can't be supported</h4>
+<h4 id="discard">Discard non-"[=Document/fully active=]" documents for situations that can't be supported</h4>
 If supporting non-"[=Document/fully active=]" documents is not possible for certain cases,
-explicitly specify it by setting the document's [salvageable](https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable) bit to false. 
+explicitly specify it by discarding the document if the situation happens after the user navigated away,
+or setting the document's [salvageable](https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable)
+bit to false if the situation happens before or during the navigation away from the document,
+to cause it to be automatically discarded after navigation.
 
 Note: this should be rare and probably should only be used when retrofitting old APIs,
 as new APIs should always strive to work well with BFCache.
@@ -649,8 +652,9 @@ as new APIs should always strive to work well with BFCache.
   WebSockets [sets the salvageable bit to false](https://html.spec.whatwg.org/#unloading-documents:concept-document-salvageable-7) during unload.
 </div>
 <div class="example">
-  [clients.claim()](https://w3c.github.io/ServiceWorker/#clients-claim) should not wait for non-"[=Document/fully active=]" clients,
-  instead it should cause the non-"[=Document/fully active=]" client documents to be marked as unsalvageable
+  Calling [clients.claim()](https://w3c.github.io/ServiceWorker/#clients-claim)
+  should not wait for non-"[=Document/fully active=]" clients,
+  instead it should cause the non-"[=Document/fully active=]" client documents to be discarded.
 </div>
 
 <h4 id="per-document-state">Be aware that per-document state/data might persist after navigation</h4>
