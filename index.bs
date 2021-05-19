@@ -1190,6 +1190,31 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
+<h3 id="properties-vs-methods">Properties vs. Methods</h3>
+
+Sometimes it is unclear whether to use a property or a method.
+
+  * Property getters must not have any (observable) side effects.
+    If you have expected side effects, use a method.
+  * Property getters are expected to represent the state of a given object.
+    This means a getter should be able to efficiently return a value using the existing state.
+    If a getter does not satisfy this, it should be a method.
+    (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
+  * If the underlying object has not changed, property getters should return the same object each time it is called.
+    This means <code>obj.property === obj.property</code> must always hold.
+    Returning a new value from a property getter each time is not allowed.
+    If this does not hold, the getter should be a method.
+
+For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
+given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
+
+The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
+
+  * If live, then return the same object each time, until a state change requires a different object to be returned.
+    This can be returned from either an property or a method.
+  * If static, then return a new object each time.
+    In which case, this should be be a method.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
