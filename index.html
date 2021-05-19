@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="b295eb7f51580092f3a5a63e777d6bb93acef1ed" name="document-revision">
+  <meta content="0e3164cf7f10065bef80f1355eeb3f74be31e921" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2053,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-18">18 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-05-19">19 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2147,6 +2147,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#promises"><span class="secno">5.8</span> <span class="content">Design asynchronous APIs using Promises</span></a>
       <li><a href="#aborting"><span class="secno">5.9</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">5.10</span> <span class="content">Use strings for constants and enums</span></a>
+      <li><a href="#properties-vs-methods"><span class="secno">5.11</span> <span class="content">Properties vs. Methods</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">6</span> <span class="content">Event Design</span></a>
@@ -3117,6 +3118,34 @@ from using integers instead of strings.</p>
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.</p>
+   <h3 class="heading settled" data-level="5.11" id="properties-vs-methods"><span class="secno">5.11. </span><span class="content">Properties vs. Methods</span><a class="self-link" href="#properties-vs-methods"></a></h3>
+   <p>Sometimes it is unclear whether to use a property or a method.</p>
+   <ul>
+    <li data-md>
+     <p>Property getters must not have any (observable) side effects.
+If you have expected side effects, use a method.</p>
+    <li data-md>
+     <p>Property getters are expected to represent the state of a given object.
+This means a getter should be able to efficiently return a value using the existing state.
+If a getter does not satisfy this, it should be a method.
+(A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)</p>
+    <li data-md>
+     <p>If the underlying object has not changed, property getters should return the same object each time it is called.
+This means <code>obj.property === obj.property</code> must always hold.
+Returning a new value from a property getter each time is not allowed.
+If this does not hold, the getter should be a method.</p>
+   </ul>
+   <p>For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
+given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)</p>
+   <p>The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:</p>
+   <ul>
+    <li data-md>
+     <p>If live, then return the same object each time, until a state change requires a different object to be returned.
+This can be returned from either an property or a method.</p>
+    <li data-md>
+     <p>If static, then return a new object each time.
+In which case, this should be be a method.</p>
+   </ul>
    <h2 class="heading settled" data-level="6" id="event-design"><span class="secno">6. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="6.1" id="one-time-events"><span class="secno">6.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
