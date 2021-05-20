@@ -550,7 +550,7 @@ should be treated as if it never happened,
 and not "queue" the updates and send them after the document becomes fully activated.
 If it makes sense to send the latest state update (and only the latest state,
 not a queue of state changes) to the document after it becomes [=Document/fully active=] again,
-consider the "listen for changes" pattern below.
+consider the [[#listen-fully-active]] pattern below.
 <div class="example">
   APIs that periodically send information updates,
   such as Geolocation API's {{Geolocation/watchPosition()}}
