@@ -59,6 +59,10 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
+urlPrefix: https://w3c.github.io/geolocation-api/; spec: Geolocation
+    url: #watchposition-method; type: interface; for: Geolocation; text: watchPosition()
+urlPrefix: https://w3c.github.io/gamepad/; spec: Gamepad
+    url: #event-gamepadconnected; type: event; text: gamepadconnected
 </pre>
 
 <style>
@@ -525,49 +529,51 @@ See also:
 <h3 id="support-non-fully-active">Support non-"fully active" documents</h3>
 
 After a user navigated away from a document,
-the document might stay around in a non-"[=Document/fully active=]" state,
+the document might stay around in a non-[=Document/fully active=] state,
 and might be reused when the user navigates back to the entry holding the document.
-In the past, many APIs have missed specifying support for non-"[=Document/fully active=]" documents,
+In the past, many APIs have missed specifying support for non-[=Document/fully active=] documents,
 making them hard to support in various user agents' implementation of "back/forward cache" (BFCache).
 
 To avoid this happening with your API,
-you should specify support for non-"[=Document/fully active=]" documents by following these guidelines:
+you should specify support for non-[=Document/fully active=] documents by following these guidelines:
 
-<h4 id="gate-fully-active">Gate actions with "[=Document/fully active=]" checks</h4>
+<h4 id="gate-fully-active">Gate actions with [=Document/fully active=] checks</h4>
 
 When performing actions that might update the state of a document,
-be aware that the document might not be "[=Document/fully active=]"
+be aware that the document might not be [=Document/fully active=]
 and is considered as "non-existent" from the user's perspective.
 This means they should not receive updates or perform actions.
 
 In many cases,
-anything that happens while the document is not "[=Document/fully active=]"
+anything that happens while the document is not [=Document/fully active=]
 should be treated as if it never happened,
 and not "queue" the updates and send them after the document becomes fully activated.
 If it makes sense to send the latest state update (and only the latest state,
-not a queue of state changes) to the document after it becomes "[=Document/fully active=]" again,
+not a queue of state changes) to the document after it becomes [=Document/fully active=] again,
 consider the "listen for changes" pattern below.
 <div class="example">
   APIs that periodically send information updates,
-  such as Geolocation API's "[watch position](https://w3c.github.io/geolocation-api/#watchposition-method)"
+  such as Geolocation API's {{Geolocation/watchPosition()}}
   should not send updates if the document is no longer fully active.
-  It also should not queue those updates to arrive later,
-  and only resume sending updates when the document becomes active with the latest location.
+  They also should not queue those updates to arrive later,
+  and only resume sending updates when the document becomes active
+  with the latest information.
 </div>
 
-<h4 id="listen-fully-active">Listen for changes to "[=Document/fully active=]" status</h4>
+<h4 id="listen-fully-active">Listen for changes to [=Document/fully active=] status</h4>
 
-When a document goes from "[=Document/fully active=]" to non-"[=Document/fully active=]",
+When a document goes from [=Document/fully active=] to non-[=Document/fully active=],
 it should be treated similarly to the way discarded documents are treated.
 The document must not retain exclusive access to shared resources
 and must ensure that no new requests are issued
 and that connections that allow for new incoming requests are terminated. 
-When a document goes from non-"[=Document/fully active=]" to "[=Document/fully active=]" again,
+When a document goes from non-[=Document/fully active=] to [=Document/fully active=] again,
 it can restore connections if appropriate.
   
 While web authors can manually do cleanup (e.g. release the resources, sever connections)
 from within the {{pagehide}} event and restore them from the {{pageshow}} event themselves,
-doing this automatically from the API design would reduce a lot of overhead.
+doing this automatically from the API design allows the document to be kept alive after navigation by default,
+and is more likely to lead to well-functioning web applications.
 
 <div class="example">
   APIs that create live connections can pause/close the connection and possibly resume/reopen it later.
@@ -578,22 +584,22 @@ doing this automatically from the API design would reduce a lot of overhead.
 <div class="example">
   APIs that hold non-exclusive resources
   may be able release the resource when the document becomes not fully active,
-  and re-acquire them when it becomes "[=Document/fully active=]" again (Screen Wake Lock API is already [doing](https://w3c.github.io/screen-wake-lock/#handling-document-loss-of-full-activity) the first part).
+  and re-acquire them when it becomes [=Document/fully active=] again (Screen Wake Lock API is already [doing](https://w3c.github.io/screen-wake-lock/#handling-document-loss-of-full-activity) the first part).
 </div>
 Note: this might not be appropriate for all types of resources,
 e.g. if an exclusive lock is held,
-we cannot just release it and reacquire when "[=Document/fully active=]"
+we cannot just release it and reacquire when [=Document/fully active=]
 since another page could then take that lock.
 If there is an API to signal to the page that this has happened,
 it may be acceptable but beware that if the only time this happens is with BFCache,
 then it's likely many pages are not prepared for it. If it is not possible to support BFCache,
-follow the "Discard non-"[=Document/fully active=]" documents for situations that can't be supported" pattern described below.
+follow the [[#discard]] pattern described below.
   
-Additionally, when a document becomes "[=Document/fully active=]" again,
+Additionally, when a document becomes [=Document/fully active=] again,
 it can be useful to update it with the current state of the world,
-if anything has changed while it is in the non-"[=Document/fully active=]" state.
+if anything has changed while it is in the non-[=Document/fully active=] state.
 However, care needs to be taken with events that occurred while in the BFCache.
-When not "[=Document/fully active=]", for some cases, all events should be dropped,
+When not [=Document/fully active=], for some cases, all events should be dropped,
 in some the latest state should be delivered in a single event,
 in others it may be appropriate to queue events or deliver a combined event.
 The correct approach is case by case and should consider privacy,
@@ -601,26 +607,27 @@ correctness, performance and ergonomics.
 
 <div class="example">
   The {{gamepadconnected}} event
-  can be sent to a document that becomes "[=Document/fully active=]" again
-  if a gamepad is connected while the document is not "[=Document/fully active=]".
+  can be sent to a document that becomes [=Document/fully active=] again
+  if a gamepad is connected while the document is not [=Document/fully active=].
   If the gamepad was repeatedly connected and disconnected,
   only the final connected event should be delivered.
+  (This is not specified yet, see [issue](https://github.com/w3c/gamepad/issues/149))
 </div>
 <div class="example">
   For geolocation or other physical sensors,
-  no information about what happened while not-"[=Document/fully active=]" should be delivered.
-  The events should simply resume from when the document became "[=Document/fully active=]"
+  no information about what happened while not [=Document/fully active=] should be delivered.
+  The events should simply resume from when the document became [=Document/fully active=].
 </div>
 <div class="example">
   For network connections or streams,
-  the data received while not-"[=Document/fully active=]" should be delivered only
-  when the document becomes "[=Document/fully active=]" again,
+  the data received while not [=Document/fully active=] should be delivered only
+  when the document becomes [=Document/fully active=] again,
   but whereas a stream might have created many events with a small amount of data each,
   it could be delivered as smaller number of events with more data in each.
 </div>
 
-<h4 id="omit-non-fully-active">Omit non-"[=Document/fully active=]" documents from APIs that span multiple documents</h4>
-Non-"[=Document/fully active=]" documents should not be observable,
+<h4 id="omit-non-fully-active">Omit non-[=Document/fully active=] documents from APIs that span multiple documents</h4>
+Non-[=Document/fully active=] documents should not be observable,
 so APIs should treat them as if they no longer exist.
 They should not be visible to the "outside world" through document-spanning APIs
 (e.g. {{Clients/matchAll()|clients.matchAll()}}, {{Window/opener|window.opener}}).
@@ -632,13 +639,14 @@ Note: This should be rare since cross-document-spanning APIs are themselves rela
 </div>
 <div class="example">
   {{Clients/matchAll()|clients.matchAll()}}
-  currently does not distinguish between "[=Document/fully active=]"
-  and non-"[=Document/fully active=]" clients,
-  but correct implementations should only return "[=Document/fully active=]" clients.
+  currently does not distinguish between [=Document/fully active=]
+  and non-[=Document/fully active=] clients,
+  but correct implementations should only return [=Document/fully active=] clients.
+  (See [issue](https://github.com/w3c/ServiceWorker/issues/1594))
 </div>
 
-<h4 id="discard">Discard non-"[=Document/fully active=]" documents for situations that can't be supported</h4>
-If supporting non-"[=Document/fully active=]" documents is not possible for certain cases,
+<h4 id="discard">Discard non-[=Document/fully active=] documents for situations that can't be supported</h4>
+If supporting non-[=Document/fully active=] documents is not possible for certain cases,
 explicitly specify it by discarding the document if the situation happens after the user navigated away,
 or setting the document's [salvageable](https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable)
 bit to false if the situation happens before or during the navigation away from the document,
@@ -652,8 +660,9 @@ as new APIs should always strive to work well with BFCache.
 </div>
 <div class="example">
   Calling {{Clients/claim()|clients.claim()}}
-  should not wait for non-"[=Document/fully active=]" clients,
-  instead it should cause the non-"[=Document/fully active=]" client documents to be discarded.
+  should not wait for non-[=Document/fully active=] clients,
+  instead it should cause the non-[=Document/fully active=] client documents to be discarded.
+  (This is currently not specified, see [issue](https://github.com/w3c/ServiceWorker/issues/1594))
 </div>
 
 <h4 id="per-document-state">Be aware that per-document state/data might persist after navigation</h4>
@@ -661,7 +670,7 @@ As a document might be reused even after navigation,
 be aware that tying something to a document's lifetime
 also means reusing it after navigations.
 If this is not desirable,
-consider listening to changes to the "[=Document/fully active=]" state
+consider listening to changes to the [=Document/fully active=] state
 and doing cleanup as necessary (see above).
 <div class=example>
   [=Sticky activation=] is determined by the "last activation timestamp",
