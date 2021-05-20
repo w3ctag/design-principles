@@ -566,7 +566,7 @@ When a document goes from non-"[=Document/fully active=]" to "[=Document/fully a
 it can restore connections if appropriate.
   
 While web authors can manually do cleanup (e.g. release the resources, sever connections)
-from within the "pagehide" event and restore them from the "pageshow" event themselves,
+from within the {{pagehide}} event and restore them from the {{pageshow}} event themselves,
 doing this automatically from the API design would reduce a lot of overhead.
 
 <div class="example">
@@ -600,7 +600,7 @@ The correct approach is case by case and should consider privacy,
 correctness, performance and ergonomics.
 
 <div class="example">
-  The [gamepadconnected](https://w3c.github.io/gamepad/#event-gamepadconnected) event
+  The {{gamepadconnected}} event
   can be sent to a document that becomes "[=Document/fully active=]" again
   if a gamepad is connected while the document is not "[=Document/fully active=]".
   If the gamepad was repeatedly connected and disconnected,
@@ -623,16 +623,15 @@ correctness, performance and ergonomics.
 Non-"[=Document/fully active=]" documents should not be observable,
 so APIs should treat them as if they no longer exist.
 They should not be visible to the "outside world" through document-spanning APIs
-(e.g. [clients.matchAll()](https://w3c.github.io/ServiceWorker/#clients-matchall), window.opener).
+(e.g. {{Clients/matchAll()|clients.matchAll()}}, {{Window/opener|window.opener}}).
 
 Note: This should be rare since cross-document-spanning APIs are themselves relatively rare.
 
 <div class="example">
-  [BroadcastChannel](https://html.spec.whatwg.org/multipage/web-messaging.html#broadcasting-to-other-browsing-contexts:fully-active)
-  checks for "[=Document/fully active=]" before sending messages to other browsing contexts.
+  {{BroadcastChannel}} [checks](https://html.spec.whatwg.org/multipage/web-messaging.html#broadcasting-to-other-browsing-contexts:fully-active) for [=Document/fully active=] before sending messages to other browsing contexts.
 </div>
 <div class="example">
-  clients.matchAll()'s [spec](https://w3c.github.io/ServiceWorker/#clients-matchall)
+  {{Clients/matchAll()|clients.matchAll()}}
   currently does not distinguish between "[=Document/fully active=]"
   and non-"[=Document/fully active=]" clients,
   but correct implementations should only return "[=Document/fully active=]" clients.
@@ -652,7 +651,7 @@ as new APIs should always strive to work well with BFCache.
   WebSockets [sets the salvageable bit to false](https://html.spec.whatwg.org/#unloading-documents:concept-document-salvageable-7) during unload.
 </div>
 <div class="example">
-  Calling [clients.claim()](https://w3c.github.io/ServiceWorker/#clients-claim)
+  Calling {{Clients/claim()|clients.claim()}}
   should not wait for non-"[=Document/fully active=]" clients,
   instead it should cause the non-"[=Document/fully active=]" client documents to be discarded.
 </div>
