@@ -1962,24 +1962,55 @@ Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
-<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
+<h3 id="usecase-oriented-apis">Design based on functionality, not the underlying API or hardware</h3>
 
+Try to design new native capabilities being brought to the web based on functionality.
+
+You will probably not be able to directly translate
+an API available to native applications
+to a web API.
+
+Instead, consider the functionality available from the native API,
+and the user needs it addresses,
+and design an API that meets those user needs,
+even if the implementation depends on the existing native API.
+
+Be particularly careful about exposing
+the exact lifecycle and data structures of the underlying native APIs.
+When possible, consider flexibility for new hardware.
+
+This means newly proposed APIs should be designed
+with careful consideration on how they are intended to be used
+rather than the underlying hardware, device, or native API
+available today.
+
+<h3 id="hardware-is-scary">Be proactive about safety</h3>
+
+When bringing native capabilities to the web platform,
+try to design defensively.
+
+Bringing a native capability to the web platform
+comes with many implications.
+Users may not want websites to know that their computers
+have specific capabilities. Therefore, access to anything
+outside of the logical origin boundary should be permission gated.
+
+For example, if a device can store state,
+and that state is readable at the same time by multiple origins,
+a set of APIs that lets you read and write that state
+is effectively a side-channel that undermines the origin model of the web.
+
+For these reasons, even if the device allows non-exclusive access,
+you may want to consider enforcing exclusive access per-origin,
+or even restricting it further to only the current active tab.
+
+Additionally, APIs should be designed so that the applications
+can gracefully handle physical disruption, such as a device being unplugged.
+
+<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
 
 When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.
-
- : Design based on functionality, not based on the existing API
- :: You will probably not be able to directly translate
-    an API available to native applications
-    to be a web API.
-
-    Instead, consider the functionality available from the native API,
-    and the user needs it addresses,
-    and design an API which meets those user needs,
-    even if the implmentation depends on the existing native API.
-
-    Be particularly careful about exposing
-    the exact lifecycle and data structures of the underlying native APIs.
 
  : Make sure the web API can be implemented on more than one platform
  :: When designing a wrapper API,
