@@ -23,6 +23,7 @@ spec:css-cascade-5; type:dfn; text:inherit
 spec:dom
     type:dfn; text:aborted flag
     type:method; for:Document; text:getElementsByTagName(qualifiedName)
+    type:method; for:Document; text:createElement(qualifiedName)
 spec:html; type:dfn; for:/
     text:focus update steps
     text:task queue
@@ -31,6 +32,8 @@ spec:html; type:element-attr; for:a; text:href
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
+spec:uievents
+    type:method; for:Document; text:initMouseEvent()
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
@@ -41,6 +44,7 @@ spec:webidl; type:dfn; text:namespace
 <pre class="anchors">
 urlPrefix: https://dom.spec.whatwg.org/; spec: DOM
     url: #dom-document-getelementsbytagname; type: interface; for: Document; text: getElementsByTagName
+    url: #dom-document-createelement; type: interface; for: Document; text: createElement
 urlPrefix: https://w3c.github.io/DOM-Parsing/; spec: DOM-Parsing
     url: #dom-innerhtml-innerhtml; type: attribute; for: Element; text: innerHTML
 urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
@@ -59,6 +63,8 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
+urlPrefix: https://www.w3.org/TR/uievents/ spec: uievents
+    url: #idl-interface-MouseEvent-initializers; type: dfn; text: initMouseEvent
 </pre>
 
 <style>
@@ -995,7 +1001,7 @@ converting {{undefined}} to the type of the argument.
 For example, if a boolean argument isn't set,
 it must default to false.
 
-When deciding between different list data types for your API, 
+When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
 * Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
@@ -1110,6 +1116,32 @@ If your API requires this type of singleton,
 consider using a <a>namespace</a>,
 and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a>
 if there is some problem with using them.
+</div>
+
+Factory methods can complement constructors, but generally should not be used *instead* of them.
+It may still be valuable to include factory methods
+in addition to constructors, when they provide additional benefits.
+A common such case is when an API includes base classes
+and multiple specialized subclasses,
+with a factory method
+for creating the appropriate subclass based on the parameters passed.
+Often the factory method is a static method on the
+closest common base subclass of the returned result.
+
+<div class="example">
+The {{Document/createElement}} method is an example of a
+factory method that could not have been implemented as a constructor,
+as its result can be any of a number of subclasses of {{Element}}.
+If it were designed today, it may have been better to
+use a static method on {{Element}} (e.g. `Element.create()`)
+with the document the element is associated with passed in as a parameter.
+</div>
+
+<div class="example">
+The {{Document/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
+which were originally not constructible,
+even though there was no technical reason against that.
+Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
 </div>
 
 <h3 id="synchronous">Use synchronous when appropriate</h3>
