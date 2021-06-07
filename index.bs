@@ -1132,9 +1132,6 @@ closest common base subclass of the returned result.
 The {{Document/createElement}} method is an example of a
 factory method that could not have been implemented as a constructor,
 as its result can be any of a number of subclasses of {{Element}}.
-If it were designed today, it may have been better to
-use a static method on {{Element}} (e.g. `Element.create()`)
-with the document the element is associated with passed in as a parameter.
 </div>
 
 <div class="example">
