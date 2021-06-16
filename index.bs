@@ -653,7 +653,7 @@ Note: This should be rare since cross-document-spanning APIs are themselves rela
 
 <h4 id="discard">Discard non-[=Document/fully active=] documents for situations that can't be supported</h4>
 If supporting non-[=Document/fully active=] documents is not possible for certain cases,
-explicitly specify it by discarding the document if the situation happens after the user navigated away,
+explicitly specify it by [=discard a document|discarding the document|=] if the situation happens after the user navigated away,
 or setting the document's [salvageable](https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable)
 bit to false if the situation happens before or during the navigation away from the document,
 to cause it to be automatically discarded after navigation.
