@@ -286,8 +286,11 @@ A font picker (high level API)
 [was recommended by the TAG](https://github.com/w3ctag/design-reviews/issues/399)
 over a Font Enumeration API (low level API)
 as it addresses the bulk of use cases,
-without the fingerprinting concerns that accompany
-a general Font Enumeration API, while preserving accessibility and privacy.
+while preserving user privacy,
+as it is free from the the fingerprinting concerns that accompany
+a general Font Enumeration API.
+A native font picker also comes with accessibility built-in,
+and provides consistency for end users.
 
 </div>
 
@@ -2371,8 +2374,8 @@ instead of blacklist and whitelist,
 and source and replica
 instead of master and slave.
 
-If you need to refer to a generic persona, 
-such as an author or user, 
+If you need to refer to a generic persona,
+such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".
 <h3 id="naming-future-proofing">Future-proofing</h4>
