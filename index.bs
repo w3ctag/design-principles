@@ -575,6 +575,49 @@ See also:
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
+<h2 id="css">HTML</h2>
+
+This section details design principles for features which are exposed via HTML.
+
+<h3 id="attribute-reuse">Re-use attribute names for similar functionality</h3>
+
+If you are adding a feature that is specified through an HTML attribute,
+check if there is an existing attribute name on another element
+that specifies similar functionality.
+Re-using an existing attribute name means authors can utilize existing knowledge,
+maintains [consistency](#consistency) across the language,
+and keeps its vocabulary small.
+
+<div class="example">
+	The same attribute name, <{select/multiple}>,
+	is used on both <{select}>
+	to allow selection of multiple values,
+	as well as on <{input}>
+	to allow entry of multiple values.
+</div>
+
+<div class="example">
+	The <{details/open}> attribute was introduced on the <{details}> element,
+	and then re-used by <{dialog}>.
+</div>
+
+If you do re-use an existing attribute,
+try to keep its syntax as close as possible to the syntax of the existing attribute.
+
+<div class="example">
+	The <{label/for}> attribute was introduced on the <{label}> element,
+	for specifying which form element it should be associated with.
+	It was later re-used by <{output}>,
+	for specifying which elements contributed
+	input values to or otherwise affected the calculation.
+	The syntax of the latter is broader:
+	it accepts a space-separated list of ids,
+	whereas the former only accepts one id.
+	However, they both still conform to the same syntax,
+	whereas e.g. if one of them accepted a list of ids,
+	and the other one a selector, that would be an antipattern.
+</div>
+
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
 This section details design principles for features which are exposed via CSS.
