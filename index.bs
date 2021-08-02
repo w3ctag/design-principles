@@ -575,7 +575,7 @@ See also:
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
-<h2 id="css">HTML</h2>
+<h2 id="html">HTML</h2>
 
 This section details design principles for features which are exposed via HTML.
 
