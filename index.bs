@@ -59,8 +59,6 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
-urlPrefix: https://w3c.github.io/geolocation-api/; spec: Geolocation
-    url: #watchposition-method; type: interface; for: Geolocation; text: watchPosition()
 urlPrefix: https://w3c.github.io/gamepad/; spec: Gamepad
     url: #event-gamepadconnected; type: event; text: gamepadconnected
 </pre>
