@@ -91,7 +91,8 @@ Similarly, when beginning to design an API,
 be sure to understand and document the user need that the API aims to address.
 
 [The internet is for end users](https://tools.ietf.org/html/rfc8890):
-any change made to the web platform has the potential to affect vast numbers of people,
+any change made to the web platform has the potential to
+[affect vast numbers of people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople),
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
@@ -109,7 +110,8 @@ and theoretical concerns reflect underlying needs of all of these groups.
 
 See also:
 
-* <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
+* [The web should not cause harm to society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm)
+* [The web must enhance individuals' control and power](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)
 * [[RFC8890]]
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
@@ -122,7 +124,7 @@ The Web is named for its hyperlinked structure.
 In order for the web to remain vibrant,
 users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
-or for any essential aspects of their privacy.
+or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
 
 For example, an API which allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
@@ -165,7 +167,7 @@ Users depend on trusted user interfaces
 such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how.
 These trusted user interfaces must be able to be designed in a way
-that enables users to trust
+that enables users to trust [and verify](https://www.w3.org/2001/tag/doc/ethical-web-principles/#verify)
 that the information they provide is genuine,
 and hasn't been spoofed or hijacked by the website.
 
@@ -182,7 +184,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-make sure that the user can give *meaningful consent* for that feature to be used,
+make sure that the user can give [*meaningful consent*](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -220,19 +222,25 @@ If the user refuses permission,
 no location information is available to the Web page.
 </p>
 
+See also:
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+
 <h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
 
 As much as possible,
-ensure that features on the web work across different input and output devices,
-screen sizes, interaction modes, platforms, and  media.
+ensure that features on the web work across different input and output [devices,
+screen sizes, interaction modes, platforms, and media]
+(https://www.w3.org/2001/tag/doc/ethical-web-principles/#multi).
 
 One of the main values of the Web is that it's extremely flexible:
 a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the existing flexibility of the Web platform.
+New features should match the [existing flexibility](https://www.w3.org/2001/tag/doc/ethical-web-principles/#render)
+of the Web platform.
 
 <div class="note">
 This doesn't imply that features which don't work in *every* possible context should be excluded.
