@@ -122,9 +122,9 @@ that visiting a web page is generally safe.
 
 The Web is named for its hyperlinked structure.
 In order for the web to remain vibrant,
-[users need to be able to expect that merely visiting any given link
+users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
-or for any essential aspects of their privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
+or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
 
 For example, an API which allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
@@ -184,8 +184,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-[make sure that the user can give *meaningful consent* for that feature to be used]
-(https://www.w3.org/2001/tag/doc/ethical-web-principles/#control),
+make sure that the user can give [*meaningful consent*](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -231,7 +230,7 @@ See also:
 <!-- was "Media Independence" in the HTML Design Principles -->
 
 As much as possible,
-ensure that features on [the web work across different input and output devices,
+ensure that features on the web work across different input and output [devices,
 screen sizes, interaction modes, platforms, and media]
 (https://www.w3.org/2001/tag/doc/ethical-web-principles/#multi).
 
