@@ -534,6 +534,11 @@ making them hard to support in various user agents to cache pages in the BFCache
 To avoid this happening with your API,
 you should specify support for non-[=Document/fully active=] documents by following these guidelines:
 
+Note: It is possible for a document to not become [=Document/fully active=] for other reasons not related to
+caching, such as when the iframe holding the document gets detached.
+Some advices below might not be relevant for those cases,
+since the document will never return to [=Document/fully active=] again.
+
 <h4 id="gate-fully-active">Gate actions with [=Document/fully active=] checks</h4>
 
 When performing actions that might update the state of a document,
@@ -549,18 +554,16 @@ as it is written only for handling non-[=Document/fully active=] documents.
 
 In many cases,
 anything that happens while the document is not [=Document/fully active=]
-should be treated as if it never happened,
-and not "queue" the updates and send them after the document becomes fully activated.
-If it makes sense to send the latest state update (and only the latest state,
-not a queue of state changes) to the document after it becomes [=Document/fully active=] again,
-consider the [[#listen-fully-active]] pattern below.
+should be treated as if it never happened.
+If it makes more sense to "update" a document to ensure it does not hold  stale information 
+after it becomes [=Document/fully active=] again, consider the [[#listen-fully-active]] pattern below.
 <div class="example">
   APIs that periodically send information updates,
   such as Geolocation API's {{Geolocation/watchPosition()}}
   should not send updates if the document is no longer fully active.
   They also should not queue those updates to arrive later,
-  and only resume sending updates when the document becomes active
-  with the latest information.
+  and only resume sending updates when the document becomes active again,
+  possibly sending one update with the latest information then.
 </div>
 
 <h4 id="listen-fully-active">Listen for changes to [=Document/fully active=] status</h4>
@@ -586,9 +589,11 @@ and is more likely to lead to well-functioning web applications.
 </div>
 <div class="example">
   APIs that hold non-exclusive resources
-  may be able release the resource when the document becomes not fully active,
-  and re-acquire them when it becomes [=Document/fully active=] again (Screen Wake Lock API is already [doing](https://w3c.github.io/screen-wake-lock/#handling-document-loss-of-full-activity) the first part).
+  may be able to release the resource when the document becomes not fully active,
+  and re-acquire them when it becomes [=Document/fully active=] again
+  (Screen Wake Lock API is already [doing](https://w3c.github.io/screen-wake-lock/#handling-document-loss-of-full-activity) the first part).
 </div>
+
 Note: this might not be appropriate for all types of resources,
 e.g. if an exclusive lock is held,
 we cannot just release it and reacquire when [=Document/fully active=]
@@ -608,6 +613,12 @@ in others it may be appropriate to queue events or deliver a combined event.
 The correct approach is case by case and should consider privacy,
 correctness, performance and ergonomics.
 
+Note: Making sure the latest state is sent to a document that becomes
+[=Document/fully active=] again is especially important when retrofitting existing APIs.
+This is because current users of these APIs expect to always have the latest information.
+Dropping state updates can leave the document with stale information,
+which can lead to unexpected and hard-to-detect breakage of existing sites.
+
 <div class="example">
   The {{gamepadconnected}} event
   can be sent to a document that becomes [=Document/fully active=] again
@@ -620,6 +631,10 @@ correctness, performance and ergonomics.
   For geolocation or other physical sensors,
   no information about what happened while not [=Document/fully active=] should be delivered.
   The events should simply resume from when the document became [=Document/fully active=].
+  However, these APIs should check the state when the document becomes [=Document/fully active=] again,
+  to determine if a status update should be sent (e.g. is the current location far away from the
+  location when the document becomes not fully active?), to ensure the document has the latest
+  information, as guaranteed by the API normally.
 </div>
 <div class="example">
   For network connections or streams,
