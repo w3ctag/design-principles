@@ -59,8 +59,6 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
-urlPrefix: https://w3c.github.io/gamepad/; spec: Gamepad
-    url: #event-gamepadconnected; type: event; text: gamepadconnected
 </pre>
 
 <style>
@@ -527,10 +525,11 @@ See also:
 <h3 id="support-non-fully-active">Support non-"fully active" documents</h3>
 
 After a user navigated away from a document,
-the document might stay around in a non-[=Document/fully active=] state,
-and might be reused when the user navigates back to the entry holding the document.
+the document might be cached in a non-[=Document/fully active=] state,
+and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users. 
+In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short. 
 In the past, many APIs have missed specifying support for non-[=Document/fully active=] documents,
-making them hard to support in various user agents' implementation of "back/forward cache" (BFCache).
+making them hard to support in various user agents to cache pages in the BFCache, effectively making the user experience of navigating back and forth less optimal.
 
 To avoid this happening with your API,
 you should specify support for non-[=Document/fully active=] documents by following these guidelines:
