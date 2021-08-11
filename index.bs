@@ -23,6 +23,7 @@ spec:css-cascade-5; type:dfn; text:inherit
 spec:dom
     type:dfn; text:aborted flag
     type:method; for:Document; text:getElementsByTagName(qualifiedName)
+    type:method; for:Document; text:createElement(qualifiedName)
 spec:html; type:dfn; for:/
     text:focus update steps
     text:task queue
@@ -31,6 +32,8 @@ spec:html; type:element-attr; for:a; text:href
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
+spec:uievents
+    type:method; for:Document; text:initMouseEvent()
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
@@ -41,6 +44,7 @@ spec:webidl; type:dfn; text:namespace
 <pre class="anchors">
 urlPrefix: https://dom.spec.whatwg.org/; spec: DOM
     url: #dom-document-getelementsbytagname; type: interface; for: Document; text: getElementsByTagName
+    url: #dom-document-createelement; type: interface; for: Document; text: createElement
 urlPrefix: https://w3c.github.io/DOM-Parsing/; spec: DOM-Parsing
     url: #dom-innerhtml-innerhtml; type: attribute; for: Element; text: innerHTML
 urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
@@ -59,6 +63,8 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
+urlPrefix: https://www.w3.org/TR/uievents/ spec: uievents
+    url: #idl-interface-MouseEvent-initializers; type: dfn; text: initMouseEvent
 </pre>
 
 <style>
@@ -85,7 +91,8 @@ Similarly, when beginning to design an API,
 be sure to understand and document the user need that the API aims to address.
 
 [The internet is for end users](https://tools.ietf.org/html/rfc8890):
-any change made to the web platform has the potential to affect vast numbers of people,
+any change made to the web platform has the potential to
+[affect vast numbers of people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople),
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
@@ -103,7 +110,8 @@ and theoretical concerns reflect underlying needs of all of these groups.
 
 See also:
 
-* <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a>
+* [The web should not cause harm to society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm)
+* [The web must enhance individuals' control and power](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)
 * [[RFC8890]]
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
@@ -116,7 +124,7 @@ The Web is named for its hyperlinked structure.
 In order for the web to remain vibrant,
 users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
-or for any essential aspects of their privacy.
+or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
 
 For example, an API which allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
@@ -159,7 +167,7 @@ Users depend on trusted user interfaces
 such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how.
 These trusted user interfaces must be able to be designed in a way
-that enables users to trust
+that enables users to trust [and verify](https://www.w3.org/2001/tag/doc/ethical-web-principles/#verify)
 that the information they provide is genuine,
 and hasn't been spoofed or hijacked by the website.
 
@@ -176,7 +184,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-make sure that the user can give *meaningful consent* for that feature to be used,
+make sure that the user can give [*meaningful consent*](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -214,19 +222,25 @@ If the user refuses permission,
 no location information is available to the Web page.
 </p>
 
+See also:
+
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+
 <h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
 
 As much as possible,
-ensure that features on the web work across different input and output devices,
-screen sizes, interaction modes, platforms, and  media.
+ensure that features on the web work across different input and output [devices,
+screen sizes, interaction modes, platforms, and media]
+(https://www.w3.org/2001/tag/doc/ethical-web-principles/#multi).
 
 One of the main values of the Web is that it's extremely flexible:
 a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the existing flexibility of the Web platform.
+New features should match the [existing flexibility](https://www.w3.org/2001/tag/doc/ethical-web-principles/#render)
+of the Web platform.
 
 <div class="note">
 This doesn't imply that features which don't work in *every* possible context should be excluded.
@@ -282,6 +296,53 @@ Naming APIs well makes it much easier for authors to use them correctly.
 
 See the more detailed <a href="#naming-is-hard">Naming principles</a> section
 for specific guidance on naming.
+
+<h3 id="consistency">Consistency</h3>
+
+It is good practice to consider precedent in the design of your API
+and to try to be consistent with it.
+
+There is often a tension between API ergonomics and consistency,
+when existing precedent is of poor usability.
+In some cases it makes sense to break consistency to improve usability,
+but the improvement should be very significant to justify this.
+
+<!-- TODO: example? -->
+
+Since the Web Platform has gradually evolved over time,
+there are often multiple conflicting precedents
+which are mutually exclusive.
+You can weigh which precdent to follow by taking into account
+prevalence (all else being equal, follow the more popular precedent),
+API ergonomics (all else being equal, follow the more usable precedent),
+and API age (all else being equal, follow the newer precedent).
+
+<!-- TODO: example? -->
+
+There is often a tension between internal and external consistency.
+<em>Internal consistency</em> is consistency with the rest of the system,
+whereas <em>external consistency</em> is consistency with the rest of the world.
+In the Web Platform, that might materialize in three layers:
+consistency within the technology the API belongs to (e.g. CSS),
+consistency with the rest of the Web Platform,
+and in some cases external precedent,
+when the API relates to a particular specialized outside domain.
+In those cases, it is useful to consider what the majority of users will be.
+Since for most APIs the target user is someone who is familiar with the
+technology they are defined in,
+err on the side of favoring consistency with that.
+
+<div class="example">
+One example is
+<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">Lab colors</a>:
+It would be more consistent with the rest of CSS to use percentages for L (0%-100%),
+but more consistent with the rest of Color Science to use a unitless number (0-100).
+There was a lot of heated debate,
+which resolved in favor of percentages,
+i.e. consistency within CSS.
+</div>
+
+There is also a separate section on <a href="#naming-consistency">naming consistency</a>.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
@@ -698,6 +759,49 @@ and doing cleanup as necessary (see above).
   even after the user navigated away and back to it again.
   Whether this should actually be reset when full activity is lost or not
   is still [under discussion](https://github.com/whatwg/html/issues/6588).
+</div>
+
+<h2 id="html">HTML</h2>
+
+This section details design principles for features which are exposed via HTML.
+
+<h3 id="attribute-reuse">Re-use attribute names for similar functionality</h3>
+
+If you are adding a feature that is specified through an HTML attribute,
+check if there is an existing attribute name on another element
+that specifies similar functionality.
+Re-using an existing attribute name means authors can utilize existing knowledge,
+maintains [consistency](#consistency) across the language,
+and keeps its vocabulary small.
+
+<div class="example">
+	The same attribute name, <{select/multiple}>,
+	is used on both <{select}>
+	to allow selection of multiple values,
+	as well as on <{input}>
+	to allow entry of multiple values.
+</div>
+
+<div class="example">
+	The <{details/open}> attribute was introduced on the <{details}> element,
+	and then re-used by <{dialog}>.
+</div>
+
+If you do re-use an existing attribute,
+try to keep its syntax as close as possible to the syntax of the existing attribute.
+
+<div class="example">
+	The <{label/for}> attribute was introduced on the <{label}> element,
+	for specifying which form element it should be associated with.
+	It was later re-used by <{output}>,
+	for specifying which elements contributed
+	input values to or otherwise affected the calculation.
+	The syntax of the latter is broader:
+	it accepts a space-separated list of ids,
+	whereas the former only accepts one id.
+	However, they both still conform to the same syntax,
+	whereas e.g. if one of them accepted a list of ids,
+	and the other one a selector, that would be an antipattern.
 </div>
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
@@ -1173,7 +1277,7 @@ converting {{undefined}} to the type of the argument.
 For example, if a boolean argument isn't set,
 it must default to false.
 
-When deciding between different list data types for your API, 
+When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
 * Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
@@ -1290,6 +1394,29 @@ and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web I
 if there is some problem with using them.
 </div>
 
+Factory methods can complement constructors, but generally should not be used *instead* of them.
+It may still be valuable to include factory methods
+in addition to constructors, when they provide additional benefits.
+A common such case is when an API includes base classes
+and multiple specialized subclasses,
+with a factory method
+for creating the appropriate subclass based on the parameters passed.
+Often the factory method is a static method on the
+closest common base subclass of the returned result.
+
+<div class="example">
+The {{Document/createElement}} method is an example of a
+factory method that could not have been implemented as a constructor,
+as its result can be any of a number of subclasses of {{Element}}.
+</div>
+
+<div class="example">
+The {{Document/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
+which were originally not constructible,
+even though there was no technical reason against that.
+Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
+</div>
+
 <h3 id="synchronous">Use synchronous when appropriate</h3>
 
 Where possible, prefer synchronous APIs when designing a new API.
@@ -1367,6 +1494,31 @@ If you need to express a state which is a combination of properties,
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
+
+<h3 id="properties-vs-methods">Properties vs. Methods</h3>
+
+Sometimes it is unclear whether to use a property or a method.
+
+  * Property getters must not have any (observable) side effects.
+    If you have expected side effects, use a method.
+  * Property getters are expected to represent the state of a given object.
+    This means a getter should be able to efficiently return a value using the existing state.
+    If a getter does not satisfy this, it should be a method.
+    (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
+  * If the underlying object has not changed, property getters should return the same object each time it is called.
+    This means <code>obj.property === obj.property</code> must always hold.
+    Returning a new value from a property getter each time is not allowed.
+    If this does not hold, the getter should be a method.
+
+For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
+given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
+
+The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
+
+  * If live, then return the same object each time, until a state change requires a different object to be returned.
+    This can be returned from either an property or a method.
+  * If static, then return a new object each time.
+    In which case, this should be be a method.
 
 <h2 id="event-design">Event Design</h2>
 
