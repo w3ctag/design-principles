@@ -547,7 +547,7 @@ and is considered as "non-existent" from the user's perspective.
 This means they should not receive updates or perform actions.
 
 Note: It is possible for a [=Document/fully active=] document to be perceived as "non-existent" by users,
-such as when the document is [displaying prerendered content](https://jeremyroman.github.io/alternate-loading-modes/).
+such as when the document is [displaying prerendered content](https://html.spec.whatwg.org/#link-type-prerender).
 These documents might behave differently than non-[=Document/fully active=] documents,
 and the guidelines here might not be applicable to them,
 as it is written only for handling non-[=Document/fully active=] documents.
