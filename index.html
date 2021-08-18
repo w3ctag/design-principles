@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 4f053d00e, updated Tue Aug 10 14:13:32 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="7f666051cf676e3b8544dd99b39044c325f481f4" name="document-revision">
+  <meta content="6c67d675bd6112a056b767cfe1599ccab4ac548c" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -3134,7 +3134,7 @@ closest common base subclass of the returned result.</p>
    <div class="example" id="example-071fec19"><a class="self-link" href="#example-071fec19"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-createelement" id="ref-for-dom-document-createelement">createElement</a></code> method is an example of a
 factory method that could not have been implemented as a constructor,
 as its result can be any of a number of subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>. </div>
-   <div class="example" id="example-3119992e"><a class="self-link" href="#example-3119992e"></a> The <code class="idl"><a data-link-type="idl">initMouseEvent</a></code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
+   <div class="example" id="example-3119992e"><a class="self-link" href="#example-3119992e"></a> The <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent" id="ref-for-dom-mouseevent-initmouseevent">initMouseEvent</a></code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible. </div>
@@ -3690,7 +3690,7 @@ are interoperable with one another.
 This means that authors don’t need to convert values used in one API
 to be used in another API,
 or keep track of which time unit is needed where.</p>
-   <p>This convention began with <code class="idl"><a data-link-type="idl">setTimeout</a></code> and the <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects">Date</a></code> API,
+   <p>This convention began with <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout" id="ref-for-dom-settimeout">setTimeout()</a></code> and the <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects">Date</a></code> API,
 and has been used since then.</p>
    <p class="note" role="note"><span>Note:</span> high-resolution time is usually represented as fractional milliseconds
 using a floating point value,
@@ -4297,7 +4297,7 @@ design, the following rules have emerged:</p>
      <tr>
       <th>HTML elements and attributes
       <td>Lowercase, concatenated
-      <td><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element" id="ref-for-the-figcaption-element">figcaption</a></code><br> <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength" id="ref-for-attr-textarea-maxlength">maxlength</a></code>
+      <td><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element" id="ref-for-the-figcaption-element">figcaption</a></code><br> <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-maxlength">maxlength</a>
      <tr>
       <th>JSON keys
       <td>Lowercase, underscore-delimited
@@ -4982,12 +4982,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-event-languagechange">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-attr-textarea-maxlength">
-   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength">https://html.spec.whatwg.org/multipage/form-elements.html#attr-textarea-maxlength</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-attr-textarea-maxlength">Use casing rules consistent with existing APIs</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-attr-select-multiple">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple">https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple</a><b>Referenced in:</b>
    <ul>
@@ -5042,6 +5036,12 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-select-element">3.1. Re-use attribute names for similar functionality</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-settimeout">
+   <a href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout">https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-settimeout">8.3. Use milliseconds for time measurement</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-dialog-showmodal">
@@ -5174,6 +5174,12 @@ so they can correct this omission.</p>
    <a href="https://www.w3.org/TR/uievents/#mouseevent">https://www.w3.org/TR/uievents/#mouseevent</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-mouseevent">6.6. Classes should have constructors when possible</a> <a href="#ref-for-mouseevent①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-mouseevent-initmouseevent">
+   <a href="https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent">https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-mouseevent-initmouseevent">6.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-urlsearchparams">
@@ -5553,7 +5559,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-attr-img-ismap">ismap</span>
      <li><span class="dfn-paneled" id="term-for-the-label-element">label</span>
      <li><span class="dfn-paneled" id="term-for-event-languagechange">languagechange</span>
-     <li><span class="dfn-paneled" id="term-for-attr-textarea-maxlength">maxlength</span>
      <li><span class="dfn-paneled" id="term-for-attr-select-multiple">multiple</span>
      <li><span class="dfn-paneled" id="term-for-dom-navigator-online">onLine</span>
      <li><span class="dfn-paneled" id="term-for-attr-details-open">open</span>
@@ -5563,6 +5568,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-reflect">reflect</span>
      <li><span class="dfn-paneled" id="term-for-event-media-resize">resize</span>
      <li><span class="dfn-paneled" id="term-for-the-select-element">select</span>
+     <li><span class="dfn-paneled" id="term-for-dom-settimeout">setTimeout(handler, timeout, ...arguments)</span>
      <li><span class="dfn-paneled" id="term-for-dom-dialog-showmodal">showModal()</span>
      <li><span class="dfn-paneled" id="term-for-task-queue">task queues</span>
     </ul>
@@ -5621,6 +5627,7 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-keyboardevent">KeyboardEvent</span>
      <li><span class="dfn-paneled" id="term-for-mouseevent">MouseEvent</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-initmouseevent">initMouseEvent()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
