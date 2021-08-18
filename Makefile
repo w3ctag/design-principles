@@ -12,4 +12,4 @@ build:
 	mkdir -p build
 
 build/%.html: %.bs Makefile build
-	bikeshed --die-on=warning spec $< $@
+	bikeshed --die-on=fatal spec $< $@
