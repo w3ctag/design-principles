@@ -32,8 +32,6 @@ spec:html; type:element-attr; for:a; text:href
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
-spec:uievents
-    type:method; for:Document; text:initMouseEvent()
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
@@ -63,8 +61,6 @@ urlPrefix: https://url.spec.whatwg.org/; spec: URL
     url: #percent-encode; type: abstract-op; text: percent-encode
 urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     url: #dfn-state; type: dfn; text: [[state]];
-urlPrefix: https://www.w3.org/TR/uievents/ spec: uievents
-    url: #idl-interface-MouseEvent-initializers; type: dfn; text: initMouseEvent
 </pre>
 
 <style>
@@ -1233,7 +1229,7 @@ as its result can be any of a number of subclasses of {{Element}}.
 </div>
 
 <div class="example">
-The {{Document/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
+The {{MouseEvent/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
@@ -1876,7 +1872,7 @@ This means that authors don't need to convert values used in one API
 to be used in another API,
 or keep track of which time unit is needed where.
 
-This convention began with {{setTimeout}} and the
+This convention began with {{WindowOrWorkerGlobalScope/setTimeout()}} and the
 {{Date}} API,
 and has been used since then.
 
@@ -2621,7 +2617,7 @@ design, the following rules have emerged:
         <th>HTML elements and attributes</th>
         <td>Lowercase, concatenated</td>
         <td><{figcaption}><br>
-            <{textarea/maxlength}></td>
+            <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-maxlength">maxlength</a></td>
     </tr>
     <tr>
         <th>JSON keys</th>
