@@ -3065,17 +3065,17 @@ can be confusing to authors.
 Authors can use [feature detection](#feature-detect)
 to write different code for different browsers.
 
-Note: There is a risk that authors may assume
-the API variant supported by the dominant implementation
-is the "correct" one,
-or they may simply be unaware of the API variants supported
-in implementations they do not use regularly,
-which may further entrench the dominant implementaiton.
+Note: This may have consequences for the browser ecosystem.
+Authors may choose to only support 
+the version implemented in the most widely-used browser engine,
+meaning users of browsers with different engines
+have a poor experience.
+This in turn may cause users to feel they have no choice
+but to use the more widely-used browser.
 
-If you do go this route,
-try to reduce the cost to authors
-by minimizing the differences between the APIs.
-It may be possible to design things
+If you do choose this option,
+try to minimize the differences between the APIs.
+It may be possible to create the design
 such that the non-standard part
 is a small, isolated component
 of a larger, standardized framework.
