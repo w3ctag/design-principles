@@ -1971,7 +1971,7 @@ Avoid directly translating an existing native API to the web.
 Instead, consider the functionality available from the native API,
 and the user needs it addresses,
 and design an API that meets those user needs,
-even as the implementation depends on the existing native API.
+even if the implementation depends on the existing native API.
 
 Be particularly careful about exposing
 the exact lifecycle and data structures of the underlying native APIs.
