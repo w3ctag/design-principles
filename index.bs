@@ -2111,8 +2111,7 @@ When representing date-times on the platform, use the {{DOMHighResTimeStamp}} ty
 regardless of the user's time settings.
 
 {{DOMHighResTimeStamp}} values represent
-the number of milliseconds since 1970-01-01T00:00:00Z.
-They are derived from the system's clock.
+a time value in milliseconds.
 See [[!HIGHRES-TIME]] for more details.
 
 Don't use the JavaScript {{Date}} class for representing
