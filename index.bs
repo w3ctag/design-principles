@@ -285,6 +285,52 @@ See also:
 
 * [[LEAST-POWER]]
 
+<h3 id="high-level-low-level">Resolving tension between high level and low level APIs</h3>
+
+<!--
+See "High level or low-level APIs?"
+https://github.com/w3ctag/design-principles/issues/117
+-->
+
+High-level APIs allow user agents more ability to
+intervene in various ways [on behalf of the user](#priority-of-constituencies),
+such as to ensure accessibility, privacy, or usability.
+
+<div class=example id=font-enumeration>
+
+A font picker (high level API)
+[was recommended by the TAG](https://github.com/w3ctag/design-reviews/issues/399)
+over a Font Enumeration API (low level API)
+as it addresses the bulk of use cases,
+while preserving user privacy,
+as it is free from the the fingerprinting concerns that accompany
+a general Font Enumeration API.
+A native font picker also comes with accessibility built-in,
+and provides consistency for end users.
+
+</div>
+
+Low-level APIs afford authors room for experimentation
+so that high level APIs can organically emerge
+from usage patterns over time.
+They also provide an escape hatch when the higher-level API
+is not adequate for the use case at hand.
+
+Lower level building blocks cannot always be exposed as Web APIs.
+A few possible reasons for this are
+to preserve the user's security and privacy,
+or to avoid tying Web APIs to specific hardware implementations.
+However, high level APIs should be designed in terms of
+building blocks over lower level APIs
+whenever possible.
+This may guide decisions on how high level the API needs to be.
+
+A well-layered solution should ensure continuity
+of the ease-of-use vs power tradeoff curve
+and avoid sharp cliffs
+where a small amount of incremental use case complexity
+results in a large increase of code complexity.
+
 <h3 id="name-thoughtfully">Name things thoughtfully</h3>
 
 Name APIs with care.
