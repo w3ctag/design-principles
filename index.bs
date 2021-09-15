@@ -1966,14 +1966,12 @@ they may need to for web compatibility reasons.
 
 Design new native capabilities being brought to the web based on functionality.
 
-You will probably not be able to directly translate
-an API available to native applications
-to a web API.
+Avoid directly translating an existing native API to the web.
 
 Instead, consider the functionality available from the native API,
 and the user needs it addresses,
 and design an API that meets those user needs,
-even if the implementation depends on the existing native API.
+even as the implementation depends on the existing native API.
 
 Be particularly careful about exposing
 the exact lifecycle and data structures of the underlying native APIs.
@@ -1981,7 +1979,7 @@ When possible, consider flexibility for new hardware.
 
 This means newly proposed APIs should be designed
 with careful consideration on how they are intended to be used
-rather than the underlying hardware, device, or native API
+rather than how the underlying hardware, device, or native API
 available today.
 
 <h3 id="hardware-is-scary">Be proactive about safety</h3>
