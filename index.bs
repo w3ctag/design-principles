@@ -2110,6 +2110,11 @@ When representing date-times on the platform, use the {{DOMHighResTimeStamp}} ty
 {{DOMHighResTimeStamp}} allows comparison of timestamps,
 regardless of the user's time settings.
 
+{{DOMHighResTimeStamp}} values represent
+the number of milliseconds since 1970-01-01T00:00:00Z.
+They are derived from the system's clock.
+See [[!HIGHRES-TIME]] for more details.
+
 Don't use the JavaScript {{Date}} class for representing
 specific date-time values.
 {{Date}} objects are mutable (may have their value changed),
@@ -2124,11 +2129,6 @@ and there is no way to make them immutable.
     * <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web IDL</a>
         on the Web IDL Bugzilla
 </div>
-
-{{DOMHighResTimeStamp}} values represent
-the number of milliseconds since 1970-01-01T00:00:00Z.
-They are derived from the system's clock.
-See [[!HIGHRES-TIME]] for more details.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
