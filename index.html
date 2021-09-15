@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version e8cbf4ed2, updated Fri Sep 10 10:21:28 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="86be0ac236b5fbee8f1e66945984652d3346f27d" name="document-revision">
+  <meta content="2bdd325fa308d7077d8d478c71502c08492822d0" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2200,6 +2200,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#new-http-header-syntax"><span class="secno">10.3</span> <span class="content">New HTTP Headers</span></a>
       <li><a href="#extend-manifests"><span class="secno">10.4</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
       <li><a href="#debuggability"><span class="secno">10.5</span> <span class="content">Features should be developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.6</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -4202,6 +4203,12 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
+   <h3 class="heading settled" data-level="10.6" id="crypto"><span class="secno">10.6. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <p>Use only cryptographic algorithms
+that have been impartially reviewed by security experts,
+and make sure your choice of algorithm is proven, and up-to-date.
+Not only do they become obsolete or insecure,
+cryptographic protocols and algorithms also evolve quickly.</p>
    <h2 class="heading settled" data-level="11" id="spec-writing"><span class="secno">11. </span><span class="content">Writing good specifications</span><a class="self-link" href="#spec-writing"></a></h2>
    <p>This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
