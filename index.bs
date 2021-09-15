@@ -2130,16 +2130,10 @@ part of the specification is [Web Animations](https://www.w3.org/TR/web-animatio
 <h3 id="crypto">Use the best crypto, and expect it to evolve</h3>
 
 Use only cryptographic algorithms
-that have been impartially reviewed by security experts,
+that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
-
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.
-Therefore, features should be designed
-so that they are usable in an algorithm-independent manner.
-For example, [WebCrypto](https://www.w3.org/TR/WebCryptoAPI/#scope-algorithms)
-is designed so that the underlying algorithm
-is a parameter to a generic API.
 
 <h2 id="spec-writing">Writing good specifications</h2>
 
