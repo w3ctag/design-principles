@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version e8cbf4ed2, updated Fri Sep 10 10:21:28 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="e2230d0c15bccc455078e0fac5e303ccb2ecc59a" name="document-revision">
+  <meta content="0bd75b37a19d484fe5eaf91497e7f37e2225c3a1" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -3865,10 +3865,11 @@ and has been used since then.</p>
 using a floating point value,
 not as an integer value of a smaller time unit like nanoseconds.</p>
    <h3 class="heading settled" data-level="8.4" id="times-and-dates"><span class="secno">8.4. </span><span class="content">Use the appropriate type to represent times and dates</span><a class="self-link" href="#times-and-dates"></a></h3>
-   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp">DOMTimeStamp</a></code> type.
-Use <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code> if authors
-must always be able to compare timestamps,
+   <p>When representing date-times on the platform, use the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code> type. <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code> allows comparison of timestamps,
 regardless of the user’s time settings.</p>
+   <p><code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp②">DOMHighResTimeStamp</a></code> values represent
+a time value in milliseconds.
+See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
    <p>Don’t use the JavaScript <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects①">Date</a></code> class for representing
 specific date-time values. <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②">Date</a></code> objects are mutable (may have their value changed),
 and there is no way to make them immutable.</p>
@@ -3883,20 +3884,6 @@ es-discuss</p>
       <p><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22824">Remove Date from Web IDL</a> on the Web IDL Bugzilla</p>
     </ul>
    </div>
-   <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp①">DOMTimeStamp</a></code> values represent
-the number of milliseconds since 1970-01-01T00:00:00Z.
-They are derived from the system’s clock,
-which may be changed by the user,
-or automatically for things like time zone updates
-or daylight savings.
-This means that, in practice, a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp②">DOMTimeStamp</a></code> created later in real time
-may have a lower value than a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp③">DOMTimeStamp</a></code> created earlier.
-Also, if two <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp" id="ref-for-DOMTimeStamp④">DOMTimeStamp</a></code>s are created within the same millisecond,
-there’s no way to know which was created earlier.</p>
-   <p>So, if a date-time is only used to compare timing of events,
-and not to show a formatted date-time value to the user,
-consider using <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code> instead.
-See <a data-link-type="biblio" href="#biblio-highres-time">[HIGHRES-TIME]</a> for more details.</p>
    <h3 class="heading settled" data-level="8.5" id="error-types"><span class="secno">8.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
 or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
@@ -4998,7 +4985,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
    <a href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp">https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-domhighrestimestamp">8.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a>
+    <li><a href="#ref-for-dom-domhighrestimestamp">8.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a> <a href="#ref-for-dom-domhighrestimestamp②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-broadcastchannel">
@@ -5484,12 +5471,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-idl-DOMString">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-DOMString①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-DOMTimeStamp">
-   <a href="https://heycam.github.io/webidl/#DOMTimeStamp">https://heycam.github.io/webidl/#DOMTimeStamp</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-DOMTimeStamp">8.4. Use the appropriate type to represent times and dates</a> <a href="#ref-for-DOMTimeStamp①">(2)</a> <a href="#ref-for-DOMTimeStamp②">(3)</a> <a href="#ref-for-DOMTimeStamp③">(4)</a> <a href="#ref-for-DOMTimeStamp④">(5)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-EnforceRange">
    <a href="https://heycam.github.io/webidl/#EnforceRange">https://heycam.github.io/webidl/#EnforceRange</a><b>Referenced in:</b>
    <ul>
@@ -5915,7 +5896,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-Clamp">Clamp</span>
      <li><span class="dfn-paneled" id="term-for-idl-DOMException">DOMException</span>
      <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-DOMTimeStamp">DOMTimeStamp</span>
      <li><span class="dfn-paneled" id="term-for-EnforceRange">EnforceRange</span>
      <li><span class="dfn-paneled" id="term-for-idl-promise">Promise</span>
      <li><span class="dfn-paneled" id="term-for-SecureContext">SecureContext</span>
