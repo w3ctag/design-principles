@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version e8cbf4ed2, updated Fri Sep 10 10:21:28 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="2bdd325fa308d7077d8d478c71502c08492822d0" name="document-revision">
+  <meta content="e2230d0c15bccc455078e0fac5e303ccb2ecc59a" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2190,7 +2190,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#device-ids"><span class="secno">9.1</span> <span class="content">Use care when exposing identifying information about devices</span></a>
       <li><a href="#device-enumeration"><span class="secno">9.2</span> <span class="content">Use care when exposing APIs for selecting or enumerating devices</span></a>
-      <li><a href="#wrapper-apis"><span class="secno">9.3</span> <span class="content">Native APIs don’t typically translate well to the web</span></a>
+      <li><a href="#usecase-oriented-apis"><span class="secno">9.3</span> <span class="content">Design based on functionality, not the underlying API or hardware</span></a>
+      <li><a href="#hardware-is-scary"><span class="secno">9.4</span> <span class="content">Be proactive about safety</span></a>
+      <li><a href="#wrapper-apis"><span class="secno">9.5</span> <span class="content">Native APIs don’t typically translate well to the web</span></a>
      </ol>
     <li>
      <a href="#other-considerations"><span class="secno">10</span> <span class="content">Other API Design Considerations</span></a>
@@ -4038,21 +4040,41 @@ see <a href="https://w3c.github.io/fingerprinting-guidance/#a_standardized_profi
    <p class="note" role="note"><span>Note:</span> While APIs should not
 expose a full list of devices in an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined">implementation-defined</a> order,
 they may need to for web compatibility reasons.</p>
-   <h3 class="heading settled" data-level="9.3" id="wrapper-apis"><span class="secno">9.3. </span><span class="content">Native APIs don’t typically translate well to the web</span><a class="self-link" href="#wrapper-apis"></a></h3>
+   <h3 class="heading settled" data-level="9.3" id="usecase-oriented-apis"><span class="secno">9.3. </span><span class="content">Design based on functionality, not the underlying API or hardware</span><a class="self-link" href="#usecase-oriented-apis"></a></h3>
+   <p>Design new native capabilities being brought to the web based on functionality.</p>
+   <p>Avoid directly translating an existing native API to the web.</p>
+   <p>Instead, consider the functionality available from the native API,
+and the user needs it addresses,
+and design an API that meets those user needs,
+even if the implementation depends on the existing native API.</p>
+   <p>Be particularly careful about exposing
+the exact lifecycle and data structures of the underlying native APIs.
+When possible, consider flexibility for new hardware.</p>
+   <p>This means newly proposed APIs should be designed
+with careful consideration on how they are intended to be used
+rather than how the underlying hardware, device, or native API
+available today.</p>
+   <h3 class="heading settled" data-level="9.4" id="hardware-is-scary"><span class="secno">9.4. </span><span class="content">Be proactive about safety</span><a class="self-link" href="#hardware-is-scary"></a></h3>
+   <p>When bringing native capabilities to the web platform,
+try to design defensively.</p>
+   <p>Bringing a native capability to the web platform
+comes with many implications.
+Users may not want websites to know that their computers
+have specific capabilities. Therefore, access to anything
+outside of the logical origin boundary should be permission gated.</p>
+   <p>For example, if a device can store state,
+and that state is readable at the same time by multiple origins,
+a set of APIs that lets you read and write that state
+is effectively a side-channel that undermines the origin model of the web.</p>
+   <p>For these reasons, even if the device allows non-exclusive access,
+you may want to consider enforcing exclusive access per-origin,
+or even restricting it further to only the current active tab.</p>
+   <p>Additionally, APIs should be designed so that the applications
+can gracefully handle physical disruption, such as a device being unplugged.</p>
+   <h3 class="heading settled" data-level="9.5" id="wrapper-apis"><span class="secno">9.5. </span><span class="content">Native APIs don’t typically translate well to the web</span><a class="self-link" href="#wrapper-apis"></a></h3>
    <p>When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.</p>
    <dl>
-    <dt data-md>Design based on functionality, not based on the existing API
-    <dd data-md>
-     <p>You will probably not be able to directly translate
-an API available to native applications
-to be a web API.</p>
-     <p>Instead, consider the functionality available from the native API,
-and the user needs it addresses,
-and design an API which meets those user needs,
-even if the implmentation depends on the existing native API.</p>
-     <p>Be particularly careful about exposing
-the exact lifecycle and data structures of the underlying native APIs.</p>
     <dt data-md>Make sure the web API can be implemented on more than one platform
     <dd data-md>
      <p>When designing a wrapper API,
