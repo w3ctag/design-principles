@@ -2106,9 +2106,8 @@ not as an integer value of a smaller time unit like nanoseconds.
 
 <h3 id="times-and-dates">Use the appropriate type to represent times and dates</h3>
 
-When representing date-times on the platform, use the {{DOMTimeStamp}} type.
-Use {{DOMHighResTimeStamp}} if authors
-must always be able to compare timestamps,
+When representing date-times on the platform, use the {{DOMHighResTimeStamp}} type.
+{{DOMHighResTimeStamp}} allows comparison of timestamps,
 regardless of the user's time settings.
 
 Don't use the JavaScript {{Date}} class for representing
@@ -2126,22 +2125,9 @@ and there is no way to make them immutable.
         on the Web IDL Bugzilla
 </div>
 
-{{DOMTimeStamp}} values represent
+{{DOMHighResTimeStamp}} values represent
 the number of milliseconds since 1970-01-01T00:00:00Z.
-They are derived from the system's clock,
-which may be changed by the user,
-or automatically for things like time zone updates
-or daylight savings.
-This means that, in practice, a {{DOMTimeStamp}}
-created later in real time
-may have a lower value than a {{DOMTimeStamp}} created earlier.
-Also, if two {{DOMTimeStamp}}s are created within the same millisecond,
-there's no way to know which was created earlier.
-
-So, if a date-time is only used to compare timing of events,
-and not to show a formatted date-time value to the user,
-consider using {{DOMHighResTimeStamp}} instead.
-See [[!HIGHRES-TIME]] for more details.
+They are derived from the system's clock.
 
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
