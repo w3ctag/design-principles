@@ -1964,7 +1964,7 @@ they may need to for web compatibility reasons.
 
 <h3 id="usecase-oriented-apis">Design based on functionality, not the underlying API or hardware</h3>
 
-Try to design new native capabilities being brought to the web based on functionality.
+Design new native capabilities being brought to the web based on functionality.
 
 You will probably not be able to directly translate
 an API available to native applications
