@@ -55,7 +55,7 @@ urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
     url: #sec-number-objects; type: interface; text: Number
     url: #sec-weak-ref-objects; type: interface; text: WeakRef
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
-    url: offline.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
+    url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     url: #remoteplayback-interface; type:interface; text: RemotePlayback
     url: #dfn-remote-playback-devices; type:dfn; text: remote playback device
@@ -201,7 +201,7 @@ that the user believes they have refused consent for.
 By asking for consent,
 we can inform the user of what capabilities the web page does or doesn't have,
 reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
-However, the <a href="priority-of-constituencies">user benefit</a>
+However, the <a href="#priority-of-constituencies">user benefit</a>
 of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it's requested by a Web page.
@@ -1812,7 +1812,7 @@ are all examples of an Observer pattern.
 
 <div class="example">
 {{MutationObserver}} replaced the deprecated
-<a href="https://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">DOM Mutation Events</a>
+<a href="https://www.w3.org/TR/DOM-Level-3-Events/#legacy-mutationevent-events">DOM Mutation Events</a>
 after developers [noticed](https://lists.w3.org/Archives/Public/public-webapps/2011JulSep/0779.html)
 that DOM Mutation Events
 * fire too often
