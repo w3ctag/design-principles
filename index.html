@@ -1488,8 +1488,8 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version a210b7d86, updated Thu Sep 16 13:45:19 2021 -0700" name="generator">
-  <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="c8f54ad9ade24eb7f2b91f9c9b912331dcf3f9f5" name="document-revision">
+  <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
+  <meta content="07386d39388a251a83928f75d322f2dbf09995c3" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2057,8 +2057,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://w3ctag.github.io/design-principles/">https://w3ctag.github.io/design-principles/</a>
+     <dt>Latest published version:
+     <dd><a href="https://www.w3.org/TR/design-principles/">https://www.w3.org/TR/design-principles/</a>
+     <dt>Issue Tracking:
+     <dd><a href="https://github.com/w3ctag/design-principles/issues/">GitHub</a>
      <dt class="editor">Editor:
-     <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://sangwhan.com">Sangwhan Moon</a> (<span class="p-org org">Invited Expert</span>)
+     <dd class="editor p-author h-card vcard" data-editor-id="42399"><a class="p-name fn u-url url" href="https://sangwhan.com">Sangwhan Moon</a> (<a class="p-org org" href="https://www.google.com/">Google</a>)
      <dt class="editor">Former Editors:
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://domenic.me/">Domenic Denicola</a> (<a class="p-org org" href="https://www.google.com/">Google</a>) <a class="u-email email" href="mailto:d@domenic.me">d@domenic.me</a>
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:travil@microsoft.com">Travis Leithead</a> (<span class="p-org org">Microsoft</span>)
@@ -2360,7 +2364,7 @@ that the user believes they have refused consent for.</p>
    <p>By asking for consent,
 we can inform the user of what capabilities the web page does or doesn’t have,
 reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
-However, the <a href="priority-of-constituencies">user benefit</a> of a new feature must justify the additional burden on users
+However, the <a href="#priority-of-constituencies">user benefit</a> of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it’s requested by a Web page.</p>
    <p class="example" id="example-07793d34"><a class="self-link" href="#example-07793d34"></a> For example,
@@ -3005,7 +3009,7 @@ such as an object property,
 the user agent must not update that data
 while a JavaScript task is running.
 Instead, if the underlying data changes, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> to modify the exposed version of the data.</p>
-   <div class="example" id="example-3fb93c89"><a class="self-link" href="#example-3fb93c89"></a> If a JavaScript task has accessed the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online" id="ref-for-dom-navigator-online">navigator.onLine</a></code> property,
+   <div class="example" id="example-3fb93c89"><a class="self-link" href="#example-3fb93c89"></a> If a JavaScript task has accessed the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-online" id="ref-for-dom-navigator-online">navigator.onLine</a></code> property,
 and browser’s online status changes,
 the property won’t be updated until the next task runs. </div>
    <h3 class="heading settled" data-level="5.3" id="js-gc"><span class="secno">5.3. </span><span class="content">Don’t expose garbage collection</span><a class="self-link" href="#js-gc"></a></h3>
@@ -3595,7 +3599,7 @@ consider using an Observer pattern instead.</p>
    <p><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver">MutationObserver</a></code>, <a href="https://w3c.github.io/IntersectionObserver">Intersection Observer</a>, <a href="https://drafts.csswg.org/resize-observer/#resize-observer-interface">Resize Observers</a>,
 and <a href="https://github.com/WICG/indexed-db-observers">IndexedDB Observers</a> are all examples of an Observer pattern.</p>
    <div class="example" id="example-5d14c000">
-    <a class="self-link" href="#example-5d14c000"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver①">MutationObserver</a></code> replaced the deprecated <a href="https://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">DOM Mutation Events</a> after developers <a href="https://lists.w3.org/Archives/Public/public-webapps/2011JulSep/0779.html">noticed</a> that DOM Mutation Events 
+    <a class="self-link" href="#example-5d14c000"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationobserver" id="ref-for-mutationobserver①">MutationObserver</a></code> replaced the deprecated <a href="https://www.w3.org/TR/DOM-Level-3-Events/#legacy-mutationevent-events">DOM Mutation Events</a> after developers <a href="https://lists.w3.org/Archives/Public/public-webapps/2011JulSep/0779.html">noticed</a> that DOM Mutation Events 
     <ul>
      <li data-md>
       <p>fire too often</p>
@@ -5194,7 +5198,7 @@ so they can correct this omission.</p>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-navigator-online">
-   <a href="https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online">https://html.spec.whatwg.org/multipage/offline.html#dom-navigator-online</a><b>Referenced in:</b>
+   <a href="https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-online">https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-online</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-navigator-online">5.2. Preserve run-to-completion semantics</a>
    </ul>
