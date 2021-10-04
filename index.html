@@ -1487,9 +1487,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version e8cbf4ed2, updated Fri Sep 10 10:21:28 2021 -0700" name="generator">
+  <meta content="Bikeshed version a210b7d86, updated Thu Sep 16 13:45:19 2021 -0700" name="generator">
   <link href="https://w3ctag.github.io/design-principles/" rel="canonical">
-  <meta content="0bd75b37a19d484fe5eaf91497e7f37e2225c3a1" name="document-revision">
+  <meta content="c8f54ad9ade24eb7f2b91f9c9b912331dcf3f9f5" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2052,7 +2052,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-09-15">15 September 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-10-04">4 October 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2074,7 +2074,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web">[ETHICAL-WEB]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
+   <p>This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web">[ETHICAL-WEB]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -2388,7 +2388,7 @@ a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#render">existing flexibility</a> of the Web platform.</p>
+New features should match the <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#render">existing flexibility</a> of the web platform.</p>
    <div class="note" role="note">
      This doesn’t imply that features which don’t work in <em>every</em> possible context should be excluded.
 For example, hyperlinks can’t be visited when printed on paper,
@@ -2466,7 +2466,7 @@ and to try to be consistent with it.</p>
 when existing precedent is of poor usability.
 In some cases it makes sense to break consistency to improve usability,
 but the improvement should be very significant to justify this.</p>
-   <p>Since the Web Platform has gradually evolved over time,
+   <p>Since the web platform has gradually evolved over time,
 there are often multiple conflicting precedents
 which are mutually exclusive.
 You can weigh which precdent to follow by taking into account
@@ -2475,9 +2475,9 @@ API ergonomics (all else being equal, follow the more usable precedent),
 and API age (all else being equal, follow the newer precedent).</p>
    <p>There is often a tension between internal and external consistency. <em>Internal consistency</em> is consistency with the rest of the system,
 whereas <em>external consistency</em> is consistency with the rest of the world.
-In the Web Platform, that might materialize in three layers:
+In the web platform, that might materialize in three layers:
 consistency within the technology the API belongs to (e.g. CSS),
-consistency with the rest of the Web Platform,
+consistency with the rest of the web platform,
 and in some cases external precedent,
 when the API relates to a particular specialized outside domain.
 In those cases, it is useful to consider what the majority of users will be.
@@ -3303,7 +3303,7 @@ closest common base subclass of the returned result.</p>
    <div class="example" id="example-071fec19"><a class="self-link" href="#example-071fec19"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-createelement" id="ref-for-dom-document-createelement">createElement</a></code> method is an example of a
 factory method that could not have been implemented as a constructor,
 as its result can be any of a number of subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>. </div>
-   <div class="example" id="example-3119992e"><a class="self-link" href="#example-3119992e"></a> The <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent" id="ref-for-dom-mouseevent-initmouseevent">initMouseEvent</a></code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
+   <div class="example" id="example-3119992e"><a class="self-link" href="#example-3119992e"></a> The <code class="idl"><a data-link-type="idl">initMouseEvent</a></code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible. </div>
@@ -3323,7 +3323,7 @@ and need less infrastructure set-up (such as making functions <code>async</code>
    <h3 class="heading settled" data-level="6.8" id="promises"><span class="secno">6.8. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
    <p>If an API method needs to be asynchronous, use Promises,
 not callback functions.</p>
-   <p>Using Promises consistently across the Web platform
+   <p>Using Promises consistently across the web platform
 means that APIs are easier to use together,
 such as by chaining promises.
 Promise-using code also tends to be easier to understand
@@ -5417,12 +5417,6 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-mouseevent">6.6. Classes should have constructors when possible</a> <a href="#ref-for-mouseevent①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-mouseevent-initmouseevent">
-   <a href="https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent">https://www.w3.org/TR/uievents/#dom-mouseevent-initmouseevent</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-mouseevent-initmouseevent">6.6. Classes should have constructors when possible</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-urlsearchparams">
    <a href="https://url.spec.whatwg.org/#urlsearchparams">https://url.spec.whatwg.org/#urlsearchparams</a><b>Referenced in:</b>
    <ul>
@@ -5875,7 +5869,6 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-keyboardevent">KeyboardEvent</span>
      <li><span class="dfn-paneled" id="term-for-mouseevent">MouseEvent</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-initmouseevent">initMouseEvent()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -5958,7 +5951,7 @@ so they can correct this omission.</p>
    <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
    <dd>Dean Jackson; Florian Rivoal; Tab Atkins Jr.. <a href="https://drafts.csswg.org/mediaqueries-5/"><cite>Media Queries Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Marcos Caceres; et al. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
+   <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-service-workers-1">[SERVICE-WORKERS-1]
@@ -6013,7 +6006,7 @@ so they can correct this omission.</p>
    <dt id="biblio-rfc8941">[RFC8941]
    <dd>M. Nottingham; P-H. Kamp. <a href="https://www.rfc-editor.org/rfc/rfc8941"><cite>Structured Field Values for HTTP</cite></a>. February 2021. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc8941">https://www.rfc-editor.org/rfc/rfc8941</a>
    <dt id="biblio-uievents">[UIEVENTS]
-   <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
+   <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
    <dd>Mark Nottingham. <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/"><cite>Unsanctioned Web Tracking</cite></a>. 17 July 2015. TAG Finding. URL: <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">http://www.w3.org/2001/tag/doc/unsanctioned-tracking/</a>
    <dt id="biblio-webcryptoapi">[WebCryptoAPI]
