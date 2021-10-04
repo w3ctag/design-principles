@@ -9,7 +9,7 @@ ED: https://w3ctag.github.io/design-principles/
 Editor: Sangwhan Moon, Invited Expert, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing Web Platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -236,7 +236,7 @@ at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
 New features should match the [existing flexibility](https://www.w3.org/2001/tag/doc/ethical-web-principles/#render)
-of the Web platform.
+of the web platform.
 
 <div class="note">
 This doesn't imply that features which don't work in *every* possible context should be excluded.
@@ -351,7 +351,7 @@ but the improvement should be very significant to justify this.
 
 <!-- TODO: example? -->
 
-Since the Web Platform has gradually evolved over time,
+Since the web platform has gradually evolved over time,
 there are often multiple conflicting precedents
 which are mutually exclusive.
 You can weigh which precdent to follow by taking into account
@@ -364,9 +364,9 @@ and API age (all else being equal, follow the newer precedent).
 There is often a tension between internal and external consistency.
 <em>Internal consistency</em> is consistency with the rest of the system,
 whereas <em>external consistency</em> is consistency with the rest of the world.
-In the Web Platform, that might materialize in three layers:
+In the web platform, that might materialize in three layers:
 consistency within the technology the API belongs to (e.g. CSS),
-consistency with the rest of the Web Platform,
+consistency with the rest of the web platform,
 and in some cases external precedent,
 when the API relates to a particular specialized outside domain.
 In those cases, it is useful to consider what the majority of users will be.
@@ -1477,7 +1477,7 @@ An API should generally be synchronous if the following rules of thumb apply:
 If an API method needs to be asynchronous, use Promises,
 not callback functions.
 
-Using Promises consistently across the Web platform
+Using Promises consistently across the web platform
 means that APIs are easier to use together,
 such as by chaining promises.
 Promise-using code also tends to be easier to understand
