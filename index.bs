@@ -631,8 +631,8 @@ See also:
 
 After a user navigated away from a document,
 the document might be cached in a non-[=Document/fully active=] state,
-and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users. 
-In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short. 
+and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users.
+In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short.
 In the past, many APIs have missed specifying support for non-[=Document/fully active=] documents,
 making them hard to support in various user agents to cache pages in the BFCache, effectively making the user experience of navigating back and forth less optimal.
 
@@ -660,7 +660,7 @@ as it is written only for handling non-[=Document/fully active=] documents.
 In many cases,
 anything that happens while the document is not [=Document/fully active=]
 should be treated as if it never happened.
-If it makes more sense to "update" a document to ensure it does not hold  stale information 
+If it makes more sense to "update" a document to ensure it does not hold  stale information
 after it becomes [=Document/fully active=] again, consider the [[#listen-fully-active]] pattern below.
 <div class="example">
   APIs that periodically send information updates,
@@ -677,10 +677,10 @@ When a document goes from [=Document/fully active=] to non-[=Document/fully acti
 it should be treated similarly to the way discarded documents are treated.
 The document must not retain exclusive access to shared resources
 and must ensure that no new requests are issued
-and that connections that allow for new incoming requests are terminated. 
+and that connections that allow for new incoming requests are terminated.
 When a document goes from non-[=Document/fully active=] to [=Document/fully active=] again,
 it can restore connections if appropriate.
-  
+
 While web authors can manually do cleanup (e.g. release the resources, sever connections)
 from within the {{pagehide}} event and restore them from the {{pageshow}} event themselves,
 doing this automatically from the API design allows the document to be kept alive after navigation by default,
@@ -707,7 +707,7 @@ If there is an API to signal to the page that this has happened,
 it may be acceptable but beware that if the only time this happens is with BFCache,
 then it's likely many pages are not prepared for it. If it is not possible to support BFCache,
 follow the [[#discard]] pattern described below.
-  
+
 Additionally, when a document becomes [=Document/fully active=] again,
 it can be useful to update it with the current state of the world,
 if anything has changed while it is in the non-[=Document/fully active=] state.
@@ -809,7 +809,7 @@ and doing cleanup as necessary (see above).
 
 This section details design principles for features which are exposed via HTML.
 
-<h3 id="attribute-reuse">Re-use attribute names for similar functionality</h3>
+<h3 id="attribute-reuse">Re-use attribute names (only) for similar functionality</h3>
 
 If you are adding a feature that is specified through an HTML attribute,
 check if there is an existing attribute name on another element
@@ -846,6 +846,18 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	However, they both still conform to the same syntax,
 	whereas e.g. if one of them accepted a list of ids,
 	and the other one a selector, that would be an antipattern.
+</div>
+
+The contrary also applies:
+do **not** re-use an existing attribute name if
+the functionality you are adding is **not** similar to that of the existing attribute.
+
+<div class="example">
+    The `type` attribute is used on the <{input}> and <{button}> elements
+    to further specialize the element type,
+    whereas on every other element (e.g. <{link}>, <{script}>, <{style}>)
+    it specifies MIME type.
+    This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
