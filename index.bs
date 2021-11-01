@@ -848,6 +848,18 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	and the other one a selector, that would be an antipattern.
 </div>
 
+## External resources must not require pausing the HTML parser
+
+As a page parses, the browser discovers assets that the page needs, and figures out a priority in which they should be loaded in parallel. This is disrupted by a resource which blocks the discovery of subsequent resources. At worst, it means the browser downloads items in series rather than parallel. At best, it means the browser queues downloads based on speculative parsing, which may turn out to be incorrect.
+
+Features that block the parser generally do so because they want to feed additional content into the parser before subsequent content. This is the case of legacy `<script src="…">` elements, which can inject into the parser using `document.write(…)`. Due to the performance issues above, new features may not do this.
+
+## Caution should be taken when blocking rendering on an external resource
+
+If the browser needs to download an additional resource before rendering the page, it extends the time the user is looking at a blank page (or the previous page).
+
+Features should only do this in order to prevent a worse user experience. For instance, blocking rendering on a stylesheet download makes sense, as the alternative is a flash of unstyled content.
+
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
 This section details design principles for features which are exposed via CSS.
