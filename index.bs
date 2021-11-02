@@ -848,7 +848,7 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	and the other one a selector, that would be an antipattern.
 </div>
 
-The contrary also applies:
+The inverse also applies:
 do **not** re-use an existing attribute name if
 the functionality you are adding is **not** similar to that of the existing attribute.
 
