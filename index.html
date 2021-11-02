@@ -1487,9 +1487,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version a210b7d86, updated Thu Sep 16 13:45:19 2021 -0700" name="generator">
+  <meta content="Bikeshed version d7036035b, updated Fri Oct 8 17:07:11 2021 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="07386d39388a251a83928f75d322f2dbf09995c3" name="document-revision">
+  <meta content="a96703c7db482a581a68dd33a20f1ef8e76f5581" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1736,6 +1736,16 @@ figcaption:not(.no-marker)::before {
 }
 
 .dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-issues */
+
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
 </style>
 <style>/* style-md-lists */
 
@@ -2052,7 +2062,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-10-04">4 October 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-11-02">2 November 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2135,7 +2145,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
      <ol class="toc">
-      <li><a href="#attribute-reuse"><span class="secno">3.1</span> <span class="content">Re-use attribute names for similar functionality</span></a>
+      <li><a href="#attribute-reuse"><span class="secno">3.1</span> <span class="content">Re-use attribute names (only) for similar functionality</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">4</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -2564,14 +2574,14 @@ that take advantage of new features which don’t impact user security or privac
      Specification authors can limit most features defined in <a href="https://heycam.github.io/webidl/">Web IDL</a>,
 to secure contexts
 by using the
-[<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext">SecureContext</a></code>] extended attribute
+[<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#SecureContext" id="ref-for-SecureContext">SecureContext</a></code>] extended attribute
 on interfaces, namespaces, or their members (such as methods and attributes). 
     <p>However, for some types of API (e.g., dispatching an event),
 limitation to secure contexts should just
 be defined in normative prose in the specification.
 If this is the case,
 consider whether there might be scope for adding a similar mechanism
-to [<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①">SecureContext</a></code>]
+to [<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#SecureContext" id="ref-for-SecureContext①">SecureContext</a></code>]
 to make this process easier for future API developers.</p>
    </div>
    <div class="note" role="note">
@@ -2692,8 +2702,8 @@ which don’t reveal the use of assistive technology.</p>
    <h3 class="heading settled" data-level="2.10" id="support-non-fully-active"><span class="secno">2.10. </span><span class="content">Support non-"fully active" documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
    <p>After a user navigated away from a document,
 the document might be cached in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active">fully active</a> state,
-and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users. 
-In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short. 
+and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users.
+In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short.
 In the past, many APIs have missed specifying support for non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①">fully active</a> documents,
 making them hard to support in various user agents to cache pages in the BFCache, effectively making the user experience of navigating back and forth less optimal.</p>
    <p>To avoid this happening with your API,
@@ -2713,7 +2723,7 @@ and the guidelines here might not be applicable to them,
 as it is written only for handling non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active⑨">fully active</a> documents.</p>
    <p>In many cases,
 anything that happens while the document is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①⓪">fully active</a> should be treated as if it never happened.
-If it makes more sense to "update" a document to ensure it does not hold  stale information 
+If it makes more sense to "update" a document to ensure it does not hold  stale information
 after it becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①①">fully active</a> again, consider the <a href="#listen-fully-active">§ 2.10.2 Listen for changes to fully active status</a> pattern below.</p>
    <div class="example" id="example-86baec91"><a class="self-link" href="#example-86baec91"></a> APIs that periodically send information updates,
   such as Geolocation API’s <code class="idl"><a data-link-type="idl">watchPosition()</a></code> should not send updates if the document is no longer fully active.
@@ -2725,7 +2735,7 @@ after it becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/mult
 it should be treated similarly to the way discarded documents are treated.
 The document must not retain exclusive access to shared resources
 and must ensure that no new requests are issued
-and that connections that allow for new incoming requests are terminated. 
+and that connections that allow for new incoming requests are terminated.
 When a document goes from non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①⑤">fully active</a> to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①⑥">fully active</a> again,
 it can restore connections if appropriate.</p>
    <p>While web authors can manually do cleanup (e.g. release the resources, sever connections)
@@ -2815,7 +2825,7 @@ and doing cleanup as necessary (see above).
   is still <a href="https://github.com/whatwg/html/issues/6588">under discussion</a>. </div>
    <h2 class="heading settled" data-level="3" id="html"><span class="secno">3. </span><span class="content">HTML</span><a class="self-link" href="#html"></a></h2>
    <p>This section details design principles for features which are exposed via HTML.</p>
-   <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use attribute names for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
+   <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use attribute names (only) for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
    <p>If you are adding a feature that is specified through an HTML attribute,
 check if there is an existing attribute name on another element
 that specifies similar functionality.
@@ -2840,6 +2850,14 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	However, they both still conform to the same syntax,
 	whereas e.g. if one of them accepted a list of ids,
 	and the other one a selector, that would be an antipattern. </div>
+   <p>The inverse also applies:
+do <strong>not</strong> re-use an existing attribute name if
+the functionality you are adding is <strong>not</strong> similar to that of the existing attribute.</p>
+   <div class="example" id="example-9866c588"><a class="self-link" href="#example-9866c588"></a> The <code>type</code> attribute is used on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element①">input</a></code> and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element" id="ref-for-the-button-element">button</a></code> elements
+    to further specialize the element type,
+    whereas on every other element (e.g. <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element">link</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script" id="ref-for-script">script</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-style-element" id="ref-for-the-style-element">style</a></code>)
+    it specifies MIME type.
+    This is an antipattern; one of these groups of attributes should have had a different name. </div>
    <h2 class="heading settled" data-level="4" id="css"><span class="secno">4. </span><span class="content">Cascading Style Sheets (CSS)</span><a class="self-link" href="#css"></a></h2>
    <p>This section details design principles for features which are exposed via CSS.</p>
    <h3 class="heading settled" data-level="4.1" id="css-property-separation"><span class="secno">4.1. </span><span class="content">Separate CSS properties based on what should cascade separately</span><a class="self-link" href="#css-property-separation"></a></h3>
@@ -2925,7 +2943,7 @@ This value represents a multiple of the <a class="property" data-link-type="prop
 so if the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-5/#descdef-font-face-font-size" id="ref-for-descdef-font-face-font-size④">font-size</a> is <span class="css">20px</span>,
 the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#actual-value" id="ref-for-actual-value">actual value</a> for the line height is <span class="css">28px</span>. 
     <p>However, the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed value</a> in this case is the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#number-value" id="ref-for-number-value①">&lt;number></a> <span class="css">1.4</span>,
-not the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | dvb | dvh | dvi | dvmax | dvmin | dvw | em | ex | ic | in | lh | lvb | lvh | lvi | lvmax | lvmin | lvw | mm | pc | pt | px | q | rem | rlh | svb | svh | svi | svmax | svmin | svw | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <span class="css">28px</span>.
+not the <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | dvb | dvh | dvi | dvmax | dvmin | dvw | em | ex | ic | in | lh | lvb | lvh | lvi | lvmax | lvmin | lvw | mm | pc | pt | px | q | rcap | rch | rem | rex | ric | rlh | svb | svh | svi | svmax | svmin | svw | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <span class="css">28px</span>.
 (The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value①">used value</a> is <span class="css">28px</span>.)</p>
     <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height②">line-height</a> property can be inherited
 into elements that have a different <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-5/#descdef-font-face-font-size" id="ref-for-descdef-font-face-font-size⑤">font-size</a>,
@@ -3119,7 +3137,7 @@ was made after spec authors noticed that <code class="idl"><a data-link-type="id
 even though it represents a list,
 because it’s the way for authors to change the query string of a URL.</p>
    </div>
-   <p class="note" role="note"><span>Note:</span> For <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
+   <p class="note" role="note"><span>Note:</span> For <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
 this advice may not apply,
 since these types were designed to behave well
 when they change while being iterated.</p>
@@ -3191,18 +3209,18 @@ the event should be dispatched to the listener in the bubbling phase by default.
 but this should be considered a design mistake rather than recommended practice.</p>
    <p>The API must be designed so that if an argument is left out,
 the default value used is the same as
-converting <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the argument.
+converting <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the argument.
 For example, if a boolean argument isn’t set,
 it must default to false.</p>
    <p>When deciding between different list data types for your API,
 unless otherwise required, use the following list types:</p>
    <ul>
     <li data-md>
-     <p>Method list arguments should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type">sequence&lt;T></a></p>
+     <p>Method list arguments should be of type <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#sequence-type" id="ref-for-sequence-type">sequence&lt;T></a></p>
     <li data-md>
-     <p>Method return values should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type①">sequence&lt;T></a></p>
+     <p>Method return values should be of type <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#sequence-type" id="ref-for-sequence-type①">sequence&lt;T></a></p>
     <li data-md>
-     <p>Attributes should be of type <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-observable-array-type" id="ref-for-dfn-observable-array-type">ObservableArray&lt;T></a></p>
+     <p>Attributes should be of type <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-observable-array-type" id="ref-for-dfn-observable-array-type">ObservableArray&lt;T></a></p>
    </ul>
    <p>See also:</p>
    <ul>
@@ -3241,9 +3259,9 @@ to reflect the default behaviour without using a negative.</p>
    <p>Make sure that any class that’s part of your API has a constructor,
 if appropriate.</p>
    <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces generate "non-constructible" classes:
-trying to create instances of them using <code>new X()</code> will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>.
+trying to create instances of them using <code>new X()</code> will throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>.
 To make them constructible,
-you can add appropriate <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-constructors" id="ref-for-idl-constructors">constructor operation</a> to your interface,
+you can add appropriate <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#idl-constructors" id="ref-for-idl-constructors">constructor operation</a> to your interface,
 and defining the algorithm for creating new instances of your class.</p>
    <p>This allows JavaScript developers
 to create instances of the class
@@ -3287,12 +3305,12 @@ This prevents the creation of <a data-link-type="dfn" href="https://html.spec.wh
 like <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator">Navigator</a></code>, <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/history.html#history-3" id="ref-for-history-3">History</a></code>, or <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/webcrypto/#dfn-Crypto" id="ref-for-dfn-Crypto">Crypto</a></code>,
 are non-constructible because they are singletons
 representing access to per-window information.
-In these cases, something like the Web IDL <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace">namespace</a> feature
+In these cases, something like the Web IDL <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-namespace" id="ref-for-dfn-namespace">namespace</a> feature
 might have been a better fit,
 but these features were designed before namespaces,
 and go beyond what is currently possible with namespaces. 
     <p>If your API requires this type of singleton,
-consider using a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a>,
+consider using a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a>,
 and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a> if there is some problem with using them.</p>
    </div>
    <p>Factory methods can complement constructors, but generally should not be used <em>instead</em> of them.
@@ -3573,7 +3591,7 @@ through its well-defined transitions.</span></p>
      <p>if the deferred event doesn’t need extra state,
 or a state machine,
 this probably means that the event is just signalling the completion of the algorithm.
-If this is true, the API should probably return a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise">Promise</a></code> instead of firint the event.
+If this is true, the API should probably return a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-promise" id="ref-for-idl-promise">Promise</a></code> instead of firint the event.
 See <a href="#one-time-events">§ 7.1 Use promises for one time events</a>.</p>
    </ul>
    <p class="note" role="note"><span>Note:</span> events that expose the possibility of recursion as described in this section
@@ -3788,24 +3806,24 @@ io<c- p>.</c->removeEventListener<c- p>(</c-><c- u>"intersect"</c-><c- p>,</c-> 
 use one of the following <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> numeric types,
 unless there is a specific reason not to:</p>
    <dl>
-    <dt data-md><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-unrestricted-double" id="ref-for-idl-unrestricted-double">unrestricted double</a></code>
+    <dt data-md><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-unrestricted-double" id="ref-for-idl-unrestricted-double">unrestricted double</a></code>
     <dd data-md>
      <p>Any JavaScript number, including infinities and NaN</p>
-    <dt data-md><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double">double</a></code>
+    <dt data-md><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-double" id="ref-for-idl-double">double</a></code>
     <dd data-md>
      <p>Any JavaScript number, excluding infinities and NaN</p>
-    <dt data-md>[<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#EnforceRange" id="ref-for-EnforceRange">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-long-long" id="ref-for-idl-long-long">long long</a></code>
+    <dt data-md>[<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#EnforceRange" id="ref-for-EnforceRange">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-long-long" id="ref-for-idl-long-long">long long</a></code>
     <dd data-md>
      <p>Any JavaScript number from -2<sup>63</sup> to 2<sup>63</sup>,
  rounded to the nearest integer.
  If a number outside this range is given,
- the generated bindings will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code>.</p>
-    <dt data-md>[<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#EnforceRange" id="ref-for-EnforceRange①">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-unsigned-long-long" id="ref-for-idl-unsigned-long-long">unsigned long long</a></code>
+ the generated bindings will throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code>.</p>
+    <dt data-md>[<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#EnforceRange" id="ref-for-EnforceRange①">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-unsigned-long-long" id="ref-for-idl-unsigned-long-long">unsigned long long</a></code>
     <dd data-md>
      <p>Any JavaScript number from 0 to 2<sup>64</sup>,
  rounded to the nearest integer.
  If a number outside this range is given,
- the generated bindings will throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code>.</p>
+ the generated bindings will throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code>.</p>
    </dl>
    <p>JavaScript has only one numeric type, <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects">Number</a></code>:
 IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN. <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> numeric types represent
@@ -3817,19 +3835,19 @@ whether a method or a property setter.</p>
 you can specify those in your algorithm.</p>
    <div class="note" role="note">
      The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a> for converting a JavaScript number to a number with fewer bits,
-such as an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-octet" id="ref-for-idl-octet">octet</a></code> (8 bits, in the range [0, 255]),
+such as an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet">octet</a></code> (8 bits, in the range [0, 255]),
 involves taking the modulo of the JavaScript number.
 For example, to convert a JavaScript number value of 300
-to an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-octet" id="ref-for-idl-octet①">octet</a></code>,
+to an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet①">octet</a></code>,
 the bindings will first compute 300 modulo 255,
 so the resulting number will be 45,
 which might be surprising. 
     <p>Instead, you can use
-[<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#EnforceRange" id="ref-for-EnforceRange②">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-octet" id="ref-for-idl-octet②">octet</a></code> to throw a <code>TypeError</code> for values outside of the <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-octet" id="ref-for-idl-octet③">octet</a></code> range,
-or [<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#Clamp" id="ref-for-Clamp">Clamp</a></code>] <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-octet" id="ref-for-idl-octet④">octet</a></code> to clamp values to the octet range (for example, converting 300 to 255).</p>
-    <p>This also works for the other shorter types, such as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-short" id="ref-for-idl-short">short</a></code> or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long">long</a></code>.</p>
+[<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#EnforceRange" id="ref-for-EnforceRange②">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet②">octet</a></code> to throw a <code>TypeError</code> for values outside of the <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet③">octet</a></code> range,
+or [<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#Clamp" id="ref-for-Clamp">Clamp</a></code>] <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet④">octet</a></code> to clamp values to the octet range (for example, converting 300 to 255).</p>
+    <p>This also works for the other shorter types, such as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-short" id="ref-for-idl-short">short</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-long" id="ref-for-idl-long">long</a></code>.</p>
    </div>
-   <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-bigint" id="ref-for-idl-bigint">bigint</a></code> should be used only when values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected.</p>
+   <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-bigint" id="ref-for-idl-bigint">bigint</a></code> should be used only when values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected.</p>
    <p>An API should not support both <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects①">Number</a></code> simultaneously,
 either by supporting both types via polymorphism,
 or by adding separate, otherwise identical APIs which take <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects①">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects②">Number</a></code>.
@@ -3837,23 +3855,23 @@ This risks losing precision through implicit conversions,
 which defeats the purpose of <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects②">BigInt</a></code>.</p>
    <h3 class="heading settled" data-level="8.2" id="idl-string-types"><span class="secno">8.2. </span><span class="content">Represent strings appropriately</span><a class="self-link" href="#idl-string-types"></a></h3>
    <p>When designing a web platform feature which operates on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">strings</a>,
-use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString">DOMString</a></code> unless you have a specific reason not to.</p>
+use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString">DOMString</a></code> unless you have a specific reason not to.</p>
    <p>Most string operations don’t need
 to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code units</a> inside of the string,
-so <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
-In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
-   <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
+so <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
+In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
+   <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
 For strings whose most common algorithms operate on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value" id="ref-for-scalar-value">scalar values</a> (such as <a data-link-type="abstract-op" href="https://url.spec.whatwg.org/#percent-encode" id="ref-for-percent-encode">percent-encoding</a>),
 or for operations which can’t handle <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#surrogate" id="ref-for-surrogate">surrogates</a> in input
-(such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> should be used.</p>
+(such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> should be used.</p>
    <p class="example" id="example-fe96b598"><a class="self-link" href="#example-fe96b598"></a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect">Reflecting IDL attributes</a> whose content attribute is defined to contain a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> (such as <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code>)
-should use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code>. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </p>
-   <p><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-ByteString" id="ref-for-idl-ByteString①">ByteString</a></code> should only be used for representing
+should use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code>. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </p>
+   <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString①">ByteString</a></code> should only be used for representing
 data from protocols like HTTP
 which don’t distinguish between bytes and strings.
 It isn’t a general-purpose string type.
-If you need to represent a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#sequence-type" id="ref-for-sequence-type②">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
-use <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>.</p>
+If you need to represent a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#sequence-type" id="ref-for-sequence-type②">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
+use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>.</p>
    <h3 class="heading settled" data-level="8.3" id="milliseconds"><span class="secno">8.3. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
    <p>If you are designing an API that accepts a time measurement,
 express the time measurement in milliseconds.</p>
@@ -3890,7 +3908,7 @@ es-discuss</p>
    </div>
    <h3 class="heading settled" data-level="8.5" id="error-types"><span class="secno">8.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
-or as <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
+or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
 whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">OS and Device Wrapper APIs</span><a class="self-link" href="#device-apis"></a></h2>
    <p>New APIs are now being developed in the web platform for interacting with devices.
@@ -4176,7 +4194,7 @@ like extensions to Web App Manifest only affecting store or payment use-cases.
 In that case, it is acceptable to monkey-patch
 as long as that is agreed with the original spec editors. 
     <p class="issue" id="issue-05c58ddf"><a class="self-link" href="#issue-05c58ddf"></a> when we write up a principle on monkey patching,
-be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">&lt;https://github.com/w3ctag/design-principles/issues/184></a></p>
+be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">[Issue #184]</a></p>
     <p>An example of something that was done as a monkey patch
 that is scheduled to be integrated into the web app manifest in a future level (post-CR):</p>
     <ul>
@@ -5072,6 +5090,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-document-bgcolor">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-the-button-element">
+   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-button-element">3.1. Re-use attribute names (only) for similar functionality</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-event-media-canplaythrough">
    <a href="https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough">https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough</a><b>Referenced in:</b>
    <ul>
@@ -5099,13 +5123,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-the-details-element">
    <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element">https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-details-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-details-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-dialog-element">
    <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element">https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-dialog-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-dialog-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-discard-a-document">
@@ -5135,7 +5159,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-attr-label-for">
    <a href="https://html.spec.whatwg.org/multipage/forms.html#attr-label-for">https://html.spec.whatwg.org/multipage/forms.html#attr-label-for</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-attr-label-for">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-attr-label-for">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-fully-active">
@@ -5164,7 +5188,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-the-input-element">
    <a href="https://html.spec.whatwg.org/multipage/input.html#the-input-element">https://html.spec.whatwg.org/multipage/input.html#the-input-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-input-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-input-element">3.1. Re-use attribute names (only) for similar functionality</a> <a href="#ref-for-the-input-element①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-img-ismap">
@@ -5182,7 +5206,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-the-label-element">
    <a href="https://html.spec.whatwg.org/multipage/forms.html#the-label-element">https://html.spec.whatwg.org/multipage/forms.html#the-label-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-label-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-label-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-languagechange">
@@ -5191,10 +5215,16 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-event-languagechange">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-the-link-element">
+   <a href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element">https://html.spec.whatwg.org/multipage/semantics.html#the-link-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-link-element">3.1. Re-use attribute names (only) for similar functionality</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-attr-select-multiple">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple">https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-attr-select-multiple">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-attr-select-multiple">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-navigator-online">
@@ -5206,7 +5236,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-attr-details-open">
    <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open">https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-attr-details-open">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-attr-details-open">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-open">
@@ -5224,7 +5254,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-the-output-element">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-output-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-output-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-pagehide">
@@ -5259,10 +5289,16 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-event-media-resize">7.5. Events are for notification</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-script">
+   <a href="https://html.spec.whatwg.org/multipage/scripting.html#script">https://html.spec.whatwg.org/multipage/scripting.html#script</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-script">3.1. Re-use attribute names (only) for similar functionality</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-the-select-element">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-select-element">3.1. Re-use attribute names for similar functionality</a>
+    <li><a href="#ref-for-the-select-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-settimeout">
@@ -5281,6 +5317,12 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/interaction.html#sticky-activation">https://html.spec.whatwg.org/multipage/interaction.html#sticky-activation</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-sticky-activation">2.10.5. Be aware that per-document state/data might persist after navigation</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-the-style-element">
+   <a href="https://html.spec.whatwg.org/multipage/semantics.html#the-style-element">https://html.spec.whatwg.org/multipage/semantics.html#the-style-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-style-element">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-task-queue">
@@ -5446,159 +5488,159 @@ so they can correct this omission.</p>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-ByteString">
-   <a href="https://heycam.github.io/webidl/#idl-ByteString">https://heycam.github.io/webidl/#idl-ByteString</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-ByteString">https://webidl.spec.whatwg.org/#idl-ByteString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-ByteString">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-ByteString①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-Clamp">
-   <a href="https://heycam.github.io/webidl/#Clamp">https://heycam.github.io/webidl/#Clamp</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#Clamp">https://webidl.spec.whatwg.org/#Clamp</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-Clamp">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMException">
-   <a href="https://heycam.github.io/webidl/#idl-DOMException">https://heycam.github.io/webidl/#idl-DOMException</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-DOMException">https://webidl.spec.whatwg.org/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMException">8.5. Use Error or DOMException for errors</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
-   <a href="https://heycam.github.io/webidl/#idl-DOMString">https://heycam.github.io/webidl/#idl-DOMString</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-DOMString">https://webidl.spec.whatwg.org/#idl-DOMString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMString">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-DOMString①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-EnforceRange">
-   <a href="https://heycam.github.io/webidl/#EnforceRange">https://heycam.github.io/webidl/#EnforceRange</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#EnforceRange">https://webidl.spec.whatwg.org/#EnforceRange</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-EnforceRange">8.1. Use numeric types appropriately</a> <a href="#ref-for-EnforceRange①">(2)</a> <a href="#ref-for-EnforceRange②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-promise">
-   <a href="https://heycam.github.io/webidl/#idl-promise">https://heycam.github.io/webidl/#idl-promise</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-promise">https://webidl.spec.whatwg.org/#idl-promise</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-promise">7.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-SecureContext">
-   <a href="https://heycam.github.io/webidl/#SecureContext">https://heycam.github.io/webidl/#SecureContext</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#SecureContext">https://webidl.spec.whatwg.org/#SecureContext</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-SecureContext">2.6. Consider limiting new features to secure contexts</a> <a href="#ref-for-SecureContext①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
-   <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror">https://webidl.spec.whatwg.org/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-exceptiondef-typeerror">6.6. Classes should have constructors when possible</a>
     <li><a href="#ref-for-exceptiondef-typeerror①">8.1. Use numeric types appropriately</a> <a href="#ref-for-exceptiondef-typeerror②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
-   <a href="https://heycam.github.io/webidl/#idl-USVString">https://heycam.github.io/webidl/#idl-USVString</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-USVString">https://webidl.spec.whatwg.org/#idl-USVString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-USVString">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-USVString①">(2)</a> <a href="#ref-for-idl-USVString②">(3)</a> <a href="#ref-for-idl-USVString③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-Uint8Array">
-   <a href="https://heycam.github.io/webidl/#idl-Uint8Array">https://heycam.github.io/webidl/#idl-Uint8Array</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-Uint8Array">https://webidl.spec.whatwg.org/#idl-Uint8Array</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-Uint8Array">8.2. Represent strings appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-bigint">
-   <a href="https://heycam.github.io/webidl/#idl-bigint">https://heycam.github.io/webidl/#idl-bigint</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-bigint">https://webidl.spec.whatwg.org/#idl-bigint</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-bigint">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-byte">
-   <a href="https://heycam.github.io/webidl/#idl-byte">https://heycam.github.io/webidl/#idl-byte</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-byte">https://webidl.spec.whatwg.org/#idl-byte</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-byte">8.2. Represent strings appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-constructors">
-   <a href="https://heycam.github.io/webidl/#idl-constructors">https://heycam.github.io/webidl/#idl-constructors</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-constructors">https://webidl.spec.whatwg.org/#idl-constructors</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-constructors">6.6. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-double">
-   <a href="https://heycam.github.io/webidl/#idl-double">https://heycam.github.io/webidl/#idl-double</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-double">https://webidl.spec.whatwg.org/#idl-double</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-double">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-long">
-   <a href="https://heycam.github.io/webidl/#idl-long">https://heycam.github.io/webidl/#idl-long</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-long">https://webidl.spec.whatwg.org/#idl-long</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-long">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-long-long">
-   <a href="https://heycam.github.io/webidl/#idl-long-long">https://heycam.github.io/webidl/#idl-long-long</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-long-long">https://webidl.spec.whatwg.org/#idl-long-long</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-long-long">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-maplike">
-   <a href="https://heycam.github.io/webidl/#dfn-maplike">https://heycam.github.io/webidl/#dfn-maplike</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#dfn-maplike">https://webidl.spec.whatwg.org/#dfn-maplike</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-maplike">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-namespace">
-   <a href="https://heycam.github.io/webidl/#dfn-namespace">https://heycam.github.io/webidl/#dfn-namespace</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#dfn-namespace">https://webidl.spec.whatwg.org/#dfn-namespace</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-namespace">6.6. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-observable-array-type">
-   <a href="https://heycam.github.io/webidl/#dfn-observable-array-type">https://heycam.github.io/webidl/#dfn-observable-array-type</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#dfn-observable-array-type">https://webidl.spec.whatwg.org/#dfn-observable-array-type</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-observable-array-type">6.4. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-octet">
-   <a href="https://heycam.github.io/webidl/#idl-octet">https://heycam.github.io/webidl/#idl-octet</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-octet">https://webidl.spec.whatwg.org/#idl-octet</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-octet">8.1. Use numeric types appropriately</a> <a href="#ref-for-idl-octet①">(2)</a> <a href="#ref-for-idl-octet②">(3)</a> <a href="#ref-for-idl-octet③">(4)</a> <a href="#ref-for-idl-octet④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
-   <a href="https://heycam.github.io/webidl/#sequence-type">https://heycam.github.io/webidl/#sequence-type</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#sequence-type">https://webidl.spec.whatwg.org/#sequence-type</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-sequence-type">6.4. Make method arguments optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
     <li><a href="#ref-for-sequence-type②">8.2. Represent strings appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-setlike">
-   <a href="https://heycam.github.io/webidl/#dfn-setlike">https://heycam.github.io/webidl/#dfn-setlike</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#dfn-setlike">https://webidl.spec.whatwg.org/#dfn-setlike</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-setlike">Static objects</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-short">
-   <a href="https://heycam.github.io/webidl/#idl-short">https://heycam.github.io/webidl/#idl-short</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-short">https://webidl.spec.whatwg.org/#idl-short</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-short">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-undefined">
-   <a href="https://heycam.github.io/webidl/#idl-undefined">https://heycam.github.io/webidl/#idl-undefined</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-undefined">https://webidl.spec.whatwg.org/#idl-undefined</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-undefined">6.4. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-unrestricted-double">
-   <a href="https://heycam.github.io/webidl/#idl-unrestricted-double">https://heycam.github.io/webidl/#idl-unrestricted-double</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-unrestricted-double">https://webidl.spec.whatwg.org/#idl-unrestricted-double</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-unrestricted-double">8.1. Use numeric types appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-unsigned-long-long">
-   <a href="https://heycam.github.io/webidl/#idl-unsigned-long-long">https://heycam.github.io/webidl/#idl-unsigned-long-long</a><b>Referenced in:</b>
+   <a href="https://webidl.spec.whatwg.org/#idl-unsigned-long-long">https://webidl.spec.whatwg.org/#idl-unsigned-long-long</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-unsigned-long-long">8.1. Use numeric types appropriately</a>
    </ul>
@@ -5776,6 +5818,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-windoweventhandlers">WindowEventHandlers</span>
      <li><span class="dfn-paneled" id="term-for-dom-alert-noargs">alert()</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-bgcolor">bgColor</span>
+     <li><span class="dfn-paneled" id="term-for-the-button-element">button</span>
      <li><span class="dfn-paneled" id="term-for-event-media-canplaythrough">canplaythrough</span>
      <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap">createImageBitmap(image)</span>
      <li><span class="dfn-paneled" id="term-for-custom-element">custom element</span>
@@ -5795,6 +5838,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-attr-img-ismap">ismap</span>
      <li><span class="dfn-paneled" id="term-for-the-label-element">label</span>
      <li><span class="dfn-paneled" id="term-for-event-languagechange">languagechange</span>
+     <li><span class="dfn-paneled" id="term-for-the-link-element">link</span>
      <li><span class="dfn-paneled" id="term-for-attr-select-multiple">multiple</span>
      <li><span class="dfn-paneled" id="term-for-dom-navigator-online">onLine</span>
      <li><span class="dfn-paneled" id="term-for-attr-details-open">open</span>
@@ -5806,10 +5850,12 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-reflect">reflect</span>
      <li><span class="dfn-paneled" id="term-for-event-media-resize">resize</span>
+     <li><span class="dfn-paneled" id="term-for-script">script</span>
      <li><span class="dfn-paneled" id="term-for-the-select-element">select</span>
      <li><span class="dfn-paneled" id="term-for-dom-settimeout">setTimeout(handler, timeout, ...arguments)</span>
      <li><span class="dfn-paneled" id="term-for-dom-dialog-showmodal">showModal()</span>
      <li><span class="dfn-paneled" id="term-for-sticky-activation">sticky activation</span>
+     <li><span class="dfn-paneled" id="term-for-the-style-element">style</span>
      <li><span class="dfn-paneled" id="term-for-task-queue">task queues</span>
     </ul>
    <li>
@@ -5963,7 +6009,7 @@ so they can correct this omission.</p>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
-   <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/"><cite>Web IDL</cite></a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
+   <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
    <dt id="biblio-xhr">[XHR]
    <dd>Anne van Kesteren. <a href="https://xhr.spec.whatwg.org/"><cite>XMLHttpRequest Standard</cite></a>. Living Standard. URL: <a href="https://xhr.spec.whatwg.org/">https://xhr.spec.whatwg.org/</a>
   </dl>
@@ -6020,9 +6066,9 @@ so they can correct this omission.</p>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> Privacy Threat Model is not ready for prime time.<a href="#issue-70c97a29"> ↵ </a></div>
+   <div class="issue"> Privacy Threat Model is not ready for prime time. <a class="issue-return" href="#issue-70c97a29" title="Jump to section">↵</a></div>
    <div class="issue"> when we write up a principle on monkey patching,
-be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">&lt;https://github.com/w3ctag/design-principles/issues/184></a><a href="#issue-05c58ddf"> ↵ </a></div>
+be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">[Issue #184]</a> <a class="issue-return" href="#issue-05c58ddf" title="Jump to section">↵</a></div>
   </div>
 <script>/* script-dfn-panel */
 
