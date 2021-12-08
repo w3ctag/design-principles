@@ -826,7 +826,7 @@ and the feature's syntax needs to be redesigned to avoid clashes.
 
 However, these cases should be exceptions.
 
-In general, web platform technologies are designed to last for a lot longer than the lifespan of most third-party tools,
+In general, web platform features last a lot longer than most third-party tools,
 and have a lot more users than third-party tools,
 and thus giving them the optimal syntax and functionality should be of high priority.
 
