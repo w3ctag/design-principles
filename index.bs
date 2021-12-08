@@ -805,6 +805,57 @@ and doing cleanup as necessary (see above).
   is still [under discussion](https://github.com/whatwg/html/issues/6588).
 </div>
 
+<h3 id="third-party-tools">Handling conflicts with third-party tools</h3>
+
+The web platform benefits from a wide ecosystem of libraries, polyfills, preprocessors,
+and other tools to facilitate easier and faster development.
+A lot of the time, the syntax of an upcoming web platform feature
+may conflict with that of a third-party tool causing breakage.
+This is especially common as third-party tools are often used to prototype
+new web platform features.
+
+In some cases, the conflict will break the web too much,
+and the feature's syntax needs to be redesigned to avoid clashes.
+
+<div class="example">
+    <code>Array.prototype.contains()</code> had to be renamed to
+    <code>Array.prototype.includes()</code> to avoid clashes with
+    the identically named but incompatible method from PrototypeJS,
+    a library that was in use in millions of websites.
+</div>
+
+However, these cases should be exceptions.
+
+In general, web platform technologies are designed to last for a lot longer than the lifespan of most third-party tools,
+and have a lot more users than third-party tools,
+and thus giving them the optimal syntax and functionality should be of high priority.
+
+When deciding whether to break third party tools with new syntax, there are several factors to consider,
+such as severity of the breakage,
+popularity of the third party tool,
+and many more.
+
+Possibly the most important factor is how severely would the usability of the web platform feature be compromised
+if its syntax was changed to avoid breaking the third party tool?
+If several alternatives of similar usability are being considered,
+it is usually preferable to prioritize the ones that inconvenience third party tools the least.
+
+<div class="example">
+When the CSS WG was designing Grid,
+square brackets were chosen instead of parentheses for naming grid tracks
+to avoid breaking Sass, a popular preprocessor.
+</div>
+
+However, if avoiding breaking the third party tool would lead to
+a *significant* negative impact on of the feature's usability,
+that is rarely an acceptable tradeoff,
+unless it causes significant breakage of live websites.
+
+Languages should also provide mechanisms for extensibility
+that authors can use to extend the language
+without breaking future native functionality,
+to reduce such dilemmas in the future.
+
 <h2 id="html">HTML</h2>
 
 This section details design principles for features which are exposed via HTML.
