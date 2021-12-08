@@ -2309,9 +2309,9 @@ Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
-<h3 id="usecase-oriented-apis">Design based on functionality, not the underlying API or hardware</h3>
+<h3 id="usecase-oriented-apis">Design based on user needs, not the underlying API or hardware</h3>
 
-Design new native capabilities being brought to the web based on functionality.
+Design new native capabilities being brought to the web based on user needs.
 
 Avoid directly translating an existing native API to the web.
 
