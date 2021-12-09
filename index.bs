@@ -814,8 +814,8 @@ may conflict with that of a third-party tool causing breakage.
 This is especially common as third-party tools are often used to prototype
 new web platform features.
 
-In some cases, the conflict will break the web too much,
-and the feature's syntax needs to be redesigned to avoid clashes.
+In some cases, the conflict will introduce problems across a large number of
+web sites, necessitating the feature's syntax to be redesigned to avoid clashes.
 
 <div class="example">
     <code>Array.prototype.contains()</code> had to be renamed to
