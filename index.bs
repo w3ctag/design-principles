@@ -805,7 +805,7 @@ and doing cleanup as necessary (see above).
   is still [under discussion](https://github.com/whatwg/html/issues/6588).
 </div>
 
-<h3 id="third-party-tools">Handling conflicts with third-party tools</h3>
+<h3 id="third-party-tools">Avoid designing around conflicts with third-party tools</h3>
 
 The web platform benefits from a wide ecosystem of libraries, polyfills, preprocessors,
 and other tools to facilitate easier and faster development.
@@ -813,6 +813,10 @@ A lot of the time, the syntax of an upcoming web platform feature
 may conflict with that of a third-party tool causing breakage.
 This is especially common as third-party tools are often used to prototype
 new web platform features.
+
+In general, web platform features last a lot longer than most third-party tools,
+and have a lot more users than any third-party tool,
+and thus giving them the optimal syntax and functionality should be of high priority.
 
 In some cases, the conflict will introduce problems across a large number of
 web sites, necessitating the feature's syntax to be redesigned to avoid clashes.
@@ -825,10 +829,6 @@ web sites, necessitating the feature's syntax to be redesigned to avoid clashes.
 </div>
 
 However, these cases should be exceptions.
-
-In general, web platform features last a lot longer than most third-party tools,
-and have a lot more users than third-party tools,
-and thus giving them the optimal syntax and functionality should be of high priority.
 
 When deciding whether to break third party tools with new syntax, there are several factors to consider,
 such as severity of the breakage,
