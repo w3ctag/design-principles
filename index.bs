@@ -841,7 +841,7 @@ If several alternatives of similar usability are being considered,
 it is usually preferable to prioritize the ones that inconvenience third party tools the least.
 
 <div class="example">
-When the CSS WG was designing Grid,
+When the CSS WG was designing [[CSS-GRID-1|CSS Grid Layout]],
 square brackets were chosen instead of parentheses for naming grid tracks
 to avoid breaking Sass, a popular preprocessor.
 </div>
