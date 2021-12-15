@@ -806,6 +806,7 @@ and doing cleanup as necessary (see above).
 </div>
 
 <h3 id="third-party-tools">Prioritize usability over compatibility with third-party tools</h3>
+
 Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.
 
 The web platform benefits from a wide ecosystem of libraries, polyfills, preprocessors,
