@@ -817,7 +817,6 @@ This is especially common as third-party tools are often used to prototype
 new web platform features.
 
 In general, web platform features last a lot longer than most third-party tools,
-and have a lot more users than any third-party tool,
 and thus giving them the optimal syntax and functionality should be of high priority.
 
 In some cases, the conflict will introduce problems across a large number of
