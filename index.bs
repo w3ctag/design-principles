@@ -278,6 +278,16 @@ though their solutions may be more complicated to use.
 As Alan Kay said,
 "simple things should be simple, complex things should be possible."
 
+Do note however that while common cases are often simple,
+commonality and complexity are not always correlated.
+
+<div class=example>
+The Sanitizer API provides a shortcut for the common case of preventing XSS,
+even though the rules necessary for that are not simple at all
+and requires extensive security knowledge. 
+It also permits simpler types of filtering, but with more configuration.
+</div>
+
 See also:
 
 * [[LEAST-POWER]]
