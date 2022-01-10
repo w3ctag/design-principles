@@ -284,7 +284,7 @@ commonality and complexity are not always correlated.
 <div class=example>
 Sanitizing HTML to prevent XSS attacks is a complex process
 that requires extensive security knowledge,
-however the Sanitizer API provides a shortcut for this common use case. 
+however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case. 
 It also permits simpler types of filtering, but with more configuration.
 </div>
 
