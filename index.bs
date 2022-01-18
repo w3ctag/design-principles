@@ -2761,7 +2761,7 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
 
  1. File a bug, or create a fix, for the underlying specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.
  1. In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the underlying specification. Make sure you link to the underlying specification and the bug or fix that you filed.
- 1. Work together with the Editors of the underlying specification on a solution. If the underlying specification is no longer maintained... congratulation! you are now the Editor of that underlying specification. If necessary, add suitable extension points to the underlying specification to better handle your changes.
+ 1. Work together with the Editors of the underlying specification on a solution. If the underlying specification is no longer maintained... Congratulations! you are now the Editor of that underlying specification. If necessary, add suitable extension points to the underlying specification to better handle your changes.
  1. Once the underlying specification has integrated your monkey patch, remove the monkey patch from your specification.
 
 <h2 id="naming-is-hard">Naming principles</h2>
