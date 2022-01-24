@@ -277,11 +277,28 @@ although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand.
+It is especially important to design your feature so that 
+the most common use cases are easy to accomplish.
 
 Make sure that your <a href="#priority-of-constituencies">user needs</a>
 are well-defined.
 This allows you to avoid scope creep,
 and make sure that your API does actually meet the needs of all users.
+Of course,
+complex or rare use cases are also worth solving,
+though their solutions may be more complicated to use.
+As Alan Kay said,
+"simple things should be simple, complex things should be possible."
+
+Do note however that while common cases are often simple,
+commonality and complexity are not always correlated.
+
+<div class=example>
+Sanitizing HTML to prevent XSS attacks is a complex process
+that requires extensive security knowledge,
+however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case. 
+It also permits simpler types of filtering, but with more configuration.
+</div>
 
 See also:
 
@@ -631,8 +648,8 @@ See also:
 
 After a user navigated away from a document,
 the document might be cached in a non-[=Document/fully active=] state,
-and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users. 
-In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short. 
+and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users.
+In browsers, this is known as the back/forward cache, or "<abbr title="back/forward cache">BFCache</abbr>" for short.
 In the past, many APIs have missed specifying support for non-[=Document/fully active=] documents,
 making them hard to support in various user agents to cache pages in the BFCache, effectively making the user experience of navigating back and forth less optimal.
 
@@ -660,7 +677,7 @@ as it is written only for handling non-[=Document/fully active=] documents.
 In many cases,
 anything that happens while the document is not [=Document/fully active=]
 should be treated as if it never happened.
-If it makes more sense to "update" a document to ensure it does not hold  stale information 
+If it makes more sense to "update" a document to ensure it does not hold  stale information
 after it becomes [=Document/fully active=] again, consider the [[#listen-fully-active]] pattern below.
 <div class="example">
   APIs that periodically send information updates,
@@ -677,10 +694,10 @@ When a document goes from [=Document/fully active=] to non-[=Document/fully acti
 it should be treated similarly to the way discarded documents are treated.
 The document must not retain exclusive access to shared resources
 and must ensure that no new requests are issued
-and that connections that allow for new incoming requests are terminated. 
+and that connections that allow for new incoming requests are terminated.
 When a document goes from non-[=Document/fully active=] to [=Document/fully active=] again,
 it can restore connections if appropriate.
-  
+
 While web authors can manually do cleanup (e.g. release the resources, sever connections)
 from within the {{pagehide}} event and restore them from the {{pageshow}} event themselves,
 doing this automatically from the API design allows the document to be kept alive after navigation by default,
@@ -707,7 +724,7 @@ If there is an API to signal to the page that this has happened,
 it may be acceptable but beware that if the only time this happens is with BFCache,
 then it's likely many pages are not prepared for it. If it is not possible to support BFCache,
 follow the [[#discard]] pattern described below.
-  
+
 Additionally, when a document becomes [=Document/fully active=] again,
 it can be useful to update it with the current state of the world,
 if anything has changed while it is in the non-[=Document/fully active=] state.
@@ -805,11 +822,63 @@ and doing cleanup as necessary (see above).
   is still [under discussion](https://github.com/whatwg/html/issues/6588).
 </div>
 
+<h3 id="third-party-tools">Prioritize usability over compatibility with third-party tools</h3>
+
+Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.
+
+The web platform benefits from a wide ecosystem of tooling
+to facilitate easier and faster development.
+A lot of the time, the syntax of an upcoming web platform feature
+may conflict with that of a third-party tool causing breakage.
+This is especially common as third-party tools are often used to prototype
+new web platform features.
+
+In general, web platform features last a lot longer than most third-party tools,
+and thus giving them the optimal syntax and functionality should be of high priority.
+
+In some cases, the conflict will introduce problems across a large number of
+web sites, necessitating the feature's syntax to be redesigned to avoid clashes.
+
+<div class="example">
+    <code>Array.prototype.contains()</code> had to be renamed to
+    <code>Array.prototype.includes()</code> to avoid clashes with
+    the identically named but incompatible method from PrototypeJS,
+    a library that was in use in millions of websites.
+</div>
+
+However, these cases should be exceptions.
+
+When deciding whether to break third party tools with new syntax, there are several factors to consider,
+such as severity of the breakage,
+popularity of the third party tool,
+and many more.
+
+Possibly the most important factor is how severely would the usability of the web platform feature be compromised
+if its syntax was changed to avoid breaking the third party tool?
+If several alternatives of similar usability are being considered,
+it is usually preferable to prioritize the ones that inconvenience third party tools the least.
+
+<div class="example">
+When the CSS WG was designing [[CSS-GRID-1|CSS Grid Layout]],
+square brackets were chosen instead of parentheses for naming grid tracks
+to avoid breaking Sass, a popular preprocessor.
+</div>
+
+However, if avoiding breaking the third party tool would lead to
+a *significant* negative impact on of the feature's usability,
+that is rarely an acceptable tradeoff,
+unless it causes significant breakage of live websites.
+
+Languages should also provide mechanisms for extensibility
+that authors can use to extend the language
+without breaking future native functionality,
+to reduce such dilemmas in the future.
+
 <h2 id="html">HTML</h2>
 
 This section details design principles for features which are exposed via HTML.
 
-<h3 id="attribute-reuse">Re-use attribute names for similar functionality</h3>
+<h3 id="attribute-reuse">Re-use attribute names (only) for similar functionality</h3>
 
 If you are adding a feature that is specified through an HTML attribute,
 check if there is an existing attribute name on another element
@@ -846,6 +915,18 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	However, they both still conform to the same syntax,
 	whereas e.g. if one of them accepted a list of ids,
 	and the other one a selector, that would be an antipattern.
+</div>
+
+The inverse also applies:
+do **not** re-use an existing attribute name if
+the functionality you are adding is **not** similar to that of the existing attribute.
+
+<div class="example">
+    The `type` attribute is used on the <{input}> and <{button}> elements
+    to further specialize the element type,
+    whereas on every other element (e.g. <{link}>, <{script}>, <{style}>)
+    it specifies MIME type.
+    This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
 <h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
@@ -2325,9 +2406,9 @@ Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
-<h3 id="usecase-oriented-apis">Design based on functionality, not the underlying API or hardware</h3>
+<h3 id="usecase-oriented-apis">Design based on user needs, not the underlying API or hardware</h3>
 
-Design new native capabilities being brought to the web based on functionality.
+Design new native capabilities being brought to the web based on user needs.
 
 Avoid directly translating an existing native API to the web.
 
