@@ -867,9 +867,7 @@ This is the case of legacy `<script src="…">` elements,
 which can inject into the parser using `document.write(…)`.
 Due to the performance issues above, new features must not do this.
 
-## Be cautious about blocking the renderer
-
-Block rendering only if it improves user experience.
+## Avoid features that block rendering
 
 If the browser needs to download an additional resource before rendering the page,
 it extends the time the user is looking at a blank page (or the previous page).
