@@ -867,7 +867,7 @@ This is the case of legacy `<script src="…">` elements,
 which can inject into the parser using `document.write(…)`.
 Due to the performance issues above, new features must not do this.
 
-## Avoid features that block rendering
+<h3 id="avoid-render-blocking"> Avoid features that block rendering</h3>
 
 Features that require resource loading or other operations before rendering the page,
 often result in blank page (or the previous page). The result is a poor user experience.
