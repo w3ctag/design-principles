@@ -869,12 +869,12 @@ Due to the performance issues above, new features must not do this.
 
 ## Avoid features that block rendering
 
-If the browser needs to download an additional resource before rendering the page,
-it extends the time the user is looking at a blank page (or the previous page).
+Features that require resource loading or other operations before rendering the page,
+often result in blank page (or the previous page). The result is a poor user experience.
 
-Features should only do this in order to prevent a worse user experience.
-For instance, blocking rendering on a stylesheet download makes sense,
-as the alternative is a flash of unstyled content.
+Consider adding such features only in cases when the overall user experience is improved.
+A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+The alternative user experience is a flash of unstyled content, which is undesirable.
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
