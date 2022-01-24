@@ -855,7 +855,7 @@ Ensure that your design does not require HTML parser to pause to handle external
 As a page parses,
 the browser discovers assets that the page needs,
 and figures out a priority in which they should be loaded in parallel.
-This is disrupted by a resource which blocks the discovery of subsequent resources.
+Such parsing can be disrupted by a resource which blocks the discovery of subsequent resources.
 At worst, it means the browser downloads items in series rather than parallel.
 At best, it means the browser queues downloads based on speculative parsing,
 which may turn out to be incorrect.
