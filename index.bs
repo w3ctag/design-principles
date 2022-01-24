@@ -929,6 +929,34 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
+<h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
+
+Ensure that your design does not require HTML parser to pause to handle external resources.
+
+As a page parses,
+the browser discovers assets that the page needs,
+and figures out a priority in which they should be loaded in parallel.
+Such parsing can be disrupted by a resource which blocks the discovery of subsequent resources.
+At worst, it means the browser downloads items in series rather than parallel.
+At best, it means the browser queues downloads based on speculative parsing,
+which may turn out to be incorrect.
+
+Features that block the parser generally do so
+because they want to feed additional content into the parser
+before subsequent content.
+This is the case of legacy `<script src="…">` elements,
+which can inject into the parser using `document.write(…)`.
+Due to the performance issues above, new features must not do this.
+
+<h3 id="avoid-render-blocking"> Avoid features that block rendering</h3>
+
+Features that require resource loading or other operations before rendering the page,
+often result in blank page (or the previous page). The result is a poor user experience.
+
+Consider adding such features only in cases when the overall user experience is improved.
+A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+The alternative user experience is a flash of unstyled content, which is undesirable.
+
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
 This section details design principles for features which are exposed via CSS.
