@@ -848,7 +848,7 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 	and the other one a selector, that would be an antipattern.
 </div>
 
-## Do not pause the HTML parser
+<h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
 
 Ensure that your design does not require HTML parser to pause to handle external resources.
 
