@@ -1260,8 +1260,8 @@ whether to use an attribute or a method.
 - Attribute getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
 
-- Attribute getters should not perform any expensive operations.
-    If a getter requires performing an expensive operation,
+- Attribute getters should not perform any blocking operations.
+    If a getter requires performing a blocking operation,
     it should be a method.
     (Note: one example of this undesirable behavior
     is with getters like offsetTop performing layout.)
