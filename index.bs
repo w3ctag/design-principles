@@ -1349,6 +1349,47 @@ See also:
 
 * [[#attributes-like-data]]
 
+<h3 id="attributes-vs-methods">Use attributes or methods appropriately</h3>
+
+Sometimes it is unclear
+whether to use an attribute or a method.
+
+- Attribute getters must not have any (observable) side effects.
+    If you have expected side effects, use a method.
+
+- Attribute getters should not perform any blocking operations.
+    If a getter requires performing a blocking operation,
+    it should be a method.
+
+- If the underlying object has not changed,
+    attribute getters should return
+    the same object each time it is called.
+    This means `obj.attribute === obj.attribute` must always hold.
+    Returning a new value from an attribute getter
+    each time is not allowed.
+    If this does not hold, the getter should be a method.
+
+Note: An antipattern example of a blocking operation is with getters like offsetTop performing layout.
+
+For attributes, whenever possible,
+preserve values given to the setter
+for return from the getter.
+That is, given `obj.attribute = x`,
+a subsequent `obj.attribute === x` should be true.
+(This will not always be the case,
+e.g., if a normalization or type conversion step is necessary,
+but should be held as a goal for normal code paths.)
+
+The object you want to return may be [live or static](#js-rtc).
+This means:
+
+- If live, then return the same object each time,
+    until a state change requires a different object to be returned.
+    This can be returned from either an attribute or a method.
+
+- If static, then return a new object each time.
+    In which case, this should be be a method.
+
 <h3 id="prefer-dict-to-bool">Prefer dictionary arguments over primitive arguments</h3>
 
 API methods should generally use dictionary arguments
