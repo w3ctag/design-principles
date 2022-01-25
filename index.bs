@@ -1263,8 +1263,6 @@ whether to use an attribute or a method.
 - Attribute getters should not perform any blocking operations.
     If a getter requires performing a blocking operation,
     it should be a method.
-    (Note: one example of this undesirable behavior
-    is with getters like offsetTop performing layout.)
 
 - If the underlying object has not changed,
     attribute getters should return
@@ -1273,6 +1271,8 @@ whether to use an attribute or a method.
     Returning a new value from an attribute getter
     each time is not allowed.
     If this does not hold, the getter should be a method.
+
+Note: An antipattern example of a blocking operation is with getters like offsetTop performing layout.
 
 For attributes, whenever possible,
 preserve values given to the setter
