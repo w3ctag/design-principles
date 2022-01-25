@@ -2536,6 +2536,24 @@ offers guidance that should be considered in the development of new features, no
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
+<h3 id="consider-dedicatedworker-support">Where possible APIs should be made available in DedicatedWorker</h3>
+
+When exposing a feature, please consider whether it makes sense to expose the feature
+to DedicatedWorker as well.
+A DedicatedWorker is a non specialized worker type that allows developers to run code
+off the main thread.
+
+Many features could work out of the box on a DedicatedWorker and not enabling the feature
+there could limit the ability for users to run their code in a non blocking manner.
+
+Certain challenges can exist when trying to enable a feature on DedicatedWorker,
+especially if the feature requires user input by asking for permission,
+or showing a picker or selector.
+Even though this might discourage spec authors to support workers,
+we still recommend designing the feature with DedicatedWorker support in mind,
+in order to not add assumptions that will later make it unnecessarily hard to expose
+these APIs to DedicatedWorker.
+
 <h3 id="new-data-formats">New Data Formats</h3>
 
 Always define a corresponding MIME type and extend existing APIs to support this type
