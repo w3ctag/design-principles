@@ -1263,9 +1263,8 @@ whether to use an attribute or a method.
 - Attribute getters should not perform any expensive operations.
     If a getter requires performing an expensive operation,
     it should be a method.
-    (A notable failure of the platform in this regard
-    is getters like offsetTop performing layout;
-    do not repeat this mistake.)
+    (Note: one example of this undesirable behavior
+    is with getters like offsetTop performing layout.)
 
 - If the underlying object has not changed,
     attribute getters should return
