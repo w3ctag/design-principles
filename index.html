@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 2e3c4c68b, updated Fri Jan 14 14:49:00 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="973be71f0c2f4ed5397b359372741891eaad8e4d" name="document-revision">
+  <meta content="51c4da3e41d6a79188c50e2c3db30c0319bc7db6" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-24">24 January 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-25">25 January 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -693,15 +693,16 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#attributes-like-data"><span class="secno">6.1</span> <span class="content">Attributes should behave like data properties</span></a>
       <li><a href="#live-vs-static"><span class="secno">6.2</span> <span class="content">Consider whether objects should be live or static</span></a>
-      <li><a href="#prefer-dict-to-bool"><span class="secno">6.3</span> <span class="content">Prefer dictionary arguments over primitive arguments</span></a>
-      <li><a href="#optional-parameters"><span class="secno">6.4</span> <span class="content">Make method arguments optional if possible</span></a>
-      <li><a href="#naming-optional-parameters"><span class="secno">6.5</span> <span class="content">Naming optional arguments</span></a>
-      <li><a href="#constructors"><span class="secno">6.6</span> <span class="content">Classes should have constructors when possible</span></a>
-      <li><a href="#synchronous"><span class="secno">6.7</span> <span class="content">Use synchronous when appropriate</span></a>
-      <li><a href="#promises"><span class="secno">6.8</span> <span class="content">Design asynchronous APIs using Promises</span></a>
-      <li><a href="#aborting"><span class="secno">6.9</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
-      <li><a href="#string-constants"><span class="secno">6.10</span> <span class="content">Use strings for constants and enums</span></a>
-      <li><a href="#properties-vs-methods"><span class="secno">6.11</span> <span class="content">Properties vs. Methods</span></a>
+      <li><a href="#attributes-vs-methods"><span class="secno">6.3</span> <span class="content">Use attributes or methods appropriately</span></a>
+      <li><a href="#prefer-dict-to-bool"><span class="secno">6.4</span> <span class="content">Prefer dictionary arguments over primitive arguments</span></a>
+      <li><a href="#optional-parameters"><span class="secno">6.5</span> <span class="content">Make method arguments optional if possible</span></a>
+      <li><a href="#naming-optional-parameters"><span class="secno">6.6</span> <span class="content">Naming optional arguments</span></a>
+      <li><a href="#constructors"><span class="secno">6.7</span> <span class="content">Classes should have constructors when possible</span></a>
+      <li><a href="#synchronous"><span class="secno">6.8</span> <span class="content">Use synchronous when appropriate</span></a>
+      <li><a href="#promises"><span class="secno">6.9</span> <span class="content">Design asynchronous APIs using Promises</span></a>
+      <li><a href="#aborting"><span class="secno">6.10</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
+      <li><a href="#string-constants"><span class="secno">6.11</span> <span class="content">Use strings for constants and enums</span></a>
+      <li><a href="#properties-vs-methods"><span class="secno">6.12</span> <span class="content">Properties vs. Methods</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -1748,7 +1749,47 @@ rather than available as an attribute.</p>
     <li data-md>
      <p><a href="#attributes-like-data">§ 6.1 Attributes should behave like data properties</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.3" id="prefer-dict-to-bool"><span class="secno">6.3. </span><span class="content">Prefer dictionary arguments over primitive arguments</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
+   <h3 class="heading settled" data-level="6.3" id="attributes-vs-methods"><span class="secno">6.3. </span><span class="content">Use attributes or methods appropriately</span><a class="self-link" href="#attributes-vs-methods"></a></h3>
+   <p>Sometimes it is unclear
+whether to use an attribute or a method.</p>
+   <ul>
+    <li data-md>
+     <p>Attribute getters must not have any (observable) side effects.
+If you have expected side effects, use a method.</p>
+    <li data-md>
+     <p>Attribute getters should not perform any blocking operations.
+If a getter requires performing a blocking operation,
+it should be a method.</p>
+    <li data-md>
+     <p>If the underlying object has not changed,
+attribute getters should return
+the same object each time it is called.
+This means <code>obj.attribute === obj.attribute</code> must always hold.
+Returning a new value from an attribute getter
+each time is not allowed.
+If this does not hold, the getter should be a method.</p>
+   </ul>
+   <p class="note" role="note"><span>Note:</span> An antipattern example of a blocking operation is with getters like offsetTop performing layout.</p>
+   <p>For attributes, whenever possible,
+preserve values given to the setter
+for return from the getter.
+That is, given <code>obj.attribute = x</code>,
+a subsequent <code>obj.attribute === x</code> should be true.
+(This will not always be the case,
+e.g., if a normalization or type conversion step is necessary,
+but should be held as a goal for normal code paths.)</p>
+   <p>The object you want to return may be <a href="#js-rtc">live or static</a>.
+This means:</p>
+   <ul>
+    <li data-md>
+     <p>If live, then return the same object each time,
+until a state change requires a different object to be returned.
+This can be returned from either an attribute or a method.</p>
+    <li data-md>
+     <p>If static, then return a new object each time.
+In which case, this should be be a method.</p>
+   </ul>
+   <h3 class="heading settled" data-level="6.4" id="prefer-dict-to-bool"><span class="secno">6.4. </span><span class="content">Prefer dictionary arguments over primitive arguments</span><a class="self-link" href="#prefer-dict-to-bool"></a></h3>
    <p>API methods should generally use dictionary arguments
 instead of a series of optional primitive arguments.</p>
    <p>This makes the code that calls the method much more readable.
@@ -1788,11 +1829,11 @@ they can avoid passing an extra argument.</p>
     <li data-md>
      <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
     <li data-md>
-     <p><a href="#optional-parameters">§ 6.4 Make method arguments optional if possible</a></p>
+     <p><a href="#optional-parameters">§ 6.5 Make method arguments optional if possible</a></p>
     <li data-md>
-     <p><a href="#naming-optional-parameters">§ 6.5 Naming optional arguments</a></p>
+     <p><a href="#naming-optional-parameters">§ 6.6 Naming optional arguments</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.4" id="optional-parameters"><span class="secno">6.4. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
+   <h3 class="heading settled" data-level="6.5" id="optional-parameters"><span class="secno">6.5. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
    <p>If an argument for an API method has a reasonable default value,
 make that argument optional and specify the default value.</p>
    <div class="example" id="example-b823d8cb"><a class="self-link" href="#example-b823d8cb"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
@@ -1819,9 +1860,9 @@ unless otherwise required, use the following list types:</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#prefer-dict-to-bool">§ 6.3 Prefer dictionary arguments over primitive arguments</a></p>
+     <p><a href="#prefer-dict-to-bool">§ 6.4 Prefer dictionary arguments over primitive arguments</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.5" id="naming-optional-parameters"><span class="secno">6.5. </span><span class="content">Naming optional arguments</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
+   <h3 class="heading settled" data-level="6.6" id="naming-optional-parameters"><span class="secno">6.6. </span><span class="content">Naming optional arguments</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
    <p>Name optional arguments to make the default behavior obvious
 without being named negatively.</p>
    <p>This applies whether they are provided in a <a href="#prefer-dict-to-bool">dictionary</a> or as <a href="#optional-parameters">single arguments</a>.</p>
@@ -1849,7 +1890,7 @@ to reflect the default behaviour without using a negative.</p>
     <li data-md>
      <p><a href="#naming-is-hard">§ 12 Naming principles</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.6" id="constructors"><span class="secno">6.6. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
+   <h3 class="heading settled" data-level="6.7" id="constructors"><span class="secno">6.7. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
    <p>Make sure that any class that’s part of your API has a constructor,
 if appropriate.</p>
    <p>By default, <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a> interfaces generate "non-constructible" classes:
@@ -1923,7 +1964,7 @@ as its result can be any of a number of subclasses of <code class="idl"><a data-
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible. </div>
-   <h3 class="heading settled" data-level="6.7" id="synchronous"><span class="secno">6.7. </span><span class="content">Use synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
+   <h3 class="heading settled" data-level="6.8" id="synchronous"><span class="secno">6.8. </span><span class="content">Use synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
    <p>Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
 and need less infrastructure set-up (such as making functions <code>async</code>).</p>
@@ -1936,7 +1977,7 @@ and need less infrastructure set-up (such as making functions <code>async</code>
     <li data-md>
      <p>The execution time is short and deterministic.</p>
    </ul>
-   <h3 class="heading settled" data-level="6.8" id="promises"><span class="secno">6.8. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
+   <h3 class="heading settled" data-level="6.9" id="promises"><span class="secno">6.9. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
    <p>If an API method needs to be asynchronous, use Promises,
 not callback functions.</p>
    <p>Using Promises consistently across the web platform
@@ -1960,7 +2001,7 @@ or in another process, before returning the result.</p>
     <li data-md>
      <p><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.9" id="aborting"><span class="secno">6.9. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
+   <h3 class="heading settled" data-level="6.10" id="aborting"><span class="secno">6.10. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
    <p>If an asynchronous method can be cancelled,
 allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
    <div class="example" id="example-52de31d9">
@@ -1980,7 +2021,7 @@ or a single-page app navigation occurs.)</p>
    <p>Even if cancellation can’t be guaranteed,
 you can still use an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code>,
 because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code> is a request, rather than a guarantee.</p>
-   <h3 class="heading settled" data-level="6.10" id="string-constants"><span class="secno">6.10. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
+   <h3 class="heading settled" data-level="6.11" id="string-constants"><span class="secno">6.11. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
    <p>If your API needs a constant, or a set of enumerated values,
 use string values.</p>
    <p>Strings are easier for developers to inspect,
@@ -1990,7 +2031,7 @@ from using integers instead of strings.</p>
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.</p>
-   <h3 class="heading settled" data-level="6.11" id="properties-vs-methods"><span class="secno">6.11. </span><span class="content">Properties vs. Methods</span><a class="self-link" href="#properties-vs-methods"></a></h3>
+   <h3 class="heading settled" data-level="6.12" id="properties-vs-methods"><span class="secno">6.12. </span><span class="content">Properties vs. Methods</span><a class="self-link" href="#properties-vs-methods"></a></h3>
    <p>Sometimes it is unclear whether to use a property or a method.</p>
    <ul>
     <li data-md>
@@ -3379,33 +3420,33 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-abortcontroller">
    <a href="https://dom.spec.whatwg.org/#abortcontroller">https://dom.spec.whatwg.org/#abortcontroller</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortcontroller">6.9. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortcontroller">6.10. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-abortcontroller①">7.6. Guard against potential recursion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal">
    <a href="https://dom.spec.whatwg.org/#abortsignal">https://dom.spec.whatwg.org/#abortsignal</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abortsignal">6.9. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-abortsignal">6.10. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-abortsignal①">7.6. Guard against potential recursion</a> <a href="#ref-for-abortsignal②">(2)</a> <a href="#ref-for-abortsignal③">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-domtokenlist">
    <a href="https://dom.spec.whatwg.org/#domtokenlist">https://dom.spec.whatwg.org/#domtokenlist</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-domtokenlist">6.6. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist①">(2)</a>
+    <li><a href="#ref-for-domtokenlist">6.7. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-element">
    <a href="https://dom.spec.whatwg.org/#element">https://dom.spec.whatwg.org/#element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-element">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-element">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event">
    <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event">6.6. Classes should have constructors when possible</a> <a href="#ref-for-event①">(2)</a>
+    <li><a href="#ref-for-event">6.7. Classes should have constructors when possible</a> <a href="#ref-for-event①">(2)</a>
     <li><a href="#ref-for-event②">7.6. Guard against potential recursion</a>
     <li><a href="#ref-for-event③">7.7. State and Event subclasses</a> <a href="#ref-for-event④">(2)</a> <a href="#ref-for-event⑤">(3)</a>
     <li><a href="#ref-for-event⑥">7.8. How to decide between Events and Observers</a>
@@ -3452,7 +3493,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-abortcontroller-abort">
    <a href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort">https://dom.spec.whatwg.org/#dom-abortcontroller-abort</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-abortcontroller-abort">6.9. Cancel asynchronous APIs/operations using AbortSignal</a>
+    <li><a href="#ref-for-dom-abortcontroller-abort">6.10. Cancel asynchronous APIs/operations using AbortSignal</a>
     <li><a href="#ref-for-dom-abortcontroller-abort①">7.6. Guard against potential recursion</a>
    </ul>
   </aside>
@@ -3465,8 +3506,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-eventtarget-addeventlistener">
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener">6.4. Make method arguments optional if possible</a>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">6.5. Naming optional arguments</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener">6.5. Make method arguments optional if possible</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">6.6. Naming optional arguments</a>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener②">7.8. How to decide between Events and Observers</a>
    </ul>
   </aside>
@@ -3485,7 +3526,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-document-createelement">
    <a href="https://dom.spec.whatwg.org/#dom-document-createelement">https://dom.spec.whatwg.org/#dom-document-createelement</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-document-createelement">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dom-document-createelement">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-event-fire">
@@ -3637,26 +3678,26 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-history-3">
    <a href="https://html.spec.whatwg.org/multipage/history.html#history-3">https://html.spec.whatwg.org/multipage/history.html#history-3</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-history-3">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-history-3">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-imagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-imagebitmap">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-imagebitmap">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-navigator">
    <a href="https://html.spec.whatwg.org/multipage/system-state.html#navigator">https://html.spec.whatwg.org/multipage/system-state.html#navigator</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-navigator">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-navigator">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#termref-for-window">2.8. Consider how your API should behave in private browsing mode</a>
-    <li><a href="#ref-for-window">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-window">6.7. Classes should have constructors when possible</a>
     <li><a href="#ref-for-window①">7.4. Always add event handler attributes</a>
    </ul>
   </aside>
@@ -3693,13 +3734,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-createimagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-createimagebitmap">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dom-createimagebitmap">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-custom-element">
    <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element">https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-custom-element">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-custom-element">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-customelementregistry-define">
@@ -3830,7 +3871,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-open">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open">https://html.spec.whatwg.org/multipage/window-object.html#dom-open</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-open">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dom-open">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-opener">
@@ -4048,7 +4089,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-mouseevent">
    <a href="https://www.w3.org/TR/uievents/#mouseevent">https://www.w3.org/TR/uievents/#mouseevent</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-mouseevent">6.6. Classes should have constructors when possible</a> <a href="#ref-for-mouseevent①">(2)</a>
+    <li><a href="#ref-for-mouseevent">6.7. Classes should have constructors when possible</a> <a href="#ref-for-mouseevent①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-urlsearchparams">
@@ -4072,7 +4113,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dfn-Crypto">
    <a href="https://w3c.github.io/webcrypto/#dfn-Crypto">https://w3c.github.io/webcrypto/#dfn-Crypto</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-Crypto">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-dfn-Crypto">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-ByteString">
@@ -4120,7 +4161,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
    <a href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror">https://webidl.spec.whatwg.org/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-exceptiondef-typeerror">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-exceptiondef-typeerror">6.7. Classes should have constructors when possible</a>
     <li><a href="#ref-for-exceptiondef-typeerror①">8.1. Use numeric types appropriately</a> <a href="#ref-for-exceptiondef-typeerror②">(2)</a>
    </ul>
   </aside>
@@ -4151,7 +4192,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idl-constructors">
    <a href="https://webidl.spec.whatwg.org/#idl-constructors">https://webidl.spec.whatwg.org/#idl-constructors</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-constructors">6.6. Classes should have constructors when possible</a>
+    <li><a href="#ref-for-idl-constructors">6.7. Classes should have constructors when possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-double">
@@ -4181,13 +4222,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dfn-namespace">
    <a href="https://webidl.spec.whatwg.org/#dfn-namespace">https://webidl.spec.whatwg.org/#dfn-namespace</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-namespace">6.6. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
+    <li><a href="#ref-for-dfn-namespace">6.7. Classes should have constructors when possible</a> <a href="#ref-for-dfn-namespace①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-observable-array-type">
    <a href="https://webidl.spec.whatwg.org/#dfn-observable-array-type">https://webidl.spec.whatwg.org/#dfn-observable-array-type</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-observable-array-type">6.4. Make method arguments optional if possible</a>
+    <li><a href="#ref-for-dfn-observable-array-type">6.5. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-octet">
@@ -4199,7 +4240,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
    <a href="https://webidl.spec.whatwg.org/#sequence-type">https://webidl.spec.whatwg.org/#sequence-type</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-sequence-type">6.4. Make method arguments optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
+    <li><a href="#ref-for-sequence-type">6.5. Make method arguments optional if possible</a> <a href="#ref-for-sequence-type①">(2)</a>
     <li><a href="#ref-for-sequence-type②">8.2. Represent strings appropriately</a>
    </ul>
   </aside>
@@ -4218,7 +4259,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idl-undefined">
    <a href="https://webidl.spec.whatwg.org/#idl-undefined">https://webidl.spec.whatwg.org/#idl-undefined</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-undefined">6.4. Make method arguments optional if possible</a>
+    <li><a href="#ref-for-idl-undefined">6.5. Make method arguments optional if possible</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-unrestricted-double">
@@ -4248,7 +4289,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequest">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequest">https://xhr.spec.whatwg.org/#xmlhttprequest</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequest">6.4. Make method arguments optional if possible</a>
+    <li><a href="#ref-for-xmlhttprequest">6.5. Make method arguments optional if possible</a>
     <li><a href="#ref-for-xmlhttprequest①">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
