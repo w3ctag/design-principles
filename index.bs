@@ -1252,7 +1252,7 @@ See also:
 
 * [[#attributes-like-data]]
 
-<h3 id="attributes-vs-methods">Use attributes or methods adequately</h3>
+<h3 id="attributes-vs-methods">Use attributes or methods appropriately</h3>
 
 Sometimes it is unclear
 whether to use an attribute or a method.
