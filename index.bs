@@ -2540,8 +2540,6 @@ offers guidance that should be considered in the development of new features, no
 
 When exposing a feature, please consider whether it makes sense to expose the feature
 to DedicatedWorker as well.
-A DedicatedWorker is a non specialized worker type that allows developers to run code
-off the main thread.
 
 Many features could work out of the box on a DedicatedWorker and not enabling the feature
 there could limit the ability for users to run their code in a non blocking manner.
