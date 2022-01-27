@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 2e3c4c68b, updated Fri Jan 14 14:49:00 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="51c4da3e41d6a79188c50e2c3db30c0319bc7db6" name="document-revision">
+  <meta content="8388c68f4c4f0eb838db617ce1f4e4b98ca8766f" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-25">25 January 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-27">27 January 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -738,11 +738,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#other-considerations"><span class="secno">10</span> <span class="content">Other API Design Considerations</span></a>
      <ol class="toc">
       <li><a href="#polyfills"><span class="secno">10.1</span> <span class="content">Polyfills</span></a>
-      <li><a href="#new-data-formats"><span class="secno">10.2</span> <span class="content">New Data Formats</span></a>
-      <li><a href="#new-http-header-syntax"><span class="secno">10.3</span> <span class="content">New HTTP Headers</span></a>
-      <li><a href="#extend-manifests"><span class="secno">10.4</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#debuggability"><span class="secno">10.5</span> <span class="content">Features should be developer-friendly</span></a>
-      <li><a href="#crypto"><span class="secno">10.6</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#consider-dedicatedworker-support"><span class="secno">10.2</span> <span class="content">Where possible APIs should be made available in DedicatedWorker</span></a>
+      <li><a href="#new-data-formats"><span class="secno">10.3</span> <span class="content">New Data Formats</span></a>
+      <li><a href="#new-http-header-syntax"><span class="secno">10.4</span> <span class="content">New HTTP Headers</span></a>
+      <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#debuggability"><span class="secno">10.6</span> <span class="content">Features should be developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.7</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -2758,7 +2759,19 @@ The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfi
     <li data-md>
      <p>Polyfill development should be encouraged</p>
    </ul>
-   <h3 class="heading settled" data-level="10.2" id="new-data-formats"><span class="secno">10.2. </span><span class="content">New Data Formats</span><a class="self-link" href="#new-data-formats"></a></h3>
+   <h3 class="heading settled" data-level="10.2" id="consider-dedicatedworker-support"><span class="secno">10.2. </span><span class="content">Where possible APIs should be made available in DedicatedWorker</span><a class="self-link" href="#consider-dedicatedworker-support"></a></h3>
+   <p>When exposing a feature, please consider whether it makes sense to expose the feature
+to DedicatedWorker as well.</p>
+   <p>Many features could work out of the box on a DedicatedWorker and not enabling the feature
+there could limit the ability for users to run their code in a non blocking manner.</p>
+   <p>Certain challenges can exist when trying to enable a feature on DedicatedWorker,
+especially if the feature requires user input by asking for permission,
+or showing a picker or selector.
+Even though this might discourage spec authors to support workers,
+we still recommend designing the feature with DedicatedWorker support in mind,
+in order to not add assumptions that will later make it unnecessarily hard to expose
+these APIs to DedicatedWorker.</p>
+   <h3 class="heading settled" data-level="10.3" id="new-data-formats"><span class="secno">10.3. </span><span class="content">New Data Formats</span><a class="self-link" href="#new-data-formats"></a></h3>
    <p>Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.</p>
    <p>There are cases when a new capability on the web involves adding a new data format.
@@ -2779,7 +2792,7 @@ and HTMLCanvasElement.toDataURL().</p>
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="10.3" id="new-http-header-syntax"><span class="secno">10.3. </span><span class="content">New HTTP Headers</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
+   <h3 class="heading settled" data-level="10.4" id="new-http-header-syntax"><span class="secno">10.4. </span><span class="content">New HTTP Headers</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
    <p>If you are defining a new HTTP header,
 its syntax mustn’t go against <a href="https://tools.ietf.org/html/rfc7230#section-3.2">the HTTP specification</a>.</p>
    <p>If the new header must convey structured data,
@@ -2797,7 +2810,7 @@ then either engage with IETF about
 extending the Structured Field Values syntax,
 or re-consider if an HTTP header is a right place
 to expose the data before inventing a new syntax. <a data-link-type="biblio" href="#biblio-rfc8941">[RFC8941]</a></p>
-   <h3 class="heading settled" data-level="10.4" id="extend-manifests"><span class="secno">10.4. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="10.5" id="extend-manifests"><span class="secno">10.5. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -2853,7 +2866,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.5" id="debuggability"><span class="secno">10.5. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.6" id="debuggability"><span class="secno">10.6. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -2869,7 +2882,7 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
-   <h3 class="heading settled" data-level="10.6" id="crypto"><span class="secno">10.6. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <h3 class="heading settled" data-level="10.7" id="crypto"><span class="secno">10.7. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
    <p>Use only cryptographic algorithms
 that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
