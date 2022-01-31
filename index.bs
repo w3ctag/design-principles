@@ -2548,17 +2548,8 @@ to integrate changes to their manifest format immediately.
 This may be due to process (like going to CR),
 or due to the addition having a different scope,
 like extensions to Web App Manifest only affecting store or payment use-cases.
-In that case, it is acceptable to monkey-patch
+In that case, it is acceptable to [=monkey patch=]
 as long as that is agreed with the original spec editors.
-
-ISSUE(184): when we write up a principle on monkey patching,
-be sure to take this nuance into account.
-
-An example of something that was done as a monkey patch
-that is scheduled to be integrated into the web app manifest in a future level (post-CR):
-
-* https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
-
 </div>
 
 However, if your feature requires a complex set of metadata specific to a functional domain,
@@ -2745,7 +2736,8 @@ and makes it clear when the state described by the flags is reset.
 
 <h3 id="monkey-patching">Avoid monkey patching</h3>
 A <dfn export>monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification's behavior.
-Monkey patching <strong>is considered bad practice and should be avoided</strong> for the reasons listed below.
+Monkey patching <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavailable
+(see our guidance <a href="cant-avoid-monkey-patching">if you need to monkey patch</a>).
 
 An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.
 
@@ -2756,6 +2748,8 @@ As such, monkey patching (wrongly!) presupposes that underlying functionality ca
   * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.
   * An engineers doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
 
+Wikipedia also have a good article on <a href="https://en.wikipedia.org/wiki/Monkey_patching">monkey patching</a>, which describes some additional pitfalls.
+
 <h4 id="cant-avoid-monkey-patching">If you need to monkey patch</h4>
 Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you:
 
@@ -2763,6 +2757,12 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
  1. In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.
  1. Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.
  1. Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.
+
+Note that [=monkey patching=] is different from "modularization", which extends existing technology in a way that is self-contained and doesn't cause side-effects to other underlying specifications (e.g., the CSS Modules).
+Modularization is considered a good practice.
+
+It's also usually ok to extend a specification using WebIDL's [=partial interfaces=], [=partial dictionaries=], and so on.
+But even in those cases, it's highly advisable to coordinate with the authors of the specification being extended.
 
 <h2 id="naming-is-hard">Naming principles</h2>
 
