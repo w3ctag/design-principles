@@ -646,7 +646,7 @@ See also:
 
 <h3 id="require-user-activation">Powerful APIs should require user activation</h3>
 
-Some powerful APIs can produce annoying UI (eg. auto-playing audio),
+Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
 expose user data (eg. interacting with the clipboard),
 perform a background activity without an obvious indicator to the user (eg. accessing local storage),
 or prompt the user to interact with [trusted UI](#trusted-ui)
