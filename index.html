@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version 2e3c4c68b, updated Fri Jan 14 14:49:00 2022 -0800" name="generator">
+  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="8388c68f4c4f0eb838db617ce1f4e4b98ca8766f" name="document-revision">
+  <meta content="555fd59d59d1fbaad1347bde2eb8bab8d16744cd" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-27">27 January 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-02">2 May 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -641,6 +641,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
       <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent when appropriate</span></a>
       <li><a href="#devices-platforms"><span class="secno">1.5</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
+      <li><a href="#leave-the-web-better"><span class="secno">1.6</span> <span class="content">Leave the web better than you found it</span></a>
      </ol>
     <li>
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
@@ -947,6 +948,17 @@ and 'display: grid' layout models in CSS
 all default to placing content within the available space and without overlap,
 so that it works across screen sizes,
 and allows users to choose their own font and font size without causing text to overflow. </div>
+   <h3 class="heading settled" data-level="1.6" id="leave-the-web-better"><span class="secno">1.6. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
+   <p>As you add new capabilities to the web platform, do so in a way that improves
+the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
+The existence of a defect in one part of the platform must not be used as a license 
+for adding or extending such defect into new capabilities and thereby further decreasing 
+the overall platform quality.  Where possible, build new web capabilities that 
+improve the overall platform quality.</p>
+   <p>Parts of the web platform evolve independently.
+Issues that are present with a certain web technology now may be fixed in a subsequent iteration.  
+Duplicating these issues makes fixing them more difficult. 
+By adhering to this principle we can make sure overall platform quality improves over time.</p>
    <h2 class="heading settled" data-level="2" id="api-across-languages"><span class="secno">2. </span><span class="content">API Design Across Languages</span><a class="self-link" href="#api-across-languages"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="simplicity"><span class="secno">2.1. </span><span class="content">Prefer simple solutions</span><a class="self-link" href="#simplicity"></a></h3>
    <p>Look hard for simple solutions to the <a href="#priority-of-constituencies">user needs</a> you intend to address.</p>
@@ -1798,12 +1810,12 @@ It also makes the API more extensible in the future,
 particularly if multiple arguments with the same type are needed.</p>
    <div class="example" id="example-148797d6">
     <a class="self-link" href="#example-148797d6"></a> For example, 
-<pre class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c->
+<pre class="highlight"><c- ow>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c->
           <c- p>{</c-> bubbles<c- o>:</c-> <c- kc>true</c-><c- p>,</c->
             cancelable<c- o>:</c-> <c- kc>false</c-><c- p>})</c->
 </pre>
     <p>is much more readable than</p>
-<pre class="highlight"><c- k>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c-> <c- kc>true</c-><c- p>,</c-> <c- kc>false</c-><c- p>)</c->
+<pre class="highlight"><c- ow>new</c-> Event<c- p>(</c-><c- u>"example"</c-><c- p>,</c-> <c- kc>true</c-><c- p>,</c-> <c- kc>false</c-><c- p>)</c->
 </pre>
     <p>Also,</p>
 <pre class="highlight">window<c- p>.</c->scrollBy<c- p>({</c-> left<c- o>:</c-> <c- mf>50</c-><c- p>,</c-> top<c- o>:</c-> <c- mf>0</c-> <c- p>})</c->
@@ -2007,7 +2019,7 @@ or in another process, before returning the result.</p>
 allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
    <div class="example" id="example-52de31d9">
     <a class="self-link" href="#example-52de31d9"></a> 
-<pre class="language-js highlight"><c- a>const</c-> controller <c- o>=</c-> <c- k>new</c-> AbortController<c- p>();</c->
+<pre class="language-js highlight"><c- a>const</c-> controller <c- o>=</c-> <c- ow>new</c-> AbortController<c- p>();</c->
 <c- a>const</c-> signal <c- o>=</c-> controller<c- p>.</c->signal<c- p>;</c->
 geolocation<c- p>.</c->read<c- p>({</c-> signal <c- p>});</c->
 </pre>
@@ -2305,13 +2317,13 @@ for all observed-but-not-yet-delivered occurrences.</p>
    <div class="example" id="example-f8835767">
     <a class="self-link" href="#example-f8835767"></a> <a href="https://w3c.github.io/IntersectionObserver"><code>IntersectionObserver</code></a> may be used like this: 
 <pre class="highlight"><c- a>function</c-> checkElementStillVisible<c- p>(</c->element<c- p>,</c-> observer<c- p>)</c-> <c- p>{</c->
-    <c- k>delete</c-> element<c- p>.</c->visibleTimeout<c- p>;</c->
+    <c- ow>delete</c-> element<c- p>.</c->visibleTimeout<c- p>;</c->
 
     <c- c1>// Process any observations which may still be on the task queue</c->
     processChanges<c- p>(</c->observer<c- p>.</c->takeRecords<c- p>());</c->
 
-    <c- k>if</c-> <c- p>(</c-><c- t>'isVisible'</c-> <c- k>in</c-> element<c- p>)</c-> <c- p>{</c->
-        <c- k>delete</c-> element<c- p>.</c->isVisible<c- p>;</c->
+    <c- k>if</c-> <c- p>(</c-><c- t>'isVisible'</c-> <c- ow>in</c-> element<c- p>)</c-> <c- p>{</c->
+        <c- ow>delete</c-> element<c- p>.</c->isVisible<c- p>;</c->
         logAdImpressionToServer<c- p>();</c->
 
         <c- c1>// Stop observing this element</c->
@@ -2324,23 +2336,23 @@ for all observed-but-not-yet-delivered occurrences.</p>
         <c- a>var</c-> element <c- o>=</c-> changeRecord<c- p>.</c->target<c- p>;</c->
         element<c- p>.</c->isVisible <c- o>=</c-> isVisible<c- p>(</c->changeRecord<c- p>.</c->boundingClientRect<c- p>,</c->
                                       changeRecord<c- p>.</c->intersectionRect<c- p>);</c->
-        <c- k>if</c-> <c- p>(</c-><c- t>'isVisible'</c-> <c- k>in</c-> element<c- p>)</c-> <c- p>{</c->
+        <c- k>if</c-> <c- p>(</c-><c- t>'isVisible'</c-> <c- ow>in</c-> element<c- p>)</c-> <c- p>{</c->
             <c- c1>// Element became visible</c->
             element<c- p>.</c->visibleTimeout <c- o>=</c-> setTimeout<c- p>(()</c-> <c- p>=></c-> <c- p>{</c->
                 checkElementStillVisible<c- p>(</c->element<c- p>,</c-> observer<c- p>);</c->
             <c- p>},</c-> <c- mf>1000</c-><c- p>);</c->
         <c- p>}</c-> <c- k>else</c-> <c- p>{</c->
             <c- c1>// Element became hidden</c->
-            <c- k>if</c-> <c- p>(</c-><c- t>'visibleTimeout'</c-> <c- k>in</c-> element<c- p>)</c-> <c- p>{</c->
+            <c- k>if</c-> <c- p>(</c-><c- t>'visibleTimeout'</c-> <c- ow>in</c-> element<c- p>)</c-> <c- p>{</c->
                 clearTimeout<c- p>(</c->element<c- p>.</c->visibleTimeout<c- p>);</c->
-                <c- k>delete</c-> element<c- p>.</c->visibleTimeout<c- p>;</c->
+                <c- ow>delete</c-> element<c- p>.</c->visibleTimeout<c- p>;</c->
             <c- p>}</c->
         <c- p>}</c->
     <c- p>});</c->
 <c- p>}</c->
 
 <c- c1>// Create IntersectionObserver with callback and options</c->
-<c- a>var</c-> observer <c- o>=</c-> <c- k>new</c-> IntersectionObserver<c- p>(</c->processChanges<c- p>,</c->
+<c- a>var</c-> observer <c- o>=</c-> <c- ow>new</c-> IntersectionObserver<c- p>(</c->processChanges<c- p>,</c->
                                         <c- p>{</c-> threshold<c- o>:</c-> <c- p>[</c-><c- mf>0.5</c-><c- p>]</c-> <c- p>});</c->
 
 <c- c1>// Begin observing "ad" element</c->
@@ -2394,7 +2406,7 @@ your events may be designed to be non-bubbling and non-cancelable.</p>
    </ul>
    <div class="example" id="example-211011c7">
     <a class="self-link" href="#example-211011c7"></a> Here is an example of using a hypothetical version of <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/IntersectionObserver/#intersectionobserver" id="ref-for-intersectionobserver">IntersectionObserver</a></code> that’s an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑦">EventTarget</a></code> subclass: 
-<pre class="highlight"><c- a>const</c-> io <c- o>=</c-> <c- k>new</c-> ETIntersectionObserver<c- p>(</c->element<c- p>,</c-> <c- p>{</c-> root<c- p>,</c-> rootMargin<c- p>,</c-> threshold <c- p>});</c->
+<pre class="highlight"><c- a>const</c-> io <c- o>=</c-> <c- ow>new</c-> ETIntersectionObserver<c- p>(</c->element<c- p>,</c-> <c- p>{</c-> root<c- p>,</c-> rootMargin<c- p>,</c-> threshold <c- p>});</c->
 
 <c- a>function</c-> listener<c- p>(</c->e<c- p>)</c-> <c- p>{</c->
     <c- k>for</c-> <c- p>(</c-><c- a>const</c-> change <c- k>of</c-> e<c- p>.</c->changes<c- p>)</c-> <c- p>{</c->
