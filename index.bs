@@ -266,7 +266,7 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
-the overall platform, for example its security, privacy, or accessibility characteristics. 
+the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
 The existence of a defect in one part of the platform must not be used as a license 
 for adding or extending such defect into new capabilities and thereby further decrease 
 the overall platform quality.  Where possible, build new web capabilities that 
