@@ -267,7 +267,7 @@ and allows users to choose their own font and font size without causing text to 
 
 As you add APIs and new technologies to the web platform, do so in a way that improves
 the overall platform, including its security and privacy characteristics. 
-If a security or privacy vulnerability exists in one place in the paltform, don't take
+If a security or privacy vulnerability exists in one place in the platform, don't take
 this as license to design that same vulnerability into a new technology or API, thereby
 increasing the attack surface.  Where possible, build new web techhologies that
 decrease overall attack surface and increase platform quality.
