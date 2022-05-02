@@ -268,7 +268,7 @@ and allows users to choose their own font and font size without causing text to 
 As you add new capabilities to the web platform, do so in a way that improves
 the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
 The existence of a defect in one part of the platform must not be used as a license 
-for adding or extending such defect into new capabilities and thereby further decrease 
+for adding or extending such defect into new capabilities and thereby further decreasing 
 the overall platform quality.  Where possible, build new web capabilities that 
 improve the overall platform quality.
 
