@@ -274,7 +274,7 @@ improve the overall platform quality.
 
 Parts of the web platform evolve independently.  Issues that are present with a certain web
 technology now may may be fixed in a subsequent iteration.  Duplicating these issues make fixing
-them more difficult. By adhereing to this principle we can make sure overall platfrom quality
+them more difficult. By adhering to this principle we can make sure overall platform quality
 improves over time.
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
