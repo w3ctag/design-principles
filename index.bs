@@ -269,7 +269,7 @@ As you add APIs and new technologies to the web platform, do so in a way that im
 the overall platform, including its security and privacy characteristics. 
 If a security or privacy vulnerability exists in one place in the platform, don't take
 this as license to design that same vulnerability into a new technology or API, thereby
-increasing the attack surface.  Where possible, build new web techhologies that
+increasing the attack surface.  Where possible, build new web technologies that
 decrease overall attack surface and increase platform quality.
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
