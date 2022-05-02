@@ -266,7 +266,7 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add APIs and new technologies to the web platform, do so in a way that improves
-the overall platform, including its security and privacy characteristics. 
+the overall platform, for example its security, privacy or accessibility characteristics. 
 If a security or privacy vulnerability exists in one place in the platform, don't take
 this as license to design that same vulnerability into a new technology or API, thereby
 increasing the attack surface.  Where possible, build new web technologies that
