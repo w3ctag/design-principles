@@ -2688,7 +2688,7 @@ serialization. The following are constituencies of serialization results that mu
  - Tools - use these results to enrich author experience, provide auditing, automation, testing etc.
  - Web platform API - serialized results passed as input to other (or the same) API of the platform
 
-Consider expectations that can be language specific - significance of empty spaces, 
+Consider language specific expectations - significance of empty spaces, 
 numeric precision, structure of the format (ex. CSS grid structure) etc. In such cases the expected 
 effect to serialization results:
 
