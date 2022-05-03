@@ -2694,7 +2694,7 @@ effect to serialization results:
 
  - Should be intuitive (this is rather weakly defined expectation but often cited in discussions)
  - Should not add to error accumulation - taking the serialized output of an API and feeding it 
- back to the same API in a loop should be predictable and ideally error free (at least for simple API)
+ back to the same API in a loop should result in the same internal state and ideally error free (at least for simple API)
 
 <h3 id="debuggability">Features should be developer-friendly</h3>
 
