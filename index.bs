@@ -2680,6 +2680,22 @@ which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.
 
+<h3 id="serialization">Serialization</h3>
+Adding or extending features that involve a parser or a serializer should consider their affect to 
+serialization. The following are constituencies of serialization results that must be considered:
+
+ - Users - often reading result of serialization to validate expectations or learn
+ - Tools - use these results to enrich dev experience, provide auditing, automation, testing etc.
+ - Web platform API - serialized results passed as input to other (or the same) API of the platform
+
+There are also specific expectations that can be language specific - significance of empty spaces, 
+numeric precision, structure of the format (ex. CSS grid structure) etc. In such cases the expected 
+effect to serialization results:
+
+ - Should be intuitive (this is rather weakly defined expectation but often cited in discussions)
+ - Should not add to error accumulation - taking the serialized output of an API and feeding it 
+ back to the same API in a loop should be predictable and ideally error free (at least for simple API)
+
 <h3 id="debuggability">Features should be developer-friendly</h3>
 
 Any new feature should be developer-friendly.
