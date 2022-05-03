@@ -2685,7 +2685,7 @@ Adding or extending features that involve a parser or a serializer should consid
 serialization. The following are constituencies of serialization results that must be considered:
 
  - Users - often reading result of serialization to validate expectations or learn
- - Tools - use these results to enrich dev experience, provide auditing, automation, testing etc.
+ - Tools - use these results to enrich author experience, provide auditing, automation, testing etc.
  - Web platform API - serialized results passed as input to other (or the same) API of the platform
 
 There are also specific expectations that can be language specific - significance of empty spaces, 
