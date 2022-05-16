@@ -182,7 +182,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-make sure that the user can give [*meaningful consent*](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
+make sure that the user can give *[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)* for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -656,6 +656,30 @@ See also:
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+
+<h3 id="require-user-activation">Powerful APIs should require user activation</h3>
+
+Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
+expose user data (eg. interacting with the clipboard),
+perform a background activity without an obvious indicator to the user (eg. accessing local storage),
+or prompt the user to interact with [trusted UI](#trusted-ui)
+(eg. permission prompts, device hardware features).
+These APIs should be designed to require some indication of user intention (such as **user activation**) in order to function.
+This indicates that the user is intentionally interacting with the web page in question.
+
+User activation is defined in detail
+[in the HTML standard](https://html.spec.whatwg.org/#tracking-user-activation).
+You should think about the effect your API has on the user experience,
+as well as any risks presented to the user,
+when deciding whether user activation needs to only occur
+once overall ([sticky](https://html.spec.whatwg.org/#sticky-activation-gated-api)),
+periodically ([transient](https://html.spec.whatwg.org/#transient-activation-gated-api)) or
+once per API call ([transient consuming](https://html.spec.whatwg.org/#activation-consuming-api)).
+
+Note that while user activation is in many cases necessary,
+it is not always *sufficient*
+to protect users from invasive behaviours,
+and seeking [meaningful consent](#consent) is also important.
 
 <h3 id="support-non-fully-active">Support non-"fully active" documents</h3>
 
