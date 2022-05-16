@@ -651,7 +651,7 @@ expose user data (eg. interacting with the clipboard),
 perform a background activity without an obvious indicator to the user (eg. accessing local storage),
 or prompt the user to interact with [trusted UI](#trusted-ui)
 (eg. permission prompts, device hardware features).
-These APIs should be designed to require user activation at a minimum in order to function.
+These APIs should be designed to require some indication of user intention (such as **user activation**) in order to function.
 This indicates that the user is intentionally interacting with the web page in question.
 
 User activation is defined in detail
