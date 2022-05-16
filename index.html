@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="62419c4a14fd422b89c4825664365f6766473120" name="document-revision">
+  <meta content="84bd433361d1c8fd8a760055a9e66b66fdc0d6b7" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-03">3 May 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-16">16 May 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -655,16 +655,17 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.7</span> <span class="content">Don’t reveal that private browsing mode is engaged</span></a>
       <li><a href="#private-browsing-mode"><span class="secno">2.8</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
       <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.9</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
+      <li><a href="#require-user-activation"><span class="secno">2.10</span> <span class="content">Powerful APIs should require user activation</span></a>
       <li>
-       <a href="#support-non-fully-active"><span class="secno">2.10</span> <span class="content">Support non-"fully active" documents</span></a>
+       <a href="#support-non-fully-active"><span class="secno">2.11</span> <span class="content">Support non-"fully active" documents</span></a>
        <ol class="toc">
-        <li><a href="#gate-fully-active"><span class="secno">2.10.1</span> <span class="content">Gate actions with <span>fully active</span> checks</span></a>
-        <li><a href="#listen-fully-active"><span class="secno">2.10.2</span> <span class="content">Listen for changes to <span>fully active</span> status</span></a>
-        <li><a href="#omit-non-fully-active"><span class="secno">2.10.3</span> <span class="content">Omit non-<span>fully active</span> documents from APIs that span multiple documents</span></a>
-        <li><a href="#discard"><span class="secno">2.10.4</span> <span class="content">Discard non-<span>fully active</span> documents for situations that can’t be supported</span></a>
-        <li><a href="#per-document-state"><span class="secno">2.10.5</span> <span class="content">Be aware that per-document state/data might persist after navigation</span></a>
+        <li><a href="#gate-fully-active"><span class="secno">2.11.1</span> <span class="content">Gate actions with <span>fully active</span> checks</span></a>
+        <li><a href="#listen-fully-active"><span class="secno">2.11.2</span> <span class="content">Listen for changes to <span>fully active</span> status</span></a>
+        <li><a href="#omit-non-fully-active"><span class="secno">2.11.3</span> <span class="content">Omit non-<span>fully active</span> documents from APIs that span multiple documents</span></a>
+        <li><a href="#discard"><span class="secno">2.11.4</span> <span class="content">Discard non-<span>fully active</span> documents for situations that can’t be supported</span></a>
+        <li><a href="#per-document-state"><span class="secno">2.11.5</span> <span class="content">Be aware that per-document state/data might persist after navigation</span></a>
        </ol>
-      <li><a href="#third-party-tools"><span class="secno">2.11</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
+      <li><a href="#third-party-tools"><span class="secno">2.12</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
      </ol>
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
@@ -883,7 +884,7 @@ This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed. </p>
    <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent when appropriate</span><a class="self-link" href="#consent"></a></h3>
    <p>If a useful feature has the potential to cause harm to users,
-make sure that the user can give <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">*meaningful consent*</a> for that feature to be used,
+make sure that the user can give *<a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">meaningful consent</a>* for that feature to be used,
 and that they can refuse consent effectively.</p>
    <p>In order to give <em>meaningful consent</em>, the user must:</p>
    <ul>
@@ -1251,7 +1252,24 @@ which don’t reveal the use of assistive technology.</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.10" id="support-non-fully-active"><span class="secno">2.10. </span><span class="content">Support non-"fully active" documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
+   <h3 class="heading settled" data-level="2.10" id="require-user-activation"><span class="secno">2.10. </span><span class="content">Powerful APIs should require user activation</span><a class="self-link" href="#require-user-activation"></a></h3>
+   <p>Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
+expose user data (eg. interacting with the clipboard),
+perform a background activity without an obvious indicator to the user (eg. accessing local storage),
+or prompt the user to interact with <a href="#trusted-ui">trusted UI</a> (eg. permission prompts, device hardware features).
+These APIs should be designed to require some indication of user intention (such as <strong>user activation</strong>) in order to function.
+This indicates that the user is intentionally interacting with the web page in question.</p>
+   <p>User activation is defined in detail <a href="https://html.spec.whatwg.org/#tracking-user-activation">in the HTML standard</a>.
+You should think about the effect your API has on the user experience,
+as well as any risks presented to the user,
+when deciding whether user activation needs to only occur
+once overall (<a href="https://html.spec.whatwg.org/#sticky-activation-gated-api">sticky</a>),
+periodically (<a href="https://html.spec.whatwg.org/#transient-activation-gated-api">transient</a>) or
+once per API call (<a href="https://html.spec.whatwg.org/#activation-consuming-api">transient consuming</a>).</p>
+   <p>Note that while user activation is in many cases necessary,
+it is not always <em>sufficient</em> to protect users from invasive behaviours,
+and seeking <a href="#consent">meaningful consent</a> is also important.</p>
+   <h3 class="heading settled" data-level="2.11" id="support-non-fully-active"><span class="secno">2.11. </span><span class="content">Support non-"fully active" documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
    <p>After a user navigated away from a document,
 the document might be cached in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active">fully active</a> state,
 and might be reused when the user navigates back to the entry holding the document, which makes navigation fast for users.
@@ -1264,7 +1282,7 @@ you should specify support for non-<a data-link-type="dfn" href="https://html.sp
 caching, such as when the iframe holding the document gets detached.
 Some advices below might not be relevant for those cases,
 since the document will never return to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active④">fully active</a> again.</p>
-   <h4 class="heading settled" data-level="2.10.1" id="gate-fully-active"><span class="secno">2.10.1. </span><span class="content">Gate actions with <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active⑤">fully active</a> checks</span><a class="self-link" href="#gate-fully-active"></a></h4>
+   <h4 class="heading settled" data-level="2.11.1" id="gate-fully-active"><span class="secno">2.11.1. </span><span class="content">Gate actions with <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active⑤">fully active</a> checks</span><a class="self-link" href="#gate-fully-active"></a></h4>
    <p>When performing actions that might update the state of a document,
 be aware that the document might not be <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active⑥">fully active</a> and is considered as "non-existent" from the user’s perspective.
 This means they should not receive updates or perform actions.</p>
@@ -1276,13 +1294,13 @@ as it is written only for handling non-<a data-link-type="dfn" href="https://htm
    <p>In many cases,
 anything that happens while the document is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①⓪">fully active</a> should be treated as if it never happened.
 If it makes more sense to "update" a document to ensure it does not hold  stale information
-after it becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①①">fully active</a> again, consider the <a href="#listen-fully-active">§ 2.10.2 Listen for changes to fully active status</a> pattern below.</p>
+after it becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①①">fully active</a> again, consider the <a href="#listen-fully-active">§ 2.11.2 Listen for changes to fully active status</a> pattern below.</p>
    <div class="example" id="example-86baec91"><a class="self-link" href="#example-86baec91"></a> APIs that periodically send information updates,
   such as Geolocation API’s <code class="idl"><a data-link-type="idl">watchPosition()</a></code> should not send updates if the document is no longer fully active.
   They also should not queue those updates to arrive later,
   and only resume sending updates when the document becomes active again,
   possibly sending one update with the latest information then. </div>
-   <h4 class="heading settled" data-level="2.10.2" id="listen-fully-active"><span class="secno">2.10.2. </span><span class="content">Listen for changes to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①②">fully active</a> status</span><a class="self-link" href="#listen-fully-active"></a></h4>
+   <h4 class="heading settled" data-level="2.11.2" id="listen-fully-active"><span class="secno">2.11.2. </span><span class="content">Listen for changes to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①②">fully active</a> status</span><a class="self-link" href="#listen-fully-active"></a></h4>
    <p>When a document goes from <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①③">fully active</a> to non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①④">fully active</a>,
 it should be treated similarly to the way discarded documents are treated.
 The document must not retain exclusive access to shared resources
@@ -1308,7 +1326,7 @@ we cannot just release it and reacquire when <a data-link-type="dfn" href="https
 If there is an API to signal to the page that this has happened,
 it may be acceptable but beware that if the only time this happens is with BFCache,
 then it’s likely many pages are not prepared for it. If it is not possible to support BFCache,
-follow the <a href="#discard">§ 2.10.4 Discard non-fully active documents for situations that can’t be supported</a> pattern described below.</p>
+follow the <a href="#discard">§ 2.11.4 Discard non-fully active documents for situations that can’t be supported</a> pattern described below.</p>
    <p>Additionally, when a document becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①⑨">fully active</a> again,
 it can be useful to update it with the current state of the world,
 if anything has changed while it is in the non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②⓪">fully active</a> state.
@@ -1340,7 +1358,7 @@ which can lead to unexpected and hard-to-detect breakage of existing sites.</p>
   when the document becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②⑨">fully active</a> again,
   but whereas a stream might have created many events with a small amount of data each,
   it could be delivered as smaller number of events with more data in each. </div>
-   <h4 class="heading settled" data-level="2.10.3" id="omit-non-fully-active"><span class="secno">2.10.3. </span><span class="content">Omit non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⓪">fully active</a> documents from APIs that span multiple documents</span><a class="self-link" href="#omit-non-fully-active"></a></h4>
+   <h4 class="heading settled" data-level="2.11.3" id="omit-non-fully-active"><span class="secno">2.11.3. </span><span class="content">Omit non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⓪">fully active</a> documents from APIs that span multiple documents</span><a class="self-link" href="#omit-non-fully-active"></a></h4>
     Non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③①">fully active</a> documents should not be observable,
 so APIs should treat them as if they no longer exist.
 They should not be visible to the "outside world" through document-spanning APIs
@@ -1350,7 +1368,7 @@ They should not be visible to the "outside world" through document-spanning APIs
    <div class="example" id="example-1a865af0"><a class="self-link" href="#example-1a865af0"></a> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#dom-clients-matchall" id="ref-for-dom-clients-matchall①">clients.matchAll()</a></code> currently does not distinguish between <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③③">fully active</a> and non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③④">fully active</a> clients,
   but correct implementations should only return <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑤">fully active</a> clients.
   (See <a href="https://github.com/w3c/ServiceWorker/issues/1594">issue</a>) </div>
-   <h4 class="heading settled" data-level="2.10.4" id="discard"><span class="secno">2.10.4. </span><span class="content">Discard non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑥">fully active</a> documents for situations that can’t be supported</span><a class="self-link" href="#discard"></a></h4>
+   <h4 class="heading settled" data-level="2.11.4" id="discard"><span class="secno">2.11.4. </span><span class="content">Discard non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑥">fully active</a> documents for situations that can’t be supported</span><a class="self-link" href="#discard"></a></h4>
     If supporting non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑦">fully active</a> documents is not possible for certain cases,
 explicitly specify it by <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/window-object.html#discard-a-document" id="ref-for-discard-a-document">discarding the document|</a> if the situation happens after the user navigated away,
 or setting the document’s <a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable">salvageable</a> bit to false if the situation happens before or during the navigation away from the document,
@@ -1361,7 +1379,7 @@ as new APIs should always strive to work well with BFCache.</p>
    <div class="example" id="example-47c778e3"><a class="self-link" href="#example-47c778e3"></a> Calling <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#dom-clients-claim" id="ref-for-dom-clients-claim">clients.claim()</a></code> should not wait for non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑧">fully active</a> clients,
   instead it should cause the non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③⑨">fully active</a> client documents to be discarded.
   (This is currently not specified, see <a href="https://github.com/w3c/ServiceWorker/issues/1594">issue</a>) </div>
-   <h4 class="heading settled" data-level="2.10.5" id="per-document-state"><span class="secno">2.10.5. </span><span class="content">Be aware that per-document state/data might persist after navigation</span><a class="self-link" href="#per-document-state"></a></h4>
+   <h4 class="heading settled" data-level="2.11.5" id="per-document-state"><span class="secno">2.11.5. </span><span class="content">Be aware that per-document state/data might persist after navigation</span><a class="self-link" href="#per-document-state"></a></h4>
     As a document might be reused even after navigation,
 be aware that tying something to a document’s lifetime
 also means reusing it after navigations.
@@ -1375,7 +1393,7 @@ and doing cleanup as necessary (see above).
   even after the user navigated away and back to it again.
   Whether this should actually be reset when full activity is lost or not
   is still <a href="https://github.com/whatwg/html/issues/6588">under discussion</a>. </div>
-   <h3 class="heading settled" data-level="2.11" id="third-party-tools"><span class="secno">2.11. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
+   <h3 class="heading settled" data-level="2.12" id="third-party-tools"><span class="secno">2.12. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
    <p>Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.</p>
    <p>The web platform benefits from a wide ecosystem of tooling
 to facilitate easier and faster development.
@@ -3667,7 +3685,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-broadcastchannel">
    <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#broadcastchannel">https://html.spec.whatwg.org/multipage/web-messaging.html#broadcastchannel</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-broadcastchannel">2.10.3. Omit non-fully active documents from APIs that span multiple documents</a>
+    <li><a href="#ref-for-broadcastchannel">2.11.3. Omit non-fully active documents from APIs that span multiple documents</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventhandler">
@@ -3789,7 +3807,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-discard-a-document">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#discard-a-document">https://html.spec.whatwg.org/multipage/window-object.html#discard-a-document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-discard-a-document">2.10.4. Discard non-fully active documents for situations that can’t be supported</a>
+    <li><a href="#ref-for-discard-a-document">2.11.4. Discard non-fully active documents for situations that can’t be supported</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-handler-idl-attributes">
@@ -3819,12 +3837,12 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-fully-active">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active">https://html.spec.whatwg.org/multipage/browsers.html#fully-active</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-fully-active">2.10. Support non-"fully active" documents</a> <a href="#ref-for-fully-active①">(2)</a> <a href="#ref-for-fully-active②">(3)</a> <a href="#ref-for-fully-active③">(4)</a> <a href="#ref-for-fully-active④">(5)</a>
-    <li><a href="#ref-for-fully-active⑤">2.10.1. Gate actions with fully active checks</a> <a href="#ref-for-fully-active⑥">(2)</a> <a href="#ref-for-fully-active⑦">(3)</a> <a href="#ref-for-fully-active⑧">(4)</a> <a href="#ref-for-fully-active⑨">(5)</a> <a href="#ref-for-fully-active①⓪">(6)</a> <a href="#ref-for-fully-active①①">(7)</a>
-    <li><a href="#ref-for-fully-active①②">2.10.2. Listen for changes to fully active status</a> <a href="#ref-for-fully-active①③">(2)</a> <a href="#ref-for-fully-active①④">(3)</a> <a href="#ref-for-fully-active①⑤">(4)</a> <a href="#ref-for-fully-active①⑥">(5)</a> <a href="#ref-for-fully-active①⑦">(6)</a> <a href="#ref-for-fully-active①⑧">(7)</a> <a href="#ref-for-fully-active①⑨">(8)</a> <a href="#ref-for-fully-active②⓪">(9)</a> <a href="#ref-for-fully-active②①">(10)</a> <a href="#ref-for-fully-active②②">(11)</a> <a href="#ref-for-fully-active②③">(12)</a> <a href="#ref-for-fully-active②④">(13)</a> <a href="#ref-for-fully-active②⑤">(14)</a> <a href="#ref-for-fully-active②⑥">(15)</a> <a href="#ref-for-fully-active②⑦">(16)</a> <a href="#ref-for-fully-active②⑧">(17)</a> <a href="#ref-for-fully-active②⑨">(18)</a>
-    <li><a href="#ref-for-fully-active③⓪">2.10.3. Omit non-fully active documents from APIs that span multiple documents</a> <a href="#ref-for-fully-active③①">(2)</a> <a href="#ref-for-fully-active③②">(3)</a> <a href="#ref-for-fully-active③③">(4)</a> <a href="#ref-for-fully-active③④">(5)</a> <a href="#ref-for-fully-active③⑤">(6)</a>
-    <li><a href="#ref-for-fully-active③⑥">2.10.4. Discard non-fully active documents for situations that can’t be supported</a> <a href="#ref-for-fully-active③⑦">(2)</a> <a href="#ref-for-fully-active③⑧">(3)</a> <a href="#ref-for-fully-active③⑨">(4)</a>
-    <li><a href="#ref-for-fully-active④⓪">2.10.5. Be aware that per-document state/data might persist after navigation</a>
+    <li><a href="#ref-for-fully-active">2.11. Support non-"fully active" documents</a> <a href="#ref-for-fully-active①">(2)</a> <a href="#ref-for-fully-active②">(3)</a> <a href="#ref-for-fully-active③">(4)</a> <a href="#ref-for-fully-active④">(5)</a>
+    <li><a href="#ref-for-fully-active⑤">2.11.1. Gate actions with fully active checks</a> <a href="#ref-for-fully-active⑥">(2)</a> <a href="#ref-for-fully-active⑦">(3)</a> <a href="#ref-for-fully-active⑧">(4)</a> <a href="#ref-for-fully-active⑨">(5)</a> <a href="#ref-for-fully-active①⓪">(6)</a> <a href="#ref-for-fully-active①①">(7)</a>
+    <li><a href="#ref-for-fully-active①②">2.11.2. Listen for changes to fully active status</a> <a href="#ref-for-fully-active①③">(2)</a> <a href="#ref-for-fully-active①④">(3)</a> <a href="#ref-for-fully-active①⑤">(4)</a> <a href="#ref-for-fully-active①⑥">(5)</a> <a href="#ref-for-fully-active①⑦">(6)</a> <a href="#ref-for-fully-active①⑧">(7)</a> <a href="#ref-for-fully-active①⑨">(8)</a> <a href="#ref-for-fully-active②⓪">(9)</a> <a href="#ref-for-fully-active②①">(10)</a> <a href="#ref-for-fully-active②②">(11)</a> <a href="#ref-for-fully-active②③">(12)</a> <a href="#ref-for-fully-active②④">(13)</a> <a href="#ref-for-fully-active②⑤">(14)</a> <a href="#ref-for-fully-active②⑥">(15)</a> <a href="#ref-for-fully-active②⑦">(16)</a> <a href="#ref-for-fully-active②⑧">(17)</a> <a href="#ref-for-fully-active②⑨">(18)</a>
+    <li><a href="#ref-for-fully-active③⓪">2.11.3. Omit non-fully active documents from APIs that span multiple documents</a> <a href="#ref-for-fully-active③①">(2)</a> <a href="#ref-for-fully-active③②">(3)</a> <a href="#ref-for-fully-active③③">(4)</a> <a href="#ref-for-fully-active③④">(5)</a> <a href="#ref-for-fully-active③⑤">(6)</a>
+    <li><a href="#ref-for-fully-active③⑥">2.11.4. Discard non-fully active documents for situations that can’t be supported</a> <a href="#ref-for-fully-active③⑦">(2)</a> <a href="#ref-for-fully-active③⑧">(3)</a> <a href="#ref-for-fully-active③⑨">(4)</a>
+    <li><a href="#ref-for-fully-active④⓪">2.11.5. Be aware that per-document state/data might persist after navigation</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-attr-hyperlink-href">
@@ -3902,7 +3920,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-opener">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#dom-opener">https://html.spec.whatwg.org/multipage/browsers.html#dom-opener</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-opener">2.10.3. Omit non-fully active documents from APIs that span multiple documents</a>
+    <li><a href="#ref-for-dom-opener">2.11.3. Omit non-fully active documents from APIs that span multiple documents</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-output-element">
@@ -3914,13 +3932,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-event-pagehide">
    <a href="https://html.spec.whatwg.org/multipage/indices.html#event-pagehide">https://html.spec.whatwg.org/multipage/indices.html#event-pagehide</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-pagehide">2.10.2. Listen for changes to fully active status</a>
+    <li><a href="#ref-for-event-pagehide">2.11.2. Listen for changes to fully active status</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-pageshow">
    <a href="https://html.spec.whatwg.org/multipage/indices.html#event-pageshow">https://html.spec.whatwg.org/multipage/indices.html#event-pageshow</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-pageshow">2.10.2. Listen for changes to fully active status</a>
+    <li><a href="#ref-for-event-pageshow">2.11.2. Listen for changes to fully active status</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-queue-a-task">
@@ -3970,7 +3988,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-sticky-activation">
    <a href="https://html.spec.whatwg.org/multipage/interaction.html#sticky-activation">https://html.spec.whatwg.org/multipage/interaction.html#sticky-activation</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-sticky-activation">2.10.5. Be aware that per-document state/data might persist after navigation</a>
+    <li><a href="#ref-for-sticky-activation">2.11.5. Be aware that per-document state/data might persist after navigation</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-style-element">
@@ -4096,13 +4114,13 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-clients-claim">
    <a href="https://w3c.github.io/ServiceWorker/#dom-clients-claim">https://w3c.github.io/ServiceWorker/#dom-clients-claim</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-clients-claim">2.10.4. Discard non-fully active documents for situations that can’t be supported</a>
+    <li><a href="#ref-for-dom-clients-claim">2.11.4. Discard non-fully active documents for situations that can’t be supported</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-clients-matchall">
    <a href="https://w3c.github.io/ServiceWorker/#dom-clients-matchall">https://w3c.github.io/ServiceWorker/#dom-clients-matchall</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-clients-matchall">2.10.3. Omit non-fully active documents from APIs that span multiple documents</a> <a href="#ref-for-dom-clients-matchall①">(2)</a>
+    <li><a href="#ref-for-dom-clients-matchall">2.11.3. Omit non-fully active documents from APIs that span multiple documents</a> <a href="#ref-for-dom-clients-matchall①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-keyboardevent">
