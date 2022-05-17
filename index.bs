@@ -371,7 +371,7 @@ Naming APIs well makes it much easier for authors to use them correctly.
 See the more detailed <a href="#naming-is-hard">Naming principles</a> section
 for specific guidance on naming.
 
-<h3 id="consistency">Consistency</h3>
+<h3 id="consistency">Be consistent</h3>
 
 It is good practice to consider precedent in the design of your API
 and to try to be consistent with it.
