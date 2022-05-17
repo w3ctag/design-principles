@@ -3107,7 +3107,7 @@ CSP also provides features that weaken this guarantee,
 such as the `unsafe-inline` keyword,
 which reduces CSP's own protections by allowing inline scripts.
 
-<h3 id="writing-resources">Other resources</h3>
+<h2 id="writing-resources">Other resources</h2>
 
 Some useful advice on how to write specifications is available elsewhere:
   * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
