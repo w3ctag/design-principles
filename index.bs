@@ -317,7 +317,7 @@ See also:
 
 * [[LEAST-POWER]]
 
-<h3 id="high-level-low-level">Resolving tension between high level and low level APIs</h3>
+<h3 id="high-level-low-level">Consider tradeoffs between high level and low level APIs</h3>
 
 <!--
 See "High level or low-level APIs?"
@@ -657,7 +657,7 @@ See also:
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
-<h3 id="require-user-activation">Powerful APIs should require user activation</h3>
+<h3 id="require-user-activation">Require user activation for powerful APIs</h3>
 
 Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
 expose user data (eg. interacting with the clipboard),
@@ -1139,7 +1139,7 @@ See also:
 
 * [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
 
-<h3 id="css-naming">Naming of CSS properties and values</h3>
+<h3 id="css-naming">Name CSS properties and values appropriately</h3>
 
 The names of CSS properties are usually nouns,
 and the names of their values are usually adjectives (although sometimes nouns).
@@ -1176,7 +1176,7 @@ default as a result of something like `display: flex` or `position: relative`.
 
 <h2 id="js">JavaScript Language</h2>
 
-<h3 id="js-only">Web APIs are for JavaScript</h3>
+<h3 id="js-only">Use JavaScript for Web APIs</h3>
 
 When designing imperative APIs for the Web,
 use JavaScript.
@@ -1519,7 +1519,7 @@ See also:
 
 * [[#prefer-dict-to-bool]]
 
-<h3 id="naming-optional-parameters">Naming optional arguments</h3>
+<h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
 
 Name optional arguments to make the default behavior obvious
 without being named negatively.
@@ -1726,7 +1726,7 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
-<h3 id="properties-vs-methods">Properties vs. Methods</h3>
+<h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
 
 Sometimes it is unclear whether to use a property or a method.
 
@@ -1812,7 +1812,7 @@ Similarly, add [=event handler IDL attributes=]
 to {{WindowEventHandlers}} rather than {{Window}}.
 </p>
 
-<h3 id="events-are-for-notification">Events are for notification</h3>
+<h3 id="events-are-for-notification">Use events for notification</h3>
 
 Events shouldn't be used to trigger changes,
 only to deliver a notification that a change has already finished happening.
@@ -1970,14 +1970,14 @@ as it implies that it's possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.
 
-<h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
+<h3 id="state-and-subclassing">Use plain {{Event}}s for state</h3>
 
 Where possible, use a plain {{Event}} with a specified `type`,
 and capture any state information in the {{Event/target}} object.
 
 It's usually not necessary to create new subclasses of {{Event}}.
 
-<h3 id="events-vs-observers">How to decide between Events and Observers</h3>
+<h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
 In general, use {{EventTarget}} and notification {{Event}}s,
 rather than an Observer pattern,
@@ -2527,7 +2527,7 @@ or even restricting it further to only the current active tab.
 Additionally, APIs should be designed so that the applications
 can gracefully handle physical disruption, such as a device being unplugged.
 
-<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
+<h3 id="wrapper-apis">Adapt native APIs using web platform principles</h3>
 
 When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.
@@ -2562,7 +2562,7 @@ make sure the new web APIs are designed with web platform principles in mind.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
-<h3 id="polyfills">Polyfills</h3>
+<h3 id="polyfills">Enable polyfills for new features</h3>
 
 Polyfills can be hugely beneficial
 in helping to roll out new features to the web platform.
@@ -2589,7 +2589,7 @@ we still recommend designing the feature with DedicatedWorker support in mind,
 in order to not add assumptions that will later make it unnecessarily hard to expose
 these APIs to DedicatedWorker.
 
-<h3 id="new-data-formats">New Data Formats</h3>
+<h3 id="new-data-formats">Add new data formats properly</h3>
 
 Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.
@@ -2618,7 +2618,7 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="new-http-header-syntax">New HTTP Headers</h3>
+<h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
 
 If you are defining a new HTTP header,
 its syntax mustn't go against
@@ -2704,7 +2704,7 @@ which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.
 
-<h3 id="debuggability">Features should be developer-friendly</h3>
+<h3 id="debuggability">Ensure features are developer-friendly</h3>
 
 Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.
@@ -2793,7 +2793,7 @@ or show different user interfaces for things like permission prompts.
 Note: Implementers should file bugs against specifications
 which don't give them clear enough information to write the implementation.
 
-<h4 id="algorithms">Defining algorithms in specifications</h4>
+<h4 id="algorithms">Define algorithms clearly</h4>
 
 Write algorithms in a way that is clear and concise.
 
@@ -2912,9 +2912,9 @@ to name this API less directly connected to its return type. [[FETCH]]
 Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and *should* be in the [=ascii code point|ASCII range=].
 
-<h3 id="naming-consultation">Consultation</h4>
+<h3 id="naming-consultation">Consult others on naming</h4>
 
-Please consult widely on names in your APIs.
+Consult widely on names in your APIs.
 
 You may find good names or inspiration in surprising places.
 - What are similar APIs named on other platforms,
@@ -2966,7 +2966,8 @@ If you need to refer to a generic persona,
 such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".
-<h3 id="naming-future-proofing">Future-proofing</h4>
+
+<h3 id="naming-future-proofing">Use future-proof names</h4>
 
 Naming should be generic and future-proof whenever possible.
 
@@ -2993,7 +2994,7 @@ as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
 
 </div>
 
-<h3 id="naming-consistency">Consistency</h4>
+<h3 id="naming-consistency">Name things consistently</h4>
 Naming schemes should aim for consistency, to avoid confusion.
 
 Sets of related names should agree with each other in:
@@ -3093,7 +3094,7 @@ examples that violate the above rules are {{XMLHttpRequest}} and
 initialisms, even if they are repeated.
 </div>
 
-<h3 id="naming-unsafe">Warning about dangerous features</h4>
+<h3 id="naming-unsafe">Warn about dangerous features</h4>
 
 Where possible, mark features that weaken
 the guarantees provided to developers
