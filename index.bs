@@ -1549,6 +1549,33 @@ See also:
 
 * [[#naming-is-hard]]
 
+<h3 id="overloading">Use overloading wisely</h3>
+
+If the signature or behaviour of a method will be significantly different
+depending on the arguments passed
+you should define a separate method
+rather than overload a single method.
+
+Overloading a method such that one of its arguments can be
+a single thing or an array is useful.
+Similarly, passing a dictionary of options,
+or using optional arguments,
+are good patterns.
+
+However, if subsequent arguments for a method have to change
+because of the first argument passed,
+or if a method has different behaviour depending on the types of inputs,
+this can hinder code readability,
+and make discovering API functionality more difficult for authors,
+and should be avoided.
+
+<div class="example">
+TODO
+https://xhr.spec.whatwg.org/#interface-formdata
+https://html.spec.whatwg.org/multipage/canvas.html#canvasdrawpath
+https://html.spec.whatwg.org/multipage/canvas.html#canvasdrawimage
+"For the examples I gave I would expect either dictionaries or separate method names to be used."
+
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
 Make sure that any class that's part of your API has a constructor,
