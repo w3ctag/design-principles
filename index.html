@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="84bd433361d1c8fd8a760055a9e66b66fdc0d6b7" name="document-revision">
+  <meta content="025c56ea743ae3a018d886df4807fb80142c7565" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-16">16 May 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-19">19 May 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -647,15 +647,15 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
      <ol class="toc">
       <li><a href="#simplicity"><span class="secno">2.1</span> <span class="content">Prefer simple solutions</span></a>
-      <li><a href="#high-level-low-level"><span class="secno">2.2</span> <span class="content">Resolving tension between high level and low level APIs</span></a>
+      <li><a href="#high-level-low-level"><span class="secno">2.2</span> <span class="content">Consider tradeoffs between high level and low level APIs</span></a>
       <li><a href="#name-thoughtfully"><span class="secno">2.3</span> <span class="content">Name things thoughtfully</span></a>
-      <li><a href="#consistency"><span class="secno">2.4</span> <span class="content">Consistency</span></a>
+      <li><a href="#consistency"><span class="secno">2.4</span> <span class="content">Be consistent</span></a>
       <li><a href="#feature-detect"><span class="secno">2.5</span> <span class="content">New features should be detectable</span></a>
       <li><a href="#secure-context"><span class="secno">2.6</span> <span class="content">Consider limiting new features to secure contexts</span></a>
       <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.7</span> <span class="content">Don’t reveal that private browsing mode is engaged</span></a>
       <li><a href="#private-browsing-mode"><span class="secno">2.8</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
       <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.9</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
-      <li><a href="#require-user-activation"><span class="secno">2.10</span> <span class="content">Powerful APIs should require user activation</span></a>
+      <li><a href="#require-user-activation"><span class="secno">2.10</span> <span class="content">Require user activation for powerful APIs</span></a>
       <li>
        <a href="#support-non-fully-active"><span class="secno">2.11</span> <span class="content">Support non-"fully active" documents</span></a>
        <ol class="toc">
@@ -680,13 +680,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#css-property-separation"><span class="secno">4.1</span> <span class="content">Separate CSS properties based on what should cascade separately</span></a>
       <li><a href="#css-inherited-or-not"><span class="secno">4.2</span> <span class="content">Make appropriate choices for whether CSS properties are inherited</span></a>
       <li><a href="#css-computed-value"><span class="secno">4.3</span> <span class="content">Choose the computed value type based on how the property should inherit</span></a>
-      <li><a href="#css-naming"><span class="secno">4.4</span> <span class="content">Naming of CSS properties and values</span></a>
+      <li><a href="#css-naming"><span class="secno">4.4</span> <span class="content">Name CSS properties and values appropriately</span></a>
       <li><a href="#css-content-should-be-visible"><span class="secno">4.5</span> <span class="content">Content should be viewable and accessible by default</span></a>
      </ol>
     <li>
      <a href="#js"><span class="secno">5</span> <span class="content">JavaScript Language</span></a>
      <ol class="toc">
-      <li><a href="#js-only"><span class="secno">5.1</span> <span class="content">Web APIs are for JavaScript</span></a>
+      <li><a href="#js-only"><span class="secno">5.1</span> <span class="content">Use JavaScript for Web APIs</span></a>
       <li><a href="#js-rtc"><span class="secno">5.2</span> <span class="content">Preserve run-to-completion semantics</span></a>
       <li><a href="#js-gc"><span class="secno">5.3</span> <span class="content">Don’t expose garbage collection</span></a>
      </ol>
@@ -698,13 +698,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#attributes-vs-methods"><span class="secno">6.3</span> <span class="content">Use attributes or methods appropriately</span></a>
       <li><a href="#prefer-dict-to-bool"><span class="secno">6.4</span> <span class="content">Prefer dictionary arguments over primitive arguments</span></a>
       <li><a href="#optional-parameters"><span class="secno">6.5</span> <span class="content">Make method arguments optional if possible</span></a>
-      <li><a href="#naming-optional-parameters"><span class="secno">6.6</span> <span class="content">Naming optional arguments</span></a>
+      <li><a href="#naming-optional-parameters"><span class="secno">6.6</span> <span class="content">Name optional arguments appropriately</span></a>
       <li><a href="#constructors"><span class="secno">6.7</span> <span class="content">Classes should have constructors when possible</span></a>
       <li><a href="#synchronous"><span class="secno">6.8</span> <span class="content">Use synchronous when appropriate</span></a>
       <li><a href="#promises"><span class="secno">6.9</span> <span class="content">Design asynchronous APIs using Promises</span></a>
       <li><a href="#aborting"><span class="secno">6.10</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">6.11</span> <span class="content">Use strings for constants and enums</span></a>
-      <li><a href="#properties-vs-methods"><span class="secno">6.12</span> <span class="content">Properties vs. Methods</span></a>
+      <li><a href="#properties-vs-methods"><span class="secno">6.12</span> <span class="content">Use properties and methods appropriately</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -713,10 +713,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#promises-and-events"><span class="secno">7.2</span> <span class="content">Events should fire before Promises resolve</span></a>
       <li><a href="#dont-invent-event-like"><span class="secno">7.3</span> <span class="content">Don’t invent your own event listener-like infrastructure</span></a>
       <li><a href="#always-add-event-handlers"><span class="secno">7.4</span> <span class="content">Always add event handler attributes</span></a>
-      <li><a href="#events-are-for-notification"><span class="secno">7.5</span> <span class="content">Events are for notification</span></a>
+      <li><a href="#events-are-for-notification"><span class="secno">7.5</span> <span class="content">Use events for notification</span></a>
       <li><a href="#guard-against-recursion"><span class="secno">7.6</span> <span class="content">Guard against potential recursion</span></a>
-      <li><a href="#state-and-subclassing"><span class="secno">7.7</span> <span class="content">State and <code class="idl"><span>Event</span></code> subclasses</span></a>
-      <li><a href="#events-vs-observers"><span class="secno">7.8</span> <span class="content">How to decide between Events and Observers</span></a>
+      <li><a href="#state-and-subclassing"><span class="secno">7.7</span> <span class="content">Use plain <code class="idl"><span>Event</span></code>s for state</span></a>
+      <li><a href="#events-vs-observers"><span class="secno">7.8</span> <span class="content">Use Events and Observers appropriately</span></a>
      </ol>
     <li>
      <a href="#types-and-units"><span class="secno">8</span> <span class="content">Web IDL, Types, and Units</span></a>
@@ -734,17 +734,17 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#device-enumeration"><span class="secno">9.2</span> <span class="content">Use care when exposing APIs for selecting or enumerating devices</span></a>
       <li><a href="#usecase-oriented-apis"><span class="secno">9.3</span> <span class="content">Design based on user needs, not the underlying API or hardware</span></a>
       <li><a href="#hardware-is-scary"><span class="secno">9.4</span> <span class="content">Be proactive about safety</span></a>
-      <li><a href="#wrapper-apis"><span class="secno">9.5</span> <span class="content">Native APIs don’t typically translate well to the web</span></a>
+      <li><a href="#wrapper-apis"><span class="secno">9.5</span> <span class="content">Adapt native APIs using web platform principles</span></a>
      </ol>
     <li>
      <a href="#other-considerations"><span class="secno">10</span> <span class="content">Other API Design Considerations</span></a>
      <ol class="toc">
-      <li><a href="#polyfills"><span class="secno">10.1</span> <span class="content">Polyfills</span></a>
+      <li><a href="#polyfills"><span class="secno">10.1</span> <span class="content">Enable polyfills for new features</span></a>
       <li><a href="#consider-dedicatedworker-support"><span class="secno">10.2</span> <span class="content">Where possible APIs should be made available in DedicatedWorker</span></a>
-      <li><a href="#new-data-formats"><span class="secno">10.3</span> <span class="content">New Data Formats</span></a>
-      <li><a href="#new-http-header-syntax"><span class="secno">10.4</span> <span class="content">New HTTP Headers</span></a>
+      <li><a href="#new-data-formats"><span class="secno">10.3</span> <span class="content">Add new data formats properly</span></a>
+      <li><a href="#new-http-header-syntax"><span class="secno">10.4</span> <span class="content">Conform new HTTP Headers to standards</span></a>
       <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#debuggability"><span class="secno">10.6</span> <span class="content">Features should be developer-friendly</span></a>
+      <li><a href="#debuggability"><span class="secno">10.6</span> <span class="content">Ensure features are developer-friendly</span></a>
       <li><a href="#crypto"><span class="secno">10.7</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
      </ol>
     <li>
@@ -754,7 +754,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li>
        <a href="#avoid-ambiguity"><span class="secno">11.2</span> <span class="content">Specify completely and avoid ambiguity</span></a>
        <ol class="toc">
-        <li><a href="#algorithms"><span class="secno">11.2.1</span> <span class="content">Defining algorithms in specifications</span></a>
+        <li><a href="#algorithms"><span class="secno">11.2.1</span> <span class="content">Define algorithms clearly</span></a>
         <li><a href="#use-flags-for-states"><span class="secno">11.2.2</span> <span class="content">Use explicit flags for state</span></a>
        </ol>
      </ol>
@@ -763,12 +763,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#naming-common-words"><span class="secno">12.1</span> <span class="content">Use common words</span></a>
       <li><a href="#naming-charset"><span class="secno">12.2</span> <span class="content">Use ASCII names</span></a>
-      <li><a href="#naming-consultation"><span class="secno">12.3</span> <span class="content">Consultation</span></a>
-      <li><a href="#naming-future-proofing"><span class="secno">12.4</span> <span class="content">Future-proofing</span></a>
-      <li><a href="#naming-consistency"><span class="secno">12.5</span> <span class="content">Consistency</span></a>
-      <li><a href="#naming-unsafe"><span class="secno">12.6</span> <span class="content">Warning about dangerous features</span></a>
-      <li><a href="#writing-resources"><span class="secno">12.7</span> <span class="content">Other resources</span></a>
+      <li><a href="#naming-consultation"><span class="secno">12.3</span> <span class="content">Consult others on naming</span></a>
+      <li><a href="#naming-future-proofing"><span class="secno">12.4</span> <span class="content">Use future-proof names</span></a>
+      <li><a href="#naming-consistency"><span class="secno">12.5</span> <span class="content">Name things consistently</span></a>
+      <li><a href="#naming-unsafe"><span class="secno">12.6</span> <span class="content">Warn about dangerous features</span></a>
      </ol>
+    <li><a href="#writing-resources"><span class="secno">13</span> <span class="content">Other resources</span></a>
     <li><a href="#acks"><span class="secno"></span> <span class="content">Acknowledgments</span></a>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -989,7 +989,7 @@ It also permits simpler types of filtering, but with more configuration. </div>
     <li data-md>
      <p><a data-link-type="biblio" href="#biblio-least-power">[LEAST-POWER]</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.2" id="high-level-low-level"><span class="secno">2.2. </span><span class="content">Resolving tension between high level and low level APIs</span><a class="self-link" href="#high-level-low-level"></a></h3>
+   <h3 class="heading settled" data-level="2.2" id="high-level-low-level"><span class="secno">2.2. </span><span class="content">Consider tradeoffs between high level and low level APIs</span><a class="self-link" href="#high-level-low-level"></a></h3>
    <p>High-level APIs allow user agents more ability to
 intervene in various ways <a href="#priority-of-constituencies">on behalf of the user</a>,
 such as to ensure accessibility, privacy, or usability.</p>
@@ -1026,7 +1026,7 @@ results in a large increase of code complexity.</p>
 Naming APIs well makes it much easier for authors to use them correctly.</p>
    <p>See the more detailed <a href="#naming-is-hard">Naming principles</a> section
 for specific guidance on naming.</p>
-   <h3 class="heading settled" data-level="2.4" id="consistency"><span class="secno">2.4. </span><span class="content">Consistency</span><a class="self-link" href="#consistency"></a></h3>
+   <h3 class="heading settled" data-level="2.4" id="consistency"><span class="secno">2.4. </span><span class="content">Be consistent</span><a class="self-link" href="#consistency"></a></h3>
    <p>It is good practice to consider precedent in the design of your API
 and to try to be consistent with it.</p>
    <p>There is often a tension between API ergonomics and consistency,
@@ -1252,7 +1252,7 @@ which don’t reveal the use of assistive technology.</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.10" id="require-user-activation"><span class="secno">2.10. </span><span class="content">Powerful APIs should require user activation</span><a class="self-link" href="#require-user-activation"></a></h3>
+   <h3 class="heading settled" data-level="2.10" id="require-user-activation"><span class="secno">2.10. </span><span class="content">Require user activation for powerful APIs</span><a class="self-link" href="#require-user-activation"></a></h3>
    <p>Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
 expose user data (eg. interacting with the clipboard),
 perform a background activity without an obvious indicator to the user (eg. accessing local storage),
@@ -1594,7 +1594,7 @@ the <a class="property css" data-link-type="property" href="https://drafts.csswg
     <li data-md>
      <p><a href="https://wiki.csswg.org/spec/computed-values">Computed Values Patterns</a></p>
    </ul>
-   <h3 class="heading settled" data-level="4.4" id="css-naming"><span class="secno">4.4. </span><span class="content">Naming of CSS properties and values</span><a class="self-link" href="#css-naming"></a></h3>
+   <h3 class="heading settled" data-level="4.4" id="css-naming"><span class="secno">4.4. </span><span class="content">Name CSS properties and values appropriately</span><a class="self-link" href="#css-naming"></a></h3>
    <p>The names of CSS properties are usually nouns,
 and the names of their values are usually adjectives (although sometimes nouns).</p>
    <p>Words in properties and values are separated by hyphens.
@@ -1618,7 +1618,7 @@ These things should only happen if CSS features are used that are more explicitl
 such a behavior (for example, <code>overflow: hidden</code> or <code>left: -40em</code>). They should not happen by
 default as a result of something like <code>display: flex</code> or <code>position: relative</code>. </div>
    <h2 class="heading settled" data-level="5" id="js"><span class="secno">5. </span><span class="content">JavaScript Language</span><a class="self-link" href="#js"></a></h2>
-   <h3 class="heading settled" data-level="5.1" id="js-only"><span class="secno">5.1. </span><span class="content">Web APIs are for JavaScript</span><a class="self-link" href="#js-only"></a></h3>
+   <h3 class="heading settled" data-level="5.1" id="js-only"><span class="secno">5.1. </span><span class="content">Use JavaScript for Web APIs</span><a class="self-link" href="#js-only"></a></h3>
    <p>When designing imperative APIs for the Web,
 use JavaScript.
 In particular,
@@ -1862,7 +1862,7 @@ they can avoid passing an extra argument.</p>
     <li data-md>
      <p><a href="#optional-parameters">§ 6.5 Make method arguments optional if possible</a></p>
     <li data-md>
-     <p><a href="#naming-optional-parameters">§ 6.6 Naming optional arguments</a></p>
+     <p><a href="#naming-optional-parameters">§ 6.6 Name optional arguments appropriately</a></p>
    </ul>
    <h3 class="heading settled" data-level="6.5" id="optional-parameters"><span class="secno">6.5. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
    <p>If an argument for an API method has a reasonable default value,
@@ -1893,7 +1893,7 @@ unless otherwise required, use the following list types:</p>
     <li data-md>
      <p><a href="#prefer-dict-to-bool">§ 6.4 Prefer dictionary arguments over primitive arguments</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.6" id="naming-optional-parameters"><span class="secno">6.6. </span><span class="content">Naming optional arguments</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
+   <h3 class="heading settled" data-level="6.6" id="naming-optional-parameters"><span class="secno">6.6. </span><span class="content">Name optional arguments appropriately</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
    <p>Name optional arguments to make the default behavior obvious
 without being named negatively.</p>
    <p>This applies whether they are provided in a <a href="#prefer-dict-to-bool">dictionary</a> or as <a href="#optional-parameters">single arguments</a>.</p>
@@ -2062,7 +2062,7 @@ from using integers instead of strings.</p>
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.</p>
-   <h3 class="heading settled" data-level="6.12" id="properties-vs-methods"><span class="secno">6.12. </span><span class="content">Properties vs. Methods</span><a class="self-link" href="#properties-vs-methods"></a></h3>
+   <h3 class="heading settled" data-level="6.12" id="properties-vs-methods"><span class="secno">6.12. </span><span class="content">Use properties and methods appropriately</span><a class="self-link" href="#properties-vs-methods"></a></h3>
    <p>Sometimes it is unclear whether to use a property or a method.</p>
    <ul>
     <li data-md>
@@ -2118,11 +2118,11 @@ in the active notification context set.</p>
    <p>See:</p>
    <ul>
     <li data-md>
-     <p><a href="#events-are-for-notification">§ 7.5 Events are for notification</a></p>
+     <p><a href="#events-are-for-notification">§ 7.5 Use events for notification</a></p>
     <li data-md>
-     <p><a href="#events-vs-observers">§ 7.8 How to decide between Events and Observers</a></p>
+     <p><a href="#events-vs-observers">§ 7.8 Use Events and Observers appropriately</a></p>
     <li data-md>
-     <p><a href="#state-and-subclassing">§ 7.7 State and Event subclasses</a></p>
+     <p><a href="#state-and-subclassing">§ 7.7 Use plain Events for state</a></p>
    </ul>
    <h3 class="heading settled" data-level="7.4" id="always-add-event-handlers"><span class="secno">7.4. </span><span class="content">Always add event handler attributes</span><a class="self-link" href="#always-add-event-handlers"></a></h3>
    <p>If your API adds a new event type,
@@ -2138,7 +2138,7 @@ add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" hr
 add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin,
 instead of directly on the relevant element interface(s).
 Similarly, add <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> to <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers" id="ref-for-windoweventhandlers">WindowEventHandlers</a></code> rather than <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window①">Window</a></code>. </p>
-   <h3 class="heading settled" data-level="7.5" id="events-are-for-notification"><span class="secno">7.5. </span><span class="content">Events are for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
+   <h3 class="heading settled" data-level="7.5" id="events-are-for-notification"><span class="secno">7.5. </span><span class="content">Use events for notification</span><a class="self-link" href="#events-are-for-notification"></a></h3>
    <p>Events shouldn’t be used to trigger changes,
 only to deliver a notification that a change has already finished happening.</p>
    <div class="example" id="example-a13474fb">
@@ -2266,11 +2266,11 @@ This terminology is discouraged
 as it implies that it’s possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.</p>
-   <h3 class="heading settled" data-level="7.7" id="state-and-subclassing"><span class="secno">7.7. </span><span class="content">State and <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> subclasses</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <h3 class="heading settled" data-level="7.7" id="state-and-subclassing"><span class="secno">7.7. </span><span class="content">Use plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code>s for state</span><a class="self-link" href="#state-and-subclassing"></a></h3>
    <p>Where possible, use a plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code> with a specified <code>type</code>,
 and capture any state information in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
    <p>It’s usually not necessary to create new subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>.</p>
-   <h3 class="heading settled" data-level="7.8" id="events-vs-observers"><span class="secno">7.8. </span><span class="content">How to decide between Events and Observers</span><a class="self-link" href="#events-vs-observers"></a></h3>
+   <h3 class="heading settled" data-level="7.8" id="events-vs-observers"><span class="secno">7.8. </span><span class="content">Use Events and Observers appropriately</span><a class="self-link" href="#events-vs-observers"></a></h3>
    <p>In general, use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code> and notification <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑥">Event</a></code>s,
 rather than an Observer pattern,
 unless an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①">EventTarget</a></code> can’t work well for your feature.</p>
@@ -2462,9 +2462,9 @@ io<c- p>.</c->removeEventListener<c- p>(</c-><c- u>"intersect"</c-><c- p>,</c-> 
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#events-are-for-notification">§ 7.5 Events are for notification</a></p>
+     <p><a href="#events-are-for-notification">§ 7.5 Use events for notification</a></p>
     <li data-md>
-     <p><a href="#state-and-subclassing">§ 7.7 State and Event subclasses</a></p>
+     <p><a href="#state-and-subclassing">§ 7.7 Use plain Events for state</a></p>
    </ul>
    <h2 class="heading settled" data-level="8" id="types-and-units"><span class="secno">8. </span><span class="content">Web IDL, Types, and Units</span><a class="self-link" href="#types-and-units"></a></h2>
    <h3 class="heading settled" data-level="8.1" id="numeric-types"><span class="secno">8.1. </span><span class="content">Use numeric types appropriately</span><a class="self-link" href="#numeric-types"></a></h3>
@@ -2746,7 +2746,7 @@ you may want to consider enforcing exclusive access per-origin,
 or even restricting it further to only the current active tab.</p>
    <p>Additionally, APIs should be designed so that the applications
 can gracefully handle physical disruption, such as a device being unplugged.</p>
-   <h3 class="heading settled" data-level="9.5" id="wrapper-apis"><span class="secno">9.5. </span><span class="content">Native APIs don’t typically translate well to the web</span><a class="self-link" href="#wrapper-apis"></a></h3>
+   <h3 class="heading settled" data-level="9.5" id="wrapper-apis"><span class="secno">9.5. </span><span class="content">Adapt native APIs using web platform principles</span><a class="self-link" href="#wrapper-apis"></a></h3>
    <p>When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.</p>
    <dl>
@@ -2777,7 +2777,7 @@ a wider fingerprinting surface.
 Please read the TAG’s finding on <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">unsanctioned tracking</a> for additional details.</p>
    </dl>
    <h2 class="heading settled" data-level="10" id="other-considerations"><span class="secno">10. </span><span class="content">Other API Design Considerations</span><a class="self-link" href="#other-considerations"></a></h2>
-   <h3 class="heading settled" data-level="10.1" id="polyfills"><span class="secno">10.1. </span><span class="content">Polyfills</span><a class="self-link" href="#polyfills"></a></h3>
+   <h3 class="heading settled" data-level="10.1" id="polyfills"><span class="secno">10.1. </span><span class="content">Enable polyfills for new features</span><a class="self-link" href="#polyfills"></a></h3>
    <p>Polyfills can be hugely beneficial
 in helping to roll out new features to the web platform.
 The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a> offers guidance that should be considered in the development of new features, notably:</p>
@@ -2801,7 +2801,7 @@ Even though this might discourage spec authors to support workers,
 we still recommend designing the feature with DedicatedWorker support in mind,
 in order to not add assumptions that will later make it unnecessarily hard to expose
 these APIs to DedicatedWorker.</p>
-   <h3 class="heading settled" data-level="10.3" id="new-data-formats"><span class="secno">10.3. </span><span class="content">New Data Formats</span><a class="self-link" href="#new-data-formats"></a></h3>
+   <h3 class="heading settled" data-level="10.3" id="new-data-formats"><span class="secno">10.3. </span><span class="content">Add new data formats properly</span><a class="self-link" href="#new-data-formats"></a></h3>
    <p>Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.</p>
    <p>There are cases when a new capability on the web involves adding a new data format.
@@ -2822,7 +2822,7 @@ and HTMLCanvasElement.toDataURL().</p>
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="10.4" id="new-http-header-syntax"><span class="secno">10.4. </span><span class="content">New HTTP Headers</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
+   <h3 class="heading settled" data-level="10.4" id="new-http-header-syntax"><span class="secno">10.4. </span><span class="content">Conform new HTTP Headers to standards</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
    <p>If you are defining a new HTTP header,
 its syntax mustn’t go against <a href="https://tools.ietf.org/html/rfc7230#section-3.2">the HTTP specification</a>.</p>
    <p>If the new header must convey structured data,
@@ -2896,7 +2896,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.6" id="debuggability"><span class="secno">10.6. </span><span class="content">Features should be developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.6" id="debuggability"><span class="secno">10.6. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -2958,7 +2958,7 @@ on its own.</p>
 or show different user interfaces for things like permission prompts.</p>
    <p class="note" role="note"><span>Note:</span> Implementers should file bugs against specifications
 which don’t give them clear enough information to write the implementation.</p>
-   <h4 class="heading settled" data-level="11.2.1" id="algorithms"><span class="secno">11.2.1. </span><span class="content">Defining algorithms in specifications</span><a class="self-link" href="#algorithms"></a></h4>
+   <h4 class="heading settled" data-level="11.2.1" id="algorithms"><span class="secno">11.2.1. </span><span class="content">Define algorithms clearly</span><a class="self-link" href="#algorithms"></a></h4>
    <p>Write algorithms in a way that is clear and concise.</p>
    <p>The most common way to write algorithms
 is to write an explicit sequence of steps.
@@ -3057,8 +3057,8 @@ to name this API less directly connected to its return type. <a data-link-type="
    <h3 class="heading settled" data-level="12.2" id="naming-charset"><span class="secno">12.2. </span><span class="content">Use ASCII names</span><a class="self-link" href="#naming-charset"></a></h3>
    <p>Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and <em>should</em> be in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-code-point" id="ref-for-ascii-code-point">ASCII range</a>.</p>
-   <h3 class="heading settled" data-level="12.3" id="naming-consultation"><span class="secno">12.3. </span><span class="content">Consultation</span><a class="self-link" href="#naming-consultation"></a></h3>
-   <p>Please consult widely on names in your APIs.</p>
+   <h3 class="heading settled" data-level="12.3" id="naming-consultation"><span class="secno">12.3. </span><span class="content">Consult others on naming</span><a class="self-link" href="#naming-consultation"></a></h3>
+   <p>Consult widely on names in your APIs.</p>
    <p>You may find good names or inspiration in surprising places.</p>
    <ul>
     <li data-md>
@@ -3102,7 +3102,7 @@ instead of master and slave.</p>
 such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".</p>
-   <h3 class="heading settled" data-level="12.4" id="naming-future-proofing"><span class="secno">12.4. </span><span class="content">Future-proofing</span><a class="self-link" href="#naming-future-proofing"></a></h3>
+   <h3 class="heading settled" data-level="12.4" id="naming-future-proofing"><span class="secno">12.4. </span><span class="content">Use future-proof names</span><a class="self-link" href="#naming-future-proofing"></a></h3>
    <p>Naming should be generic and future-proof whenever possible.</p>
    <p>The name should not be directly associated with a brand or specific revision of
 the underlying technology whenever possible; technology becomes obsolete, and
@@ -3122,7 +3122,7 @@ Instead, generic names were chosen
 that are as applicable to today’s Bluetooth and USB keyboards
 as they were to PS/2 and ADB keyboards back then. <a data-link-type="biblio" href="#biblio-uievents">[UIEVENTS]</a></p>
    </div>
-   <h3 class="heading settled" data-level="12.5" id="naming-consistency"><span class="secno">12.5. </span><span class="content">Consistency</span><a class="self-link" href="#naming-consistency"></a></h3>
+   <h3 class="heading settled" data-level="12.5" id="naming-consistency"><span class="secno">12.5. </span><span class="content">Name things consistently</span><a class="self-link" href="#naming-consistency"></a></h3>
     Naming schemes should aim for consistency, to avoid confusion. 
    <p>Sets of related names should agree with each other in:</p>
    <ul>
@@ -3194,7 +3194,7 @@ or stored on disk, and don’t apply to the general notion of JavaScript object 
 examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
-   <h3 class="heading settled" data-level="12.6" id="naming-unsafe"><span class="secno">12.6. </span><span class="content">Warning about dangerous features</span><a class="self-link" href="#naming-unsafe"></a></h3>
+   <h3 class="heading settled" data-level="12.6" id="naming-unsafe"><span class="secno">12.6. </span><span class="content">Warn about dangerous features</span><a class="self-link" href="#naming-unsafe"></a></h3>
    <p>Where possible, mark features that weaken
 the guarantees provided to developers
 by making their names start with "unsafe" so that this is more noticeable.</p>
@@ -3202,7 +3202,7 @@ by making their names start with "unsafe" so that this is more noticeable.</p>
 CSP also provides features that weaken this guarantee,
 such as the <code>unsafe-inline</code> keyword,
 which reduces CSP’s own protections by allowing inline scripts.</p>
-   <h3 class="heading settled" data-level="12.7" id="writing-resources"><span class="secno">12.7. </span><span class="content">Other resources</span><a class="self-link" href="#writing-resources"></a></h3>
+   <h2 class="heading settled" data-level="13" id="writing-resources"><span class="secno">13. </span><span class="content">Other resources</span><a class="self-link" href="#writing-resources"></a></h2>
    <p>Some useful advice on how to write specifications is available elsewhere:</p>
    <ul>
     <li data-md>
@@ -3491,14 +3491,14 @@ so they can correct this omission.</p>
    <ul>
     <li><a href="#ref-for-event">6.7. Classes should have constructors when possible</a> <a href="#ref-for-event①">(2)</a>
     <li><a href="#ref-for-event②">7.6. Guard against potential recursion</a>
-    <li><a href="#ref-for-event③">7.7. State and Event subclasses</a> <a href="#ref-for-event④">(2)</a> <a href="#ref-for-event⑤">(3)</a>
-    <li><a href="#ref-for-event⑥">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-event③">7.7. Use plain Events for state</a> <a href="#ref-for-event④">(2)</a> <a href="#ref-for-event⑤">(3)</a>
+    <li><a href="#ref-for-event⑥">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventtarget">
    <a href="https://dom.spec.whatwg.org/#eventtarget">https://dom.spec.whatwg.org/#eventtarget</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-eventtarget">7.8. How to decide between Events and Observers</a> <a href="#ref-for-eventtarget①">(2)</a> <a href="#ref-for-eventtarget②">(3)</a> <a href="#ref-for-eventtarget③">(4)</a> <a href="#ref-for-eventtarget④">(5)</a> <a href="#ref-for-eventtarget⑤">(6)</a> <a href="#ref-for-eventtarget⑥">(7)</a> <a href="#ref-for-eventtarget⑦">(8)</a>
+    <li><a href="#ref-for-eventtarget">7.8. Use Events and Observers appropriately</a> <a href="#ref-for-eventtarget①">(2)</a> <a href="#ref-for-eventtarget②">(3)</a> <a href="#ref-for-eventtarget③">(4)</a> <a href="#ref-for-eventtarget④">(5)</a> <a href="#ref-for-eventtarget⑤">(6)</a> <a href="#ref-for-eventtarget⑥">(7)</a> <a href="#ref-for-eventtarget⑦">(8)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-htmlcollection">
@@ -3511,7 +3511,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-mutationobserver">
    <a href="https://dom.spec.whatwg.org/#mutationobserver">https://dom.spec.whatwg.org/#mutationobserver</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-mutationobserver">7.8. How to decide between Events and Observers</a> <a href="#ref-for-mutationobserver①">(2)</a>
+    <li><a href="#ref-for-mutationobserver">7.8. Use Events and Observers appropriately</a> <a href="#ref-for-mutationobserver①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-namednodemap">
@@ -3524,7 +3524,7 @@ so they can correct this omission.</p>
    <a href="https://dom.spec.whatwg.org/#node">https://dom.spec.whatwg.org/#node</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-node">Live objects</a>
-    <li><a href="#ref-for-node①">7.8. How to decide between Events and Observers</a> <a href="#ref-for-node②">(2)</a>
+    <li><a href="#ref-for-node①">7.8. Use Events and Observers appropriately</a> <a href="#ref-for-node②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-nonelementparentnode">
@@ -3550,8 +3550,8 @@ so they can correct this omission.</p>
    <a href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener">https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener">6.5. Make method arguments optional if possible</a>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">6.6. Naming optional arguments</a>
-    <li><a href="#ref-for-dom-eventtarget-addeventlistener②">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener①">6.6. Name optional arguments appropriately</a>
+    <li><a href="#ref-for-dom-eventtarget-addeventlistener②">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-document-compatmode">
@@ -3594,7 +3594,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-addeventlisteneroptions-once">
    <a href="https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once">https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-addeventlisteneroptions-once">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-dom-addeventlisteneroptions-once">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-parentnode-queryselectorall">
@@ -3618,7 +3618,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-event-target">
    <a href="https://dom.spec.whatwg.org/#dom-event-target">https://dom.spec.whatwg.org/#dom-event-target</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-event-target">7.7. State and Event subclasses</a>
+    <li><a href="#ref-for-dom-event-target">7.7. Use plain Events for state</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-innerhtml-innerhtml">
@@ -3789,7 +3789,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-customelementregistry-define">
    <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define">https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-customelementregistry-define">5.1. Web APIs are for JavaScript</a>
+    <li><a href="#ref-for-dom-customelementregistry-define">5.1. Use JavaScript for Web APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-details-element">
@@ -3958,7 +3958,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-event-media-resize">
    <a href="https://html.spec.whatwg.org/multipage/media.html#event-media-resize">https://html.spec.whatwg.org/multipage/media.html#event-media-resize</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-media-resize">7.5. Events are for notification</a>
+    <li><a href="#ref-for-event-media-resize">7.5. Use events for notification</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-script">
@@ -3982,7 +3982,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-dom-dialog-showmodal">
    <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal">https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-dialog-showmodal">11.2.1. Defining algorithms in specifications</a>
+    <li><a href="#ref-for-dom-dialog-showmodal">11.2.1. Define algorithms clearly</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-sticky-activation">
@@ -4006,7 +4006,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idbdatabase">
    <a href="https://w3c.github.io/IndexedDB/#idbdatabase">https://w3c.github.io/IndexedDB/#idbdatabase</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idbdatabase">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-idbdatabase">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-ascii-code-point">
@@ -4054,19 +4054,19 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-intersectionobserver">
    <a href="https://w3c.github.io/IntersectionObserver/#intersectionobserver">https://w3c.github.io/IntersectionObserver/#intersectionobserver</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-intersectionobserver">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-intersectionobserver">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-custom-media-false">
    <a href="https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false">https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-valdef-custom-media-false">4.4. Naming of CSS properties and values</a>
+    <li><a href="#ref-for-valdef-custom-media-false">4.4. Name CSS properties and values appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-custom-media-true">
    <a href="https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true">https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-valdef-custom-media-true">4.4. Naming of CSS properties and values</a>
+    <li><a href="#ref-for-valdef-custom-media-true">4.4. Name CSS properties and values appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-paymentrequest">
@@ -4126,7 +4126,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-keyboardevent">
    <a href="https://www.w3.org/TR/uievents/#keyboardevent">https://www.w3.org/TR/uievents/#keyboardevent</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-keyboardevent">12.4. Future-proofing</a>
+    <li><a href="#ref-for-keyboardevent">12.4. Use future-proof names</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-mouseevent">
@@ -4339,7 +4339,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-xmlhttprequesteventtarget">
    <a href="https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget">https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xmlhttprequesteventtarget">7.8. How to decide between Events and Observers</a>
+    <li><a href="#ref-for-xmlhttprequesteventtarget">7.8. Use Events and Observers appropriately</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-progressevent-loaded">
