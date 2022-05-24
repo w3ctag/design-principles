@@ -94,8 +94,8 @@ any change made to the web platform has the potential to
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
-which come before than the needs of user agent implementors,
-which come before than the needs of specification writers,
+which come before the needs of user agent implementors,
+which come before the needs of specification writers,
 which come before theoretical purity.
 
 Like all principles,
