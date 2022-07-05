@@ -279,7 +279,7 @@ Content relying on existing browser behavior can take many forms, such as:
 
 When considering changes to legacy features or behavior, relative to current implementations and author expectations, the following questions should be considered:
 
-* Does a significant quantity of existing content depend on the feature or behavior?
+* Would removal of this feature or behavior have significant impact on existing content?
 * Does any of the dependent content occur on particularly popular websites?
 * Is the dependent content genuinely intended for consumption, rather than occurring solely in test cases or examples?
 * Is the dependent content on the public web, rather than found solely on internal sites with a controlled user environment?
