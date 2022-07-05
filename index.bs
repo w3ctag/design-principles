@@ -275,8 +275,8 @@ and allows users to choose their own font and font size without causing text to 
 
 Sometimes features aren't yet implemented on some platforms
 despite working on others.
-Design these cases so that
-code can gracefully fail or be polyfilled where the feature isn't yet implemented
+In these cases, it should be possible for
+code to gracefully fail or be polyfilled.
 also works on the missing platforms.
 See [[#feature-detect]].
 
