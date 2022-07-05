@@ -2748,7 +2748,7 @@ As such, monkey patching (wrongly!) presupposes that underlying functionality ca
   * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.
   * An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
 
-Wikipedia also has a good article on <a href="https://en.wikipedia.org/wiki/Monkey_patching">monkey patching</a>, which describes some additional pitfalls.
+Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.
 
 <h4 id="cant-avoid-monkey-patching">If you need to monkey patch</h4>
 Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you:
