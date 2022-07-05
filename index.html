@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
+  <meta content="Bikeshed version 37b7e7e68, updated Fri May 27 15:08:11 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="025c56ea743ae3a018d886df4807fb80142c7565" name="document-revision">
+  <meta content="cefcfdf65bfa9c7d9e7e00f8946708754480e7ab" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-05-19">19 May 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-07-05">5 July 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -807,8 +807,8 @@ be sure to understand and document the user need that the API aims to address.</
 any change made to the web platform has the potential to <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">affect vast numbers of people</a>,
 and may have a profound impact on any person’s life. <a data-link-type="biblio" href="#biblio-rfc8890">[RFC8890]</a></p>
    <p>User needs come before the needs of web page authors,
-which come before than the needs of user agent implementors,
-which come before than the needs of specification writers,
+which come before the needs of user agent implementors,
+which come before the needs of specification writers,
 which come before theoretical purity.</p>
    <p>Like all principles,
 this isn’t absolute.
@@ -3328,7 +3328,7 @@ so they can correct this omission.</p>
     and are set apart from the normative text
     with <code>class="note"</code>,
     like this: </p>
-   <p class="note" role="note">Note, this is an informative note. </p>
+   <p class="note" role="note">Note, this is an informative note.</p>
    <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
    <p>Requirements phrased in the imperative as part of algorithms
     (such as "strip any leading space characters"
@@ -4453,7 +4453,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dom-innerhtml-innerhtml">innerHTML</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[ecma262]</a> defines the following terms:
+    <a data-link-type="biblio">[ECMA262]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-sec-bigint-objects">BigInt</span>
      <li><span class="dfn-paneled" id="term-for-sec-date-objects">Date</span>
@@ -4659,6 +4659,8 @@ so they can correct this omission.</p>
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
+   <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
+   <dd>Nick Doty. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
    <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-hr-time-2">[HR-TIME-2]
@@ -4712,10 +4714,8 @@ so they can correct this omission.</p>
    <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
-   <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
-   <dd>Nick Doty. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
    <dt id="biblio-intersection-observer">[INTERSECTION-OBSERVER]
-   <dd>Stefan Zager; Emilio Cobos Álvarez; Michael Blain. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
+   <dd>Stefan Zager; Emilio Cobos Álvarez. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
    <dt id="biblio-least-power">[LEAST-POWER]
    <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower"><cite>The Rule of Least Power</cite></a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
    <dt id="biblio-pointerevents3">[POINTEREVENTS3]
@@ -4723,7 +4723,7 @@ so they can correct this omission.</p>
    <dt id="biblio-referrer-policy">[REFERRER-POLICY]
    <dd>Jochen Eisinger; Emily Stark. <a href="https://w3c.github.io/webappsec-referrer-policy/"><cite>Referrer Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-referrer-policy/">https://w3c.github.io/webappsec-referrer-policy/</a>
    <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
-   <dd>Mounir Lamouri; Anton Vayvod. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
+   <dd>Mounir Lamouri; Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
    <dt id="biblio-rfc8941">[RFC8941]
