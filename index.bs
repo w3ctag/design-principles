@@ -2746,7 +2746,7 @@ As such, monkey patching (wrongly!) presupposes that underlying functionality ca
   * If the existing specification changes, the monkey patched text may no longer apply thus causing it to break or lead to confusion.
   * If several specifications monkey patch part of another spec, the order in which the patches are applied can lead to inconsistent behavior.
   * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.
-  * An engineers doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
+  * An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
 
 Wikipedia also has a good article on <a href="https://en.wikipedia.org/wiki/Monkey_patching">monkey patching</a>, which describes some additional pitfalls.
 
