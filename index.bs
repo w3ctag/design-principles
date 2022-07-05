@@ -276,7 +276,7 @@ and allows users to choose their own font and font size without causing text to 
 Sometimes features aren't yet implemented on some platforms
 despite working on others.
 Design these cases so that
-code written to work on browsers where the feature isn't yet implemented
+code can gracefully fail or be polyfilled where the feature isn't yet implemented
 also works on the missing platforms.
 See [[#feature-detect]].
 
