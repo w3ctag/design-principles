@@ -2736,7 +2736,7 @@ and makes it clear when the state described by the flags is reset.
 
 <h3 id="monkey-patching">Avoid monkey patching</h3>
 A <dfn export>monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification's behavior.
-Monkey patching <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
+<a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
 (see our guidance <a href="cant-avoid-monkey-patching">if you need to monkey patch</a>).
 
 An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.
