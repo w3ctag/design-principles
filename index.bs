@@ -277,7 +277,6 @@ Sometimes features aren't yet implemented on some platforms
 despite working on others.
 In these cases, it should be possible for
 code to gracefully fail or be polyfilled.
-also works on the missing platforms.
 See [[#feature-detect]].
 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
