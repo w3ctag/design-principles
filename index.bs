@@ -286,7 +286,6 @@ When considering changes to legacy features or behavior, relative to current imp
 * Does the dependent content currently work as intended in multiple popular user agents, rather than explicitly targeting only one particular user agent?
 
 The benefit of the proposed change should be weighed against the likely cost of breaking content, as measured by these criteria.
-In some cases, it may be desirable to make a nonstandard feature or behavior part of the web platform, if it satisfies a valid use case.
 
 <div class="example">
 
