@@ -289,6 +289,13 @@ The benefit of the proposed change should be weighed against the likely cost of 
 In some cases, it may be desirable to make a nonstandard feature or behavior part of the web platform, if it satisfies a valid use case.
 However, the fact that something is part of the web platform does not by itself mean that relying on it is condoned or encouraged.
 
+<div class="example">
+
+Many sites use broken markup, such as badly nested elements (`<b>a<i>b</b>c</i>`), and both authors and users have expectations based on the error handling used by legacy user agents. We need to define processing requirements that remain compatible with the expected handling of such content.
+
+Some sites rely on the `<u>` element giving the presentational effect of an underline.
+
+</div>
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
