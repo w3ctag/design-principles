@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 37b7e7e68, updated Fri May 27 15:08:11 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="cefcfdf65bfa9c7d9e7e00f8946708754480e7ab" name="document-revision">
+  <meta content="06e9a857f432f64f741624a1dd922bf17e17eb48" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -756,6 +756,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <ol class="toc">
         <li><a href="#algorithms"><span class="secno">11.2.1</span> <span class="content">Define algorithms clearly</span></a>
         <li><a href="#use-flags-for-states"><span class="secno">11.2.2</span> <span class="content">Use explicit flags for state</span></a>
+       </ol>
+      <li>
+       <a href="#monkey-patching"><span class="secno">11.3</span> <span class="content">Avoid monkey patching</span></a>
+       <ol class="toc">
+        <li><a href="#cant-avoid-monkey-patching"><span class="secno">11.3.1</span> <span class="content">If you need to monkey patch</span></a>
        </ol>
      </ol>
     <li>
@@ -2863,23 +2868,12 @@ and lead to something that better integrates with the platform.</p>
    <p>When designing new keys and values for a manifest, make sure they are needed (that is, they enable well-thought-out use-cases).
 Also, please check if a similar key exists. If an existing key/value pair does more or less what is needed,
 work with the existing spec to extend it to your use-case if possible.</p>
-   <div class="note" role="note">
-     There are certain times the original spec authors might not want
+   <div class="note" role="note"> There are certain times the original spec authors might not want
 to integrate changes to their manifest format immediately.
 This may be due to process (like going to CR),
 or due to the addition having a different scope,
 like extensions to Web App Manifest only affecting store or payment use-cases.
-In that case, it is acceptable to monkey-patch
-as long as that is agreed with the original spec editors. 
-    <p class="issue" id="issue-05c58ddf"><a class="self-link" href="#issue-05c58ddf"></a> when we write up a principle on monkey patching,
-be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">[Issue #184]</a></p>
-    <p>An example of something that was done as a monkey patch
-that is scheduled to be integrated into the web app manifest in a future level (post-CR):</p>
-    <ul>
-     <li data-md>
-      <p>https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest</p>
-    </ul>
-   </div>
+In that case, it is acceptable to <a data-link-type="dfn" href="#monkey-patch" id="ref-for-monkey-patch">monkey patch</a> as long as that is agreed with the original spec editors. </div>
    <p>However, if your feature requires a complex set of metadata specific to a functional domain,
 the creation of a new manifest may be justified.</p>
    <p>You may need to make a new manifest file if the domain of the manifest file is different from the existing manifest files.
@@ -3017,6 +3011,38 @@ use explicit flags for state when writing algorithms.</p>
    <p>Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.</p>
+   <h3 class="heading settled" data-level="11.3" id="monkey-patching"><span class="secno">11.3. </span><span class="content">Avoid monkey patching</span><a class="self-link" href="#monkey-patching"></a></h3>
+    A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="monkey-patch">monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification’s behavior. <a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
+(see our guidance <a href="cant-avoid-monkey-patching">if you need to monkey patch</a>). 
+   <p>An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.</p>
+   <p>As such, monkey patching (wrongly!) presupposes that underlying functionality cannot, and will not, be changed. This can lead to several problems:</p>
+   <ul>
+    <li data-md>
+     <p>If the existing specification changes, the monkey patched text may no longer apply thus causing it to break or lead to confusion.</p>
+    <li data-md>
+     <p>If several specifications monkey patch part of another spec, the order in which the patches are applied can lead to inconsistent behavior.</p>
+    <li data-md>
+     <p>The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.</p>
+    <li data-md>
+     <p>An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.</p>
+   </ul>
+   <p>Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.</p>
+   <h4 class="heading settled" data-level="11.3.1" id="cant-avoid-monkey-patching"><span class="secno">11.3.1. </span><span class="content">If you need to monkey patch</span><a class="self-link" href="#cant-avoid-monkey-patching"></a></h4>
+    Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you: 
+   <ol>
+    <li data-md>
+     <p>File a bug, or create a fix, for the existing specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.</p>
+    <li data-md>
+     <p>In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.</p>
+    <li data-md>
+     <p>Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.</p>
+    <li data-md>
+     <p>Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.</p>
+   </ol>
+   <p>Note that <a data-link-type="dfn" href="#monkey-patch" id="ref-for-monkey-patch①">monkey patching</a> is different from "modularization", which extends existing technology in a way that is self-contained and doesn’t cause side-effects to other underlying specifications (e.g., the CSS Modules).
+Modularization is considered a good practice.</p>
+   <p>It’s also usually ok to extend a specification using WebIDL’s <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-partial-interface" id="ref-for-dfn-partial-interface">partial interfaces</a>, <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-partial-dictionary" id="ref-for-dfn-partial-dictionary">partial dictionaries</a>, and so on.
+But even in those cases, it’s highly advisable to coordinate with the authors of the specification being extended.</p>
    <h2 class="heading settled" data-level="12" id="naming-is-hard"><span class="secno">12. </span><span class="content">Naming principles</span><a class="self-link" href="#naming-is-hard"></a></h2>
    <p>Names take meaning from:</p>
    <ul>
@@ -3349,6 +3375,7 @@ so they can correct this omission.</p>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
    <li><a href="#live-object">live object</a><span>, in § 6.2</span>
+   <li><a href="#monkey-patch">monkey patch</a><span>, in § 11.3</span>
    <li><a href="#static-object">static object</a><span>, in § 6.2</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-dfn-short_name">
@@ -4280,6 +4307,18 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-idl-octet">8.1. Use numeric types appropriately</a> <a href="#ref-for-idl-octet①">(2)</a> <a href="#ref-for-idl-octet②">(3)</a> <a href="#ref-for-idl-octet③">(4)</a> <a href="#ref-for-idl-octet④">(5)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-partial-dictionary">
+   <a href="https://webidl.spec.whatwg.org/#dfn-partial-dictionary">https://webidl.spec.whatwg.org/#dfn-partial-dictionary</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-partial-dictionary">11.3.1. If you need to monkey patch</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-partial-interface">
+   <a href="https://webidl.spec.whatwg.org/#dfn-partial-interface">https://webidl.spec.whatwg.org/#dfn-partial-interface</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-partial-interface">11.3.1. If you need to monkey patch</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-sequence-type">
    <a href="https://webidl.spec.whatwg.org/#sequence-type">https://webidl.spec.whatwg.org/#sequence-type</a><b>Referenced in:</b>
    <ul>
@@ -4626,6 +4665,8 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dfn-namespace">namespace</span>
      <li><span class="dfn-paneled" id="term-for-dfn-observable-array-type">observable array type</span>
      <li><span class="dfn-paneled" id="term-for-idl-octet">octet</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-partial-dictionary">partial dictionary</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-partial-interface">partial interface</span>
      <li><span class="dfn-paneled" id="term-for-sequence-type">sequence type</span>
      <li><span class="dfn-paneled" id="term-for-dfn-setlike">setlike</span>
      <li><span class="dfn-paneled" id="term-for-idl-short">short</span>
@@ -4740,9 +4781,14 @@ so they can correct this omission.</p>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> Privacy Threat Model is not ready for prime time. <a class="issue-return" href="#issue-70c97a29" title="Jump to section">↵</a></div>
-   <div class="issue"> when we write up a principle on monkey patching,
-be sure to take this nuance into account. <a href="https://github.com/w3ctag/design-principles/issues/184">[Issue #184]</a> <a class="issue-return" href="#issue-05c58ddf" title="Jump to section">↵</a></div>
   </div>
+  <aside class="dfn-panel" data-for="monkey-patch">
+   <b><a href="#monkey-patch">#monkey-patch</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-monkey-patch">10.5. Extend existing manifest files rather than creating new ones</a>
+    <li><a href="#ref-for-monkey-patch①">11.3.1. If you need to monkey patch</a>
+   </ul>
+  </aside>
 <script>/* script-dfn-panel */
 
 document.body.addEventListener("click", function(e) {
