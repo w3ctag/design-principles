@@ -975,7 +975,7 @@ common practice is to use a space-separated list and expose it as a {{DOMTokenLi
 <div class=example>
 
 The <{global/class}> attribute on elements takes a space-separated list of class names.
-`element.classList` is a {{DOMTokenList}} that allows authors to add and remove class names.
+{{Element/classList}} is a {{DOMTokenList}} that allows authors to add and remove class names.
 
 </div>
 
