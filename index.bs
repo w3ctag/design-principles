@@ -985,8 +985,8 @@ The <{iframe/sandbox}> attribute takes a space-separated list of sandbox flags.
 
 </div>
 
-Usually consistency with other parts of the Web Platform is more important,
-even if this means separating values using another character.
+Usually consistency with other parts of the Web Platform or other technologies is more important,
+even if this means using another character to separate values.
 
 <div class=example>
 
