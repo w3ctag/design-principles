@@ -1001,7 +1001,7 @@ it should also introduce corresponding IDL attributes,
 and these should be synchronized.
 
 This means new content attributes
-should always have a corresponding IDL attribute with the same name,
+should have a corresponding IDL attribute with the same name,
 and the state between the two should be kept synchronized.
 Carving out a synchronized IDL attribute with inconsistent naming
 results in confusion, and should be avoided at all costs.
