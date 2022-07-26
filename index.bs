@@ -994,7 +994,7 @@ Consider adding such features only in cases when the overall user experience is 
 A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
 
-<h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- w3ctag/design-principles#278 -->
+<h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
 
 If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
 
