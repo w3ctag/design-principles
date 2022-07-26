@@ -1023,7 +1023,11 @@ The <{img/srcset}> attribute allows for a comma-separated list of image candidat
 This syntax was chosen over a list of child elements to avoid verbosity
 and because the <{img}> element is an empty element that does not permit child elements.
 A space-separated syntax would not have been possible, as each list item includes multiple values.
-<!-- TODO: link to the "microsyntaxes are usually bad" principle once it's been written. https://github.com/w3ctag/design-principles/issues/213 -->
+
+<!--
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+https://github.com/w3ctag/design-principles/issues/213
+-->
 </div>
 
 <h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
