@@ -266,15 +266,15 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
-the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
-The existence of a defect in one part of the platform must not be used as a license 
-for adding or extending such defect into new capabilities and thereby further decreasing 
-the overall platform quality.  Where possible, build new web capabilities that 
+the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics.
+The existence of a defect in one part of the platform must not be used as a license
+for adding or extending such defect into new capabilities and thereby further decreasing
+the overall platform quality.  Where possible, build new web capabilities that
 improve the overall platform quality.
 
-Parts of the web platform evolve independently.  
-Issues that are present with a certain web technology now may be fixed in a subsequent iteration.  
-Duplicating these issues makes fixing them more difficult. 
+Parts of the web platform evolve independently.
+Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
+Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
@@ -290,7 +290,7 @@ although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand.
-It is especially important to design your feature so that 
+It is especially important to design your feature so that
 the most common use cases are easy to accomplish.
 
 Make sure that your <a href="#priority-of-constituencies">user needs</a>
@@ -309,7 +309,7 @@ commonality and complexity are not always correlated.
 <div class=example>
 Sanitizing HTML to prevent XSS attacks is a complex process
 that requires extensive security knowledge,
-however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case. 
+however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case.
 It also permits simpler types of filtering, but with more configuration.
 </div>
 
@@ -966,6 +966,65 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
+<h3 id="html-lists">Use space-separated attributes for short lists of values, separate elements for longer lists</h3>
+
+When specifying metadata about an element that can be a list of values,
+common practice is to use a space-separated list and expose it as a {{DOMTokenList}}.
+
+<div class=example>
+
+The <{*/class}> attribute on elements takes a space-separated list of class names.
+`element.classList` is a {{DOMTokenList}} that allows authors to add and remove class names.
+
+</div>
+
+<div class=example>
+
+The <{iframe/sandbox}> attribute takes a space-separated list of sandbox flags.
+`iframe.sandbox` is a {{DOMTokenList}} that allows authors to add and remove sandbox flags.
+
+</div>
+
+Usually consistency with other parts of the Web Platform is more important,
+even if this means separating values using another character.
+
+<div class=example>
+
+The <{input/accept}> attribute is a comma-separated list of values,
+because it needs to match the syntax of the `Accept` HTTP header.
+
+</div>
+
+Regardless of syntax, attributes should only be used for short lists of values.
+For longer lists, embedding the entire list in an attribute is discouraged.
+Instead, current practice is to use separate elements to represent the list items (and any metadata about them).
+These elements could either be children of the element in question, or linked through an attribute.
+
+<div class=example>
+
+The list of values for the <{select}> element is provided as a series of <{option}> element children.
+However, when providing a list of recommended values for an <{input}> element, a separate element is used (<{datalist}>),
+linked through a <{input/list}> attribute.
+
+</div>
+
+<div class=example>
+
+The list of media sources for a <{video}> or <{audio}> element is provided as a series of <{source}> element children.
+
+</div>
+
+In rare instances, other tradeoffs are necessary.
+
+<div class=example>
+
+The <{img/srcset} attribute allows for a comma-separated list of image candidate strings.
+This syntax was chosen over a list of child elements to avoid verbosity
+and because the <{img}> element is an empty element that does not permit child elements.
+A space-separated syntax would not have been possible, as each list item includes multiple values.
+
+</div>
+
 <h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
 
 Ensure that your design does not require HTML parser to pause to handle external resources.
@@ -991,7 +1050,7 @@ Features that require resource loading or other operations before rendering the 
 often result in blank page (or the previous page). The result is a poor user experience.
 
 Consider adding such features only in cases when the overall user experience is improved.
-A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
