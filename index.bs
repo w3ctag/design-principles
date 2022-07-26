@@ -973,7 +973,7 @@ common practice is to use a space-separated list and expose it as a {{DOMTokenLi
 
 <div class=example>
 
-The <{*/class}> attribute on elements takes a space-separated list of class names.
+The <{global/class}> attribute on elements takes a space-separated list of class names.
 `element.classList` is a {{DOMTokenList}} that allows authors to add and remove class names.
 
 </div>
@@ -1018,7 +1018,7 @@ In rare instances, other tradeoffs are necessary.
 
 <div class=example>
 
-The <{img/srcset} attribute allows for a comma-separated list of image candidate strings.
+The <{img/srcset}> attribute allows for a comma-separated list of image candidate strings.
 This syntax was chosen over a list of child elements to avoid verbosity
 and because the <{img}> element is an empty element that does not permit child elements.
 A space-separated syntax would not have been possible, as each list item includes multiple values.
