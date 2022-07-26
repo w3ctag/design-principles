@@ -967,6 +967,7 @@ the functionality you are adding is **not** similar to that of the existing attr
 </div>
 
 <h3 id="html-lists">Use space-separated attributes for short lists of values, separate elements for longer lists</h3>
+<!-- https://github.com/w3ctag/design-principles/issues/277 -->
 
 When specifying metadata about an element that can be a list of values,
 common practice is to use a space-separated list and expose it as a {{DOMTokenList}}.
