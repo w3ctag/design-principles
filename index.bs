@@ -1000,7 +1000,7 @@ If the element enables the user to navigate to the URL contained in the attribut
 
 Note: In hindsight, <{form}>'s <{form/action}> attribute should have been named `href`.
 
-If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute.
+If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute or the <{script}> element’s <{script/src}> attribute.
 
 Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
 
