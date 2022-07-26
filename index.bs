@@ -1004,7 +1004,7 @@ If the element causes the resource at the given URL to be loaded, call the attri
 
 Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
 
-If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}> or <{q}>'s <{q/cite}>, name the attribute after its semantics.
+If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
 
 Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
