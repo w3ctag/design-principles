@@ -23,7 +23,6 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:dom
-    type:dfn; text:aborted flag
     type:method; for:Document; text:getElementsByTagName(qualifiedName)
     type:method; for:Document; text:createElement(qualifiedName)
 spec:html; type:dfn; for:/
@@ -31,6 +30,10 @@ spec:html; type:dfn; for:/
     text:task queue
     text:event loop
 spec:html; type:element-attr; for:a; text:href
+spec:html; type:element
+    text:link
+    text:script
+    text:style
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
@@ -54,6 +57,10 @@ urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
     url: #sec-finalization-registry-objects; type: interface; text: FinalizationRegistry
     url: #sec-number-objects; type: interface; text: Number
     url: #sec-weak-ref-objects; type: interface; text: WeakRef
+urlPrefix: https://w3c.github.io/gamepad/; spec: gamepad
+    url:#event-gamepadconnected; type: event; text:gamepadconnected
+urlPrefix: https://w3c.github.io/geolocation-api/; spec: geolocation
+    url:#dom-geolocation-watchposition; type:method; for:Geolocation; text:watchPosition()
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
     url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
@@ -966,7 +973,7 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
-<h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
+<h3 id="avoid-html-parser-blocking">Do not pause the HTML parser</h3>
 
 Ensure that your design does not require HTML parser to pause to handle external resources.
 
@@ -985,13 +992,13 @@ This is the case of legacy `<script src="…">` elements,
 which can inject into the parser using `document.write(…)`.
 Due to the performance issues above, new features must not do this.
 
-<h3 id="avoid-render-blocking"> Avoid features that block rendering</h3>
+<h3 id="avoid-render-blocking">Avoid features that block rendering</h3>
 
 Features that require resource loading or other operations before rendering the page,
 often result in blank page (or the previous page). The result is a poor user experience.
 
 Consider adding such features only in cases when the overall user experience is improved.
-A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
 
 <h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
@@ -1010,6 +1017,20 @@ results in confusion, and should be avoided.
 This does not hold the other way around.
 A new IDL attribute does not always warrant a content attribute counterpart.
 </div>
+
+<h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
+
+If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
+
+Note: In hindsight, <{form}>'s <{form/action}> attribute should have been named `href`.
+
+If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute or the <{script}> element’s <{script/src}> attribute.
+
+Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
+
+If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
+
+Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
@@ -1659,7 +1680,7 @@ as its result can be any of a number of subclasses of {{Element}}.
 </div>
 
 <div class="example">
-The {{MouseEvent/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
+The deprecated `MouseEvent.initMouseEvent()` factory method only creates {{MouseEvent}} objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
@@ -1864,9 +1885,8 @@ simply returns immediately. This technique is "guarding" the algorithm.
 <div class="example">
 {{AbortSignal}}'s [=AbortSignal/add=],
 [=AbortSignal/remove=] and [=signal abort=]
-each begin with a check
-of the signal's [=aborted flag=].
-If the flag is set, the rest of the algorithm doesn't run.
+each begin with a check to see if the signal is [=AbortSignal/aborted=].
+If the signal is [=AbortSignal/aborted=], the rest of the algorithm doesn't run.
 
 In this case, a lot of the important complexity is
 in the algorithms run during the [=signal abort=] steps.
