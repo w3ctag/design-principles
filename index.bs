@@ -29,8 +29,11 @@ spec:html; type:dfn; for:/
     text:focus update steps
     text:task queue
     text:event loop
-spec:html; type:element-attr; for:a; text:href
+spec:html; type:element-attr; for:a
+    text:href
+    text:ping
 spec:html; type:element
+    text:a
     text:link
     text:script
     text:style
