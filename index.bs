@@ -992,7 +992,7 @@ even if this means using another character to separate values.
 <div class=example>
 
 The <{input/accept}> attribute is a comma-separated list of values,
-because it needs to match the syntax of the `Accept` HTTP header.
+because it needs to match the syntax of the `Accept` HTTP header. (See [guidance on HTTP headers](#new-http-header-syntax))
 
 </div>
 
