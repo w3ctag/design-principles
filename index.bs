@@ -1004,7 +1004,7 @@ This means new content attributes
 should have a corresponding IDL attribute with the same name,
 and the state between the two should be kept synchronized.
 Carving out a synchronized IDL attribute with inconsistent naming
-results in confusion, and should be avoided at all costs.
+results in confusion, and should be avoided.
 
 <div class="note">
 This does not hold the other way around.
