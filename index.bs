@@ -1018,6 +1018,13 @@ This does not hold the other way around.
 A new IDL attribute does not always warrant a content attribute counterpart.
 </div>
 
+<div class="example">
+A counterpattern to this guidance can be found in
+<{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
+where the HTML attributes were never updated
+and the IDL attribute was the single source of truth.
+</div>
+
 <h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
 
 If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
