@@ -996,8 +996,9 @@ The alternative user experience is a flash of unstyled content, which is undesir
 
 <h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
 
-If your feature introduces new attributes,
-try to ensure the attributes are synchronized.
+If your feature introduces new HTML attributes,
+it should also introduce corresponding IDL attributes,
+and these should be synchronized.
 
 This means any new content attribute
 should always have a corresponding IDL attribute with the same name,
