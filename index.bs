@@ -1000,7 +1000,7 @@ If your feature introduces new HTML attributes,
 it should also introduce corresponding IDL attributes,
 and these should be synchronized.
 
-This means any new content attribute
+This means new content attributes
 should always have a corresponding IDL attribute with the same name,
 and the state between the two should be kept synchronized.
 Carving out a synchronized IDL attribute with inconsistent naming
