@@ -82,6 +82,8 @@ urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     }
 </style>
 
+<div include-if="text macro: DEV">HELLO HELLO TEST</div>
+
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
 The Design Principles are directly informed by the ethical framework
@@ -1035,7 +1037,7 @@ and because the <{img}> element is an empty element that does not permit child e
 A space-separated syntax would not have been possible, as each list item includes multiple values.
 
 <!--
-TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written.
 https://github.com/w3ctag/design-principles/issues/213
 -->
 </div>
