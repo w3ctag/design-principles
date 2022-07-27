@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version 37b7e7e68, updated Fri May 27 15:08:11 2022 -0700" name="generator">
+  <meta content="Bikeshed version 70e626dff, updated Wed Jul 27 11:34:41 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="06e9a857f432f64f741624a1dd922bf17e17eb48" name="document-revision">
+  <meta content="7627102b8c8daf95c3e2b531e163241babc6c602" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-07-05">5 July 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-07-27">27 July 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -671,8 +671,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
      <ol class="toc">
       <li><a href="#attribute-reuse"><span class="secno">3.1</span> <span class="content">Re-use attribute names (only) for similar functionality</span></a>
-      <li><a href="#avoid-html-parser-blocking"><span class="secno">3.2</span> <span class="content"> Do not pause the HTML parser</span></a>
-      <li><a href="#avoid-render-blocking"><span class="secno">3.3</span> <span class="content"> Avoid features that block rendering</span></a>
+      <li><a href="#html-lists"><span class="secno">3.2</span> <span class="content">Use space-separated attributes for short lists of values, separate elements for longer lists</span></a>
+      <li><a href="#avoid-html-parser-blocking"><span class="secno">3.3</span> <span class="content">Do not pause the HTML parser</span></a>
+      <li><a href="#avoid-render-blocking"><span class="secno">3.4</span> <span class="content">Avoid features that block rendering</span></a>
+      <li><a href="#html-idl-must-by-synced"><span class="secno">3.5</span> <span class="content">Keep attributes in sync</span></a>
+      <li><a href="#naming-of-url-attributes"><span class="secno">3.6</span> <span class="content">Name URL-containing attributes based on their primary purpose</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">4</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -956,14 +959,14 @@ so that it works across screen sizes,
 and allows users to choose their own font and font size without causing text to overflow. </div>
    <h3 class="heading settled" data-level="1.6" id="leave-the-web-better"><span class="secno">1.6. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
    <p>As you add new capabilities to the web platform, do so in a way that improves
-the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
-The existence of a defect in one part of the platform must not be used as a license 
-for adding or extending such defect into new capabilities and thereby further decreasing 
-the overall platform quality.  Where possible, build new web capabilities that 
+the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics.
+The existence of a defect in one part of the platform must not be used as a license
+for adding or extending such defect into new capabilities and thereby further decreasing
+the overall platform quality.  Where possible, build new web capabilities that
 improve the overall platform quality.</p>
    <p>Parts of the web platform evolve independently.
-Issues that are present with a certain web technology now may be fixed in a subsequent iteration.  
-Duplicating these issues makes fixing them more difficult. 
+Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
+Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.</p>
    <h2 class="heading settled" data-level="2" id="api-across-languages"><span class="secno">2. </span><span class="content">API Design Across Languages</span><a class="self-link" href="#api-across-languages"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="simplicity"><span class="secno">2.1. </span><span class="content">Prefer simple solutions</span><a class="self-link" href="#simplicity"></a></h3>
@@ -973,7 +976,7 @@ although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand.
-It is especially important to design your feature so that 
+It is especially important to design your feature so that
 the most common use cases are easy to accomplish.</p>
    <p>Make sure that your <a href="#priority-of-constituencies">user needs</a> are well-defined.
 This allows you to avoid scope creep,
@@ -987,7 +990,7 @@ As Alan Kay said,
 commonality and complexity are not always correlated.</p>
    <div class="example" id="example-b89cef20"><a class="self-link" href="#example-b89cef20"></a> Sanitizing HTML to prevent XSS attacks is a complex process
 that requires extensive security knowledge,
-however the <a href="https://wicg.github.io/sanitizer-api/">Sanitizer API</a> provides a shortcut for this common use case. 
+however the <a href="https://wicg.github.io/sanitizer-api/">Sanitizer API</a> provides a shortcut for this common use case.
 It also permits simpler types of filtering, but with more configuration. </div>
    <p>See also:</p>
    <ul>
@@ -1301,7 +1304,7 @@ anything that happens while the document is not <a data-link-type="dfn" href="ht
 If it makes more sense to "update" a document to ensure it does not hold  stale information
 after it becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①①">fully active</a> again, consider the <a href="#listen-fully-active">§ 2.11.2 Listen for changes to fully active status</a> pattern below.</p>
    <div class="example" id="example-86baec91"><a class="self-link" href="#example-86baec91"></a> APIs that periodically send information updates,
-  such as Geolocation API’s <code class="idl"><a data-link-type="idl">watchPosition()</a></code> should not send updates if the document is no longer fully active.
+  such as Geolocation API’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/geolocation-api/#dom-geolocation-watchposition" id="ref-for-dom-geolocation-watchposition">watchPosition()</a></code> should not send updates if the document is no longer fully active.
   They also should not queue those updates to arrive later,
   and only resume sending updates when the document becomes active again,
   possibly sending one update with the latest information then. </div>
@@ -1345,7 +1348,7 @@ correctness, performance and ergonomics.</p>
 This is because current users of these APIs expect to always have the latest information.
 Dropping state updates can leave the document with stale information,
 which can lead to unexpected and hard-to-detect breakage of existing sites.</p>
-   <div class="example" id="example-32a4ab83"><a class="self-link" href="#example-32a4ab83"></a> The <code class="idl"><a data-link-type="idl">gamepadconnected</a></code> event
+   <div class="example" id="example-32a4ab83"><a class="self-link" href="#example-32a4ab83"></a> The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/gamepad/#event-gamepadconnected" id="ref-for-event-gamepadconnected">gamepadconnected</a></code> event
   can be sent to a document that becomes <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②③">fully active</a> again
   if a gamepad is connected while the document is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②④">fully active</a>.
   If the gamepad was repeatedly connected and disconnected,
@@ -1468,7 +1471,47 @@ the functionality you are adding is <strong>not</strong> similar to that of the 
     whereas on every other element (e.g. <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element">link</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script" id="ref-for-script">script</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-style-element" id="ref-for-the-style-element">style</a></code>)
     it specifies MIME type.
     This is an antipattern; one of these groups of attributes should have had a different name. </div>
-   <h3 class="heading settled" data-level="3.2" id="avoid-html-parser-blocking"><span class="secno">3.2. </span><span class="content"> Do not pause the HTML parser</span><a class="self-link" href="#avoid-html-parser-blocking"></a></h3>
+   <h3 class="heading settled" data-level="3.2" id="html-lists"><span class="secno">3.2. </span><span class="content">Use space-separated attributes for short lists of values, separate elements for longer lists</span><a class="self-link" href="#html-lists"></a></h3>
+   <p>When specifying metadata about an element that can be a list of values,
+common practice is to use a space-separated list and expose it as a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist">DOMTokenList</a></code>.</p>
+   <div class="example" id="example-0db34933">
+    <a class="self-link" href="#example-0db34933"></a> 
+    <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/dom.html#classes" id="ref-for-classes">class</a></code> attribute on elements takes a space-separated list of class names. <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-element-classlist" id="ref-for-dom-element-classlist">classList</a></code> is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①">DOMTokenList</a></code> that allows authors to add and remove class names.</p>
+   </div>
+   <div class="example" id="example-866341e9">
+    <a class="self-link" href="#example-866341e9"></a> 
+    <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox">sandbox</a></code> attribute takes a space-separated list of sandbox flags. <code>iframe.sandbox</code> is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist②">DOMTokenList</a></code> that allows authors to add and remove sandbox flags.</p>
+   </div>
+   <p>Consistency with other parts of the Web Platform is important,
+even if this means using another character to separate values.</p>
+   <div class="example" id="example-ca508580">
+    <a class="self-link" href="#example-ca508580"></a> 
+    <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-accept" id="ref-for-attr-input-accept">accept</a></code> attribute is a comma-separated list of values,
+because it needs to match the syntax of the <code>Accept</code> HTTP header. (See <a href="#new-http-header-syntax">guidance on HTTP headers</a>)</p>
+   </div>
+   <p>Regardless of syntax, attributes should only be used for short lists of values.
+For longer lists, embedding the entire list in an attribute is discouraged.
+Instead, current practice is to use separate elements to represent the list items (and any metadata about them).
+These elements could either be children of the element in question, or linked through an attribute.</p>
+   <div class="example" id="example-37a42680">
+    <a class="self-link" href="#example-37a42680"></a> 
+    <p>The list of values for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-the-select-element①">select</a></code> element is provided as a series of <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element">option</a></code> element children.
+However, when providing a list of recommended values for an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element②">input</a></code> element, a separate element is used (<code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element" id="ref-for-the-datalist-element">datalist</a></code>),
+linked through a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-list" id="ref-for-attr-input-list">list</a></code> attribute.</p>
+   </div>
+   <div class="example" id="example-8e66c282">
+    <a class="self-link" href="#example-8e66c282"></a> 
+    <p>The list of media sources for a <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#video" id="ref-for-video">video</a></code> or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#audio" id="ref-for-audio">audio</a></code> element is provided as a series of <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element">source</a></code> element children.</p>
+   </div>
+   <p>In rare instances, other tradeoffs are necessary.</p>
+   <div class="example" id="example-2fb31462">
+    <a class="self-link" href="#example-2fb31462"></a> 
+    <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset" id="ref-for-attr-img-srcset">srcset</a></code> attribute allows for a comma-separated list of image candidate strings.
+This syntax was chosen over a list of child elements to avoid verbosity
+and because the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element">img</a></code> element is an empty element that does not permit child elements.
+A space-separated syntax would not have been possible, as each list item includes multiple values.</p>
+   </div>
+   <h3 class="heading settled" data-level="3.3" id="avoid-html-parser-blocking"><span class="secno">3.3. </span><span class="content">Do not pause the HTML parser</span><a class="self-link" href="#avoid-html-parser-blocking"></a></h3>
    <p>Ensure that your design does not require HTML parser to pause to handle external resources.</p>
    <p>As a page parses,
 the browser discovers assets that the page needs,
@@ -1483,12 +1526,29 @@ before subsequent content.
 This is the case of legacy <code>&lt;script src="…"></code> elements,
 which can inject into the parser using <code>document.write(…)</code>.
 Due to the performance issues above, new features must not do this.</p>
-   <h3 class="heading settled" data-level="3.3" id="avoid-render-blocking"><span class="secno">3.3. </span><span class="content"> Avoid features that block rendering</span><a class="self-link" href="#avoid-render-blocking"></a></h3>
+   <h3 class="heading settled" data-level="3.4" id="avoid-render-blocking"><span class="secno">3.4. </span><span class="content">Avoid features that block rendering</span><a class="self-link" href="#avoid-render-blocking"></a></h3>
    <p>Features that require resource loading or other operations before rendering the page,
 often result in blank page (or the previous page). The result is a poor user experience.</p>
    <p>Consider adding such features only in cases when the overall user experience is improved.
-A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.</p>
+   <h3 class="heading settled" data-level="3.5" id="html-idl-must-by-synced"><span class="secno">3.5. </span><span class="content">Keep attributes in sync</span><a class="self-link" href="#html-idl-must-by-synced"></a></h3>
+   <p>New content attributes
+should have a corresponding IDL attribute with the same name,
+and the state between the two should be kept synchronized.
+Carving out a synchronized IDL attribute with inconsistent naming
+results in confusion, and should be avoided.</p>
+   <div class="note" role="note"> This does not hold the other way around.
+A new IDL attribute does not always warrant a content attribute counterpart. </div>
+   <div class="example" id="example-ae20f706"><a class="self-link" href="#example-ae20f706"></a> A counterpattern to this guidance can be found in <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element③">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-value" id="ref-for-attr-input-value">value</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element①">option</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected" id="ref-for-attr-option-selected">selected</a></code>, and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element④">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-checked" id="ref-for-attr-input-checked">checked</a></code> where the HTML attributes were never updated
+and the IDL attribute was the single source of truth. </div>
+   <h3 class="heading settled" data-level="3.6" id="naming-of-url-attributes"><span class="secno">3.6. </span><span class="content">Name URL-containing attributes based on their primary purpose</span><a class="self-link" href="#naming-of-url-attributes"></a></h3>
+   <p>If the element enables the user to navigate to the URL contained in the attribute, call the attribute <code>href</code>, like the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element">a</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code> attribute.</p>
+   <p class="note" role="note"><span>Note:</span> In hindsight, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-form-element" id="ref-for-the-form-element">form</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action" id="ref-for-attr-fs-action">action</a></code> attribute should have been named <code>href</code>.</p>
+   <p>If the element causes the resource at the given URL to be loaded, call the attribute <code>src</code>, like the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element①">img</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src" id="ref-for-attr-img-src">src</a></code> attribute or the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script" id="ref-for-script①">script</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src" id="ref-for-attr-script-src">src</a></code> attribute.</p>
+   <p class="note" role="note"><span>Note:</span> HTML has a number of legacy inconsistencies that should not be emulated, like the way <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element①">link</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-href" id="ref-for-attr-link-href">href</a></code> attribute might allow for navigation or for resource loading, depending on the value of the element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel" id="ref-for-attr-link-rel">rel</a></code> attribute.</p>
+   <p>If the attribute identifies a URL that is auxilliary to the element’s purpose, like <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#video" id="ref-for-video①">video</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/media.html#attr-video-poster" id="ref-for-attr-video-poster">poster</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element" id="ref-for-the-q-element">q</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite" id="ref-for-attr-q-cite">cite</a></code>, or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element①">a</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#ping" id="ref-for-ping">ping</a></code>, name the attribute after its semantics.</p>
+   <p class="note" role="note"><span>Note:</span> remember that attributes containing URLs should be represented in IDL as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code>; see <a href="#idl-string-types">§ 8.2 Represent strings appropriately</a>.</p>
    <h2 class="heading settled" data-level="4" id="css"><span class="secno">4. </span><span class="content">Cascading Style Sheets (CSS)</span><a class="self-link" href="#css"></a></h2>
    <p>This section details design principles for features which are exposed via CSS.</p>
    <h3 class="heading settled" data-level="4.1" id="css-property-separation"><span class="secno">4.1. </span><span class="content">Separate CSS properties based on what should cascade separately</span><a class="self-link" href="#css-property-separation"></a></h3>
@@ -1969,8 +2029,8 @@ is used to create new windows. </p>
 as it represents an immutable, ready-to-paint bitmap image,
 and the process of getting it ready to paint must be done asynchronously.
 Instead, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap" id="ref-for-dom-createimagebitmap">createImageBitmap()</a></code> factory method is used to create it. </p>
-   <p class="example" id="example-97798904"><a class="self-link" href="#example-97798904"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist">DOMTokenList</a></code> class is, sadly, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>.
-This prevents the creation of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element">custom elements</a> that expose their token list attributes as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①">DOMTokenList</a></code>s. </p>
+   <p class="example" id="example-97798904"><a class="self-link" href="#example-97798904"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist③">DOMTokenList</a></code> class is, sadly, <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27114">not constructible</a>.
+This prevents the creation of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element">custom elements</a> that expose their token list attributes as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist④">DOMTokenList</a></code>s. </p>
    <div class="example" id="example-ebdfca9b">
     <a class="self-link" href="#example-ebdfca9b"></a> Several non-constructible classes,
 like <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator">Navigator</a></code>, <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/history.html#history-3" id="ref-for-history-3">History</a></code>, or <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/webcrypto/#dfn-Crypto" id="ref-for-dfn-Crypto">Crypto</a></code>,
@@ -1996,7 +2056,7 @@ closest common base subclass of the returned result.</p>
    <div class="example" id="example-071fec19"><a class="self-link" href="#example-071fec19"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-createelement" id="ref-for-dom-document-createelement">createElement</a></code> method is an example of a
 factory method that could not have been implemented as a constructor,
 as its result can be any of a number of subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>. </div>
-   <div class="example" id="example-3119992e"><a class="self-link" href="#example-3119992e"></a> The <code class="idl"><a data-link-type="idl">initMouseEvent</a></code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
+   <div class="example" id="example-42416b6a"><a class="self-link" href="#example-42416b6a"></a> The deprecated <code>MouseEvent.initMouseEvent()</code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible. </div>
@@ -2165,10 +2225,9 @@ The same event may be fired again,
 causing the same event handler to be fired, and so on.</p>
    <p>To prevent this, make sure that any "recursive" call into the API method
 simply returns immediately. This technique is "guarding" the algorithm.</p>
-   <div class="example" id="example-32d23c03">
-    <a class="self-link" href="#example-32d23c03"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal①">AbortSignal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">add</a>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-remove" id="ref-for-abortsignal-remove">remove</a> and <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort">signal abort</a> each begin with a check
-of the signal’s <a data-link-type="dfn">aborted flag</a>.
-If the flag is set, the rest of the algorithm doesn’t run. 
+   <div class="example" id="example-685bd37b">
+    <a class="self-link" href="#example-685bd37b"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal①">AbortSignal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">add</a>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-remove" id="ref-for-abortsignal-remove">remove</a> and <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort">signal abort</a> each begin with a check to see if the signal is <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted" id="ref-for-abortsignal-aborted">aborted</a>.
+If the signal is <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted" id="ref-for-abortsignal-aborted①">aborted</a>, the rest of the algorithm doesn’t run. 
     <p>In this case, a lot of the important complexity is
 in the algorithms run during the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-signal-abort" id="ref-for-abortsignal-signal-abort①">signal abort</a> steps.
 These steps iterate through a collection of algorithms
@@ -2530,13 +2589,13 @@ use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.o
    <p>Most string operations don’t need
 to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code units</a> inside of the string,
 so <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
-In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
-   <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
+In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl">[WEBIDL]</a></p>
+   <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
 For strings whose most common algorithms operate on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value" id="ref-for-scalar-value">scalar values</a> (such as <a data-link-type="abstract-op" href="https://url.spec.whatwg.org/#percent-encode" id="ref-for-percent-encode">percent-encoding</a>),
 or for operations which can’t handle <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#surrogate" id="ref-for-surrogate">surrogates</a> in input
-(such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> should be used.</p>
-   <p class="example" id="example-fe96b598"><a class="self-link" href="#example-fe96b598"></a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect">Reflecting IDL attributes</a> whose content attribute is defined to contain a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> (such as <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code>)
-should use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code>. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </p>
+(such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code> should be used.</p>
+   <p class="example" id="example-fe96b598"><a class="self-link" href="#example-fe96b598"></a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect">Reflecting IDL attributes</a> whose content attribute is defined to contain a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> (such as <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href①">href</a></code>)
+should use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString④">USVString</a></code>. <a data-link-type="biblio" href="#biblio-html">[HTML]</a> </p>
    <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString①">ByteString</a></code> should only be used for representing
 data from protocols like HTTP
 which don’t distinguish between bytes and strings.
@@ -3213,7 +3272,7 @@ design, the following rules have emerged:</p>
    </table>
    <div class="non-normative">
      Note that in particular, when a HTML attribute is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect①">reflected</a> as a property, the attribute
-and property’s casings won’t necessarily match. For example, the HTML attribute <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap" id="ref-for-attr-img-ismap">ismap</a></code> on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element">img</a></code> elements is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect②">reflected</a> as the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap" id="ref-for-dom-img-ismap">isMap</a></code> property on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement" id="ref-for-htmlimageelement">HTMLImageElement</a></code>. 
+and property’s casings won’t necessarily match. For example, the HTML attribute <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap" id="ref-for-attr-img-ismap">ismap</a></code> on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element②">img</a></code> elements is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect②">reflected</a> as the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap" id="ref-for-dom-img-ismap">isMap</a></code> property on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement" id="ref-for-htmlimageelement">HTMLImageElement</a></code>. 
     <p>The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
 or stored on disk, and don’t apply to the general notion of JavaScript object keys.</p>
     <p>Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
@@ -3504,7 +3563,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-domtokenlist">
    <a href="https://dom.spec.whatwg.org/#domtokenlist">https://dom.spec.whatwg.org/#domtokenlist</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-domtokenlist">6.7. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist①">(2)</a>
+    <li><a href="#ref-for-domtokenlist">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a> <a href="#ref-for-domtokenlist①">(2)</a> <a href="#ref-for-domtokenlist②">(3)</a>
+    <li><a href="#ref-for-domtokenlist③">6.7. Classes should have constructors when possible</a> <a href="#ref-for-domtokenlist④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-element">
@@ -3567,6 +3627,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-abortcontroller-abort①">7.6. Guard against potential recursion</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-abortsignal-aborted">
+   <a href="https://dom.spec.whatwg.org/#abortsignal-aborted">https://dom.spec.whatwg.org/#abortsignal-aborted</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-abortsignal-aborted">7.6. Guard against potential recursion</a> <a href="#ref-for-abortsignal-aborted①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal-add">
    <a href="https://dom.spec.whatwg.org/#abortsignal-add">https://dom.spec.whatwg.org/#abortsignal-add</a><b>Referenced in:</b>
    <ul>
@@ -3579,6 +3645,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener">6.5. Make method arguments optional if possible</a>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener①">6.6. Name optional arguments appropriately</a>
     <li><a href="#ref-for-dom-eventtarget-addeventlistener②">7.8. Use Events and Observers appropriately</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-element-classlist">
+   <a href="https://dom.spec.whatwg.org/#dom-element-classlist">https://dom.spec.whatwg.org/#dom-element-classlist</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-element-classlist">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-document-compatmode">
@@ -3703,6 +3775,18 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-body-json">12.1. Use common words</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-event-gamepadconnected">
+   <a href="https://w3c.github.io/gamepad/#event-gamepadconnected">https://w3c.github.io/gamepad/#event-gamepadconnected</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-event-gamepadconnected">2.11.2. Listen for changes to fully active status</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-geolocation-watchposition">
+   <a href="https://w3c.github.io/geolocation-api/#dom-geolocation-watchposition">https://w3c.github.io/geolocation-api/#dom-geolocation-watchposition</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-geolocation-watchposition">2.11.1. Gate actions with fully active checks</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
    <a href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp">https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
@@ -3777,10 +3861,34 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-windoweventhandlers">7.4. Always add event handler attributes</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-the-a-element">
+   <a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element">https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-a-element">3.6. Name URL-containing attributes based on their primary purpose</a> <a href="#ref-for-the-a-element①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-input-accept">
+   <a href="https://html.spec.whatwg.org/multipage/input.html#attr-input-accept">https://html.spec.whatwg.org/multipage/input.html#attr-input-accept</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-input-accept">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-fs-action">
+   <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action">https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-fs-action">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-alert-noargs">
    <a href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs">https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-alert-noargs">1.3. Trusted user interface should be trustworthy</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-audio">
+   <a href="https://html.spec.whatwg.org/multipage/media.html#audio">https://html.spec.whatwg.org/multipage/media.html#audio</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-audio">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-document-bgcolor">
@@ -3801,6 +3909,24 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-event-media-canplaythrough">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-input-checked">
+   <a href="https://html.spec.whatwg.org/multipage/input.html#attr-input-checked">https://html.spec.whatwg.org/multipage/input.html#attr-input-checked</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-input-checked">3.5. Keep attributes in sync</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-q-cite">
+   <a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite">https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-q-cite">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-classes">
+   <a href="https://html.spec.whatwg.org/multipage/dom.html#classes">https://html.spec.whatwg.org/multipage/dom.html#classes</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-classes">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-createimagebitmap">
    <a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap">https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap</a><b>Referenced in:</b>
    <ul>
@@ -3811,6 +3937,12 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element">https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-custom-element">6.7. Classes should have constructors when possible</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-the-datalist-element">
+   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-datalist-element">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-customelementregistry-define">
@@ -3861,6 +3993,12 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-attr-label-for">3.1. Re-use attribute names (only) for similar functionality</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-the-form-element">
+   <a href="https://html.spec.whatwg.org/multipage/forms.html#the-form-element">https://html.spec.whatwg.org/multipage/forms.html#the-form-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-form-element">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-fully-active">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active">https://html.spec.whatwg.org/multipage/browsers.html#fully-active</a><b>Referenced in:</b>
    <ul>
@@ -3872,22 +4010,26 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-fully-active④⓪">2.11.5. Be aware that per-document state/data might persist after navigation</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-attr-hyperlink-href">
-   <a href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href">https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-attr-link-href">
+   <a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-href">https://html.spec.whatwg.org/multipage/semantics.html#attr-link-href</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-attr-hyperlink-href">8.2. Represent strings appropriately</a>
+    <li><a href="#ref-for-attr-link-href">3.6. Name URL-containing attributes based on their primary purpose</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-img-element">
    <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element">https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-img-element">Use casing rules consistent with existing APIs</a>
+    <li><a href="#ref-for-the-img-element">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+    <li><a href="#ref-for-the-img-element①">3.6. Name URL-containing attributes based on their primary purpose</a>
+    <li><a href="#ref-for-the-img-element②">Use casing rules consistent with existing APIs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-input-element">
    <a href="https://html.spec.whatwg.org/multipage/input.html#the-input-element">https://html.spec.whatwg.org/multipage/input.html#the-input-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-input-element">3.1. Re-use attribute names (only) for similar functionality</a> <a href="#ref-for-the-input-element①">(2)</a>
+    <li><a href="#ref-for-the-input-element②">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+    <li><a href="#ref-for-the-input-element③">3.5. Keep attributes in sync</a> <a href="#ref-for-the-input-element④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-img-ismap">
@@ -3918,6 +4060,13 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element">https://html.spec.whatwg.org/multipage/semantics.html#the-link-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-link-element">3.1. Re-use attribute names (only) for similar functionality</a>
+    <li><a href="#ref-for-the-link-element①">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-input-list">
+   <a href="https://html.spec.whatwg.org/multipage/input.html#attr-input-list">https://html.spec.whatwg.org/multipage/input.html#attr-input-list</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-input-list">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-attr-select-multiple">
@@ -3950,6 +4099,13 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-dom-opener">2.11.3. Omit non-fully active documents from APIs that span multiple documents</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-the-option-element">
+   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-option-element">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+    <li><a href="#ref-for-the-option-element①">3.5. Keep attributes in sync</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-the-output-element">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element</a><b>Referenced in:</b>
    <ul>
@@ -3968,6 +4124,24 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-event-pageshow">2.11.2. Listen for changes to fully active status</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-ping">
+   <a href="https://html.spec.whatwg.org/multipage/links.html#ping">https://html.spec.whatwg.org/multipage/links.html#ping</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ping">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-video-poster">
+   <a href="https://html.spec.whatwg.org/multipage/media.html#attr-video-poster">https://html.spec.whatwg.org/multipage/media.html#attr-video-poster</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-video-poster">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-the-q-element">
+   <a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element">https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-q-element">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-queue-a-task">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task</a><b>Referenced in:</b>
    <ul>
@@ -3982,22 +4156,42 @@ so they can correct this omission.</p>
     <li><a href="#ref-for-reflect①">Use casing rules consistent with existing APIs</a> <a href="#ref-for-reflect②">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-link-rel">
+   <a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel">https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-link-rel">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-event-media-resize">
    <a href="https://html.spec.whatwg.org/multipage/media.html#event-media-resize">https://html.spec.whatwg.org/multipage/media.html#event-media-resize</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-event-media-resize">7.5. Use events for notification</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-iframe-sandbox">
+   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-iframe-sandbox">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-script">
    <a href="https://html.spec.whatwg.org/multipage/scripting.html#script">https://html.spec.whatwg.org/multipage/scripting.html#script</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-script">3.1. Re-use attribute names (only) for similar functionality</a>
+    <li><a href="#ref-for-script①">3.6. Name URL-containing attributes based on their primary purpose</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-select-element">
    <a href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element">https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-select-element">3.1. Re-use attribute names (only) for similar functionality</a>
+    <li><a href="#ref-for-the-select-element①">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-option-selected">
+   <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected">https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-option-selected">3.5. Keep attributes in sync</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-settimeout">
@@ -4010,6 +4204,24 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal">https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-dialog-showmodal">11.2.1. Define algorithms clearly</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-the-source-element">
+   <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element">https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-the-source-element">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-script-src">
+   <a href="https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src">https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-script-src">3.6. Name URL-containing attributes based on their primary purpose</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-img-srcset">
+   <a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset">https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-img-srcset">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-sticky-activation">
@@ -4028,6 +4240,19 @@ so they can correct this omission.</p>
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue">https://html.spec.whatwg.org/multipage/webappapis.html#task-queue</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-task-queue">7.6. Guard against potential recursion</a> <a href="#ref-for-task-queue①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-input-value">
+   <a href="https://html.spec.whatwg.org/multipage/input.html#attr-input-value">https://html.spec.whatwg.org/multipage/input.html#attr-input-value</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-input-value">3.5. Keep attributes in sync</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-video">
+   <a href="https://html.spec.whatwg.org/multipage/media.html#video">https://html.spec.whatwg.org/multipage/media.html#video</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-video">3.2. Use space-separated attributes for short lists of values, separate elements for longer lists</a>
+    <li><a href="#ref-for-video①">3.6. Name URL-containing attributes based on their primary purpose</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idbdatabase">
@@ -4238,7 +4463,8 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
    <a href="https://webidl.spec.whatwg.org/#idl-USVString">https://webidl.spec.whatwg.org/#idl-USVString</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-USVString">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-USVString①">(2)</a> <a href="#ref-for-idl-USVString②">(3)</a> <a href="#ref-for-idl-USVString③">(4)</a>
+    <li><a href="#ref-for-idl-USVString">3.6. Name URL-containing attributes based on their primary purpose</a>
+    <li><a href="#ref-for-idl-USVString①">8.2. Represent strings appropriately</a> <a href="#ref-for-idl-USVString②">(2)</a> <a href="#ref-for-idl-USVString③">(3)</a> <a href="#ref-for-idl-USVString④">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-Uint8Array">
@@ -4396,22 +4622,22 @@ so they can correct this omission.</p>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
-    <a data-link-type="biblio">[appmanifest]</a> defines the following terms:
+    <a data-link-type="biblio">[APPMANIFEST]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dfn-short_name">short_name</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[credential-management-1]</a> defines the following terms:
+    <a data-link-type="biblio">[CREDENTIAL-MANAGEMENT-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-credential-id">id</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-backgrounds-3]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-BACKGROUNDS-3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-propdef-background-image">background-image</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-CASCADE-5]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-actual-value">actual value</span>
      <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
@@ -4419,23 +4645,23 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-used-value">used value</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-conditional-3]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-CONDITIONAL-3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-fonts-4]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-FONTS-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-propdef-font-size">font-size</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-inline-3]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-INLINE-3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-propdef-initial-letter">initial-letter</span>
      <li><span class="dfn-paneled" id="term-for-propdef-initial-letter-align">initial-letter-align</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-VALUES-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
      <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
@@ -4446,13 +4672,13 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-propdef-line-height">line-height</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[cssom-1]</a> defines the following terms:
+    <a data-link-type="biblio">[CSSOM-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-window-getcomputedstyle">getComputedStyle(elt)</span>
      <li><span class="dfn-paneled" id="term-for-resolved-value">resolved value</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[cssom-view-1]</a> defines the following terms:
+    <a data-link-type="biblio">[CSSOM-VIEW-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-element-getboundingclientrect">getBoundingClientRect()</span>
      <li><span class="dfn-paneled" id="term-for-dom-htmlelement-offsettop">offsetTop</span>
@@ -4472,8 +4698,10 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-node">Node</span>
      <li><span class="dfn-paneled" id="term-for-nonelementparentnode">NonElementParentNode</span>
      <li><span class="dfn-paneled" id="term-for-dom-abortcontroller-abort">abort()</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-aborted">aborted</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-add">add</span>
      <li><span class="dfn-paneled" id="term-for-dom-eventtarget-addeventlistener">addEventListener(type, callback)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-element-classlist">classList</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-compatmode">compatMode</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-createattribute">createAttribute(localName)</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-createelement">createElement</span>
@@ -4508,7 +4736,17 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dom-body-json">json()</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[hr-time-2]</a> defines the following terms:
+    <a data-link-type="biblio">[GAMEPAD]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-event-gamepadconnected">gamepadconnected</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[GEOLOCATION]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-geolocation-watchposition">watchPosition()</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HR-TIME-2]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp">DOMHighResTimeStamp</span>
     </ul>
@@ -4526,12 +4764,20 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-navigator">Navigator</span>
      <li><span class="dfn-paneled" id="term-for-window">Window</span>
      <li><span class="dfn-paneled" id="term-for-windoweventhandlers">WindowEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-the-a-element">a</span>
+     <li><span class="dfn-paneled" id="term-for-attr-input-accept">accept</span>
+     <li><span class="dfn-paneled" id="term-for-attr-fs-action">action</span>
      <li><span class="dfn-paneled" id="term-for-dom-alert-noargs">alert()</span>
+     <li><span class="dfn-paneled" id="term-for-audio">audio</span>
      <li><span class="dfn-paneled" id="term-for-dom-document-bgcolor">bgColor</span>
      <li><span class="dfn-paneled" id="term-for-the-button-element">button</span>
      <li><span class="dfn-paneled" id="term-for-event-media-canplaythrough">canplaythrough</span>
+     <li><span class="dfn-paneled" id="term-for-attr-input-checked">checked</span>
+     <li><span class="dfn-paneled" id="term-for-attr-q-cite">cite</span>
+     <li><span class="dfn-paneled" id="term-for-classes">class</span>
      <li><span class="dfn-paneled" id="term-for-dom-createimagebitmap">createImageBitmap(image)</span>
      <li><span class="dfn-paneled" id="term-for-custom-element">custom element</span>
+     <li><span class="dfn-paneled" id="term-for-the-datalist-element">datalist</span>
      <li><span class="dfn-paneled" id="term-for-dom-customelementregistry-define">define(name, constructor)</span>
      <li><span class="dfn-paneled" id="term-for-the-details-element">details</span>
      <li><span class="dfn-paneled" id="term-for-the-dialog-element">dialog</span>
@@ -4540,8 +4786,9 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-event-loop">event loop</span>
      <li><span class="dfn-paneled" id="term-for-the-figcaption-element">figcaption</span>
      <li><span class="dfn-paneled" id="term-for-attr-label-for">for</span>
+     <li><span class="dfn-paneled" id="term-for-the-form-element">form</span>
      <li><span class="dfn-paneled" id="term-for-fully-active">fully active</span>
-     <li><span class="dfn-paneled" id="term-for-attr-hyperlink-href">href</span>
+     <li><span class="dfn-paneled" id="term-for-attr-link-href">href <small>(for link)</small></span>
      <li><span class="dfn-paneled" id="term-for-the-img-element">img</span>
      <li><span class="dfn-paneled" id="term-for-the-input-element">input</span>
      <li><span class="dfn-paneled" id="term-for-dom-img-ismap">isMap</span>
@@ -4549,24 +4796,37 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-the-label-element">label</span>
      <li><span class="dfn-paneled" id="term-for-event-languagechange">languagechange</span>
      <li><span class="dfn-paneled" id="term-for-the-link-element">link</span>
+     <li><span class="dfn-paneled" id="term-for-attr-input-list">list</span>
      <li><span class="dfn-paneled" id="term-for-attr-select-multiple">multiple</span>
      <li><span class="dfn-paneled" id="term-for-dom-navigator-online">onLine</span>
      <li><span class="dfn-paneled" id="term-for-attr-details-open">open</span>
      <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
      <li><span class="dfn-paneled" id="term-for-dom-opener">opener</span>
+     <li><span class="dfn-paneled" id="term-for-the-option-element">option</span>
      <li><span class="dfn-paneled" id="term-for-the-output-element">output</span>
      <li><span class="dfn-paneled" id="term-for-event-pagehide">pagehide</span>
      <li><span class="dfn-paneled" id="term-for-event-pageshow">pageshow</span>
+     <li><span class="dfn-paneled" id="term-for-ping">ping</span>
+     <li><span class="dfn-paneled" id="term-for-attr-video-poster">poster</span>
+     <li><span class="dfn-paneled" id="term-for-the-q-element">q</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-reflect">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-attr-link-rel">rel</span>
      <li><span class="dfn-paneled" id="term-for-event-media-resize">resize</span>
+     <li><span class="dfn-paneled" id="term-for-attr-iframe-sandbox">sandbox</span>
      <li><span class="dfn-paneled" id="term-for-script">script</span>
      <li><span class="dfn-paneled" id="term-for-the-select-element">select</span>
+     <li><span class="dfn-paneled" id="term-for-attr-option-selected">selected</span>
      <li><span class="dfn-paneled" id="term-for-dom-settimeout">setTimeout(handler, timeout, ...arguments)</span>
      <li><span class="dfn-paneled" id="term-for-dom-dialog-showmodal">showModal()</span>
+     <li><span class="dfn-paneled" id="term-for-the-source-element">source</span>
+     <li><span class="dfn-paneled" id="term-for-attr-script-src">src <small>(for script)</small></span>
+     <li><span class="dfn-paneled" id="term-for-attr-img-srcset">srcset</span>
      <li><span class="dfn-paneled" id="term-for-sticky-activation">sticky activation</span>
      <li><span class="dfn-paneled" id="term-for-the-style-element">style</span>
      <li><span class="dfn-paneled" id="term-for-task-queue">task queues</span>
+     <li><span class="dfn-paneled" id="term-for-attr-input-value">value</span>
+     <li><span class="dfn-paneled" id="term-for-video">video</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-2]</a> defines the following terms:
@@ -4585,30 +4845,30 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-surrogate">surrogate</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[intersection-observer]</a> defines the following terms:
+    <a data-link-type="biblio">[INTERSECTION-OBSERVER]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-intersectionobserver">IntersectionObserver</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
+    <a data-link-type="biblio">[MEDIAQUERIES-5]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-valdef-custom-media-false">false</span>
      <li><span class="dfn-paneled" id="term-for-valdef-custom-media-true">true</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[payment-request]</a> defines the following terms:
+    <a data-link-type="biblio">[PAYMENT-REQUEST]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-paymentrequest">PaymentRequest</span>
      <li><span class="dfn-paneled" id="term-for-dfn-state">[[state]]</span>
      <li><span class="dfn-paneled" id="term-for-dom-paymentrequest-show">show()</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[pointerevents3]</a> defines the following terms:
+    <a data-link-type="biblio">[POINTEREVENTS3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-pointerevent-pointerid">pointerId</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[referrer-policy]</a> defines the following terms:
+    <a data-link-type="biblio">[REFERRER-POLICY]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-referrerpolicy-no-referrer-when-downgrade">"no-referrer-when-downgrade"</span>
     </ul>
@@ -4619,7 +4879,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-dfn-remote-playback-devices">remote playback device</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[service-workers-1]</a> defines the following terms:
+    <a data-link-type="biblio">[SERVICE-WORKERS-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-clients-claim">claim()</span>
      <li><span class="dfn-paneled" id="term-for-dom-clients-matchall">matchAll()</span>
@@ -4675,7 +4935,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="term-for-idl-unsigned-long-long">unsigned long long</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[webrtc-1]</a> defines the following terms:
+    <a data-link-type="biblio">[WEBRTC-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-rtcdtmfsender">RTCDTMFSender</span>
     </ul>
@@ -4755,6 +5015,10 @@ so they can correct this omission.</p>
    <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-gamepad">[GAMEPAD]
+   <dd>Steve Agoston; James Hollyer; Matthew Reynolds. <a href="https://w3c.github.io/gamepad/"><cite>Gamepad</cite></a>. URL: <a href="https://w3c.github.io/gamepad/">https://w3c.github.io/gamepad/</a>
+   <dt id="biblio-geolocation">[GEOLOCATION]
+   <dd>Marcos Caceres; Reilly Grant. <a href="https://w3c.github.io/geolocation-api/"><cite>Geolocation API</cite></a>. URL: <a href="https://w3c.github.io/geolocation-api/">https://w3c.github.io/geolocation-api/</a>
    <dt id="biblio-intersection-observer">[INTERSECTION-OBSERVER]
    <dd>Stefan Zager; Emilio Cobos Álvarez. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
    <dt id="biblio-least-power">[LEAST-POWER]
