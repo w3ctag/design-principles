@@ -20,6 +20,9 @@ Boilerplate: feedback-header off
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
+<pre class="metadata" include-if="text macro: DEV">
+Title: Web Platform Design Principles for Web Developers
+</pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:dom
@@ -82,8 +85,6 @@ urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
     }
 </style>
 
-<div include-if="text macro: DEV">HELLO HELLO TEST</div>
-
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
 The Design Principles are directly informed by the ethical framework
@@ -137,7 +138,7 @@ won't have implications for the security of their computer,
 or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
 
 For example, an API which allows any website to
-[detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
+[detect the use of assistive technologies](/design-principles/#do-not-expose-use-of-assistive-tech)
 may make users of these technologies feel unsafe visiting unknown web pages,
 since any web page may detect this private information.
 
@@ -439,7 +440,7 @@ so that web content may gracefully handle the feature not being present.
 An existing feature may not be available on a page for a number of reasons.
 Two of the more common reasons are
 because it hasn't been implemented yet, or
-because it's only available in <a href="#secure-context">secure contexts</a>.
+because it's only available in <a href="/design-principles/#secure-context">secure contexts</a>.
 
 Authors shouldn't need to write different code to handle each scenario.
 That way, even if an author only knows or cares about one scenario,
@@ -478,11 +479,17 @@ but not exposed to authors.
 For private browsing mode to support the user's needs,
 it must not be feature detected.
 
+<div exclude-if="text macro: DEV">
+
 See also:
 
 * [[#do-not-expose-use-of-private-browsing-mode]]
 * [[#do-not-expose-use-of-assistive-tech]]
 * [[#secure-context]]
+
+</div>
+
+<section exclude-if="text macro: DEV">
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
@@ -870,6 +877,8 @@ and doing cleanup as necessary (see above).
   Whether this should actually be reset when full activity is lost or not
   is still [under discussion](https://github.com/whatwg/html/issues/6588).
 </div>
+
+</section>
 
 <h3 id="third-party-tools">Prioritize usability over compatibility with third-party tools</h3>
 
