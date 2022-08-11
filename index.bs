@@ -396,7 +396,7 @@ but the improvement should be very significant to justify this.
 Since the web platform has gradually evolved over time,
 there are often multiple conflicting precedents
 which are mutually exclusive.
-You can weigh which precdent to follow by taking into account
+You can weigh which precedent to follow by taking into account
 prevalence (all else being equal, follow the more popular precedent),
 API ergonomics (all else being equal, follow the more usable precedent),
 and API age (all else being equal, follow the newer precedent).
