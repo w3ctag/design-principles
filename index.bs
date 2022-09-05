@@ -294,6 +294,47 @@ Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
+
+<h3 id="identity-on-the-web">Identity on the web should be contextually appropriate</h3>
+
+Give people control over the identifying information about themselves
+they are presenting in different contexts on the web,
+and be transparent about it.
+
+"Identity" is a complex concept that can be understood in many different ways.
+It can refer to how someone presents or sees themselves, how they relate to other
+people, groups, or institutions, and can determine how they behave
+or how they are treated by others.
+
+On the web, we typically see systems which generate _identifiers_ and attach data
+about a particular person to these identifiers. This data may include simple attributes
+and values; claims or credentials which can be used for verification, authentication,
+or authorization purposes; or a compilation of choices, activities and interactions of
+a person in a particular system (or all of these). "Identity" is often used as a
+shorthand when referring to these kinds of systems, but you should note that this is
+unlikely to represent someone's identity in a complete or necessarily meaningful sense.
+
+Architecturally, identity systems are often composed of the following layers:
+
+* Identifiers (strings)
+* Credentials (data)
+* Authentication & Authorisation (protocols)
+
+When designing, implementing or integrating an "identity" layer into a system,
+you should consider the following:
+
+* Avoid mixing metadata for a system or protocol with the data connected to an identifier for a person.
+* Before you collect data about someone - passively or actively - and attach the data to a persistent identifier, enable them to [give appropriate consent](#consent).
+* Be transparent about the circumstances under which such data is used or shared.
+* The same data is not always appropriate for different scenarios, or in different contexts, so [do not collect more than needed](https://w3ctag.github.io/privacy-principles/#identity) for the service being provided, nor conflate or connect data collected in different situations.
+* Where possible, enable people to use the same identifiers and associated data in multiple systems if they choose, but do not require this.
+* People should be able to establish multiple identifiers (and corresponding data) for different purposes within the same system, if they need to.
+* Different identifiers for a particular individual should not be correlated without that person's consent.
+* It may be empowering or beneficial for people to be able to port their identifiers and associated data between different systems with similar functions.
+* Identifiers may be ephemeral or long-lived.
+* Using the web anonymously or pseudonymously is appropriate, sufficient, or necessary in many situations.
+
+
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
