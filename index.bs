@@ -277,7 +277,7 @@ Content relying on existing user agent behavior can take many forms, such as:
 - Depending on certain method names not being defined.
 - Depending on a feature from earlier specifications not being implemented as specified.
 
-When considering changes to legacy features or behavior, relative to current implementations and author expectations, the following questions should be considered:
+When considering changes to legacy features, relative to current implementations and author expectations, the following questions should be considered:
 
 * Would removal of this feature or behavior have significant impact on existing content?
 * Does any of the dependent content occur on particularly high volume websites?
