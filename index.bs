@@ -691,18 +691,23 @@ it is not always *sufficient*
 to protect users from invasive behaviours,
 and seeking [meaningful consent](#consent) is also important.
 
-<h3 id="support-non-fully-active">Support non-fully active (BFCached) documents</h3>
+<h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
-Explicitly specify how your feature behaves in non-[=Document/fully active=] (BFCached) documents when necessary.
+Explicitly specify how your feature behaves in non-[=Document/fully active=] BFCached documents when necessary.
 
 If your API does things that fall into **any** of the below categories:
 * Interacts with a document from the "outside" (e.g. sends information to a document)
 * Makes cross-document interaction/resource sharing possible (e.g. holding locks)
-* May malfunction when a document is kept in a non-[=Document/fully active=] (BFCached) state (instead of getting destroyed)
+* May malfunction when a document is kept in a non-[=Document/fully active=] BFCached state (instead of getting destroyed)
     after the user navigates away from it or gets restored (e.g. expects that a state saved in the document won’t span multiple navigations)
 
-You should specify how it works with non-[=Document/fully active=] (BFCached) documents, following the guidelines in the
+You should specify how it works with non-[=Document/fully active=] BFCached documents, following the guidelines in the
 [Supporting BFCached Documents](TODO) guide.  
+
+Note: It is possible for a document to become non-[=Document/fully active=] for other reasons not related to BFcaching,
+such as when the iframe holding the document gets detached.
+This guideline only focuses on the case where BFCache is involved,
+and not other cases that might cause a document to become non-[=Document/fully active=].
 
 <h3 id="third-party-tools">Prioritize usability over compatibility with third-party tools</h3>
 

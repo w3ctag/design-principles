@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="e100e36e9e9bc453fb3051e0cf933a6abc8dcb08" name="document-revision">
+  <meta content="244dfba5a3285f464889b74ef65452383c1fb726" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -2053,7 +2053,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2022-08-25">25 August 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2022-09-06">6 September 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2125,7 +2125,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#private-browsing-mode"><span class="secno">2.8</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
       <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.9</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
       <li><a href="#require-user-activation"><span class="secno">2.10</span> <span class="content">Require user activation for powerful APIs</span></a>
-      <li><a href="#support-non-fully-active"><span class="secno">2.11</span> <span class="content">Support non-fully active (BFCached) documents</span></a>
+      <li><a href="#support-non-fully-active"><span class="secno">2.11</span> <span class="content">Support non-fully active BFCached documents</span></a>
       <li><a href="#third-party-tools"><span class="secno">2.12</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
      </ol>
     <li>
@@ -2738,8 +2738,8 @@ once per API call (<a href="https://html.spec.whatwg.org/#activation-consuming-a
    <p>Note that while user activation is in many cases necessary,
 it is not always <em>sufficient</em> to protect users from invasive behaviours,
 and seeking <a href="#consent">meaningful consent</a> is also important.</p>
-   <h3 class="heading settled" data-level="2.11" id="support-non-fully-active"><span class="secno">2.11. </span><span class="content">Support non-fully active (BFCached) documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
-   <p>Explicitly specify how your feature behaves in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active">fully active</a> (BFCached) documents when necessary.</p>
+   <h3 class="heading settled" data-level="2.11" id="support-non-fully-active"><span class="secno">2.11. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
+   <p>Explicitly specify how your feature behaves in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active">fully active</a> BFCached documents when necessary.</p>
    <p>If your API does things that fall into <strong>any</strong> of the below categories:</p>
    <ul>
     <li data-md>
@@ -2747,10 +2747,14 @@ and seeking <a href="#consent">meaningful consent</a> is also important.</p>
     <li data-md>
      <p>Makes cross-document interaction/resource sharing possible (e.g. holding locks)</p>
     <li data-md>
-     <p>May malfunction when a document is kept in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①">fully active</a> (BFCached) state (instead of getting destroyed)
+     <p>May malfunction when a document is kept in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active①">fully active</a> BFCached state (instead of getting destroyed)
 after the user navigates away from it or gets restored (e.g. expects that a state saved in the document won’t span multiple navigations)</p>
    </ul>
-   <p>You should specify how it works with non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②">fully active</a> (BFCached) documents, following the guidelines in the <a href="TODO">Supporting BFCached Documents</a> guide.</p>
+   <p>You should specify how it works with non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active②">fully active</a> BFCached documents, following the guidelines in the <a href="TODO">Supporting BFCached Documents</a> guide.</p>
+   <p class="note" role="note"><span>Note:</span> It is possible for a document to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active③">fully active</a> for other reasons not related to BFcaching,
+such as when the iframe holding the document gets detached.
+This guideline only focuses on the case where BFCache is involved,
+and not other cases that might cause a document to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active" id="ref-for-fully-active④">fully active</a>.</p>
    <h3 class="heading settled" data-level="2.12" id="third-party-tools"><span class="secno">2.12. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
    <p>Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.</p>
    <p>The web platform benefits from a wide ecosystem of tooling
@@ -5322,7 +5326,7 @@ so they can correct this omission.</p>
   <aside class="dfn-panel" data-for="term-for-fully-active">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#fully-active">https://html.spec.whatwg.org/multipage/browsers.html#fully-active</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-fully-active">2.11. Support non-fully active (BFCached) documents</a> <a href="#ref-for-fully-active①">(2)</a> <a href="#ref-for-fully-active②">(3)</a>
+    <li><a href="#ref-for-fully-active">2.11. Support non-fully active BFCached documents</a> <a href="#ref-for-fully-active①">(2)</a> <a href="#ref-for-fully-active②">(3)</a> <a href="#ref-for-fully-active③">(4)</a> <a href="#ref-for-fully-active④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-attr-link-href">
