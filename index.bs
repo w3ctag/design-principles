@@ -270,7 +270,7 @@ Processing requirements should be specified to ensure that user agents will be a
 In particular, it should be possible to process existing web content in current user agents and get results that are compatible with the existing expectations of users and authors,
 based on the behavior of existing user agents.
 
-Content relying on existing browser behavior can take many forms, such as:
+Content relying on existing user agent behavior can take many forms, such as:
 
 - Relying on elements, attributes or APIs that are part of earlier specifications, or on features that are entirely proprietary.
 - Depending on specific error handling rules.
