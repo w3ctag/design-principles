@@ -290,9 +290,6 @@ The benefit of the proposed change should be weighed against the likely cost of 
 <div class="example">
 
 Many sites use broken markup, such as badly nested elements (`<b>a<i>b</b>c</i>`), and authors have expectations based on the existing error handling results of legacy user agents that such broken markup will still work. We need to define processing requirements that remain compatible with the expected handling of such content.
-
-Some sites rely on the `<u>` element giving the presentational effect of an underline.
-
 </div>
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
