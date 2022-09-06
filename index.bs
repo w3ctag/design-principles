@@ -268,7 +268,7 @@ and allows users to choose their own font and font size without causing text to 
 Existing content often relies upon expected user agent processing and behavior to function as intended.
 Processing requirements should be specified to ensure that user agents will be able to handle most existing content.
 In particular, it should be possible to process existing web content in current user agents and get results that are compatible with the existing expectations of users and authors,
-based on the behavior of existing browsers.
+based on the behavior of existing user agents.
 
 Content relying on existing browser behavior can take many forms, such as:
 
