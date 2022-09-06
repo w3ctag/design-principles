@@ -272,7 +272,7 @@ based on the behavior of existing user agents.
 
 Content relying on existing user agent behavior can take many forms, such as:
 
-- Relying on elements, attributes or APIs that are part of earlier specifications, or on features that are entirely proprietary.
+- Relying on features that are entirely proprietary.
 - Depending on specific error handling rules.
 - Depending on certain method names not being defined.
 - Depending on a feature from earlier specifications not being implemented as specified.
