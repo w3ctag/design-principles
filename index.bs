@@ -275,7 +275,7 @@ and allows users to choose their own font and font size without causing text to 
 
 Sometimes features aren't yet implemented on some platforms
 despite working on others.
-In these cases, it should be possible for
+In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
 See [[#feature-detect]].
 
