@@ -23,14 +23,20 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:dom
-    type:dfn; text:aborted flag
     type:method; for:Document; text:getElementsByTagName(qualifiedName)
     type:method; for:Document; text:createElement(qualifiedName)
 spec:html; type:dfn; for:/
     text:focus update steps
     text:task queue
     text:event loop
-spec:html; type:element-attr; for:a; text:href
+spec:html; type:element-attr; for:a
+    text:href
+    text:ping
+spec:html; type:element
+    text:a
+    text:link
+    text:script
+    text:style
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
@@ -54,6 +60,10 @@ urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
     url: #sec-finalization-registry-objects; type: interface; text: FinalizationRegistry
     url: #sec-number-objects; type: interface; text: Number
     url: #sec-weak-ref-objects; type: interface; text: WeakRef
+urlPrefix: https://w3c.github.io/gamepad/; spec: gamepad
+    url:#event-gamepadconnected; type: event; text:gamepadconnected
+urlPrefix: https://w3c.github.io/geolocation-api/; spec: geolocation
+    url:#dom-geolocation-watchposition; type:method; for:Geolocation; text:watchPosition()
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
     url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
@@ -94,8 +104,8 @@ any change made to the web platform has the potential to
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
-which come before than the needs of user agent implementors,
-which come before than the needs of specification writers,
+which come before the needs of user agent implementors,
+which come before the needs of specification writers,
 which come before theoretical purity.
 
 Like all principles,
@@ -182,7 +192,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-make sure that the user can give [*meaningful consent*](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
+make sure that the user can give *[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)* for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -266,15 +276,15 @@ and allows users to choose their own font and font size without causing text to 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
-the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics. 
-The existence of a defect in one part of the platform must not be used as a license 
-for adding or extending such defect into new capabilities and thereby further decreasing 
-the overall platform quality.  Where possible, build new web capabilities that 
+the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics.
+The existence of a defect in one part of the platform must not be used as a license
+for adding or extending such defect into new capabilities and thereby further decreasing
+the overall platform quality.  Where possible, build new web capabilities that
 improve the overall platform quality.
 
-Parts of the web platform evolve independently.  
-Issues that are present with a certain web technology now may be fixed in a subsequent iteration.  
-Duplicating these issues makes fixing them more difficult. 
+Parts of the web platform evolve independently.
+Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
+Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
@@ -290,7 +300,7 @@ although they may be harder to find.
 Simpler features are easier for user agents to implement and test,
 more likely to be interoperable,
 and easier for authors to understand.
-It is especially important to design your feature so that 
+It is especially important to design your feature so that
 the most common use cases are easy to accomplish.
 
 Make sure that your <a href="#priority-of-constituencies">user needs</a>
@@ -309,7 +319,7 @@ commonality and complexity are not always correlated.
 <div class=example>
 Sanitizing HTML to prevent XSS attacks is a complex process
 that requires extensive security knowledge,
-however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case. 
+however the [Sanitizer API](https://wicg.github.io/sanitizer-api/) provides a shortcut for this common use case.
 It also permits simpler types of filtering, but with more configuration.
 </div>
 
@@ -317,7 +327,7 @@ See also:
 
 * [[LEAST-POWER]]
 
-<h3 id="high-level-low-level">Resolving tension between high level and low level APIs</h3>
+<h3 id="high-level-low-level">Consider tradeoffs between high level and low level APIs</h3>
 
 <!--
 See "High level or low-level APIs?"
@@ -371,7 +381,7 @@ Naming APIs well makes it much easier for authors to use them correctly.
 See the more detailed <a href="#naming-is-hard">Naming principles</a> section
 for specific guidance on naming.
 
-<h3 id="consistency">Consistency</h3>
+<h3 id="consistency">Be consistent</h3>
 
 It is good practice to consider precedent in the design of your API
 and to try to be consistent with it.
@@ -386,7 +396,7 @@ but the improvement should be very significant to justify this.
 Since the web platform has gradually evolved over time,
 there are often multiple conflicting precedents
 which are mutually exclusive.
-You can weigh which precdent to follow by taking into account
+You can weigh which precedent to follow by taking into account
 prevalence (all else being equal, follow the more popular precedent),
 API ergonomics (all else being equal, follow the more usable precedent),
 and API age (all else being equal, follow the newer precedent).
@@ -656,6 +666,30 @@ See also:
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+
+<h3 id="require-user-activation">Require user activation for powerful APIs</h3>
+
+Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
+expose user data (eg. interacting with the clipboard),
+perform a background activity without an obvious indicator to the user (eg. accessing local storage),
+or prompt the user to interact with [trusted UI](#trusted-ui)
+(eg. permission prompts, device hardware features).
+These APIs should be designed to require some indication of user intention (such as **user activation**) in order to function.
+This indicates that the user is intentionally interacting with the web page in question.
+
+User activation is defined in detail
+[in the HTML standard](https://html.spec.whatwg.org/#tracking-user-activation).
+You should think about the effect your API has on the user experience,
+as well as any risks presented to the user,
+when deciding whether user activation needs to only occur
+once overall ([sticky](https://html.spec.whatwg.org/#sticky-activation-gated-api)),
+periodically ([transient](https://html.spec.whatwg.org/#transient-activation-gated-api)) or
+once per API call ([transient consuming](https://html.spec.whatwg.org/#activation-consuming-api)).
+
+Note that while user activation is in many cases necessary,
+it is not always *sufficient*
+to protect users from invasive behaviours,
+and seeking [meaningful consent](#consent) is also important.
 
 <h3 id="support-non-fully-active">Support non-"fully active" documents</h3>
 
@@ -942,7 +976,71 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
-<h3 id="avoid-html-parser-blocking"> Do not pause the HTML parser</h3>
+<h3 id="html-lists">Use space-separated attributes for short lists of values, separate elements for longer lists</h3>
+<!-- https://github.com/w3ctag/design-principles/issues/277 -->
+
+When specifying metadata about an element that can be a list of values,
+common practice is to use a space-separated list and expose it as a {{DOMTokenList}}.
+
+<div class=example>
+
+The <{global/class}> attribute on elements takes a space-separated list of class names.
+{{Element/classList}} is a {{DOMTokenList}} that allows authors to add and remove class names.
+
+</div>
+
+<div class=example>
+
+The <{iframe/sandbox}> attribute takes a space-separated list of sandbox flags.
+`iframe.sandbox` is a {{DOMTokenList}} that allows authors to add and remove sandbox flags.
+
+</div>
+
+Consistency with other parts of the Web Platform is important,
+even if this means using another character to separate values.
+
+<div class=example>
+
+The <{input/accept}> attribute is a comma-separated list of values,
+because it needs to match the syntax of the `Accept` HTTP header. (See [guidance on HTTP headers](#new-http-header-syntax))
+
+</div>
+
+Regardless of syntax, attributes should only be used for short lists of values.
+For longer lists, embedding the entire list in an attribute is discouraged.
+Instead, current practice is to use separate elements to represent the list items (and any metadata about them).
+These elements could either be children of the element in question, or linked through an attribute.
+
+<div class=example>
+
+The list of values for the <{select}> element is provided as a series of <{option}> element children.
+However, when providing a list of recommended values for an <{input}> element, a separate element is used (<{datalist}>),
+linked through a <{input/list}> attribute.
+
+</div>
+
+<div class=example>
+
+The list of media sources for a <{video}> or <{audio}> element is provided as a series of <{source}> element children.
+
+</div>
+
+In rare instances, other tradeoffs are necessary.
+
+<div class=example>
+
+The <{img/srcset}> attribute allows for a comma-separated list of image candidate strings.
+This syntax was chosen over a list of child elements to avoid verbosity
+and because the <{img}> element is an empty element that does not permit child elements.
+A space-separated syntax would not have been possible, as each list item includes multiple values.
+
+<!--
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+https://github.com/w3ctag/design-principles/issues/213
+-->
+</div>
+
+<h3 id="avoid-html-parser-blocking">Do not pause the HTML parser</h3>
 
 Ensure that your design does not require HTML parser to pause to handle external resources.
 
@@ -961,14 +1059,48 @@ This is the case of legacy `<script src="…">` elements,
 which can inject into the parser using `document.write(…)`.
 Due to the performance issues above, new features must not do this.
 
-<h3 id="avoid-render-blocking"> Avoid features that block rendering</h3>
+<h3 id="avoid-render-blocking">Avoid features that block rendering</h3>
 
 Features that require resource loading or other operations before rendering the page,
 often result in blank page (or the previous page). The result is a poor user experience.
 
 Consider adding such features only in cases when the overall user experience is improved.
-A canonical example of this is blocking rendering in order to download and process a stylesheet. 
+A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
+
+<h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
+
+New content attributes
+should have a corresponding IDL attribute with the same name,
+and the state between the two should be kept synchronized.
+Carving out a synchronized IDL attribute with inconsistent naming
+results in confusion, and should be avoided.
+
+<div class="note">
+This does not hold the other way around.
+A new IDL attribute does not always warrant a content attribute counterpart.
+</div>
+
+<div class="example">
+A counterpattern to this guidance can be found in
+<{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
+where the HTML attributes were never updated
+and the IDL attribute was the single source of truth.
+</div>
+
+<h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
+
+If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
+
+Note: In hindsight, <{form}>'s <{form/action}> attribute should have been named `href`.
+
+If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute or the <{script}> element’s <{script/src}> attribute.
+
+Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
+
+If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
+
+Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
@@ -1115,7 +1247,7 @@ See also:
 
 * [Computed Values Patterns](https://wiki.csswg.org/spec/computed-values)
 
-<h3 id="css-naming">Naming of CSS properties and values</h3>
+<h3 id="css-naming">Name CSS properties and values appropriately</h3>
 
 The names of CSS properties are usually nouns,
 and the names of their values are usually adjectives (although sometimes nouns).
@@ -1152,7 +1284,7 @@ default as a result of something like `display: flex` or `position: relative`.
 
 <h2 id="js">JavaScript Language</h2>
 
-<h3 id="js-only">Web APIs are for JavaScript</h3>
+<h3 id="js-only">Use JavaScript for Web APIs</h3>
 
 When designing imperative APIs for the Web,
 use JavaScript.
@@ -1495,7 +1627,7 @@ See also:
 
 * [[#prefer-dict-to-bool]]
 
-<h3 id="naming-optional-parameters">Naming optional arguments</h3>
+<h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
 
 Name optional arguments to make the default behavior obvious
 without being named negatively.
@@ -1618,7 +1750,7 @@ as its result can be any of a number of subclasses of {{Element}}.
 </div>
 
 <div class="example">
-The {{MouseEvent/initMouseEvent}} factory method only creates {{MouseEvent}} objects,
+The deprecated `MouseEvent.initMouseEvent()` factory method only creates {{MouseEvent}} objects,
 which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
@@ -1702,7 +1834,7 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
-<h3 id="properties-vs-methods">Properties vs. Methods</h3>
+<h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
 
 Sometimes it is unclear whether to use a property or a method.
 
@@ -1788,7 +1920,7 @@ Similarly, add [=event handler IDL attributes=]
 to {{WindowEventHandlers}} rather than {{Window}}.
 </p>
 
-<h3 id="events-are-for-notification">Events are for notification</h3>
+<h3 id="events-are-for-notification">Use events for notification</h3>
 
 Events shouldn't be used to trigger changes,
 only to deliver a notification that a change has already finished happening.
@@ -1823,9 +1955,8 @@ simply returns immediately. This technique is "guarding" the algorithm.
 <div class="example">
 {{AbortSignal}}'s [=AbortSignal/add=],
 [=AbortSignal/remove=] and [=signal abort=]
-each begin with a check
-of the signal's [=aborted flag=].
-If the flag is set, the rest of the algorithm doesn't run.
+each begin with a check to see if the signal is [=AbortSignal/aborted=].
+If the signal is [=AbortSignal/aborted=], the rest of the algorithm doesn't run.
 
 In this case, a lot of the important complexity is
 in the algorithms run during the [=signal abort=] steps.
@@ -1946,14 +2077,14 @@ as it implies that it's possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.
 
-<h3 id="state-and-subclassing">State and {{Event}} subclasses</h3>
+<h3 id="state-and-subclassing">Use plain {{Event}}s for state</h3>
 
 Where possible, use a plain {{Event}} with a specified `type`,
 and capture any state information in the {{Event/target}} object.
 
 It's usually not necessary to create new subclasses of {{Event}}.
 
-<h3 id="events-vs-observers">How to decide between Events and Observers</h3>
+<h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
 In general, use {{EventTarget}} and notification {{Event}}s,
 rather than an Observer pattern,
@@ -2462,7 +2593,7 @@ they may need to for web compatibility reasons.
 
 <h3 id="usecase-oriented-apis">Design based on user needs, not the underlying API or hardware</h3>
 
-Design new native capabilities being brought to the web based on user needs.
+Expose new native capabilities being brought to the web based on user needs.
 
 Avoid directly translating an existing native API to the web.
 
@@ -2503,7 +2634,7 @@ or even restricting it further to only the current active tab.
 Additionally, APIs should be designed so that the applications
 can gracefully handle physical disruption, such as a device being unplugged.
 
-<h3 id="wrapper-apis">Native APIs don't typically translate well to the web</h3>
+<h3 id="wrapper-apis">Adapt native APIs using web platform principles</h3>
 
 When adapting native operating system APIs for the web,
 make sure the new web APIs are designed with web platform principles in mind.
@@ -2538,7 +2669,7 @@ make sure the new web APIs are designed with web platform principles in mind.
 
 <h2 id="other-considerations">Other API Design Considerations</h2>
 
-<h3 id="polyfills">Polyfills</h3>
+<h3 id="polyfills">Enable polyfills for new features</h3>
 
 Polyfills can be hugely beneficial
 in helping to roll out new features to the web platform.
@@ -2565,7 +2696,7 @@ we still recommend designing the feature with DedicatedWorker support in mind,
 in order to not add assumptions that will later make it unnecessarily hard to expose
 these APIs to DedicatedWorker.
 
-<h3 id="new-data-formats">New Data Formats</h3>
+<h3 id="new-data-formats">Add new data formats properly</h3>
 
 Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.
@@ -2594,7 +2725,7 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="new-http-header-syntax">New HTTP Headers</h3>
+<h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
 
 If you are defining a new HTTP header,
 its syntax mustn't go against
@@ -2646,17 +2777,8 @@ to integrate changes to their manifest format immediately.
 This may be due to process (like going to CR),
 or due to the addition having a different scope,
 like extensions to Web App Manifest only affecting store or payment use-cases.
-In that case, it is acceptable to monkey-patch
+In that case, it is acceptable to [=monkey patch=]
 as long as that is agreed with the original spec editors.
-
-ISSUE(184): when we write up a principle on monkey patching,
-be sure to take this nuance into account.
-
-An example of something that was done as a monkey patch
-that is scheduled to be integrated into the web app manifest in a future level (post-CR):
-
-* https://wicg.github.io/web-share-target/#extension-to-the-web-app-manifest
-
 </div>
 
 However, if your feature requires a complex set of metadata specific to a functional domain,
@@ -2696,7 +2818,7 @@ effect to serialization results:
  - Should not add to error accumulation - taking the serialized output of an API and feeding it 
  back to the same API in a loop should result in the same internal state
 
-<h3 id="debuggability">Features should be developer-friendly</h3>
+<h3 id="debuggability">Ensure features are developer-friendly</h3>
 
 Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.
@@ -2785,7 +2907,7 @@ or show different user interfaces for things like permission prompts.
 Note: Implementers should file bugs against specifications
 which don't give them clear enough information to write the implementation.
 
-<h4 id="algorithms">Defining algorithms in specifications</h4>
+<h4 id="algorithms">Define algorithms clearly</h4>
 
 Write algorithms in a way that is clear and concise.
 
@@ -2857,6 +2979,36 @@ and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
 
+<h3 id="monkey-patching">Avoid monkey patching</h3>
+A <dfn export>monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification's behavior.
+<a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
+(see our guidance <a href="#cant-avoid-monkey-patching">if you need to monkey patch</a>).
+
+An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.
+
+As such, monkey patching (wrongly!) presupposes that underlying functionality cannot, and will not, be changed. This can lead to several problems:
+
+  * If the existing specification changes, the monkey patched text may no longer apply thus causing it to break or lead to confusion.
+  * If several specifications monkey patch part of another spec, the order in which the patches are applied can lead to inconsistent behavior.
+  * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.
+  * An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
+
+Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.
+
+<h4 id="cant-avoid-monkey-patching">If you need to monkey patch</h4>
+Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you:
+
+ 1. File a bug, or create a fix, for the existing specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.
+ 1. In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.
+ 1. Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.
+ 1. Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.
+
+Note that [=monkey patching=] is different from "modularization", which extends existing technology in a way that is self-contained and doesn't cause side-effects to other underlying specifications (e.g., the CSS Modules).
+Modularization is considered a good practice.
+
+It's also usually ok to extend a specification using WebIDL's [=partial interfaces=], [=partial dictionaries=], and so on.
+But even in those cases, it's highly advisable to coordinate with the authors of the specification being extended.
+
 <h2 id="naming-is-hard">Naming principles</h2>
 
 Names take meaning from:
@@ -2904,9 +3056,9 @@ to name this API less directly connected to its return type. [[FETCH]]
 Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and *should* be in the [=ascii code point|ASCII range=].
 
-<h3 id="naming-consultation">Consultation</h4>
+<h3 id="naming-consultation">Consult others on naming</h4>
 
-Please consult widely on names in your APIs.
+Consult widely on names in your APIs.
 
 You may find good names or inspiration in surprising places.
 - What are similar APIs named on other platforms,
@@ -2958,7 +3110,8 @@ If you need to refer to a generic persona,
 such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".
-<h3 id="naming-future-proofing">Future-proofing</h4>
+
+<h3 id="naming-future-proofing">Use future-proof names</h4>
 
 Naming should be generic and future-proof whenever possible.
 
@@ -2985,7 +3138,7 @@ as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
 
 </div>
 
-<h3 id="naming-consistency">Consistency</h4>
+<h3 id="naming-consistency">Name things consistently</h4>
 Naming schemes should aim for consistency, to avoid confusion.
 
 Sets of related names should agree with each other in:
@@ -3085,7 +3238,7 @@ examples that violate the above rules are {{XMLHttpRequest}} and
 initialisms, even if they are repeated.
 </div>
 
-<h3 id="naming-unsafe">Warning about dangerous features</h4>
+<h3 id="naming-unsafe">Warn about dangerous features</h4>
 
 Where possible, mark features that weaken
 the guarantees provided to developers
@@ -3098,7 +3251,7 @@ CSP also provides features that weaken this guarantee,
 such as the `unsafe-inline` keyword,
 which reduces CSP's own protections by allowing inline scripts.
 
-<h3 id="writing-resources">Other resources</h3>
+<h2 id="writing-resources">Other resources</h2>
 
 Some useful advice on how to write specifications is available elsewhere:
   * <a href="https://ln.hixie.ch/?start=1140242962&amp;count=1">Writing
