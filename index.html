@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 44af0bf3e, updated Fri Jul 29 17:05:16 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="a6266b8ed8adc3401d70d2600351d4e3287aa83b" name="document-revision">
+  <meta content="e81cae6bbe8d07db2bb238790ef2b2f3b8590d21" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -581,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-08-11">11 August 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-10-03">3 October 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -3072,7 +3072,7 @@ whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.</p>
    <h3 class="heading settled" data-level="11.3" id="monkey-patching"><span class="secno">11.3. </span><span class="content">Avoid monkey patching</span><a class="self-link" href="#monkey-patching"></a></h3>
     A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="monkey-patch">monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification’s behavior. <a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
-(see our guidance <a href="cant-avoid-monkey-patching">if you need to monkey patch</a>). 
+(see our guidance <a href="#cant-avoid-monkey-patching">if you need to monkey patch</a>). 
    <p>An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.</p>
    <p>As such, monkey patching (wrongly!) presupposes that underlying functionality cannot, and will not, be changed. This can lead to several problems:</p>
    <ul>
@@ -5028,7 +5028,7 @@ so they can correct this omission.</p>
    <dt id="biblio-referrer-policy">[REFERRER-POLICY]
    <dd>Jochen Eisinger; Emily Stark. <a href="https://w3c.github.io/webappsec-referrer-policy/"><cite>Referrer Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-referrer-policy/">https://w3c.github.io/webappsec-referrer-policy/</a>
    <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
-   <dd>Mounir Lamouri; Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
+   <dd>Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
    <dt id="biblio-rfc8941">[RFC8941]
