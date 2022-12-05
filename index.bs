@@ -2712,10 +2712,10 @@ They are more likely
 to use an API
 in the simplest way the API allows.
 
-It's important to avoid adding features that block rendering. [[#avoid-render-blocking]]
+It’s important to avoid adding features that block rendering. [[#avoid-render-blocking]]
 
 If the easiest way to use an API
-is likely to result in render blocking or "jank,"
+is likely to result in render blocking or “[jank](https://developer.mozilla.org/en-US/docs/Glossary/Jank),”
 the user experience will suffer.
 (This problem is even more pronounced on low-powered devices,
 which are more likely to be used by disadvantaged or marginalized users.
@@ -2726,7 +2726,7 @@ Therefore,
 APIs which would often block the main thread if used as intended
 should not be exposed on the {{Window}} interface.
 By restricting such APIs to the {{Worker}} interface,
-the "easy" path for web developers
+the “easy” path for web developers
 is the path with the best experience for users. 
 
 <p class="example">
