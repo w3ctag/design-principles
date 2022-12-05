@@ -2730,7 +2730,10 @@ the "easy" path for web developers
 is the path with the best experience for users. 
 
 <p class="example">
-{{ScriptProcessorNode}}s were replaced by {{AudioWorklet}}s in the Web Audio API because use of {{ScriptProcessorNode}} from the main thread frequently resulted in a poor user experience. [[WebAudio]]
+{{ScriptProcessorNode}}s were replaced by {{AudioWorklet}}s
+in the Web Audio API
+because use of {{ScriptProcessorNode}} from the main thread
+frequently resulted in a poor user experience. [[WebAudio]]
 </p>
 
 <h3 id="new-data-formats">Add new data formats properly</h3>
