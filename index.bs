@@ -1035,7 +1035,7 @@ and because the <{img}> element is an empty element that does not permit child e
 A space-separated syntax would not have been possible, as each list item includes multiple values.
 
 <!--
-TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written.
 https://github.com/w3ctag/design-principles/issues/213
 -->
 </div>
@@ -1386,6 +1386,42 @@ set accurate author expectations about
 the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
+
+<h3 id="classes-data-behavior">Use classes only when you have both data and behavior</h3>
+
+Use classes (WebIDL interfaces) when you need objects that <em>both</em> hold state
+<em>and</em> have behavior that operates on said state.
+
+<div class="example">
+An example of an object that contains both data and behavior is TBD.
+</div>
+
+Classes are not needed for objects that only hold data, plain object literals (WebIDL dictionaries)
+are sufficient and less heavyweight for that purpose.
+
+<div class="example">
+An example of an object that only holds data is TBD.
+</div>
+
+Similarly, classes are not needed for objects that only have behavior,
+plain object lierals (expressed as WebIDL namespaces in that case)
+are sufficient for that purpose as well.
+
+<div class="example">
+An example of an object that only has behavior is TBD.
+</div>
+
+There are several possible exceptions to this rule.
+
+One common exception is that when designing APIs for the Web Platform, sometimes WebIDL constraints may require using classes
+(WebIDL interfaces) even for objects that only need to hold data.
+Examples of this are {{AudioTrack}}, {{VideoTrack}}, or {{GeolocationCoordinates}}.
+This is because they are used types for attributes
+and WebIDL does not currently allow using Dictionary on attributes.
+
+Another exception is that an object may only include data at first,
+but could be extended to include behavior in the future.
+In that case, using a class from the start would be preferable.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
