@@ -697,7 +697,7 @@ Specify how your feature behaves
 in non-[=Document/fully active=] BFCached (Back/forward cached) documents if possible.
 
 If your feature does **anything**
-that fall into the
+that falls into the
 following categories:
 * Interacts with a document from the "outside"
   (e.g. sends information to a document)
