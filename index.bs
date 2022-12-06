@@ -693,7 +693,8 @@ and seeking [meaningful consent](#consent) is also important.
 
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
-Explicitly specify how your feature behaves in non-[=Document/fully active=] BFCached documents when necessary.
+Specify how your feature behaves
+in non-[=Document/fully active=] BFCached (Back/forward cached) documents if possible.
 
 If your API does things that fall into **any** of the below categories:
 * Interacts with a document from the "outside" (e.g. sends information to a document)
