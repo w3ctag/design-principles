@@ -716,7 +716,9 @@ with non-[=Document/fully active=] BFCached documents,
 following the guidelines in the
 [Supporting BFCached Documents](https://w3ctag.github.io/bfcache-guide/) guide.  
 
-Note: It is possible for a document to become non-[=Document/fully active=] for other reasons not related to BFcaching,
+Note: It is possible for a document
+to become non-[=Document/fully active=]
+for other reasons not related to BFcaching,
 such as when the iframe holding the document gets detached.
 This guideline only focuses on the case where BFCache is involved,
 and not other cases that might cause a document to become non-[=Document/fully active=].
