@@ -706,7 +706,10 @@ following categories:
 * May malfunction when a document is
   kept in a non-[=Document/fully active=] BFCached state
   (instead of getting destroyed)
-    after the user navigates away from it or gets restored (e.g. expects that a state saved in the document won’t span multiple navigations)
+    after the user navigates away from it
+    or gets restored
+    (e.g. expects that a state saved in the document
+    won’t span multiple navigations)
 
 You should specify how it works with non-[=Document/fully active=] BFCached documents, following the guidelines in the
 [Supporting BFCached Documents](TODO) guide.  
