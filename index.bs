@@ -701,7 +701,8 @@ that fall into the
 following categories:
 * Interacts with a document from the "outside"
   (e.g. sends information to a document)
-* Makes cross-document interaction/resource sharing possible (e.g. holding locks)
+* Makes cross-document interaction/resource sharing possible
+  (e.g. holding locks)
 * May malfunction when a document is kept in a non-[=Document/fully active=] BFCached state (instead of getting destroyed)
     after the user navigates away from it or gets restored (e.g. expects that a state saved in the document won’t span multiple navigations)
 
