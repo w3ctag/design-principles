@@ -723,7 +723,8 @@ such as when the iframe
 holding the document gets detached.
 This guidance only focuses
 on the case where BFCache is involved,
-and not other cases that might cause a document to become non-[=Document/fully active=].
+and not other cases that might
+cause a document to become non-[=Document/fully active=].
 
 <h3 id="third-party-tools">Prioritize usability over compatibility with third-party tools</h3>
 
