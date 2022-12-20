@@ -1359,6 +1359,13 @@ whether to use an attribute or a method.
 - Attribute getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
 
+- Attribute getters should not throw exceptions.
+    Exceptions are side effects.
+    Updating existing APIs to include getters that throw exception must be avoided.
+
+Note: For example, existing API users may enumerate or wrap the API and not expect
+the new exception, breaking backwards compatibility of the API change.
+
 - Attribute getters should not perform any blocking operations.
     If a getter requires performing a blocking operation,
     it should be a method.
