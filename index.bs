@@ -1203,8 +1203,8 @@ the property won't be updated until the next task runs.
 Ensure your JavaScript Web APIs don't provide a way
 for an author to know the timing of garbage collection.
 
-The timing of garbage collection is different in different user agents,
-and may change over time as user agents work on improving performance.
+The timing of garbage collection differs across user agents,
+and may change over time as implementers work on improving performance.
 If an API exposes the timing of garbage collection,
 it can cause programs to behave differently
 in different contexts.
@@ -1244,28 +1244,30 @@ the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
-<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
+<h3 id="attributes-like-data" oldids="attributes-vs-methods,properties-vs-methods">Attributes and properties should behave like simple data properties</h3>
 
-[[!WEBIDL]] attributes should act like simple JavaScript object properties.
+[[!WEBIDL]] attributes should act like simple JavaScript object data properties.
 
-In reality, IDL attributes are implemented as accessor properties
+In reality, IDL attributes and some JavaScript properties are implemented as accessor properties
 with separate getter and setter methods.
-To make them act like JavaScript object properties:
+To make them act like simple JavaScript object data properties:
 
 * Getters must not have any observable side effects.
-* Getters should not perform any complex operations.
+* Getters should not perform any complex blocking operations.
 * Ensure that <code highlight="js">obj.attribute === obj.attribute</code> is always true.
     Don't create a new value each time the getter is called.
+    (But APIs exposing [static objects](#static-object) should return a new one each time they are used.
+    This implies that such APIs should be methods rather than attributes.)
 * If possible, ensure that given <code highlight="js">obj.attribute = x</code>,
     <code highlight="js">obj.attribute === x</code> is true.
     (This may not be possible if some kind of conversion is necessary for `x`.)
 
-If you were thinking about using an attribute,
+If you were thinking about specifying an attribute or property
 but it doesn't behave this way,
-you should probably use a method instead.
+you should probably specify it as a method instead.
 
 <div class="example">
-For example, {{HTMLElement/offsetTop}} performs layout,
+For example, {{HTMLElement/offsetTop}} performs blocking layout calculations,
 which can be complex and time-consuming.
 It would have been better if this had been a method like {{Element/getBoundingClientRect()}}.
 </div>
@@ -1343,54 +1345,12 @@ a static object avoids having to keep the object updated
 until it's garbage collected,
 even if it isn't being used.
 
-If a static object represents some state which may change frequently,
-it should be returned from a method,
-rather than available as an attribute.
+A static object should generally be returned from a method rather than being exposed as an attribute,
+especially if represents state which may change frequently.
 
 See also:
 
 * [[#attributes-like-data]]
-
-<h3 id="attributes-vs-methods">Use attributes or methods appropriately</h3>
-
-Sometimes it is unclear
-whether to use an attribute or a method.
-
-- Attribute getters must not have any (observable) side effects.
-    If you have expected side effects, use a method.
-
-- Attribute getters should not perform any blocking operations.
-    If a getter requires performing a blocking operation,
-    it should be a method.
-
-- If the underlying object has not changed,
-    attribute getters should return
-    the same object each time it is called.
-    This means `obj.attribute === obj.attribute` must always hold.
-    Returning a new value from an attribute getter
-    each time is not allowed.
-    If this does not hold, the getter should be a method.
-
-Note: An antipattern example of a blocking operation is with getters like offsetTop performing layout.
-
-For attributes, whenever possible,
-preserve values given to the setter
-for return from the getter.
-That is, given `obj.attribute = x`,
-a subsequent `obj.attribute === x` should be true.
-(This will not always be the case,
-e.g., if a normalization or type conversion step is necessary,
-but should be held as a goal for normal code paths.)
-
-The object you want to return may be [live or static](#js-rtc).
-This means:
-
-- If live, then return the same object each time,
-    until a state change requires a different object to be returned.
-    This can be returned from either an attribute or a method.
-
-- If static, then return a new object each time.
-    In which case, this should be be a method.
 
 <h3 id="prefer-dict-to-bool">Prefer dictionary arguments over primitive arguments</h3>
 
@@ -1691,31 +1651,6 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
-<h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
-
-Sometimes it is unclear whether to use a property or a method.
-
-  * Property getters must not have any (observable) side effects.
-    If you have expected side effects, use a method.
-  * Property getters are expected to represent the state of a given object.
-    This means a getter should be able to efficiently return a value using the existing state.
-    If a getter does not satisfy this, it should be a method.
-    (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
-  * If the underlying object has not changed, property getters should return the same object each time it is called.
-    This means <code>obj.property === obj.property</code> must always hold.
-    Returning a new value from a property getter each time is not allowed.
-    If this does not hold, the getter should be a method.
-
-For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
-given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
-
-The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
-
-  * If live, then return the same object each time, until a state change requires a different object to be returned.
-    This can be returned from either an property or a method.
-  * If static, then return a new object each time.
-    In which case, this should be be a method.
-
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
@@ -1800,9 +1735,9 @@ prevent calling into the algorithm if it's already running.
 
 If an API method causes a long-running algorithm to begin,
 you should use [[#events-are-for-notification|events]]
-to notify user code of the progress of the algorithm.
-However, the user code which handles the event may call the same API method,
-causing the complex algorithm to run recursively.
+to notify user code of the algorithm's progress.
+However, user code which handles the event may call the same API method,
+causing the algorithm to run recursively.
 The same event may be fired again,
 causing the same event handler to be fired, and so on.
 
@@ -1830,8 +1765,8 @@ on the {{AbortController}} associated with the signal.
 
 This algorithm is likely to resolve promises causing code to run,
 which may include attempting to call any of the methods on {{AbortSignal}}.
-Since [=signal abort=] involves iterating through the collection of algorithms,
-it should not be possible to modify that collection while it's running.
+[=signal abort=] involves iterating through a collection of abort algorithms,
+and it should not be possible to modify that collection during the iteration.
 
 And since [=signal abort=] would have triggered the code which caused
 the recursive call back in to [=signal abort=],
@@ -1949,7 +1884,7 @@ unless an {{EventTarget}} can't work well for your feature.
 
 Using an {{EventTarget}} ensures your feature benefits from
 improvements to the shared base class,
-such as the addition of the {{AddEventListenerOptions/once}}.
+such as the addition of the {{AddEventListenerOptions/once}} option.
 
 If using events causes problems,
 such as unavoidable [[#guard-against-recursion|recursion]],
@@ -2529,7 +2464,7 @@ make sure the new web APIs are designed with web platform principles in mind.
 <h3 id="polyfills">Enable polyfills for new features</h3>
 
 Polyfills can be hugely beneficial
-in helping to roll out new features to the web platform.
+in releasing new features to the web platform.
 The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfills/">finding on Polyfills and the Evolution of the Web</a>
 offers guidance that should be considered in the development of new features, notably:
 
@@ -2537,21 +2472,21 @@ offers guidance that should be considered in the development of new features, no
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
-<h3 id="consider-dedicatedworker-support">Where possible APIs should be made available in DedicatedWorker</h3>
+<h3 id="consider-dedicatedworker-support">Expose APIs to DedicatedWorker if possible</h3>
 
-When exposing a feature, please consider whether it makes sense to expose the feature
+When specifying a feature, please consider exposing it
 to DedicatedWorker as well.
 
-Many features could work out of the box on a DedicatedWorker and not enabling the feature
-there could limit the ability for users to run their code in a non blocking manner.
+Many features could work out of the box in a DedicatedWorker and not enabling a feature
+there could limit the ability for users to run their code in a non-blocking manner.
 
-Certain challenges can exist when trying to enable a feature on DedicatedWorker,
+Certain challenges can exist when trying to enable a feature in DedicatedWorker,
 especially if the feature requires user input by asking for permission,
 or showing a picker or selector.
 Even though this might discourage spec authors to support workers,
-we still recommend designing the feature with DedicatedWorker support in mind,
+we still recommend designing features with DedicatedWorker support in mind,
 in order to not add assumptions that will later make it unnecessarily hard to expose
-these APIs to DedicatedWorker.
+them to DedicatedWorker.
 
 <h3 id="new-data-formats">Add new data formats properly</h3>
 
@@ -2570,23 +2505,23 @@ It is expected that spec authors also integrate the new format to existing APIs,
 they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
 (e.g. encoding to a WriteableStream) points from a browser's perspective.
 
-For example. if you are to add an image format to the web platform, first add a new MIME
+For example, if you are adding an image format to the web platform, first define a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
-encoder) for said image format to support decoding in HTMLImageElements. On top of this,
+encoder) for the format to support decoding in HTMLImageElements. Additionally,
 you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
 and HTMLCanvasElement.toDataURL().
 
-For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
-the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
-due to security implications, and instead recommend enforcing strict MIME types for newer formats.
+Browsers support MIME type sniffing for legacy reasons, but we recommend enforcing strict MIME types with newer formats.
+Due to security implications, we do not recommend extending
+the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm).
 
-New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
+Each new MIME type should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
 <h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
 
 If you are defining a new HTTP header,
-its syntax mustn't go against
-[the HTTP specification](https://tools.ietf.org/html/rfc7230#section-3.2).
+its syntax must conform with
+[the HTTP specification](https://www.rfc-editor.org/rfc/rfc9110#name-fields).
 
 If the new header must convey structured data,
 such as lists, dictionaries, or typed values
@@ -2599,7 +2534,7 @@ or even worse,
 something that would break those existing parsers.
 If the new header requires data
 that can't be represented by Structured Field Values,
-then either engage with IETF about
+then either engage with the Internet Engineering Task Force (IETF) about
 extending the Structured Field Values syntax,
 or re-consider if an HTTP header is a right place
 to expose the data before inventing a new syntax. [[RFC8941]]
@@ -2662,18 +2597,17 @@ For this reason, if a key can clearly be expressed as a single word, that is rec
 <h3 id="debuggability">Ensure features are developer-friendly</h3>
 
 Any new feature should be developer-friendly.
-While it is hard to quantify friendliness, at least consider the following points.
+Although it is hard to quantify friendliness, at least consider the following points.
 
-While error text in exceptions should be generic,
-developer-oriented error messages (such as those from a developer console) must be meaningful.
+Text in exceptions should be generic, but
+developer-oriented error messages (such as those in a developer console) must be meaningful.
 When a developer encounters an error,
-the message should be specific to that error case,
-and not overly generic.
+the message should be specific to that error case.
 
 Ideally, developer-oriented error messages should have enough information
-to guide the developer in pinpointing where the problem is.
+to help developers pinpoint where problems originate.
 
-Declarative features such as CSS,
+Declarative features such as CSS
 may require extra work in the implementation for debuggability.
 Defining this in the specification not only makes the feature more developer-friendly,
 it also ensures a consistent development experience for the users.
@@ -2729,13 +2663,10 @@ to the [Content model](https://html.spec.whatwg.org/multipage/tables.html#the-ta
 <!-- was "Well-defined behavior" in the HTML Design Principles -->
 
 When specifying how a feature should work,
-make sure that there is enough information
-so that authors don't have to
-write different code to work with different implementations.
+make sure that the information is sufficiently precise.
 
-If a specification isn't specific enough,
-implementers might make different choices
-which force authors to write extra code to handle the differences.
+If a specification allows implementers to make different choices,
+authors may need to write extra code for handling the differences.
 
 Implementers shouldn't need to check details of other implementations
 to avoid this situation.
@@ -2862,14 +2793,12 @@ Names take meaning from:
 
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
-Whenever possible, names should be chosen that use common vocabulary
-a majority of English speakers are likely to understand when first encountering the name.
+Whenever possible, names should use common vocabulary that
+a majority of English speakers are likely to understand when first encountering them.
 
 <div class="example">
 
-For example `setSize` is
-a more English-readable name
-than `cardinality`.
+For example, `size` is a more readable name than `cardinality`.
 
 </div>
 
@@ -2888,7 +2817,7 @@ is named for the kind of object it returns.
 JSON is a well-known term of art
 among web developers likely to use the Fetch API.
 It would harm comprehension
-to name this API less directly connected to its return type. [[FETCH]]
+to give this API a name less directly connected to its return type. [[FETCH]]
 
 </div>
 
