@@ -2515,7 +2515,7 @@ Browsers support MIME type sniffing for legacy reasons, but we recommend enforci
 Due to security implications, we do not recommend extending
 the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm).
 
-Each new MIME type should have a specification and should be registered with the <abbr title="Internet Assigned Numbers Authority">IANA</abbr>.
+Each new MIME type should have a specification and should be registered with <abbr title="Internet Assigned Numbers Authority">IANA</abbr>.
 
 <h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
 
