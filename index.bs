@@ -1258,9 +1258,9 @@ To make them act like simple JavaScript object data properties:
     Don't create a new value each time the getter is called.
     (But APIs exposing [static objects](#static-object) should return a new one each time they are used.
     This implies that such APIs should be methods rather than attributes.)
-* If possible, ensure that given <code highlight="js">obj.attribute = x</code>,
-    <code highlight="js">obj.attribute === x</code> is true.
-    (This may not be possible if some kind of conversion is necessary for `x`.)
+* Whenever possible, preserve values given to the setter for return from the getter.
+    That is, given <code highlight="js">obj.attribute = x</code>, a subsequent <code highlight="js">obj.attribute === x</code> should be true.
+    (This may not be possible if a normalization or type conversion step is necessary for `x`.)
 
 If you were thinking about specifying an attribute or property
 but it doesn't behave this way,
