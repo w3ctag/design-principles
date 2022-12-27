@@ -542,7 +542,7 @@ Make sure that your API doesn't provide a way for authors to detect
 [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
 about a user without the user's consent.
 
-<h4 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
+<h4 id="do-not-expose-use-of-assistive-tech">Don't reveal use of assistive technologies</h3>
 
 Make sure that your API doesn't provide a way
 for authors to detect that a user is using assistive technology
