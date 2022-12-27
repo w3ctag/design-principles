@@ -833,6 +833,20 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
+<h4 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
+
+If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
+
+Note: In hindsight, <{form}>'s <{form/action}> attribute should have been named `href`.
+
+If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute or the <{script}> element’s <{script/src}> attribute.
+
+Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
+
+If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
+
+Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
+
 <h3 id="html-lists">Use space-separated attributes for short lists of values, separate elements for longer lists</h3>
 <!-- https://github.com/w3ctag/design-principles/issues/277 -->
 
@@ -944,20 +958,6 @@ A counterpattern to this guidance can be found in
 where the HTML attributes were never updated
 and the IDL attribute was the single source of truth.
 </div>
-
-<h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
-
-If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
-
-Note: In hindsight, <{form}>'s <{form/action}> attribute should have been named `href`.
-
-If the element causes the resource at the given URL to be loaded, call the attribute `src`, like the <{img}> element's <{img/src}> attribute or the <{script}> element’s <{script/src}> attribute.
-
-Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
-
-If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
-
-Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
