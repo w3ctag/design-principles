@@ -911,6 +911,26 @@ https://github.com/w3ctag/design-principles/issues/213
 -->
 </div>
 
+<h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
+
+New content attributes
+should have a corresponding IDL attribute with the same name,
+and the state between the two should be kept synchronized.
+Carving out a synchronized IDL attribute with inconsistent naming
+results in confusion, and should be avoided.
+
+<div class="note">
+This does not hold the other way around.
+A new IDL attribute does not always warrant a content attribute counterpart.
+</div>
+
+<div class="example">
+A counterpattern to this guidance can be found in
+<{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
+where the HTML attributes were never updated
+and the IDL attribute was the single source of truth.
+</div>
+
 <h3 id="avoid-html-parser-blocking">Do not pause the HTML parser</h3>
 
 Ensure that your design does not require HTML parser to pause to handle external resources.
@@ -938,26 +958,6 @@ often result in blank page (or the previous page). The result is a poor user exp
 Consider adding such features only in cases when the overall user experience is improved.
 A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
-
-<h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
-
-New content attributes
-should have a corresponding IDL attribute with the same name,
-and the state between the two should be kept synchronized.
-Carving out a synchronized IDL attribute with inconsistent naming
-results in confusion, and should be avoided.
-
-<div class="note">
-This does not hold the other way around.
-A new IDL attribute does not always warrant a content attribute counterpart.
-</div>
-
-<div class="example">
-A counterpattern to this guidance can be found in
-<{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
-where the HTML attributes were never updated
-and the IDL attribute was the single source of truth.
-</div>
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
