@@ -1613,7 +1613,7 @@ even though there was no technical reason against that.
 Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
 </div>
 
-<h3 id="synchronous">Use synchronous when appropriate</h3>
+<h3 id="synchronous">Be synchronous when appropriate</h3>
 
 Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
