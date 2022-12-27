@@ -833,7 +833,7 @@ the functionality you are adding is **not** similar to that of the existing attr
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
-<h4 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
+<h4 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h4><!-- https://github.com/w3ctag/design-principles/issues/278 -->
 
 If the element enables the user to navigate to the URL contained in the attribute, call the attribute `href`, like the <{a}> element's <{a/href}> attribute.
 
