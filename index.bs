@@ -542,7 +542,7 @@ Make sure that your API doesn't provide a way for authors to detect
 [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
 about a user without the user's consent.
 
-<h4 id="do-not-expose-use-of-assistive-tech">Don't reveal use of assistive technologies</h3>
+<h4 id="do-not-expose-use-of-assistive-tech">Don't reveal use of assistive technologies</h4>
 
 Make sure that your API doesn't provide a way
 for authors to detect that a user is using assistive technology
@@ -586,7 +586,7 @@ See also:
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
-<h4 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
+<h4 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h4>
 
 Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
