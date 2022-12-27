@@ -536,7 +536,57 @@ limiting the feature to secure contexts might cause problems
 for code (such as libraries) that may be used in either secure or non-secure contexts.
 </div>
 
-<h3 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
+<h3 id="do-not-expose-sensitive-information">Don't expose sensitive information</h3>
+
+Make sure that your API doesn't provide a way for authors to detect
+[sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data)
+about a user without the user's consent.
+
+<h4 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
+
+Make sure that your API doesn't provide a way
+for authors to detect that a user is using assistive technology
+without the user's consent.
+
+[The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
+If a site can detect that a user is using an assistive technology,
+that site can deny or restrict the user's access to the services it provides.
+
+People who make use of assistive technologies
+are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
+their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
+If an API provides access to this information
+without the user's [consent](#consent),
+this sensitive information may be revealed to others
+(including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
+who may wish them harm.
+
+Sometimes people propose features which aim to improve the user experience
+for users of assistive technology,
+but which would reveal the user's use of assistive technology as a side effect.
+While these are well intentioned,
+they violate [[#safe-to-browse]],
+so alternative solutions must be found.
+
+<div class="example">
+
+The [Accessibility Object Model](https://wicg.github.io/aom/) (AOM)
+used to define a set of events which, when fired,
+[revealed the use of assistive technology](https://github.com/WICG/aom/issues/81).
+
+AOM has since removed these events and
+[replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
+which don't reveal the use of assistive technology.
+
+</div>
+
+See also:
+
+* [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
+* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
+
+<h4 id="do-not-expose-use-of-private-browsing-mode">Don't reveal that private browsing mode is engaged</h3>
 
 Make sure that your feature doesn't give authors a way to detect private browsing mode.
 
@@ -622,50 +672,6 @@ See also:
 * [[#do-not-expose-use-of-private-browsing-mode]]
 * [Does this specification introduce new state for an origin that persists across browsing sessions?](https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state)
 * [Security and privacy self review: Private Browsing](https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing)
-
-<h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
-
-Make sure that your API doesn't provide a way
-for authors to detect that a user is using assistive technology
-without the user's consent.
-
-[The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
-If a site can detect that a user is using an assistive technology,
-that site can deny or restrict the user's access to the services it provides.
-
-People who make use of assistive technologies
-are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
-their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-If an API provides access to this information
-without the user's [consent](#consent),
-this sensitive information may be revealed to others
-(including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
-who may wish them harm.
-
-Sometimes people propose features which aim to improve the user experience
-for users of assistive technology,
-but which would reveal the user's use of assistive technology as a side effect.
-While these are well intentioned,
-they violate [[#safe-to-browse]],
-so alternative solutions must be found.
-
-<div class="example">
-
-The [Accessibility Object Model](https://wicg.github.io/aom/) (AOM)
-used to define a set of events which, when fired,
-[revealed the use of assistive technology](https://github.com/WICG/aom/issues/81).
-
-AOM has since removed these events and
-[replaced them](https://github.com/WICG/aom/blob/gh-pages/explainer.md#user-action-events-from-assistive-technology) with synthetic DOM events
-which don't reveal the use of assistive technology.
-
-</div>
-
-See also:
-
-* [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
-* [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
 <h3 id="require-user-activation">Require user activation for powerful APIs</h3>
 
