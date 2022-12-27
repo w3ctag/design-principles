@@ -418,7 +418,7 @@ err on the side of favoring consistency with that.
 
 <div class="example">
 One example is
-<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">CIE L*a*b* colors</a>:
+<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">CIE L\*a\*b\* colors</a>:
 It would be more consistent with the rest of CSS to use percentages for L (0%-100%),
 but more consistent with the rest of Color Science to use a unitless number (0-100).
 There was a lot of heated debate,
