@@ -2582,7 +2582,7 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
+<h3 id="new-http-header-syntax">Conform new HTTP headers to standards</h3>
 
 If you are defining a new HTTP header,
 its syntax mustn't go against
