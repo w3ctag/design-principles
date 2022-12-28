@@ -192,14 +192,14 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="consent">Ask users for meaningful consent when appropriate</h3>
 
 If a useful feature has the potential to cause harm to users,
-make sure that the user can give *[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)* for that feature to be used,
+make sure that the user can give [meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
 - **understand** what permission they may choose whether to grant the web page
 - be able to choose to give or refuse that permission **effectively**.
 
-If a feature is powerful enough to require a user consent,
+If a feature is powerful enough to require user consent,
 but it's impossible to explain to a typical user what they are consenting to,
 that's a signal that you may need to reconsider the design of the feature.
 
@@ -418,7 +418,7 @@ err on the side of favoring consistency with that.
 
 <div class="example">
 One example is
-<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">Lab colors</a>:
+<a href="https://www.w3.org/TR/css-color-4/#funcdef-lab">CIE L\*a\*b\* colors</a>:
 It would be more consistent with the rest of CSS to use percentages for L (0%-100%),
 but more consistent with the rest of Color Science to use a unitless number (0-100).
 There was a lot of heated debate,
@@ -1613,7 +1613,7 @@ even though there was no technical reason against that.
 Eventually it was deprecated, and the {{MouseEvent}} object was simply made constructible.
 </div>
 
-<h3 id="synchronous">Use synchronous when appropriate</h3>
+<h3 id="synchronous">Be synchronous when appropriate</h3>
 
 Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
@@ -2582,7 +2582,7 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="new-http-header-syntax">Conform new HTTP Headers to standards</h3>
+<h3 id="new-http-header-syntax">Conform new HTTP headers to standards</h3>
 
 If you are defining a new HTTP header,
 its syntax mustn't go against
