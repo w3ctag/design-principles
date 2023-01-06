@@ -3034,7 +3034,7 @@ design, the following rules have emerged:
             {{RTCDTMFSender}}<br>
     </tr>
     <tr>
-        <th>The abbreviation of "identity"</th>
+        <th>The abbreviation of "identity"/"identifier"</th>
         <td><code>Id</code>, except when the first word in a method or property</td>
         <td>{{NonElementParentNode/getElementById()}}<br>
             {{PointerEvent/pointerId}}<br>
