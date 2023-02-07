@@ -1361,7 +1361,7 @@ whether to use an attribute or a method.
 
 - Attribute getters should not throw exceptions.
     Exceptions in the context of getters are side effects.
-    Updating existing APIs to include getters that throw exception must be avoided.
+    Updating existing getters to throw exceptions must be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.
 
 Note: For example, existing API users may enumerate or wrap the API and not expect
 the new exception, breaking backwards compatibility of the API change.
