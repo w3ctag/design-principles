@@ -2685,7 +2685,7 @@ offers guidance that should be considered in the development of new features, no
 <h3 id="consider-dedicatedworker-support">Where possible APIs should be made available to dedicated workers</h3>
 
 When exposing a feature, please consider whether it makes sense to expose the feature
-to dedicated workers (via the {{Worker}} interface).
+to dedicated workers (via the {{DedicatedWorkerGlobalScope}} interface).
 
 Many features could work out of the box on dedicated workers and not enabling the feature
 there could limit the ability for users to run their code in a non-blocking manner.
