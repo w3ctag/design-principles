@@ -2725,7 +2725,7 @@ Remember,
 Therefore,
 APIs which would often block the main thread if used as intended
 should not be exposed on the {{Window}} interface.
-By restricting such APIs to the {{Worker}} interface,
+By restricting such APIs to the {{DedicatedWorkerGlobalScope}} interface,
 the “easy” path for web developers
 is the path with the best experience for users. 
 
