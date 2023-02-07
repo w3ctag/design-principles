@@ -925,6 +925,8 @@ Consider adding such features only in cases when the overall user experience is 
 A canonical example of this is blocking rendering in order to download and process a stylesheet.
 The alternative user experience is a flash of unstyled content, which is undesirable.
 
+See also [[#worker-only]].
+
 <h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
 
 New content attributes
@@ -2537,21 +2539,59 @@ offers guidance that should be considered in the development of new features, no
 * [[#feature-detect]]
 * Polyfill development should be encouraged
 
-<h3 id="consider-dedicatedworker-support">Where possible APIs should be made available in DedicatedWorker</h3>
+<h3 id="consider-dedicatedworker-support">Where possible APIs should be made available to dedicated workers</h3>
 
 When exposing a feature, please consider whether it makes sense to expose the feature
-to DedicatedWorker as well.
+to dedicated workers (via the {{DedicatedWorkerGlobalScope}} interface).
 
-Many features could work out of the box on a DedicatedWorker and not enabling the feature
-there could limit the ability for users to run their code in a non blocking manner.
+Many features could work out of the box on dedicated workers and not enabling the feature
+there could limit the ability for users to run their code in a non-blocking manner.
 
-Certain challenges can exist when trying to enable a feature on DedicatedWorker,
+Certain challenges can exist when trying to expose a feature to dedicated workers,
 especially if the feature requires user input by asking for permission,
 or showing a picker or selector.
-Even though this might discourage spec authors to support workers,
-we still recommend designing the feature with DedicatedWorker support in mind,
+Even though this might discourage spec authors to support dedicated workers,
+we still recommend designing the feature with dedicated worker support in mind,
 in order to not add assumptions that will later make it unnecessarily hard to expose
-these APIs to DedicatedWorker.
+these APIs to dedicated workers.
+
+<h4 id="worker-only">Some APIs should only be exposed to dedicated workers</h4>
+<!--
+     https://github.com/w3c/webcodecs/issues/199#issuecomment-829872273
+     https://github.com/w3c/webcodecs/issues/211
+     https://github.com/w3ctag/design-reviews/issues/612
+     https://github.com/w3ctag/design-principles/issues/325
+     https://github.com/w3ctag/design-principles/issues/360
+-->
+
+Developers prefer simple code to complex code.
+They are more likely
+to use an API
+in the simplest way the API allows.
+
+It’s important to avoid adding features that block rendering. [[#avoid-render-blocking]]
+
+If the easiest way to use an API
+is likely to result in render blocking or “[jank](https://developer.mozilla.org/en-US/docs/Glossary/Jank),”
+the user experience will suffer.
+(This problem is even more pronounced on low-powered devices,
+which are more likely to be used by disadvantaged or marginalized users.
+Remember,
+[the web is for all people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople).)
+
+Therefore,
+APIs which would often block the main thread if used as intended
+should not be exposed on the {{Window}} interface.
+By restricting such APIs to the {{DedicatedWorkerGlobalScope}} interface,
+the “easy” path for web developers
+is the path with the best experience for users. 
+
+<p class="example">
+{{ScriptProcessorNode}}s were replaced by {{AudioWorklet}}s
+in the Web Audio API
+because use of {{ScriptProcessorNode}} from the main thread
+frequently resulted in a poor user experience. [[WebAudio]]
+</p>
 
 <h3 id="new-data-formats">Add new data formats properly</h3>
 
