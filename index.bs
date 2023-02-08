@@ -714,7 +714,7 @@ following categories:
 Specify how your feature works
 with non-[=Document/fully active=] BFCached documents,
 following the guidelines in the
-[Supporting BFCached Documents](https://w3ctag.github.io/bfcache-guide/) guide.  
+[Supporting BFCached Documents](https://w3ctag.github.io/bfcache-guide/) guide.
 
 Note: It is possible for a document
 to become non-[=Document/fully active=]
@@ -892,7 +892,7 @@ and because the <{img}> element is an empty element that does not permit child e
 A space-separated syntax would not have been possible, as each list item includes multiple values.
 
 <!--
-TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written.
 https://github.com/w3ctag/design-principles/issues/213
 -->
 </div>
@@ -1394,12 +1394,13 @@ This means:
 - If static, then return a new object each time.
     In which case, this should be be a method.
 
-<h3 id="prefer-dict-to-bool">Prefer dictionary arguments over primitive arguments</h3>
+<h3 id="prefer-dict-to-bool">Accept optional and/or primitive arguments through dictionaries</h3>
 
 API methods should generally use dictionary arguments
-instead of a series of optional primitive arguments.
+instead of a series of optional arguments.
 
-This makes the code that calls the method much more readable.
+This makes the code that calls the method more readable,
+and the method signature easier to remember.
 It also makes the API more extensible in the future,
 particularly if multiple arguments with the same type are needed.
 
@@ -1407,9 +1408,7 @@ particularly if multiple arguments with the same type are needed.
 For example,
 
 <pre highlight="js">
-new Event("example",
-          { bubbles: true,
-            cancelable: false})
+new Event("example", { bubbles: true, cancelable: false})
 </pre>
 
 is much more readable than
@@ -1418,7 +1417,14 @@ is much more readable than
 new Event("example", true, false)
 </pre>
 
-Also,
+</div>
+
+API designers should also consider
+accepting mandatory parameters through a dictionary,
+if it would make the API more readable,
+especially when they are of primitive types.
+
+<div class="example">
 
 <pre highlight="js">
 window.scrollBy({ left: 50, top: 0 })
@@ -2584,7 +2590,7 @@ APIs which would often block the main thread if used as intended
 should not be exposed on the {{Window}} interface.
 By restricting such APIs to the {{DedicatedWorkerGlobalScope}} interface,
 the “easy” path for web developers
-is the path with the best experience for users. 
+is the path with the best experience for users.
 
 <p class="example">
 {{ScriptProcessorNode}}s were replaced by {{AudioWorklet}}s
