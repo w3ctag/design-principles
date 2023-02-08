@@ -1394,12 +1394,16 @@ This means:
 - If static, then return a new object each time.
     In which case, this should be be a method.
 
-<h3 id="prefer-dict-to-bool">Prefer dictionary arguments over primitive arguments</h3>
+<h3 id="prefer-dictionaries">
+<a id="prefer-dict-to-bool"><!-- old id --></a>
+Accept optional and/or primitive arguments through dictionaries
+</h3>
 
 API methods should generally use dictionary arguments
-instead of a series of optional primitive arguments.
+instead of a series of optional arguments.
 
-This makes the code that calls the method much more readable.
+This makes the code that calls the method more readable,
+and the method signature easier to remember.
 It also makes the API more extensible in the future,
 particularly if multiple arguments with the same type are needed.
 
@@ -1407,9 +1411,7 @@ particularly if multiple arguments with the same type are needed.
 For example,
 
 <pre highlight="js">
-new Event("example",
-          { bubbles: true,
-            cancelable: false})
+new Event("example", { bubbles: true, cancelable: false})
 </pre>
 
 is much more readable than
@@ -1418,7 +1420,14 @@ is much more readable than
 new Event("example", true, false)
 </pre>
 
-Also,
+</div>
+
+You should also consider
+accepting mandatory parameters through a dictionary,
+if it would make the API more readable,
+especially when they are of primitive types.
+
+<div class="example">
 
 <pre highlight="js">
 window.scrollBy({ left: 50, top: 0 })
