@@ -1422,7 +1422,7 @@ new Event("example", true, false)
 
 </div>
 
-API designers should also consider
+You should consider
 accepting mandatory parameters through a dictionary,
 if it would make the API more readable,
 especially when they are of primitive types.
