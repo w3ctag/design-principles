@@ -1394,7 +1394,10 @@ This means:
 - If static, then return a new object each time.
     In which case, this should be be a method.
 
-<h3 id="prefer-dict-to-bool">Accept optional and/or primitive arguments through dictionaries</h3>
+<h3 id="prefer-dictionaries">
+<a id="prefer-dict-to-bool"><!-- old id --></a>
+Accept optional and/or primitive arguments through dictionaries
+</h3>
 
 API methods should generally use dictionary arguments
 instead of a series of optional arguments.
