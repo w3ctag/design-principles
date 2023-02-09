@@ -1705,8 +1705,9 @@ This object can be passed around as easily as a single bitmask value.
 <h3 id="async-by-default">If you need both asynchronous and synchronous methods, synchronous is the exception</h3>
 
 In the rare case
-where you need to have
-synchronous and asynchronous methods,
+where you need to have both
+synchronous and asynchronous methods 
+for the same purpose,
 default to asynchronous
 and make synchronous the exception.
 
