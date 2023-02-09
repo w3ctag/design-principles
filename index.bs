@@ -1153,7 +1153,7 @@ with no need to keep things generalized.
 
 <div class="example">
 For example,
-the {{CustomElementRegistry/define(name, constructor)|CustomElementRegistry.define()}} method takes a reference to
+the {{CustomElementRegistry/define()|CustomElementRegistry.define()}} method takes a reference to
 a <a href="https://tc39.es/ecma262/#sec-static-semantics-constructormethod">Constructor Method</a>.
 
 This takes advantage of the relatively recent addition of classes to JavaScript,
@@ -1530,7 +1530,7 @@ if appropriate.
 By default, [[!WEBIDL]] interfaces generate "non-constructible" classes:
 trying to create instances of them using `new X()` will throw a {{TypeError}}.
 To make them constructible,
-you can add appropriate [=constructor operation=] to your interface,
+you can add appropriate [[WEBIDL#idl-constructors|constructor operations]] to your interface,
 and defining the algorithm for creating new instances of your class.
 
 This allows JavaScript developers
