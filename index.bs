@@ -1729,7 +1729,7 @@ while making synchronous the exception.
 </div>
 
 <div class="note">
-At the moment, the only known case where this is
+At the moment, one well-known case where this is
 applicable is when a design has to cross boundaries
 between JavaScript and WASM,
 as the [Promise integration](https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md)
