@@ -1727,11 +1727,13 @@ and made asynchronous the norm
 while making synchronous the exception.
 </div>
 
-Note: At the moment, the only known case where this is
+<div class="note">
+At the moment, the only known case where this is
 applicable is when a design has to cross boundaries
 between JavaScript and WASM,
 as the [Promise integration](https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md)
 is still under development as of today.
+</div>
 
 <h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
 
