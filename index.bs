@@ -1722,7 +1722,7 @@ as web platform capabilities evolve.
 
 For most cases, the synchronous variant
 should be distinguished by naming it
-with a `Sync()` suffix.
+with a <code>Sync()</code> suffix.
 
 <div class="example">
 For example, the [Web Neural Network API](https://github.com/w3ctag/design-reviews/issues/771)
