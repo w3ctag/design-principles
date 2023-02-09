@@ -1394,10 +1394,7 @@ This means:
 - If static, then return a new object each time.
     In which case, this should be be a method.
 
-<h3 id="prefer-dictionaries">
-<a id="prefer-dict-to-bool"><!-- old id --></a>
-Accept optional and/or primitive arguments through dictionaries
-</h3>
+<h3 id="prefer-dictionaries" oldids="prefer-dict-to-bool">Accept optional and/or primitive arguments through dictionaries</h3>
 
 API methods should generally use dictionary arguments
 instead of a series of optional arguments.
@@ -1493,14 +1490,14 @@ unless otherwise required, use the following list types:
 
 See also:
 
-* [[#prefer-dict-to-bool]]
+* [[#prefer-dictionaries]]
 
 <h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
 
 Name optional arguments to make the default behavior obvious
 without being named negatively.
 
-This applies whether they are provided in a [dictionary](#prefer-dict-to-bool)
+This applies whether they are provided in a [dictionary](#prefer-dictionaries)
 or as [single arguments](#optional-parameters).
 
 <div class="example">
@@ -2453,7 +2450,7 @@ please rigorously **define the order** in which devices will be listed.
 This can reduce interoperability issues,
 and helps to mitigate fingerprinting.
 (Sort order could reveal other information:
-see [[FINGERPRINTING-GUIDANCE#a_standardized_profile]] for more.)
+see [[FINGERPRINTING-GUIDANCE#standardization]] for more.)
 
 Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
