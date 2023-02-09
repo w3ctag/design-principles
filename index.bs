@@ -1711,12 +1711,13 @@ for the same purpose,
 default to asynchronous
 and make synchronous the exception.
 
-Due to current web platform limitations
-lacking asynchronous support in specific cases,
-having support for synchronous methods
+Due to current limitations, some specific areas of the web platform
+lack asynchronous support.
+Therefore having support for synchronous methods
+in addition to asynchronous methods
 can be beneficial for usability.
 Consider these cases an exception,
-and have a clear path for deprecation
+and have a clear path for deprecation of the synchronous methods
 as web platform capabilities evolve.
 
 <div class="example">
