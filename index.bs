@@ -1720,6 +1720,10 @@ Consider these cases an exception,
 and have a clear path for deprecation of the synchronous methods
 as web platform capabilities evolve.
 
+For most cases, the synchronous variant
+should be distinguished by naming it
+with a `Sync()` suffix.
+
 <div class="example">
 For example, the [Web Neural Network API](https://github.com/w3ctag/design-reviews/issues/771)
 needed to support [both cases](https://github.com/webmachinelearning/webnn/issues/272)
