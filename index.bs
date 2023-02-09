@@ -1702,7 +1702,7 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
-<h3 id="async-by-default">If you need both asynchronous and synchronous methods, prefer asynchronous</h3>
+<h3 id="async-by-default">If you need both asynchronous and synchronous methods, synchronous is the exception</h3>
 
 In the rare case
 where you need to have both
