@@ -1719,11 +1719,13 @@ Consider these cases an exception,
 and have a clear path for deprecation
 as web platform capabilities evolve.
 
+<div class="example">
 For example, the [Web Neural Network API](https://github.com/w3ctag/design-reviews/issues/771)
 needed to support [both cases](https://github.com/webmachinelearning/webnn/issues/272)
 to work around a platform limitation,
 and made asynchronous the norm
 while making synchronous the exception.
+</div>
 
 Note: At the moment, the only known case where this is
 applicable is when a design has to cross boundaries
