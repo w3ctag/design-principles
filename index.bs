@@ -1699,6 +1699,44 @@ which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
 
+<h3 id="async-by-default">If you need both asynchronous and synchronous methods, synchronous is the exception</h3>
+
+In the rare case
+where you need to have both
+synchronous and asynchronous methods 
+for the same purpose,
+default to asynchronous
+and make synchronous the exception.
+
+Due to current limitations, some specific areas of the web platform
+lack asynchronous support.
+Therefore having support for synchronous methods
+in addition to asynchronous methods
+can be beneficial for usability.
+Consider these cases an exception,
+and have a clear path for deprecation of the synchronous methods
+as web platform capabilities evolve.
+
+For most cases, the synchronous variant
+should be distinguished by naming it
+with a <code>Sync()</code> suffix.
+
+<div class="example">
+For example, the [Web Neural Network API](https://github.com/w3ctag/design-reviews/issues/771)
+needed to support [both cases](https://github.com/webmachinelearning/webnn/issues/272)
+to work around a platform limitation,
+and made asynchronous the norm
+while making synchronous the exception.
+</div>
+
+<div class="note">
+At the moment, one well-known case where this is
+applicable is when a design has to cross boundaries
+between JavaScript and WASM,
+as the [Promise integration](https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md)
+is still under development as of today.
+</div>
+
 <h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
 
 Sometimes it is unclear whether to use a property or a method.
