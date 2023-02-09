@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 859efb4bd, updated Fri Jan 27 16:04:01 2023 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="f434df4ce7fd542c2017de7583fde5c882f54194" name="document-revision">
+  <meta content="6d5314ba54fb95bfec387ed54a4a28bf71b4043a" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -707,7 +707,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#promises"><span class="secno">6.9</span> <span class="content">Design asynchronous APIs using Promises</span></a>
       <li><a href="#aborting"><span class="secno">6.10</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">6.11</span> <span class="content">Use strings for constants and enums</span></a>
-      <li><a href="#properties-vs-methods"><span class="secno">6.12</span> <span class="content">Use properties and methods appropriately</span></a>
+      <li><a href="#async-by-default"><span class="secno">6.12</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
+      <li><a href="#properties-vs-methods"><span class="secno">6.13</span> <span class="content">Use properties and methods appropriately</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -2045,7 +2046,32 @@ from using integers instead of strings.</p>
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.</p>
-   <h3 class="heading settled" data-level="6.12" id="properties-vs-methods"><span class="secno">6.12. </span><span class="content">Use properties and methods appropriately</span><a class="self-link" href="#properties-vs-methods"></a></h3>
+   <h3 class="heading settled" data-level="6.12" id="async-by-default"><span class="secno">6.12. </span><span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span><a class="self-link" href="#async-by-default"></a></h3>
+   <p>In the rare case
+where you need to have both
+synchronous and asynchronous methods 
+for the same purpose,
+default to asynchronous
+and make synchronous the exception.</p>
+   <p>Due to current limitations, some specific areas of the web platform
+lack asynchronous support.
+Therefore having support for synchronous methods
+in addition to asynchronous methods
+can be beneficial for usability.
+Consider these cases an exception,
+and have a clear path for deprecation of the synchronous methods
+as web platform capabilities evolve.</p>
+   <p>For most cases, the synchronous variant
+should be distinguished by naming it
+with a <code>Sync()</code> suffix.</p>
+   <div class="example" id="example-06813f1c"><a class="self-link" href="#example-06813f1c"></a> For example, the <a href="https://github.com/w3ctag/design-reviews/issues/771">Web Neural Network API</a> needed to support <a href="https://github.com/webmachinelearning/webnn/issues/272">both cases</a> to work around a platform limitation,
+and made asynchronous the norm
+while making synchronous the exception. </div>
+   <div class="note" role="note"> At the moment, one well-known case where this is
+applicable is when a design has to cross boundaries
+between JavaScript and WASM,
+as the <a href="https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md">Promise integration</a> is still under development as of today. </div>
+   <h3 class="heading settled" data-level="6.13" id="properties-vs-methods"><span class="secno">6.13. </span><span class="content">Use properties and methods appropriately</span><a class="self-link" href="#properties-vs-methods"></a></h3>
    <p>Sometimes it is unclear whether to use a property or a method.</p>
    <ul>
     <li data-md>
