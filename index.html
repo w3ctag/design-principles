@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="f2595a09224e6d28e89e9c730dcaf6294cf92597" name="document-revision">
+  <meta content="4c354077e67a07ca72f08e182d1fbf786789a724" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -1366,23 +1366,23 @@ Re-using an existing attribute name means authors can utilize existing knowledge
 maintains <a href="#consistency">consistency</a> across the language,
 and keeps its vocabulary small.</p>
    <div class="example" id="example-c1977603"><a class="self-link" href="#example-c1977603"></a> The same attribute name, <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple" id="ref-for-attr-select-multiple">multiple</a></code>,
-	is used on both <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-the-select-element">select</a></code> to allow selection of multiple values,
-	as well as on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element">input</a></code> to allow entry of multiple values. </div>
+    is used on both <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-the-select-element">select</a></code> to allow selection of multiple values,
+    as well as on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element">input</a></code> to allow entry of multiple values. </div>
    <div class="example" id="example-628fe6cf"><a class="self-link" href="#example-628fe6cf"></a> The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open" id="ref-for-attr-details-open">open</a></code> attribute was introduced on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element" id="ref-for-the-details-element">details</a></code> element,
-	and then re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" id="ref-for-the-dialog-element">dialog</a></code>. </div>
+    and then re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" id="ref-for-the-dialog-element">dialog</a></code>. </div>
    <p>If you do re-use an existing attribute,
 try to keep its syntax as close as possible to the syntax of the existing attribute.</p>
    <div class="example" id="example-0e853da5"><a class="self-link" href="#example-0e853da5"></a> The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/forms.html#attr-label-for" id="ref-for-attr-label-for">for</a></code> attribute was introduced on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-label-element" id="ref-for-the-label-element">label</a></code> element,
-	for specifying which form element it should be associated with.
-	It was later re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element" id="ref-for-the-output-element">output</a></code>,
-	for specifying which elements contributed
-	input values to or otherwise affected the calculation.
-	The syntax of the latter is broader:
-	it accepts a space-separated list of ids,
-	whereas the former only accepts one id.
-	However, they both still conform to the same syntax,
-	whereas e.g. if one of them accepted a list of ids,
-	and the other one a selector, that would be an antipattern. </div>
+    for specifying which form element it should be associated with.
+    It was later re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element" id="ref-for-the-output-element">output</a></code>,
+    for specifying which elements contributed
+    input values to or otherwise affected the calculation.
+    The syntax of the latter is broader:
+    it accepts a space-separated list of ids,
+    whereas the former only accepts one id.
+    However, they both still conform to the same syntax,
+    whereas e.g. if one of them accepted a list of ids,
+    and the other one a selector, that would be an antipattern. </div>
    <p>The inverse also applies:
 do <strong>not</strong> re-use an existing attribute name if
 the functionality you are adding is <strong>not</strong> similar to that of the existing attribute.</p>
