@@ -273,6 +273,12 @@ so that it works across screen sizes,
 and allows users to choose their own font and font size without causing text to overflow.
 </div>
 
+Sometimes features aren't yet available on some implementations or platforms
+despite working on others.
+In these cases, features should be designed such that it is possible for
+code to gracefully fail or be polyfilled.
+See [[#feature-detect]].
+
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
