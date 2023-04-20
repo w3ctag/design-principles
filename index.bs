@@ -2976,7 +2976,7 @@ In this situation,
 it may be best to not specify the feature,
 and for any implementors who have shipped the feature
 to un-ship it.
-Un-shipping features may result in user and author
+Keep in mind that un-shipping features may result in user and author
 confusion.
 
 <div class=example id=sharedarraybuffer>
