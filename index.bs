@@ -2803,7 +2803,7 @@ One such example is the <a href="https://w3c.github.io/image-resource/">image re
 For this reason, if a key can clearly be expressed as a single word, that is recommended.
 
 <h3 id="serialization">Consider consumers when serializing</h3>
-Adding or extending features that involve a parser or a serializer should consider their effect on 
+When adding or extending features that involve a parser or a serializer you should consider their effect on 
 serialization. The following are constituencies of serialization results that must be considered:
 
  - Users - often reading result of serialization to validate expectations or learn
