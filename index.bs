@@ -2993,8 +2993,6 @@ Sometimes the same API is implementable in every engine,
 but its behavior cannot be made to be fully interoperable.
 Whenever behavior differs between implementations,
 the end-user impact must be considered.
-Depending on the severity and frequency of the behavior differences,
-this may or may not be an acceptable outcome.
 One downside to this approach
 is that the difference in behavior is not [feature detectable](#feature-detect).
 On the other hand,
