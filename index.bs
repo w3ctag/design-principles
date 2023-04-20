@@ -704,7 +704,7 @@ following categories:
 * Makes cross-document interaction/resource sharing possible
   (e.g. holding locks)
 * May malfunction when a document is
-    kept in a non-[=Document/fully active=] BFCached state
+  kept in a non-[=Document/fully active=] BFCached state
     (instead of getting destroyed)
     after the user navigates away from it
     or gets restored
