@@ -3057,7 +3057,7 @@ from the rest of the (shared) API surface.
 </div>
 
 It is also possible to specify an API that not all browsers will implement.
-Authors may use feature detection to only use the API it is implemented,
+Authors may use feature detection to only use the API if it is implemented,
 and users may benefit where the feature is supported and used.
 This is always a problematic outcome,
 though how severe the problem is may depend somewhat on
