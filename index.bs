@@ -1976,7 +1976,7 @@ If the events are deferred instead:
     or a state machine,
     this probably means that the event is just signalling the completion of the algorithm.
     If this is true, the API should probably return a {{Promise}}
-    instead of firint the event.
+    instead of firing the event.
     See [[#one-time-events]].
 
 Note: events that expose the possibility of recursion as described in this section
