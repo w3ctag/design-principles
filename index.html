@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="1dd4ba6aea1dfd77415b64deb4ebb26cfa72c7e2" name="document-revision">
+  <meta content="94996e0dece8d617928fc25465833d35b8b2d833" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -655,7 +655,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#priority-of-constituencies"><span class="secno">1.1</span> <span class="content">Put user needs first (Priority of Constituencies)</span></a>
       <li><a href="#safe-to-browse"><span class="secno">1.2</span> <span class="content">It should be safe to visit a web page</span></a>
       <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
-      <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent when appropriate</span></a>
+      <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent</span></a>
       <li><a href="#devices-platforms"><span class="secno">1.5</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
       <li><a href="#leave-the-web-better"><span class="secno">1.6</span> <span class="content">Leave the web better than you found it</span></a>
      </ol>
@@ -905,7 +905,7 @@ this makes it more difficult for users to understand what information is trustwo
    <p class="example" id="example-59575e9e"><a class="self-link" href="#example-59575e9e"></a> For example, JavaScript <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs" id="ref-for-dom-alert-noargs">alert()</a></code> allows a page to show a modal dialog which looks like part of the browser.
 This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed. </p>
-   <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent when appropriate</span><a class="self-link" href="#consent"></a></h3>
+   <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent</span><a class="self-link" href="#consent"></a></h3>
    <p>If a useful feature has the potential to cause harm to users,
 make sure that the user can give <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
 and that they can refuse consent effectively.</p>
@@ -1215,7 +1215,7 @@ a single user’s activity
 both in and out of private browsing mode,
 consider possible <a href="https://www.w3.org/TR/security-privacy-questionnaire/#mitigations">mitigations</a> such as introducing noise,
 or using permission prompts to give the user extra information
-to help them meaningfully consent to this tracking (see <a href="#consent">§ 1.4 Ask users for meaningful consent when appropriate</a>).</p>
+to help them meaningfully consent to this tracking (see <a href="#consent">§ 1.4 Ask users for meaningful consent</a>).</p>
    <p>Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
 Therefore, APIs which provide client-side storage
