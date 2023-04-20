@@ -702,7 +702,7 @@ following categories:
 * Interacts with a document from the "outside"
   (e.g. sends information to a document)
 * Makes cross-document interaction/resource sharing possible
-    (e.g. holding locks)
+  (e.g. holding locks)
 * May malfunction when a document is
     kept in a non-[=Document/fully active=] BFCached state
     (instead of getting destroyed)
