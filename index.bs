@@ -2966,7 +2966,6 @@ that every implementor agrees
 is implementable in their engine.
 This is a failure of the standards process.
 
-There are many possibile next steps when this happens.
 Choosing a way forward should be guided by
 [what is best for the end user](#priority-of-constituencies).
 
