@@ -1551,7 +1551,7 @@ See also:
 
 <h3 id="overloading">Use overloading wisely</h3>
 
-If the signature or behaviour of a method will be significantly different
+If the behaviour of a method will be significantly different
 depending on the arguments passed
 you should define a separate method
 rather than overload a single method.
