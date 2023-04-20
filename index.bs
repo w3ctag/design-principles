@@ -1981,7 +1981,7 @@ If the events are deferred instead:
     to ensure that when a deferred event fires,
     the behavior of inspecting or changing state is well-defined.
 
-    For example, in [[payment-request]],
+    <span class="informative">For example, in [[payment-request]],
     the {{PaymentRequest}}'s [=[[state]]=] internal slot
     explicitly tracks the object's state
     through its well-defined transitions.</span>
