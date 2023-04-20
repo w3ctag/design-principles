@@ -2806,16 +2806,17 @@ For this reason, if a key can clearly be expressed as a single word, that is rec
 When adding or extending features that involve a parser or a serializer you should consider their effect on 
 serialization. The following are constituencies of serialization results that must be considered:
 
- - Users - often reading result of serialization to validate expectations or learn
+ - Users - because the result of serialization may be presented to the end user
  - Tools - use these results to enrich author experience, provide auditing, automation, testing etc.
- - Web platform API - serialized results passed as input to other (or the same) API of the platform
+ - Web APIs - because serializations may be  passed into other APIs of the web platform
 
-Consider language specific expectations - significance of empty spaces, 
-numeric precision, structure of the format (ex. CSS grid structure) etc. In such cases the expected 
-effect to serialization results:
+Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant. 
+Languages may differ in the precision of floating point numbers they accept.
+The results of serialization:
 
  - Should be intuitive (this is rather weakly defined expectation but often cited in discussions)
- - Should not add to error accumulation - taking the serialized output of an API and feeding it 
+  - [Idempotence](https://en.wikipedia.org/wiki/Idempotence) - the result of serializing the output of a parser should be something that, when parsed and serialized, produces itself. 
+  - Should not add to error accumulation - taking the serialized output of an API and feeding it 
  back to the same API in a loop should result in the same internal state
 
 <h3 id="debuggability">Ensure features are developer-friendly</h3>
