@@ -1553,7 +1553,7 @@ See also:
 
 If the behaviour of a method will be significantly different
 depending on the arguments passed
-you should define a separate method
+you should usually define a separate method
 rather than overload a single method.
 
 Overloading a method such that one of its arguments can be
