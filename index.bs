@@ -2480,7 +2480,7 @@ This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
 
-<div class=example id=remoteplayback>
+<div class=example>
 The {{RemotePlayback}} interface
 doesn't expose a list of available [=remote playback devices=].
 Instead, it allows the user to choose one device
