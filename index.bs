@@ -1988,7 +1988,7 @@ If the events are deferred instead:
     * These state transitions often use the guarding technique themselves,
          to ensure the state transitions happen appropriately.
 
-         For example, in [[PAYMENT-REQUEST]]
+         For example, in [[payment-request]]
          note the guards used around the [=[[state]]=] internal slot,
          such as in the {{PaymentRequest/show()}} algorithm.
 * if the deferred event doesn't need extra state,
