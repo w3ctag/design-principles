@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="1af1f173ca00a4e756269c2edad3f7eb79aa4dca" name="document-revision">
+  <meta content="1dd4ba6aea1dfd77415b64deb4ebb26cfa72c7e2" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -761,8 +761,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#new-data-formats"><span class="secno">10.3</span> <span class="content">Add new data formats properly</span></a>
       <li><a href="#new-http-header-syntax"><span class="secno">10.4</span> <span class="content">Conform new HTTP headers to standards</span></a>
       <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#debuggability"><span class="secno">10.6</span> <span class="content">Ensure features are developer-friendly</span></a>
-      <li><a href="#crypto"><span class="secno">10.7</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#serialization"><span class="secno">10.6</span> <span class="content">Consider consumers when serializing</span></a>
+      <li><a href="#debuggability"><span class="secno">10.7</span> <span class="content">Ensure features are developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.8</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -2944,7 +2945,29 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.6" id="debuggability"><span class="secno">10.6. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.6" id="serialization"><span class="secno">10.6. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
+    When adding or extending features that involve a parser or a serializer you should consider their effect on 
+serialization. The following are constituencies of serialization results that must be considered: 
+   <ul>
+    <li data-md>
+     <p>Users - because the result of serialization may be presented to the end user</p>
+    <li data-md>
+     <p>Tools - which may rely on the output of serialization in a number of ways (for instance, to detect if the parser need to correct for errors in the input)</p>
+    <li data-md>
+     <p>Web APIs - because serializations may be  passed into other APIs of the web platform</p>
+   </ul>
+   <p>Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant.
+Languages may differ in the precision of floating point numbers they accept.
+The results of serialization:</p>
+   <ul>
+    <li data-md>
+     <p>Should match developer expectations (for instance, serializing CSS properties should not result in output that is very different from what a CSS author would have written)</p>
+    <li data-md>
+     <p><a href="https://en.wikipedia.org/wiki/Idempotence">Idempotence</a> - the result of serializing the output of a parser should be something that, when parsed and serialized, produces itself.</p>
+    <li data-md>
+     <p>Should not add to error accumulation - taking the serialized output of an API and feeding it back to the same API in a loop should result in the same internal state</p>
+   </ul>
+   <h3 class="heading settled" data-level="10.7" id="debuggability"><span class="secno">10.7. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -2960,7 +2983,7 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
-   <h3 class="heading settled" data-level="10.7" id="crypto"><span class="secno">10.7. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <h3 class="heading settled" data-level="10.8" id="crypto"><span class="secno">10.8. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
    <p>Use only cryptographic algorithms
 that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
