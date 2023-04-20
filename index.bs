@@ -1528,6 +1528,25 @@ See also:
 
 * [[#naming-is-hard]]
 
+<h3 id="overloading">Use overloading wisely</h3>
+
+If the behaviour of a method will be significantly different
+depending on the arguments passed
+you should usually define a separate method
+rather than overload a single method.
+
+Overloading a method such that one of its arguments can be
+either a single value or an array of values is useful.
+Similarly, passing a dictionary of options
+is a good pattern because it allows for more flexibility.
+
+However, if subsequent arguments for a method have to change
+because of the first argument passed,
+or if a method has different behaviour depending on the types of inputs,
+this can hinder code readability,
+and make discovering API functionality more difficult for authors,
+and should be avoided.
+
 <h3 id="constructors">Classes should have constructors when possible</h3>
 
 Make sure that any class that's part of your API has a constructor,
