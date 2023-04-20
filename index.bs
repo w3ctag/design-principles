@@ -189,7 +189,7 @@ This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed.
 </p>
 
-<h3 id="consent">Ask users for meaningful consent when appropriate</h3>
+<h3 id="consent">Ask users for meaningful consent</h3>
 
 If a useful feature has the potential to cause harm to users,
 make sure that the user can give [meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
