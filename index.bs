@@ -1558,7 +1558,7 @@ rather than overload a single method.
 
 Overloading a method such that one of its arguments can be
 either a single value or an array of values is useful.
-Similarly, passing a dictionary of options,
+Similarly, passing a dictionary of options
 or using optional arguments,
 are good patterns because they allow for more flexibility.
 
