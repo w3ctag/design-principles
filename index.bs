@@ -1252,13 +1252,12 @@ the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
-<h3 id="attributes-like-data">Attributes should behave like data properties</h3>
+<h3 id="accessors-like-data" oldids="attributes-like-data">Accessors should behave like data properties</h3>
 
-[[!WEBIDL]] attributes should act like simple JavaScript object properties.
+JavaScript accessors (specified as [[!WEBIDL]] attributes with separate getter and setter methods in Web APIs)
+should act like simple JavaScript object properties.
 
-In reality, IDL attributes are implemented as accessor properties
-with separate getter and setter methods.
-To make them act like JavaScript object properties:
+This includes:
 
 * Getters must not have any observable side effects.
 * Getters should not perform any complex operations.
@@ -1268,7 +1267,7 @@ To make them act like JavaScript object properties:
     <code highlight="js">obj.attribute === x</code> is true.
     (This may not be possible if some kind of conversion is necessary for `x`.)
 
-If you were thinking about using an attribute,
+If you were thinking about using an accessor,
 but it doesn't behave this way,
 you should probably use a method instead.
 
