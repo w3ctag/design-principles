@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="94996e0dece8d617928fc25465833d35b8b2d833" name="document-revision">
+  <meta content="055933200410884d3e412f612a14823bd98ef310" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -597,7 +597,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-04-20">20 April 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-04-21">21 April 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -764,6 +764,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#serialization"><span class="secno">10.6</span> <span class="content">Consider consumers when serializing</span></a>
       <li><a href="#debuggability"><span class="secno">10.7</span> <span class="content">Ensure features are developer-friendly</span></a>
       <li><a href="#crypto"><span class="secno">10.8</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#client-hints"><span class="secno">10.9</span> <span class="content">Do not expose new information through Client Hints</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -2989,6 +2990,16 @@ that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.</p>
+   <h3 class="heading settled" data-level="10.9" id="client-hints"><span class="secno">10.9. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
+   <p>When using Client Hints, don’t expose information that the web page does not already have access to.</p>
+   <p>Client hints are an important optimization, but cannot be the sole means by which information
+is exposed to sites. As it says in <cite><a href="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">RFC 8942 §4.1</a></cite> where client hints are defined:</p>
+   <blockquote cite="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">
+    <p>Therefore, features relying on this document to define Client Hint headers <strong>MUST NOT</strong> provide new information that is otherwise not made available to 
+the application by the user agent, such as existing request headers, HTML, CSS, or JavaScript. </p>
+   </blockquote>
+   <p>If you are trying to add a new client hint that exposes information that is not available to the web page through other means,
+please pursue exposing this information through an API first.</p>
    <h2 class="heading settled" data-level="11" id="spec-writing"><span class="secno">11. </span><span class="content">Writing good specifications</span><a class="self-link" href="#spec-writing"></a></h2>
    <p>This document mostly covers API design for the Web,
 but those who design APIs are hopefully also writing specifications
