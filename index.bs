@@ -2814,8 +2814,7 @@ and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.
 
-<h3 id="client-hints">Client Hints must not be used to expose information that is not already 
-exposed to web pages</h3>
+<h3 id="client-hints">Do not expose new information through Client Hints</h3>
 
 Client hints are an important optimization, but cannot be the sole means by which information
 is exposed to sites. As it says in 
