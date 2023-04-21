@@ -2814,6 +2814,23 @@ and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.
 
+<h3 id="client-hints">Do not expose new information through Client Hints</h3>
+
+When using Client Hints, don't expose information that the web page does not already have access to.
+
+Client hints are an important optimization, but cannot be the sole means by which information
+is exposed to sites. As it says in 
+<cite><a href=https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5>RFC 8942 §4.1</a></cite>
+where client hints are defined:
+
+<blockquote cite="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">
+<p>Therefore, features relying on this document to define Client Hint headers 
+<strong>MUST NOT</strong> provide new information that is otherwise not made available to 
+the application by the user agent, such as existing request headers, HTML, CSS, or JavaScript.
+</blockquote>
+
+If you are trying to add a new client hint that exposes information that is not available to the web page through other means, 
+please pursue exposing this information through an API first.
 <h2 id="spec-writing">Writing good specifications</h2>
 
 This document mostly covers API design for the Web,
