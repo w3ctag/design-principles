@@ -2829,6 +2829,8 @@ where client hints are defined:
 the application by the user agent, such as existing request headers, HTML, CSS, or JavaScript.
 </blockquote>
 
+If you are trying to add a new client hint that exposes information that is not available to the web page through other means, 
+please pursue exposing this information through an API first.
 <h2 id="spec-writing">Writing good specifications</h2>
 
 This document mostly covers API design for the Web,
