@@ -2979,11 +2979,22 @@ As such, monkey patching (wrongly!) presupposes that underlying functionality ca
 Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.
 
 <h4 id="cant-avoid-monkey-patching">If you need to monkey patch</h4>
-Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you:
+Sometimes monkey patching is unavoidable (e.g., while a new specification is incubating in a community group). If you find yourself needing to monkey patch an existing specification, make sure you:
 
- 1. File a bug, or create a fix, for the existing specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.
- 1. In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.
- 1. Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.
+ 1. In your spec, clearly mark the monkey patch as a proposed change to another specification using language like:
+    > `# Monkey patch HTTP fetch`
+ 1. Identify the steps you want to change using both their number and a quote from their text. This allows you to update your monkey patch as the upstream specification changes.
+    > Before step 4.2 of [=HTTP fetch=], «If request's redirect mode is "follow", then set request's service-workers mode to "none".», insert the following steps:
+    > 1. The first new step.
+
+    or
+
+    > Replace step 7.1 of [=HTTP-network fetch=], "If connection is failure, then return a network error." with "If connection is failure, do something else."
+ 1. Keep monkey patches short. If you're adding more than a couple of steps, define a separate, self-contained algorithm in your specification, and have the monkey patch call the new algorithm.
+ 1. The text of your monkey patch should be suitable to paste literally into the upstream algorithm. This implies that control flow like "return" or "abort" will return or abort from the whole upstream algorithm, not just the monkey patched section.
+ 1. File an issue against the existing specification that asks to merge your monkey patch. This will notify the maintainers of the upstream specification that there's a change incoming that might benefit from their review. They might even be able to tell you how to hook into an existing extension point or quickly create one so that you can remove your monkey patch sooner than you expected.
+ 1. Add a `<p class=issue>` block in your specification pointing to the issue you filed against the upstream specification.
+ 1. When your work has enough support to merge into the upstream specification, work with that specification's meaintainers to do so.
  1. Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.
 
 Note that [=monkey patching=] is different from "modularization", which extends existing technology in a way that is self-contained and doesn't cause side-effects to other underlying specifications (e.g., the CSS Modules).
