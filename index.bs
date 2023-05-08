@@ -1390,7 +1390,7 @@ a subsequent `obj.attribute === x` should be true.
 e.g., if a normalization or type conversion step is necessary,
 but should be held as a goal for normal code paths.)
 
-The object you want to return may be [live or static](#js-rtc).
+The object you want to return may be [live or static](#live-vs-static).
 This means:
 
 - If live, then return the same object each time,
