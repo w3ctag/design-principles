@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
+  <meta content="Bikeshed version 3383f409d, updated Fri Apr 28 15:49:22 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="055933200410884d3e412f612a14823bd98ef310" name="document-revision">
+  <meta content="feac00550eae84a61f5d7eb0108e7ada190c4c22" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -597,7 +597,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-04-21">21 April 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-05-09">9 May 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2080,7 +2080,7 @@ This object can be passed around as easily as a single bitmask value.</p>
    <h3 class="heading settled" data-level="6.13" id="async-by-default"><span class="secno">6.13. </span><span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span><a class="self-link" href="#async-by-default"></a></h3>
    <p>In the rare case
 where you need to have both
-synchronous and asynchronous methods 
+synchronous and asynchronous methods
 for the same purpose,
 default to asynchronous
 and make synchronous the exception.</p>
@@ -2562,7 +2562,7 @@ which defeats the purpose of <code class="idl"><a data-link-type="idl" href="htt
    <p>When designing a web platform feature which operates on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">strings</a>,
 use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString">DOMString</a></code> unless you have a specific reason not to.</p>
    <p>Most string operations don’t need
-to interpret the <a data-link-type="dfn" href="https://www.w3.org/TR/i18n-glossary/#def_code_unit" id="ref-for-def_code_unit">code units</a> inside of the string,
+to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code units</a> inside of the string,
 so <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
 In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra" title="Infra Standard">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a></p>
    <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
@@ -2947,7 +2947,7 @@ which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
    <h3 class="heading settled" data-level="10.6" id="serialization"><span class="secno">10.6. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
-    When adding or extending features that involve a parser or a serializer you should consider their effect on 
+    When adding or extending features that involve a parser or a serializer you should consider their effect on
 serialization. The following are constituencies of serialization results that must be considered: 
    <ul>
     <li data-md>
@@ -2995,7 +2995,7 @@ cryptographic protocols and algorithms also evolve quickly.</p>
    <p>Client hints are an important optimization, but cannot be the sole means by which information
 is exposed to sites. As it says in <cite><a href="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">RFC 8942 §4.1</a></cite> where client hints are defined:</p>
    <blockquote cite="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">
-    <p>Therefore, features relying on this document to define Client Hint headers <strong>MUST NOT</strong> provide new information that is otherwise not made available to 
+    <p>Therefore, features relying on this document to define Client Hint headers <strong>MUST NOT</strong> provide new information that is otherwise not made available to
 the application by the user agent, such as existing request headers, HTML, CSS, or JavaScript. </p>
    </blockquote>
    <p>If you are trying to add a new client hint that exposes information that is not available to the web page through other means,
@@ -3665,11 +3665,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="aa7bbf63">video</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[I18N-GLOSSARY]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="ecea5bed">code units</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[IndexedDB-3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="a46ec9f9">IDBDatabase</span>
@@ -3678,6 +3673,7 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="ddc587b1">ascii code point</span>
+     <li><span class="dfn-paneled" id="59912c93">code unit</span>
      <li><span class="dfn-paneled" id="860300d4">implementation-defined</span>
      <li><span class="dfn-paneled" id="ecf251b4">scalar value</span>
      <li><span class="dfn-paneled" id="762869d3">scalar value string</span>
@@ -3809,8 +3805,6 @@ so they can correct this omission.</p>
    <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
-   <dt id="biblio-i18n-glossary">[I18N-GLOSSARY]
-   <dd>Richard Ishida; Addison Phillips. <a href="https://w3c.github.io/i18n-glossary/"><cite>Internationalization Glossary</cite></a>. URL: <a href="https://w3c.github.io/i18n-glossary/">https://w3c.github.io/i18n-glossary/</a>
    <dt id="biblio-indexeddb-3">[IndexedDB-3]
    <dd>Ali Alabbas; Joshua Bell. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-infra">[INFRA]
@@ -4168,9 +4162,9 @@ window.dfnpanelData['ba920583'] = {"dfnID": "ba920583", "url": "https://html.spe
 window.dfnpanelData['80726755'] = {"dfnID": "80726755", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#task-queue", "dfnText": "task queues", "refSections": [{"refs": [{"id": "ref-for-task-queue"}, {"id": "ref-for-task-queue\u2460"}], "title": "7.6. Guard against potential recursion"}], "external": true};
 window.dfnpanelData['fd7a9317'] = {"dfnID": "fd7a9317", "url": "https://html.spec.whatwg.org/multipage/input.html#attr-input-value", "dfnText": "value", "refSections": [{"refs": [{"id": "ref-for-attr-input-value"}], "title": "3.5. Keep attributes in sync"}], "external": true};
 window.dfnpanelData['aa7bbf63'] = {"dfnID": "aa7bbf63", "url": "https://html.spec.whatwg.org/multipage/media.html#video", "dfnText": "video", "refSections": [{"refs": [{"id": "ref-for-video"}], "title": "3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}, {"refs": [{"id": "ref-for-video\u2460"}], "title": "3.6. Name URL-containing attributes based on their primary purpose"}], "external": true};
-window.dfnpanelData['ecea5bed'] = {"dfnID": "ecea5bed", "url": "https://www.w3.org/TR/i18n-glossary/#def_code_unit", "dfnText": "code units", "refSections": [{"refs": [{"id": "ref-for-def_code_unit"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['a46ec9f9'] = {"dfnID": "a46ec9f9", "url": "https://w3c.github.io/IndexedDB/#idbdatabase", "dfnText": "IDBDatabase", "refSections": [{"refs": [{"id": "ref-for-idbdatabase"}], "title": "7.8. Use Events and Observers appropriately"}], "external": true};
 window.dfnpanelData['ddc587b1'] = {"dfnID": "ddc587b1", "url": "https://infra.spec.whatwg.org/#ascii-code-point", "dfnText": "ascii code point", "refSections": [{"refs": [{"id": "ref-for-ascii-code-point"}], "title": "12.2. Use ASCII names"}], "external": true};
+window.dfnpanelData['59912c93'] = {"dfnID": "59912c93", "url": "https://infra.spec.whatwg.org/#code-unit", "dfnText": "code unit", "refSections": [{"refs": [{"id": "ref-for-code-unit"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['860300d4'] = {"dfnID": "860300d4", "url": "https://infra.spec.whatwg.org/#implementation-defined", "dfnText": "implementation-defined", "refSections": [{"refs": [{"id": "ref-for-implementation-defined"}], "title": "9.2. Use care when exposing APIs for selecting or enumerating devices"}], "external": true};
 window.dfnpanelData['ecf251b4'] = {"dfnID": "ecf251b4", "url": "https://infra.spec.whatwg.org/#scalar-value", "dfnText": "scalar value", "refSections": [{"refs": [{"id": "ref-for-scalar-value"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['762869d3'] = {"dfnID": "762869d3", "url": "https://infra.spec.whatwg.org/#scalar-value-string", "dfnText": "scalar value string", "refSections": [{"refs": [{"id": "ref-for-scalar-value-string"}], "title": "8.2. Represent strings appropriately"}], "external": true};
