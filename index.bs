@@ -2997,7 +2997,7 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
 
     <div class="example" id="example-monkeypatch-quote-text-before-step">
 
-    Before step 4.2 of [=HTTP fetch=], «If request's redirect mode is "follow", then set request's service-workers mode to "none".», insert the following steps:
+    Before step 4.2 of [=HTTP fetch=], "If request's redirect mode is "follow", then set request's service-workers mode to "none".", insert the following steps:
     1. The first new step.
 
     </div>
@@ -3022,8 +3022,6 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
 
     Modify the definition of <a spec="css-fonts-4" property>font-size-adjust</a> as follows:
 
-    <blockquote>
-
     <pre class="propdef">
     Name: font-size-adjust
     Value: none | <ins>[ ex-height | cap-height | ch-width | ic-width | ic-height ]? [ from-font |</ins> <<number>> <ins>]</ins>
@@ -3034,8 +3032,6 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
     Computed value: <del>a number or the keyword none</del><ins>the keyword ''font-size-adjust/none'', or a pair of a metric keyword and a <<number>></ins>
     Animation type: <ins>discrete if the keywords differ, otherwise </ins>by computed value type
     </pre>
-
-    </blockquote>
 
     </div>
 
