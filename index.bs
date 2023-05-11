@@ -3020,7 +3020,7 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
     </div>
     <div class="example" id="example-monkeypatch-quote-text-change-css">
 
-    Modify the definition of 'font-size-adjust' as follows:
+    Modify the definition of <a spec="css-fonts-4" property>font-size-adjust</a> as follows:
 
     <blockquote>
 
