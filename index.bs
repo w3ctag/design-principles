@@ -3023,7 +3023,7 @@ each implementor goes with the alternative
 that they are able to implement.
 If implementations are eventually able to converge on the same behavior,
 both APIs may need to be supported indefinitely,
-which can increase implementation maintenance costs.
+which can increase developer complexity and implementation maintenance costs.
 
 Exposing two different APIs
 that are intended to address the same use cases
