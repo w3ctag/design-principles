@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="0537b612557918ea80c9c12c923e46f6083e9b18" name="document-revision">
+  <meta content="0a41e3ddea876a62e09000b7443c7fd5184f4dba" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -648,7 +648,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-05">5 June 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-06">6 June 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1833,6 +1833,10 @@ whether to use an attribute or a method.</p>
     <li data-md>
      <p>Attribute getters must not have any (observable) side effects.
 If you have expected side effects, use a method.</p>
+    <li data-md>
+     <p>Attribute getters should not throw exceptions.
+Getters should <a href="#attributes-like-data">behave like regular data properties</a>, and regular data properties do not throw exceptions when read. Furthermore, invalid state should generally be avoided by rejecting <em>writes</em>, not when data is <em>read</em>.
+Updating existing getters to throw exceptions should be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.</p>
     <li data-md>
      <p>Attribute getters should not perform any blocking operations.
 If a getter requires performing a blocking operation,
