@@ -8,7 +8,7 @@
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="0a41e3ddea876a62e09000b7443c7fd5184f4dba" name="document-revision">
+  <meta content="489d878d7022f776a0240e64c305f3adf4cfb364" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -521,6 +521,13 @@ a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
+<style>/* Boilerplate: style-style-syntax-highlighting */
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
+</style>
 <style>/* Boilerplate: style-syntax-highlighting */
 
 code.highlight { padding: .1em; border-radius: .3em; }
@@ -648,7 +655,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-06">6 June 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-07">7 June 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -863,6 +870,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
       <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
+    <li><a href="#property-index"><span class="secno"></span> <span class="content">Property Index</span></a>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
@@ -3174,11 +3182,89 @@ and makes it clear when the state described by the flags is reset.</p>
     Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you: 
    <ol>
     <li data-md>
-     <p>File a bug, or create a fix, for the existing specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.</p>
+     <p>In your spec, clearly mark the monkey patch as a proposed change to another specification that is only temporarily in this specification, using language like:</p>
+     <div class="example" id="example-mark-monkeypatch">
+      <a class="self-link" href="#example-mark-monkeypatch"></a> 
+<pre class="language-markdown highlight"># Modify HTTP fetch
+
+&lt;p class="issue">Merge this into [[Fetch]] once it has enough consensus.&lt;/p>
+</pre>
+     </div>
     <li data-md>
-     <p>In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.</p>
+     <p>Identify the place you want to change using a quote from its text or by linking to a defined term if you’re replacing that term’s whole definition. Include the current step numbers if you’re changing something that’s numbered, but remember that numbers aren’t sufficient by themselves because they change when other steps are added or removed. If you’re changing several places within a definition, it can be helpful to paste the entire definition into a <code>&lt;blockquote></code> and use <code>&lt;ins></code> and <code>&lt;del></code> to describe what’s changing.</p>
+     <div class="example" id="example-monkeypatch-quote-text-before-step">
+      <a class="self-link" href="#example-monkeypatch-quote-text-before-step"></a> 
+      <p>Before step 4.2 of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-http-fetch" id="ref-for-concept-http-fetch">HTTP fetch</a>, "If request’s redirect mode is "follow", then set request’s service-workers mode to "none".", insert the following steps:</p>
+      <ol>
+       <li data-md>
+        <p>The first new step.</p>
+      </ol>
+     </div>
+     <div class="example" id="example-monkeypatch-quote-text-replace-def">
+      <a class="self-link" href="#example-monkeypatch-quote-text-replace-def"></a> 
+      <p>In terms of CSS2.1 block-level formatting <a data-link-type="biblio" href="#biblio-css2" title="Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification">[CSS2]</a>, the rules for “over-constrained” computations in <a href="https://www.w3.org/TR/CSS21/visudet.html#blockwidth"><cite>CSS 2.1</cite> § 10.3.3 Block-level, non-replaced elements in normal flow</a> are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.</p>
+     </div>
+     <div class="example" id="example-monkeypatch-quote-text-change-idl">
+      <a class="self-link" href="#example-monkeypatch-quote-text-change-idl"></a> 
+      <p>Append <code>optional USVString value</code> parameters to the definitions of <code><code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#urlsearchparams" id="ref-for-urlsearchparams①">URLSearchParams</a></code>.<code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-urlsearchparams-delete" id="ref-for-dom-urlsearchparams-delete">delete()</a></code></code> and <code><code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#urlsearchparams" id="ref-for-urlsearchparams②">URLSearchParams</a></code>.<code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-urlsearchparams-has" id="ref-for-dom-urlsearchparams-has">has()</a></code></code>:</p>
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <c- g>URLSearchParams</c-> {
+  <c- b>undefined</c-> <c- g>delete</c->(<c- b>USVString</c-> <c- g>name</c-><ins>, <c- b>optional</c-> <c- b>USVString</c-> <c- g>value</c-></ins>);
+  <c- b>boolean</c-> <c- g>has</c->(<c- b>USVString</c-> <c- g>name</c-><ins>, <c- b>optional</c-> <c- b>USVString</c-> <c- g>value</c-></ins>);
+};
+</pre>
+     </div>
+     <div class="example" id="example-monkeypatch-quote-text-change-css">
+      <a class="self-link" href="#example-monkeypatch-quote-text-change-css"></a> 
+      <p>Modify the definition of <a class="css" data-link-type="property" href="https://drafts.csswg.org/css-fonts-4/#propdef-font-size-adjust" id="ref-for-propdef-font-size-adjust">font-size-adjust</a> as follows:</p>
+      <table class="def propdef" data-link-for-hint="font-size-adjust">
+       <tbody>
+        <tr>
+         <th>Name:
+         <td><dfn class="css" data-dfn-type="property" data-export id="propdef-font-size-adjust">font-size-adjust<a class="self-link" href="#propdef-font-size-adjust"></a></dfn>
+        <tr class="value">
+         <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+         <td class="prod">
+          none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one">|</a> 
+          <ins>[ ex-height <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①">|</a> cap-height <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> ch-width <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one③">|</a> ic-width <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one④">|</a> ic-height ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt">?</a> [ from-font <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one⑤">|</a></ins>
+           <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#number-value" id="ref-for-number-value②">&lt;number></a> 
+          <ins>]</ins>
+        <tr>
+         <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
+         <td>none
+        <tr>
+         <th><a href="https://www.w3.org/TR/css-cascade/#applies-to">Applies to:</a>
+         <td>all elements and text
+        <tr>
+         <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
+         <td>yes
+        <tr>
+         <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
+         <td>N/A
+        <tr>
+         <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
+         <td>
+          <del>a number or the keyword none</del>
+          <ins>the keyword <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none" id="ref-for-valdef-font-size-adjust-none">none</a>, or a pair of a metric keyword and a <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#number-value" id="ref-for-number-value③">&lt;number></a></ins>
+        <tr>
+         <th><a href="https://www.w3.org/TR/cssom/#serializing-css-values">Canonical order:</a>
+         <td>per grammar
+        <tr>
+         <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
+         <td>
+          <ins>discrete if the keywords differ, otherwise </ins>
+          by computed value type
+      </table>
+     </div>
     <li data-md>
-     <p>Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.</p>
+     <p>Keep monkey patches short. If you’re modifying an algorithm by adding more than a couple of steps, define a separate, self-contained algorithm in your specification, and have the monkey patch call the new algorithm.</p>
+    <li data-md>
+     <p>If you’re replacing or adding steps in an algorithm, write the new steps so an editor can paste them verbatim into the upstream algorithm. This implies that control flow like "return" or "abort" will return or abort from the whole upstream algorithm, not just the monkey patched section.</p>
+    <li data-md>
+     <p>Once your feature has been reviewed within your own community, and there seems to be consensus that it’s a good idea, file an issue against the existing specification that asks the upstream community to review your monkey patch. This community may suggest better ways to accomplish your goals. Take them seriously. They might also be able to tell you how to hook into an existing extension point or quickly create one so that you can remove your monkey patch sooner than you expected.</p>
+    <li data-md>
+     <p>Update the <code>&lt;p class="issue"></code> block mentioned above to point to the issue you filed against the upstream specification.</p>
+    <li data-md>
+     <p>When your work has enough support to merge into the upstream specification, work with that specification’s maintainers to do so.</p>
     <li data-md>
      <p>Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.</p>
    </ol>
@@ -3519,6 +3605,7 @@ so they can correct this omission.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#propdef-font-size-adjust">font-size-adjust</a><span>, in § 11.3.1</span>
    <li><a href="#live-object">live object</a><span>, in § 6.2</span>
    <li><a href="#monkey-patch">monkey patch</a><span>, in § 11.3</span>
    <li><a href="#static-object">static object</a><span>, in § 6.2</span>
@@ -3557,6 +3644,12 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[CSS-FONTS-4]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="fdf6efd5">font-size</span>
+     <li><span class="dfn-paneled" id="99a3763c">font-size-adjust</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS-FONTS-5]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="3b64181e">none</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-INLINE-3]</a> defines the following terms:
@@ -3569,6 +3662,8 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="fb030e6c">&lt;length></span>
      <li><span class="dfn-paneled" id="16310992">&lt;number></span>
+     <li><span class="dfn-paneled" id="537cf076">?</span>
+     <li><span class="dfn-paneled" id="6ec67710">|</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS22]</a> defines the following terms:
@@ -3637,6 +3732,7 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="7c397e50">Body</span>
+     <li><span class="dfn-paneled" id="2aaa2f42">http fetch</span>
      <li><span class="dfn-paneled" id="dc4acd27">json()</span>
     </ul>
    <li>
@@ -3783,6 +3879,8 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="adfe3014">URLSearchParams</span>
+     <li><span class="dfn-paneled" id="46335198">delete(name)</span>
+     <li><span class="dfn-paneled" id="0992b8f5">has(name)</span>
      <li><span class="dfn-paneled" id="c3dc5717">percent-encode</span>
      <li><span class="dfn-paneled" id="dcffbccd">url</span>
     </ul>
@@ -3889,12 +3987,16 @@ so they can correct this omission.</p>
    <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://drafts.csswg.org/css-backgrounds/"><cite>CSS Backgrounds and Borders Module Level 3</cite></a>. URL: <a href="https://drafts.csswg.org/css-backgrounds/">https://drafts.csswg.org/css-backgrounds/</a>
    <dt id="biblio-css-fonts-4">[CSS-FONTS-4]
    <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://drafts.csswg.org/css-fonts-4/"><cite>CSS Fonts Module Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-fonts-4/">https://drafts.csswg.org/css-fonts-4/</a>
+   <dt id="biblio-css-fonts-5">[CSS-FONTS-5]
+   <dd>Myles Maxfield; Chris Lilley. <a href="https://drafts.csswg.org/css-fonts-5/"><cite>CSS Fonts Module Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/css-fonts-5/">https://drafts.csswg.org/css-fonts-5/</a>
    <dt id="biblio-css-grid-1">[CSS-GRID-1]
    <dd>Tab Atkins Jr.; et al. <a href="https://drafts.csswg.org/css-grid/"><cite>CSS Grid Layout Module Level 1</cite></a>. URL: <a href="https://drafts.csswg.org/css-grid/">https://drafts.csswg.org/css-grid/</a>
    <dt id="biblio-css-inline-3">[CSS-INLINE-3]
    <dd>Dave Cramer; Elika Etemad. <a href="https://drafts.csswg.org/css-inline-3/"><cite>CSS Inline Layout Module Level 3</cite></a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/"><cite>CSS Values and Units Module Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
+   <dt id="biblio-css2">[CSS2]
+   <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-css22">[CSS22]
    <dd>Bert Bos. <a href="https://drafts.csswg.org/css2/"><cite>Cascading Style Sheets Level 2 Revision 2 (CSS 2.2) Specification</cite></a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
@@ -3932,6 +4034,33 @@ so they can correct this omission.</p>
    <dt id="biblio-webrtc">[WEBRTC]
    <dd>Cullen Jennings; et al. <a href="https://w3c.github.io/webrtc-pc/"><cite>WebRTC: Real-Time Communication in Browsers</cite></a>. URL: <a href="https://w3c.github.io/webrtc-pc/">https://w3c.github.io/webrtc-pc/</a>
   </dl>
+  <h2 class="no-num no-ref heading settled" id="property-index"><span class="content">Property Index</span><a class="self-link" href="#property-index"></a></h2>
+  <div class="big-element-wrapper">
+   <table class="index">
+    <thead>
+     <tr>
+      <th scope="col">Name
+      <th scope="col">Value
+      <th scope="col">Initial
+      <th scope="col">Applies to
+      <th scope="col">Inh.
+      <th scope="col">%ages
+      <th scope="col">Anim­ation type
+      <th scope="col">Canonical order
+      <th scope="col">Com­puted value
+    <tbody>
+     <tr>
+      <th scope="row"><a class="css" data-link-type="property" href="#propdef-font-size-adjust" id="ref-for-propdef-font-size-adjust①">font-size-adjust</a>
+      <td>none | [ ex-height | cap-height | ch-width | ic-width | ic-height ]? [ from-font | &lt;number> ]
+      <td>none
+      <td>all elements and text
+      <td>yes
+      <td>N/A
+      <td>discrete if the keywords differ, otherwise by computed value type
+      <td>per grammar
+      <td>a number or the keyword nonethe keyword none, or a pair of a metric keyword and a &lt;number>
+   </table>
+  </div>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> Privacy Threat Model is not ready for prime time. <a class="issue-return" href="#issue-70c97a29" title="Jump to section">↵</a></div>
@@ -4253,10 +4382,14 @@ window.dfnpanelData['21ec9802'] = {"dfnID": "21ec9802", "url": "https://drafts.c
 window.dfnpanelData['a4eb3c57'] = {"dfnID": "a4eb3c57", "url": "https://drafts.csswg.org/css-cascade-5/#used-value", "dfnText": "used value", "refSections": [{"refs": [{"id": "ref-for-used-value"}, {"id": "ref-for-used-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['c1ebc639'] = {"dfnID": "c1ebc639", "url": "https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports", "dfnText": "@supports", "refSections": [{"refs": [{"id": "ref-for-at-ruledef-supports"}], "title": "2.5. New features should be detectable"}], "external": true};
 window.dfnpanelData['fdf6efd5'] = {"dfnID": "fdf6efd5", "url": "https://drafts.csswg.org/css-fonts-4/#propdef-font-size", "dfnText": "font-size", "refSections": [{"refs": [{"id": "ref-for-propdef-font-size"}, {"id": "ref-for-propdef-font-size\u2460"}, {"id": "ref-for-propdef-font-size\u2461"}], "title": "4.2. Make appropriate choices for whether CSS properties are inherited"}, {"refs": [{"id": "ref-for-propdef-font-size\u2462"}, {"id": "ref-for-propdef-font-size\u2463"}, {"id": "ref-for-propdef-font-size\u2464"}, {"id": "ref-for-propdef-font-size\u2465"}, {"id": "ref-for-propdef-font-size\u2466"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
+window.dfnpanelData['99a3763c'] = {"dfnID": "99a3763c", "url": "https://drafts.csswg.org/css-fonts-4/#propdef-font-size-adjust", "dfnText": "font-size-adjust", "refSections": [{"refs": [{"id": "ref-for-propdef-font-size-adjust"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['3b64181e'] = {"dfnID": "3b64181e", "url": "https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none", "dfnText": "none", "refSections": [{"refs": [{"id": "ref-for-valdef-font-size-adjust-none"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['12cf38c9'] = {"dfnID": "12cf38c9", "url": "https://drafts.csswg.org/css-inline-3/#propdef-initial-letter", "dfnText": "initial-letter", "refSections": [{"refs": [{"id": "ref-for-propdef-initial-letter"}], "title": "4.1. Separate CSS properties based on what should cascade separately"}], "external": true};
 window.dfnpanelData['3245cc5d'] = {"dfnID": "3245cc5d", "url": "https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align", "dfnText": "initial-letter-align", "refSections": [{"refs": [{"id": "ref-for-propdef-initial-letter-align"}], "title": "4.1. Separate CSS properties based on what should cascade separately"}], "external": true};
 window.dfnpanelData['fb030e6c'] = {"dfnID": "fb030e6c", "url": "https://drafts.csswg.org/css-values-4/#length-value", "dfnText": "<length>", "refSections": [{"refs": [{"id": "ref-for-length-value"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
-window.dfnpanelData['16310992'] = {"dfnID": "16310992", "url": "https://drafts.csswg.org/css-values-4/#number-value", "dfnText": "<number>", "refSections": [{"refs": [{"id": "ref-for-number-value"}, {"id": "ref-for-number-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
+window.dfnpanelData['16310992'] = {"dfnID": "16310992", "url": "https://drafts.csswg.org/css-values-4/#number-value", "dfnText": "<number>", "refSections": [{"refs": [{"id": "ref-for-number-value"}, {"id": "ref-for-number-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}, {"refs": [{"id": "ref-for-number-value\u2461"}, {"id": "ref-for-number-value\u2462"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['537cf076'] = {"dfnID": "537cf076", "url": "https://drafts.csswg.org/css-values-4/#mult-opt", "dfnText": "?", "refSections": [{"refs": [{"id": "ref-for-mult-opt"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['6ec67710'] = {"dfnID": "6ec67710", "url": "https://drafts.csswg.org/css-values-4/#comb-one", "dfnText": "|", "refSections": [{"refs": [{"id": "ref-for-comb-one"}, {"id": "ref-for-comb-one\u2460"}, {"id": "ref-for-comb-one\u2461"}, {"id": "ref-for-comb-one\u2462"}, {"id": "ref-for-comb-one\u2463"}, {"id": "ref-for-comb-one\u2464"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['ac54fbff'] = {"dfnID": "ac54fbff", "url": "https://drafts.csswg.org/css2/#propdef-line-height", "dfnText": "line-height", "refSections": [{"refs": [{"id": "ref-for-propdef-line-height"}, {"id": "ref-for-propdef-line-height\u2460"}, {"id": "ref-for-propdef-line-height\u2461"}, {"id": "ref-for-propdef-line-height\u2462"}, {"id": "ref-for-propdef-line-height\u2463"}, {"id": "ref-for-propdef-line-height\u2464"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['b203675a'] = {"dfnID": "b203675a", "url": "https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle", "dfnText": "getComputedStyle(elt)", "refSections": [{"refs": [{"id": "ref-for-dom-window-getcomputedstyle"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['4fe61159'] = {"dfnID": "4fe61159", "url": "https://drafts.csswg.org/cssom-1/#resolved-value", "dfnText": "resolved value", "refSections": [{"refs": [{"id": "ref-for-resolved-value"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
@@ -4297,6 +4430,7 @@ window.dfnpanelData['d8c1cdf2'] = {"dfnID": "d8c1cdf2", "url": "https://tc39.git
 window.dfnpanelData['0699bcce'] = {"dfnID": "0699bcce", "url": "https://tc39.github.io/ecma262/#sec-number-objects", "dfnText": "Number", "refSections": [{"refs": [{"id": "ref-for-sec-number-objects"}, {"id": "ref-for-sec-number-objects\u2460"}, {"id": "ref-for-sec-number-objects\u2461"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['d3645ed0'] = {"dfnID": "d3645ed0", "url": "https://tc39.github.io/ecma262/#sec-weak-ref-objects", "dfnText": "WeakRef", "refSections": [{"refs": [{"id": "ref-for-sec-weak-ref-objects"}], "title": "5.3. Don\u2019t expose garbage collection"}], "external": true};
 window.dfnpanelData['7c397e50'] = {"dfnID": "7c397e50", "url": "https://fetch.spec.whatwg.org/#body", "dfnText": "Body", "refSections": [{"refs": [{"id": "ref-for-body"}], "title": "12.1. Use common words"}], "external": true};
+window.dfnpanelData['2aaa2f42'] = {"dfnID": "2aaa2f42", "url": "https://fetch.spec.whatwg.org/#concept-http-fetch", "dfnText": "http fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-fetch"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['dc4acd27'] = {"dfnID": "dc4acd27", "url": "https://fetch.spec.whatwg.org/#dom-body-json", "dfnText": "json()", "refSections": [{"refs": [{"id": "ref-for-dom-body-json"}], "title": "12.1. Use common words"}], "external": true};
 window.dfnpanelData['0e9f636b'] = {"dfnID": "0e9f636b", "url": "https://w3c.github.io/hr-time/#dom-domhighrestimestamp", "dfnText": "DOMHighResTimeStamp", "refSections": [{"refs": [{"id": "ref-for-dom-domhighrestimestamp"}, {"id": "ref-for-dom-domhighrestimestamp\u2460"}, {"id": "ref-for-dom-domhighrestimestamp\u2461"}], "title": "8.4. Use the appropriate type to represent times and dates"}], "external": true};
 window.dfnpanelData['b8308563'] = {"dfnID": "b8308563", "url": "https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope", "dfnText": "DedicatedWorkerGlobalScope", "refSections": [{"refs": [{"id": "ref-for-dedicatedworkerglobalscope"}], "title": "10.2. Where possible APIs should be made available to dedicated workers"}, {"refs": [{"id": "ref-for-dedicatedworkerglobalscope\u2460"}], "title": "10.2.1. Some APIs should only be exposed to dedicated workers"}], "external": true};
@@ -4390,7 +4524,9 @@ window.dfnpanelData['0e202d66'] = {"dfnID": "0e202d66", "url": "https://w3c.gith
 window.dfnpanelData['7f769aa9'] = {"dfnID": "7f769aa9", "url": "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices", "dfnText": "remote playback device", "refSections": [{"refs": [{"id": "ref-for-dfn-remote-playback-devices"}, {"id": "ref-for-dfn-remote-playback-devices\u2460"}], "title": "9.2. Use care when exposing APIs for selecting or enumerating devices"}], "external": true};
 window.dfnpanelData['1fc098b2'] = {"dfnID": "1fc098b2", "url": "https://w3c.github.io/uievents/#keyboardevent", "dfnText": "KeyboardEvent", "refSections": [{"refs": [{"id": "ref-for-keyboardevent"}], "title": "12.4. Use future-proof names"}], "external": true};
 window.dfnpanelData['c3469cd0'] = {"dfnID": "c3469cd0", "url": "https://w3c.github.io/uievents/#mouseevent", "dfnText": "MouseEvent", "refSections": [{"refs": [{"id": "ref-for-mouseevent"}, {"id": "ref-for-mouseevent\u2460"}], "title": "6.8. Classes should have constructors when possible"}], "external": true};
-window.dfnpanelData['adfe3014'] = {"dfnID": "adfe3014", "url": "https://url.spec.whatwg.org/#urlsearchparams", "dfnText": "URLSearchParams", "refSections": [{"refs": [{"id": "ref-for-urlsearchparams"}], "title": "Static objects"}], "external": true};
+window.dfnpanelData['adfe3014'] = {"dfnID": "adfe3014", "url": "https://url.spec.whatwg.org/#urlsearchparams", "dfnText": "URLSearchParams", "refSections": [{"refs": [{"id": "ref-for-urlsearchparams"}], "title": "Static objects"}, {"refs": [{"id": "ref-for-urlsearchparams\u2460"}, {"id": "ref-for-urlsearchparams\u2461"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['46335198'] = {"dfnID": "46335198", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-delete", "dfnText": "delete(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-delete"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['0992b8f5'] = {"dfnID": "0992b8f5", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-has", "dfnText": "has(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-has"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['c3dc5717'] = {"dfnID": "c3dc5717", "url": "https://url.spec.whatwg.org/#percent-encode", "dfnText": "percent-encode", "refSections": [{"refs": [{"id": "ref-for-percent-encode"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['dcffbccd'] = {"dfnID": "dcffbccd", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['1bb59bab'] = {"dfnID": "1bb59bab", "url": "https://webaudio.github.io/web-audio-api/#AudioWorklet", "dfnText": "AudioWorklet", "refSections": [{"refs": [{"id": "ref-for-AudioWorklet"}], "title": "10.2.1. Some APIs should only be exposed to dedicated workers"}], "external": true};
