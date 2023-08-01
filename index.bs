@@ -3070,7 +3070,7 @@ of a larger, standardized framework.
 
 <div class=example id=eme-and-payment-request>
 
-[[ENCRYPTED-MEDIA]] and [[PAYMENT-REQUEST]] are both examples of specifications
+[[ENCRYPTED-MEDIA]] and [[payment-request]] are both examples of specifications
 which minimize API differences by isolating a non-standard component
 ([=Content Decryption Modules=] and [=payment methods=], respectively)
 from the rest of the (shared) API surface.
