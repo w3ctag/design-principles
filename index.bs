@@ -3015,15 +3015,18 @@ outweigh the interoperability costs of the differences.
 
 </div>
 
-If the behavior differences are serious enough,
-it may be preferable to specify different APIs.
-
-In this scenario,
-each implementor goes with the alternative
+If behavior differences are serious enough,
+and cannot be converged further,
+it may be preferable to specify different APIs,
+with each implementor going with the alternative
 that they are able to implement.
-If implementations are eventually able to converge on the same behavior,
-both APIs may need to be supported indefinitely,
-which can increase developer complexity and implementation maintenance costs.
+
+One risk of this approach comes about
+if implementations are eventually able to converge on the same behavior.
+In this case,
+multiple alternative APIs may need to be supported indefinitely,
+which can increase developer complexity
+and implementation maintenance costs.
 
 Exposing two different APIs
 that are intended to address the same use cases
