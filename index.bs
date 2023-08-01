@@ -3004,7 +3004,7 @@ Note: Authors may assume the behavior of the dominant implementation is correct
 and any other behavior is buggy,
 which may further entrench the dominant implementaiton.
 
-<div class=example id=unknown1>
+<div class=example id=backdrop-filter>
 
 The 'backdrop-filter' property is known to have a number of visible
 behavior differences between implementations.
