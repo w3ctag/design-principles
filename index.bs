@@ -3057,15 +3057,15 @@ from the rest of the (shared) API surface.
 
 </div>
 
-It is also possible to specify an API that not all browsers will implement.
-Authors may use feature detection to only use the API if it is implemented,
-and users may benefit where the feature is supported and used.
+Groups sometimes choose to specify APIs
+knowing that
+some implementations
+are unwilling to implement it.
+Authors may use feature detection
+to only use APIs when they are available,
+and users may benefit where such features are supported and used.
 This is always a problematic outcome,
-though how severe the problem is may depend somewhat on
-the number and market share of the implementations willing or unwilling
-to implement the feature.
-
-Note: This is worst when there is only one willing implementor.
+though it is worst when there is only one willing implementor.
 Some standards venues have rules
 explicitly disallowing the standardization of features
 which only have a single interested implementor.
