@@ -3027,8 +3027,7 @@ which can increase developer complexity and implementation maintenance costs.
 
 Exposing two different APIs
 that are intended to address the same use cases
-can be confusing to authors.
-Authors can use [feature detection](#feature-detect)
+forces authors to use [feature detection](#feature-detect)
 to write different code for different browsers.
 
 Note: There is a risk that authors may assume
