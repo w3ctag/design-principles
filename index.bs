@@ -720,7 +720,7 @@ following categories:
 Specify how your feature works
 with non-[=Document/fully active=] BFCached documents,
 following the guidelines in the
-[Supporting BFCached Documents](https://w3ctag.github.io/bfcache-guide/) guide.  
+[Supporting BFCached Documents](https://w3ctag.github.io/bfcache-guide/) guide.
 
 Note: It is possible for a document
 to become non-[=Document/fully active=]
@@ -898,7 +898,7 @@ and because the <{img}> element is an empty element that does not permit child e
 A space-separated syntax would not have been possible, as each list item includes multiple values.
 
 <!--
-TODO: link to the "microsyntaxes are usually bad" principle once it's been written. 
+TODO: link to the "microsyntaxes are usually bad" principle once it's been written.
 https://github.com/w3ctag/design-principles/issues/213
 -->
 </div>
@@ -1367,6 +1367,10 @@ whether to use an attribute or a method.
 - Attribute getters must not have any (observable) side effects.
     If you have expected side effects, use a method.
 
+- Attribute getters should not throw exceptions.
+    Getters should [behave like regular data properties](#attributes-like-data), and regular data properties do not throw exceptions when read. Furthermore, invalid state should generally be avoided by rejecting *writes*, not when data is *read*.
+    Updating existing getters to throw exceptions should be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.
+
 - Attribute getters should not perform any blocking operations.
     If a getter requires performing a blocking operation,
     it should be a method.
@@ -1390,7 +1394,7 @@ a subsequent `obj.attribute === x` should be true.
 e.g., if a normalization or type conversion step is necessary,
 but should be held as a goal for normal code paths.)
 
-The object you want to return may be [live or static](#js-rtc).
+The object you want to return may be [live or static](#live-vs-static).
 This means:
 
 - If live, then return the same object each time,
@@ -1728,7 +1732,7 @@ This object can be passed around as easily as a single bitmask value.
 
 In the rare case
 where you need to have both
-synchronous and asynchronous methods 
+synchronous and asynchronous methods
 for the same purpose,
 default to asynchronous
 and make synchronous the exception.
@@ -2653,7 +2657,7 @@ APIs which would often block the main thread if used as intended
 should not be exposed on the {{Window}} interface.
 By restricting such APIs to the {{DedicatedWorkerGlobalScope}} interface,
 the “easy” path for web developers
-is the path with the best experience for users. 
+is the path with the best experience for users.
 
 <p class="example">
 {{ScriptProcessorNode}}s were replaced by {{AudioWorklet}}s
@@ -2769,19 +2773,19 @@ One such example is the <a href="https://w3c.github.io/image-resource/">image re
 For this reason, if a key can clearly be expressed as a single word, that is recommended.
 
 <h3 id="serialization">Consider consumers when serializing</h3>
-When adding or extending features that involve a parser or a serializer you should consider their effect on 
+When adding or extending features that involve a parser or a serializer you should consider their effect on
 serialization. The following are constituencies of serialization results that must be considered:
 
  - Users - because the result of serialization may be presented to the end user
  - Tools - which may rely on the output of serialization in a number of ways (for instance, to detect if the parser need to correct for errors in the input)
  - Web APIs - because serializations may be  passed into other APIs of the web platform
 
-Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant. 
+Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant.
 Languages may differ in the precision of floating point numbers they accept.
 The results of serialization:
 
  - Should match developer expectations (for instance, serializing CSS properties should not result in output that is very different from what a CSS author would have written)
-  - [Idempotence](https://en.wikipedia.org/wiki/Idempotence) - the result of serializing the output of a parser should be something that, when parsed and serialized, produces itself. 
+  - [Idempotence](https://en.wikipedia.org/wiki/Idempotence) - the result of serializing the output of a parser should be something that, when parsed and serialized, produces itself.
   - Should not add to error accumulation - taking the serialized output of an API and feeding it back to the same API in a loop should result in the same internal state
 
 <h3 id="debuggability">Ensure features are developer-friendly</h3>
@@ -2819,17 +2823,17 @@ cryptographic protocols and algorithms also evolve quickly.
 When using Client Hints, don't expose information that the web page does not already have access to.
 
 Client hints are an important optimization, but cannot be the sole means by which information
-is exposed to sites. As it says in 
+is exposed to sites. As it says in
 <cite><a href=https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5>RFC 8942 §4.1</a></cite>
 where client hints are defined:
 
 <blockquote cite="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">
-<p>Therefore, features relying on this document to define Client Hint headers 
-<strong>MUST NOT</strong> provide new information that is otherwise not made available to 
+<p>Therefore, features relying on this document to define Client Hint headers
+<strong>MUST NOT</strong> provide new information that is otherwise not made available to
 the application by the user agent, such as existing request headers, HTML, CSS, or JavaScript.
 </blockquote>
 
-If you are trying to add a new client hint that exposes information that is not available to the web page through other means, 
+If you are trying to add a new client hint that exposes information that is not available to the web page through other means,
 please pursue exposing this information through an API first.
 <h2 id="spec-writing">Writing good specifications</h2>
 
@@ -2962,6 +2966,137 @@ and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
 
+<h3 id="implementability">Resolving tension between interoperability and implementability</h3>
+
+<!--
+See "How do we balance concerns between interoperability and implementability?"
+https://github.com/w3ctag/design-principles/issues/142
+  -->
+
+Specifying a feature,
+like all engineering work,
+requires weighing tradeoffs
+and compromising.
+
+Sometimes,
+despite the best efforts of all involved,
+we fail to find a way
+to interoperably specify a feature
+that every implementor agrees
+is implementable in their engine.
+
+Choosing a way forward should be guided by
+[what is best for the end user](#priority-of-constituencies).
+
+First,
+examine the nature of the implementability concerns.
+Perhaps the implementor identified potential end-user harm
+and decided that the feature should not be implemented.
+In this situation,
+it may be best to not specify the feature,
+and for any implementors who have shipped the feature
+to un-ship it.
+Keep in mind that un-shipping features may result in user and author
+confusion.
+
+<div class=example id=sharedarraybuffer>
+
+When the Spectre attack was discovered,
+{{SharedArrayBuffer}} was unshipped in every implementation
+because it can be used to create a high-precision timer
+that could be used for a Spectre attack.
+
+</div>
+
+Sometimes the same API is implementable in every engine,
+but its behavior cannot be made to be fully interoperable.
+Whenever behavior differs between implementations,
+the end-user impact must be considered.
+One downside to this approach
+is that the difference in behavior is not [feature detectable](#feature-detect).
+On the other hand,
+if something changes in the future
+that enables all implementations to converge on the same behavior,
+sites will not need to be updated
+to take advantage of this.
+
+Note: Authors may assume the behavior of the dominant implementation is correct
+and any other behavior is buggy,
+which may further entrench the dominant implementaiton.
+
+<div class=example id=backdrop-filter>
+
+The 'backdrop-filter' property is known to have a number of visible
+behavior differences between implementations.
+At the present time,
+those working on it believe
+the benefits of sharing an API
+outweigh the interoperability costs of the differences.
+
+</div>
+
+If behavior differences are serious enough,
+and cannot be converged further,
+it may be preferable to specify different APIs,
+with each implementor going with the alternative
+that they are able to implement.
+
+One risk of this approach comes about
+if implementations are eventually able to converge on the same behavior.
+In this case,
+multiple alternative APIs may need to be supported indefinitely,
+which can increase developer complexity
+and implementation maintenance costs.
+
+Exposing two different APIs
+that are intended to address the same use cases
+forces authors to use [feature detection](#feature-detect)
+to write different code for different browsers.
+
+Note: There is a risk that authors may assume
+the API variant supported by the dominant implementation
+is the "correct" one,
+or they may simply be unaware of the API variants supported
+in implementations they do not use regularly,
+which may further entrench the dominant implementaiton.
+
+If you do go this route,
+try to reduce the cost to authors
+by minimizing the differences between the APIs.
+It may be possible to design things
+such that the non-standard part
+is a small, isolated component
+of a larger, standardized framework.
+
+<div class=example id=eme-and-payment-request>
+
+[[ENCRYPTED-MEDIA]] and [[PAYMENT-REQUEST]] are both examples of specifications
+which minimize API differences by isolating a non-standard component
+([=Content Decryption Modules=] and [=payment methods=], respectively)
+from the rest of the (shared) API surface.
+
+</div>
+
+Groups sometimes choose to specify APIs
+knowing that
+some implementations
+are unwilling to implement it.
+Authors may use feature detection
+to only use APIs when they are available,
+and users may benefit where such features are supported and used.
+This is always a problematic outcome,
+though it is worst when there is only one willing implementor.
+Some standards venues have rules
+explicitly disallowing the standardization of features
+which only have a single interested implementor.
+Even if you are not operating in such a group,
+standardization of single-implementation features is strongly discouraged.
+
+You may also find that none of these options is acceptable to your group.
+While the best path forward may be to choose not to specify the feature,
+there is the risk that some implementations
+may ship the feature as a nonstandard API.
+
 <h3 id="monkey-patching">Avoid monkey patching</h3>
 A <dfn export>monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification's behavior.
 <a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
@@ -2981,9 +3116,65 @@ Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patc
 <h4 id="cant-avoid-monkey-patching">If you need to monkey patch</h4>
 Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you:
 
- 1. File a bug, or create a fix, for the existing specification. This will help you understand what the problem is and how to fix it, and maybe even alleviate you from even creating the monkey patch in the first place.
- 1. In your spec, clearly mark the monkey patch as a temporary workaround (e.g., using a big red box) and make it clear to readers that you intend to add your patch to the existing specification. Make sure you link to the existing specification and the bug or fix that you filed.
- 1. Work together with the authors of the existing specification on a solution. If the existing specification is no longer maintained... Congratulations! you are now the editor of that existing specification. If necessary, add suitable extension points to the existing specification to better handle your changes.
+ 1. In your spec, clearly mark the monkey patch as a proposed change to another specification that is only temporarily in this specification, using language like:
+
+    <div class="example" id="example-mark-monkeypatch">
+
+    ```markdown
+    # Modify HTTP fetch
+
+    <p class="issue">Merge this into [[Fetch]] once it has enough consensus.</p>
+    ```
+
+    </div>
+
+ 1. Identify the place you want to change using a quote from its text or by linking to a defined term if you're replacing that term's whole definition. Include the current step numbers if you're changing something that's numbered, but remember that numbers aren't sufficient by themselves because they change when other steps are added or removed. If you're changing several places within a definition, it can be helpful to paste the entire definition into a `<blockquote>` and use `<ins>` and `<del>` to describe what's changing.
+
+    <div class="example" id="example-monkeypatch-quote-text-before-step">
+
+    Before step 4.2 of [=HTTP fetch=], "If request's redirect mode is "follow", then set request's service-workers mode to "none".", insert the following steps:
+    1. The first new step.
+
+    </div>
+    <div class="example" id="example-monkeypatch-quote-text-replace-def">
+
+    In terms of CSS2.1 block-level formatting [[CSS2]], the rules for “over-constrained” computations in [[CSS2#blockwidth]] are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.
+
+    </div>
+    <div class="example" id="example-monkeypatch-quote-text-change-idl">
+
+    Append `optional USVString value` parameters to the definitions of <code>{{URLSearchParams}}.{{URLSearchParams/delete()}}</code> and <code>{{URLSearchParams}}.{{URLSearchParams/has()}}</code>:
+
+    <pre class="idl">
+    partial interface URLSearchParams {
+      undefined delete(USVString name<ins>, optional USVString value</ins>);
+      boolean has(USVString name<ins>, optional USVString value</ins>);
+    };
+    </pre>
+
+    </div>
+    <div class="example" id="example-monkeypatch-quote-text-change-css">
+
+    Modify the definition of <a spec="css-fonts-4" property>font-size-adjust</a> as follows:
+
+    <pre class="propdef">
+    Name: font-size-adjust
+    Value: none | <ins>[ ex-height | cap-height | ch-width | ic-width | ic-height ]? [ from-font |</ins> <<number>> <ins>]</ins>
+    Initial: none
+    Applies to: all elements and text
+    Inherited: yes
+    Percentages: N/A
+    Computed value: <del>a number or the keyword none</del><ins>the keyword ''font-size-adjust/none'', or a pair of a metric keyword and a <<number>></ins>
+    Animation type: <ins>discrete if the keywords differ, otherwise </ins>by computed value type
+    </pre>
+
+    </div>
+
+ 1. Keep monkey patches short. If you're modifying an algorithm by adding more than a couple of steps, define a separate, self-contained algorithm in your specification, and have the monkey patch call the new algorithm.
+ 1. If you're replacing or adding steps in an algorithm, write the new steps so an editor can paste them verbatim into the upstream algorithm. This implies that control flow like "return" or "abort" will return or abort from the whole upstream algorithm, not just the monkey patched section.
+ 1. Once your feature has been reviewed within your own community, and there seems to be consensus that it's a good idea, file an issue against the existing specification that asks the upstream community to review your monkey patch. This community may suggest better ways to accomplish your goals. Take them seriously. They might also be able to tell you how to hook into an existing extension point or quickly create one so that you can remove your monkey patch sooner than you expected.
+ 1. Update the `<p class="issue">` block mentioned above to point to the issue you filed against the upstream specification.
+ 1. When your work has enough support to merge into the upstream specification, work with that specification's maintainers to do so.
  1. Once the existing specification has integrated your monkey patch, remove the monkey patch from your specification.
 
 Note that [=monkey patching=] is different from "modularization", which extends existing technology in a way that is self-contained and doesn't cause side-effects to other underlying specifications (e.g., the CSS Modules).
