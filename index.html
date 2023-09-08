@@ -5,10 +5,9 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
+  <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="489d878d7022f776a0240e64c305f3adf4cfb364" name="document-revision">
+  <meta content="89b42eab18380788780a590eac3c9b016d02e4cf" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -521,7 +520,7 @@ a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
-<style>/* Boilerplate: style-style-syntax-highlighting */
+<style>/* Boilerplate: style-syntax-highlighting */
 
             pre.idl.highlight {
                 background: var(--borderedblock-bg, var(--def-bg));
@@ -655,7 +654,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-07">7 June 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-09-08">8 September 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -679,7 +678,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-software" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -834,10 +833,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         <li><a href="#algorithms"><span class="secno">11.2.1</span> <span class="content">Define algorithms clearly</span></a>
         <li><a href="#use-flags-for-states"><span class="secno">11.2.2</span> <span class="content">Use explicit flags for state</span></a>
        </ol>
+      <li><a href="#implementability"><span class="secno">11.3</span> <span class="content">Resolving tension between interoperability and implementability</span></a>
       <li>
-       <a href="#monkey-patching"><span class="secno">11.3</span> <span class="content">Avoid monkey patching</span></a>
+       <a href="#monkey-patching"><span class="secno">11.4</span> <span class="content">Avoid monkey patching</span></a>
        <ol class="toc">
-        <li><a href="#cant-avoid-monkey-patching"><span class="secno">11.3.1</span> <span class="content">If you need to monkey patch</span></a>
+        <li><a href="#cant-avoid-monkey-patching"><span class="secno">11.4.1</span> <span class="content">If you need to monkey patch</span></a>
        </ol>
      </ol>
     <li>
@@ -3162,7 +3162,110 @@ use explicit flags for state when writing algorithms.</p>
    <p>Using explicit flags makes it clear
 whether or not the state changes in different error conditions,
 and makes it clear when the state described by the flags is reset.</p>
-   <h3 class="heading settled" data-level="11.3" id="monkey-patching"><span class="secno">11.3. </span><span class="content">Avoid monkey patching</span><a class="self-link" href="#monkey-patching"></a></h3>
+   <h3 class="heading settled" data-level="11.3" id="implementability"><span class="secno">11.3. </span><span class="content">Resolving tension between interoperability and implementability</span><a class="self-link" href="#implementability"></a></h3>
+   <p>Specifying a feature,
+like all engineering work,
+requires weighing tradeoffs
+and compromising.</p>
+   <p>Sometimes,
+despite the best efforts of all involved,
+we fail to find a way
+to interoperably specify a feature
+that every implementor agrees
+is implementable in their engine.</p>
+   <p>Choosing a way forward should be guided by <a href="#priority-of-constituencies">what is best for the end user</a>.</p>
+   <p>First,
+examine the nature of the implementability concerns.
+Perhaps the implementor identified potential end-user harm
+and decided that the feature should not be implemented.
+In this situation,
+it may be best to not specify the feature,
+and for any implementors who have shipped the feature
+to un-ship it.
+Keep in mind that un-shipping features may result in user and author
+confusion.</p>
+   <div class="example" id="sharedarraybuffer">
+    <a class="self-link" href="#sharedarraybuffer"></a> 
+    <p>When the Spectre attack was discovered, <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer" id="ref-for-idl-SharedArrayBuffer">SharedArrayBuffer</a></code> was unshipped in every implementation
+because it can be used to create a high-precision timer
+that could be used for a Spectre attack.</p>
+   </div>
+   <p>Sometimes the same API is implementable in every engine,
+but its behavior cannot be made to be fully interoperable.
+Whenever behavior differs between implementations,
+the end-user impact must be considered.
+One downside to this approach
+is that the difference in behavior is not <a href="#feature-detect">feature detectable</a>.
+On the other hand,
+if something changes in the future
+that enables all implementations to converge on the same behavior,
+sites will not need to be updated
+to take advantage of this.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> Authors may assume the behavior of the dominant implementation is correct
+and any other behavior is buggy,
+which may further entrench the dominant implementaiton.</p>
+   <div class="example" id="backdrop-filter">
+    <a class="self-link" href="#backdrop-filter"></a> 
+    <p>The <a class="property css" data-link-type="property" href="https://drafts.fxtf.org/filter-effects-2/#propdef-backdrop-filter" id="ref-for-propdef-backdrop-filter">backdrop-filter</a> property is known to have a number of visible
+behavior differences between implementations.
+At the present time,
+those working on it believe
+the benefits of sharing an API
+outweigh the interoperability costs of the differences.</p>
+   </div>
+   <p>If behavior differences are serious enough,
+and cannot be converged further,
+it may be preferable to specify different APIs,
+with each implementor going with the alternative
+that they are able to implement.</p>
+   <p>One risk of this approach comes about
+if implementations are eventually able to converge on the same behavior.
+In this case,
+multiple alternative APIs may need to be supported indefinitely,
+which can increase developer complexity
+and implementation maintenance costs.</p>
+   <p>Exposing two different APIs
+that are intended to address the same use cases
+forces authors to use <a href="#feature-detect">feature detection</a> to write different code for different browsers.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> There is a risk that authors may assume
+the API variant supported by the dominant implementation
+is the "correct" one,
+or they may simply be unaware of the API variants supported
+in implementations they do not use regularly,
+which may further entrench the dominant implementaiton.</p>
+   <p>If you do go this route,
+try to reduce the cost to authors
+by minimizing the differences between the APIs.
+It may be possible to design things
+such that the non-standard part
+is a small, isolated component
+of a larger, standardized framework.</p>
+   <div class="example" id="eme-and-payment-request">
+    <a class="self-link" href="#eme-and-payment-request"></a> 
+    <p><a data-link-type="biblio" href="#biblio-encrypted-media" title="Encrypted Media Extensions">[ENCRYPTED-MEDIA]</a> and <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a> are both examples of specifications
+which minimize API differences by isolating a non-standard component
+(<a data-link-type="dfn">Content Decryption Modules</a> and <a data-link-type="dfn">payment methods</a>, respectively)
+from the rest of the (shared) API surface.</p>
+   </div>
+   <p>Groups sometimes choose to specify APIs
+knowing that
+some implementations
+are unwilling to implement it.
+Authors may use feature detection
+to only use APIs when they are available,
+and users may benefit where such features are supported and used.
+This is always a problematic outcome,
+though it is worst when there is only one willing implementor.
+Some standards venues have rules
+explicitly disallowing the standardization of features
+which only have a single interested implementor.
+Even if you are not operating in such a group,
+standardization of single-implementation features is strongly discouraged.</p>
+   <p>You may also find that none of these options is acceptable to your group.
+While the best path forward may be to choose not to specify the feature,
+there is the risk that some implementations
+may ship the feature as a nonstandard API.</p>
+   <h3 class="heading settled" data-level="11.4" id="monkey-patching"><span class="secno">11.4. </span><span class="content">Avoid monkey patching</span><a class="self-link" href="#monkey-patching"></a></h3>
     A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="monkey-patch">monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification’s behavior. <a href="https://en.wikipedia.org/wiki/Monkey_patch">Monkey patching</a> <strong>is generally considered bad practice and should be avoided</strong> for the reasons listed below; but is sometimes unavoidable
 (see our guidance <a href="#cant-avoid-monkey-patching">if you need to monkey patch</a>). 
    <p>An example of monkey patching would be: specification A defines an internal algorithm part of its capability, then specification B overrides or modifies said algorithm with functionality directly, not using publicly defined extension points.</p>
@@ -3178,7 +3281,7 @@ and makes it clear when the state described by the flags is reset.</p>
      <p>An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.</p>
    </ul>
    <p>Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.</p>
-   <h4 class="heading settled" data-level="11.3.1" id="cant-avoid-monkey-patching"><span class="secno">11.3.1. </span><span class="content">If you need to monkey patch</span><a class="self-link" href="#cant-avoid-monkey-patching"></a></h4>
+   <h4 class="heading settled" data-level="11.4.1" id="cant-avoid-monkey-patching"><span class="secno">11.4.1. </span><span class="content">If you need to monkey patch</span><a class="self-link" href="#cant-avoid-monkey-patching"></a></h4>
     Sometimes monkey patching is unavoidable (e.g., early in the design phase of a new specification). If you find yourself needing to monkey patch an existing specification, make sure you: 
    <ol>
     <li data-md>
@@ -3605,9 +3708,9 @@ so they can correct this omission.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#propdef-font-size-adjust">font-size-adjust</a><span>, in § 11.3.1</span>
+   <li><a href="#propdef-font-size-adjust">font-size-adjust</a><span>, in § 11.4.1</span>
    <li><a href="#live-object">live object</a><span>, in § 6.2</span>
-   <li><a href="#monkey-patch">monkey patch</a><span>, in § 11.3</span>
+   <li><a href="#monkey-patch">monkey patch</a><span>, in § 11.4</span>
    <li><a href="#static-object">static object</a><span>, in § 6.2</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -3734,6 +3837,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="7c397e50">Body</span>
      <li><span class="dfn-paneled" id="2aaa2f42">http fetch</span>
      <li><span class="dfn-paneled" id="dc4acd27">json()</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[FILTER-EFFECTS-2]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="54fa0afb">backdrop-filter</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HIGHRES-TIME]</a> defines the following terms:
@@ -3905,6 +4013,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="c01cbda0">EnforceRange</span>
      <li><span class="dfn-paneled" id="bdbd19d1">Promise</span>
      <li><span class="dfn-paneled" id="b75bb3bd">SecureContext</span>
+     <li><span class="dfn-paneled" id="7d783f61">SharedArrayBuffer</span>
      <li><span class="dfn-paneled" id="82ca3efc">TypeError</span>
      <li><span class="dfn-paneled" id="b0d7f3c3">USVString</span>
      <li><span class="dfn-paneled" id="95d7775a">Uint8Array</span>
@@ -3959,7 +4068,7 @@ so they can correct this omission.</p>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-indexeddb-3">[IndexedDB-3]
-   <dd>Ali Alabbas; Joshua Bell. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
+   <dd>Joshua Bell. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
@@ -4005,10 +4114,14 @@ so they can correct this omission.</p>
    <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-dom-parsing">[DOM-Parsing]
    <dd>Travis Leithead. <a href="https://w3c.github.io/DOM-Parsing/"><cite>DOM Parsing and Serialization</cite></a>. URL: <a href="https://w3c.github.io/DOM-Parsing/">https://w3c.github.io/DOM-Parsing/</a>
+   <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
+   <dd>David Dorwin; et al. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web">[ETHICAL-WEB]
    <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
+   <dd><a href="https://drafts.fxtf.org/filter-effects-2/"><cite>Filter Effects Module Level 2</cite></a>. Editor's Draft. URL: <a href="https://drafts.fxtf.org/filter-effects-2/">https://drafts.fxtf.org/filter-effects-2/</a>
    <dt id="biblio-intersection-observer">[INTERSECTION-OBSERVER]
    <dd>Stefan Zager; Emilio Cobos Álvarez. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
    <dt id="biblio-least-power">[LEAST-POWER]
@@ -4382,14 +4495,14 @@ window.dfnpanelData['21ec9802'] = {"dfnID": "21ec9802", "url": "https://drafts.c
 window.dfnpanelData['a4eb3c57'] = {"dfnID": "a4eb3c57", "url": "https://drafts.csswg.org/css-cascade-5/#used-value", "dfnText": "used value", "refSections": [{"refs": [{"id": "ref-for-used-value"}, {"id": "ref-for-used-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['c1ebc639'] = {"dfnID": "c1ebc639", "url": "https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports", "dfnText": "@supports", "refSections": [{"refs": [{"id": "ref-for-at-ruledef-supports"}], "title": "2.5. New features should be detectable"}], "external": true};
 window.dfnpanelData['fdf6efd5'] = {"dfnID": "fdf6efd5", "url": "https://drafts.csswg.org/css-fonts-4/#propdef-font-size", "dfnText": "font-size", "refSections": [{"refs": [{"id": "ref-for-propdef-font-size"}, {"id": "ref-for-propdef-font-size\u2460"}, {"id": "ref-for-propdef-font-size\u2461"}], "title": "4.2. Make appropriate choices for whether CSS properties are inherited"}, {"refs": [{"id": "ref-for-propdef-font-size\u2462"}, {"id": "ref-for-propdef-font-size\u2463"}, {"id": "ref-for-propdef-font-size\u2464"}, {"id": "ref-for-propdef-font-size\u2465"}, {"id": "ref-for-propdef-font-size\u2466"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
-window.dfnpanelData['99a3763c'] = {"dfnID": "99a3763c", "url": "https://drafts.csswg.org/css-fonts-4/#propdef-font-size-adjust", "dfnText": "font-size-adjust", "refSections": [{"refs": [{"id": "ref-for-propdef-font-size-adjust"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['3b64181e'] = {"dfnID": "3b64181e", "url": "https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none", "dfnText": "none", "refSections": [{"refs": [{"id": "ref-for-valdef-font-size-adjust-none"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['99a3763c'] = {"dfnID": "99a3763c", "url": "https://drafts.csswg.org/css-fonts-4/#propdef-font-size-adjust", "dfnText": "font-size-adjust", "refSections": [{"refs": [{"id": "ref-for-propdef-font-size-adjust"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['3b64181e'] = {"dfnID": "3b64181e", "url": "https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none", "dfnText": "none", "refSections": [{"refs": [{"id": "ref-for-valdef-font-size-adjust-none"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['12cf38c9'] = {"dfnID": "12cf38c9", "url": "https://drafts.csswg.org/css-inline-3/#propdef-initial-letter", "dfnText": "initial-letter", "refSections": [{"refs": [{"id": "ref-for-propdef-initial-letter"}], "title": "4.1. Separate CSS properties based on what should cascade separately"}], "external": true};
 window.dfnpanelData['3245cc5d'] = {"dfnID": "3245cc5d", "url": "https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align", "dfnText": "initial-letter-align", "refSections": [{"refs": [{"id": "ref-for-propdef-initial-letter-align"}], "title": "4.1. Separate CSS properties based on what should cascade separately"}], "external": true};
 window.dfnpanelData['fb030e6c'] = {"dfnID": "fb030e6c", "url": "https://drafts.csswg.org/css-values-4/#length-value", "dfnText": "<length>", "refSections": [{"refs": [{"id": "ref-for-length-value"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
-window.dfnpanelData['16310992'] = {"dfnID": "16310992", "url": "https://drafts.csswg.org/css-values-4/#number-value", "dfnText": "<number>", "refSections": [{"refs": [{"id": "ref-for-number-value"}, {"id": "ref-for-number-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}, {"refs": [{"id": "ref-for-number-value\u2461"}, {"id": "ref-for-number-value\u2462"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['537cf076'] = {"dfnID": "537cf076", "url": "https://drafts.csswg.org/css-values-4/#mult-opt", "dfnText": "?", "refSections": [{"refs": [{"id": "ref-for-mult-opt"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['6ec67710'] = {"dfnID": "6ec67710", "url": "https://drafts.csswg.org/css-values-4/#comb-one", "dfnText": "|", "refSections": [{"refs": [{"id": "ref-for-comb-one"}, {"id": "ref-for-comb-one\u2460"}, {"id": "ref-for-comb-one\u2461"}, {"id": "ref-for-comb-one\u2462"}, {"id": "ref-for-comb-one\u2463"}, {"id": "ref-for-comb-one\u2464"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['16310992'] = {"dfnID": "16310992", "url": "https://drafts.csswg.org/css-values-4/#number-value", "dfnText": "<number>", "refSections": [{"refs": [{"id": "ref-for-number-value"}, {"id": "ref-for-number-value\u2460"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}, {"refs": [{"id": "ref-for-number-value\u2461"}, {"id": "ref-for-number-value\u2462"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['537cf076'] = {"dfnID": "537cf076", "url": "https://drafts.csswg.org/css-values-4/#mult-opt", "dfnText": "?", "refSections": [{"refs": [{"id": "ref-for-mult-opt"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['6ec67710'] = {"dfnID": "6ec67710", "url": "https://drafts.csswg.org/css-values-4/#comb-one", "dfnText": "|", "refSections": [{"refs": [{"id": "ref-for-comb-one"}, {"id": "ref-for-comb-one\u2460"}, {"id": "ref-for-comb-one\u2461"}, {"id": "ref-for-comb-one\u2462"}, {"id": "ref-for-comb-one\u2463"}, {"id": "ref-for-comb-one\u2464"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['ac54fbff'] = {"dfnID": "ac54fbff", "url": "https://drafts.csswg.org/css2/#propdef-line-height", "dfnText": "line-height", "refSections": [{"refs": [{"id": "ref-for-propdef-line-height"}, {"id": "ref-for-propdef-line-height\u2460"}, {"id": "ref-for-propdef-line-height\u2461"}, {"id": "ref-for-propdef-line-height\u2462"}, {"id": "ref-for-propdef-line-height\u2463"}, {"id": "ref-for-propdef-line-height\u2464"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['b203675a'] = {"dfnID": "b203675a", "url": "https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle", "dfnText": "getComputedStyle(elt)", "refSections": [{"refs": [{"id": "ref-for-dom-window-getcomputedstyle"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
 window.dfnpanelData['4fe61159'] = {"dfnID": "4fe61159", "url": "https://drafts.csswg.org/cssom-1/#resolved-value", "dfnText": "resolved value", "refSections": [{"refs": [{"id": "ref-for-resolved-value"}], "title": "4.3. Choose the computed value type based on how the property should inherit"}], "external": true};
@@ -4430,8 +4543,9 @@ window.dfnpanelData['d8c1cdf2'] = {"dfnID": "d8c1cdf2", "url": "https://tc39.git
 window.dfnpanelData['0699bcce'] = {"dfnID": "0699bcce", "url": "https://tc39.github.io/ecma262/#sec-number-objects", "dfnText": "Number", "refSections": [{"refs": [{"id": "ref-for-sec-number-objects"}, {"id": "ref-for-sec-number-objects\u2460"}, {"id": "ref-for-sec-number-objects\u2461"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['d3645ed0'] = {"dfnID": "d3645ed0", "url": "https://tc39.github.io/ecma262/#sec-weak-ref-objects", "dfnText": "WeakRef", "refSections": [{"refs": [{"id": "ref-for-sec-weak-ref-objects"}], "title": "5.3. Don\u2019t expose garbage collection"}], "external": true};
 window.dfnpanelData['7c397e50'] = {"dfnID": "7c397e50", "url": "https://fetch.spec.whatwg.org/#body", "dfnText": "Body", "refSections": [{"refs": [{"id": "ref-for-body"}], "title": "12.1. Use common words"}], "external": true};
-window.dfnpanelData['2aaa2f42'] = {"dfnID": "2aaa2f42", "url": "https://fetch.spec.whatwg.org/#concept-http-fetch", "dfnText": "http fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-fetch"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['2aaa2f42'] = {"dfnID": "2aaa2f42", "url": "https://fetch.spec.whatwg.org/#concept-http-fetch", "dfnText": "http fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-fetch"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['dc4acd27'] = {"dfnID": "dc4acd27", "url": "https://fetch.spec.whatwg.org/#dom-body-json", "dfnText": "json()", "refSections": [{"refs": [{"id": "ref-for-dom-body-json"}], "title": "12.1. Use common words"}], "external": true};
+window.dfnpanelData['54fa0afb'] = {"dfnID": "54fa0afb", "url": "https://drafts.fxtf.org/filter-effects-2/#propdef-backdrop-filter", "dfnText": "backdrop-filter", "refSections": [{"refs": [{"id": "ref-for-propdef-backdrop-filter"}], "title": "11.3. Resolving tension between interoperability and implementability"}], "external": true};
 window.dfnpanelData['0e9f636b'] = {"dfnID": "0e9f636b", "url": "https://w3c.github.io/hr-time/#dom-domhighrestimestamp", "dfnText": "DOMHighResTimeStamp", "refSections": [{"refs": [{"id": "ref-for-dom-domhighrestimestamp"}, {"id": "ref-for-dom-domhighrestimestamp\u2460"}, {"id": "ref-for-dom-domhighrestimestamp\u2461"}], "title": "8.4. Use the appropriate type to represent times and dates"}], "external": true};
 window.dfnpanelData['b8308563'] = {"dfnID": "b8308563", "url": "https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope", "dfnText": "DedicatedWorkerGlobalScope", "refSections": [{"refs": [{"id": "ref-for-dedicatedworkerglobalscope"}], "title": "10.2. Where possible APIs should be made available to dedicated workers"}, {"refs": [{"id": "ref-for-dedicatedworkerglobalscope\u2460"}], "title": "10.2.1. Some APIs should only be exposed to dedicated workers"}], "external": true};
 window.dfnpanelData['f0951476'] = {"dfnID": "f0951476", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler", "dfnText": "EventHandler", "refSections": [{"refs": [{"id": "ref-for-eventhandler"}], "title": "7.4. Always add event handler attributes"}], "external": true};
@@ -4524,9 +4638,9 @@ window.dfnpanelData['0e202d66'] = {"dfnID": "0e202d66", "url": "https://w3c.gith
 window.dfnpanelData['7f769aa9'] = {"dfnID": "7f769aa9", "url": "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices", "dfnText": "remote playback device", "refSections": [{"refs": [{"id": "ref-for-dfn-remote-playback-devices"}, {"id": "ref-for-dfn-remote-playback-devices\u2460"}], "title": "9.2. Use care when exposing APIs for selecting or enumerating devices"}], "external": true};
 window.dfnpanelData['1fc098b2'] = {"dfnID": "1fc098b2", "url": "https://w3c.github.io/uievents/#keyboardevent", "dfnText": "KeyboardEvent", "refSections": [{"refs": [{"id": "ref-for-keyboardevent"}], "title": "12.4. Use future-proof names"}], "external": true};
 window.dfnpanelData['c3469cd0'] = {"dfnID": "c3469cd0", "url": "https://w3c.github.io/uievents/#mouseevent", "dfnText": "MouseEvent", "refSections": [{"refs": [{"id": "ref-for-mouseevent"}, {"id": "ref-for-mouseevent\u2460"}], "title": "6.8. Classes should have constructors when possible"}], "external": true};
-window.dfnpanelData['adfe3014'] = {"dfnID": "adfe3014", "url": "https://url.spec.whatwg.org/#urlsearchparams", "dfnText": "URLSearchParams", "refSections": [{"refs": [{"id": "ref-for-urlsearchparams"}], "title": "Static objects"}, {"refs": [{"id": "ref-for-urlsearchparams\u2460"}, {"id": "ref-for-urlsearchparams\u2461"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['46335198'] = {"dfnID": "46335198", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-delete", "dfnText": "delete(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-delete"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['0992b8f5'] = {"dfnID": "0992b8f5", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-has", "dfnText": "has(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-has"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['adfe3014'] = {"dfnID": "adfe3014", "url": "https://url.spec.whatwg.org/#urlsearchparams", "dfnText": "URLSearchParams", "refSections": [{"refs": [{"id": "ref-for-urlsearchparams"}], "title": "Static objects"}, {"refs": [{"id": "ref-for-urlsearchparams\u2460"}, {"id": "ref-for-urlsearchparams\u2461"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['46335198'] = {"dfnID": "46335198", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-delete", "dfnText": "delete(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-delete"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['0992b8f5'] = {"dfnID": "0992b8f5", "url": "https://url.spec.whatwg.org/#dom-urlsearchparams-has", "dfnText": "has(name)", "refSections": [{"refs": [{"id": "ref-for-dom-urlsearchparams-has"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['c3dc5717'] = {"dfnID": "c3dc5717", "url": "https://url.spec.whatwg.org/#percent-encode", "dfnText": "percent-encode", "refSections": [{"refs": [{"id": "ref-for-percent-encode"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['dcffbccd'] = {"dfnID": "dcffbccd", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['1bb59bab'] = {"dfnID": "1bb59bab", "url": "https://webaudio.github.io/web-audio-api/#AudioWorklet", "dfnText": "AudioWorklet", "refSections": [{"refs": [{"id": "ref-for-AudioWorklet"}], "title": "10.2.1. Some APIs should only be exposed to dedicated workers"}], "external": true};
@@ -4539,6 +4653,7 @@ window.dfnpanelData['8855a9aa'] = {"dfnID": "8855a9aa", "url": "https://webidl.s
 window.dfnpanelData['c01cbda0'] = {"dfnID": "c01cbda0", "url": "https://webidl.spec.whatwg.org/#EnforceRange", "dfnText": "EnforceRange", "refSections": [{"refs": [{"id": "ref-for-EnforceRange"}, {"id": "ref-for-EnforceRange\u2460"}, {"id": "ref-for-EnforceRange\u2461"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['bdbd19d1'] = {"dfnID": "bdbd19d1", "url": "https://webidl.spec.whatwg.org/#idl-promise", "dfnText": "Promise", "refSections": [{"refs": [{"id": "ref-for-idl-promise"}], "title": "7.6. Guard against potential recursion"}], "external": true};
 window.dfnpanelData['b75bb3bd'] = {"dfnID": "b75bb3bd", "url": "https://webidl.spec.whatwg.org/#SecureContext", "dfnText": "SecureContext", "refSections": [{"refs": [{"id": "ref-for-SecureContext"}, {"id": "ref-for-SecureContext\u2460"}], "title": "2.6. Consider limiting new features to secure contexts"}], "external": true};
+window.dfnpanelData['7d783f61'] = {"dfnID": "7d783f61", "url": "https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer", "dfnText": "SharedArrayBuffer", "refSections": [{"refs": [{"id": "ref-for-idl-SharedArrayBuffer"}], "title": "11.3. Resolving tension between interoperability and implementability"}], "external": true};
 window.dfnpanelData['82ca3efc'] = {"dfnID": "82ca3efc", "url": "https://webidl.spec.whatwg.org/#exceptiondef-typeerror", "dfnText": "TypeError", "refSections": [{"refs": [{"id": "ref-for-exceptiondef-typeerror"}], "title": "6.8. Classes should have constructors when possible"}, {"refs": [{"id": "ref-for-exceptiondef-typeerror\u2460"}, {"id": "ref-for-exceptiondef-typeerror\u2461"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['b0d7f3c3'] = {"dfnID": "b0d7f3c3", "url": "https://webidl.spec.whatwg.org/#idl-USVString", "dfnText": "USVString", "refSections": [{"refs": [{"id": "ref-for-idl-USVString"}], "title": "3.6. Name URL-containing attributes based on their primary purpose"}, {"refs": [{"id": "ref-for-idl-USVString\u2460"}, {"id": "ref-for-idl-USVString\u2461"}, {"id": "ref-for-idl-USVString\u2462"}, {"id": "ref-for-idl-USVString\u2463"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['95d7775a'] = {"dfnID": "95d7775a", "url": "https://webidl.spec.whatwg.org/#idl-Uint8Array", "dfnText": "Uint8Array", "refSections": [{"refs": [{"id": "ref-for-idl-Uint8Array"}], "title": "8.2. Represent strings appropriately"}], "external": true};
@@ -4551,8 +4666,8 @@ window.dfnpanelData['77996ab1'] = {"dfnID": "77996ab1", "url": "https://webidl.s
 window.dfnpanelData['2039631f'] = {"dfnID": "2039631f", "url": "https://webidl.spec.whatwg.org/#dfn-namespace", "dfnText": "namespace", "refSections": [{"refs": [{"id": "ref-for-dfn-namespace"}, {"id": "ref-for-dfn-namespace\u2460"}], "title": "6.8. Classes should have constructors when possible"}], "external": true};
 window.dfnpanelData['d7d5b038'] = {"dfnID": "d7d5b038", "url": "https://webidl.spec.whatwg.org/#dfn-observable-array-type", "dfnText": "observable array type", "refSections": [{"refs": [{"id": "ref-for-dfn-observable-array-type"}], "title": "6.5. Make method arguments optional if possible"}], "external": true};
 window.dfnpanelData['bc5645aa'] = {"dfnID": "bc5645aa", "url": "https://webidl.spec.whatwg.org/#idl-octet", "dfnText": "octet", "refSections": [{"refs": [{"id": "ref-for-idl-octet"}, {"id": "ref-for-idl-octet\u2460"}, {"id": "ref-for-idl-octet\u2461"}, {"id": "ref-for-idl-octet\u2462"}, {"id": "ref-for-idl-octet\u2463"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
-window.dfnpanelData['a9789869'] = {"dfnID": "a9789869", "url": "https://webidl.spec.whatwg.org/#dfn-partial-dictionary", "dfnText": "partial dictionary", "refSections": [{"refs": [{"id": "ref-for-dfn-partial-dictionary"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
-window.dfnpanelData['d0eba3fd'] = {"dfnID": "d0eba3fd", "url": "https://webidl.spec.whatwg.org/#dfn-partial-interface", "dfnText": "partial interface", "refSections": [{"refs": [{"id": "ref-for-dfn-partial-interface"}], "title": "11.3.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['a9789869'] = {"dfnID": "a9789869", "url": "https://webidl.spec.whatwg.org/#dfn-partial-dictionary", "dfnText": "partial dictionary", "refSections": [{"refs": [{"id": "ref-for-dfn-partial-dictionary"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
+window.dfnpanelData['d0eba3fd'] = {"dfnID": "d0eba3fd", "url": "https://webidl.spec.whatwg.org/#dfn-partial-interface", "dfnText": "partial interface", "refSections": [{"refs": [{"id": "ref-for-dfn-partial-interface"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['5eafebb0'] = {"dfnID": "5eafebb0", "url": "https://webidl.spec.whatwg.org/#sequence-type", "dfnText": "sequence type", "refSections": [{"refs": [{"id": "ref-for-sequence-type"}, {"id": "ref-for-sequence-type\u2460"}], "title": "6.5. Make method arguments optional if possible"}, {"refs": [{"id": "ref-for-sequence-type\u2461"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['cc212fd8'] = {"dfnID": "cc212fd8", "url": "https://webidl.spec.whatwg.org/#dfn-setlike", "dfnText": "setlike", "refSections": [{"refs": [{"id": "ref-for-dfn-setlike"}], "title": "Static objects"}], "external": true};
 window.dfnpanelData['47574099'] = {"dfnID": "47574099", "url": "https://webidl.spec.whatwg.org/#idl-short", "dfnText": "short", "refSections": [{"refs": [{"id": "ref-for-idl-short"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
@@ -4565,7 +4680,7 @@ window.dfnpanelData['d06b2b8c'] = {"dfnID": "d06b2b8c", "url": "https://xhr.spec
 window.dfnpanelData['59f1958b'] = {"dfnID": "59f1958b", "url": "https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget", "dfnText": "XMLHttpRequestEventTarget", "refSections": [{"refs": [{"id": "ref-for-xmlhttprequesteventtarget"}], "title": "7.8. Use Events and Observers appropriately"}], "external": true};
 window.dfnpanelData['5528aefc'] = {"dfnID": "5528aefc", "url": "https://xhr.spec.whatwg.org/#dom-progressevent-loaded", "dfnText": "loaded", "refSections": [{"refs": [{"id": "ref-for-dom-progressevent-loaded"}], "title": "7.6. Guard against potential recursion"}], "external": true};
 window.dfnpanelData['67fa4a40'] = {"dfnID": "67fa4a40", "url": "https://xhr.spec.whatwg.org/#dom-progressevent-total", "dfnText": "total", "refSections": [{"refs": [{"id": "ref-for-dom-progressevent-total"}], "title": "7.6. Guard against potential recursion"}], "external": true};
-window.dfnpanelData['monkey-patch'] = {"dfnID": "monkey-patch", "url": "#monkey-patch", "dfnText": "monkey patch", "refSections": [{"refs": [{"id": "ref-for-monkey-patch"}], "title": "10.5. Extend existing manifest files rather than creating new ones"}, {"refs": [{"id": "ref-for-monkey-patch\u2460"}], "title": "11.3.1. If you need to monkey patch"}], "external": false};
+window.dfnpanelData['monkey-patch'] = {"dfnID": "monkey-patch", "url": "#monkey-patch", "dfnText": "monkey patch", "refSections": [{"refs": [{"id": "ref-for-monkey-patch"}], "title": "10.5. Extend existing manifest files rather than creating new ones"}, {"refs": [{"id": "ref-for-monkey-patch\u2460"}], "title": "11.4.1. If you need to monkey patch"}], "external": false};
 </script>
 <script>/* Boilerplate: script-dom-helper */
 function query(sel) { return document.querySelector(sel); }
