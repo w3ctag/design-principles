@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="89b42eab18380788780a590eac3c9b016d02e4cf" name="document-revision">
+  <meta content="7fe598f64187ae29818544e7aa6f12928c057e78" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -654,7 +654,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-09-08">8 September 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-11-30">30 November 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -678,7 +678,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-software" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -1930,8 +1930,8 @@ they can avoid passing an extra argument.</p>
    <h3 class="heading settled" data-level="6.5" id="optional-parameters"><span class="secno">6.5. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
    <p>If an argument for an API method has a reasonable default value,
 make that argument optional and specify the default value.</p>
-   <div class="example" id="example-b823d8cb"><a class="self-link" href="#example-b823d8cb"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
-Thie defaults to <code>false</code>, meaning that
+   <div class="example" id="example-6724ca08"><a class="self-link" href="#example-6724ca08"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
+This defaults to <code>false</code>, meaning that
 the event should be dispatched to the listener in the bubbling phase by default. </div>
    <p class="note" role="note"><span class="marker">Note:</span> Exceptions have been made for legacy interoperability reasons
 (such as <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code>),
@@ -2577,7 +2577,7 @@ unless there is a specific reason not to:</p>
     <dt data-md><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-unrestricted-double" id="ref-for-idl-unrestricted-double">unrestricted double</a></code>
     <dd data-md>
      <p>Any JavaScript number, including infinities and NaN</p>
-    <dt data-md><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-double" id="ref-for-idl-double">double</a></code>
+    <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/edit-context/#dom-underlinestyle-double" id="ref-for-dom-underlinestyle-double">double</a></code>
     <dd data-md>
      <p>Any JavaScript number, excluding infinities and NaN</p>
     <dt data-md>[<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#EnforceRange" id="ref-for-EnforceRange">EnforceRange</a></code>] <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-long-long" id="ref-for-idl-long-long">long long</a></code>
@@ -3832,6 +3832,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="d3645ed0">WeakRef</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[EDIT-CONTEXT]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="9cf7d2c0">double</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="7c397e50">Body</span>
@@ -4019,7 +4024,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="95d7775a">Uint8Array</span>
      <li><span class="dfn-paneled" id="bdcd112d">bigint</span>
      <li><span class="dfn-paneled" id="f4813f78">byte</span>
-     <li><span class="dfn-paneled" id="8c800cdf">double</span>
      <li><span class="dfn-paneled" id="f8de33a3">long</span>
      <li><span class="dfn-paneled" id="9aeb0a82">long long</span>
      <li><span class="dfn-paneled" id="77996ab1">maplike</span>
@@ -4061,6 +4065,8 @@ so they can correct this omission.</p>
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
+   <dt id="biblio-edit-context">[EDIT-CONTEXT]
+   <dd>alex keng. <a href="https://w3c.github.io/edit-context/"><cite>EditContext API</cite></a>. URL: <a href="https://w3c.github.io/edit-context/">https://w3c.github.io/edit-context/</a>
    <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
    <dd>Nick Doty. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
@@ -4123,11 +4129,11 @@ so they can correct this omission.</p>
    <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
    <dd><a href="https://drafts.fxtf.org/filter-effects-2/"><cite>Filter Effects Module Level 2</cite></a>. Editor's Draft. URL: <a href="https://drafts.fxtf.org/filter-effects-2/">https://drafts.fxtf.org/filter-effects-2/</a>
    <dt id="biblio-intersection-observer">[INTERSECTION-OBSERVER]
-   <dd>Stefan Zager; Emilio Cobos Álvarez. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
+   <dd>Stefan Zager; Emilio Cobos Álvarez; Traian Captan. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
    <dt id="biblio-least-power">[LEAST-POWER]
    <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower"><cite>The Rule of Least Power</cite></a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
    <dt id="biblio-pointerevents3">[POINTEREVENTS3]
-   <dd>Patrick Lauke; Navid Zolghadr. <a href="https://w3c.github.io/pointerevents/"><cite>Pointer Events</cite></a>. URL: <a href="https://w3c.github.io/pointerevents/">https://w3c.github.io/pointerevents/</a>
+   <dd>Patrick Lauke; Robert Flack. <a href="https://w3c.github.io/pointerevents/"><cite>Pointer Events</cite></a>. URL: <a href="https://w3c.github.io/pointerevents/">https://w3c.github.io/pointerevents/</a>
    <dt id="biblio-referrer-policy">[REFERRER-POLICY]
    <dd>Jochen Eisinger; Emily Stark. <a href="https://w3c.github.io/webappsec-referrer-policy/"><cite>Referrer Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-referrer-policy/">https://w3c.github.io/webappsec-referrer-policy/</a>
    <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
@@ -4135,7 +4141,7 @@ so they can correct this omission.</p>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
    <dt id="biblio-rfc8941">[RFC8941]
-   <dd>M. Nottingham; P-H. Kamp. <a href="https://www.rfc-editor.org/rfc/rfc8941"><cite>Structured Field Values for HTTP</cite></a>. February 2021. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc8941">https://www.rfc-editor.org/rfc/rfc8941</a>
+   <dd>M. Nottingham; P-H. Kamp. <a href="https://httpwg.org/specs/rfc8941.html"><cite>Structured Field Values for HTTP</cite></a>. February 2021. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8941.html">https://httpwg.org/specs/rfc8941.html</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
@@ -4542,6 +4548,7 @@ window.dfnpanelData['5f95ccda'] = {"dfnID": "5f95ccda", "url": "https://tc39.git
 window.dfnpanelData['d8c1cdf2'] = {"dfnID": "d8c1cdf2", "url": "https://tc39.github.io/ecma262/#sec-finalization-registry-objects", "dfnText": "FinalizationRegistry", "refSections": [{"refs": [{"id": "ref-for-sec-finalization-registry-objects"}], "title": "5.3. Don\u2019t expose garbage collection"}], "external": true};
 window.dfnpanelData['0699bcce'] = {"dfnID": "0699bcce", "url": "https://tc39.github.io/ecma262/#sec-number-objects", "dfnText": "Number", "refSections": [{"refs": [{"id": "ref-for-sec-number-objects"}, {"id": "ref-for-sec-number-objects\u2460"}, {"id": "ref-for-sec-number-objects\u2461"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['d3645ed0'] = {"dfnID": "d3645ed0", "url": "https://tc39.github.io/ecma262/#sec-weak-ref-objects", "dfnText": "WeakRef", "refSections": [{"refs": [{"id": "ref-for-sec-weak-ref-objects"}], "title": "5.3. Don\u2019t expose garbage collection"}], "external": true};
+window.dfnpanelData['9cf7d2c0'] = {"dfnID": "9cf7d2c0", "url": "https://w3c.github.io/edit-context/#dom-underlinestyle-double", "dfnText": "double", "refSections": [{"refs": [{"id": "ref-for-dom-underlinestyle-double"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['7c397e50'] = {"dfnID": "7c397e50", "url": "https://fetch.spec.whatwg.org/#body", "dfnText": "Body", "refSections": [{"refs": [{"id": "ref-for-body"}], "title": "12.1. Use common words"}], "external": true};
 window.dfnpanelData['2aaa2f42'] = {"dfnID": "2aaa2f42", "url": "https://fetch.spec.whatwg.org/#concept-http-fetch", "dfnText": "http fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-fetch"}], "title": "11.4.1. If you need to monkey patch"}], "external": true};
 window.dfnpanelData['dc4acd27'] = {"dfnID": "dc4acd27", "url": "https://fetch.spec.whatwg.org/#dom-body-json", "dfnText": "json()", "refSections": [{"refs": [{"id": "ref-for-dom-body-json"}], "title": "12.1. Use common words"}], "external": true};
@@ -4659,7 +4666,6 @@ window.dfnpanelData['b0d7f3c3'] = {"dfnID": "b0d7f3c3", "url": "https://webidl.s
 window.dfnpanelData['95d7775a'] = {"dfnID": "95d7775a", "url": "https://webidl.spec.whatwg.org/#idl-Uint8Array", "dfnText": "Uint8Array", "refSections": [{"refs": [{"id": "ref-for-idl-Uint8Array"}], "title": "8.2. Represent strings appropriately"}], "external": true};
 window.dfnpanelData['bdcd112d'] = {"dfnID": "bdcd112d", "url": "https://webidl.spec.whatwg.org/#idl-bigint", "dfnText": "bigint", "refSections": [{"refs": [{"id": "ref-for-idl-bigint"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['f4813f78'] = {"dfnID": "f4813f78", "url": "https://webidl.spec.whatwg.org/#idl-byte", "dfnText": "byte", "refSections": [{"refs": [{"id": "ref-for-idl-byte"}], "title": "8.2. Represent strings appropriately"}], "external": true};
-window.dfnpanelData['8c800cdf'] = {"dfnID": "8c800cdf", "url": "https://webidl.spec.whatwg.org/#idl-double", "dfnText": "double", "refSections": [{"refs": [{"id": "ref-for-idl-double"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['f8de33a3'] = {"dfnID": "f8de33a3", "url": "https://webidl.spec.whatwg.org/#idl-long", "dfnText": "long", "refSections": [{"refs": [{"id": "ref-for-idl-long"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['9aeb0a82'] = {"dfnID": "9aeb0a82", "url": "https://webidl.spec.whatwg.org/#idl-long-long", "dfnText": "long long", "refSections": [{"refs": [{"id": "ref-for-idl-long-long"}], "title": "8.1. Use numeric types appropriately"}], "external": true};
 window.dfnpanelData['77996ab1'] = {"dfnID": "77996ab1", "url": "https://webidl.spec.whatwg.org/#dfn-maplike", "dfnText": "maplike", "refSections": [{"refs": [{"id": "ref-for-dfn-maplike"}], "title": "Static objects"}], "external": true};
