@@ -1477,7 +1477,7 @@ make that argument optional and specify the default value.
 
 <div class="example">
 {{EventTarget/addEventListener()}} takes an optional boolean `useCapture` argument.
-Thie defaults to `false`, meaning that
+This defaults to `false`, meaning that
 the event should be dispatched to the listener in the bubbling phase by default.
 </div>
 
