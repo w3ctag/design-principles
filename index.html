@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="7fe598f64187ae29818544e7aa6f12928c057e78" name="document-revision">
+  <meta content="1eadb6ddf55ef7ef303c34ef3b08cede906a6e6f" name="document-revision">
 <style>
     table.data {
         text-align: left;
@@ -654,7 +654,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-11-30">30 November 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-12-06">6 December 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -774,7 +774,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#aborting"><span class="secno">6.11</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">6.12</span> <span class="content">Use strings for constants and enums</span></a>
       <li><a href="#async-by-default"><span class="secno">6.13</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
-      <li><a href="#properties-vs-methods"><span class="secno">6.14</span> <span class="content">Use properties and methods appropriately</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -2165,34 +2164,6 @@ while making synchronous the exception. </div>
 applicable is when a design has to cross boundaries
 between JavaScript and WASM,
 as the <a href="https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md">Promise integration</a> is still under development as of today. </div>
-   <h3 class="heading settled" data-level="6.14" id="properties-vs-methods"><span class="secno">6.14. </span><span class="content">Use properties and methods appropriately</span><a class="self-link" href="#properties-vs-methods"></a></h3>
-   <p>Sometimes it is unclear whether to use a property or a method.</p>
-   <ul>
-    <li data-md>
-     <p>Property getters must not have any (observable) side effects.
-If you have expected side effects, use a method.</p>
-    <li data-md>
-     <p>Property getters are expected to represent the state of a given object.
-This means a getter should be able to efficiently return a value using the existing state.
-If a getter does not satisfy this, it should be a method.
-(A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)</p>
-    <li data-md>
-     <p>If the underlying object has not changed, property getters should return the same object each time it is called.
-This means <code>obj.property === obj.property</code> must always hold.
-Returning a new value from a property getter each time is not allowed.
-If this does not hold, the getter should be a method.</p>
-   </ul>
-   <p>For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
-given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)</p>
-   <p>The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:</p>
-   <ul>
-    <li data-md>
-     <p>If live, then return the same object each time, until a state change requires a different object to be returned.
-This can be returned from either an property or a method.</p>
-    <li data-md>
-     <p>If static, then return a new object each time.
-In which case, this should be be a method.</p>
-   </ul>
    <h2 class="heading settled" data-level="7" id="event-design"><span class="secno">7. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="7.1" id="one-time-events"><span class="secno">7.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
