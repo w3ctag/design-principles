@@ -9,6 +9,7 @@ TR: https://www.w3.org/TR/design-principles/
 ED: https://w3ctag.github.io/design-principles/
 Issue Tracking: GitHub https://github.com/w3ctag/design-principles/issues/
 Editor: Sangwhan Moon, w3cid 42399, Google https://www.google.com/, https://sangwhan.com
+Editor: Lea Verou, Invited Expert, https://lea.verou.me
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
 Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
