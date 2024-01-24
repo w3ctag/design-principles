@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 4416b18d5, updated Tue Jan 2 15:52:39 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="918cef0cbe142f623cdeb57ffed4ef3d03800a4f" name="revision">
+  <meta content="c8a5914bf8cf58f88f652ef9c02fddea4945184c" name="revision">
 <style>
     table.data {
         text-align: left;
@@ -760,7 +760,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
       <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent</span></a>
       <li><a href="#devices-platforms"><span class="secno">1.5</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
-      <li><a href="#leave-the-web-better"><span class="secno">1.6</span> <span class="content">Leave the web better than you found it</span></a>
+      <li><a href="#new-features"><span class="secno">1.6</span> <span class="content">Add new capabilities with care</span></a>
+      <li><a href="#removing-features"><span class="secno">1.7</span> <span class="content">Remove or change capabilities only once you understand existing usage</span></a>
+      <li><a href="#leave-the-web-better"><span class="secno">1.8</span> <span class="content">Leave the web better than you found it</span></a>
      </ol>
     <li>
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
@@ -1082,7 +1084,32 @@ despite working on others.
 In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
 See <a href="#feature-detect">§ 2.5 New features should be detectable</a>.</p>
-   <h3 class="heading settled" data-level="1.6" id="leave-the-web-better"><span class="secno">1.6. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
+   <h3 class="heading settled" data-level="1.6" id="new-features"><span class="secno">1.6. </span><span class="content">Add new capabilities with care</span><a class="self-link" href="#new-features"></a></h3>
+   <p>Add new capabilities to the web with consideration of existing functionality and content.</p>
+   <p>The Web includes many extension points that allow for additions;
+see for example <a href="https://html.spec.whatwg.org/multipage/introduction.html#extensibility"><cite>HTML</cite> § 1.7.3 Extensibility</a>.</p>
+   <p>Before adding items, consider integration with existing, similar capabilities.
+If this leads to a preferred design approach that cannot be implemented by only adding items,
+it might still be possible; see <a href="#removing-features">§ 1.7 Remove or change capabilities only once you understand existing usage</a>.</p>
+   <p>Do not assume that a change or removal is impossible without first checking.
+Before adding items, consider integration with existing, similar capabilities.
+If this leads to a preferred design approach that cannot be implemented by only adding items,
+it might still be possible; see <a href="#removing-features">§ 1.7 Remove or change capabilities only once you understand existing usage</a>.
+Do not assume that a change or removal is impossible without first checking.</p>
+   <h3 class="heading settled" data-level="1.7" id="removing-features"><span class="secno">1.7. </span><span class="content">Remove or change capabilities only once you understand existing usage</span><a class="self-link" href="#removing-features"></a></h3>
+   <p>Prioritize compatibility with existing content when removing or changing functionality.</p>
+   <p>Once a significant amount of content has come to depend on a particular behavior,
+removing or changing that behavior is discouraged.
+Removing or changing features and capabilities is possible,
+but it first requires that the nature and scope of the impact on existing content
+is well understood.
+This might require research into how features are used by existing content.</p>
+   <p>The obligation to understand existing usage also applies to any features that content relies upon.
+This includes vendor-proprietary features and
+behavior that might be considered implementation bugs.
+Web features are not solely defined in specifications;
+they are also defined by how content uses those features.</p>
+   <h3 class="heading settled" data-level="1.8" id="leave-the-web-better"><span class="secno">1.8. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
    <p>As you add new capabilities to the web platform, do so in a way that improves
 the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics.
 The existence of a defect in one part of the platform must not be used as a license
