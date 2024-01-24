@@ -298,7 +298,7 @@ If this leads to a preferred design approach that cannot be implemented by only 
 it might still be possible; see [[#removing-features]].
 Do not assume that a change or removal is impossible without first checking.
 
-<h3 id=removing-features>Understand existing usage well before changing existing capabilities</h3>
+<h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
 
 Prioritize compatibility with existing content when removing or changing functionality. 
 Modern user agents are generally capable of handling most older content.
