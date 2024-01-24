@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 4416b18d5, updated Tue Jan 2 15:52:39 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="0a66b862b068fd3d2075d98d323e00e2f68f83d5" name="revision">
+  <meta content="918cef0cbe142f623cdeb57ffed4ef3d03800a4f" name="revision">
 <style>
     table.data {
         text-align: left;
@@ -1257,7 +1257,8 @@ if they have a known security or privacy impact.
 This lowers the barrier to entry for creating web pages
 that take advantage of new features which don’t impact user security or privacy.</p>
    <div class="note" role="note">
-     Specification authors can limit most features defined in <a href="https://heycam.github.io/webidl/">Web IDL</a>,
+     Specification authors can limit most features defined in
+Web IDL <a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a>,
 to secure contexts
 by using the
 [<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#SecureContext" id="ref-for-SecureContext">SecureContext</a></code>] extended attribute
@@ -2100,7 +2101,7 @@ but these features were designed before namespaces,
 and go beyond what is currently possible with namespaces. 
     <p>If your API requires this type of singleton,
 consider using a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-namespace" id="ref-for-dfn-namespace①">namespace</a>,
-and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a> if there is some problem with using them.</p>
+and <a href="https://github.com/whatwg/webidl/issues/new">File an issue on Web IDL</a> if there is some problem with using them.</p>
    </div>
    <p>Factory methods can complement constructors, but generally should not be used <em>instead</em> of them.
 It may still be valuable to include factory methods
@@ -2619,7 +2620,7 @@ whether a method or a property setter.</p>
    <p>If you have extra rules which need to be applied to the number,
 you can specify those in your algorithm.</p>
    <div class="note" role="note">
-     The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a> for converting a JavaScript number to a number with fewer bits,
+     The <a href="https://webidl.spec.whatwg.org/#es-integer-types">WEBIDL rules</a> for converting a JavaScript number to a number with fewer bits,
 such as an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-octet" id="ref-for-idl-octet">octet</a></code> (8 bits, in the range [0, 255]),
 involves taking the modulo of the JavaScript number.
 For example, to convert a JavaScript number value of 300
