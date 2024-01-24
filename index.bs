@@ -290,7 +290,7 @@ HTML elements and attributes;
 DOM interfaces and functions; and,
 CSS rules and selectors.
 
-<h3 id=removing-features>Removing or changing capabilities needs particular care</h3>
+<h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
 
 An important goal of the Web is that it is relatively stable.
 Modern user agents are generally capable of handling most older content.
