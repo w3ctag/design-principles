@@ -267,8 +267,9 @@ and allows users to choose their own font and font size without causing text to 
 
 When making changes to web APIs, consider the impact on existing web content.
 Existing content often relies on existing user agent behavior.
-In particular, it should be possible to process existing web content in current user agents and get results that are compatible with the existing expectations of users and authors,
-based on the behavior of existing user agents.
+It should be possible to process existing web content in current user agents and
+get results that are compatible with preexisting expectations of users and authors.
+This will generally match the behavior of user agents prior to the introduction of the new feature.
 
 Content relying on existing user agent behavior can take many forms, such as:
 
