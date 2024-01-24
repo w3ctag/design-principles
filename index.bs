@@ -281,6 +281,40 @@ In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
 See [[#feature-detect]].
 
+<h3 id=new-features>Add new capabilities with care</h3>
+
+Add new capabilities to the web with consideration of existing functionality and content.
+
+The Web includes many extension points that allow for additions;
+see for example [[HTML#extensibility]].
+
+Before adding items, consider integration with existing, similar capabilities.
+If this leads to a preferred design approach that cannot be implemented by only adding items,
+it might still be possible; see [[#removing-features]].
+
+Do not assume that a change or removal is impossible without first checking.
+Before adding items, consider integration with existing, similar capabilities.
+If this leads to a preferred design approach that cannot be implemented by only adding items,
+it might still be possible; see [[#removing-features]].
+Do not assume that a change or removal is impossible without first checking.
+
+<h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
+
+Prioritize compatibility with existing content when removing or changing functionality. 
+
+Once a significant amount of content has come to depend on a particular behavior,
+removing or changing that behavior is discouraged.
+Removing or changing features and capabilities is possible,
+but it first requires that the nature and scope of the impact on existing content
+is well understood.
+This might require research into how features are used by existing content.
+
+The obligation to understand existing usage also applies to any features that content relies upon.
+This includes vendor-proprietary features and
+behavior that might be considered implementation bugs.
+Web features are not solely defined in specifications;
+they are also defined by how content uses those features.
+
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
