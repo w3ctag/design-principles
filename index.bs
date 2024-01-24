@@ -293,6 +293,14 @@ Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
+
+<h3 id="data-minimization">Minimize data</h3>
+
+Web APIs should be designed to minimize the amount of data that sites need to request to carry out their
+users' goals.  Data minimization limits the risks of data being disclosed or misused. It also helps user
+agents and other actors more meaningfully explain the decisions their users need to make. For more information,
+see the <a href="https://www.w3.org/TR/privacy-principles/#data-minimization">Privacy Principles</a>.
+
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
