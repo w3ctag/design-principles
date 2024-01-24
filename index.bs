@@ -243,6 +243,13 @@ over the identifying information about themselves
 they are presenting in different contexts on the web,
 and be transparent about it.
 
+"Identity" is a complex concept that can be understood in many different ways.
+It can refer to how someone presents or sees themselves, how they relate to other
+people, groups, or institutions, and can determine how they behave
+or how they are treated by others.
+In web architecture, "identity" is often used as a shortcut
+to refer to identifiers, and the information attached to them.
+
 Features that use or depend on
 identifiers and the attachment of data about a person
 to that identifier carry privacy risks which
