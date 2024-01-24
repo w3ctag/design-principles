@@ -263,7 +263,7 @@ so that it works across screen sizes,
 and allows users to choose their own font and font size without causing text to overflow.
 </div>
 
-<h3 id="backwards-compat">Support Existing Content</h3>
+<h3 id="backwards-compat">New features should not break existing content</h3>
 
 When making changes to web APIs, consider the impact on existing web content.
 Existing content often relies upon expected user agent processing and behavior to function as intended.
