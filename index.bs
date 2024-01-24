@@ -236,7 +236,7 @@ See also:
 
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 
-<h3 id="identity-on-the-web">Identity on the web should be contextually appropriate</h3>
+<h3 id="identity">Use identity appropriately in context</h3>
 
 Give people [control](https://www.w3.org/TR/ethical-web-principles/#control)
 over the identifying information about themselves
