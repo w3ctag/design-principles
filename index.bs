@@ -283,6 +283,8 @@ See [[#feature-detect]].
 
 <h3 id=new-features>Add new capabilities with care</h3>
 
+Add new capabilities to the web with consideration of existing functionality and content.
+
 A new Web feature can add capabilities to the Web with little concern about the effect on existing content.
 The Web includes many extension points that allow for additions;
 see for example [[HTML#extensibility]].
