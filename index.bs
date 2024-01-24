@@ -281,6 +281,33 @@ In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
 See [[#feature-detect]].
 
+<h3 id=new-features>New features can add functionality to the Web</h3>
+
+A new Web feature can add capabilities to the Web with little concern about the effect on existing content.
+The Web includes many extension points that allow for additions.
+This includes
+HTML elements and attributes;
+DOM interfaces and functions; and,
+CSS rules and selectors.
+
+<h3 id=removing-features>Removing or changing capabilities needs particular care</h3>
+
+An important goal of the Web is that it is relatively stable.
+Modern user agents are generally capable of handling most older content.
+
+Once a significant amount of content has come to depend on a particular behavior,
+removing or changing that behavior is discouraged.
+Removing or changing features and capabilities is possible,
+but it first requires that the nature and scope of the impact on existing content
+is well understood.
+This might require research into how features are used by existing content.
+
+The obligation to understand existing usage also applies to any features that content relies upon.
+This includes vendor-proprietary features and
+behavior that might be considered implementation bugs.
+Web features are not solely defined in specifications;
+they are also defined by how content uses those features.
+
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform, do so in a way that improves
