@@ -284,11 +284,8 @@ See [[#feature-detect]].
 <h3 id=new-features>New features can add functionality to the Web</h3>
 
 A new Web feature can add capabilities to the Web with little concern about the effect on existing content.
-The Web includes many extension points that allow for additions.
-This includes
-HTML elements and attributes;
-DOM interfaces and functions; and,
-CSS rules and selectors.
+The Web includes many extension points that allow for additions;
+see for example [[HTML#extensibility]].
 
 <h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
 
