@@ -258,7 +258,7 @@ This includes data that has been passively generated (for example,
 about their behaviour on the web) as well as that which has been
 actively collected (for example, they have filled in a form).
 
-You should [understand the context](https://w3ctag.github.io/privacy-principles/#identity)
+For such features, you should [understand the context](https://w3ctag.github.io/privacy-principles/#identity)
 in which your feature will be used,
 including how it will be used alongside other features of the web.
 Make sure the person can [give appropriate consent](#consent).
