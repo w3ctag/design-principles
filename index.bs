@@ -9,6 +9,7 @@ TR: https://www.w3.org/TR/design-principles/
 ED: https://w3ctag.github.io/design-principles/
 Issue Tracking: GitHub https://github.com/w3ctag/design-principles/issues/
 Editor: Sangwhan Moon, w3cid 42399, Google https://www.google.com/, https://sangwhan.com
+Editor: Lea Verou, Invited Expert, https://lea.verou.me, w3cid 52258
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
 Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
@@ -1477,7 +1478,7 @@ make that argument optional and specify the default value.
 
 <div class="example">
 {{EventTarget/addEventListener()}} takes an optional boolean `useCapture` argument.
-Thie defaults to `false`, meaning that
+This defaults to `false`, meaning that
 the event should be dispatched to the listener in the bubbling phase by default.
 </div>
 
@@ -1765,31 +1766,6 @@ between JavaScript and WASM,
 as the [Promise integration](https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md)
 is still under development as of today.
 </div>
-
-<h3 id="properties-vs-methods">Use properties and methods appropriately</h3>
-
-Sometimes it is unclear whether to use a property or a method.
-
-  * Property getters must not have any (observable) side effects.
-    If you have expected side effects, use a method.
-  * Property getters are expected to represent the state of a given object.
-    This means a getter should be able to efficiently return a value using the existing state.
-    If a getter does not satisfy this, it should be a method.
-    (A notable failure of the platform in this regard is getters like offsetTop performing layout; do not repeat this mistake.)
-  * If the underlying object has not changed, property getters should return the same object each time it is called.
-    This means <code>obj.property === obj.property</code> must always hold.
-    Returning a new value from a property getter each time is not allowed.
-    If this does not hold, the getter should be a method.
-
-For properties, whenever possible, preserve values given to the setter for return from the getter. That is,
-given <code>obj.property = x</code>, a subsequent <code>obj.property === x</code> should be true. (This will not always be the case, e.g., if a normalization or type conversion step is necessary, but should be held as a goal for normal code paths.)
-
-The object you want to return may be <a href="#live-vs-static">live or static</a>. This means:
-
-  * If live, then return the same object each time, until a state change requires a different object to be returned.
-    This can be returned from either an property or a method.
-  * If static, then return a new object each time.
-    In which case, this should be be a method.
 
 <h2 id="event-design">Event Design</h2>
 
