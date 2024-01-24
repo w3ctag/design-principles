@@ -243,7 +243,7 @@ over the identifying information about themselves
 they are presenting in different contexts on the web,
 and be transparent about it.
 
-Features that uses or depends on
+Features that use or depend on
 identifiers and the attachment of data about a person
 to that identifier carry privacy risks which
 often reach beyond a single API or system.
