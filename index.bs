@@ -2334,6 +2334,21 @@ and there is no way to make them immutable.
         on the Web IDL Bugzilla
 </div>
 
+<h3 id="use-delta-seconds">Use Delta-Seconds over HTTP-Date</h3>
+
+For HTTP header-based APIs, using Delta-seconds is prefered over HTTP-Date for a few reasons:
+
+* Parsing is inconsistent, especially around error handling 
+(see <a href="https://cache-tests.fyi/#expires-parse">tests</a>)
+* parsing is relatively expensive
+* To adjust for clock sync, you need to have a Date header available (which
+means you need to parse two dates)
+* Because of that, potential drift is doubled to two seconds
+
+Delta-seconds are much more straightforward. Developers sometimes ask for sub second 
+resolution in HTTP headers, but this is typically not accommodated for in specs, 
+since the RTT for a request can easily make that meaningless at best and a footgun at worst.
+
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
 Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
