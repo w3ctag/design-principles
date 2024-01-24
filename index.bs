@@ -518,7 +518,7 @@ that take advantage of new features which don't impact user security or privacy.
 
 <div class="note">
 Specification authors can limit most features defined in
-<a href="https://heycam.github.io/webidl/">Web IDL</a>,
+Web IDL [[WEBIDL]],
 to secure contexts
 by using the
 [{{SecureContext}}] extended attribute
@@ -1625,7 +1625,7 @@ and go beyond what is currently possible with namespaces.
 
 If your API requires this type of singleton,
 consider using a <a>namespace</a>,
-and <a href="https://github.com/heycam/webidl/issues/new">File an issue on Web IDL</a>
+and <a href="https://github.com/whatwg/webidl/issues/new">File an issue on Web IDL</a>
 if there is some problem with using them.
 </div>
 
@@ -2217,7 +2217,7 @@ If you have extra rules which need to be applied to the number,
 you can specify those in your algorithm.
 
 <div class="note">
-The <a href="https://heycam.github.io/webidl/#es-integer-types">WEBIDL rules</a>
+The <a href="https://webidl.spec.whatwg.org/#es-integer-types">WEBIDL rules</a>
 for converting a JavaScript number to a number with fewer bits,
 such as an {{octet}} (8 bits, in the range [0, 255]),
 involves taking the modulo of the JavaScript number.
@@ -2255,7 +2255,7 @@ which defeats the purpose of {{BigInt}}.
     https://github.com/w3c/css-houdini-drafts/issues/687
     https://github.com/w3c/csswg-drafts/issues/1217
     https://github.com/w3c/csswg-drafts/issues/3307
-    https://github.com/heycam/webidl/issues/84
+    https://github.com/whatwg/webidl/issues/84
     https://github.com/w3ctag/design-reviews/issues/87
 -->
 
