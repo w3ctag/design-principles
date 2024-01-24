@@ -281,7 +281,7 @@ In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
 See [[#feature-detect]].
 
-<h3 id=new-features>New features can add functionality to the Web</h3>
+<h3 id=new-features>Add new capabilities with care</h3>
 
 A new Web feature can add capabilities to the Web with little concern about the effect on existing content.
 The Web includes many extension points that allow for additions;
