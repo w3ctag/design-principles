@@ -41,6 +41,7 @@ spec:html; type:element
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
 spec:webidl; type:dfn; text:namespace
+spec:webidl; type:interface; text:double
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
@@ -1495,9 +1496,9 @@ it must default to false.
 When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
-* Method list arguments should be of type [=sequence types|sequence&ltT&gt=]
-* Method return values should be of type [=sequence types|sequence&ltT&gt=]
-* Attributes should be of type [=observable array type|ObservableArray&ltT&gt=]
+* Method list arguments should be of type [=sequence types|sequence&lt;T&gt;=]
+* Method return values should be of type [=sequence types|sequence&lt;T&gt;=]
+* Attributes should be of type [=observable array type|ObservableArray&lt;T&gt;=]
 
 See also:
 
