@@ -3446,8 +3446,9 @@ that a `Foo` object will be created using a `Bar` object.
 Avoid inventing other prefixes
 and using of legacy prefixes
 unless there is a strong reason to do so.
-Consistency with existing factory methods under the same object,
-such as `document.initXXX()` would be an example of an exemption.
+A reason to make an exception would be to maintain consistency with
+existing factory methods
+under the same object, such as `document.initXXX()`.
 New factory methods should not follow this convention.
 
 <h3 id="naming-unsafe">Warn about dangerous features</h4>
