@@ -299,7 +299,7 @@ By adhering to this principle we can make sure overall platform quality improves
 Design features to work with the minimum amount of data necessary to carry out their
 users' goals.
 
-<a href="https://www.w3.org/TR/privacy-principles/#data-minimization">Data minimization</a>
+<a href="[[PRIVACY-PRINCIPLES#data-minimization]]">Data minimization</a>
 limits the risks of data being inappropriately disclosed or misused.
 
 Design Web APIs to make it easier for sites to request, collect, and/or transmit
