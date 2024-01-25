@@ -3432,7 +3432,7 @@ prefix the method name with `create`.
 However, if your factory method creates an object from existing data,
 prefix the method name with `from`.
 
-Factory methods <a href="#constructors">are an exception</a>, and not the norm.
+Factory methods should be an exception, not the norm, and only used <a href="#constructors">for valid reasons</a>.
 An example of valid usage of a factory method is
 when an object is being created also requires association
 with the parent object
