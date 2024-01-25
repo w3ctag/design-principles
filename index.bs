@@ -3443,8 +3443,8 @@ converted to a target object.
 For example, `Foo.fromBar()` would imply
 that a `Foo` object will be created using a `Bar` object.
 
-Inventing other prefixes
-and usage of legacy prefixes should be avoided
+Avoid inventing other prefixes
+and using of legacy prefixes
 unless there is a strong reason to do so.
 Consistency with existing factory methods under the same object,
 such as `document.initXXX()` would be an example of an exemption.
