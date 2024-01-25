@@ -3434,7 +3434,7 @@ prefix the method name with `from`.
 
 Factory methods <a href="#constructors">are an exception</a>, and not the norm.
 An example of valid usage of a factory method is
-when an object is being created it also requires association
+when an object is being created also requires association
 with the parent object.
 `document.createXXX()` is an example of this.
 Use the prefix `from`
