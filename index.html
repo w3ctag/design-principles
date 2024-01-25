@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version e20e08949, updated Wed Jan 24 11:50:28 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="a46392a0f25e103d30e02c596c9b471d1307765f" name="revision">
+  <meta content="c28ea6474f7b4b7a9debea583ccd23b59a3ed668" name="revision">
 <style>
     table.data {
         text-align: left;
@@ -3611,6 +3611,29 @@ or stored on disk, and don’t apply to the general notion of JavaScript object 
 examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
+   <h4 class="no-num no-toc heading settled" id="factory-naming"><span class="content">Start factory method names with <code>create</code> or <code>from</code></span><a class="self-link" href="#factory-naming"></a></h4>
+   <p>Factory method names should start with <code>create</code> or <code>from</code>, optionally followed by a more specific noun.</p>
+   <p>If a factory method constructs a new empty object,
+prefix the method name with <code>create</code>.
+However, if your factory method creates an object from existing data,
+prefix the method name with <code>from</code>.</p>
+   <p>Factory methods should be an exception, not the norm, and only used <a href="#constructors">for valid reasons</a>.
+An example of valid usage of a factory method is
+when an object is being created also requires association
+with the parent object
+(e.g. <code>document.createXXX()</code>).</p>
+   <p>Use the prefix <code>from</code> when there is a source object expected to be
+converted to a target object.
+For example, <code>Foo.fromBar()</code> would imply
+that a <code>Foo</code> object will be created using a <code>Bar</code> object.</p>
+   <p>A common pattern is to name generic factory methods <code>create()</code> or <code>from()</code>.</p>
+   <p>Avoid inventing other prefixes
+and using of legacy prefixes
+unless there is a strong reason to do so.
+A reason to make an exception would be to maintain consistency with
+existing factory methods
+under the same object, such as <code>document.initXXX()</code>.
+New factory methods should not follow this convention.</p>
    <h3 class="heading settled" data-level="12.6" id="naming-unsafe"><span class="secno">12.6. </span><span class="content">Warn about dangerous features</span><a class="self-link" href="#naming-unsafe"></a></h3>
    <p>Where possible, mark features that weaken
 the guarantees provided to developers
