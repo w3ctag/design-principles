@@ -2413,7 +2413,7 @@ each increase the risk of harming the user's privacy.
 The web app should not be able to distinguish between: the user rejecting
 permission to use a sensor/capability; and that sensor/capability not being present.
 
-Another risk is that as more specific information is shared,
+As more specific information is shared,
 the set of
 [fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
 available to sites gets larger.
