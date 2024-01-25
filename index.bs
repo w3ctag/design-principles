@@ -294,7 +294,7 @@ Issues that are present with a certain web technology now may be fixed in a subs
 Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
 
-<h3 id="data-minimization">Minimize data</h3>
+<h3 id="data-minimization">Minimize user data</h3>
 
 Design features to work with the minimum amount of data necessary to carry out their
 users' goals.
