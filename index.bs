@@ -3425,7 +3425,7 @@ initialisms, even if they are repeated.
 
 <h4 id="factory-naming" class="no-num no-toc">Start factory method names with `create` or `from`</h4>
 
-When defining a new factory method, prefix its name with either `create` or `from`.
+When defining a new factory method, the name should be or start with `create` or `from`.
 
 If a factory method constructs a new empty object,
 prefix the method name with `create`.
