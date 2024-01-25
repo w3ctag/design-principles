@@ -3444,6 +3444,37 @@ examples that violate the above rules are {{XMLHttpRequest}} and
 initialisms, even if they are repeated.
 </div>
 
+<h4 id="factory-naming" class="no-num no-toc">Start factory method names with `create` or `from`</h4>
+
+Factory method names should start with `create` or `from`, optionally followed by a more specific noun. 
+
+If a factory method constructs a new empty object,
+prefix the method name with `create`.
+However, if your factory method creates an object from existing data,
+prefix the method name with `from`.
+
+Factory methods should be an exception, not the norm, and only used <a href="#constructors">for valid reasons</a>.
+An example of valid usage of a factory method is
+when an object is being created also requires association
+with the parent object
+(e.g. `document.createXXX()`).
+
+Use the prefix `from`
+when there is a source object expected to be
+converted to a target object.
+For example, `Foo.fromBar()` would imply
+that a `Foo` object will be created using a `Bar` object.
+
+A common pattern is to name generic factory methods `create()` or `from()`.
+
+Avoid inventing other prefixes
+and using of legacy prefixes
+unless there is a strong reason to do so.
+A reason to make an exception would be to maintain consistency with
+existing factory methods
+under the same object, such as `document.initXXX()`.
+New factory methods should not follow this convention.
+
 <h3 id="naming-unsafe">Warn about dangerous features</h4>
 
 Where possible, mark features that weaken
