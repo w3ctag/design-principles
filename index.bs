@@ -312,7 +312,7 @@ When additional functionality requires additional data, APIs can enable this
 subject to user consent (e.g., a permission prompt or user activation).
 
 <div class=example>
-A [Font Enumeration API](#font-enumeration) API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
+A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
 </div>
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
