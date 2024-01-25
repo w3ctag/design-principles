@@ -258,12 +258,12 @@ This includes data that has been passively generated (for example,
 about their behaviour on the web) as well as that which has been
 actively collected (for example, they have filled in a form).
 
-For such features, you should [understand the context](https://w3ctag.github.io/privacy-principles/#identity)
+For such features, you should [understand the context](https://www.w3.org/TR/privacy-principles/#identity)
 in which it will be used,
 including how it will be used alongside other features of the web.
 Make sure the user can [give appropriate consent](#consent).
 Design APIs to collect
-[the smallest amount of data](https://w3ctag.github.io/privacy-principles/#data-minimization)
+[the smallest amount of data](https://www.w3.org/TR/privacy-principles/#data-minimization)
 necessary.
 Use short-lived, temporary identifiers
 unless a persistent identifier is absolutely necessary.
