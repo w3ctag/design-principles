@@ -307,7 +307,8 @@ more generic or bulk data.
 APIs should also provide granularity and user controls,
 in particular over [personal data](https://w3ctag.github.io/privacy-principles/#dfn-data),
 that is communicated to sites.
-
+When additional functionality requires additional data, APIs can enable this
+subject to user consent (e.g., a permission prompt or user activation).
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
