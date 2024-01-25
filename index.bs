@@ -3444,6 +3444,8 @@ converted to a target object.
 For example, `Foo.fromBar()` would imply
 that a `Foo` object will be created using a `Bar` object.
 
+A common pattern is to name generic factory methods `create()` or `from()`.
+
 Avoid inventing other prefixes
 and using of legacy prefixes
 unless there is a strong reason to do so.
