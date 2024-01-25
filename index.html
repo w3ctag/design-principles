@@ -5,9 +5,9 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 4416b18d5, updated Tue Jan 2 15:52:39 2024 -0800" name="generator">
+  <meta content="Bikeshed version e20e08949, updated Wed Jan 24 11:50:28 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="c8a5914bf8cf58f88f652ef9c02fddea4945184c" name="revision">
+  <meta content="a46392a0f25e103d30e02c596c9b471d1307765f" name="revision">
 <style>
     table.data {
         text-align: left;
@@ -699,7 +699,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-01-24">24 January 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-01-25">25 January 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -763,6 +763,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#new-features"><span class="secno">1.6</span> <span class="content">Add new capabilities with care</span></a>
       <li><a href="#removing-features"><span class="secno">1.7</span> <span class="content">Remove or change capabilities only once you understand existing usage</span></a>
       <li><a href="#leave-the-web-better"><span class="secno">1.8</span> <span class="content">Leave the web better than you found it</span></a>
+      <li><a href="#data-minimization"><span class="secno">1.9</span> <span class="content">Minimize user data</span></a>
      </ol>
     <li>
      <a href="#api-across-languages"><span class="secno">2</span> <span class="content">API Design Across Languages</span></a>
@@ -1120,6 +1121,19 @@ improve the overall platform quality.</p>
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.</p>
+   <h3 class="heading settled" data-level="1.9" id="data-minimization"><span class="secno">1.9. </span><span class="content">Minimize user data</span><a class="self-link" href="#data-minimization"></a></h3>
+   <p>Design features to work with the minimum amount of data necessary to carry out their
+users' goals.</p>
+   <p><a href="https://www.w3.org/TR/privacy-principles/#data-minimization">Data minimization</a> limits the risks of data being inappropriately disclosed or misused.</p>
+   <p>Design Web APIs to make it easier for sites to request, collect, and/or transmit
+a small amount of data, or more granular or specific data, than it is to work with
+more generic or bulk data.
+APIs should also provide granularity and user controls,
+in particular over <a href="https://www.w3.org/TR/privacy-principles/#dfn-data">personal data</a>,
+that is communicated to sites.
+When additional functionality requires additional data, APIs can enable this
+subject to user consent (e.g., a permission prompt or user activation).</p>
+   <div class="example" id="example-fa9c901d"><a class="self-link" href="#example-fa9c901d"></a> A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected. </div>
    <h2 class="heading settled" data-level="2" id="api-across-languages"><span class="secno">2. </span><span class="content">API Design Across Languages</span><a class="self-link" href="#api-across-languages"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="simplicity"><span class="secno">2.1. </span><span class="content">Prefer simple solutions</span><a class="self-link" href="#simplicity"></a></h3>
    <p>Look hard for simple solutions to the <a href="#priority-of-constituencies">user needs</a> you intend to address.</p>
@@ -5423,20 +5437,33 @@ function getRootLevelAbsolutePosition(el) {
     };
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.body.addEventListener("mouseover", e=>{
-        let link = e.target.closest("a");
-        if(link) showRefHint(link);
-    });
-    document.body.addEventListener("focus", e=>{
-        let link = e.target.closest("a");
-        if(link) showRefHint(link);
-    });
+function showRefHintListener(e) {
+    // If the target isn't in a link (or is a link),
+    // just ignore it.
+    let link = e.target.closest("a");
+    if(!link) return;
 
-    document.body.addEventListener("click", (e) => {
-        // If not handled already, just hide all link panels.
-        hideAllRefHints();
-    });
+    // If the target is in a ref-hint panel
+    // (aka a link in the already-open one),
+    // also just ignore it.
+    if(link.closest(".ref-hint")) return;
+
+    // Otherwise, show the panel for the link.
+    showRefHint(link);
+}
+
+function hideAllHintsListener(e) {
+    // If the click is inside a ref-hint panel, ignore it.
+    if(e.target.closest(".ref-hint")) return;
+    // Otherwise, close all the current panels.
+    hideAllRefHints();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("mouseover", showRefHintListener);
+    document.body.addEventListener("focus", showRefHintListener);
+
+    document.body.addEventListener("click", hideAllHintsListener);
 });
 
 window.addEventListener("resize", () => {
