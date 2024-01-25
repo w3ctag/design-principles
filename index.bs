@@ -3437,7 +3437,7 @@ An example of valid usage of a factory method is
 when an object is being created it also requires association
 with the parent object.
 `document.createXXX()` is an example of this.
-The prefix `from` is expected to be used
+Use the prefix `from`
 when there is a source object expected to be
 converted to a target object.
 For example, `Foo.fromBar()` would imply
