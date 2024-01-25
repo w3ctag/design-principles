@@ -306,7 +306,7 @@ Design Web APIs to make it easier for sites to request, collect, and/or transmit
 a small amount of data, or more granular or specific data, than it is to work with
 more generic or bulk data.
 APIs should also provide granularity and user controls,
-in particular over [personal data](https://w3ctag.github.io/privacy-principles/#dfn-data),
+in particular over [personal data]([[PRIVACY-PRINCIPLES#dfn-data]),
 that is communicated to sites.
 When additional functionality requires additional data, APIs can enable this
 subject to user consent (e.g., a permission prompt or user activation).
