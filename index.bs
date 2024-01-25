@@ -328,6 +328,27 @@ Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
 By adhering to this principle we can make sure overall platform quality improves over time.
+
+<h3 id="data-minimization">Minimize user data</h3>
+
+Design features to work with the minimum amount of data necessary to carry out their
+users' goals.
+
+<a href="https://www.w3.org/TR/privacy-principles/#data-minimization">Data minimization</a>
+limits the risks of data being inappropriately disclosed or misused.
+
+Design Web APIs to make it easier for sites to request, collect, and/or transmit
+a small amount of data, or more granular or specific data, than it is to work with
+more generic or bulk data.
+APIs should also provide granularity and user controls,
+in particular over <a href="https://www.w3.org/TR/privacy-principles/#dfn-data">personal data</a>,
+that is communicated to sites.
+When additional functionality requires additional data, APIs can enable this
+subject to user consent (e.g., a permission prompt or user activation).
+
+<div class=example>
+A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
+</div>
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
