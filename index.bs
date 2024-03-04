@@ -2410,8 +2410,8 @@ additional information about a device,
 or device identifiers,
 each increase the risk of harming the user's privacy.
 
-The web app should not be able to distinguish between: the user rejecting
-permission to use a sensor/capability; and that sensor/capability not being present.
+The web app should not be able to distinguish between the user rejecting
+permission to use a sensor/capability, and the sensor/capability not being present.
 
 As more specific information is shared,
 the set of
