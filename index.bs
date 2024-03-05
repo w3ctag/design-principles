@@ -300,7 +300,7 @@ Do not assume that a change or removal is impossible without first checking.
 
 <h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
 
-Prioritize compatibility with existing content when removing or changing functionality. 
+Prioritize compatibility with existing content when removing or changing functionality.
 
 Once a significant amount of content has come to depend on a particular behavior,
 removing or changing that behavior is discouraged.
@@ -3239,8 +3239,8 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
-Keep in mind, however, that sometimes
-the shorter name is the clearer one.
+Keep in mind, however, that
+the shorter name is often the clearer one.
 For instance,
 it may be appropriate to use technical language or well-known terms of art
 in the specification where the API is defined.
@@ -3446,7 +3446,7 @@ initialisms, even if they are repeated.
 
 <h4 id="factory-naming" class="no-num no-toc">Start factory method names with `create` or `from`</h4>
 
-Factory method names should start with `create` or `from`, optionally followed by a more specific noun. 
+Factory method names should start with `create` or `from`, optionally followed by a more specific noun.
 
 If a factory method constructs a new empty object,
 prefix the method name with `create`.
