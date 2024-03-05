@@ -3239,8 +3239,8 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
-Keep in mind, however, that often
-the shorter name is the clearer one.
+Keep in mind, however, that
+the shorter name is often the clearer one.
 For instance,
 it may be appropriate to use technical language or well-known terms of art
 in the specification where the API is defined.
