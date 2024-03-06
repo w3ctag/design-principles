@@ -218,6 +218,11 @@ of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it's requested by a Web page.
 
+Refusal is most effective if the site cannot
+distinguish refusal from other, common situations.
+This can make it more difficult for a site to
+pressure users to grant consent.
+
 <p class="example">
 For example,
 the [Geolocation API](https://www.w3.org/TR/geolocation-API/)
