@@ -236,6 +236,38 @@ See also:
 
 * [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
 
+<h3 id="identity">Use identity appropriately in context</h3>
+
+Give people [control](https://www.w3.org/TR/ethical-web-principles/#control)
+over the identifying information about themselves
+they are presenting in different contexts on the web,
+and be transparent about it.
+
+"Identity" is a complex concept that can be understood in many different ways.
+It can refer to how someone presents or sees themselves, how they relate to other
+people, groups, or institutions, and can determine how they behave
+or how they are treated by others.
+In web architecture, "identity" is often used as a shortcut
+to refer to identifiers, and the information attached to them.
+
+Features that use or depend on
+identifiers and the attachment of data about a person
+to that identifier carry privacy risks which
+often reach beyond a single API or system.
+This includes data that has been passively generated (for example,
+about their behaviour on the web) as well as that which has been
+actively collected (for example, they have filled in a form).
+
+For such features, you should [understand the context](https://www.w3.org/TR/privacy-principles/#identity)
+in which it will be used,
+including how it will be used alongside other features of the web.
+Make sure the user can [give appropriate consent](#consent).
+Design APIs to collect
+[the smallest amount of data](https://www.w3.org/TR/privacy-principles/#data-minimization)
+necessary.
+Use short-lived, temporary identifiers
+unless a persistent identifier is absolutely necessary.
+
 <h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
 <!-- was "Media Independence" in the HTML Design Principles -->
 
@@ -349,6 +381,7 @@ subject to user consent (e.g., a permission prompt or user activation).
 <div class=example>
 A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
 </div>
+
 <h2 id="api-across-languages">API Design Across Languages</h2>
 
 <h3 id="simplicity">Prefer simple solutions</h3>
