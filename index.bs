@@ -2395,7 +2395,7 @@ So, these are called wrapper APIs.
 
 This section contains principles for consideration when designing APIs for devices.
 
-<h3 id="device-ids">Use care when exposing identifying information about devices</h3>
+<h3 id="device-ids">Don't expose unnecessary information about devices</h3>
 
 In line with the [Data Minimization](#data-minimization) principle, if you need to give web sites access to information about a device, only expose the minimal amount of data necessary.
 
