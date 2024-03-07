@@ -570,7 +570,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting wheter <a href="#consent">consent</a> to use the feature
+detecting whether <a href="#consent">consent</a> to use the feature
 has been granted.
 Generally, detecting whether the feature is implemented
 is separable from determining whether use of the feature has been authorized.
