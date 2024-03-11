@@ -1856,6 +1856,19 @@ as the [Promise integration](https://github.com/WebAssembly/js-promise-integrati
 is still under development as of today.
 </div>
 
+<h3 id="uint8array">Vend byte arrays as Uint8Arrays</h3>
+
+If an API returns a byte array, make it a Uint8Array, not an ArrayBuffer.
+
+ArrayBuffers cannot be read from directly;
+the developer would have to create a view such as a Uint8Array
+to actually read data out an ArrayBuffer.
+So provide them with the Uint8Array in the first place.
+
+If the bytes in the buffer have a natural intepretation
+as one of the other TypedArray types, provide that instead.
+For example, if the bytes represent Float32 values, use a Float32Array.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
