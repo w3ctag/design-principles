@@ -5,9 +5,11 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version d5d58a306, updated Fri Jan 26 16:12:28 2024 -0800" name="generator">
+  <meta content="Bikeshed version d765c696b, updated Fri Mar 8 15:58:52 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="0543b7035bf5262ab1e23236fb4153b7677c58d3" name="revision">
+  <meta content="222226d1981faaab99ccfe4d2a61548a8e6be80a" name="revision">
+  <meta content="dark light" name="color-scheme">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
     table.data {
         text-align: left;
@@ -699,7 +701,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-03-06">6 March 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-03-11">11 March 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -849,7 +851,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#device-apis"><span class="secno">9</span> <span class="content">OS and Device Wrapper APIs</span></a>
      <ol class="toc">
-      <li><a href="#device-ids"><span class="secno">9.1</span> <span class="content">Use care when exposing identifying information about devices</span></a>
+      <li><a href="#device-ids"><span class="secno">9.1</span> <span class="content">Don’t expose unnecessary information about devices</span></a>
       <li><a href="#device-enumeration"><span class="secno">9.2</span> <span class="content">Use care when exposing APIs for selecting or enumerating devices</span></a>
       <li><a href="#usecase-oriented-apis"><span class="secno">9.3</span> <span class="content">Design based on user needs, not the underlying API or hardware</span></a>
       <li><a href="#hardware-is-scary"><span class="secno">9.4</span> <span class="content">Be proactive about safety</span></a>
@@ -920,7 +922,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
     <li><a href="#property-index"><span class="secno"></span> <span class="content">Property Index</span></a>
-    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
@@ -2773,9 +2774,8 @@ without introducing significant complexity,
 while securing the API surface to the browser.
 So, these are called wrapper APIs.</p>
    <p>This section contains principles for consideration when designing APIs for devices.</p>
-   <h3 class="heading settled" data-level="9.1" id="device-ids"><span class="secno">9.1. </span><span class="content">Use care when exposing identifying information about devices</span><a class="self-link" href="#device-ids"></a></h3>
-   <p>If you need to give web sites access to information about a device,
-use the guidelines below to decide what information to expose.</p>
+   <h3 class="heading settled" data-level="9.1" id="device-ids"><span class="secno">9.1. </span><span class="content">Don’t expose unnecessary information about devices</span><a class="self-link" href="#device-ids"></a></h3>
+   <p>In line with the <a href="#data-minimization">Data Minimization</a> principle, if you need to give web sites access to information about a device, only expose the minimal amount of data necessary.</p>
    <p>Firstly, think carefully about whether it is really necessary
 to expose identifying information about the device at all.
 Consider whether your <a href="#priority-of-constituencies">user needs</a> could be satisfied
@@ -2784,10 +2784,12 @@ by a less powerful API.</p>
 additional information about a device,
 or device identifiers,
 each increase the risk of harming the user’s privacy.</p>
-   <p>One risk is that as more specific information is shared,
-the set of <a href="https://www.w3.org/TR/fingerprinting-guidance/">fingerprinting data</a> available to sites gets larger.
-There are also <a href="https://w3cping.github.io/privacy-threat-model/">other potential risks</a> to user privacy.</p>
-   <p class="issue" id="issue-70c97a29"><a class="self-link" href="#issue-70c97a29"></a> Privacy Threat Model is not ready for prime time.</p>
+   <p>A web app should not be able to distinguish between the user rejecting
+permission to use a sensor/capability, and the sensor/capability not being present.</p>
+   <p>As more specific information is shared,
+the <a href="https://www.w3.org/TR/fingerprinting-guidance/">fingerprinting data</a> available to sites gets larger.
+There are also [other potential risks](<a href="https://w3ctag.github.io/privacy-principles/#threats">Privacy Principles § threats</a>)
+to user privacy.</p>
    <p>If there is no way to design a less powerful API,
 use these guidelines when exposing device information:</p>
    <dl>
@@ -2844,7 +2846,7 @@ for each origin.</p>
    <p>Look for ways to avoid enumerating devices.
 If you can’t avoid it, expose the least information possible.</p>
    <p>If an API exposes the the existence, capabilities, or identifiers of more than one device,
-all of the risks in <a href="#device-ids">§ 9.1 Use care when exposing identifying information about devices</a> are multiplied by the number of devices.
+all of the risks in <a href="#device-ids">§ 9.1 Don’t expose unnecessary information about devices</a> are multiplied by the number of devices.
 For the same reasons,
 consider whether your <a href="#priority-of-constituencies">user needs</a> could be satisfied
 by a less powerful API. <a data-link-type="biblio" href="#biblio-least-power" title="The Rule of Least Power">[LEAST-POWER]</a></p>
@@ -3810,7 +3812,7 @@ so they can correct this omission.</p>
     Implementers are encouraged to optimize. </p>
    </section>
   </div>
-<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -4183,6 +4185,8 @@ so they can correct this omission.</p>
    <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-payment-request-11">[PAYMENT-REQUEST-1.1]
    <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API 1.1</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
+   <dt id="biblio-privacy-principles">[PRIVACY-PRINCIPLES]
+   <dd>Robin Berjon; Jeffrey Yasskin. <a href="https://w3ctag.github.io/privacy-principles/"><cite>Privacy Principles</cite></a>. URL: <a href="https://w3ctag.github.io/privacy-principles/">https://w3ctag.github.io/privacy-principles/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-url">[URL]
@@ -4279,10 +4283,6 @@ so they can correct this omission.</p>
       <td>per grammar
       <td>a number or the keyword nonethe keyword none, or a pair of a metric keyword and a &lt;number>
    </table>
-  </div>
-  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
-  <div style="counter-reset:issue">
-   <div class="issue"> Privacy Threat Model is not ready for prime time. <a class="issue-return" href="#issue-70c97a29" title="Jump to section">↵</a></div>
   </div>
 <script>/* Boilerplate: script-dom-helper */
 "use strict";
