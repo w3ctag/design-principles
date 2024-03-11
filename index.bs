@@ -2449,11 +2449,9 @@ So, these are called wrapper APIs.
 
 This section contains principles for consideration when designing APIs for devices.
 
-<h3 id="device-ids">Use care when exposing identifying information about devices</h3>
+<h3 id="device-ids">Don't expose unnecessary information about devices</h3>
 
-
-If you need to give web sites access to information about a device,
-use the guidelines below to decide what information to expose.
+In line with the [Data Minimization](#data-minimization) principle, if you need to give web sites access to information about a device, only expose the minimal amount of data necessary.
 
 Firstly, think carefully about whether it is really necessary
 to expose identifying information about the device at all.
@@ -2465,14 +2463,15 @@ additional information about a device,
 or device identifiers,
 each increase the risk of harming the user's privacy.
 
-One risk is that as more specific information is shared,
-the set of
+A web app should not be able to distinguish between the user rejecting
+permission to use a sensor/capability, and the sensor/capability not being present.
+
+As more specific information is shared,
+the
 [fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
 available to sites gets larger.
-There are also [other potential risks](https://w3cping.github.io/privacy-threat-model/)
+There are also [other potential risks]([[PRIVACY-PRINCIPLES#threats]])
 to user privacy.
-
-Issue: Privacy Threat Model is not ready for prime time.
 
 If there is no way to design a less powerful API,
 use these guidelines when exposing device information:
