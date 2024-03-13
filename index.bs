@@ -1856,7 +1856,7 @@ as the [Promise integration](https://github.com/WebAssembly/js-promise-integrati
 is still under development as of today.
 </div>
 
-<h3 id="uint8array">Vend byte arrays as Uint8Arrays</h3>
+<h3 id="uint8array">Output an array of bytes with Uint8Array</h3>
 
 If an API returns a byte array, make it a Uint8Array, not an ArrayBuffer.
 
