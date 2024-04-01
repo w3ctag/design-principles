@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version d765c696b, updated Fri Mar 8 15:58:52 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="222226d1981faaab99ccfe4d2a61548a8e6be80a" name="revision">
+  <meta content="12d02abe2402b75bd308c0f502ba6e3dcc1fe55c" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -701,7 +701,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-03-11">11 March 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-01">1 April 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -831,7 +831,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
      <ol class="toc">
       <li><a href="#one-time-events"><span class="secno">7.1</span> <span class="content">Use promises for one time events</span></a>
-      <li><a href="#promises-and-events"><span class="secno">7.2</span> <span class="content">Events should fire before Promises resolve</span></a>
+      <li><a href="#promises-and-events"><span class="secno">7.2</span> <span class="content">Events should fire before related Promises resolve</span></a>
       <li><a href="#dont-invent-event-like"><span class="secno">7.3</span> <span class="content">Don’t invent your own event listener-like infrastructure</span></a>
       <li><a href="#always-add-event-handlers"><span class="secno">7.4</span> <span class="content">Always add event handler attributes</span></a>
       <li><a href="#events-are-for-notification"><span class="secno">7.5</span> <span class="content">Use events for notification</span></a>
@@ -2281,15 +2281,18 @@ as the <a href="https://github.com/WebAssembly/js-promise-integration/blob/main/
    <h3 class="heading settled" data-level="7.1" id="one-time-events"><span class="secno">7.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong> guideline.</p>
-   <h3 class="heading settled" data-level="7.2" id="promises-and-events"><span class="secno">7.2. </span><span class="content">Events should fire before Promises resolve</span><a class="self-link" href="#promises-and-events"></a></h3>
+   <h3 class="heading settled" data-level="7.2" id="promises-and-events"><span class="secno">7.2. </span><span class="content">Events should fire before related Promises resolve</span><a class="self-link" href="#promises-and-events"></a></h3>
    <p>If a Promise-based asynchronous algorithm dispatches events,
 it should dispatch them before the Promise resolves,
 rather than after.</p>
-   <p>This guarantees that once the Promise resolves,
-all effects of the algorithm have been applied.
-For example, if an author changes some state
-in reaction to an event which the Promise dispatches,
-they can be sure that all of the state is consistent if the Promise is resolved.</p>
+   <p>When a promise is resolved, a <a href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask">microtask</a> is queued to run its reaction callbacks.
+Microtasks are processed when the JavaScript stack empties. <a href="https://dom.spec.whatwg.org/#dispatching-events">Dispatching an event</a> is synchronous, 
+which involves the JavaScript stack emptying between each listener.
+As a result, if a promise is resolved before dispatching a related event,
+any microtasks that are scheduled in reaction to a promise 
+will be invoked between the first and second listeners of the event.</p>
+   <p>Dispatching the event first prevents this interleaving.
+All event listeners are then invoked before any promise reaction callbacks.</p>
    <h3 class="heading settled" data-level="7.3" id="dont-invent-event-like"><span class="secno">7.3. </span><span class="content">Don’t invent your own event listener-like infrastructure</span><a class="self-link" href="#dont-invent-event-like"></a></h3>
    <p>When creating an API which allows authors to start and stop a process which generates notifications,
 use the existing event infrastructure to allow listening for the notifications.
@@ -4201,7 +4204,7 @@ so they can correct this omission.</p>
    <dt id="biblio-appmanifest">[APPMANIFEST]
    <dd>Marcos Caceres; et al. <a href="https://w3c.github.io/manifest/"><cite>Web Application Manifest</cite></a>. URL: <a href="https://w3c.github.io/manifest/">https://w3c.github.io/manifest/</a>
    <dt id="biblio-credential-management-1">[CREDENTIAL-MANAGEMENT-1]
-   <dd>Mike West. <a href="https://w3c.github.io/webappsec-credential-management/"><cite>Credential Management Level 1</cite></a>. URL: <a href="https://w3c.github.io/webappsec-credential-management/">https://w3c.github.io/webappsec-credential-management/</a>
+   <dd>Nina Satragno. <a href="https://w3c.github.io/webappsec-credential-management/"><cite>Credential Management Level 1</cite></a>. URL: <a href="https://w3c.github.io/webappsec-credential-management/">https://w3c.github.io/webappsec-credential-management/</a>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
    <dd>Elika Etemad; Brad Kemper. <a href="https://drafts.csswg.org/css-backgrounds/"><cite>CSS Backgrounds and Borders Module Level 3</cite></a>. URL: <a href="https://drafts.csswg.org/css-backgrounds/">https://drafts.csswg.org/css-backgrounds/</a>
    <dt id="biblio-css-fonts-4">[CSS-FONTS-4]
