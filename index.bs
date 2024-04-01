@@ -1805,7 +1805,7 @@ If a Promise-based asynchronous algorithm dispatches events,
 it should dispatch them before the Promise resolves,
 rather than after.
 
-When a promise is resolved, a microtask is queued to run its reaction callbacks.
+When a promise is resolved, a <a href=https://html.spec.whatwg.org/multipage/webappapis.html#microtask>microtask</a> is queued to run its reaction callbacks.
 Microtasks are processed when the JavaScript stack empties.
 <a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
 which involves the JavaScript stack emptying between each listener.
