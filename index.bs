@@ -878,12 +878,12 @@ to reduce such dilemmas in the future.
 
 This section details design principles for features which are exposed via HTML.
 
-<h3 id="attribute-reuse">Re-use attribute names (only) for similar functionality</h3>
+<h3 id="attribute-reuse">Re-use HTML attribute names (only) for similar functionality</h3>
 
 If you are adding a feature that is specified through an HTML attribute,
 check if there is an existing attribute name on another element
 that specifies similar functionality.
-Re-using an existing attribute name means authors can utilize existing knowledge,
+Re-using an existing HTML attribute name means authors can utilize existing knowledge,
 maintains [consistency](#consistency) across the language,
 and keeps its vocabulary small.
 
@@ -900,7 +900,7 @@ and keeps its vocabulary small.
     and then re-used by <{dialog}>.
 </div>
 
-If you do re-use an existing attribute,
+If you do re-use an existing HTML attribute,
 try to keep its syntax as close as possible to the syntax of the existing attribute.
 
 <div class="example">
@@ -918,7 +918,7 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
 </div>
 
 The inverse also applies:
-do **not** re-use an existing attribute name if
+do **not** re-use an existing HTML attribute name if
 the functionality you are adding is **not** similar to that of the existing attribute.
 
 <div class="example">
@@ -1449,37 +1449,36 @@ See also:
 
 * [[#attributes-like-data]]
 
-<h3 id="attributes-vs-methods">Use attributes or methods appropriately</h3>
+<h3 id="attributes-vs-methods">Properties, getters, and setters should behave like properties, not methods</h3>
 
-Sometimes it is unclear
-whether to use an attribute or a method.
+IDL attributes that describe object properties or getters produce information about the state of an object.
 
-- Attribute getters must not have any (observable) side effects.
+- A getter must not have any (observable) side effects.
     If you have expected side effects, use a method.
 
-- Attribute getters should not throw exceptions.
+- Getters should not throw exceptions.
     Getters should [behave like regular data properties](#attributes-like-data), and regular data properties do not throw exceptions when read. Furthermore, invalid state should generally be avoided by rejecting *writes*, not when data is *read*.
     Updating existing getters to throw exceptions should be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.
 
-- Attribute getters should not perform any blocking operations.
+-  Getters should not perform any blocking operations.
     If a getter requires performing a blocking operation,
     it should be a method.
 
 - If the underlying object has not changed,
-    attribute getters should return
+    getters should return
     the same object each time it is called.
-    This means `obj.attribute === obj.attribute` must always hold.
-    Returning a new value from an attribute getter
+    This means `obj.property === obj.property` must always hold.
+    Returning a new value from an getter
     each time is not allowed.
     If this does not hold, the getter should be a method.
 
-Note: An antipattern example of a blocking operation is with getters like offsetTop performing layout.
+Note: An antipattern example of a blocking operation is with getters like `offsetTop` performing layout.
 
-For attributes, whenever possible,
+When defining IDL attributes, whenever possible,
 preserve values given to the setter
 for return from the getter.
-That is, given `obj.attribute = x`,
-a subsequent `obj.attribute === x` should be true.
+That is, given `obj.property = x`,
+a subsequent `obj.property === x` should be true.
 (This will not always be the case,
 e.g., if a normalization or type conversion step is necessary,
 but should be held as a goal for normal code paths.)
@@ -1489,7 +1488,7 @@ This means:
 
 - If live, then return the same object each time,
     until a state change requires a different object to be returned.
-    This can be returned from either an attribute or a method.
+    This can be returned from either an property, getter, or method.
 
 - If static, then return a new object each time.
     In which case, this should be be a method.
