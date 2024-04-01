@@ -1812,8 +1812,8 @@ which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
 the promise reaction callbacks will be invoked between the first and second listeners of the event.
 
-Dispatching the event first prevents this interleaving,
-ensuring that all event listeners are invoked before any of the related promise reaction callbacks.
+Dispatching the event first prevents this interleaving.
+All event listeners are then invoked before any promise reaction callbacks.
 
 <h3 id="dont-invent-event-like">Don’t invent your own event listener-like infrastructure</h3>
 
