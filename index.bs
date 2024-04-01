@@ -1810,7 +1810,8 @@ Microtasks are processed when the JavaScript stack empties.
 <a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
 which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
-the promise reaction callbacks will be invoked between the first and second listeners of the event.
+any microtasks that are scheduled in reaction to a promise 
+will be invoked between the first and second listeners of the event.
 
 Dispatching the event first prevents this interleaving.
 All event listeners are then invoked before any promise reaction callbacks.
