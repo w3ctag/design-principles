@@ -1807,7 +1807,8 @@ rather than after.
 
 When a promise is resolved, a microtask is queued to run its reaction callbacks.
 Microtasks are processed when the JavaScript stack empties.
-Dispatching an event can involve the JavaScript stack emptying between listeners.
+<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
+which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
 the promise reaction callbacks will be invoked between the first and second listeners of the event.
 
