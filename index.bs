@@ -1449,7 +1449,7 @@ See also:
 
 * [[#attributes-like-data]]
 
-<h3 id="attributes-vs-methods">Properties, getters, and setters should behave like properties, not methods</h3>
+<h3 id="attributes-vs-methods">Accessors should behave like properties, not methods</h3>
 
 IDL attributes that describe object properties or getters produce information about the state of an object.
 
