@@ -1488,7 +1488,7 @@ This means:
 
 - If live, then return the same object each time,
     until a state change requires a different object to be returned.
-    This can be returned from either an property, getter, or method.
+    This can be returned from either a property, getter, or method.
 
 - If static, then return a new object each time.
     In which case, this should be be a method.
