@@ -1858,16 +1858,16 @@ is still under development as of today.
 
 <h3 id="uint8array">Output an array of bytes with Uint8Array</h3>
 
-If an API returns a byte array, make it a Uint8Array, not an ArrayBuffer.
+If an API returns a byte array, make it a {{Uint8Array}}, not an {{ArrayBuffer}}.
 
-ArrayBuffers cannot be read from directly;
+`ArrayBuffer`s cannot be read from directly;
 the developer would have to create a view such as a Uint8Array
-to actually read data out an ArrayBuffer.
-So provide them with the Uint8Array in the first place.
+to read data.
+Providing a `Uint8Array` avoids that additional effort.
 
 If the bytes in the buffer have a natural intepretation
 as one of the other TypedArray types, provide that instead.
-For example, if the bytes represent Float32 values, use a Float32Array.
+For example, if the bytes represent Float32 values, use a {{Float32Array}}.
 
 <h2 id="event-design">Event Design</h2>
 
