@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version d765c696b, updated Fri Mar 8 15:58:52 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="12d02abe2402b75bd308c0f502ba6e3dcc1fe55c" name="revision">
+  <meta content="ff46d8fce26719269d9f5de143b6666f6d6c4868" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -701,7 +701,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-01">1 April 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-03">3 April 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -826,6 +826,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#aborting"><span class="secno">6.11</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
       <li><a href="#string-constants"><span class="secno">6.12</span> <span class="content">Use strings for constants and enums</span></a>
       <li><a href="#async-by-default"><span class="secno">6.13</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
+      <li><a href="#uint8array"><span class="secno">6.14</span> <span class="content">Output an array of bytes with Uint8Array</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -2277,6 +2278,15 @@ while making synchronous the exception. </div>
 applicable is when a design has to cross boundaries
 between JavaScript and WASM,
 as the <a href="https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md">Promise integration</a> is still under development as of today. </div>
+   <h3 class="heading settled" data-level="6.14" id="uint8array"><span class="secno">6.14. </span><span class="content">Output an array of bytes with Uint8Array</span><a class="self-link" href="#uint8array"></a></h3>
+   <p>If an API returns a byte array, make it a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>, not an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ArrayBuffer" id="ref-for-idl-ArrayBuffer">ArrayBuffer</a></code>.</p>
+   <p><code>ArrayBuffer</code>s cannot be read from directly;
+the developer would have to create a view such as a Uint8Array
+to read data.
+Providing a <code>Uint8Array</code> avoids that additional effort.</p>
+   <p>If the bytes in the buffer have a natural intepretation
+as one of the other TypedArray types, provide that instead.
+For example, if the bytes represent Float32 values, use a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Float32Array" id="ref-for-idl-Float32Array">Float32Array</a></code>.</p>
    <h2 class="heading settled" data-level="7" id="event-design"><span class="secno">7. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="7.1" id="one-time-events"><span class="secno">7.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
@@ -2726,7 +2736,7 @@ data from protocols like HTTP
 which don’t distinguish between bytes and strings.
 It isn’t a general-purpose string type.
 If you need to represent a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#sequence-type" id="ref-for-sequence-type②">sequence</a> of <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-byte" id="ref-for-idl-byte">bytes</a></code>,
-use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>.</p>
+use <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Uint8Array" id="ref-for-idl-Uint8Array①">Uint8Array</a></code>.</p>
    <h3 class="heading settled" data-level="8.3" id="milliseconds"><span class="secno">8.3. </span><span class="content">Use milliseconds for time measurement</span><a class="self-link" href="#milliseconds"></a></h3>
    <p>If you are designing an API that accepts a time measurement,
 express the time measurement in milliseconds.</p>
@@ -4117,11 +4127,13 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="2f8afbfe">ArrayBuffer</span>
      <li><span class="dfn-paneled" id="22cb9a16">ByteString</span>
      <li><span class="dfn-paneled" id="f89c7d0d">Clamp</span>
      <li><span class="dfn-paneled" id="dca2de17">DOMException</span>
      <li><span class="dfn-paneled" id="8855a9aa">DOMString</span>
      <li><span class="dfn-paneled" id="c01cbda0">EnforceRange</span>
+     <li><span class="dfn-paneled" id="0a296dfe">Float32Array</span>
      <li><span class="dfn-paneled" id="bdbd19d1">Promise</span>
      <li><span class="dfn-paneled" id="b75bb3bd">SecureContext</span>
      <li><span class="dfn-paneled" id="7d783f61">SharedArrayBuffer</span>
@@ -4493,6 +4505,7 @@ let dfnPanelData = {
 "0698d556": {"dfnID":"0698d556","dfnText":"string","external":true,"refSections":[{"refs":[{"id":"ref-for-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#string"},
 "0699bcce": {"dfnID":"0699bcce","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-number-objects"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
+"0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e202d66": {"dfnID":"0e202d66","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-remoteplayback-interface"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.11. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
@@ -4520,6 +4533,7 @@ let dfnPanelData = {
 "2c73cb69": {"dfnID":"2c73cb69","dfnText":"languagechange","external":true,"refSections":[{"refs":[{"id":"ref-for-event-languagechange"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/indices.html#event-languagechange"},
 "2c82d279": {"dfnID":"2c82d279","dfnText":"audio","external":true,"refSections":[{"refs":[{"id":"ref-for-audio"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
 "2e66eaf1": {"dfnID":"2e66eaf1","dfnText":"AbortController","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortcontroller\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller"},
+"2f8afbfe": {"dfnID":"2f8afbfe","dfnText":"ArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ArrayBuffer"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
 "31133468": {"dfnID":"31133468","dfnText":"open","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-details-open"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
 "31559e1b": {"dfnID":"31559e1b","dfnText":"define(name, constructor, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-customelementregistry-define"}],"title":"5.1. Use JavaScript for Web APIs"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
@@ -4586,7 +4600,7 @@ let dfnPanelData = {
 "8dba5fba": {"dfnID":"8dba5fba","dfnText":"\"no-referrer-when-downgrade\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-referrerpolicy-no-referrer-when-downgrade"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
 "93c4bcc0": {"dfnID":"93c4bcc0","dfnText":"ismap","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap"},
 "946a9318": {"dfnID":"946a9318","dfnText":"form","external":true,"refSections":[{"refs":[{"id":"ref-for-the-form-element"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-form-element"},
-"95d7775a": {"dfnID":"95d7775a","dfnText":"Uint8Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Uint8Array"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-Uint8Array"},
+"95d7775a": {"dfnID":"95d7775a","dfnText":"Uint8Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Uint8Array"}],"title":"6.14. Output an array of bytes with Uint8Array"},{"refs":[{"id":"ref-for-idl-Uint8Array\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-Uint8Array"},
 "96c16e60": {"dfnID":"96c16e60","dfnText":"Node","external":true,"refSections":[{"refs":[{"id":"ref-for-node"}],"title":"Live objects"},{"refs":[{"id":"ref-for-node\u2460"},{"id":"ref-for-node\u2461"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#node"},
 "96ffbcca": {"dfnID":"96ffbcca","dfnText":"selected","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-option-selected"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected"},
 "9714d594": {"dfnID":"9714d594","dfnText":"HTMLCollection","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlcollection"},{"id":"ref-for-htmlcollection\u2460"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-htmlcollection\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#htmlcollection"},
@@ -5263,9 +5277,11 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#dfn-partial-interface": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"partial interface","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
 "https://webidl.spec.whatwg.org/#dfn-setlike": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"setlike","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-setlike"},
 "https://webidl.spec.whatwg.org/#exceptiondef-typeerror": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"TypeError","type":"exception","url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
+"https://webidl.spec.whatwg.org/#idl-ArrayBuffer": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"ArrayBuffer","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
 "https://webidl.spec.whatwg.org/#idl-ByteString": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"ByteString","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-ByteString"},
 "https://webidl.spec.whatwg.org/#idl-DOMException": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"DOMException","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-DOMException"},
 "https://webidl.spec.whatwg.org/#idl-DOMString": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"DOMString","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
+"https://webidl.spec.whatwg.org/#idl-Float32Array": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Float32Array","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
 "https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"SharedArrayBuffer","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer"},
 "https://webidl.spec.whatwg.org/#idl-USVString": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"USVString","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-USVString"},
 "https://webidl.spec.whatwg.org/#idl-Uint8Array": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Uint8Array","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-Uint8Array"},
