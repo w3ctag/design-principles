@@ -925,7 +925,7 @@ the functionality you are adding is **not** similar to that of the existing attr
     The `type` attribute is used on the <{input}> and <{button}> elements
     to further specialize the element type,
     whereas on every other element (e.g. <{link}>, <{script}>, <{style}>)
-    it specifies MIME type.
+    it specifies a media type.
     This is an antipattern; one of these groups of attributes should have had a different name.
 </div>
 
@@ -1885,10 +1885,10 @@ rather than after.
 
 When a promise is resolved, a <a href=https://html.spec.whatwg.org/multipage/webappapis.html#microtask>microtask</a> is queued to run its reaction callbacks.
 Microtasks are processed when the JavaScript stack empties.
-<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
+<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous,
 which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
-any microtasks that are scheduled in reaction to a promise 
+any microtasks that are scheduled in reaction to a promise
 will be invoked between the first and second listeners of the event.
 
 Dispatching the event first prevents this interleaving.
@@ -2750,32 +2750,35 @@ frequently resulted in a poor user experience. [[WebAudio]]
 
 <h3 id="new-data-formats">Add new data formats properly</h3>
 
-Always define a corresponding MIME type and extend existing APIs to support this type
+Always define a corresponding media type and extend existing APIs to support this type
 for any new data format.
 
 There are cases when a new capability on the web involves adding a new data format.
 This can be an image, video, audio, or any other type of data that a browser is expected
-to ingest. New formats should have a standardized MIME type, which is strictly validated.
+to ingest. New formats should have a standardized media type, which is strictly validated.
 
-While legacy media formats do not always have strict enforcement for MIME types (and
+While legacy media formats do not always have strict enforcement for media types (and
 sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
 compatibility reasons and should not be expected or implemented for new formats.
 
 It is expected that spec authors also integrate the new format to existing APIs, so that
-they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
-(e.g. encoding to a WriteableStream) points from a browser's perspective.
+they are safelisted in both ingress (e.g. decoding from a {{ReadableStream}}) and egress
+(e.g. encoding to a {{WritableStream}}) points from a browser's perspective.
 
-For example. if you are to add an image format to the web platform, first add a new MIME
+For example, if you are to add an image format to the web platform, first add a new media
 type for the format. After this, you would naturally add a decoder (and presumably an
-encoder) for said image format to support decoding in HTMLImageElements. On top of this,
-you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
-and HTMLCanvasElement.toDataURL().
+encoder) for said image format to support decoding in `HTMLImageElement`s. On top of this,
+you are also expected to add support to egress points such as `HTMLCanvasElement.toBlob()`
+and `HTMLCanvasElement.toDataURL()`.
 
-For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
-the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
-due to security implications, and instead recommend enforcing strict MIME types for newer formats.
+For legacy reasons browsers support MIME type sniffing,
+which automatically detects media types for unlabeled content.
+We do not recommend extending the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
+due to security implications.
+Instead, we recommend enforcing strict media types for newer formats.
 
-New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
+New media types should have a specification and should be [registered](https://datatracker.ietf.org/doc/html/rfc6838)
+with the Internet Assigned Numbers Authority (IANA).
 
 <h3 id="new-http-header-syntax">Conform new HTTP headers to standards</h3>
 
