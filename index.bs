@@ -1872,10 +1872,10 @@ rather than after.
 
 When a promise is resolved, a <a href=https://html.spec.whatwg.org/multipage/webappapis.html#microtask>microtask</a> is queued to run its reaction callbacks.
 Microtasks are processed when the JavaScript stack empties.
-<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
+<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous,
 which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
-any microtasks that are scheduled in reaction to a promise 
+any microtasks that are scheduled in reaction to a promise
 will be invoked between the first and second listeners of the event.
 
 Dispatching the event first prevents this interleaving.
@@ -2764,27 +2764,22 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="new-http-header-syntax">Conform new HTTP headers to standards</h3>
+<h3 id="using-http">Consult documentation on best practices when using HTTP</h3>
 
-If you are defining a new HTTP header,
-its syntax mustn't go against
-[the HTTP specification](https://tools.ietf.org/html/rfc7230#section-3.2).
+When using [HTTP](https://datatracker.ietf.org/doc/html/rfc9110),
+consult [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205)
+for advice on correct usage of the protocol.
 
-If the new header must convey structured data,
-such as lists, dictionaries, or typed values
-like decimals, strings, or booleans,
-then the header should use the syntax
-defined in [Structured Field Values for HTTP](https://tools.ietf.org/html/rfc8941).
-This avoids consumers of the header
-having to write and maintain specific micro-parsers,
-or even worse,
-something that would break those existing parsers.
-If the new header requires data
-that can't be represented by Structured Field Values,
-then either engage with IETF about
-extending the Structured Field Values syntax,
-or re-consider if an HTTP header is a right place
-to expose the data before inventing a new syntax. [[RFC8941]]
+[Fetch](https://fetch.spec.whatwg.org/) is the way that
+user agents most often interact with servers.
+Fetch defines the CORS protocol and necessary security checks.
+Outside of those constraints necessary for security,
+Fetch does not provide guidelines on how to best use HTTP.
+Appropriate use of methods, header fields, content types, caching, and other HTTP features
+might need to be defined.
+Recommendations on best practices for HTTP
+can be found in [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205) and
+[other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&sort=&rfcs=on&by=group&group=httpbis).
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
