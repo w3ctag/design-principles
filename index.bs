@@ -1885,10 +1885,10 @@ rather than after.
 
 When a promise is resolved, a <a href=https://html.spec.whatwg.org/multipage/webappapis.html#microtask>microtask</a> is queued to run its reaction callbacks.
 Microtasks are processed when the JavaScript stack empties.
-<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous, 
+<a href=https://dom.spec.whatwg.org/#dispatching-events>Dispatching an event</a> is synchronous,
 which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
-any microtasks that are scheduled in reaction to a promise 
+any microtasks that are scheduled in reaction to a promise
 will be invoked between the first and second listeners of the event.
 
 Dispatching the event first prevents this interleaving.
@@ -3154,7 +3154,7 @@ of a larger, standardized framework.
 
 [[ENCRYPTED-MEDIA]] and [[payment-request]] are both examples of specifications
 which minimize API differences by isolating a non-standard component
-([=Content Decryption Modules=] and [=payment methods=], respectively)
+([Content Decryption Modules](https://w3c.github.io/encrypted-media/#cdm) and [payment methods](https://www.w3.org/TR/payment-method-manifest/), respectively)
 from the rest of the (shared) API surface.
 
 </div>
