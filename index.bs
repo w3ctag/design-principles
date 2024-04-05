@@ -2777,9 +2777,16 @@ Outside of those constraints necessary for security,
 Fetch does not provide guidelines on how to best use HTTP.
 Appropriate use of methods, header fields, content types, caching, and other HTTP features
 might need to be defined.
+
 Recommendations on best practices for HTTP
 can be found in [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205) and
 [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&sort=&rfcs=on&by=group&group=httpbis).
+RFC 9205 includes advice on
+[specifying client behavior](https://datatracker.ietf.org/doc/html/rfc9205#section-4.3),
+[defining header fields](https://datatracker.ietf.org/doc/html/rfc9205#section-4.7),
+[use of media types](https://datatracker.ietf.org/doc/html/rfc9205#section-4.8),
+[evolving specifications](https://datatracker.ietf.org/doc/html/rfc9205#section-4.16), and
+other advice on how to get the most out of HTTP.
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
