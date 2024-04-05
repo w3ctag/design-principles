@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version d765c696b, updated Fri Mar 8 15:58:52 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="ff46d8fce26719269d9f5de143b6666f6d6c4868" name="revision">
+  <meta content="d893e1c5da763dca6a694d292d6ee7dd1320cb77" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -701,7 +701,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-03">3 April 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-05">5 April 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2296,10 +2296,10 @@ Promise-Using Specifications</a></strong> guideline.</p>
 it should dispatch them before the Promise resolves,
 rather than after.</p>
    <p>When a promise is resolved, a <a href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask">microtask</a> is queued to run its reaction callbacks.
-Microtasks are processed when the JavaScript stack empties. <a href="https://dom.spec.whatwg.org/#dispatching-events">Dispatching an event</a> is synchronous, 
+Microtasks are processed when the JavaScript stack empties. <a href="https://dom.spec.whatwg.org/#dispatching-events">Dispatching an event</a> is synchronous,
 which involves the JavaScript stack emptying between each listener.
 As a result, if a promise is resolved before dispatching a related event,
-any microtasks that are scheduled in reaction to a promise 
+any microtasks that are scheduled in reaction to a promise
 will be invoked between the first and second listeners of the event.</p>
    <p>Dispatching the event first prevents this interleaving.
 All event listeners are then invoked before any promise reaction callbacks.</p>
@@ -3342,7 +3342,7 @@ of a larger, standardized framework.</p>
     <a class="self-link" href="#eme-and-payment-request"></a> 
     <p><a data-link-type="biblio" href="#biblio-encrypted-media" title="Encrypted Media Extensions">[ENCRYPTED-MEDIA]</a> and <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a> are both examples of specifications
 which minimize API differences by isolating a non-standard component
-(<a data-link-type="dfn">Content Decryption Modules</a> and <a data-link-type="dfn">payment methods</a>, respectively)
+(<a href="https://w3c.github.io/encrypted-media/#cdm">Content Decryption Modules</a> and <a href="https://www.w3.org/TR/payment-method-manifest/">payment methods</a>, respectively)
 from the rest of the (shared) API surface.</p>
    </div>
    <p>Groups sometimes choose to specify APIs
