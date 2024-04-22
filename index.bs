@@ -273,8 +273,7 @@ unless a persistent identifier is absolutely necessary.
 
 As much as possible,
 ensure that features on the web work across different input and output [devices,
-screen sizes, interaction modes, platforms, and media]
-(https://www.w3.org/2001/tag/doc/ethical-web-principles/#multi).
+screen sizes, interaction modes, platforms, and media](https://www.w3.org/TR/ethical-web-principles/#multi).
 
 One of the main values of the Web is that it's extremely flexible:
 a Web page may be viewed on virtually any consumer computing device
