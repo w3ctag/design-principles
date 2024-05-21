@@ -316,7 +316,8 @@ See [[#feature-detect]].
 
 Add new capabilities to the web with consideration of existing functionality and content.
 
-The Web includes many extension points that allow for additions; see for example [[HTML#extensibility]].
+The Web includes many extension points that allow for additions;
+see for example [[HTML#extensibility]].
 
 Before adding items, consider integration with existing, similar capabilities.
 If this leads to a preferred design approach that cannot be implemented by only adding items,
