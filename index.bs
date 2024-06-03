@@ -573,7 +573,7 @@ Detecting the availability of a feature does not imply
 detecting whether <a href="#consent">consent</a> to use the feature
 has been granted.
 Generally, detecting whether the feature is implemented
-is separable from determining whether use of the feature has been authorized.
+can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
 in order to enable denying requests to use the feature.
 
