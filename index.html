@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 4afc1fdf9, updated Tue May 28 15:43:17 2024 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="7ed4eb049c2f860bcff809ef87193c855ac4959a" name="revision">
+  <meta content="a43d13867a01be455f810a5259ca893b52db6343" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -787,7 +787,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
      <ol class="toc">
-      <li><a href="#attribute-reuse"><span class="secno">3.1</span> <span class="content">Re-use attribute names (only) for similar functionality</span></a>
+      <li><a href="#attribute-reuse"><span class="secno">3.1</span> <span class="content">Re-use HTML attribute names (only) for similar functionality</span></a>
       <li><a href="#html-lists"><span class="secno">3.2</span> <span class="content">Use space-separated attributes for short lists of values, separate elements for longer lists</span></a>
       <li><a href="#avoid-html-parser-blocking"><span class="secno">3.3</span> <span class="content">Do not pause the HTML parser</span></a>
       <li><a href="#avoid-render-blocking"><span class="secno">3.4</span> <span class="content">Avoid features that block rendering</span></a>
@@ -815,7 +815,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#attributes-like-data"><span class="secno">6.1</span> <span class="content">Attributes should behave like data properties</span></a>
       <li><a href="#live-vs-static"><span class="secno">6.2</span> <span class="content">Consider whether objects should be live or static</span></a>
-      <li><a href="#attributes-vs-methods"><span class="secno">6.3</span> <span class="content">Use attributes or methods appropriately</span></a>
+      <li><a href="#attributes-vs-methods"><span class="secno">6.3</span> <span class="content">Accessors should behave like properties, not methods</span></a>
       <li><a href="#prefer-dictionaries"><span class="secno">6.4</span> <span class="content">Accept optional and/or primitive arguments through dictionaries</span></a>
       <li><a href="#optional-parameters"><span class="secno">6.5</span> <span class="content">Make method arguments optional if possible</span></a>
       <li><a href="#naming-optional-parameters"><span class="secno">6.6</span> <span class="content">Name optional arguments appropriately</span></a>
@@ -1121,11 +1121,7 @@ see for example <a href="https://html.spec.whatwg.org/multipage/introduction.htm
    <p>Before adding items, consider integration with existing, similar capabilities.
 If this leads to a preferred design approach that cannot be implemented by only adding items,
 it might still be possible; see <a href="#removing-features">§ 1.8 Remove or change capabilities only once you understand existing usage</a>.</p>
-   <p>Do not assume that a change or removal is impossible without first checking.
-Before adding items, consider integration with existing, similar capabilities.
-If this leads to a preferred design approach that cannot be implemented by only adding items,
-it might still be possible; see <a href="#removing-features">§ 1.8 Remove or change capabilities only once you understand existing usage</a>.
-Do not assume that a change or removal is impossible without first checking.</p>
+   <p>Do not assume that a change or removal is impossible without first checking.</p>
    <h3 class="heading settled" data-level="1.8" id="removing-features"><span class="secno">1.8. </span><span class="content">Remove or change capabilities only once you understand existing usage</span><a class="self-link" href="#removing-features"></a></h3>
    <p>Prioritize compatibility with existing content when removing or changing functionality.</p>
    <p>Once a significant amount of content has come to depend on a particular behavior,
@@ -1551,11 +1547,11 @@ without breaking future native functionality,
 to reduce such dilemmas in the future.</p>
    <h2 class="heading settled" data-level="3" id="html"><span class="secno">3. </span><span class="content">HTML</span><a class="self-link" href="#html"></a></h2>
    <p>This section details design principles for features which are exposed via HTML.</p>
-   <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use attribute names (only) for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
+   <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use HTML attribute names (only) for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
    <p>If you are adding a feature that is specified through an HTML attribute,
 check if there is an existing attribute name on another element
 that specifies similar functionality.
-Re-using an existing attribute name means authors can utilize existing knowledge,
+Re-using an existing HTML attribute name means authors can utilize existing knowledge,
 maintains <a href="#consistency">consistency</a> across the language,
 and keeps its vocabulary small.</p>
    <div class="example" id="example-c1977603"><a class="self-link" href="#example-c1977603"></a> The same attribute name, <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple" id="ref-for-attr-select-multiple">multiple</a></code>,
@@ -1563,7 +1559,7 @@ and keeps its vocabulary small.</p>
     as well as on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element">input</a></code> to allow entry of multiple values. </div>
    <div class="example" id="example-628fe6cf"><a class="self-link" href="#example-628fe6cf"></a> The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open" id="ref-for-attr-details-open">open</a></code> attribute was introduced on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element" id="ref-for-the-details-element">details</a></code> element,
     and then re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" id="ref-for-the-dialog-element">dialog</a></code>. </div>
-   <p>If you do re-use an existing attribute,
+   <p>If you do re-use an existing HTML attribute,
 try to keep its syntax as close as possible to the syntax of the existing attribute.</p>
    <div class="example" id="example-0e853da5"><a class="self-link" href="#example-0e853da5"></a> The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/forms.html#attr-label-for" id="ref-for-attr-label-for">for</a></code> attribute was introduced on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-label-element" id="ref-for-the-label-element">label</a></code> element,
     for specifying which form element it should be associated with.
@@ -1577,7 +1573,7 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
     whereas e.g. if one of them accepted a list of ids,
     and the other one a selector, that would be an antipattern. </div>
    <p>The inverse also applies:
-do <strong>not</strong> re-use an existing attribute name if
+do <strong>not</strong> re-use an existing HTML attribute name if
 the functionality you are adding is <strong>not</strong> similar to that of the existing attribute.</p>
    <div class="example" id="example-9866c588"><a class="self-link" href="#example-9866c588"></a> The <code>type</code> attribute is used on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element①">input</a></code> and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element" id="ref-for-the-button-element">button</a></code> elements
     to further specialize the element type,
@@ -1959,36 +1955,35 @@ rather than available as an attribute.</p>
     <li data-md>
      <p><a href="#attributes-like-data">§ 6.1 Attributes should behave like data properties</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.3" id="attributes-vs-methods"><span class="secno">6.3. </span><span class="content">Use attributes or methods appropriately</span><a class="self-link" href="#attributes-vs-methods"></a></h3>
-   <p>Sometimes it is unclear
-whether to use an attribute or a method.</p>
+   <h3 class="heading settled" data-level="6.3" id="attributes-vs-methods"><span class="secno">6.3. </span><span class="content">Accessors should behave like properties, not methods</span><a class="self-link" href="#attributes-vs-methods"></a></h3>
+   <p>IDL attributes that describe object properties or getters produce information about the state of an object.</p>
    <ul>
     <li data-md>
-     <p>Attribute getters must not have any (observable) side effects.
+     <p>A getter must not have any (observable) side effects.
 If you have expected side effects, use a method.</p>
     <li data-md>
-     <p>Attribute getters should not throw exceptions.
+     <p>Getters should not throw exceptions.
 Getters should <a href="#attributes-like-data">behave like regular data properties</a>, and regular data properties do not throw exceptions when read. Furthermore, invalid state should generally be avoided by rejecting <em>writes</em>, not when data is <em>read</em>.
 Updating existing getters to throw exceptions should be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.</p>
     <li data-md>
-     <p>Attribute getters should not perform any blocking operations.
+     <p>Getters should not perform any blocking operations.
 If a getter requires performing a blocking operation,
 it should be a method.</p>
     <li data-md>
      <p>If the underlying object has not changed,
-attribute getters should return
+getters should return
 the same object each time it is called.
-This means <code>obj.attribute === obj.attribute</code> must always hold.
-Returning a new value from an attribute getter
+This means <code>obj.property === obj.property</code> must always hold.
+Returning a new value from an getter
 each time is not allowed.
 If this does not hold, the getter should be a method.</p>
    </ul>
-   <p class="note" role="note"><span class="marker">Note:</span> An antipattern example of a blocking operation is with getters like offsetTop performing layout.</p>
-   <p>For attributes, whenever possible,
+   <p class="note" role="note"><span class="marker">Note:</span> An antipattern example of a blocking operation is with getters like <code>offsetTop</code> performing layout.</p>
+   <p>When defining IDL attributes, whenever possible,
 preserve values given to the setter
 for return from the getter.
-That is, given <code>obj.attribute = x</code>,
-a subsequent <code>obj.attribute === x</code> should be true.
+That is, given <code>obj.property = x</code>,
+a subsequent <code>obj.property === x</code> should be true.
 (This will not always be the case,
 e.g., if a normalization or type conversion step is necessary,
 but should be held as a goal for normal code paths.)</p>
@@ -1998,7 +1993,7 @@ This means:</p>
     <li data-md>
      <p>If live, then return the same object each time,
 until a state change requires a different object to be returned.
-This can be returned from either an attribute or a method.</p>
+This can be returned from either a property, getter, or method.</p>
     <li data-md>
      <p>If static, then return a new object each time.
 In which case, this should be be a method.</p>
@@ -4518,7 +4513,7 @@ let dfnPanelData = {
 "0699bcce": {"dfnID":"0699bcce","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-number-objects"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
 "0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
-"0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
+"0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e202d66": {"dfnID":"0e202d66","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-remoteplayback-interface"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.11. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
@@ -4528,8 +4523,8 @@ let dfnPanelData = {
 "12cf38c9": {"dfnID":"12cf38c9","dfnText":"initial-letter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter"},
 "141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
 "16310992": {"dfnID":"16310992","dfnText":"<number>","external":true,"refSections":[{"refs":[{"id":"ref-for-number-value"},{"id":"ref-for-number-value\u2460"}],"title":"4.3. Choose the computed value type based on how the property should inherit"},{"refs":[{"id":"ref-for-number-value\u2461"},{"id":"ref-for-number-value\u2462"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#number-value"},
-"1748bbeb": {"dfnID":"1748bbeb","dfnText":"details","external":true,"refSections":[{"refs":[{"id":"ref-for-the-details-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element"},
-"1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
+"1748bbeb": {"dfnID":"1748bbeb","dfnText":"details","external":true,"refSections":[{"refs":[{"id":"ref-for-the-details-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element"},
+"1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
 "19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1a490bf8": {"dfnID":"1a490bf8","dfnText":"onLine","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-navigator-online"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-online"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
@@ -4546,7 +4541,7 @@ let dfnPanelData = {
 "2c82d279": {"dfnID":"2c82d279","dfnText":"audio","external":true,"refSections":[{"refs":[{"id":"ref-for-audio"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
 "2e66eaf1": {"dfnID":"2e66eaf1","dfnText":"AbortController","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortcontroller\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller"},
 "2f8afbfe": {"dfnID":"2f8afbfe","dfnText":"ArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ArrayBuffer"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
-"31133468": {"dfnID":"31133468","dfnText":"open","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-details-open"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
+"31133468": {"dfnID":"31133468","dfnText":"open","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-details-open"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
 "31559e1b": {"dfnID":"31559e1b","dfnText":"define(name, constructor, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-customelementregistry-define"}],"title":"5.1. Use JavaScript for Web APIs"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
 "3332e595": {"dfnID":"3332e595","dfnText":"setTimeout(handler, timeout, ...arguments)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-settimeout"}],"title":"8.3. Use milliseconds for time measurement"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
@@ -4584,7 +4579,7 @@ let dfnPanelData = {
 "680651c3": {"dfnID":"680651c3","dfnText":"NonElementParentNode","external":true,"refSections":[{"refs":[{"id":"ref-for-nonelementparentnode"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#nonelementparentnode"},
 "68bf3d31": {"dfnID":"68bf3d31","dfnText":"a","external":true,"refSections":[{"refs":[{"id":"ref-for-the-a-element"},{"id":"ref-for-the-a-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
 "6cf6f82f": {"dfnID":"6cf6f82f","dfnText":"addEventListener(type, callback)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2460"}],"title":"6.6. Name optional arguments appropriately"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2461"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener"},
-"6cfa013d": {"dfnID":"6cfa013d","dfnText":"link","external":true,"refSections":[{"refs":[{"id":"ref-for-the-link-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-link-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-link-element"},
+"6cfa013d": {"dfnID":"6cfa013d","dfnText":"link","external":true,"refSections":[{"refs":[{"id":"ref-for-the-link-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-link-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-link-element"},
 "6e8782de": {"dfnID":"6e8782de","dfnText":"getElementsByTagName","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-getelementsbytagname"},{"id":"ref-for-dom-document-getelementsbytagname\u2460"},{"id":"ref-for-dom-document-getelementsbytagname\u2461"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-dom-document-getelementsbytagname\u2462"},{"id":"ref-for-dom-document-getelementsbytagname\u2463"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
 "6ec67710": {"dfnID":"6ec67710","dfnText":"|","external":true,"refSections":[{"refs":[{"id":"ref-for-comb-one"},{"id":"ref-for-comb-one\u2460"},{"id":"ref-for-comb-one\u2461"},{"id":"ref-for-comb-one\u2462"},{"id":"ref-for-comb-one\u2463"},{"id":"ref-for-comb-one\u2464"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#comb-one"},
 "762869d3": {"dfnID":"762869d3","dfnText":"scalar value string","external":true,"refSections":[{"refs":[{"id":"ref-for-scalar-value-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#scalar-value-string"},
@@ -4599,14 +4594,14 @@ let dfnPanelData = {
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
 "838fac42": {"dfnID":"838fac42","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://www.w3.org/TR/payment-request/#dfn-state"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
-"84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
-"85188fb3": {"dfnID":"85188fb3","dfnText":"select","external":true,"refSections":[{"refs":[{"id":"ref-for-the-select-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-select-element\u2460"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
+"84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
+"85188fb3": {"dfnID":"85188fb3","dfnText":"select","external":true,"refSections":[{"refs":[{"id":"ref-for-the-select-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-select-element\u2460"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
 "860300d4": {"dfnID":"860300d4","dfnText":"implementation-defined","external":true,"refSections":[{"refs":[{"id":"ref-for-implementation-defined"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://infra.spec.whatwg.org/#implementation-defined"},
 "8662cdd3": {"dfnID":"8662cdd3","dfnText":"checked","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-checked"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-checked"},
 "87bc23a5": {"dfnID":"87bc23a5","dfnText":"add","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-add"},{"id":"ref-for-abortsignal-add\u2460"},{"id":"ref-for-abortsignal-add\u2461"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-add"},
 "8855a9aa": {"dfnID":"8855a9aa","dfnText":"DOMString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMString"},{"id":"ref-for-idl-DOMString\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
 "88573a43": {"dfnID":"88573a43","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-bigint-objects"},
-"88885797": {"dfnID":"88885797","dfnText":"for","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-label-for"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
+"88885797": {"dfnID":"88885797","dfnText":"for","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-label-for"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
 "8baa72cd": {"dfnID":"8baa72cd","dfnText":"WindowEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-windoweventhandlers"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
 "8c800cdf": {"dfnID":"8c800cdf","dfnText":"double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-double"},
 "8dba5fba": {"dfnID":"8dba5fba","dfnText":"\"no-referrer-when-downgrade\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-referrerpolicy-no-referrer-when-downgrade"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
@@ -4635,8 +4630,8 @@ let dfnPanelData = {
 "ac54fbff": {"dfnID":"ac54fbff","dfnText":"line-height","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-line-height"},{"id":"ref-for-propdef-line-height\u2460"},{"id":"ref-for-propdef-line-height\u2461"},{"id":"ref-for-propdef-line-height\u2462"},{"id":"ref-for-propdef-line-height\u2463"},{"id":"ref-for-propdef-line-height\u2464"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css2/#propdef-line-height"},
 "adfe3014": {"dfnID":"adfe3014","dfnText":"URLSearchParams","external":true,"refSections":[{"refs":[{"id":"ref-for-urlsearchparams"}],"title":"Static objects"},{"refs":[{"id":"ref-for-urlsearchparams\u2460"},{"id":"ref-for-urlsearchparams\u2461"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#urlsearchparams"},
 "aee00462": {"dfnID":"aee00462","dfnText":"option","external":true,"refSections":[{"refs":[{"id":"ref-for-the-option-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-option-element\u2460"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element"},
-"b07164ad": {"dfnID":"b07164ad","dfnText":"multiple","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-select-multiple"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple"},
-"b093bcd2": {"dfnID":"b093bcd2","dfnText":"output","external":true,"refSections":[{"refs":[{"id":"ref-for-the-output-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element"},
+"b07164ad": {"dfnID":"b07164ad","dfnText":"multiple","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-select-multiple"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple"},
+"b093bcd2": {"dfnID":"b093bcd2","dfnText":"output","external":true,"refSections":[{"refs":[{"id":"ref-for-the-output-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element"},
 "b0d7f3c3": {"dfnID":"b0d7f3c3","dfnText":"USVString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-USVString"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-idl-USVString\u2460"},{"id":"ref-for-idl-USVString\u2461"},{"id":"ref-for-idl-USVString\u2462"},{"id":"ref-for-idl-USVString\u2463"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-USVString"},
 "b203675a": {"dfnID":"b203675a","dfnText":"getComputedStyle(elt)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-window-getcomputedstyle"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle"},
 "b2f8a695": {"dfnID":"b2f8a695","dfnText":"alert()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-alert-noargs"}],"title":"1.3. Trusted user interface should be trustworthy"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
@@ -4645,7 +4640,7 @@ let dfnPanelData = {
 "b8308563": {"dfnID":"b8308563","dfnText":"DedicatedWorkerGlobalScope","external":true,"refSections":[{"refs":[{"id":"ref-for-dedicatedworkerglobalscope"}],"title":"10.2. Where possible APIs should be made available to dedicated workers"},{"refs":[{"id":"ref-for-dedicatedworkerglobalscope\u2460"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope"},
 "b996b941": {"dfnID":"b996b941","dfnText":"src (for img)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-src"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src"},
 "ba3d5b0d": {"dfnID":"ba3d5b0d","dfnText":"RTCDTMFSender","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-rtcdtmfsender"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webrtc-pc/#dom-rtcdtmfsender"},
-"ba920583": {"dfnID":"ba920583","dfnText":"style","external":true,"refSections":[{"refs":[{"id":"ref-for-the-style-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-style-element"},
+"ba920583": {"dfnID":"ba920583","dfnText":"style","external":true,"refSections":[{"refs":[{"id":"ref-for-the-style-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-style-element"},
 "bc5645aa": {"dfnID":"bc5645aa","dfnText":"octet","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-octet"},{"id":"ref-for-idl-octet\u2460"},{"id":"ref-for-idl-octet\u2461"},{"id":"ref-for-idl-octet\u2462"},{"id":"ref-for-idl-octet\u2463"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-octet"},
 "bc9fe445": {"dfnID":"bc9fe445","dfnText":"createAttribute(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createattribute"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
 "bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"7.6. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
@@ -4653,7 +4648,7 @@ let dfnPanelData = {
 "be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
 "bf18e517": {"dfnID":"bf18e517","dfnText":"createElement","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
 "bfa87d79": {"dfnID":"bfa87d79","dfnText":"short_name","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-short_name"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/manifest/#dfn-short_name"},
-"bfff6250": {"dfnID":"bfff6250","dfnText":"button","external":true,"refSections":[{"refs":[{"id":"ref-for-the-button-element"}],"title":"3.1. Re-use attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
+"bfff6250": {"dfnID":"bfff6250","dfnText":"button","external":true,"refSections":[{"refs":[{"id":"ref-for-the-button-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
 "c01cbda0": {"dfnID":"c01cbda0","dfnText":"EnforceRange","external":true,"refSections":[{"refs":[{"id":"ref-for-EnforceRange"},{"id":"ref-for-EnforceRange\u2460"},{"id":"ref-for-EnforceRange\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#EnforceRange"},
 "c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.5. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
@@ -4675,7 +4670,7 @@ let dfnPanelData = {
 "d4b3b8bc": {"dfnID":"d4b3b8bc","dfnText":"cite","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-q-cite"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
-"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"},{"id":"ref-for-the-input-element\u2460"}],"title":"3.1. Re-use attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2462"},{"id":"ref-for-the-input-element\u2463"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
+"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"},{"id":"ref-for-the-input-element\u2460"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2462"},{"id":"ref-for-the-input-element\u2463"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "d8c1cdf2": {"dfnID":"d8c1cdf2","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
