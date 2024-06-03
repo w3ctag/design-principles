@@ -5,9 +5,9 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version d765c696b, updated Fri Mar 8 15:58:52 2024 -0800" name="generator">
+  <meta content="Bikeshed version 4afc1fdf9, updated Tue May 28 15:43:17 2024 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
-  <meta content="ca6bfaf2b29a260045b580ff86ed20c67b0f2a2e" name="revision">
+  <meta content="7ed4eb049c2f860bcff809ef87193c855ac4959a" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -701,7 +701,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-04-22">22 April 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-06-03">3 June 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1040,6 +1040,10 @@ reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
 However, the <a href="#priority-of-constituencies">user benefit</a> of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it’s requested by a Web page.</p>
+   <p>Refusal is most effective if the site cannot
+distinguish refusal from other, common situations.
+This can make it more difficult for a site to
+pressure users to grant consent.</p>
    <p class="example" id="example-07793d34"><a class="self-link" href="#example-07793d34"></a> For example,
 the <a href="https://www.w3.org/TR/geolocation-API/">Geolocation API</a> grants access to a user’s location.
 This can help users in some contexts,
@@ -1283,10 +1287,17 @@ in the language where it’s used
 (such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a> in CSS).</p>
    <p>In some cases, it may <strong>not</strong> be appropriate to allow feature detection.
 Whether the feature should be detectable or not
-should be based on the <a href="#priority-of-constituencies">user need</a> for the feature:
-if there is a user need or design principle which would fail
+should be based on the <a href="#priority-of-constituencies">user need</a> for the feature.
+If there is a user need or design principle which would fail
 if feature detection were available for the feature,
 then you should not support feature detection.</p>
+   <p>Detecting the availability of a feature does not imply
+detecting whether <a href="#consent">consent</a> to use the feature
+has been granted.
+Generally, detecting whether the feature is implemented
+can be done separately from determining whether use of the feature has been authorized.
+In some cases, it might be necessary to disable feature detection
+in order to enable denying requests to use the feature.</p>
    <p>Also, if a feature is generally not exposed to developers,
 it is not appropriate to support feature detection.
 For example, private browsing mode is a concept
@@ -1302,6 +1313,8 @@ it must not be feature detected.</p>
      <p><a href="#do-not-expose-use-of-assistive-tech">§ 2.9 Don’t reveal that assistive technologies are being used</a></p>
     <li data-md>
      <p><a href="#secure-context">§ 2.6 Consider limiting new features to secure contexts</a></p>
+    <li data-md>
+     <p><a href="#consent">§ 1.4 Ask users for meaningful consent</a></p>
    </ul>
    <h3 class="heading settled" data-level="2.6" id="secure-context"><span class="secno">2.6. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>Always limit your feature to secure contexts
