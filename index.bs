@@ -1460,7 +1460,7 @@ IDL attributes that describe object properties or getters produce information ab
     Getters should [behave like regular data properties](#attributes-like-data), and regular data properties do not throw exceptions when read. Furthermore, invalid state should generally be avoided by rejecting *writes*, not when data is *read*.
     Updating existing getters to throw exceptions should be avoided as existing API users may enumerate or wrap the API and not expect the new exception, breaking backwards compatibility.
 
--  Getters should not perform any blocking operations.
+- Getters should not perform any blocking operations.
     If a getter requires performing a blocking operation,
     it should be a method.
 
