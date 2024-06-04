@@ -1882,7 +1882,7 @@ For example, if the bytes represent Float32 values, use a {{Float32Array}}.
 Avoid requiring that something needs to happen synchronously within
 a promise resolution or rejection callback.
 
-Authors take for granted that an `async` function can be wrapped
+Authors tend to expect that any `async` function can be wrapped
 in another that appends synchronous code at the end e.g. to inspect state
 using try/catch. But the `await` queues a microtask:
 <div class="example">
@@ -1900,12 +1900,15 @@ async function fooWrapper() {
 ```
 </div>
 
-To not interfere with this pattern, the lowest recommended restriction is "same task".
+To support this pattern, a specification that wishes to restrict `bar()` to
+only succeed if called immediately following a promise resolving can
+minimally limit it to the same task, but not the same microtask.
 
 <div class="note">
 One case where this came up was the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
-method, where timing concerns were solved by adding an timeout on top of
-the same task requirement.
+method, where timing concerns were solved by adding a timeout on top of
+the requirement of it being called on the same task that resolves the
+`getDisplayMedia()` promise.
 </div>
 
 <h2 id="event-design">Event Design</h2>
