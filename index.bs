@@ -323,12 +323,11 @@ in the language where it is used
 The Web has a number of somewhat-related features:
 
 * The <{iframe}> element's <{iframe/sandbox}> attribute
-* [Feature policy](https://w3c.github.io/webappsec-feature-policy/) (and the the <{iframe}> element's <{iframe/allow}> attribute)
+* [Permission Policy](https://www.w3.org/TR/permissions-policy-1/) (and the the <{iframe}> element's <{iframe/allow}> attribute) 
 * The <{iframe}> element's <{iframe/allowfullscreen}> and <{iframe/allowpaymentrequest}> attributes
 * The [{{SecureContext}}] WebIDL attribute.
 * [Content Security Policy (CSP)](https://w3c.github.io/webappsec-csp/)
 * [Referrer Policy](https://w3c.github.io/webappsec-referrer-policy/)
-* [Document Policy](https://w3c.github.io/webappsec-feature-policy/document-policy.html)
 
 TODO: Separate out the ones that are not yet interoperable into their own category.
 
