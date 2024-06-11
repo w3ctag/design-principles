@@ -1883,8 +1883,9 @@ Avoid requiring that something needs to happen synchronously within
 a promise resolution or rejection callback.
 
 Authors tend to expect that any `async` function can be wrapped
-in another that appends synchronous code at the end e.g. to inspect state
-using try/catch. But the `await` queues a microtask:
+in another that appends synchronous code at the end.
+This might be so that a return value can be examined, such as using try/catch.
+Using `await` or similar wrappers queues a microtask:
 <div class="example">
 ```js
 async function fooWrapper() {
