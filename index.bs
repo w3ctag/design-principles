@@ -1884,8 +1884,8 @@ a promise resolution or rejection callback.
 
 Authors tend to expect that any `async` function can be wrapped
 in another that appends synchronous code at the end.
-This might be so that a return value can be examined, such as using try/catch.
-Using `await` or similar wrappers queues a microtask:
+This might be to examine a resolved value or rejection using try/catch.
+But using `await` or similar wrappers queue a microtask:
 <div class="example">
 ```js
 async function fooWrapper() {
@@ -1901,13 +1901,25 @@ async function fooWrapper() {
 ```
 </div>
 
-To support this pattern, a specification that wishes to restrict `bar()` to
-only succeed if called immediately following a promise resolving can
-minimally limit it to the same task, but not the same microtask.
+In general, the settled result from an asynchronous function
+should be usable at any time.
+
+However, there could be cases where APIs might need to restrict
+when a result can be acted on.
+
+In the above example, perhaps the `platform.foo()` function
+establishes state that has real-time dependencies such that calling
+`bar()` is not viable at any future time.
+
+Never limit the viability of acting on a settled result to a microtask,
+as this prevents most forms of code composition.
+
+If possible, set a short timeout interval. Failing that, viability can
+be limited to the same task, but not a single microtask.
 
 <div class="note">
 One case where this came up was the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
-method, where timing concerns were solved by adding a timeout on top of
+method, where timing concerns were instead solved by adding a timeout on top of
 the requirement of it being called on the same task that resolves the
 `getDisplayMedia()` promise.
 </div>
