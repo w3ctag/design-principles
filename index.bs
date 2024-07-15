@@ -1032,6 +1032,25 @@ The alternative user experience is a flash of unstyled content, which is undesir
 
 See also [[#worker-only]].
 
+<h3 id="html-attribute-property-reflection">Expose content attributes for writable IDL attributes</h3>
+
+When designing a new *writable* IDL attribute to specify element state,
+err on the side of exposing a corresponding content attribute.
+
+Providing declarative ways to manipulate state has several benefits for authors:
+- It takes advantage of HTML reactivity, and alleviates the need to apply changes at a specific moment in time.
+- It integrates with existing DOM methods, improving learnability, whereas an API specific to the feature needs to be learned separately.
+- Behaviors can be expressed reactively in libraries supporting HTML-based syntax and be handled by any library handling HTML generically.
+- UI states can be addressed in CSS via simple attribute selectors rather than new pseudo-classes.
+- State can be inspected and manipulated via the browser's developer tools with no need for implementing a new UI.
+
+<div class="example">
+A counterpattern to this guidance can be found in
+<{input}>'s  {{HTMLInputElement/indeterminate}} IDL property
+which was never exposed as a content attribute making it impossible to fully update checkbox state
+by modifying HTML.
+</div>
+
 <h3 id="html-idl-must-by-synced">Keep attributes in sync</h3>
 
 New content attributes
