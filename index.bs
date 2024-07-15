@@ -1035,7 +1035,7 @@ See also [[#worker-only]].
 <h3 id="html-attribute-property-reflection">Expose content attributes for writable IDL attributes</h3>
 
 When designing a new *writable* IDL attribute to specify element state,
-err on the side of exposing a corresponding content attribute.
+expose a corresponding content attribute unless you have a compelling reason not to.
 
 Providing declarative ways to manipulate state has several benefits for authors:
 - It takes advantage of HTML reactivity, and alleviates the need to apply changes at a specific moment in time.
