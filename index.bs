@@ -491,32 +491,29 @@ See also:
 * [[#do-not-expose-use-of-assistive-tech]]
 * [[#secure-context]]
 
-<h3 id=degrade-gracefully>Degrade Gracefully</h3>
+<h3 id=forwards-compatibility>New web content should load in older user agents</h3>
 <!-- was "Degrade Gracefully" in the HTML Design Principles -->
 
-Authors are (understandably) reluctant to use
-new Web-exposed features
-that may trigger undesirable behavior in older user agents,
-or that do not provide some sort of graceful fallback.
-Web-facing features should be designed
-so that Web content can degrade gracefully
-in older or less capable user agents,
-even when sites make use of the new features.
+Design
+Web features
+so that
+they can be used
+on web pages
+and not cause
+the web page to stop working
+in user agents
+which do not (yet) implement the feature.
+
+This is called <dfn>forwards compatibility</dfn>.
 
 It is not necessary
-to consider every Web user agent ever made,
-including even very old versions of browsers
-or tools that are extremely unpopular even in their niche markets.
-However,
-strong consideration should be given
-to the following categories of user agents.
-It is highly likely
-that content authors will find it important
-to target these categories:
+to consider every Web user agent ever made.
+Strong consideration should be given
+to the following categories of user agents:
 
 * Current versions of the top mainstream Web browsers.
-* Highly popular older versions of mainstream Web browsers.
-* The top user agents
+* Popular older versions of mainstream Web browsers.
+* Top user agents
     designed to meet specific needs or address specialized markets,
     such as assistive technologies or user agents targeting less typical media
     such as text-only terminals or print.
@@ -538,16 +535,23 @@ can be used:
     may provide additional semantics
     without losing essential functionality
     when not understood.
+    This is called <dfn>graceful degradation</dfn>.
 * A new scripting method or attribute
     can be tested before use
     in script
     using ECMAScript introspection facilities.
+    See [[#feature-detect]].
 * A new element or attribute
     may provide semantics
     and a simple default rendering
     that can be achieved using CSS,
     so the addition of a small stylesheet
     allows graceful degradation.
+    <p class="example">The default presentation
+    of the <code>hidden</code> attribute
+    can be emulated
+    in older browsers
+    through the CSS rule <code>[hidden] { display: none; }</code>.
 * A new element, attribute or scripting API
     may have behavior
     that can be emulated
@@ -555,55 +559,42 @@ can be used:
     although the scripted approach
     may not provide
     the same level of performance and convenience.
+    See [[#polyfills]].
+    <p class="example">The <code>getElementsByClassName()</code> method
+    can be made
+    considerably faster than
+    pure ECMAScript implementations
+    found in existing libraries,
+    but a script-based implementation
+    can be used
+    when the native version
+    is not available.
 * A new element
     may call for
     a highly specialized rendering,
     but allow different content to be provided as fallback
     for user agents that do not understand the element.
-
-This list is not exhaustive;
-in some cases
-slightly more complicated approaches
-are more effective.
-
-<p class="example">The default presentation
-of the <code>hidden</code> attribute
-can be emulated
-in older browsers
-through the CSS rule <code>[hidden] { display: none; }</code>.
-
-<p class="example">Multimedia elements
-like <code>&lt;canvas&gt;</code> or <code>&lt;video&gt;</code>
-allow fallback content.
-Older user agents
-will show
-the fallback content
-while user agents supporting these elements
-will show
-the multimedia content.
-
-<p class="example">The <code>getElementsByClassName()</code> method
-can be made
-considerably faster than
-pure ECMAScript implementations
-found in existing libraries,
-but a script-based implementation
-can be used
-when the native version
-is not available.
-
-<p class="example">The <code>&lt;datalist&gt;</code> element
-can be associated
-with an <code>&lt;input&gt;</code> element
-and may contain
-a hidden <code>&lt;select&gt;</code> element.
-This way
-the fallback
-for the intended "combo box" control
-can be
-a text field
-or a text field with an associated pop-up menu
-in older browsers.
+    <p class="example">Multimedia elements
+    like <code>&lt;canvas&gt;</code> or <code>&lt;video&gt;</code>
+    allow fallback content.
+    Older user agents
+    will show
+    the fallback content
+    while user agents supporting these elements
+    will show
+    the multimedia content.
+    <p class="example">The <code>&lt;datalist&gt;</code> element
+    can be associated
+    with an <code>&lt;input&gt;</code> element
+    and may contain
+    a hidden <code>&lt;select&gt;</code> element.
+    This way
+    the fallback
+    for the intended "combo box" control
+    can be
+    a text field
+    or a text field with an associated pop-up menu
+    in older browsers.
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
