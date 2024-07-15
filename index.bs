@@ -68,6 +68,7 @@ urlPrefix: https://w3c.github.io/geolocation-api/; spec: geolocation
     url:#dom-geolocation-watchposition; type:method; for:Geolocation; text:watchPosition()
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
     url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
+    url: media.html#dom-media-play; type:method; for:HTMLMediaElement; text:play()
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     url: #remoteplayback-interface; type:interface; text: RemotePlayback
     url: #dfn-remote-playback-devices; type:dfn; text: remote playback device
@@ -1876,6 +1877,56 @@ Providing a `Uint8Array` avoids that additional effort.
 If the bytes in the buffer have a natural intepretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a {{Float32Array}}.
+
+<h3 id=void-functions>Return <code>undefined</code> from side-effect-causing functions</h3>
+<!-- Guidance about return values of (conceptually) void functions #286 -->
+<!-- https://github.com/w3ctag/design-principles/issues/286             -->
+
+When the purpose of a function
+is to cause side effects
+and not to compute a value,
+the function should be specified
+to return {{undefined}}.
+
+Sites are unlikely
+to come to depend on
+such a return value,
+which makes it easier
+to change the function
+to return a meaningful value
+in the future
+should a use case for one be discovered.
+
+<div class="example">
+
+{{HTMLMediaElement}}’s {{HTMLMediaElement/play()}} method
+was originally defined to return {{undefined}},
+since its purpose was
+to change the state
+of the media element.
+
+Requests to play media
+can fail
+in a number of ways,
+so {{HTMLMediaElement/play()}} was [changed](https://github.com/whatwg/html/issues/505)
+to return a {{Promise}}.
+If the <abbr>API</abbr>
+had originally been defined
+to return something other than {{undefined}}
+(for example,
+if it had been defined
+to return the media element,
+a popular pattern
+in “chaining” <abbr>API</abbr>s),
+it would not have been backwards compatible
+to enhance the usability of this <abbr>API</abbr>
+in this manner.
+
+</div>
+
+See also:
+
+* [Command–query_separation](https://en.wikipedia.org/wiki/Command–query_separation)
 
 <h2 id="event-design">Event Design</h2>
 
