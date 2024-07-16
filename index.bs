@@ -1926,7 +1926,7 @@ in this manner.
 
 See also:
 
-* [Command–query_separation](https://en.wikipedia.org/wiki/Command–query_separation)
+* [Command–query separation on Wikipedia](https://en.wikipedia.org/wiki/Command–query_separation)
 
 <h2 id="event-design">Event Design</h2>
 
