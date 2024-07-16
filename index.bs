@@ -587,6 +587,44 @@ See also:
 * [[#secure-context]]
 * [[#consent]]
 
+<h3 id=text-formats>Make textual formats for people</h3>
+
+Design textual formats to be both produced and consumed by people.
+
+People who are presented with a textual format will
+expect to be able to use a text editor
+to produce or modify content.
+People who edit text will introduce a range of errors, but
+could struggle to identify and fix those errors.
+
+People expect some amount of flexibility in terms of how their edits are processed.
+Allowing flexibility in whitespace, quoting, delimiters, and other syntactic elements ensures
+that content is still comprehensible.
+
+<div class=example>
+The JSON format is an example of a format that appears to be flexible,
+but it lacks many of these basic usability amenities.
+In JSON there is:
+no commenting capability,
+objects and arrays cannot have trailing commas, and
+quotes are mandatory for object keys.
+This makes JSON prone to syntactic errors as a result of manual edits.
+</div>
+
+Containing the scope of a format that is affected by a syntax error
+could improve robustness and human usability.
+This requires that specifications fully define processing and
+error handling rules so that errors are handled in the same way.
+
+<div class=example>
+Typos in CSS properties only cause that property to be ignored.
+Errors in properties rarely cause an entire rule to be lost.
+</div>
+
+If your format is intended to be used only by machines,
+a binary format is likely to be more efficient,
+in addition to discouraging people from authoring or editing content.
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 Always limit your feature to secure contexts
