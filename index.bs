@@ -1917,7 +1917,7 @@ as this prevents most forms of code composition.
 If possible, set a short timeout interval. Failing that, viability can
 be limited to the same task, but not a single microtask.
 
-<div class="note">
+<div class="example">
 One case where this came up was the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
 method, where timing concerns were instead solved by adding a timeout on top of
 the requirement of it being called on the same task that resolves the
