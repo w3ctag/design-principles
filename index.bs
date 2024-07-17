@@ -1905,7 +1905,7 @@ async function fooWrapper() {
 In general, the settled result from an asynchronous function
 should be usable at any time.
 
-However, if the result of your API is time sensitive, you might need
+However, if the result of your API is timing sensitive, you might need
 to restrict when it can be acted on.
 
 In the above example, perhaps the `platform.foo()` function
