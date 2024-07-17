@@ -1877,11 +1877,12 @@ If the bytes in the buffer have a natural intepretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a {{Float32Array}}.
 
-<h3 id="allow-microtask-switches">A Promise represents a value, not a callback</h3>
+<h3 id="allow-microtask-switches">A Promise represents completion or a value, not a callback</h3>
 
 Avoid requiring that something needs to happen synchronously within
 a promise resolution or rejection callback.
 
+This breaks basic assumptions around asynchronous APIs being wrappable.
 Authors tend to expect that any `async` function can be wrapped
 in another that appends synchronous code at the end.
 This might be to examine a resolved value or rejection using try/catch.
@@ -1904,8 +1905,8 @@ async function fooWrapper() {
 In general, the settled result from an asynchronous function
 should be usable at any time.
 
-However, there could be cases where APIs might need to restrict
-when a result can be acted on.
+However, if the result of your API is time sensitive, you might need
+to restrict when it can be acted on.
 
 In the above example, perhaps the `platform.foo()` function
 establishes state that has real-time dependencies such that calling
@@ -1919,9 +1920,14 @@ be limited to the same task, but not a single microtask.
 
 <div class="example">
 One case where this came up was the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
-method, where timing concerns were instead solved by adding a timeout on top of
-the requirement of it being called on the same task that resolves the
-`getDisplayMedia()` promise.
+method which controls whether a window the user selects to screen-capture
+should immediately be pushed to the front or not. It can be called as late
+as right <em>after</em> the `getDisplayMedia()` promise. This allows
+applications to make a different decision based on the window the user chose.
+But the application must act right away or this becomes surprising to the user.
+
+This solution was to add a timeout on top of the requirement of it being
+called on the same task that resolves the `getDisplayMedia()` promise.
 </div>
 
 <h2 id="event-design">Event Design</h2>
