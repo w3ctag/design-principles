@@ -1038,7 +1038,7 @@ When designing a new *writable* IDL attribute to specify element state,
 expose a corresponding content attribute unless you have a compelling reason not to.
 
 Providing declarative ways to manipulate state has several benefits for authors:
-- It takes advantage of HTML reactivity, and alleviates the need to apply changes at a specific moment in time.
+- It takes advantage of HTML’s [reactivity](https://en.wikipedia.org/wiki/Reactive_programming), and alleviates the need to apply changes at a specific moment in time.
 - It integrates with existing DOM methods, improving learnability, whereas an API specific to the feature needs to be learned separately.
 - Behaviors can be expressed reactively in libraries supporting HTML-based syntax and be handled by any library handling HTML generically.
 - UI states can be addressed in CSS via simple attribute selectors rather than new pseudo-classes.
