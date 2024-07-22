@@ -783,7 +783,7 @@ These APIs should be designed to require some indication of user intention (such
 This indicates that the user is intentionally interacting with the web page in question.
 
 User activation is defined in detail
-[in the HTM sLtandard](https://html.spec.whatwg.org/#tracking-user-activation).
+[in the HTML standard](https://html.spec.whatwg.org/#tracking-user-activation).
 You should think about the effect your API has on the user experience,
 as well as any risks presented to the user,
 when deciding whether user activation needs to only occur
