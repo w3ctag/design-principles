@@ -1922,7 +1922,7 @@ be limited to the same task, but not a single microtask.
 One case where this came up was the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
 method which controls whether a window the user selects to screen-capture
 should immediately be pushed to the front or not. It can be called as late
-as right <em>after</em> the `getDisplayMedia()` promise. This allows
+as right <em>after</em> the resolution of the `getDisplayMedia()` promise. This allows
 applications to make a different decision based on the window the user chose.
 But the application must act right away or this becomes surprising to the user.
 
