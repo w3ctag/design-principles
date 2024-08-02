@@ -628,7 +628,7 @@ This makes JSON prone to syntactic errors as a result of manual edits.
 Containing the scope of a format that is affected by a syntax error
 could improve robustness and human usability.
 This requires that specifications fully define processing and
-error handling rules so that errors are handled in the same way.
+error handling so that all inputs result in consistent outcomes.
 
 <div class=example>
 Typos in CSS properties only cause that property to be ignored.
