@@ -589,11 +589,24 @@ See also:
 
 <h3 id=text-formats>Make textual formats for people</h3>
 
-Design textual formats to be both produced and consumed by people.
+Design textual formats that can be easily produced and consumed by people.
 
-People who are presented with a textual format will
-expect to be able to use a text editor
-to produce or modify content.
+Favor readability over compactness. 
+File size can be optimized by tooling,
+and tends to become a lower priority over time. 
+When file size is a significantly higher priority, 
+perhaps a textual format is not appropriate.
+
+<div class=example>
+SVG path syntax was designed to be compact, 
+with single-letter commands and unlabeled series of coordinates after them.
+At the time, file size was a primary concern, 
+but while the importance of this has changed over time,
+the cost to human readability has remained the same.
+</div>
+People who are presented with a textual format
+should be able to use a text editor
+to easily produce or modify content.
 People who edit text will introduce a range of errors, but
 could struggle to identify and fix those errors.
 
