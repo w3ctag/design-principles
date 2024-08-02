@@ -601,7 +601,7 @@ perhaps a textual format is not appropriate.
 SVG path syntax was designed to be compact, 
 with single-letter commands and unlabeled series of coordinates after them.
 At the time, file size was a primary concern, 
-but while the importance of this has changed over time,
+but while the importance of size efficiency has declined over time,
 the cost to human readability has remained the same.
 </div>
 
