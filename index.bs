@@ -604,6 +604,7 @@ At the time, file size was a primary concern,
 but while the importance of this has changed over time,
 the cost to human readability has remained the same.
 </div>
+
 People who are presented with a textual format
 should be able to use a text editor
 to easily produce or modify content.
