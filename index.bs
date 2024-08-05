@@ -587,7 +587,7 @@ See also:
 * [[#secure-context]]
 * [[#consent]]
 
-<h3 id=text-formats>Design textual formats for people</h3>
+<h3 id=text-formats>Design textual formats for humans</h3>
 
 Design textual formats that can be easily produced and consumed by people.
 
