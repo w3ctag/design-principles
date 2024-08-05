@@ -1930,6 +1930,9 @@ The solution was to add a timeout on top of the requirement of it being
 called on the same task that resolves the `getDisplayMedia()` promise.
 </div>
 
+If an API depends on setting up temporary conditions then invoking the caller,
+that is a good reason to use a callback rather than a promise.
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
