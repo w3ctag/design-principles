@@ -900,12 +900,6 @@ something that handles the supertype might not work properly.
 In the theory of type systems, this is known as the
 [Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
 
-A simpler approach is often to avoid inheritance
-and reuse existing capabilities
-by composition.
-New items can define properties that hold
-any existing components that are needed.
-
 <div class=example>
 The {{Event}} type is a super-type of {{KeyboardEvent}} and {{PointerEvent}}.
 Events always have the same basic set of properties and actions that apply,
@@ -913,6 +907,12 @@ like whether the event {{Event/bubbles}}.
 The subtypes add new properties and actions,
 but instances of those subtypes still act in every way as an {{Event}}.
 </div>
+
+A simpler approach is often to avoid inheritance
+and reuse existing capabilities
+by composition.
+New items can define properties that hold
+any existing components that are needed.
 
 <div class=example>
 Form-associated custom elements allow custom elements to interact with form submission.
