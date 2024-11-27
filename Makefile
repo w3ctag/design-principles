@@ -1,15 +1,26 @@
-specs = $(patsubst %.bs,build/%.html,$(wildcard *.bs))
+specs := $(patsubst %.bs,build/%.html,$(wildcard *.bs))
+VENV := .venv
+bikeshed := $(VENV)/bin/bikeshed
 
-.PHONY: all clean
+.PHONY: all clean really-clean
 .SUFFIXES: .bs .html
 
 all: $(specs)
 
 clean:
-	rm -rf build *~
+	-rm -rf build *~
+
+really-clean: clean
+	-rm -rf $(VENV)
 
 build:
 	mkdir -p build
 
-build/%.html: %.bs Makefile build
-	bikeshed --die-on=fatal spec $< $@
+$(VENV):
+	python3 -m venv $(VENV)
+
+$(bikeshed): $(VENV)
+	$(VENV)/bin/pip install bikeshed
+
+build/%.html: %.bs build $(bikeshed)
+	$(bikeshed) --die-on=fatal spec $< $@
