@@ -590,6 +590,7 @@ See also:
 <h3 id=text-formats>Design textual formats for humans</h3>
 
 Design textual formats that can be easily produced and consumed by people.
+Textual formats also improve [transparency](https://www.w3.org/TR/ethical-web-principles/#transparent).
 
 Favor readability over compactness. 
 File size can be optimized by tooling,
