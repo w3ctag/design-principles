@@ -136,7 +136,7 @@ users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
 or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
 
-For example, an API which allows any website to
+For example, an API that allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
 may make users of these technologies feel unsafe visiting unknown web pages,
 since any web page may detect this private information.
@@ -441,7 +441,7 @@ A font picker (high level API)
 over a Font Enumeration API (low level API)
 as it addresses the bulk of use cases,
 while preserving user privacy,
-as it is free from the the fingerprinting concerns that accompany
+as it is free from the fingerprinting concerns that accompany
 a general Font Enumeration API.
 A native font picker also comes with accessibility built-in,
 and provides consistency for end users.
@@ -1797,7 +1797,7 @@ geolocation.read({ signal });
 </div>
 
 Using `AbortSignal` consistently
-as the way to cancel an asychronous operation
+as the way to cancel an asynchronous operation
 means that authors can write less complex code.
 
 For example, there's a pattern of using a single `AbortSignal`
@@ -2549,7 +2549,7 @@ See also:
 Look for ways to avoid enumerating devices.
 If you can't avoid it, expose the least information possible.
 
-If an API exposes the the existence, capabilities, or identifiers of more than one device,
+If an API exposes the existence, capabilities, or identifiers of more than one device,
 all of the risks in [[#device-ids]]
 are multiplied by the number of devices.
 For the same reasons,
