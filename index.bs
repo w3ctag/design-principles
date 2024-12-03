@@ -2849,6 +2849,68 @@ because use of {{ScriptProcessorNode}} from the main thread
 frequently resulted in a poor user experience. [[WebAudio]]
 </p>
 
+## Only purely computational features should be exposed everywhere ## {#expose-everywhere}
+<!--
+    https://github.com/w3ctag/design-principles/issues/509
+    https://github.com/whatwg/webidl/issues/468
+    https://github.com/w3ctag/design-principles/issues/35
+-->
+
+When exposing a feature,
+please consider whether it makes sense
+to expose the feature to all possible environments
+(via the {{Exposed|[Exposed=*]}} annotation
+or including it on all global scope interfaces).
+
+Only purely computational features should be exposed everywhere.
+That is,
+they do not perform I/O
+and do not affect the state of the user agent or the user’s device.
+
+<p class="example">
+The {{TextEncoder}} interface converts a string to UTF-8 encoded bytes.
+This is a purely computational interface,
+generally useful as a JavaScript language facility,
+so it should be exposed everywhere.
+</p>
+
+<p class="example">
+<a attribute spec=html>localStorage</a> affects the state of the user agent, so it should not be exposed everywhere.
+</p>
+
+<p class="example">
+Technically, {{console}} could affect the state of the user agent
+(by causing log messages to appear in the developer tools)
+or the user’s device
+(by writing to a log file.)
+But these things are not observable from the running code,
+and the practicality of having {{console}} everywhere outweighs the disadvantages.
+</p>
+
+Additionally, anything relying on an event loop
+should not be exposed everywhere.
+Not all global scopes have an event loop.
+
+<p class="example">
+The {{AbortSignal/timeout(milliseconds)|timeout}} method of {{AbortSignal}}
+relies on an event loop
+and should not be exposed everywhere.
+The rest of {{AbortSignal}} is purely computational,
+and should be exposed everywhere.
+</p>
+
+The {{Exposed|[Exposed=*]}} annotation should also be applied conservatively.
+If a feature is not that useful
+without other features that are not exposed everywhere,
+default to not exposing that feature as well.
+
+<p class="example">
+The {{Blob}} interface is purely computational,
+but {{Blob}} objects are primarily used for, or obtained as a result of, I/O.
+By the principle of exposing conservatively,
+Blob should not be exposed everywhere.
+</p>
+
 <h3 id="new-data-formats">Add new data formats properly</h3>
 
 Always define a corresponding MIME type and extend existing APIs to support this type
