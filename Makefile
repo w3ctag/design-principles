@@ -2,7 +2,7 @@ specs := $(patsubst %.bs,build/%.html,$(wildcard *.bs))
 VENV := .venv
 bikeshed := $(VENV)/bin/bikeshed
 
-.PHONY: all clean really-clean
+.PHONY: all clean dist-clean
 .SUFFIXES: .bs .html
 
 all: $(specs)
@@ -10,7 +10,7 @@ all: $(specs)
 clean:
 	-rm -rf build *~
 
-really-clean: clean
+dist-clean: clean
 	-rm -rf $(VENV)
 
 build:
