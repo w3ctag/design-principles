@@ -884,6 +884,48 @@ that authors can use to extend the language
 without breaking future native functionality,
 to reduce such dilemmas in the future.
 
+<h3 id=prefer-composition>Build complex types by composing simpler types</h3>
+
+Define subtypes that can always be used in place of a supertype.
+Avoid interfaces that use inheritance
+unless everything that can be said about an instance of the parent
+always applies to the child as well.
+
+With inheritance, a subtype creates a type of item
+that can stand in for its supertype.
+A subtype needs to provide the same attributes and methods as its supertype.
+The subtype also needs to maintain consistent behavior.
+If the subtype changes the way that an item works,
+something that handles the supertype might not work properly.
+
+In the theory of type systems, this is known as the
+[Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
+
+<div class=example>
+The {{Event}} type is a super-type of {{KeyboardEvent}} and {{PointerEvent}}.
+Events always have the same basic set of properties and actions that apply,
+like whether the event {{Event/bubbles}}.
+The subtypes add new properties and actions,
+but instances of those subtypes still act in every way as an {{Event}}.
+</div>
+
+A simpler approach is often to avoid inheritance
+and reuse existing capabilities
+by composition.
+New items can define properties that hold
+any existing components that are needed.
+
+<div class=example>
+Form-associated custom elements allow custom elements to interact with form submission.
+Specializing {{HTMLInputElement}} would be difficult,
+because an <{input}> element is quite complex
+and a specialization of {{HTMLInputElement}} would need to maintain that complexity.
+Custom elements can attach (i.e., compose) items that are necessary to
+interact with a form
+without having to deal with the complications of {{HTMLInputElement}}.
+</div>.
+
+
 <h2 id="html">HTML</h2>
 
 This section details design principles for features which are exposed via HTML.
