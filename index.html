@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="b2c19969a41af097ac2233009f0b2af69ea6aeed" name="revision">
+  <meta content="fbf6370d644b90afbc5606c58cd67d4e91decf60" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1140,12 +1140,14 @@ behavior that might be considered implementation bugs.
 Web features are not solely defined in specifications;
 they are also defined by how content uses those features.</p>
    <h3 class="heading settled" data-level="1.9" id="leave-the-web-better"><span class="secno">1.9. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
-   <p>As you add new capabilities to the web platform, do so in a way that improves
-the overall platform, for example its security or privacy vulnerabilities, or accessibility characteristics.
-The existence of a defect in one part of the platform must not be used as a license
-for adding or extending such defect into new capabilities and thereby further decreasing
-the overall platform quality.  Where possible, build new web capabilities that
-improve the overall platform quality.</p>
+   <p>As you add new capabilities to the web platform,
+do so in a way that improves the overall platform,
+for example its security, privacy or accessibility characteristics.
+The existence of a defect in one part of the platform
+must not be used as a license for adding or extending such defect
+ into new capabilities and thereby further decreasing the overall platform quality.
+Where possible, build new web capabilities that improve the overall platform quality,
+and do not degrade existing capabilities without good reason.</p>
    <p>Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
