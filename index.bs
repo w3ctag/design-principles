@@ -2582,7 +2582,7 @@ if you need to give web sites access to information about capabilities,
 only expose the minimal amount of data necessary.
 
 Firstly, think carefully about whether it is really necessary
-to expose identifying information at all.
+to expose information at all.
 Consider whether your [user needs](#priority-of-constituencies) could be satisfied
 by a less powerful API.
 
