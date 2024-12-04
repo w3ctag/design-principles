@@ -3075,8 +3075,8 @@ New MIME types should have a specification and should be registered with the Int
 
 <h3 id="using-http">Consult documentation on best practices when using HTTP</h3>
 
-When using \[HTTP](https://datatracker.ietf.org/doc/html/rfc9110),
-consult [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205)
+When using [[RFC9110|HTTP]],
+consult [[RFC9205 inline]]
 for advice on correct usage of the protocol.
 
 [Fetch](https://fetch.spec.whatwg.org/) is the way that
@@ -3088,13 +3088,13 @@ Appropriate use of methods, header fields, content types, caching, and other HTT
 might need to be defined.
 
 Recommendations on best practices for HTTP
-can be found in [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205) and
+can be found in [[RFC9205 inline]] and
 [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis).
 RFC 9205 includes advice on
-[specifying client behavior](https://datatracker.ietf.org/doc/html/rfc9205#section-4.3),
-[defining header fields](https://datatracker.ietf.org/doc/html/rfc9205#section-4.7),
-[use of media types](https://datatracker.ietf.org/doc/html/rfc9205#section-4.8),
-[evolving specifications](https://datatracker.ietf.org/doc/html/rfc9205#section-4.16), and
+[[RFC9205#section-4.3|specifying client behavior]],
+[[RFC9205#section-4.7|defining header fields]],
+[[RFC9205#section-4.8|use of media types]],
+[[RFC9205#section-4.16|evolving specifications]], and
 other advice on how to get the most out of HTTP.
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
