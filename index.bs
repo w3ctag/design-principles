@@ -2922,7 +2922,7 @@ for any new data format.
 There are cases when a new capability on the web involves adding a new data format.
 This can be an image, video, audio, text, or any other type of data that a browser is
 expected to ingest. Use a strictly validated standardized MIME type for new formats.
-Only support UTF-8 encoded text.
+New formats containing text should only support UTF-8 encoded text.
 
 While legacy media formats do not always have strict enforcement for MIME types (and
 sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
