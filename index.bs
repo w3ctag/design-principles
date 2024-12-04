@@ -1643,6 +1643,13 @@ This is for legacy interoperability reasons,
 not as an example of good design.
 </div>
 
+The default value should be the value
+that most authors will choose,
+if that choice is obvious.
+For boolean attributes,
+that might mean that the attribute name
+needs to be chosen so that `false` is the common choice.
+
 When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
@@ -1653,6 +1660,7 @@ unless otherwise required, use the following list types:
 See also:
 
 * [[#prefer-dictionaries]]
+* [[#naming-optional-parameters]]
 * <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a>
 
 <h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
@@ -2934,8 +2942,9 @@ Always define a corresponding MIME type and extend existing APIs to support this
 for any new data format.
 
 There are cases when a new capability on the web involves adding a new data format.
-This can be an image, video, audio, or any other type of data that a browser is expected
-to ingest. New formats should have a standardized MIME type, which is strictly validated.
+This can be an image, video, audio, text, or any other type of data that a browser is
+expected to ingest. Use a strictly validated standardized MIME type for new formats.
+New formats containing text should only support UTF-8 encoded text.
 
 While legacy media formats do not always have strict enforcement for MIME types (and
 sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
@@ -2948,8 +2957,8 @@ they are safelisted in both ingress (e.g. decoding from a ReadableStream) and eg
 For example. if you are to add an image format to the web platform, first add a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
 encoder) for said image format to support decoding in HTMLImageElements. On top of this,
-you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
-and HTMLCanvasElement.toDataURL().
+you are also expected to add support to egress points such as `HTMLCanvasElement.toBlob()`
+and `HTMLCanvasElement.toDataURL()`.
 
 For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
 the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm),
