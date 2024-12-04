@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="53c8f66ec7cf9b5d347df17c9c9d177751bf1990" name="revision">
+  <meta content="d0137b55cb7ea3011b346f5fd94f51479310017f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-12-03">3 December 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-12-04">4 December 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -784,6 +784,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#require-user-activation"><span class="secno">2.10</span> <span class="content">Require user activation for powerful APIs</span></a>
       <li><a href="#support-non-fully-active"><span class="secno">2.11</span> <span class="content">Support non-fully active BFCached documents</span></a>
       <li><a href="#third-party-tools"><span class="secno">2.12</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
+      <li><a href="#prefer-composition"><span class="secno">2.13</span> <span class="content">Build complex types by composing simpler types</span></a>
      </ol>
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
@@ -828,6 +829,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#string-constants"><span class="secno">6.12</span> <span class="content">Use strings for constants and enums</span></a>
       <li><a href="#async-by-default"><span class="secno">6.13</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
       <li><a href="#uint8array"><span class="secno">6.14</span> <span class="content">Output an array of bytes with Uint8Array</span></a>
+      <li><a href="#void-functions"><span class="secno">6.15</span> <span class="content">Return <code>undefined</code> from side-effect-causing functions</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -868,13 +870,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <ol class="toc">
         <li><a href="#worker-only"><span class="secno">10.2.1</span> <span class="content">Some APIs should only be exposed to dedicated workers</span></a>
        </ol>
-      <li><a href="#new-data-formats"><span class="secno">10.3</span> <span class="content">Add new data formats properly</span></a>
-      <li><a href="#new-http-header-syntax"><span class="secno">10.4</span> <span class="content">Conform new HTTP headers to standards</span></a>
-      <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#serialization"><span class="secno">10.6</span> <span class="content">Consider consumers when serializing</span></a>
-      <li><a href="#debuggability"><span class="secno">10.7</span> <span class="content">Ensure features are developer-friendly</span></a>
-      <li><a href="#crypto"><span class="secno">10.8</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
-      <li><a href="#client-hints"><span class="secno">10.9</span> <span class="content">Do not expose new information through Client Hints</span></a>
+      <li><a href="#expose-everywhere"><span class="secno">10.3</span> <span class="content">Only purely computational features should be exposed everywhere</span></a>
+      <li><a href="#new-data-formats"><span class="secno">10.4</span> <span class="content">Add new data formats properly</span></a>
+      <li><a href="#using-http"><span class="secno">10.5</span> <span class="content">Consult documentation on best practices when using HTTP</span></a>
+      <li><a href="#extend-manifests"><span class="secno">10.6</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#serialization"><span class="secno">10.7</span> <span class="content">Consider consumers when serializing</span></a>
+      <li><a href="#debuggability"><span class="secno">10.8</span> <span class="content">Ensure features are developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.9</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#client-hints"><span class="secno">10.10</span> <span class="content">Do not expose new information through Client Hints</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -1407,7 +1410,7 @@ after it’s disengaged.
 This can and should be done
 without revealing any detectable API differences to the site.</p>
    <div class="example" id="example-fb11a26c">
-    <a class="self-link" href="#example-fb11a26c"></a> User Agents which support <a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">localStorage</a> should not persist storage area changes
+    <a class="self-link" href="#example-fb11a26c"></a> User Agents which support <a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage" id="79d831630">localStorage</a> should not persist storage area changes
 made while private browsing mode is engaged. 
     <p>If the User Agent has two simultaneous sessions with a site,
 one in private browsing mode and one not,
@@ -1546,6 +1549,36 @@ unless it causes significant breakage of live websites.</p>
 that authors can use to extend the language
 without breaking future native functionality,
 to reduce such dilemmas in the future.</p>
+   <h3 class="heading settled" data-level="2.13" id="prefer-composition"><span class="secno">2.13. </span><span class="content">Build complex types by composing simpler types</span><a class="self-link" href="#prefer-composition"></a></h3>
+   <p>Define subtypes that can always be used in place of a supertype.
+Avoid interfaces that use inheritance
+unless everything that can be said about an instance of the parent
+always applies to the child as well.</p>
+   <p>With inheritance, a subtype creates a type of item
+that can stand in for its supertype.
+A subtype needs to provide the same attributes and methods as its supertype.
+The subtype also needs to maintain consistent behavior.
+If the subtype changes the way that an item works,
+something that handles the supertype might not work properly.</p>
+   <p>In the theory of type systems, this is known as the <a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov Substitution Principle</a>.</p>
+   <div class="example" id="example-2c1a1d5d"><a class="self-link" href="#example-2c1a1d5d"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> type is a super-type of <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#keyboardevent" id="ref-for-keyboardevent">KeyboardEvent</a></code> and <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/pointerevents/#dom-pointerevent" id="ref-for-dom-pointerevent">PointerEvent</a></code>.
+Events always have the same basic set of properties and actions that apply,
+like whether the event <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles">bubbles</a></code>.
+The subtypes add new properties and actions,
+but instances of those subtypes still act in every way as an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code>. </div>
+   <p>A simpler approach is often to avoid inheritance
+and reuse existing capabilities
+by composition.
+New items can define properties that hold
+any existing components that are needed.</p>
+   <div class="example" id="example-7094db49"><a class="self-link" href="#example-7094db49"></a> Form-associated custom elements allow custom elements to interact with form submission.
+Specializing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#htmlinputelement" id="ref-for-htmlinputelement">HTMLInputElement</a></code> would be difficult,
+because an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element">input</a></code> element is quite complex
+and a specialization of <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#htmlinputelement" id="ref-for-htmlinputelement①">HTMLInputElement</a></code> would need to maintain that complexity.
+Custom elements can attach (i.e., compose) items that are necessary to
+interact with a form
+without having to deal with the complications of <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#htmlinputelement" id="ref-for-htmlinputelement②">HTMLInputElement</a></code>. </div>
+   . 
    <h2 class="heading settled" data-level="3" id="html"><span class="secno">3. </span><span class="content">HTML</span><a class="self-link" href="#html"></a></h2>
    <p>This section details design principles for features which are exposed via HTML.</p>
    <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use HTML attribute names (only) for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
@@ -1557,7 +1590,7 @@ maintains <a href="#consistency">consistency</a> across the language,
 and keeps its vocabulary small.</p>
    <div class="example" id="example-c1977603"><a class="self-link" href="#example-c1977603"></a> The same attribute name, <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple" id="ref-for-attr-select-multiple">multiple</a></code>,
     is used on both <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-the-select-element">select</a></code> to allow selection of multiple values,
-    as well as on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element">input</a></code> to allow entry of multiple values. </div>
+    as well as on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element①">input</a></code> to allow entry of multiple values. </div>
    <div class="example" id="example-628fe6cf"><a class="self-link" href="#example-628fe6cf"></a> The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open" id="ref-for-attr-details-open">open</a></code> attribute was introduced on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element" id="ref-for-the-details-element">details</a></code> element,
     and then re-used by <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" id="ref-for-the-dialog-element">dialog</a></code>. </div>
    <p>If you do re-use an existing HTML attribute,
@@ -1576,7 +1609,7 @@ try to keep its syntax as close as possible to the syntax of the existing attrib
    <p>The inverse also applies:
 do <strong>not</strong> re-use an existing HTML attribute name if
 the functionality you are adding is <strong>not</strong> similar to that of the existing attribute.</p>
-   <div class="example" id="example-9866c588"><a class="self-link" href="#example-9866c588"></a> The <code>type</code> attribute is used on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element①">input</a></code> and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element" id="ref-for-the-button-element">button</a></code> elements
+   <div class="example" id="example-9866c588"><a class="self-link" href="#example-9866c588"></a> The <code>type</code> attribute is used on the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element②">input</a></code> and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element" id="ref-for-the-button-element">button</a></code> elements
     to further specialize the element type,
     whereas on every other element (e.g. <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element">link</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script" id="ref-for-script">script</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-style-element" id="ref-for-the-style-element">style</a></code>)
     it specifies MIME type.
@@ -1597,7 +1630,7 @@ even if this means using another character to separate values.</p>
    <div class="example" id="example-ca508580">
     <a class="self-link" href="#example-ca508580"></a> 
     <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-accept" id="ref-for-attr-input-accept">accept</a></code> attribute is a comma-separated list of values,
-because it needs to match the syntax of the <code>Accept</code> HTTP header. (See <a href="#new-http-header-syntax">guidance on HTTP headers</a>)</p>
+because it needs to match the syntax of the <code>Accept</code> HTTP header. (See <a href="#using-http">guidance on HTTP headers</a>)</p>
    </div>
    <p>Regardless of syntax, attributes should only be used for short lists of values.
 For longer lists, embedding the entire list in an attribute is discouraged.
@@ -1606,7 +1639,7 @@ These elements could either be children of the element in question, or linked th
    <div class="example" id="example-37a42680">
     <a class="self-link" href="#example-37a42680"></a> 
     <p>The list of values for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-the-select-element①">select</a></code> element is provided as a series of <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element">option</a></code> element children.
-However, when providing a list of recommended values for an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element②">input</a></code> element, a separate element is used (<code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element" id="ref-for-the-datalist-element">datalist</a></code>),
+However, when providing a list of recommended values for an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element③">input</a></code> element, a separate element is used (<code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element" id="ref-for-the-datalist-element">datalist</a></code>),
 linked through a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-list" id="ref-for-attr-input-list">list</a></code> attribute.</p>
    </div>
    <div class="example" id="example-8e66c282">
@@ -1651,7 +1684,7 @@ Carving out a synchronized IDL attribute with inconsistent naming
 results in confusion, and should be avoided.</p>
    <div class="note" role="note"> This does not hold the other way around.
 A new IDL attribute does not always warrant a content attribute counterpart. </div>
-   <div class="example" id="example-ae20f706"><a class="self-link" href="#example-ae20f706"></a> A counterpattern to this guidance can be found in <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element③">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-value" id="ref-for-attr-input-value">value</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element①">option</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected" id="ref-for-attr-option-selected">selected</a></code>, and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element④">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-checked" id="ref-for-attr-input-checked">checked</a></code> where the HTML attributes were never updated
+   <div class="example" id="example-ae20f706"><a class="self-link" href="#example-ae20f706"></a> A counterpattern to this guidance can be found in <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element④">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-value" id="ref-for-attr-input-value">value</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element①">option</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected" id="ref-for-attr-option-selected">selected</a></code>, and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element⑤">input</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-checked" id="ref-for-attr-input-checked">checked</a></code> where the HTML attributes were never updated
 and the IDL attribute was the single source of truth. </div>
    <h3 class="heading settled" data-level="3.6" id="naming-of-url-attributes"><span class="secno">3.6. </span><span class="content">Name URL-containing attributes based on their primary purpose</span><a class="self-link" href="#naming-of-url-attributes"></a></h3>
    <p>If the element enables the user to navigate to the URL contained in the attribute, call the attribute <code>href</code>, like the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element">a</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code> attribute.</p>
@@ -2150,9 +2183,9 @@ so they need to be created and accessed through specific methods.</p>
 which shouldn’t be constructed,
 and which authors should not be able to define subclasses for.</p>
    </ul>
-   <p class="example" id="example-b036c85f"><a class="self-link" href="#example-b036c85f"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> class, and all its derived interfaces, are constructible.
+   <p class="example" id="example-b036c85f"><a class="self-link" href="#example-b036c85f"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> class, and all its derived interfaces, are constructible.
 This is useful when testing code which handles events:
-an author can construct an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> to pass to a method
+an author can construct an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> to pass to a method
 which handles that type of event. </p>
    <p class="example" id="example-efe51367"><a class="self-link" href="#example-efe51367"></a> The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window">Window</a></code> class isn’t constructible,
 because creating a new window is a privileged operation
@@ -2295,6 +2328,45 @@ Providing a <code>Uint8Array</code> avoids that additional effort.</p>
    <p>If the bytes in the buffer have a natural intepretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Float32Array" id="ref-for-idl-Float32Array">Float32Array</a></code>.</p>
+   <h3 class="heading settled" data-level="6.15" id="void-functions"><span class="secno">6.15. </span><span class="content">Return <code>undefined</code> from side-effect-causing functions</span><a class="self-link" href="#void-functions"></a></h3>
+   <p>When the purpose of a function
+is to cause side effects
+and not to compute a value,
+the function should be specified
+to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined①">undefined</a></code>.</p>
+   <p>Sites are unlikely
+to come to depend on
+such a return value,
+which makes it easier
+to change the function
+to return a meaningful value
+in the future
+should a use case for one be discovered.</p>
+   <div class="example" id="example-5e29a724">
+    <a class="self-link" href="#example-5e29a724"></a> 
+    <p><code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement" id="ref-for-htmlmediaelement">HTMLMediaElement</a></code>’s <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-play" id="ref-for-dom-media-play">play()</a></code> method
+was originally defined to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined②">undefined</a></code>,
+since its purpose was
+to change the state
+of the media element.</p>
+    <p>Requests to play media
+can fail
+in a number of ways,
+so <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-play" id="ref-for-dom-media-play①">play()</a></code> was <a href="https://github.com/whatwg/html/issues/505">changed</a> to return a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-promise" id="ref-for-idl-promise">Promise</a></code>.
+If the <abbr>API</abbr> had originally been defined
+to return something other than <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined③">undefined</a></code> (for example,
+if it had been defined
+to return the media element,
+a popular pattern
+in “chaining” <abbr>API</abbr>s),
+it would not have been backwards compatible
+to enhance the usability of this <abbr>API</abbr> in this manner.</p>
+   </div>
+   <p>See also:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://en.wikipedia.org/wiki/Command–query_separation">Command–query separation on Wikipedia</a></p>
+   </ul>
    <h2 class="heading settled" data-level="7" id="event-design"><span class="secno">7. </span><span class="content">Event Design</span><a class="self-link" href="#event-design"></a></h2>
    <h3 class="heading settled" data-level="7.1" id="one-time-events"><span class="secno">7.1. </span><span class="content">Use promises for one time events</span><a class="self-link" href="#one-time-events"></a></h3>
    <p>Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a> in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
@@ -2440,7 +2512,7 @@ rather than needing to be given a copy of the relevant state with the event.</p>
 you should include any state relevant to the event with the deferred event.</p>
      <ul>
       <li data-md>
-       <p><span class="informative">This usually involves a new subclass of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code>,
+       <p><span class="informative">This usually involves a new subclass of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code>,
 with new attributes to hold the state.</span></p>
        <p>For example, the <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#progressevent" id="ref-for-progressevent">ProgressEvent</a></code> adds <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-loaded" id="ref-for-dom-progressevent-loaded">loaded</a></code>, <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-progressevent-total" id="ref-for-dom-progressevent-total">total</a></code>, etc. attributes to hold the state.</p>
      </ul>
@@ -2464,7 +2536,7 @@ through its well-defined transitions.</span></p>
      <p>if the deferred event doesn’t need extra state,
 or a state machine,
 this probably means that the event is just signalling the completion of the algorithm.
-If this is true, the API should probably return a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-promise" id="ref-for-idl-promise">Promise</a></code> instead of firing the event.
+If this is true, the API should probably return a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-promise" id="ref-for-idl-promise①">Promise</a></code> instead of firing the event.
 See <a href="#one-time-events">§ 7.1 Use promises for one time events</a>.</p>
    </ul>
    <p class="note" role="note"><span class="marker">Note:</span> events that expose the possibility of recursion as described in this section
@@ -2473,12 +2545,12 @@ This terminology is discouraged
 as it implies that it’s possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.</p>
-   <h3 class="heading settled" data-level="7.7" id="state-and-subclassing"><span class="secno">7.7. </span><span class="content">Use plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code>s for state</span><a class="self-link" href="#state-and-subclassing"></a></h3>
-   <p>Where possible, use a plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code> with a specified <code>type</code>,
+   <h3 class="heading settled" data-level="7.7" id="state-and-subclassing"><span class="secno">7.7. </span><span class="content">Use plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>s for state</span><a class="self-link" href="#state-and-subclassing"></a></h3>
+   <p>Where possible, use a plain <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑥">Event</a></code> with a specified <code>type</code>,
 and capture any state information in the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> object.</p>
-   <p>It’s usually not necessary to create new subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>.</p>
+   <p>It’s usually not necessary to create new subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑦">Event</a></code>.</p>
    <h3 class="heading settled" data-level="7.8" id="events-vs-observers"><span class="secno">7.8. </span><span class="content">Use Events and Observers appropriately</span><a class="self-link" href="#events-vs-observers"></a></h3>
-   <p>In general, use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code> and notification <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑥">Event</a></code>s,
+   <p>In general, use <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget">EventTarget</a></code> and notification <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑧">Event</a></code>s,
 rather than an Observer pattern,
 unless an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①">EventTarget</a></code> can’t work well for your feature.</p>
    <p>Using an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code> ensures your feature benefits from
@@ -3031,7 +3103,43 @@ is the path with the best experience for users.</p>
 in the Web Audio API
 because use of <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#ScriptProcessorNode" id="ref-for-ScriptProcessorNode①">ScriptProcessorNode</a></code> from the main thread
 frequently resulted in a poor user experience. <a data-link-type="biblio" href="#biblio-webaudio" title="Web Audio API">[WebAudio]</a> </p>
-   <h3 class="heading settled" data-level="10.3" id="new-data-formats"><span class="secno">10.3. </span><span class="content">Add new data formats properly</span><a class="self-link" href="#new-data-formats"></a></h3>
+   <h3 class="heading settled" data-level="10.3" id="expose-everywhere"><span class="secno">10.3. </span><span class="content">Only purely computational features should be exposed everywhere</span><a class="self-link" href="#expose-everywhere"></a></h3>
+   <p>When exposing a feature,
+please consider whether it makes sense
+to expose the feature to all possible environments
+(via the <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed">[Exposed=*]</a></code> annotation
+or including it on all global scope interfaces).</p>
+   <p>Only purely computational features should be exposed everywhere.
+That is,
+they do not perform I/O
+and do not affect the state of the user agent or the user’s device.</p>
+   <p class="example" id="example-e199054f"><a class="self-link" href="#example-e199054f"></a> The <code class="idl"><a data-link-type="idl" href="https://encoding.spec.whatwg.org/#textencoder" id="ref-for-textencoder">TextEncoder</a></code> interface converts a string to UTF-8 encoded bytes.
+This is a purely computational interface,
+generally useful as a JavaScript language facility,
+so it should be exposed everywhere. </p>
+   <p class="example" id="example-553789a6"><a class="self-link" href="#example-553789a6"></a> <a class="idl-code" data-link-type="attribute" href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage" id="ref-for-dom-localstorage">localStorage</a> affects the state of the user agent, so it should not be exposed everywhere. </p>
+   <p class="example" id="example-6dca4ec6"><a class="self-link" href="#example-6dca4ec6"></a> Technically, <code class="idl"><a data-link-type="idl" href="https://console.spec.whatwg.org/#namespacedef-console" id="ref-for-namespacedef-console">console</a></code> could affect the state of the user agent
+(by causing log messages to appear in the developer tools)
+or the user’s device
+(by writing to a log file.)
+But these things are not observable from the running code,
+and the practicality of having <code class="idl"><a data-link-type="idl" href="https://console.spec.whatwg.org/#namespacedef-console" id="ref-for-namespacedef-console①">console</a></code> everywhere outweighs the disadvantages. </p>
+   <p>Additionally, anything relying on an event loop
+should not be exposed everywhere.
+Not all global scopes have an event loop.</p>
+   <p class="example" id="example-889d8e68"><a class="self-link" href="#example-889d8e68"></a> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortsignal-timeout" id="ref-for-dom-abortsignal-timeout">timeout</a></code> method of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal④">AbortSignal</a></code> relies on an event loop
+and should not be exposed everywhere.
+The rest of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal⑤">AbortSignal</a></code> is purely computational,
+and should be exposed everywhere. </p>
+   <p>The <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed①">[Exposed=*]</a></code> annotation should also be applied conservatively.
+If a feature is not that useful
+without other features that are not exposed everywhere,
+default to not exposing that feature as well.</p>
+   <p class="example" id="example-8be633f8"><a class="self-link" href="#example-8be633f8"></a> The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob">Blob</a></code> interface is purely computational,
+but <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob①">Blob</a></code> objects are primarily used for, or obtained as a result of, I/O.
+By the principle of exposing conservatively,
+Blob should not be exposed everywhere. </p>
+   <h3 class="heading settled" data-level="10.4" id="new-data-formats"><span class="secno">10.4. </span><span class="content">Add new data formats properly</span><a class="self-link" href="#new-data-formats"></a></h3>
    <p>Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.</p>
    <p>There are cases when a new capability on the web involves adding a new data format.
@@ -3052,25 +3160,21 @@ and HTMLCanvasElement.toDataURL().</p>
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="10.4" id="new-http-header-syntax"><span class="secno">10.4. </span><span class="content">Conform new HTTP headers to standards</span><a class="self-link" href="#new-http-header-syntax"></a></h3>
-   <p>If you are defining a new HTTP header,
-its syntax mustn’t go against <a href="https://tools.ietf.org/html/rfc7230#section-3.2">the HTTP specification</a>.</p>
-   <p>If the new header must convey structured data,
-such as lists, dictionaries, or typed values
-like decimals, strings, or booleans,
-then the header should use the syntax
-defined in <a href="https://tools.ietf.org/html/rfc8941">Structured Field Values for HTTP</a>.
-This avoids consumers of the header
-having to write and maintain specific micro-parsers,
-or even worse,
-something that would break those existing parsers.
-If the new header requires data
-that can’t be represented by Structured Field Values,
-then either engage with IETF about
-extending the Structured Field Values syntax,
-or re-consider if an HTTP header is a right place
-to expose the data before inventing a new syntax. <a data-link-type="biblio" href="#biblio-rfc8941" title="Structured Field Values for HTTP">[RFC8941]</a></p>
-   <h3 class="heading settled" data-level="10.5" id="extend-manifests"><span class="secno">10.5. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="10.5" id="using-http"><span class="secno">10.5. </span><span class="content">Consult documentation on best practices when using HTTP</span><a class="self-link" href="#using-http"></a></h3>
+   <p>When using <a href="https://datatracker.ietf.org/doc/html/rfc9110">HTTP</a>,
+consult <a href="https://datatracker.ietf.org/doc/html/rfc9205">RFC 9205</a> for advice on correct usage of the protocol.</p>
+   <p><a href="https://fetch.spec.whatwg.org/">Fetch</a> is the way that
+user agents most often interact with servers.
+Fetch defines the CORS protocol and necessary security checks.
+Outside of those constraints necessary for security,
+Fetch does not provide guidelines on how to best use HTTP.
+Appropriate use of methods, header fields, content types, caching, and other HTTP features
+might need to be defined.</p>
+   <p>Recommendations on best practices for HTTP
+can be found in <a href="https://datatracker.ietf.org/doc/html/rfc9205">RFC 9205</a> and <a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a>.
+RFC 9205 includes advice on <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.3">specifying client behavior</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.7">defining header fields</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.8">use of media types</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.16">evolving specifications</a>, and
+other advice on how to get the most out of HTTP.</p>
+   <h3 class="heading settled" data-level="10.6" id="extend-manifests"><span class="secno">10.6. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -3115,7 +3219,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.6" id="serialization"><span class="secno">10.6. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
+   <h3 class="heading settled" data-level="10.7" id="serialization"><span class="secno">10.7. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
     When adding or extending features that involve a parser or a serializer you should consider their effect on
 serialization. The following are constituencies of serialization results that must be considered: 
    <ul>
@@ -3137,7 +3241,7 @@ The results of serialization:</p>
     <li data-md>
      <p>Should not add to error accumulation - taking the serialized output of an API and feeding it back to the same API in a loop should result in the same internal state</p>
    </ul>
-   <h3 class="heading settled" data-level="10.7" id="debuggability"><span class="secno">10.7. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.8" id="debuggability"><span class="secno">10.8. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -3153,13 +3257,13 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
-   <h3 class="heading settled" data-level="10.8" id="crypto"><span class="secno">10.8. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <h3 class="heading settled" data-level="10.9" id="crypto"><span class="secno">10.9. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
    <p>Use only cryptographic algorithms
 that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.</p>
-   <h3 class="heading settled" data-level="10.9" id="client-hints"><span class="secno">10.9. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
+   <h3 class="heading settled" data-level="10.10" id="client-hints"><span class="secno">10.10. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
    <p>When using Client Hints, don’t expose information that the web page does not already have access to.</p>
    <p>Client hints are an important optimization, but cannot be the sole means by which information
 is exposed to sites. As it says in <cite><a href="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">RFC 8942 §4.1</a></cite> where client hints are defined:</p>
@@ -3580,7 +3684,7 @@ Instead, general terms that describe what the API does were chosen. <a data-link
    </div>
    <div class="example" id="example-c1204afc">
     <a class="self-link" href="#example-c1204afc"></a> 
-    <p>The <code>keydown</code> and <code>keyup</code> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#keyboardevent" id="ref-for-keyboardevent">KeyboardEvent</a></code>s were not named
+    <p>The <code>keydown</code> and <code>keyup</code> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#keyboardevent" id="ref-for-keyboardevent①">KeyboardEvent</a></code>s were not named
 for the specific hardware bus that keyboards used at the time.
 Instead, generic names were chosen
 that are as applicable to today’s Bluetooth and USB keyboards
@@ -3850,6 +3954,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="bfa87d79">short_name</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[CONSOLE]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="7b1760b0">console</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[CREDENTIAL-MANAGEMENT-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="cbdd0aff">id</span>
@@ -3932,6 +4041,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="535dd335">aborted</span>
      <li><span class="dfn-paneled" id="87bc23a5">add</span>
      <li><span class="dfn-paneled" id="6cf6f82f">addEventListener(type, callback)</span>
+     <li><span class="dfn-paneled" id="0c0ceb78">bubbles</span>
      <li><span class="dfn-paneled" id="c2f2a81a">classList</span>
      <li><span class="dfn-paneled" id="aaa103c9">compatMode</span>
      <li><span class="dfn-paneled" id="bc9fe445">createAttribute(localName)</span>
@@ -3944,6 +4054,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="ff87eaf9">remove</span>
      <li><span class="dfn-paneled" id="2296404c">signal abort</span>
      <li><span class="dfn-paneled" id="e8478f36">target</span>
+     <li><span class="dfn-paneled" id="072b36ca">timeout(milliseconds)</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM-Parsing]</a> defines the following terms:
@@ -3961,11 +4072,21 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="d3645ed0">WeakRef</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[ENCODING]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="056fb0bd">TextEncoder</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="7c397e50">Body</span>
      <li><span class="dfn-paneled" id="2aaa2f42">HTTP fetch</span>
      <li><span class="dfn-paneled" id="dc4acd27">json()</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[FileAPI]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="b7d73f5b">Blob</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FILTER-EFFECTS-2]</a> defines the following terms:
@@ -3986,6 +4107,8 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="e4ee9a64">HTMLHRElement</span>
      <li><span class="dfn-paneled" id="37ef25b8">HTMLHtmlElement</span>
      <li><span class="dfn-paneled" id="c5891539">HTMLImageElement</span>
+     <li><span class="dfn-paneled" id="83b269de">HTMLInputElement</span>
+     <li><span class="dfn-paneled" id="1076ec40">HTMLMediaElement</span>
      <li><span class="dfn-paneled" id="a2411b6a">History</span>
      <li><span class="dfn-paneled" id="478bb3aa">ImageBitmap</span>
      <li><span class="dfn-paneled" id="be0c27b2">Navigator</span>
@@ -4024,6 +4147,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="2c73cb69">languagechange</span>
      <li><span class="dfn-paneled" id="6cfa013d">link</span>
      <li><span class="dfn-paneled" id="dc6ebe88">list</span>
+     <li><span class="dfn-paneled" id="3a2db83f">localStorage</span>
      <li><span class="dfn-paneled" id="b07164ad">multiple</span>
      <li><span class="dfn-paneled" id="1a490bf8">onLine</span>
      <li><span class="dfn-paneled" id="31133468">open</span>
@@ -4031,6 +4155,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="aee00462">option</span>
      <li><span class="dfn-paneled" id="b093bcd2">output</span>
      <li><span class="dfn-paneled" id="3da24a47">ping</span>
+     <li><span class="dfn-paneled" id="613edb27">play()</span>
      <li><span class="dfn-paneled" id="55b2f02c">poster</span>
      <li><span class="dfn-paneled" id="9dc3e09f">q</span>
      <li><span class="dfn-paneled" id="9a517a7d">queue a task</span>
@@ -4089,6 +4214,7 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[POINTEREVENTS3]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="d94094fa">PointerEvent</span>
      <li><span class="dfn-paneled" id="d6aab74b">pointerId</span>
     </ul>
    <li>
@@ -4137,6 +4263,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="dca2de17">DOMException</span>
      <li><span class="dfn-paneled" id="8855a9aa">DOMString</span>
      <li><span class="dfn-paneled" id="c01cbda0">EnforceRange</span>
+     <li><span class="dfn-paneled" id="889e932f">Exposed</span>
      <li><span class="dfn-paneled" id="0a296dfe">Float32Array</span>
      <li><span class="dfn-paneled" id="bdbd19d1">Promise</span>
      <li><span class="dfn-paneled" id="b75bb3bd">SecureContext</span>
@@ -4217,6 +4344,8 @@ so they can correct this omission.</p>
   <dl>
    <dt id="biblio-appmanifest">[APPMANIFEST]
    <dd>Marcos Caceres; et al. <a href="https://w3c.github.io/manifest/"><cite>Web Application Manifest</cite></a>. URL: <a href="https://w3c.github.io/manifest/">https://w3c.github.io/manifest/</a>
+   <dt id="biblio-console">[CONSOLE]
+   <dd>Dominic Farolino; Robert Kowalski; Terin Stock. <a href="https://console.spec.whatwg.org/"><cite>Console Standard</cite></a>. Living Standard. URL: <a href="https://console.spec.whatwg.org/">https://console.spec.whatwg.org/</a>
    <dt id="biblio-credential-management-1">[CREDENTIAL-MANAGEMENT-1]
    <dd>Nina Satragno; Marcos Caceres. <a href="https://w3c.github.io/webappsec-credential-management/"><cite>Credential Management Level 1</cite></a>. URL: <a href="https://w3c.github.io/webappsec-credential-management/">https://w3c.github.io/webappsec-credential-management/</a>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
@@ -4241,12 +4370,16 @@ so they can correct this omission.</p>
    <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-dom-parsing">[DOM-Parsing]
    <dd>Travis Leithead. <a href="https://w3c.github.io/DOM-Parsing/"><cite>DOM Parsing and Serialization</cite></a>. URL: <a href="https://w3c.github.io/DOM-Parsing/">https://w3c.github.io/DOM-Parsing/</a>
+   <dt id="biblio-encoding">[ENCODING]
+   <dd>Anne van Kesteren. <a href="https://encoding.spec.whatwg.org/"><cite>Encoding Standard</cite></a>. Living Standard. URL: <a href="https://encoding.spec.whatwg.org/">https://encoding.spec.whatwg.org/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web">[ETHICAL-WEB]
    <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-fileapi">[FileAPI]
+   <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
    <dd><a href="https://drafts.fxtf.org/filter-effects-2/"><cite>Filter Effects Module Level 2</cite></a>. Editor's Draft. URL: <a href="https://drafts.fxtf.org/filter-effects-2/">https://drafts.fxtf.org/filter-effects-2/</a>
    <dt id="biblio-intersection-observer">[INTERSECTION-OBSERVER]
@@ -4261,8 +4394,6 @@ so they can correct this omission.</p>
    <dd>Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
-   <dt id="biblio-rfc8941">[RFC8941]
-   <dd>M. Nottingham; P-H. Kamp. <a href="https://www.rfc-editor.org/rfc/rfc9651"><cite>Structured Field Values for HTTP</cite></a>. September 2024. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
@@ -4504,17 +4635,21 @@ let dfnPanelData = {
 "0065f652": {"dfnID":"0065f652","dfnText":"ScriptProcessorNode","external":true,"refSections":[{"refs":[{"id":"ref-for-ScriptProcessorNode"},{"id":"ref-for-ScriptProcessorNode\u2460"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#ScriptProcessorNode"},
 "03431bcb": {"dfnID":"03431bcb","dfnText":"src (for script)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-script-src"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src"},
 "03675365": {"dfnID":"03675365","dfnText":"event handler IDL attribute","external":true,"refSections":[{"refs":[{"id":"ref-for-event-handler-idl-attributes"},{"id":"ref-for-event-handler-idl-attributes\u2460"},{"id":"ref-for-event-handler-idl-attributes\u2461"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes"},
+"056fb0bd": {"dfnID":"056fb0bd","dfnText":"TextEncoder","external":true,"refSections":[{"refs":[{"id":"ref-for-textencoder"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://encoding.spec.whatwg.org/#textencoder"},
 "0698d556": {"dfnID":"0698d556","dfnText":"string","external":true,"refSections":[{"refs":[{"id":"ref-for-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#string"},
 "0699bcce": {"dfnID":"0699bcce","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-number-objects"},
+"072b36ca": {"dfnID":"072b36ca","dfnText":"timeout(milliseconds)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortsignal-timeout"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#dom-abortsignal-timeout"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
 "0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
+"0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.13. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e202d66": {"dfnID":"0e202d66","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-remoteplayback-interface"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.11. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
+"1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "11289557": {"dfnID":"11289557","dfnText":"figcaption","external":true,"refSections":[{"refs":[{"id":"ref-for-the-figcaption-element"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element"},
 "11e0b87f": {"dfnID":"11e0b87f","dfnText":"unrestricted double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-unrestricted-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
-"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2461"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2462"},{"id":"ref-for-event\u2463"},{"id":"ref-for-event\u2464"}],"title":"7.7. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2465"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
+"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.13. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"}],"title":"7.7. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2467"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
 "12cf38c9": {"dfnID":"12cf38c9","dfnText":"initial-letter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter"},
 "141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
 "16310992": {"dfnID":"16310992","dfnText":"<number>","external":true,"refSections":[{"refs":[{"id":"ref-for-number-value"},{"id":"ref-for-number-value\u2460"}],"title":"4.3. Choose the computed value type based on how the property should inherit"},{"refs":[{"id":"ref-for-number-value\u2461"},{"id":"ref-for-number-value\u2462"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#number-value"},
@@ -4523,7 +4658,7 @@ let dfnPanelData = {
 "19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1a490bf8": {"dfnID":"1a490bf8","dfnText":"onLine","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-navigator-online"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-online"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
-"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"12.4. Use future-proof names"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
+"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.13. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-keyboardevent\u2460"}],"title":"12.4. Use future-proof names"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
 "2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "21ec9802": {"dfnID":"21ec9802","dfnText":"inherit","external":true,"refSections":[{"refs":[{"id":"ref-for-css-inheritance"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#css-inheritance"},
 "2296404c": {"dfnID":"2296404c","dfnText":"signal abort","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller-signal-abort"},{"id":"ref-for-abortcontroller-signal-abort\u2460"},{"id":"ref-for-abortcontroller-signal-abort\u2461"},{"id":"ref-for-abortcontroller-signal-abort\u2462"},{"id":"ref-for-abortcontroller-signal-abort\u2463"},{"id":"ref-for-abortcontroller-signal-abort\u2464"},{"id":"ref-for-abortcontroller-signal-abort\u2465"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller-signal-abort"},
@@ -4541,6 +4676,7 @@ let dfnPanelData = {
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
 "3332e595": {"dfnID":"3332e595","dfnText":"setTimeout(handler, timeout, ...arguments)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-settimeout"}],"title":"8.3. Use milliseconds for time measurement"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
 "37ef25b8": {"dfnID":"37ef25b8","dfnText":"HTMLHtmlElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhtmlelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement"},
+"3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.8. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "3b64181e": {"dfnID":"3b64181e","dfnText":"none","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-font-size-adjust-none"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none"},
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "3f03fff1": {"dfnID":"3f03fff1","dfnText":"datalist","external":true,"refSections":[{"refs":[{"id":"ref-for-the-datalist-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
@@ -4567,9 +4703,10 @@ let dfnPanelData = {
 "5def70a6": {"dfnID":"5def70a6","dfnText":"querySelectorAll(selectors)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-parentnode-queryselectorall"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"},
 "5eafebb0": {"dfnID":"5eafebb0","dfnText":"sequence type","external":true,"refSections":[{"refs":[{"id":"ref-for-sequence-type"},{"id":"ref-for-sequence-type\u2460"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-sequence-type\u2461"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#sequence-type"},
 "5f753d3e": {"dfnID":"5f753d3e","dfnText":"action","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-fs-action"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
-"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
+"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"},{"id":"ref-for-idl-undefined\u2462"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
 "5f95ccda": {"dfnID":"5f95ccda","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.github.io/ecma262/#sec-error-objects"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
+"613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
 "67fa4a40": {"dfnID":"67fa4a40","dfnText":"total","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-progressevent-total"}],"title":"7.6. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
 "680651c3": {"dfnID":"680651c3","dfnText":"NonElementParentNode","external":true,"refSections":[{"refs":[{"id":"ref-for-nonelementparentnode"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#nonelementparentnode"},
 "68bf3d31": {"dfnID":"68bf3d31","dfnText":"a","external":true,"refSections":[{"refs":[{"id":"ref-for-the-a-element"},{"id":"ref-for-the-a-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
@@ -4581,6 +4718,7 @@ let dfnPanelData = {
 "762ce945": {"dfnID":"762ce945","dfnText":"GlobalEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-globaleventhandlers"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"},
 "77996ab1": {"dfnID":"77996ab1","dfnText":"maplike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-maplike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-maplike"},
 "7b0dc914": {"dfnID":"7b0dc914","dfnText":"ProgressEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-progressevent"}],"title":"7.6. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#progressevent"},
+"7b1760b0": {"dfnID":"7b1760b0","dfnText":"console","external":true,"refSections":[{"refs":[{"id":"ref-for-namespacedef-console"},{"id":"ref-for-namespacedef-console\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://console.spec.whatwg.org/#namespacedef-console"},
 "7c397e50": {"dfnID":"7c397e50","dfnText":"Body","external":true,"refSections":[{"refs":[{"id":"ref-for-body"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#body"},
 "7d783f61": {"dfnID":"7d783f61","dfnText":"SharedArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-SharedArrayBuffer"}],"title":"11.3. Resolving tension between interoperability and implementability"}],"url":"https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer"},
 "7f21931f": {"dfnID":"7f21931f","dfnText":"NamedNodeMap","external":true,"refSections":[{"refs":[{"id":"ref-for-namednodemap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#namednodemap"},
@@ -4588,6 +4726,7 @@ let dfnPanelData = {
 "80726755": {"dfnID":"80726755","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-task-queue"},{"id":"ref-for-task-queue\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
 "838fac42": {"dfnID":"838fac42","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://www.w3.org/TR/payment-request/#dfn-state"},
+"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.13. Build complex types by composing simpler types"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
 "84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
 "85188fb3": {"dfnID":"85188fb3","dfnText":"select","external":true,"refSections":[{"refs":[{"id":"ref-for-the-select-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-select-element\u2460"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
@@ -4597,6 +4736,7 @@ let dfnPanelData = {
 "8855a9aa": {"dfnID":"8855a9aa","dfnText":"DOMString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMString"},{"id":"ref-for-idl-DOMString\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
 "88573a43": {"dfnID":"88573a43","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-bigint-objects"},
 "88885797": {"dfnID":"88885797","dfnText":"for","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-label-for"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
+"889e932f": {"dfnID":"889e932f","dfnText":"Exposed","external":true,"refSections":[{"refs":[{"id":"ref-for-Exposed"},{"id":"ref-for-Exposed\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://webidl.spec.whatwg.org/#Exposed"},
 "8baa72cd": {"dfnID":"8baa72cd","dfnText":"WindowEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-windoweventhandlers"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
 "8c800cdf": {"dfnID":"8c800cdf","dfnText":"double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-double"},
 "8dba5fba": {"dfnID":"8dba5fba","dfnText":"\"no-referrer-when-downgrade\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-referrerpolicy-no-referrer-when-downgrade"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
@@ -4632,13 +4772,14 @@ let dfnPanelData = {
 "b2f8a695": {"dfnID":"b2f8a695","dfnText":"alert()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-alert-noargs"}],"title":"1.3. Trusted user interface should be trustworthy"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
 "b6fb7a51": {"dfnID":"b6fb7a51","dfnText":"custom element","external":true,"refSections":[{"refs":[{"id":"ref-for-custom-element"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element"},
 "b75bb3bd": {"dfnID":"b75bb3bd","dfnText":"SecureContext","external":true,"refSections":[{"refs":[{"id":"ref-for-SecureContext"},{"id":"ref-for-SecureContext\u2460"}],"title":"2.6. Consider limiting new features to secure contexts"}],"url":"https://webidl.spec.whatwg.org/#SecureContext"},
+"b7d73f5b": {"dfnID":"b7d73f5b","dfnText":"Blob","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Blob"},{"id":"ref-for-dfn-Blob\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://w3c.github.io/FileAPI/#dfn-Blob"},
 "b8308563": {"dfnID":"b8308563","dfnText":"DedicatedWorkerGlobalScope","external":true,"refSections":[{"refs":[{"id":"ref-for-dedicatedworkerglobalscope"}],"title":"10.2. Where possible APIs should be made available to dedicated workers"},{"refs":[{"id":"ref-for-dedicatedworkerglobalscope\u2460"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope"},
 "b996b941": {"dfnID":"b996b941","dfnText":"src (for img)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-src"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src"},
 "ba3d5b0d": {"dfnID":"ba3d5b0d","dfnText":"RTCDTMFSender","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-rtcdtmfsender"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webrtc-pc/#dom-rtcdtmfsender"},
 "ba920583": {"dfnID":"ba920583","dfnText":"style","external":true,"refSections":[{"refs":[{"id":"ref-for-the-style-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-style-element"},
 "bc5645aa": {"dfnID":"bc5645aa","dfnText":"octet","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-octet"},{"id":"ref-for-idl-octet\u2460"},{"id":"ref-for-idl-octet\u2461"},{"id":"ref-for-idl-octet\u2462"},{"id":"ref-for-idl-octet\u2463"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-octet"},
 "bc9fe445": {"dfnID":"bc9fe445","dfnText":"createAttribute(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createattribute"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
-"bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"7.6. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
+"bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.15. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
 "bdcd112d": {"dfnID":"bdcd112d","dfnText":"bigint","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-bigint"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-bigint"},
 "be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
 "bf18e517": {"dfnID":"bf18e517","dfnText":"createElement","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
@@ -4657,7 +4798,7 @@ let dfnPanelData = {
 "ca0c892d": {"dfnID":"ca0c892d","dfnText":"href (for a)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-hyperlink-href"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-attr-hyperlink-href\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href"},
 "cbdd0aff": {"dfnID":"cbdd0aff","dfnText":"id","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-credential-id"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-credential-management/#dom-credential-id"},
 "cc212fd8": {"dfnID":"cc212fd8","dfnText":"setlike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-setlike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-setlike"},
-"cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
+"cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
 "d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "d0eba3fd": {"dfnID":"d0eba3fd","dfnText":"partial interface","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-partial-interface"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
 "d3645ed0": {"dfnID":"d3645ed0","dfnText":"WeakRef","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-weak-ref-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-weak-ref-objects"},
@@ -4665,8 +4806,9 @@ let dfnPanelData = {
 "d4b3b8bc": {"dfnID":"d4b3b8bc","dfnText":"cite","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-q-cite"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
-"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"},{"id":"ref-for-the-input-element\u2460"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2462"},{"id":"ref-for-the-input-element\u2463"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
+"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.13. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "d8c1cdf2": {"dfnID":"d8c1cdf2","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
+"d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.13. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
 "dc4acd27": {"dfnID":"dc4acd27","dfnText":"json()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-body-json"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#dom-body-json"},
@@ -4698,7 +4840,7 @@ let dfnPanelData = {
 "fdf6efd5": {"dfnID":"fdf6efd5","dfnText":"font-size","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-font-size"},{"id":"ref-for-propdef-font-size\u2460"},{"id":"ref-for-propdef-font-size\u2461"}],"title":"4.2. Make appropriate choices for whether CSS properties are inherited"},{"refs":[{"id":"ref-for-propdef-font-size\u2462"},{"id":"ref-for-propdef-font-size\u2463"},{"id":"ref-for-propdef-font-size\u2464"},{"id":"ref-for-propdef-font-size\u2465"},{"id":"ref-for-propdef-font-size\u2466"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-fonts-4/#propdef-font-size"},
 "ff87eaf9": {"dfnID":"ff87eaf9","dfnText":"remove","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-remove"},{"id":"ref-for-abortsignal-remove\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-remove"},
 "live-object": {"dfnID":"live-object","dfnText":"live object","external":false,"refSections":[],"url":"#live-object"},
-"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.5. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.4.1. If you need to monkey patch"}],"url":"#monkey-patch"},
+"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.6. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.4.1. If you need to monkey patch"}],"url":"#monkey-patch"},
 "propdef-font-size-adjust": {"dfnID":"propdef-font-size-adjust","dfnText":"font-size-adjust","external":false,"refSections":[],"url":"#propdef-font-size-adjust"},
 "static-object": {"dfnID":"static-object","dfnText":"static object","external":false,"refSections":[],"url":"#static-object"},
 };
@@ -5109,6 +5251,7 @@ document.addEventListener("DOMContentLoaded", setTypeTitles);
 let refsData = {
 "#monkey-patch": {"displayText":"monkey patch","export":true,"for_":[],"level":"","normative":true,"shortname":"design-principles","spec":"design-principles","status":"local","text":"monkey patch","type":"dfn","url":"#monkey-patch"},
 "#propdef-font-size-adjust": {"displayText":"font-size-adjust","export":true,"for_":[],"level":"","normative":true,"shortname":"design-principles","spec":"design-principles","status":"local","text":"font-size-adjust","type":"property","url":"#propdef-font-size-adjust"},
+"https://console.spec.whatwg.org/#namespacedef-console": {"displayText":"console","export":true,"for_":[],"level":"1","normative":true,"shortname":"console","spec":"console","status":"current","text":"console","type":"namespace","url":"https://console.spec.whatwg.org/#namespacedef-console"},
 "https://dom.spec.whatwg.org/#abortcontroller": {"displayText":"AbortController","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"AbortController","type":"interface","url":"https://dom.spec.whatwg.org/#abortcontroller"},
 "https://dom.spec.whatwg.org/#abortcontroller-signal-abort": {"displayText":"signal abort","export":true,"for_":["AbortController"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"signal abort","type":"dfn","url":"https://dom.spec.whatwg.org/#abortcontroller-signal-abort"},
 "https://dom.spec.whatwg.org/#abortsignal": {"displayText":"AbortSignal","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"AbortSignal","type":"interface","url":"https://dom.spec.whatwg.org/#abortsignal"},
@@ -5117,12 +5260,14 @@ let refsData = {
 "https://dom.spec.whatwg.org/#abortsignal-remove": {"displayText":"remove","export":true,"for_":["AbortSignal"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"remove","type":"dfn","url":"https://dom.spec.whatwg.org/#abortsignal-remove"},
 "https://dom.spec.whatwg.org/#concept-event-fire": {"displayText":"fire an event","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"fire an event","type":"dfn","url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "https://dom.spec.whatwg.org/#dom-abortcontroller-abort": {"displayText":"abort()","export":true,"for_":["AbortController"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"abort()","type":"method","url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
+"https://dom.spec.whatwg.org/#dom-abortsignal-timeout": {"displayText":"timeout(milliseconds)","export":true,"for_":["AbortSignal"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"timeout(milliseconds)","type":"method","url":"https://dom.spec.whatwg.org/#dom-abortsignal-timeout"},
 "https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once": {"displayText":"once","export":true,"for_":["AddEventListenerOptions"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"once","type":"dict-member","url":"https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once"},
 "https://dom.spec.whatwg.org/#dom-document-compatmode": {"displayText":"compatMode","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"compatMode","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-document-compatmode"},
 "https://dom.spec.whatwg.org/#dom-document-createattribute": {"displayText":"createAttribute(localName)","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"createAttribute(localName)","type":"method","url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
 "https://dom.spec.whatwg.org/#dom-document-createelement": {"displayText":"createElement","export":true,"for_":["Document"],"level":"","normative":true,"shortname":"dom","spec":"dom","status":"anchor-block","text":"createElement","type":"interface","url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
 "https://dom.spec.whatwg.org/#dom-document-getelementsbytagname": {"displayText":"getElementsByTagName","export":true,"for_":["Document"],"level":"","normative":true,"shortname":"dom","spec":"dom","status":"anchor-block","text":"getElementsByTagName","type":"interface","url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
 "https://dom.spec.whatwg.org/#dom-element-classlist": {"displayText":"classList","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"classList","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
+"https://dom.spec.whatwg.org/#dom-event-bubbles": {"displayText":"bubbles","export":true,"for_":["Event"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"bubbles","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "https://dom.spec.whatwg.org/#dom-event-target": {"displayText":"target","export":true,"for_":["Event"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"target","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-event-target"},
 "https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener": {"displayText":"addEventListener(type, callback)","export":true,"for_":["EventTarget"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"addEventListener(type, callback)","type":"method","url":"https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener"},
 "https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid": {"displayText":"getElementById(elementId)","export":true,"for_":["NonElementParentNode"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"getElementById(elementId)","type":"method","url":"https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid"},
@@ -5159,6 +5304,7 @@ let refsData = {
 "https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false": {"displayText":"false","export":true,"for_":["@custom-media"],"level":"5","normative":true,"shortname":"mediaqueries","spec":"mediaqueries-5","status":"current","text":"false","type":"value","url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false"},
 "https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true": {"displayText":"true","export":true,"for_":["@custom-media"],"level":"5","normative":true,"shortname":"mediaqueries","spec":"mediaqueries-5","status":"current","text":"true","type":"value","url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "https://drafts.fxtf.org/filter-effects-2/#propdef-backdrop-filter": {"displayText":"backdrop-filter","export":true,"for_":[],"level":"2","normative":true,"shortname":"filter-effects","spec":"filter-effects-2","status":"current","text":"backdrop-filter","type":"property","url":"https://drafts.fxtf.org/filter-effects-2/#propdef-backdrop-filter"},
+"https://encoding.spec.whatwg.org/#textencoder": {"displayText":"TextEncoder","export":true,"for_":[],"level":"1","normative":true,"shortname":"encoding","spec":"encoding","status":"current","text":"TextEncoder","type":"interface","url":"https://encoding.spec.whatwg.org/#textencoder"},
 "https://fetch.spec.whatwg.org/#body": {"displayText":"Body","export":true,"for_":[],"level":"1","normative":true,"shortname":"fetch","spec":"fetch","status":"current","text":"Body","type":"interface","url":"https://fetch.spec.whatwg.org/#body"},
 "https://fetch.spec.whatwg.org/#concept-http-fetch": {"displayText":"HTTP fetch","export":true,"for_":[],"level":"1","normative":true,"shortname":"fetch","spec":"fetch","status":"current","text":"http fetch","type":"dfn","url":"https://fetch.spec.whatwg.org/#concept-http-fetch"},
 "https://fetch.spec.whatwg.org/#dom-body-json": {"displayText":"json()","export":true,"for_":["Body"],"level":"1","normative":true,"shortname":"fetch","spec":"fetch","status":"current","text":"json()","type":"method","url":"https://fetch.spec.whatwg.org/#dom-body-json"},
@@ -5195,6 +5341,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-checked": {"displayText":"checked","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"checked","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-checked"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-list": {"displayText":"list","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"list","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-list"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-value": {"displayText":"value","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"value","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-value"},
+"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement": {"displayText":"HTMLInputElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLInputElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "https://html.spec.whatwg.org/multipage/input.html#the-input-element": {"displayText":"input","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"input","type":"element","url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open": {"displayText":"open","export":true,"for_":["details"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"open","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
 "https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal": {"displayText":"showModal()","export":true,"for_":["HTMLDialogElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"showModal()","type":"method","url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal"},
@@ -5204,8 +5351,10 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/links.html#ping": {"displayText":"ping","export":true,"for_":["a","area"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"ping","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "https://html.spec.whatwg.org/multipage/media.html#attr-video-poster": {"displayText":"poster","export":true,"for_":["video"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"poster","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/media.html#attr-video-poster"},
 "https://html.spec.whatwg.org/multipage/media.html#audio": {"displayText":"audio","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"audio","type":"element","url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
+"https://html.spec.whatwg.org/multipage/media.html#dom-media-play": {"displayText":"play()","export":true,"for_":["HTMLMediaElement"],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"play()","type":"method","url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
 "https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough": {"displayText":"canplaythrough","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"canplaythrough","type":"event","url":"https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough"},
 "https://html.spec.whatwg.org/multipage/media.html#event-media-resize": {"displayText":"resize","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"resize","type":"event","url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
+"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement": {"displayText":"HTMLMediaElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLMediaElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "https://html.spec.whatwg.org/multipage/media.html#video": {"displayText":"video","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"video","type":"element","url":"https://html.spec.whatwg.org/multipage/media.html#video"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open": {"displayText":"open(url, target, features)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"open(url, target, features)","type":"method","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3": {"displayText":"History","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"History","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
@@ -5232,6 +5381,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task": {"displayText":"queue a task","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"queue a task","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#task-queue": {"displayText":"task queues","export":false,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"task queues","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers": {"displayText":"WindowEventHandlers","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"WindowEventHandlers","type":"interface","url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
+"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage": {"displayText":"localStorage","export":true,"for_":["WindowLocalStorage"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"localStorage","type":"attribute","url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope": {"displayText":"DedicatedWorkerGlobalScope","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"DedicatedWorkerGlobalScope","type":"interface","url":"https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope"},
 "https://infra.spec.whatwg.org/#ascii-code-point": {"displayText":"ASCII code point","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"ascii code point","type":"dfn","url":"https://infra.spec.whatwg.org/#ascii-code-point"},
 "https://infra.spec.whatwg.org/#code-unit": {"displayText":"code unit","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"code unit","type":"dfn","url":"https://infra.spec.whatwg.org/#code-unit"},
@@ -5252,12 +5402,14 @@ let refsData = {
 "https://url.spec.whatwg.org/#percent-encode": {"displayText":"percent-encode","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"percent-encode","type":"abstract-op","url":"https://url.spec.whatwg.org/#percent-encode"},
 "https://url.spec.whatwg.org/#urlsearchparams": {"displayText":"URLSearchParams","export":true,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"URLSearchParams","type":"interface","url":"https://url.spec.whatwg.org/#urlsearchparams"},
 "https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml": {"displayText":"innerHTML","export":true,"for_":["Element"],"level":"","normative":true,"shortname":"dom-parsing","spec":"dom-parsing","status":"anchor-block","text":"innerHTML","type":"attribute","url":"https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml"},
+"https://w3c.github.io/FileAPI/#dfn-Blob": {"displayText":"Blob","export":true,"for_":[],"level":"1","normative":true,"shortname":"fileapi","spec":"fileapi","status":"current","text":"Blob","type":"interface","url":"https://w3c.github.io/FileAPI/#dfn-Blob"},
 "https://w3c.github.io/IndexedDB/#idbdatabase": {"displayText":"IDBDatabase","export":true,"for_":[],"level":"3","normative":true,"shortname":"indexeddb","spec":"indexeddb-3","status":"current","text":"IDBDatabase","type":"interface","url":"https://w3c.github.io/IndexedDB/#idbdatabase"},
 "https://w3c.github.io/IntersectionObserver/#intersectionobserver": {"displayText":"IntersectionObserver","export":true,"for_":[],"level":"1","normative":true,"shortname":"intersection-observer","spec":"intersection-observer","status":"current","text":"IntersectionObserver","type":"interface","url":"https://w3c.github.io/IntersectionObserver/#intersectionobserver"},
 "https://w3c.github.io/hr-time/#dom-domhighrestimestamp": {"displayText":"DOMHighResTimeStamp","export":true,"for_":[],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"DOMHighResTimeStamp","type":"typedef","url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "https://w3c.github.io/manifest/#dfn-short_name": {"displayText":"short_name","export":true,"for_":["manifest"],"level":"1","normative":true,"shortname":"appmanifest","spec":"appmanifest","status":"current","text":"short_name","type":"dfn","url":"https://w3c.github.io/manifest/#dfn-short_name"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest": {"displayText":"PaymentRequest","export":true,"for_":[],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"PaymentRequest","type":"interface","url":"https://w3c.github.io/payment-request/#dom-paymentrequest"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
+"https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback device","export":true,"for_":[],"level":"","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"anchor-block","text":"remote playback device","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "https://w3c.github.io/remote-playback/#remoteplayback-interface": {"displayText":"RemotePlayback","export":true,"for_":[],"level":"","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"anchor-block","text":"RemotePlayback","type":"interface","url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
@@ -5271,6 +5423,7 @@ let refsData = {
 "https://webaudio.github.io/web-audio-api/#ScriptProcessorNode": {"displayText":"ScriptProcessorNode","export":true,"for_":[],"level":"1","normative":true,"shortname":"webaudio","spec":"webaudio-1.0","status":"current","text":"ScriptProcessorNode","type":"interface","url":"https://webaudio.github.io/web-audio-api/#ScriptProcessorNode"},
 "https://webidl.spec.whatwg.org/#Clamp": {"displayText":"Clamp","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Clamp","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#Clamp"},
 "https://webidl.spec.whatwg.org/#EnforceRange": {"displayText":"EnforceRange","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"EnforceRange","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#EnforceRange"},
+"https://webidl.spec.whatwg.org/#Exposed": {"displayText":"Exposed","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Exposed","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#Exposed"},
 "https://webidl.spec.whatwg.org/#SecureContext": {"displayText":"SecureContext","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"SecureContext","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#SecureContext"},
 "https://webidl.spec.whatwg.org/#dfn-maplike": {"displayText":"maplike","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"maplike","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-maplike"},
 "https://webidl.spec.whatwg.org/#dfn-namespace": {"displayText":"namespace","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"namespace","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
