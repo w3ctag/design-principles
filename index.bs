@@ -1174,6 +1174,50 @@ If the attribute identifies a URL that is auxilliary to the element's purpose, l
 
 Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
+<h3 id="html-overloading">Give each HTML element a single purpose</h3>
+
+Each HTML element should have a clear purpose.
+Using HTML attributes can modify the semantics of an element,
+but attributes should not fundamentally alter that purpose.
+
+Rather than defining elements that can operate in different modes,
+having a separate element for each mode is preferable.
+This simplifies usage for authors.
+
+<div class=example>
+The <{input}> element uses a <{input/type}> attribute to switch between
+very different modes.
+Though each of these modes share a common goal of taking user input,
+that is too broad a purpose.
+The semantics of these modes could have been more clearly expressed
+through the use of distinct element names.
+</div>
+
+Overloading of semantics on the same element
+through the use of attributes could be used to select
+between different behavior.
+This only makes sense where the purpose remains the same
+for any value of the attributes.
+
+<div class=example>
+The <{textarea}> element and an <{input}> element with a <{input/type}> of `"text"`
+could have used the same element as the differences between these is not material.
+</div>
+
+Potential counterexamples include overspecialization
+and elements that rely on context to establish their semantics.
+
+<div class=example>
+The now-deprecated <{acronym}> element is duplicative of the <{abbr}> element
+and therefore overspecialization.
+</div>
+
+<div class=example>
+The <{source}> element can have distinct purposes depending on context.
+A <{source}> element is not standalone; it's semantics are determined by its parent.
+</div>
+
+
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
 
 This section details design principles for features which are exposed via CSS.
