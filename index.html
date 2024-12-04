@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="421254b41aab7a3ede528322b818890bbb5924d9" name="revision">
+  <meta content="bb486928f35be6b761fb1715c3b1beaae696c522" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1149,12 +1149,13 @@ they are also defined by how content uses those features.</p>
    <h3 class="heading settled" data-level="1.9" id="leave-the-web-better"><span class="secno">1.9. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
    <p>As you add new capabilities to the web platform,
 do so in a way that improves the overall platform,
-for example its security, privacy or accessibility characteristics.
-The existence of a defect in one part of the platform
-must not be used as a license for adding or extending such defect
- into new capabilities and thereby further decreasing the overall platform quality.
-Where possible, build new web capabilities that improve the overall platform quality,
-and do not degrade existing capabilities without good reason.</p>
+for example its security, privacy or accessibility characteristics.</p>
+   <p>The existence of a defect in one part of the platform
+must not be used to excuse an addition or extension to the defect,
+which would further decrease the overall platform quality.
+Where possible, build new web capabilities that improve the overall platform quality
+by mitigating existing defects.
+Do not degrade existing capabilities without good reason.</p>
    <p>Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
