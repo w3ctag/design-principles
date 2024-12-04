@@ -613,8 +613,9 @@ People who edit text will introduce a range of errors, but
 could struggle to identify and fix those errors.
 
 People expect some amount of flexibility in terms of how their edits are processed.
-Allowing flexibility in whitespace, quoting, delimiters, and other syntactic elements ensures
-that content is still comprehensible.
+[[#avoid-ambiguity|Clearly defining]] syntactic flexibility--
+such as in white space, quoting, or delimiters--
+could ensure that content is both easy to edit and produces consistent results.
 
 <div class=example>
 The JSON format is an example of a format that appears to be flexible,
