@@ -2550,7 +2550,7 @@ Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">OS and Device Wrapper APIs</h2>
+<h2 id="device-apis">APIs that wrap access device or browser capabilities</h2>
 
 New APIs are now being developed in the web platform for interacting with devices.
 For example, authors wish to be able to use the web to connect with their
@@ -2561,24 +2561,28 @@ accelerometer),
 <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals,
 <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, etc.
 
-These can be functionality provided by the underlying operating system,
-or provided by a native third-party library
-to interact with a device.
-These are an abstraction which "wrap" the native functionality
+The same applies to capabilities that might be optionally provided
+by either the host system or an external service.
+This includes capabilities that depend on users paying for access to the capability.
+
+These capabilities can be functionality provided by the underlying operating system,
+or provided by a native third-party library.
+APIs can provide an abstraction which "wraps" the native functionality
 without introducing significant complexity,
 while securing the API surface to the browser.
 So, these are called wrapper APIs.
 
-This section contains principles for consideration when designing APIs for devices.
+This section contains principles for consideration
+when designing APIs for these capabilities.
 
-<h3 id="device-ids">Don't expose unnecessary information about devices</h3>
+<h3 id="device-ids">Don't expose unnecessary information about capabilities</h3>
 
 In line with the [Data Minimization](#data-minimization) principle,
-if you need to give web sites access to information about a device,
+if you need to give web sites access to information about capabilities,
 only expose the minimal amount of data necessary.
 
 Firstly, think carefully about whether it is really necessary
-to expose identifying information about the device at all.
+to expose identifying information at all.
 Consider whether your [user needs](#priority-of-constituencies) could be satisfied
 by a less powerful API.
 
@@ -2587,8 +2591,8 @@ additional information about a device,
 or device identifiers,
 each increase the risk of harming the user's privacy.
 
-When a user makes a choice to deny access to a device,
-that should not reveal whether the device exists.
+When a user makes a choice to deny access to a device or capability,
+that should not reveal whether the capability exists.
 Reducing information leakage in that scenario
 is more important
 than when the capability is granted.
@@ -2714,7 +2718,7 @@ Note: While APIs should not
 expose a full list of devices in an [=implementation-defined=] order,
 they may need to for web compatibility reasons.
 
-<h3 id="usecase-oriented-apis">Design based on user needs, not the underlying API or hardware</h3>
+<h3 id="usecase-oriented-apis">Design based on user needs, not the underlying capability</h3>
 
 Expose new native capabilities being brought to the web based on user needs.
 
