@@ -220,9 +220,7 @@ of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it's requested by a Web page.
 
-In your specification, a good way to ask for consent is to use the approach outlined in the 
-[Permissions guidlines document](https://www.w3.org/TR/permissions/) 
-produced by the Web Application Security (WebAppSec) working group.
+In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
 
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
