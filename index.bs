@@ -2573,7 +2573,9 @@ This section contains principles for consideration when designing APIs for devic
 
 <h3 id="device-ids">Don't expose unnecessary information about devices</h3>
 
-In line with the [Data Minimization](#data-minimization) principle, if you need to give web sites access to information about a device, only expose the minimal amount of data necessary.
+In line with the [Data Minimization](#data-minimization) principle,
+if you need to give web sites access to information about a device,
+only expose the minimal amount of data necessary.
 
 Firstly, think carefully about whether it is really necessary
 to expose identifying information about the device at all.
@@ -2585,8 +2587,11 @@ additional information about a device,
 or device identifiers,
 each increase the risk of harming the user's privacy.
 
-A web app should not be able to distinguish between the user rejecting
-permission to use a sensor/capability, and the sensor/capability not being present.
+When a user makes a choice to deny access to a device,
+that should not reveal whether the device exists.
+Reducing information leakage in that scenario
+is more important
+than when the capability is granted.
 
 As more specific information is shared,
 the
@@ -2598,44 +2603,44 @@ to user privacy.
 If there is no way to design a less powerful API,
 use these guidelines when exposing device information:
 
-: Limit information in the id
+: Limit information in any identifier
 :: Include as little identifiable information as possible
-    in device ids exposed to the web plaform.
+    in device identifiers exposed to the web plaform.
     Identifiable information includes
     branding, make and model numbers, etc
-    You can usually use a random number
-    or a unique id instead.
-    Make sure that your ids aren't guessable,
+    You can usually use a randomly generated identifier instead.
+    Make sure that your identifiers aren't guessable,
     and aren't re-used.
 : Keep the user in control
 :: When the user chooses to clear browsing data,
-    make sure any stored device ids are cleared.
-: Hide sensitive ids behind a user permission
-:: If you can't create a device id in an anonymous way,
+    make sure any stored device identifiers are cleared.
+: Hide sensitive information behind a user permission
+:: If you can't create a device identifier in an anonymous way,
     limit access to it.
     Make sure the user can provide
     [[#consent|meaningful consent]]
     to a Web page accessing this information.
-: Tie ids to the same-origin model
-:: Create distinct unique ids for the same physical device
+: Tie identifiers to the same-origin model
+:: Create distinct identifiers for the same physical device
     for each origin that has has access to it.
 :: If the same device is requested more than once
-    by the same origin, return the same id for it
+    by the same origin, return the same identifier for it
     (unless the user has cleared their browsing data).
     This allows authors to avoid having
     several copies of the same device.
 : Persistable when necessary
-:: If a device id is time consuming to obtain,
-    make sure authors can store an id generated in one session
+:: If a device identifier is time consuming to obtain,
+    make sure authors can store an identifier generated in one session
     for use in a later session.
     You can do this by making sure that
-    the procedure to generate the id
-    consistently produces the same id
+    the procedure to generate the identifier
+    consistently produces the same value
     for the same device,
     for each origin.
 
 See also:
 
+* [[#consent]]
 * [[LEAST-POWER]]
 * [[FINGERPRINTING-GUIDANCE]]
 * [[UNSANCTIONED-TRACKING]]
