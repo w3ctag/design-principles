@@ -1007,7 +1007,7 @@ even if this means using another character to separate values.
 <div class=example>
 
 The <{input/accept}> attribute is a comma-separated list of values,
-because it needs to match the syntax of the `Accept` HTTP header. (See [guidance on HTTP headers](#new-http-header-syntax))
+because it needs to match the syntax of the `Accept` HTTP header. (See [[#using-http|guidance on HTTP headers]])
 
 </div>
 
@@ -2942,7 +2942,7 @@ New MIME types should have a specification and should be registered with the Int
 
 <h3 id="using-http">Consult documentation on best practices when using HTTP</h3>
 
-When using [HTTP](https://datatracker.ietf.org/doc/html/rfc9110),
+When using \[HTTP](https://datatracker.ietf.org/doc/html/rfc9110),
 consult [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205)
 for advice on correct usage of the protocol.
 
@@ -2956,7 +2956,7 @@ might need to be defined.
 
 Recommendations on best practices for HTTP
 can be found in [RFC 9205](https://datatracker.ietf.org/doc/html/rfc9205) and
-[other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&sort=&rfcs=on&by=group&group=httpbis).
+[other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis).
 RFC 9205 includes advice on
 [specifying client behavior](https://datatracker.ietf.org/doc/html/rfc9205#section-4.3),
 [defining header fields](https://datatracker.ietf.org/doc/html/rfc9205#section-4.7),
