@@ -599,6 +599,60 @@ See also:
 * [[#secure-context]]
 * [[#consent]]
 
+<h3 id=text-formats>Design textual formats for humans</h3>
+
+Design textual formats that can be easily produced and consumed by people.
+Textual formats also improve [transparency](https://www.w3.org/TR/ethical-web-principles/#transparent).
+
+Favor readability over compactness. 
+File size can be optimized by tooling,
+and tends to become a lower priority over time. 
+When file size is a significantly higher priority, 
+perhaps a textual format is not appropriate.
+
+<div class=example>
+SVG path syntax was designed to be compact, 
+with single-letter commands and unlabeled series of coordinates after them.
+At the time, file size was a primary concern, 
+but while the importance of size efficiency has declined over time,
+the cost to human readability has remained the same.
+</div>
+
+People who are presented with a textual format
+should be able to use a text editor
+to easily produce or modify content.
+People who edit text will introduce a range of errors, but
+could struggle to identify and fix those errors.
+
+People expect some amount of flexibility in terms of how their edits are processed.
+[[#avoid-ambiguity|Clearly defining]] syntactic flexibility--
+such as in white space, quoting, or delimiters--
+could ensure that content is both easy to edit and produces consistent results.
+
+<div class=example>
+The JSON format is an example of a format that appears to be flexible,
+but it lacks many of these basic usability amenities.
+In JSON there is:
+no commenting capability,
+objects and arrays cannot have trailing commas, and
+quotes are mandatory for object keys.
+This makes JSON prone to syntactic errors as a result of manual edits.
+</div>
+
+Containing the scope of a format that is affected by a syntax error
+could improve robustness and human usability.
+This requires that specifications fully define processing and
+error handling so that all inputs result in consistent outcomes.
+
+<div class=example>
+Typos in CSS properties only cause that property to be ignored.
+Errors in properties rarely cause an entire rule to be lost.
+</div>
+
+If your format is intended to be used only by machines,
+a binary format is likely to be more efficient,
+in addition to discouraging people from authoring or editing content directly.
+
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
 Always limit your feature to secure contexts
