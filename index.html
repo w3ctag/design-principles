@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="d0137b55cb7ea3011b346f5fd94f51479310017f" name="revision">
+  <meta content="b2c19969a41af097ac2233009f0b2af69ea6aeed" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -2075,8 +2075,6 @@ they can avoid passing an extra argument.</p>
     <li data-md>
      <p><a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">Hall of API Shame: Boolean Trap</a>.</p>
     <li data-md>
-     <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
-    <li data-md>
      <p><a href="#optional-parameters">§ 6.5 Make method arguments optional if possible</a></p>
     <li data-md>
      <p><a href="#naming-optional-parameters">§ 6.6 Name optional arguments appropriately</a></p>
@@ -2087,14 +2085,11 @@ make that argument optional and specify the default value.</p>
    <div class="example" id="example-6724ca08"><a class="self-link" href="#example-6724ca08"></a> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener" id="ref-for-dom-eventtarget-addeventlistener">addEventListener()</a></code> takes an optional boolean <code>useCapture</code> argument.
 This defaults to <code>false</code>, meaning that
 the event should be dispatched to the listener in the bubbling phase by default. </div>
-   <p class="note" role="note"><span class="marker">Note:</span> Exceptions have been made for legacy interoperability reasons
-(such as <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code>),
-but this should be considered a design mistake rather than recommended practice.</p>
-   <p>The API must be designed so that if an argument is left out,
-the default value used is the same as
-converting <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code> to the type of the argument.
-For example, if a boolean argument isn’t set,
-it must default to false.</p>
+   <p>For boolean arguments,
+a default value of <code>false</code> is strongly preferred.</p>
+   <div class="example" id="example-6a0c0a03"><a class="self-link" href="#example-6a0c0a03"></a> The third, optional argument to <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> defaults to <code>true</code> as an exception to this rule.
+This is for legacy interoperability reasons,
+not as an example of good design. </div>
    <p>When deciding between different list data types for your API,
 unless otherwise required, use the following list types:</p>
    <ul>
@@ -2109,6 +2104,8 @@ unless otherwise required, use the following list types:</p>
    <ul>
     <li data-md>
      <p><a href="#prefer-dictionaries">§ 6.4 Accept optional and/or primitive arguments through dictionaries</a></p>
+    <li data-md>
+     <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
    </ul>
    <h3 class="heading settled" data-level="6.6" id="naming-optional-parameters"><span class="secno">6.6. </span><span class="content">Name optional arguments appropriately</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
    <p>Name optional arguments to make the default behavior obvious
@@ -2333,7 +2330,7 @@ For example, if the bytes represent Float32 values, use a <code class="idl"><a d
 is to cause side effects
 and not to compute a value,
 the function should be specified
-to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined①">undefined</a></code>.</p>
+to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined">undefined</a></code>.</p>
    <p>Sites are unlikely
 to come to depend on
 such a return value,
@@ -2345,7 +2342,7 @@ should a use case for one be discovered.</p>
    <div class="example" id="example-5e29a724">
     <a class="self-link" href="#example-5e29a724"></a> 
     <p><code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement" id="ref-for-htmlmediaelement">HTMLMediaElement</a></code>’s <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-play" id="ref-for-dom-media-play">play()</a></code> method
-was originally defined to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined②">undefined</a></code>,
+was originally defined to return <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined①">undefined</a></code>,
 since its purpose was
 to change the state
 of the media element.</p>
@@ -2354,7 +2351,7 @@ can fail
 in a number of ways,
 so <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-play" id="ref-for-dom-media-play①">play()</a></code> was <a href="https://github.com/whatwg/html/issues/505">changed</a> to return a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-promise" id="ref-for-idl-promise">Promise</a></code>.
 If the <abbr>API</abbr> had originally been defined
-to return something other than <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined③">undefined</a></code> (for example,
+to return something other than <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined②">undefined</a></code> (for example,
 if it had been defined
 to return the media element,
 a popular pattern
@@ -4703,7 +4700,7 @@ let dfnPanelData = {
 "5def70a6": {"dfnID":"5def70a6","dfnText":"querySelectorAll(selectors)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-parentnode-queryselectorall"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"},
 "5eafebb0": {"dfnID":"5eafebb0","dfnText":"sequence type","external":true,"refSections":[{"refs":[{"id":"ref-for-sequence-type"},{"id":"ref-for-sequence-type\u2460"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-sequence-type\u2461"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#sequence-type"},
 "5f753d3e": {"dfnID":"5f753d3e","dfnText":"action","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-fs-action"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
-"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"},{"id":"ref-for-idl-undefined\u2462"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
+"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"},{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
 "5f95ccda": {"dfnID":"5f95ccda","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.github.io/ecma262/#sec-error-objects"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
