@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="5455001904c64cc6986c4b1d35a0b3424c9ab736" name="revision">
+  <meta content="421254b41aab7a3ede528322b818890bbb5924d9" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -853,11 +853,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#error-types"><span class="secno">8.5</span> <span class="content">Use Error or DOMException for errors</span></a>
      </ol>
     <li>
-     <a href="#device-apis"><span class="secno">9</span> <span class="content">OS and Device Wrapper APIs</span></a>
+     <a href="#device-apis"><span class="secno">9</span> <span class="content">APIs that wrap access to device or browser capabilities</span></a>
      <ol class="toc">
-      <li><a href="#device-ids"><span class="secno">9.1</span> <span class="content">Don’t expose unnecessary information about devices</span></a>
+      <li><a href="#device-ids"><span class="secno">9.1</span> <span class="content">Don’t expose unnecessary information about capabilities</span></a>
       <li><a href="#device-enumeration"><span class="secno">9.2</span> <span class="content">Use care when exposing APIs for selecting or enumerating devices</span></a>
-      <li><a href="#usecase-oriented-apis"><span class="secno">9.3</span> <span class="content">Design based on user needs, not the underlying API or hardware</span></a>
+      <li><a href="#usecase-oriented-apis"><span class="secno">9.3</span> <span class="content">Design based on user needs, not the underlying capability</span></a>
       <li><a href="#hardware-is-scary"><span class="secno">9.4</span> <span class="content">Be proactive about safety</span></a>
       <li><a href="#wrapper-apis"><span class="secno">9.5</span> <span class="content">Adapt native APIs using web platform principles</span></a>
      </ol>
@@ -2099,6 +2099,12 @@ a default value of <code>false</code> is strongly preferred.</p>
    <div class="example" id="example-6a0c0a03"><a class="self-link" href="#example-6a0c0a03"></a> The third, optional argument to <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest">XMLHttpRequest</a></code> defaults to <code>true</code> as an exception to this rule.
 This is for legacy interoperability reasons,
 not as an example of good design. </div>
+   <p>The default value should be the value
+that most authors will choose,
+if that choice is obvious.
+For boolean attributes,
+that might mean that the attribute name
+needs to be chosen so that <code>false</code> is the common choice.</p>
    <p>When deciding between different list data types for your API,
 unless otherwise required, use the following list types:</p>
    <ul>
@@ -2113,6 +2119,8 @@ unless otherwise required, use the following list types:</p>
    <ul>
     <li data-md>
      <p><a href="#prefer-dictionaries">§ 6.4 Accept optional and/or primitive arguments through dictionaries</a></p>
+    <li data-md>
+     <p><a href="#naming-optional-parameters">§ 6.6 Name optional arguments appropriately</a></p>
     <li data-md>
      <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
    </ul>
@@ -2865,30 +2873,38 @@ es-discuss</p>
    <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
 or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
 whether they are exceptions, promise rejection values, or properties.</p>
-   <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">OS and Device Wrapper APIs</span><a class="self-link" href="#device-apis"></a></h2>
+   <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">APIs that wrap access to device or browser capabilities</span><a class="self-link" href="#device-apis"></a></h2>
    <p>New APIs are now being developed in the web platform for interacting with devices.
 For example, authors wish to be able to use the web to connect with their <a href="https://www.w3.org/TR/mediacapture-streams/">microphones and cameras</a>, <a href="https://www.w3.org/TR/generic-sensor/">generic sensors</a> (such as gyroscope and
 accelerometer), <a href="https://www.w3.org/community/web-bluetooth/">Bluetooth</a> and <a href="https://wicg.github.io/webusb/">USB</a>-connected peripherals, <a href="https://www.w3.org/community/autowebplatform/">automobiles</a>, etc.</p>
-   <p>These can be functionality provided by the underlying operating system,
-or provided by a native third-party library
-to interact with a device.
-These are an abstraction which "wrap" the native functionality
+   <p>The same applies to capabilities that might be optionally provided
+by either the host system or an external service.
+This includes capabilities that depend on users paying for access to the capability.</p>
+   <p>These capabilities can be functionality provided by the underlying operating system,
+or provided by a native third-party library.
+APIs can provide an abstraction which "wraps" the native functionality
 without introducing significant complexity,
 while securing the API surface to the browser.
 So, these are called wrapper APIs.</p>
-   <p>This section contains principles for consideration when designing APIs for devices.</p>
-   <h3 class="heading settled" data-level="9.1" id="device-ids"><span class="secno">9.1. </span><span class="content">Don’t expose unnecessary information about devices</span><a class="self-link" href="#device-ids"></a></h3>
-   <p>In line with the <a href="#data-minimization">Data Minimization</a> principle, if you need to give web sites access to information about a device, only expose the minimal amount of data necessary.</p>
+   <p>This section contains principles for consideration
+when designing APIs for these capabilities.</p>
+   <h3 class="heading settled" data-level="9.1" id="device-ids"><span class="secno">9.1. </span><span class="content">Don’t expose unnecessary information about capabilities</span><a class="self-link" href="#device-ids"></a></h3>
+   <p>In line with the <a href="#data-minimization">Data Minimization</a> principle,
+if you need to give web sites access to information about capabilities,
+only expose the minimal amount of data necessary.</p>
    <p>Firstly, think carefully about whether it is really necessary
-to expose identifying information about the device at all.
+to expose information at all.
 Consider whether your <a href="#priority-of-constituencies">user needs</a> could be satisfied
 by a less powerful API.</p>
    <p>Exposing the presence of a device,
 additional information about a device,
 or device identifiers,
 each increase the risk of harming the user’s privacy.</p>
-   <p>A web app should not be able to distinguish between the user rejecting
-permission to use a sensor/capability, and the sensor/capability not being present.</p>
+   <p>When a user makes a choice to deny access to a device or capability,
+that should not reveal whether the capability exists.
+Reducing information leakage in that scenario
+is more important
+than when the capability is granted.</p>
    <p>As more specific information is shared,
 the <a href="https://www.w3.org/TR/fingerprinting-guidance/">fingerprinting data</a> available to sites gets larger.
 There are also [other potential risks](<a href="https://w3ctag.github.io/privacy-principles/#threats">Privacy Principles § threats</a>)
@@ -2896,48 +2912,49 @@ to user privacy.</p>
    <p>If there is no way to design a less powerful API,
 use these guidelines when exposing device information:</p>
    <dl>
-    <dt data-md>Limit information in the id
+    <dt data-md>Limit information in any identifier
     <dd data-md>
      <p>Include as little identifiable information as possible
-in device ids exposed to the web plaform.
+in device identifiers exposed to the web plaform.
 Identifiable information includes
 branding, make and model numbers, etc
-You can usually use a random number
-or a unique id instead.
-Make sure that your ids aren’t guessable,
+You can usually use a randomly generated identifier instead.
+Make sure that your identifiers aren’t guessable,
 and aren’t re-used.</p>
     <dt data-md>Keep the user in control
     <dd data-md>
      <p>When the user chooses to clear browsing data,
-make sure any stored device ids are cleared.</p>
-    <dt data-md>Hide sensitive ids behind a user permission
+make sure any stored device identifiers are cleared.</p>
+    <dt data-md>Hide sensitive information behind a user permission
     <dd data-md>
-     <p>If you can’t create a device id in an anonymous way,
+     <p>If you can’t create a device identifier in an anonymous way,
 limit access to it.
 Make sure the user can provide <a href="#consent">meaningful consent</a> to a Web page accessing this information.</p>
-    <dt data-md>Tie ids to the same-origin model
+    <dt data-md>Tie identifiers to the same-origin model
     <dd data-md>
-     <p>Create distinct unique ids for the same physical device
+     <p>Create distinct identifiers for the same physical device
 for each origin that has has access to it.</p>
     <dd data-md>
      <p>If the same device is requested more than once
-by the same origin, return the same id for it
+by the same origin, return the same identifier for it
 (unless the user has cleared their browsing data).
 This allows authors to avoid having
 several copies of the same device.</p>
     <dt data-md>Persistable when necessary
     <dd data-md>
-     <p>If a device id is time consuming to obtain,
-make sure authors can store an id generated in one session
+     <p>If a device identifier is time consuming to obtain,
+make sure authors can store an identifier generated in one session
 for use in a later session.
 You can do this by making sure that
-the procedure to generate the id
-consistently produces the same id
+the procedure to generate the identifier
+consistently produces the same value
 for the same device,
 for each origin.</p>
    </dl>
    <p>See also:</p>
    <ul>
+    <li data-md>
+     <p><a href="#consent">§ 1.4 Ask users for meaningful consent</a></p>
     <li data-md>
      <p><a data-link-type="biblio" href="#biblio-least-power" title="The Rule of Least Power">[LEAST-POWER]</a></p>
     <li data-md>
@@ -2949,7 +2966,7 @@ for each origin.</p>
    <p>Look for ways to avoid enumerating devices.
 If you can’t avoid it, expose the least information possible.</p>
    <p>If an API exposes the existence, capabilities, or identifiers of more than one device,
-all of the risks in <a href="#device-ids">§ 9.1 Don’t expose unnecessary information about devices</a> are multiplied by the number of devices.
+all of the risks in <a href="#device-ids">§ 9.1 Don’t expose unnecessary information about capabilities</a> are multiplied by the number of devices.
 For the same reasons,
 consider whether your <a href="#priority-of-constituencies">user needs</a> could be satisfied
 by a less powerful API. <a data-link-type="biblio" href="#biblio-least-power" title="The Rule of Least Power">[LEAST-POWER]</a></p>
@@ -3005,7 +3022,7 @@ see <a href="https://w3c.github.io/fingerprinting-guidance/#standardization"><ci
    <p class="note" role="note"><span class="marker">Note:</span> While APIs should not
 expose a full list of devices in an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined">implementation-defined</a> order,
 they may need to for web compatibility reasons.</p>
-   <h3 class="heading settled" data-level="9.3" id="usecase-oriented-apis"><span class="secno">9.3. </span><span class="content">Design based on user needs, not the underlying API or hardware</span><a class="self-link" href="#usecase-oriented-apis"></a></h3>
+   <h3 class="heading settled" data-level="9.3" id="usecase-oriented-apis"><span class="secno">9.3. </span><span class="content">Design based on user needs, not the underlying capability</span><a class="self-link" href="#usecase-oriented-apis"></a></h3>
    <p>Expose new native capabilities being brought to the web based on user needs.</p>
    <p>Avoid directly translating an existing native API to the web.</p>
    <p>Instead, consider the functionality available from the native API,
