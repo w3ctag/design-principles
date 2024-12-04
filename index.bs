@@ -1204,11 +1204,18 @@ The <{textarea}> element and an <{input}> element with a <{input/type}> of `"tex
 could have used the same element as the differences between these is not material.
 </div>
 
-Potential counterexamples include overspecialization and elements that rely on context to establish their semantics.
+Potential counterexamples include overspecialization
+and elements that rely on context to establish their semantics.
+
+<div class=example>
 The now-deprecated <{acronym}> element is duplicative of the <{abbr}> element
 and therefore overspecialization.
+</div>
+
+<div class=example>
 The <{source}> element can have distinct purposes depending on context.
 A <{source}> element is not standalone; it's semantics are determined by its parent.
+</div>
 
 
 <h2 id="css">Cascading Style Sheets (CSS)</h2>
