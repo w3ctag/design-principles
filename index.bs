@@ -194,8 +194,9 @@ If this feature was proposed today, it would probably not proceed.
 
 <h3 id="consent">Ask users for meaningful consent</h3>
 
-If a useful feature has the potential to cause harm to users,
-make sure that the user can give [meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
+In the context of fulfilling a user need a web page may want to make use of a feature that has the potential to cause harm.
+Features that have this potential for harm should be designed such that people can give
+[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -219,6 +220,10 @@ of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it's requested by a Web page.
 
+In your specification, a good way to ask for consent is to use the approach outlined in the 
+[Permissions guidlines document](https://www.w3.org/TR/permissions/) 
+produced by the Web Application Security (WebAppSec) working group.
+
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
 This can make it more difficult for a site to
@@ -240,7 +245,9 @@ no location information is available to the Web page.
 
 See also:
 
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [The web is secure, and respects people's privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [Consent Principles](https://www.w3.org/TR/privacy-principles/#consent-principles)
+* [Permissions](https://www.w3.org/TR/permissions/)
 
 <h3 id="identity">Use identity appropriately in context</h3>
 
