@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="fbf6370d644b90afbc5606c58cd67d4e91decf60" name="revision">
+  <meta content="a071d75bbf4146b5f6c659db227c97ec80d7c959" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1021,8 +1021,10 @@ this makes it more difficult for users to understand what information is trustwo
 This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed. </p>
    <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent</span><a class="self-link" href="#consent"></a></h3>
-   <p>If a useful feature has the potential to cause harm to users,
-make sure that the user can give <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
+   <p>In the context of fulfilling a user need,
+a web page may want to make use of a feature
+that has the potential to cause harm.
+Features that have this potential for harm should be designed such that people can give <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
 and that they can refuse consent effectively.</p>
    <p>In order to give <em>meaningful consent</em>, the user must:</p>
    <ul>
@@ -1044,6 +1046,7 @@ reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
 However, the <a href="#priority-of-constituencies">user benefit</a> of a new feature must justify the additional burden on users
 to decide whether to grant permission for each feature
 whenever it’s requested by a Web page.</p>
+   <p>In your specification, the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-request-permission-to-use" id="ref-for-dfn-request-permission-to-use">request permission to use</a> and <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose" id="ref-for-dfn-prompt-the-user-to-choose">prompt the user to choose</a> algorithms from <a data-link-type="biblio" href="#biblio-permissions" title="Permissions">[permissions]</a> are good ways to ask for consent.</p>
    <p>Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
 This can make it more difficult for a site to
@@ -1061,7 +1064,11 @@ no location information is available to the Web page. </p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
+     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">The web is secure, and respects people’s privacy</a></p>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/privacy-principles/#consent-principles">Consent Principles</a></p>
+    <li data-md>
+     <p><a href="https://www.w3.org/TR/permissions/">Permissions</a></p>
    </ul>
    <h3 class="heading settled" data-level="1.5" id="identity"><span class="secno">1.5. </span><span class="content">Use identity appropriately in context</span><a class="self-link" href="#identity"></a></h3>
    <p>Give people <a href="https://www.w3.org/TR/ethical-web-principles/#control">control</a> over the identifying information about themselves
@@ -4211,6 +4218,12 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="ab86e0f1">show()</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[PERMISSIONS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="c2430fbb">prompt the user to choose</span>
+     <li><span class="dfn-paneled" id="bcc085e3">request permission to use</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[POINTEREVENTS3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="d94094fa">PointerEvent</span>
@@ -4328,6 +4341,8 @@ so they can correct this omission.</p>
    <dd>Dean Jackson; et al. <a href="https://drafts.csswg.org/mediaqueries-5/"><cite>Media Queries Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
    <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
+   <dt id="biblio-permissions">[PERMISSIONS]
+   <dd>Marcos Caceres; Mike Taylor. <a href="https://w3c.github.io/permissions/"><cite>Permissions</cite></a>. URL: <a href="https://w3c.github.io/permissions/">https://w3c.github.io/permissions/</a>
    <dt id="biblio-privacy-principles">[PRIVACY-PRINCIPLES]
    <dd>Robin Berjon; Jeffrey Yasskin. <a href="https://w3ctag.github.io/privacy-principles/"><cite>Privacy Principles</cite></a>. URL: <a href="https://w3ctag.github.io/privacy-principles/">https://w3ctag.github.io/privacy-principles/</a>
    <dt id="biblio-rfc2119">[RFC2119]
@@ -4778,6 +4793,7 @@ let dfnPanelData = {
 "ba920583": {"dfnID":"ba920583","dfnText":"style","external":true,"refSections":[{"refs":[{"id":"ref-for-the-style-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-style-element"},
 "bc5645aa": {"dfnID":"bc5645aa","dfnText":"octet","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-octet"},{"id":"ref-for-idl-octet\u2460"},{"id":"ref-for-idl-octet\u2461"},{"id":"ref-for-idl-octet\u2462"},{"id":"ref-for-idl-octet\u2463"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-octet"},
 "bc9fe445": {"dfnID":"bc9fe445","dfnText":"createAttribute(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createattribute"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
+"bcc085e3": {"dfnID":"bcc085e3","dfnText":"request permission to use","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-request-permission-to-use"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
 "bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.15. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
 "bdcd112d": {"dfnID":"bdcd112d","dfnText":"bigint","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-bigint"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-bigint"},
 "be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
@@ -4787,6 +4803,7 @@ let dfnPanelData = {
 "c01cbda0": {"dfnID":"c01cbda0","dfnText":"EnforceRange","external":true,"refSections":[{"refs":[{"id":"ref-for-EnforceRange"},{"id":"ref-for-EnforceRange\u2460"},{"id":"ref-for-EnforceRange\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#EnforceRange"},
 "c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.5. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
+"c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
 "c3dc5717": {"dfnID":"c3dc5717","dfnText":"percent-encode","external":true,"refSections":[{"refs":[{"id":"ref-for-percent-encode"}],"title":"8.2. Represent strings appropriately"}],"url":"https://url.spec.whatwg.org/#percent-encode"},
@@ -5408,6 +5425,8 @@ let refsData = {
 "https://w3c.github.io/manifest/#dfn-short_name": {"displayText":"short_name","export":true,"for_":["manifest"],"level":"1","normative":true,"shortname":"appmanifest","spec":"appmanifest","status":"current","text":"short_name","type":"dfn","url":"https://w3c.github.io/manifest/#dfn-short_name"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest": {"displayText":"PaymentRequest","export":true,"for_":[],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"PaymentRequest","type":"interface","url":"https://w3c.github.io/payment-request/#dom-paymentrequest"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
+"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose": {"displayText":"prompt the user to choose","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"prompt the user to choose","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
+"https://w3c.github.io/permissions/#dfn-request-permission-to-use": {"displayText":"request permission to use","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"request permission to use","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback device","export":true,"for_":[],"level":"","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"anchor-block","text":"remote playback device","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
