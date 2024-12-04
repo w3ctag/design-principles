@@ -194,7 +194,9 @@ If this feature was proposed today, it would probably not proceed.
 
 <h3 id="consent">Ask users for meaningful consent</h3>
 
-In the context of fulfilling a user need a web page may want to make use of a feature that has the potential to cause harm.
+In the context of fulfilling a user need,
+a web page may want to make use of a feature
+that has the potential to cause harm.
 Features that have this potential for harm should be designed such that people can give
 [meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
