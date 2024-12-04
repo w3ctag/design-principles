@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="c4477d4d6cf137f726a6bc07a6202b89c785d64e" name="revision">
+  <meta content="5455001904c64cc6986c4b1d35a0b3424c9ab736" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -3153,8 +3153,9 @@ Blob should not be exposed everywhere. </p>
    <p>Always define a corresponding MIME type and extend existing APIs to support this type
 for any new data format.</p>
    <p>There are cases when a new capability on the web involves adding a new data format.
-This can be an image, video, audio, or any other type of data that a browser is expected
-to ingest. New formats should have a standardized MIME type, which is strictly validated.</p>
+This can be an image, video, audio, text, or any other type of data that a browser is
+expected to ingest. Use a strictly validated standardized MIME type for new formats.
+New formats containing text should only support UTF-8 encoded text.</p>
    <p>While legacy media formats do not always have strict enforcement for MIME types (and
 sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
 compatibility reasons and should not be expected or implemented for new formats.</p>
@@ -3164,8 +3165,7 @@ they are safelisted in both ingress (e.g. decoding from a ReadableStream) and eg
    <p>For example. if you are to add an image format to the web platform, first add a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
 encoder) for said image format to support decoding in HTMLImageElements. On top of this,
-you are also expected to add support to egress points such as HTMLCanvasElement.toBlob()
-and HTMLCanvasElement.toDataURL().</p>
+you are also expected to add support to egress points such as <code>HTMLCanvasElement.toBlob()</code> and <code>HTMLCanvasElement.toDataURL()</code>.</p>
    <p>For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
