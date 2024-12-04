@@ -1641,6 +1641,13 @@ This is for legacy interoperability reasons,
 not as an example of good design.
 </div>
 
+The default value should be the value
+that most authors will choose,
+if that choice is obvious.
+For boolean attributes,
+that might mean that the attribute name
+needs to be chosen so that `false` is the common choice.
+
 When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
 
@@ -1651,6 +1658,7 @@ unless otherwise required, use the following list types:
 See also:
 
 * [[#prefer-dictionaries]]
+* [[#naming-optional-parameters]]
 * <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a>
 
 <h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
