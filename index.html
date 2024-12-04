@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="551b365960525246c104fe00cfd9b9c66f7605e3" name="revision">
+  <meta content="e9fd2069eaca5e70e284e4559153624e6fd9a70c" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -796,6 +796,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#avoid-render-blocking"><span class="secno">3.4</span> <span class="content">Avoid features that block rendering</span></a>
       <li><a href="#html-idl-must-by-synced"><span class="secno">3.5</span> <span class="content">Keep attributes in sync</span></a>
       <li><a href="#naming-of-url-attributes"><span class="secno">3.6</span> <span class="content">Name URL-containing attributes based on their primary purpose</span></a>
+      <li><a href="#html-overloading"><span class="secno">3.7</span> <span class="content">Give each HTML element a single purpose</span></a>
      </ol>
     <li>
      <a href="#css"><span class="secno">4</span> <span class="content">Cascading Style Sheets (CSS)</span></a>
@@ -1739,6 +1740,31 @@ and the IDL attribute was the single source of truth. </div>
    <p class="note" role="note"><span class="marker">Note:</span> HTML has a number of legacy inconsistencies that should not be emulated, like the way <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element①">link</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-href" id="ref-for-attr-link-href">href</a></code> attribute might allow for navigation or for resource loading, depending on the value of the element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel" id="ref-for-attr-link-rel">rel</a></code> attribute. </p>
    <p>If the attribute identifies a URL that is auxilliary to the element’s purpose, like <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#video" id="ref-for-video①">video</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/media.html#attr-video-poster" id="ref-for-attr-video-poster">poster</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element" id="ref-for-the-q-element">q</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite" id="ref-for-attr-q-cite">cite</a></code>, or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element①">a</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#ping" id="ref-for-ping">ping</a></code>, name the attribute after its semantics.</p>
    <p class="note" role="note"><span class="marker">Note:</span> remember that attributes containing URLs should be represented in IDL as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code>; see <a href="#idl-string-types">§ 8.2 Represent strings appropriately</a>.</p>
+   <h3 class="heading settled" data-level="3.7" id="html-overloading"><span class="secno">3.7. </span><span class="content">Give each HTML element a single purpose</span><a class="self-link" href="#html-overloading"></a></h3>
+   <p>Each HTML element should have a clear purpose.
+Using HTML attributes can modify the semantics of an element,
+but attributes should not fundamentally alter that purpose.</p>
+   <p>Rather than defining elements that can operate in different modes,
+having a separate element for each mode is preferable.
+This simplifies usage for authors.</p>
+   <div class="example" id="example-416870a2"><a class="self-link" href="#example-416870a2"></a> The <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element⑥">input</a></code> element uses a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-type" id="ref-for-attr-input-type">type</a></code> attribute to switch between
+very different modes.
+Though each of these modes share a common goal of taking user input,
+that is too broad a purpose.
+The semantics of these modes could have been more clearly expressed
+through the use of distinct element names. </div>
+   <p>Overloading of semantics on the same element
+through the use of attributes could be used to select
+between different behavior.
+This only makes sense where the purpose remains the same
+for any value of the attributes.</p>
+   <div class="example" id="example-3eddc3fd"><a class="self-link" href="#example-3eddc3fd"></a> The <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element" id="ref-for-the-textarea-element">textarea</a></code> element and an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element⑦">input</a></code> element with a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-type" id="ref-for-attr-input-type①">type</a></code> of <code>"text"</code> could have used the same element as the differences between these is not material. </div>
+   <p>Potential counterexamples include overspecialization
+and elements that rely on context to establish their semantics.</p>
+   <div class="example" id="example-36d97918"><a class="self-link" href="#example-36d97918"></a> The now-deprecated <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/obsolete.html#acronym" id="ref-for-acronym">acronym</a></code> element is duplicative of the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element" id="ref-for-the-abbr-element">abbr</a></code> element
+and therefore overspecialization. </div>
+   <div class="example" id="example-2e98e252"><a class="self-link" href="#example-2e98e252"></a> The <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element①">source</a></code> element can have distinct purposes depending on context.
+A <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element②">source</a></code> element is not standalone; it’s semantics are determined by its parent. </div>
    <h2 class="heading settled" data-level="4" id="css"><span class="secno">4. </span><span class="content">Cascading Style Sheets (CSS)</span><a class="self-link" href="#css"></a></h2>
    <p>This section details design principles for features which are exposed via CSS.</p>
    <h3 class="heading settled" data-level="4.1" id="css-property-separation"><span class="secno">4.1. </span><span class="content">Separate CSS properties based on what should cascade separately</span><a class="self-link" href="#css-property-separation"></a></h3>
@@ -3886,6 +3912,7 @@ Adrian Hope-Bailie,
 Alan Stearns,
 Aleksandar Totic,
 Alex Russell,
+Alice Boxhall,
 Andreas Stöckel,
 Andrew Betts,
 Anne van Kesteren,
@@ -3897,6 +3924,7 @@ Chris Wilson,
 Dan Connolly,
 Daniel Ehrenberg,
 Daniel Murphy,
+David Baron,
 Domenic Denicola,
 Eiji Kitamura,
 Eric Shepherd,
@@ -3911,6 +3939,7 @@ Jake Archibald,
 Jeffrey Yasskin,
 Jeremy Roman,
 Jirka Kosek,
+Kenneth Rohde Christiansen,
 Kevin Marks,
 Lachlan Hunt,
 Léonie Watson,
@@ -3935,7 +3964,9 @@ Philip Taylor,
 Reilly Grant,
 Richard Ishida,
 Rick Byers,
+Rossen Atanassov,
 Ryan Sleevi,
+Sangwhan Moon,
 Sergey Konstantinov,
 Stefan Zager,
 Stephen Stewart,
@@ -4179,7 +4210,9 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="5d7209e9">Window</span>
      <li><span class="dfn-paneled" id="8baa72cd">WindowEventHandlers</span>
      <li><span class="dfn-paneled" id="68bf3d31">a</span>
+     <li><span class="dfn-paneled" id="3fbd5055">abbr</span>
      <li><span class="dfn-paneled" id="24366e21">accept</span>
+     <li><span class="dfn-paneled" id="7e4cbc4d">acronym</span>
      <li><span class="dfn-paneled" id="5f753d3e">action</span>
      <li><span class="dfn-paneled" id="b2f8a695">alert()</span>
      <li><span class="dfn-paneled" id="2c82d279">audio</span>
@@ -4238,6 +4271,8 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="c219fdf4">srcset</span>
      <li><span class="dfn-paneled" id="ba920583">style</span>
      <li><span class="dfn-paneled" id="80726755">task queues</span>
+     <li><span class="dfn-paneled" id="fc736137">textarea</span>
+     <li><span class="dfn-paneled" id="66aee777">type</span>
      <li><span class="dfn-paneled" id="fd7a9317">value</span>
      <li><span class="dfn-paneled" id="aa7bbf63">video</span>
     </ul>
@@ -4755,6 +4790,7 @@ let dfnPanelData = {
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "3f03fff1": {"dfnID":"3f03fff1","dfnText":"datalist","external":true,"refSections":[{"refs":[{"id":"ref-for-the-datalist-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
 "3f597ac1": {"dfnID":"3f597ac1","dfnText":"createImageBitmap(image, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-createimagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap"},
+"3fbd5055": {"dfnID":"3fbd5055","dfnText":"abbr","external":true,"refSections":[{"refs":[{"id":"ref-for-the-abbr-element"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element"},
 "46335198": {"dfnID":"46335198","dfnText":"delete(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-delete"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-delete"},
 "47574099": {"dfnID":"47574099","dfnText":"short","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-short"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-short"},
 "478bb3aa": {"dfnID":"478bb3aa","dfnText":"ImageBitmap","external":true,"refSections":[{"refs":[{"id":"ref-for-imagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap"},
@@ -4781,6 +4817,7 @@ let dfnPanelData = {
 "5f95ccda": {"dfnID":"5f95ccda","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.github.io/ecma262/#sec-error-objects"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
+"66aee777": {"dfnID":"66aee777","dfnText":"type","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-type"},{"id":"ref-for-attr-input-type\u2460"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-type"},
 "67fa4a40": {"dfnID":"67fa4a40","dfnText":"total","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-progressevent-total"}],"title":"7.6. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
 "680651c3": {"dfnID":"680651c3","dfnText":"NonElementParentNode","external":true,"refSections":[{"refs":[{"id":"ref-for-nonelementparentnode"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#nonelementparentnode"},
 "68bf3d31": {"dfnID":"68bf3d31","dfnText":"a","external":true,"refSections":[{"refs":[{"id":"ref-for-the-a-element"},{"id":"ref-for-the-a-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
@@ -4795,6 +4832,7 @@ let dfnPanelData = {
 "7b1760b0": {"dfnID":"7b1760b0","dfnText":"console","external":true,"refSections":[{"refs":[{"id":"ref-for-namespacedef-console"},{"id":"ref-for-namespacedef-console\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://console.spec.whatwg.org/#namespacedef-console"},
 "7c397e50": {"dfnID":"7c397e50","dfnText":"Body","external":true,"refSections":[{"refs":[{"id":"ref-for-body"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#body"},
 "7d783f61": {"dfnID":"7d783f61","dfnText":"SharedArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-SharedArrayBuffer"}],"title":"11.3. Resolving tension between interoperability and implementability"}],"url":"https://webidl.spec.whatwg.org/#idl-SharedArrayBuffer"},
+"7e4cbc4d": {"dfnID":"7e4cbc4d","dfnText":"acronym","external":true,"refSections":[{"refs":[{"id":"ref-for-acronym"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#acronym"},
 "7f21931f": {"dfnID":"7f21931f","dfnText":"NamedNodeMap","external":true,"refSections":[{"refs":[{"id":"ref-for-namednodemap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#namednodemap"},
 "7f769aa9": {"dfnID":"7f769aa9","dfnText":"remote playback device","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "80726755": {"dfnID":"80726755","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-task-queue"},{"id":"ref-for-task-queue\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
@@ -4882,7 +4920,7 @@ let dfnPanelData = {
 "d4b3b8bc": {"dfnID":"d4b3b8bc","dfnText":"cite","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-q-cite"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
-"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.14. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
+"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.14. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "d8c1cdf2": {"dfnID":"d8c1cdf2","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
 "d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.14. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
@@ -4895,7 +4933,7 @@ let dfnPanelData = {
 "ddc587b1": {"dfnID":"ddc587b1","dfnText":"ASCII code point","external":true,"refSections":[{"refs":[{"id":"ref-for-ascii-code-point"}],"title":"12.2. Use ASCII names"}],"url":"https://infra.spec.whatwg.org/#ascii-code-point"},
 "e356ee85": {"dfnID":"e356ee85","dfnText":"class","external":true,"refSections":[{"refs":[{"id":"ref-for-classes"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/dom.html#classes"},
 "e4ee9a64": {"dfnID":"e4ee9a64","dfnText":"HTMLHRElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhrelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#htmlhrelement"},
-"e5882acf": {"dfnID":"e5882acf","dfnText":"source","external":true,"refSections":[{"refs":[{"id":"ref-for-the-source-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element"},
+"e5882acf": {"dfnID":"e5882acf","dfnText":"source","external":true,"refSections":[{"refs":[{"id":"ref-for-the-source-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-source-element\u2460"},{"id":"ref-for-the-source-element\u2461"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element"},
 "e6b9f496": {"dfnID":"e6b9f496","dfnText":"canplaythrough","external":true,"refSections":[{"refs":[{"id":"ref-for-event-media-canplaythrough"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough"},
 "e81f86c3": {"dfnID":"e81f86c3","dfnText":"bgColor","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-bgcolor"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor"},
 "e8478f36": {"dfnID":"e8478f36","dfnText":"target","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-target"}],"title":"7.7. Use plain Events for state"}],"url":"https://dom.spec.whatwg.org/#dom-event-target"},
@@ -4912,6 +4950,7 @@ let dfnPanelData = {
 "f8b3bc81": {"dfnID":"f8b3bc81","dfnText":"false","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-false"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false"},
 "f8de33a3": {"dfnID":"f8de33a3","dfnText":"long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-long"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-long"},
 "fb030e6c": {"dfnID":"fb030e6c","dfnText":"<length>","external":true,"refSections":[{"refs":[{"id":"ref-for-length-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-values-4/#length-value"},
+"fc736137": {"dfnID":"fc736137","dfnText":"textarea","external":true,"refSections":[{"refs":[{"id":"ref-for-the-textarea-element"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element"},
 "fd7a9317": {"dfnID":"fd7a9317","dfnText":"value","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-value"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-value"},
 "fdf6efd5": {"dfnID":"fdf6efd5","dfnText":"font-size","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-font-size"},{"id":"ref-for-propdef-font-size\u2460"},{"id":"ref-for-propdef-font-size\u2461"}],"title":"4.2. Make appropriate choices for whether CSS properties are inherited"},{"refs":[{"id":"ref-for-propdef-font-size\u2462"},{"id":"ref-for-propdef-font-size\u2463"},{"id":"ref-for-propdef-font-size\u2464"},{"id":"ref-for-propdef-font-size\u2465"},{"id":"ref-for-propdef-font-size\u2466"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-fonts-4/#propdef-font-size"},
 "ff87eaf9": {"dfnID":"ff87eaf9","dfnText":"remove","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-remove"},{"id":"ref-for-abortsignal-remove\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-remove"},
@@ -5404,6 +5443,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element": {"displayText":"option","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"option","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element": {"displayText":"output","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"output","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-output-element"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element": {"displayText":"select","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"select","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
+"https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element": {"displayText":"textarea","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"textarea","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element"},
 "https://html.spec.whatwg.org/multipage/forms.html#attr-label-for": {"displayText":"for","export":true,"for_":["label"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"for","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
 "https://html.spec.whatwg.org/multipage/forms.html#the-form-element": {"displayText":"form","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"form","type":"element","url":"https://html.spec.whatwg.org/multipage/forms.html#the-form-element"},
 "https://html.spec.whatwg.org/multipage/forms.html#the-label-element": {"displayText":"label","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"label","type":"element","url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
@@ -5416,6 +5456,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-accept": {"displayText":"accept","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"accept","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-accept"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-checked": {"displayText":"checked","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"checked","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-checked"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-list": {"displayText":"list","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"list","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-list"},
+"https://html.spec.whatwg.org/multipage/input.html#attr-input-type": {"displayText":"type","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"type","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-type"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-value": {"displayText":"value","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"value","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-value"},
 "https://html.spec.whatwg.org/multipage/input.html#htmlinputelement": {"displayText":"HTMLInputElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLInputElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "https://html.spec.whatwg.org/multipage/input.html#the-input-element": {"displayText":"input","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"input","type":"element","url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
@@ -5435,6 +5476,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open": {"displayText":"open(url, target, features)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"open(url, target, features)","type":"method","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3": {"displayText":"History","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"History","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#window": {"displayText":"Window","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Window","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"https://html.spec.whatwg.org/multipage/obsolete.html#acronym": {"displayText":"acronym","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"acronym","type":"element","url":"https://html.spec.whatwg.org/multipage/obsolete.html#acronym"},
 "https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor": {"displayText":"bgColor","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"bgColor","type":"attribute","url":"https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor"},
 "https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src": {"displayText":"src","export":true,"for_":["script"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"src","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src"},
 "https://html.spec.whatwg.org/multipage/scripting.html#script": {"displayText":"script","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"script","type":"element","url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
@@ -5447,6 +5489,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/system-state.html#navigator": {"displayText":"Navigator","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Navigator","type":"interface","url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
 "https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite": {"displayText":"cite","export":true,"for_":["q"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"cite","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element": {"displayText":"a","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"a","type":"element","url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
+"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element": {"displayText":"abbr","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"abbr","type":"element","url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element"},
 "https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element": {"displayText":"q","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"q","type":"element","url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element"},
 "https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs": {"displayText":"alert()","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"alert()","type":"method","url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
 "https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout": {"displayText":"setTimeout(handler, timeout, ...arguments)","export":true,"for_":["WindowOrWorkerGlobalScope"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"setTimeout(handler, timeout, ...arguments)","type":"method","url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
