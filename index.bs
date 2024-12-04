@@ -639,7 +639,7 @@ Errors in properties rarely cause an entire rule to be lost.
 
 If your format is intended to be used only by machines,
 a binary format is likely to be more efficient,
-in addition to discouraging people from authoring or editing content.
+in addition to discouraging people from authoring or editing content directly.
 
 <h3 id="secure-context">Consider limiting new features to secure contexts</h3>
 
