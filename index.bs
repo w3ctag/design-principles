@@ -2550,7 +2550,7 @@ Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
 or as {{DOMException}}.
 whether they are exceptions, promise rejection values, or properties.
 
-<h2 id="device-apis">APIs that wrap access device or browser capabilities</h2>
+<h2 id="device-apis">APIs that wrap access to device or browser capabilities</h2>
 
 New APIs are now being developed in the web platform for interacting with devices.
 For example, authors wish to be able to use the web to connect with their
