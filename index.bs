@@ -2457,7 +2457,7 @@ which defeats the purpose of {{BigInt}}.
 <h3 id="idl-string-types">Represent strings appropriately</h3>
 <div class="note">
 This section is meant to be mutually consistent with the <a href="https://www.w3.org/TR/international-specs/#char_string">Defining 'string'</a> Section of [[international-specs]].
-Please report any discrepency that may happen as documents evolve.
+Please report any discrepancies that may happen as the documents evolve.
 </div>
 <!--
     This has been discussed in a number of places.
