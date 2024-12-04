@@ -360,11 +360,13 @@ they are also defined by how content uses those features.
 As you add new capabilities to the web platform,
 do so in a way that improves the overall platform,
 for example its security, privacy or accessibility characteristics.
+
 The existence of a defect in one part of the platform
-must not be used as a license for adding or extending such defect
- into new capabilities and thereby further decreasing the overall platform quality.
-Where possible, build new web capabilities that improve the overall platform quality,
-and do not degrade existing capabilities without good reason.
+must not be used to excuse an addition or extension to the defect,
+which would further decrease the overall platform quality.
+Where possible, build new web capabilities that improve the overall platform quality
+by mitigating existing defects.
+Do not degrade existing capabilities without good reason.
 
 Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
