@@ -1607,7 +1607,6 @@ element.scrollIntoView(false);
 See also:
 
 * <a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">Hall of API Shame: Boolean Trap</a>.
-* <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a>
 * [[#optional-parameters]]
 * [[#naming-optional-parameters]]
 
@@ -1622,15 +1621,16 @@ This defaults to `false`, meaning that
 the event should be dispatched to the listener in the bubbling phase by default.
 </div>
 
-Note: Exceptions have been made for legacy interoperability reasons
-(such as {{XMLHttpRequest}}),
-but this should be considered a design mistake rather than recommended practice.
+For boolean arguments,
+a default value of `false`
+is strongly preferred.
 
-The API must be designed so that if an argument is left out,
-the default value used is the same as
-converting {{undefined}} to the type of the argument.
-For example, if a boolean argument isn't set,
-it must default to false.
+<div class="example">
+The third, optional argument to {{XMLHttpRequest}}
+defaults to `true` as an exception to this rule.
+This is for legacy interoperability reasons,
+not as an example of good design.
+</div>
 
 When deciding between different list data types for your API,
 unless otherwise required, use the following list types:
@@ -1642,6 +1642,7 @@ unless otherwise required, use the following list types:
 See also:
 
 * [[#prefer-dictionaries]]
+* <a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a>
 
 <h3 id="naming-optional-parameters">Name optional arguments appropriately</h3>
 
