@@ -1437,9 +1437,6 @@ to have bindings in other programming languages.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
-Don't modify data accessed via JavaScript APIs
-while a JavaScript <a>event loop</a> is running.
-
 A JavaScript Web API is generally a wrapper around
 a feature implemented in a lower-level language,
 such as C++ or Rust.
@@ -1452,18 +1449,45 @@ Because of that, JavaScript authors take for granted
 that the data available to a function won’t change unexpectedly
 while the function is running.
 
-So if a JavaScript Web API exposes some piece of data,
-such as an object property,
-the user agent must not update that data
-while a JavaScript task is running.
-Instead, if the underlying data changes,
-<a>queue a task</a> to modify the exposed version of the data.
+Changes that are not the result of developer action
+and changes that are asynchronously delivered
+should not happen in the middle of other JavaScript,
+including between [=microtasks=].
+Instead, a task should be [[html#queuing-tasks|queued]],
+or they should update as part of [=update the rendering=].
 
 <div class="example">
-If a JavaScript task has accessed the {{NavigatorOnline/onLine|navigator.onLine}} property,
-and browser's online status changes,
-the property won't be updated until the next task runs.
+During a `while (true)`,
+and after `await`ing an already-resolved `Promise`,
+you *shouldn't* expect things like:
+
+* The DOM to update as a result of the HTML parser loading network content
+* {{HTMLImageElement/width|img.width}} to change as a result of loading image data from the network
+* Buttons of a {{Gamepad}} to change state
+* {{Element/scrollTop}} to change, even if scrolling can visually occur
+
+These things aren't updated by the currently running script,
+so they shouldn't change during the current task.
+
 </div>
+
+Data can update synchronously from the result of developer action.
+
+<div class="example">
+{{ChildNode/remove()|node.remove()}} changes the DOM synchronously
+and is immediately observable.
+</div>
+
+A few kinds of situations justify violating this rule:
+
+* Observing the current time,
+    as in {{Date/now|Date.now()}} and {{Performance/now|performance.now()}},
+    although note that it's also useful to present a consistent task-wide time
+    as in {{AnimationTimeline/currentTime|document.timeline.currentTime}}.
+* Functions meant to help developers interrupt synchronous work,
+    as in the case of the proposed {{isInputPending()}}.
+* States meant to protect users from surprising UI changes,
+    like [=transient activation=].
 
 <h3 id="js-gc">Don't expose garbage collection</h3>
 
