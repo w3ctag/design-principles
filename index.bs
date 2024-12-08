@@ -1478,7 +1478,10 @@ Data can update synchronously from the result of developer action.
 and is immediately observable.
 </div>
 
-A few kinds of situations justify violating this rule:
+A few kinds of situations justify violating this rule.
+In these cases,
+be sure to [[#attributes-like-data|expose values as methods rather than attributes
+if they might change in the middle of a JS statement]].
 
 * Observing the current time,
     as in {{Date/now|Date.now()}} and {{Performance/now|performance.now()}},
@@ -1488,6 +1491,8 @@ A few kinds of situations justify violating this rule:
     as in the case of the proposed {{isInputPending()}}.
 * States meant to protect users from surprising UI changes,
     like [=transient activation=].
+    Note that {{UserActivation/isActive|navigator.userActivation.isActive}}
+    violates [[#attributes-like-data]] and should not.
 
 <h3 id="js-gc">Don't expose garbage collection</h3>
 
