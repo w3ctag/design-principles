@@ -604,16 +604,16 @@ See also:
 Design textual formats that can be easily produced and consumed by people.
 Textual formats also improve [transparency](https://www.w3.org/TR/ethical-web-principles/#transparent).
 
-Favor readability over compactness. 
+Favor readability over compactness.
 File size can be optimized by tooling,
-and tends to become a lower priority over time. 
-When file size is a significantly higher priority, 
+and tends to become a lower priority over time.
+When file size is a significantly higher priority,
 perhaps a textual format is not appropriate.
 
 <div class=example>
-SVG path syntax was designed to be compact, 
+SVG path syntax was designed to be compact,
 with single-letter commands and unlabeled series of coordinates after them.
-At the time, file size was a primary concern, 
+At the time, file size was a primary concern,
 but while the importance of size efficiency has declined over time,
 the cost to human readability has remained the same.
 </div>
@@ -626,7 +626,7 @@ could struggle to identify and fix those errors.
 
 People expect some amount of flexibility in terms of how their edits are processed.
 [[#avoid-ambiguity|Clearly defining]] syntactic flexibility--
-such as in white space, quoting, or delimiters--
+such as in whitespace, quoting, or delimiters--
 could ensure that content is both easy to edit and produces consistent results.
 
 <div class=example>
