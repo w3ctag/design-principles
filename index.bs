@@ -1461,7 +1461,7 @@ During a `while (true)`,
 and after `await`ing an already-resolved `Promise`,
 you *shouldn't* expect things like:
 
-* The DOM to update as a result of the HTML parser loading network content
+* The DOM to update as a result of the HTML parser loading new content from the network
 * {{HTMLImageElement/width|img.width}} to change as a result of loading image data from the network
 * Buttons of a {{Gamepad}} to change state
 * {{Element/scrollTop}} to change, even if scrolling can visually occur
@@ -1492,7 +1492,7 @@ if they might change in the middle of a JS statement]].
 * States meant to protect users from surprising UI changes,
     like [=transient activation=].
     Note that {{UserActivation/isActive|navigator.userActivation.isActive}}
-    violates [[#attributes-like-data]] and should not.
+    violates [[#attributes-like-data|the guidance that recommends a method for this case]].
 
 <h3 id="js-gc">Don't expose garbage collection</h3>
 
