@@ -604,16 +604,16 @@ See also:
 Design textual formats that can be easily produced and consumed by people.
 Textual formats also improve [transparency](https://www.w3.org/TR/ethical-web-principles/#transparent).
 
-Favor readability over compactness. 
+Favor readability over compactness.
 File size can be optimized by tooling,
-and tends to become a lower priority over time. 
-When file size is a significantly higher priority, 
+and tends to become a lower priority over time.
+When file size is a significantly higher priority,
 perhaps a textual format is not appropriate.
 
 <div class=example>
-SVG path syntax was designed to be compact, 
+SVG path syntax was designed to be compact,
 with single-letter commands and unlabeled series of coordinates after them.
-At the time, file size was a primary concern, 
+At the time, file size was a primary concern,
 but while the importance of size efficiency has declined over time,
 the cost to human readability has remained the same.
 </div>
@@ -2854,9 +2854,9 @@ the exact lifecycle and data structures of the underlying native APIs.
 When possible, consider flexibility for new hardware.
 
 This means newly proposed APIs should be designed
-with careful consideration on how they are intended to be used
+with regard to how they are intended to be used
 rather than how the underlying hardware, device, or native API
-available today.
+happens to operate today.
 
 <h3 id="hardware-is-scary">Be proactive about safety</h3>
 
