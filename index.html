@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
+  <meta content="Bikeshed version ac5ea272d, updated Fri Dec 6 15:45:15 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="e9fd2069eaca5e70e284e4559153624e6fd9a70c" name="revision">
+  <meta content="1a74419610a96cd699f13eae92d1ca7cd382ce18" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-12-04">4 December 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-12-12">12 December 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1333,12 +1333,12 @@ it must not be feature detected.</p>
 Textual formats also improve <a href="https://www.w3.org/TR/ethical-web-principles/#transparent">transparency</a>.</p>
    <p>Favor readability over compactness.
 File size can be optimized by tooling,
-and tends to become a lower priority over time. 
-When file size is a significantly higher priority, 
+and tends to become a lower priority over time.
+When file size is a significantly higher priority,
 perhaps a textual format is not appropriate.</p>
-   <div class="example" id="example-db958612"><a class="self-link" href="#example-db958612"></a> SVG path syntax was designed to be compact, 
+   <div class="example" id="example-db958612"><a class="self-link" href="#example-db958612"></a> SVG path syntax was designed to be compact,
 with single-letter commands and unlabeled series of coordinates after them.
-At the time, file size was a primary concern, 
+At the time, file size was a primary concern,
 but while the importance of size efficiency has declined over time,
 the cost to human readability has remained the same. </div>
    <p>People who are presented with a textual format
@@ -1346,7 +1346,7 @@ should be able to use a text editor
 to easily produce or modify content.
 People who edit text will introduce a range of errors, but
 could struggle to identify and fix those errors.</p>
-   <p>People expect some amount of flexibility in terms of how their edits are processed. <a href="#avoid-ambiguity">Clearly defining</a> syntactic flexibility—​such as in white space, quoting, or delimiters—​could ensure that content is both easy to edit and produces consistent results.</p>
+   <p>People expect some amount of flexibility in terms of how their edits are processed. <a href="#avoid-ambiguity">Clearly defining</a> syntactic flexibility—​such as in whitespace, quoting, or delimiters—​could ensure that content is both easy to edit and produces consistent results.</p>
    <div class="example" id="example-92a0fa51"><a class="self-link" href="#example-92a0fa51"></a> The JSON format is an example of a format that appears to be flexible,
 but it lacks many of these basic usability amenities.
 In JSON there is:
@@ -3096,9 +3096,9 @@ even if the implementation depends on the existing native API.</p>
 the exact lifecycle and data structures of the underlying native APIs.
 When possible, consider flexibility for new hardware.</p>
    <p>This means newly proposed APIs should be designed
-with careful consideration on how they are intended to be used
+with regard to how they are intended to be used
 rather than how the underlying hardware, device, or native API
-available today.</p>
+happens to operate today.</p>
    <h3 class="heading settled" data-level="9.4" id="hardware-is-scary"><span class="secno">9.4. </span><span class="content">Be proactive about safety</span><a class="self-link" href="#hardware-is-scary"></a></h3>
    <p>When bringing native capabilities to the web platform,
 try to design defensively.</p>
@@ -3251,8 +3251,8 @@ the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algo
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
    <h3 class="heading settled" data-level="10.5" id="using-http"><span class="secno">10.5. </span><span class="content">Consult documentation on best practices when using HTTP</span><a class="self-link" href="#using-http"></a></h3>
-   <p>When using <a href="https://datatracker.ietf.org/doc/html/rfc9110">HTTP</a>,
-consult <a href="https://datatracker.ietf.org/doc/html/rfc9205">RFC 9205</a> for advice on correct usage of the protocol.</p>
+   <p>When using <a data-link-type="biblio" href="#biblio-rfc9110" title="HTTP Semantics">HTTP</a>,
+consult <a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a> for advice on correct usage of the protocol.</p>
    <p><a href="https://fetch.spec.whatwg.org/">Fetch</a> is the way that
 user agents most often interact with servers.
 Fetch defines the CORS protocol and necessary security checks.
@@ -3261,8 +3261,8 @@ Fetch does not provide guidelines on how to best use HTTP.
 Appropriate use of methods, header fields, content types, caching, and other HTTP features
 might need to be defined.</p>
    <p>Recommendations on best practices for HTTP
-can be found in <a href="https://datatracker.ietf.org/doc/html/rfc9205">RFC 9205</a> and <a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a>.
-RFC 9205 includes advice on <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.3">specifying client behavior</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.7">defining header fields</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.8">use of media types</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9205#section-4.16">evolving specifications</a>, and
+can be found in <a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a> and <a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a>.
+RFC 9205 includes advice on <a href="https://httpwg.org/specs/rfc9205.html#section-4.3">specifying client behavior</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.7">defining header fields</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.8">use of media types</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.16">evolving specifications</a>, and
 other advice on how to get the most out of HTTP.</p>
    <h3 class="heading settled" data-level="10.6" id="extend-manifests"><span class="secno">10.6. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
@@ -4440,6 +4440,8 @@ so they can correct this omission.</p>
    <dd>Robin Berjon; Jeffrey Yasskin. <a href="https://w3ctag.github.io/privacy-principles/"><cite>Privacy Principles</cite></a>. URL: <a href="https://w3ctag.github.io/privacy-principles/">https://w3ctag.github.io/privacy-principles/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+   <dt id="biblio-rfc9205">[RFC9205]
+   <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a>. June 2022. Best Current Practice. URL: <a href="https://httpwg.org/specs/rfc9205.html">https://httpwg.org/specs/rfc9205.html</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WEBIDL]
@@ -4503,6 +4505,8 @@ so they can correct this omission.</p>
    <dd>Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
+   <dt id="biblio-rfc9110">[RFC9110]
+   <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc9110.html"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://httpwg.org/specs/rfc9110.html">https://httpwg.org/specs/rfc9110.html</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
