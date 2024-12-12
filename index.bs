@@ -1478,10 +1478,7 @@ Data can update synchronously from the result of developer action.
 and is immediately observable.
 </div>
 
-A few kinds of situations justify violating this rule.
-In these cases,
-be sure to [[#attributes-like-data|expose values as methods rather than attributes
-if they might change in the middle of a JS statement]].
+A few kinds of situations justify violating this rule:
 
 * Observing the current time,
     as in {{Date/now|Date.now()}} and {{Performance/now|performance.now()}},
