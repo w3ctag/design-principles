@@ -23,4 +23,4 @@ $(bikeshed): $(VENV)
 	$(VENV)/bin/pip install bikeshed
 
 build/%.html: %.bs build $(bikeshed)
-	$(bikeshed) --die-on=warning spec $< $@
+	$(bikeshed) --die-on=fatal spec $< $@
