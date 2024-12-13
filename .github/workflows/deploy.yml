@@ -1,21 +1,18 @@
 name: deploy
 
 on:
+  pull_request: {}
   push:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v4
+    - uses: w3c/spec-prod@v2
       with:
-        python-version: '3.10' 
-    - run: pip install bikeshed
-    - run: bikeshed update --skip-manifest
-    - run: make
-    - uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: build
+        BUILD_FAIL_ON: fatal
+        GH_PAGES_BRANCH: gh-pages
