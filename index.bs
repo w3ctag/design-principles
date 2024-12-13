@@ -42,8 +42,14 @@ spec:html; type:element
     text:style
 spec:html; type:event; text:resize
 spec:selectors-4; type:selector; text::hover
-spec:webidl; type:dfn; text:namespace
-spec:webidl; type:interface; text:double
+spec:webidl
+    type:dfn; text:namespace
+    type:idl; text:long
+    type:idl; text:short
+    type:interface; text:double
+</pre>
+<pre class='ignored-specs'>
+spec: css21
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
