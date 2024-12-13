@@ -1457,7 +1457,7 @@ Instead, a task should be [[html#queuing-tasks|queued]],
 or they should update as part of [=update the rendering=].
 
 <div class="example">
-During a `while (true)`,
+During synchronous execution (such as a `while` loop),
 and after `await`ing an already-resolved `Promise`,
 you *shouldn't* expect things like:
 
