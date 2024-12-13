@@ -544,6 +544,20 @@ i.e. consistency within CSS.
 
 There is also a separate section on <a href="#naming-consistency">naming consistency</a>.
 
+<h3 id="specs-include-guidance">Follow guidance from feature specifications</h3>
+
+The specifications for individual features
+should include guidance for using those features
+consistently across other specifications.
+When using a feature,
+look for that guidance and follow it.
+An incomplete list of such guidance follows:
+
+* [[encoding#specification-hooks|Encoding]]
+* [[fetch#fetch-elsewhere|Fetch]]
+* [[hr-time#sec-tools|Time]]
+* [[url#url-apis-elsewhere|URLs]]
+
 <h3 id="feature-detect">New features should be detectable</h3>
 
 Provide a way for authors to programmatically detect
