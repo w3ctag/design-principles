@@ -8,7 +8,7 @@
   <meta content="Bikeshed version ac5ea272d, updated Fri Dec 6 15:45:15 2024 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="c63b6665187163721159518e0d1aed12598b3d64" name="revision">
+  <meta content="f2f26419234dfbf53905cedb0c57263a29b16a8f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -778,16 +778,17 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#high-level-low-level"><span class="secno">2.2</span> <span class="content">Consider tradeoffs between high level and low level APIs</span></a>
       <li><a href="#name-thoughtfully"><span class="secno">2.3</span> <span class="content">Name things thoughtfully</span></a>
       <li><a href="#consistency"><span class="secno">2.4</span> <span class="content">Be consistent</span></a>
-      <li><a href="#feature-detect"><span class="secno">2.5</span> <span class="content">New features should be detectable</span></a>
-      <li><a href="#text-formats"><span class="secno">2.6</span> <span class="content">Design textual formats for humans</span></a>
-      <li><a href="#secure-context"><span class="secno">2.7</span> <span class="content">Consider limiting new features to secure contexts</span></a>
-      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.8</span> <span class="content">Don’t reveal that private browsing mode is engaged</span></a>
-      <li><a href="#private-browsing-mode"><span class="secno">2.9</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
-      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.10</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
-      <li><a href="#require-user-activation"><span class="secno">2.11</span> <span class="content">Require user activation for powerful APIs</span></a>
-      <li><a href="#support-non-fully-active"><span class="secno">2.12</span> <span class="content">Support non-fully active BFCached documents</span></a>
-      <li><a href="#third-party-tools"><span class="secno">2.13</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
-      <li><a href="#prefer-composition"><span class="secno">2.14</span> <span class="content">Build complex types by composing simpler types</span></a>
+      <li><a href="#specs-include-guidance"><span class="secno">2.5</span> <span class="content">Follow guidance from feature specifications</span></a>
+      <li><a href="#feature-detect"><span class="secno">2.6</span> <span class="content">New features should be detectable</span></a>
+      <li><a href="#text-formats"><span class="secno">2.7</span> <span class="content">Design textual formats for humans</span></a>
+      <li><a href="#secure-context"><span class="secno">2.8</span> <span class="content">Consider limiting new features to secure contexts</span></a>
+      <li><a href="#do-not-expose-use-of-private-browsing-mode"><span class="secno">2.9</span> <span class="content">Don’t reveal that private browsing mode is engaged</span></a>
+      <li><a href="#private-browsing-mode"><span class="secno">2.10</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
+      <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.11</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
+      <li><a href="#require-user-activation"><span class="secno">2.12</span> <span class="content">Require user activation for powerful APIs</span></a>
+      <li><a href="#support-non-fully-active"><span class="secno">2.13</span> <span class="content">Support non-fully active BFCached documents</span></a>
+      <li><a href="#third-party-tools"><span class="secno">2.14</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
+      <li><a href="#prefer-composition"><span class="secno">2.15</span> <span class="content">Build complex types by composing simpler types</span></a>
      </ol>
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
@@ -1128,7 +1129,7 @@ and allows users to choose their own font and font size without causing text to 
 despite working on others.
 In these cases, features should be designed such that it is possible for
 code to gracefully fail or be polyfilled.
-See <a href="#feature-detect">§ 2.5 New features should be detectable</a>.</p>
+See <a href="#feature-detect">§ 2.6 New features should be detectable</a>.</p>
    <h3 class="heading settled" data-level="1.7" id="new-features"><span class="secno">1.7. </span><span class="content">Add new capabilities with care</span><a class="self-link" href="#new-features"></a></h3>
    <p>Add new capabilities to the web with consideration of existing functionality and content.</p>
    <p>The Web includes many extension points that allow for additions;
@@ -1275,7 +1276,34 @@ There was a lot of heated debate,
 which resolved in favor of percentages,
 i.e. consistency within CSS. </div>
    <p>There is also a separate section on <a href="#naming-consistency">naming consistency</a>.</p>
-   <h3 class="heading settled" data-level="2.5" id="feature-detect"><span class="secno">2.5. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
+   <h3 class="heading settled" data-level="2.5" id="specs-include-guidance"><span class="secno">2.5. </span><span class="content">Follow guidance from feature specifications</span><a class="self-link" href="#specs-include-guidance"></a></h3>
+   <p>When using a feature,
+follow guidance in the specification for that feature.</p>
+   <p>Specifications for features
+that will be used by other specifications
+should include guidance for using those features.
+This ensures that the feature is used correctly
+and consistently
+throughout the platform.</p>
+   <p>An incomplete list of such guidance follows:</p>
+   <ul>
+    <li data-md>
+     <p><a href="https://encoding.spec.whatwg.org/#specification-hooks">Encoding</a></p>
+    <li data-md>
+     <p><a href="https://fetch.spec.whatwg.org/#fetch-elsewhere">Fetch</a></p>
+    <li data-md>
+     <p><a href="https://w3c.github.io/hr-time/#sec-tools">Time</a></p>
+    <li data-md>
+     <p><a href="https://url.spec.whatwg.org/#url-apis-elsewhere">URLs</a></p>
+    <li data-md>
+     <p><a href="#using-http">§ 10.5 Consult documentation on best practices when using HTTP</a></p>
+   </ul>
+   <p>Consult with the relevant community
+when using their specification.
+This informs that community about new usage
+and creates opportunities for improvements
+to both the using and used specifications.</p>
+   <h3 class="heading settled" data-level="2.6" id="feature-detect"><span class="secno">2.6. </span><span class="content">New features should be detectable</span><a class="self-link" href="#feature-detect"></a></h3>
    <p>Provide a way for authors to programmatically detect
 whether your feature is available,
 so that web content may gracefully handle the feature not being present.</p>
@@ -1322,15 +1350,15 @@ it must not be feature detected.</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#do-not-expose-use-of-private-browsing-mode">§ 2.8 Don’t reveal that private browsing mode is engaged</a></p>
+     <p><a href="#do-not-expose-use-of-private-browsing-mode">§ 2.9 Don’t reveal that private browsing mode is engaged</a></p>
     <li data-md>
-     <p><a href="#do-not-expose-use-of-assistive-tech">§ 2.10 Don’t reveal that assistive technologies are being used</a></p>
+     <p><a href="#do-not-expose-use-of-assistive-tech">§ 2.11 Don’t reveal that assistive technologies are being used</a></p>
     <li data-md>
-     <p><a href="#secure-context">§ 2.7 Consider limiting new features to secure contexts</a></p>
+     <p><a href="#secure-context">§ 2.8 Consider limiting new features to secure contexts</a></p>
     <li data-md>
      <p><a href="#consent">§ 1.4 Ask users for meaningful consent</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.6" id="text-formats"><span class="secno">2.6. </span><span class="content">Design textual formats for humans</span><a class="self-link" href="#text-formats"></a></h3>
+   <h3 class="heading settled" data-level="2.7" id="text-formats"><span class="secno">2.7. </span><span class="content">Design textual formats for humans</span><a class="self-link" href="#text-formats"></a></h3>
    <p>Design textual formats that can be easily produced and consumed by people.
 Textual formats also improve <a href="https://www.w3.org/TR/ethical-web-principles/#transparent">transparency</a>.</p>
    <p>Favor readability over compactness.
@@ -1365,7 +1393,7 @@ Errors in properties rarely cause an entire rule to be lost. </div>
    <p>If your format is intended to be used only by machines,
 a binary format is likely to be more efficient,
 in addition to discouraging people from authoring or editing content directly.</p>
-   <h3 class="heading settled" data-level="2.7" id="secure-context"><span class="secno">2.7. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
+   <h3 class="heading settled" data-level="2.8" id="secure-context"><span class="secno">2.8. </span><span class="content">Consider limiting new features to secure contexts</span><a class="self-link" href="#secure-context"></a></h3>
    <p>Always limit your feature to secure contexts
 if it would pose a risk to the user
 without the authentication, integrity, or confidentiality
@@ -1400,7 +1428,7 @@ to [<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.o
 to make this process easier for future API developers.</p>
    </div>
    <div class="note" role="note">
-     As described in <a href="#feature-detect">§ 2.5 New features should be detectable</a>,
+     As described in <a href="#feature-detect">§ 2.6 New features should be detectable</a>,
 you should provide a way to programmatically detect whether a feature is available,
 including cases where the feature is unavailable because the context isn’t secure. 
     <p>However, if, for some reason
@@ -1408,7 +1436,7 @@ there is no way for code to gracefully handle the feature not being present,
 limiting the feature to secure contexts might cause problems
 for code (such as libraries) that may be used in either secure or non-secure contexts.</p>
    </div>
-   <h3 class="heading settled" data-level="2.8" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.8. </span><span class="content">Don’t reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.9" id="do-not-expose-use-of-private-browsing-mode"><span class="secno">2.9. </span><span class="content">Don’t reveal that private browsing mode is engaged</span><a class="self-link" href="#do-not-expose-use-of-private-browsing-mode"></a></h3>
    <p>Make sure that your feature doesn’t give authors a way to detect private browsing mode.</p>
    <p>Some people use <a href="https://www.w3.org/2001/tag/doc/private-browsing-modes/">private browsing mode</a> to protect their own personal safety.
 Because of this, the fact that someone is using private browsing mode
@@ -1438,9 +1466,9 @@ without revealing that private browsing mode is engaged.</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
     <li data-md>
-     <p><a href="#private-browsing-mode">§ 2.9 Consider how your API should behave in private browsing mode</a></p>
+     <p><a href="#private-browsing-mode">§ 2.10 Consider how your API should behave in private browsing mode</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.9" id="private-browsing-mode"><span class="secno">2.9. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
+   <h3 class="heading settled" data-level="2.10" id="private-browsing-mode"><span class="secno">2.10. </span><span class="content">Consider how your API should behave in private browsing mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
    <p>If necessary, specify how your API should behave differently
 in private browsing mode.</p>
    <p>For example, if your API would reveal information
@@ -1472,13 +1500,13 @@ at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#do-not-expose-use-of-private-browsing-mode">§ 2.8 Don’t reveal that private browsing mode is engaged</a></p>
+     <p><a href="#do-not-expose-use-of-private-browsing-mode">§ 2.9 Don’t reveal that private browsing mode is engaged</a></p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#persistent-origin-specific-state">Does this specification introduce new state for an origin that persists across browsing sessions?</a></p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#private-browsing">Security and privacy self review: Private Browsing</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.10" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.10. </span><span class="content">Don’t reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
+   <h3 class="heading settled" data-level="2.11" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.11. </span><span class="content">Don’t reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
    <p>Make sure that your API doesn’t provide a way
 for authors to detect that a user is using assistive technology
 without the user’s consent.</p>
@@ -1514,7 +1542,7 @@ which don’t reveal the use of assistive technology.</p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
-   <h3 class="heading settled" data-level="2.11" id="require-user-activation"><span class="secno">2.11. </span><span class="content">Require user activation for powerful APIs</span><a class="self-link" href="#require-user-activation"></a></h3>
+   <h3 class="heading settled" data-level="2.12" id="require-user-activation"><span class="secno">2.12. </span><span class="content">Require user activation for powerful APIs</span><a class="self-link" href="#require-user-activation"></a></h3>
    <p>Some powerful APIs can produce intrusive UI (eg. auto-playing audio),
 expose user data (eg. interacting with the clipboard),
 perform a background activity without an obvious indicator to the user (eg. accessing local storage),
@@ -1531,7 +1559,7 @@ once per API call (<a href="https://html.spec.whatwg.org/#activation-consuming-a
    <p>Note that while user activation is in many cases necessary,
 it is not always <em>sufficient</em> to protect users from invasive behaviours,
 and seeking <a href="#consent">meaningful consent</a> is also important.</p>
-   <h3 class="heading settled" data-level="2.12" id="support-non-fully-active"><span class="secno">2.12. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
+   <h3 class="heading settled" data-level="2.13" id="support-non-fully-active"><span class="secno">2.13. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
    <p>Specify how your feature behaves
 in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active">fully active</a> BFCached (Back/forward cached) documents if possible.</p>
    <p>If your feature does <strong>anything</strong> that falls into the
@@ -1563,7 +1591,7 @@ This guidance only focuses
 on the case where BFCache is involved,
 and not other cases that might
 cause a document to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active④">fully active</a>.</p>
-   <h3 class="heading settled" data-level="2.13" id="third-party-tools"><span class="secno">2.13. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
+   <h3 class="heading settled" data-level="2.14" id="third-party-tools"><span class="secno">2.14. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
    <p>Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.</p>
    <p>The web platform benefits from a wide ecosystem of tooling
 to facilitate easier and faster development.
@@ -1598,7 +1626,7 @@ unless it causes significant breakage of live websites.</p>
 that authors can use to extend the language
 without breaking future native functionality,
 to reduce such dilemmas in the future.</p>
-   <h3 class="heading settled" data-level="2.14" id="prefer-composition"><span class="secno">2.14. </span><span class="content">Build complex types by composing simpler types</span><a class="self-link" href="#prefer-composition"></a></h3>
+   <h3 class="heading settled" data-level="2.15" id="prefer-composition"><span class="secno">2.15. </span><span class="content">Build complex types by composing simpler types</span><a class="self-link" href="#prefer-composition"></a></h3>
    <p>Define subtypes that can always be used in place of a supertype.
 Avoid interfaces that use inheritance
 unless everything that can be said about an instance of the parent
@@ -2525,7 +2553,7 @@ add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" hr
     <li data-md>
      <p>they preserve consistency in the platform</p>
     <li data-md>
-     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.5 New features should be detectable</a>)</p>
+     <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.6 New features should be detectable</a>)</p>
    </ul>
    <p class="note" role="note"> For consistency, if the event needs to be handled by HTML and SVG elements,
 add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attributes</a> on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin,
@@ -3165,7 +3193,7 @@ but in some cases you may have a reason to expose options
 which only work on some platforms.
 If this happens, be sure to explain
 how authors should write code which works on all platforms.
-See <a href="#feature-detect">§ 2.5 New features should be detectable</a>.</p>
+See <a href="#feature-detect">§ 2.6 New features should be detectable</a>.</p>
     <dt data-md>Underlying protocols should be open
     <dd data-md>
      <p>APIs which require exchange with external hardware or services
@@ -3191,7 +3219,7 @@ The Technical Architecture Group <a href="https://www.w3.org/2001/tag/doc/polyfi
     <li data-md>
      <p>Being "polyfillable" isn’t essential but <strong>is</strong> beneficial</p>
     <li data-md>
-     <p><a href="#feature-detect">§ 2.5 New features should be detectable</a></p>
+     <p><a href="#feature-detect">§ 2.6 New features should be detectable</a></p>
     <li data-md>
      <p>Polyfill development should be encouraged</p>
    </ul>
@@ -4487,6 +4515,10 @@ so they can correct this omission.</p>
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
    <dd><a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
+   <dt id="biblio-encoding">[ENCODING]
+   <dd>Anne van Kesteren. <a href="https://encoding.spec.whatwg.org/"><cite>Encoding Standard</cite></a>. Living Standard. URL: <a href="https://encoding.spec.whatwg.org/">https://encoding.spec.whatwg.org/</a>
+   <dt id="biblio-fetch">[FETCH]
+   <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
    <dd>Nick Doty. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
@@ -4550,14 +4582,10 @@ so they can correct this omission.</p>
    <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-dom-parsing">[DOM-Parsing]
    <dd>Travis Leithead. <a href="https://w3c.github.io/DOM-Parsing/"><cite>DOM Parsing and Serialization</cite></a>. URL: <a href="https://w3c.github.io/DOM-Parsing/">https://w3c.github.io/DOM-Parsing/</a>
-   <dt id="biblio-encoding">[ENCODING]
-   <dd>Anne van Kesteren. <a href="https://encoding.spec.whatwg.org/"><cite>Encoding Standard</cite></a>. Living Standard. URL: <a href="https://encoding.spec.whatwg.org/">https://encoding.spec.whatwg.org/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web">[ETHICAL-WEB]
    <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
-   <dt id="biblio-fetch">[FETCH]
-   <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
@@ -4830,16 +4858,16 @@ let dfnPanelData = {
 "08baaf46": {"dfnID":"08baaf46","dfnText":"remove()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-childnode-remove"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://dom.spec.whatwg.org/#dom-childnode-remove"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
 "0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
-"0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.14. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
+"0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e202d66": {"dfnID":"0e202d66","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-remoteplayback-interface"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
-"0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.12. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
+"0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.13. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "112278c6": {"dfnID":"112278c6","dfnText":"Gamepad","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-gamepad"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/gamepad/#dom-gamepad"},
 "11289557": {"dfnID":"11289557","dfnText":"figcaption","external":true,"refSections":[{"refs":[{"id":"ref-for-the-figcaption-element"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element"},
 "11e0b87f": {"dfnID":"11e0b87f","dfnText":"unrestricted double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-unrestricted-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
-"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.14. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"}],"title":"7.7. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2467"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
+"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"}],"title":"7.7. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2467"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
 "12cf38c9": {"dfnID":"12cf38c9","dfnText":"initial-letter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter"},
 "141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
 "16310992": {"dfnID":"16310992","dfnText":"<number>","external":true,"refSections":[{"refs":[{"id":"ref-for-number-value"},{"id":"ref-for-number-value\u2460"}],"title":"4.3. Choose the computed value type based on how the property should inherit"},{"refs":[{"id":"ref-for-number-value\u2461"},{"id":"ref-for-number-value\u2462"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#number-value"},
@@ -4847,7 +4875,7 @@ let dfnPanelData = {
 "1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
 "19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
-"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.14. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-keyboardevent\u2460"}],"title":"12.4. Use future-proof names"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
+"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-keyboardevent\u2460"}],"title":"12.4. Use future-proof names"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
 "2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "21ec9802": {"dfnID":"21ec9802","dfnText":"inherit","external":true,"refSections":[{"refs":[{"id":"ref-for-css-inheritance"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#css-inheritance"},
 "2296404c": {"dfnID":"2296404c","dfnText":"signal abort","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller-signal-abort"},{"id":"ref-for-abortcontroller-signal-abort\u2460"},{"id":"ref-for-abortcontroller-signal-abort\u2461"},{"id":"ref-for-abortcontroller-signal-abort\u2462"},{"id":"ref-for-abortcontroller-signal-abort\u2463"},{"id":"ref-for-abortcontroller-signal-abort\u2464"},{"id":"ref-for-abortcontroller-signal-abort\u2465"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller-signal-abort"},
@@ -4865,7 +4893,7 @@ let dfnPanelData = {
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
 "3332e595": {"dfnID":"3332e595","dfnText":"setTimeout(handler, timeout, ...arguments)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-settimeout"}],"title":"8.3. Use milliseconds for time measurement"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
 "37ef25b8": {"dfnID":"37ef25b8","dfnText":"HTMLHtmlElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhtmlelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement"},
-"3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.9. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
+"3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.10. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "3b64181e": {"dfnID":"3b64181e","dfnText":"none","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-font-size-adjust-none"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none"},
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "3f03fff1": {"dfnID":"3f03fff1","dfnText":"datalist","external":true,"refSections":[{"refs":[{"id":"ref-for-the-datalist-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
@@ -4923,7 +4951,7 @@ let dfnPanelData = {
 "80726755": {"dfnID":"80726755","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-task-queue"},{"id":"ref-for-task-queue\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
 "838fac42": {"dfnID":"838fac42","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://www.w3.org/TR/payment-request/#dfn-state"},
-"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.14. Build complex types by composing simpler types"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
+"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
 "84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
 "85188fb3": {"dfnID":"85188fb3","dfnText":"select","external":true,"refSections":[{"refs":[{"id":"ref-for-the-select-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-select-element\u2460"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
@@ -4969,7 +4997,7 @@ let dfnPanelData = {
 "b203675a": {"dfnID":"b203675a","dfnText":"getComputedStyle(elt)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-window-getcomputedstyle"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle"},
 "b2f8a695": {"dfnID":"b2f8a695","dfnText":"alert()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-alert-noargs"}],"title":"1.3. Trusted user interface should be trustworthy"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
 "b6fb7a51": {"dfnID":"b6fb7a51","dfnText":"custom element","external":true,"refSections":[{"refs":[{"id":"ref-for-custom-element"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element"},
-"b75bb3bd": {"dfnID":"b75bb3bd","dfnText":"SecureContext","external":true,"refSections":[{"refs":[{"id":"ref-for-SecureContext"},{"id":"ref-for-SecureContext\u2460"}],"title":"2.7. Consider limiting new features to secure contexts"}],"url":"https://webidl.spec.whatwg.org/#SecureContext"},
+"b75bb3bd": {"dfnID":"b75bb3bd","dfnText":"SecureContext","external":true,"refSections":[{"refs":[{"id":"ref-for-SecureContext"},{"id":"ref-for-SecureContext\u2460"}],"title":"2.8. Consider limiting new features to secure contexts"}],"url":"https://webidl.spec.whatwg.org/#SecureContext"},
 "b7d73f5b": {"dfnID":"b7d73f5b","dfnText":"Blob","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Blob"},{"id":"ref-for-dfn-Blob\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://w3c.github.io/FileAPI/#dfn-Blob"},
 "b815f411": {"dfnID":"b815f411","dfnText":"update the rendering","external":true,"refSections":[{"refs":[{"id":"ref-for-update-the-rendering"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering"},
 "b8308563": {"dfnID":"b8308563","dfnText":"DedicatedWorkerGlobalScope","external":true,"refSections":[{"refs":[{"id":"ref-for-dedicatedworkerglobalscope"}],"title":"10.2. Where possible APIs should be made available to dedicated workers"},{"refs":[{"id":"ref-for-dedicatedworkerglobalscope\u2460"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope"},
@@ -4987,7 +5015,7 @@ let dfnPanelData = {
 "bfa87d79": {"dfnID":"bfa87d79","dfnText":"short_name","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-short_name"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/manifest/#dfn-short_name"},
 "bfff6250": {"dfnID":"bfff6250","dfnText":"button","external":true,"refSections":[{"refs":[{"id":"ref-for-the-button-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
 "c01cbda0": {"dfnID":"c01cbda0","dfnText":"EnforceRange","external":true,"refSections":[{"refs":[{"id":"ref-for-EnforceRange"},{"id":"ref-for-EnforceRange\u2460"},{"id":"ref-for-EnforceRange\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#EnforceRange"},
-"c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.5. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
+"c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.6. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
 "c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
@@ -5008,9 +5036,9 @@ let dfnPanelData = {
 "d62af025": {"dfnID":"d62af025","dfnText":"now()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-performance-now"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/hr-time/#dom-performance-now"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
-"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.14. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
+"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "d8c1cdf2": {"dfnID":"d8c1cdf2","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
-"d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.14. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
+"d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
 "dc0eaa56": {"dfnID":"dc0eaa56","dfnText":"scrollTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-scrolltop"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-scrolltop"},
