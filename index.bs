@@ -47,6 +47,7 @@ spec:webidl
     type:idl; text:long
     type:idl; text:short
     type:interface; text:double
+spec:web-locks; type:interface; text:LockManager
 </pre>
 <pre class='ignored-specs'>
 spec: css21
