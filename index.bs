@@ -562,6 +562,7 @@ An incomplete list of such guidance follows:
 * [[fetch#fetch-elsewhere|Fetch]]
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
+*  [[#using-http]]
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
