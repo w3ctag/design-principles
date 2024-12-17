@@ -562,7 +562,13 @@ An incomplete list of such guidance follows:
 * [[fetch#fetch-elsewhere|Fetch]]
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
-*  [[#using-http]]
+* [[#using-http]]
+
+Consult with the relevant community
+when using their specification.
+This informs that community about new usage
+and creates opportunities for improvements
+to both the using and used specifications.
 
 <h3 id="feature-detect">New features should be detectable</h3>
 
