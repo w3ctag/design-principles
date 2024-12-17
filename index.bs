@@ -1442,14 +1442,10 @@ propagate that change to JavaScript between tasks,
 for example by [[html#queuing-tasks|queuing a task]],
 or as part of [=update the rendering=].
 
-A JavaScript Web API is generally a wrapper around
-a feature implemented in a lower-level language,
-such as C++ or Rust.
-Unlike those languages,
-when using JavaScript developers can expect
-that once a piece of code begins executing,
-it will continue executing until it has completed.
-
+Unlike lower-level languages
+such as C++ or Rust,
+JavaScript has historically acted as if
+only one piece of code can execute at once.
 Because of that, JavaScript authors take for granted
 that the data available to a function won’t change unexpectedly
 while the function is running.
