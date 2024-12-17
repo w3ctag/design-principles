@@ -1437,6 +1437,11 @@ to have bindings in other programming languages.
 
 <h3 id="js-rtc">Preserve run-to-completion semantics</h3>
 
+If a change to state originates outside of the JavaScript execution context,
+propagate that change to JavaScript between tasks,
+for example by [[html#queuing-tasks|queuing a task]],
+or as part of [=update the rendering=].
+
 A JavaScript Web API is generally a wrapper around
 a feature implemented in a lower-level language,
 such as C++ or Rust.
@@ -1453,8 +1458,6 @@ Changes that are not the result of developer action
 and changes that are asynchronously delivered
 should not happen in the middle of other JavaScript,
 including between [=microtasks=].
-Instead, a task should be [[html#queuing-tasks|queued]],
-or they should update as part of [=update the rendering=].
 
 <div class="example">
 During synchronous execution (such as a `while` loop),
