@@ -1458,12 +1458,15 @@ including between [=microtasks=].
 <div class="example">
 During synchronous execution (such as a `while` loop),
 and after `await`ing an already-resolved `Promise`,
-you *shouldn't* expect things like:
+developers are *unlikely* to expect things like:
 
 * The DOM to update as a result of the HTML parser loading new content from the network
 * {{HTMLImageElement/width|img.width}} to change as a result of loading image data from the network
 * Buttons of a {{Gamepad}} to change state
 * {{Element/scrollTop}} to change, even if scrolling can visually occur
+* A synchronous method to act differently depending on asynchronous state changes.
+    For example, if {{LockManager}} had synchronous methods,
+    their behavior would depend on concurrent calls in other windows.
 
 These things aren't updated by the currently running script,
 so they shouldn't change during the current task.
@@ -1484,7 +1487,7 @@ A few kinds of situations justify violating this rule:
     although note that it's also useful to present a consistent task-wide time
     as in {{AnimationTimeline/currentTime|document.timeline.currentTime}}.
 * Functions meant to help developers interrupt synchronous work,
-    as in the case of the proposed {{isInputPending()}}.
+    as in the case of {{IdleDeadline/timeRemaining()|IdleDeadline.timeRemaining()}}.
 * States meant to protect users from surprising UI changes,
     like [=transient activation=].
     Note that {{UserActivation/isActive|navigator.userActivation.isActive}}
