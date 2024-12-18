@@ -78,6 +78,8 @@ urlPrefix: https://w3c.github.io/geolocation-api/; spec: geolocation
 urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
     url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
     url: media.html#dom-media-play; type:method; for:HTMLMediaElement; text:play()
+urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
+    url: #name-accept; type: http-header; text: Accept
 urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
     url: #remoteplayback-interface; type:interface; text: RemotePlayback
     url: #dfn-remote-playback-devices; type:dfn; text: remote playback device
@@ -561,9 +563,11 @@ An incomplete list of such guidance follows:
 
 * [[encoding#specification-hooks|Encoding]]
 * [[fetch#fetch-elsewhere|Fetch]]
+* [[RFC9205 inline]],
+    especially on [[RFC9205#section-4.7|defining header fields]], and
+    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis)
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
-* [[#using-http]]
 
 Consult with the relevant community
 when using their specification.
@@ -1107,7 +1111,7 @@ even if this means using another character to separate values.
 <div class=example>
 
 The <{input/accept}> attribute is a comma-separated list of values,
-because it needs to match the syntax of the `Accept` HTTP header. (See [[#using-http|guidance on HTTP headers]])
+because it needs to match the syntax of the [:Accept:] HTTP header.
 
 </div>
 
@@ -3135,30 +3139,6 @@ the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-p
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
-
-<h3 id="using-http">Consult documentation on best practices when using HTTP</h3>
-
-When using [[RFC9110|HTTP]],
-consult [[RFC9205 inline]]
-for advice on correct usage of the protocol.
-
-[Fetch](https://fetch.spec.whatwg.org/) is the way that
-user agents most often interact with servers.
-Fetch defines the CORS protocol and necessary security checks.
-Outside of those constraints necessary for security,
-Fetch does not provide guidelines on how to best use HTTP.
-Appropriate use of methods, header fields, content types, caching, and other HTTP features
-might need to be defined.
-
-Recommendations on best practices for HTTP
-can be found in [[RFC9205 inline]] and
-[other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis).
-RFC 9205 includes advice on
-[[RFC9205#section-4.3|specifying client behavior]],
-[[RFC9205#section-4.7|defining header fields]],
-[[RFC9205#section-4.8|use of media types]],
-[[RFC9205#section-4.16|evolving specifications]], and
-other advice on how to get the most out of HTTP.
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
