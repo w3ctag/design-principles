@@ -19,4 +19,4 @@ jobs:
         W3C_BUILD_OVERRIDE: |
           status: NOTE
         W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
-        W3C_WG_DECISION_URL: https://github.com/w3ctag/design-principles/pull/???
+        W3C_WG_DECISION_URL: https://github.com/w3ctag/design-principles/pull/549
