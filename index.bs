@@ -2784,7 +2784,7 @@ As more specific information is shared,
 the
 [fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
 available to sites gets larger.
-There are also [other potential risks]([[PRIVACY-PRINCIPLES#threats]])
+There are also [[PRIVACY-PRINCIPLES#threats|other potential risks]]
 to user privacy.
 
 If there is no way to design a less powerful API,
@@ -3634,7 +3634,7 @@ Names take meaning from:
 * use (how people come to understand the name over time)
 * context (the object on the left-hand side, for example)
 
-<h3 id="naming-common-words">Use common words</h4>
+<h3 id="naming-common-words">Use common words</h3>
 
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
@@ -3668,12 +3668,12 @@ to name this API less directly connected to its return type. [[FETCH]]
 
 </div>
 
-<h3 id="naming-charset">Use ASCII names</h4>
+<h3 id="naming-charset">Use ASCII names</h3>
 
 Names must adhere to the local language restrictions, for example CSS ident rules etc.
 and *should* be in the [=ascii code point|ASCII range=].
 
-<h3 id="naming-consultation">Consult others on naming</h4>
+<h3 id="naming-consultation">Consult others on naming</h3>
 
 Consult widely on names in your APIs.
 
@@ -3728,7 +3728,7 @@ such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".
 
-<h3 id="naming-future-proofing">Use future-proof names</h4>
+<h3 id="naming-future-proofing">Use future-proof names</h3>
 
 Naming should be generic and future-proof whenever possible.
 
@@ -3755,7 +3755,7 @@ as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
 
 </div>
 
-<h3 id="naming-consistency">Name things consistently</h4>
+<h3 id="naming-consistency">Name things consistently</h3>
 Naming schemes should aim for consistency, to avoid confusion.
 
 Sets of related names should agree with each other in:
@@ -3764,14 +3764,14 @@ Sets of related names should agree with each other in:
     or they should all describe what is denied
 
 <h4 id="naming-booleans" class="no-num no-toc">Boolean properties vs.
-  boolean-returning methods</h5>
+  boolean-returning methods</h4>
 
 Boolean properties, options, or API arguments which are asking a question about
 their argument *should not* be prefixed with <code>is</code>, while methods
 that serve the same purpose, given that it has no side effects, *should* be
 prefixed with <code>is</code> to be consistent with the rest of the platform.
 
-<h4 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h5>
+<h4 id="casing-rules" class="no-num no-toc">Use casing rules consistent with existing APIs</h4>
 
 Although they haven't always been uniformly followed, through the history of web platform API
 design, the following rules have emerged:
@@ -3824,8 +3824,8 @@ design, the following rules have emerged:
     <tr>
         <th>Events</th>
         <td>Lowercase, concatenated</td>
-        <td><code>{{canplaythrough}}<br>
-            <code>{{languagechange}}</td>
+        <td><code>{{canplaythrough}}</code><br>
+            <code>{{languagechange}}</code></td>
     </tr>
     <tr>
         <th>HTML elements and attributes</th>
@@ -3886,7 +3886,7 @@ existing factory methods
 under the same object, such as `document.initXXX()`.
 New factory methods should not follow this convention.
 
-<h3 id="naming-unsafe">Warn about dangerous features</h4>
+<h3 id="naming-unsafe">Warn about dangerous features</h3>
 
 Where possible, mark features that weaken
 the guarantees provided to developers
