@@ -20,6 +20,7 @@ Markup Shorthands: markdown on
 Boilerplate: feedback-header off
 !By: <a href="https://www.w3.org/2001/tag/">Members of the TAG</a>, past and present
 !Participate: <a href="https://github.com/w3ctag/design-principles">GitHub w3ctag/design-principles</a> (<a href="https://github.com/w3ctag/design-principles/issues/new">file an issue</a>; <a href="https://github.com/w3ctag/design-principles/issues?state=open">open issues</a>)
+Required IDs: using-http
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
@@ -563,7 +564,7 @@ An incomplete list of such guidance follows:
 
 * [[encoding#specification-hooks|Encoding]]
 * [[fetch#fetch-elsewhere|Fetch]]
-* [[RFC9205 inline]],
+* <span id="using-http">[[RFC9205 inline]]</span>,
     especially on [[RFC9205#section-4.7|defining header fields]], and
     [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis)
 * [[hr-time#sec-tools|Time]]
