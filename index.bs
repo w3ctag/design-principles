@@ -3906,7 +3906,7 @@ Some useful advice on how to write specifications is available elsewhere:
     specifications: Kinds of statements</a> (Ian Hickson, 2006)
   * <a href="https://www.w3.org/TR/qaframe-spec/">QA Framework:
     Specification Guidelines</a> (W3C QA Working Group, 2005)
-  * <a href="https://w3c.github.io/privacy-considerations/">Privacy Considerations for Web Protocols</a>
+  * [[PRIVACY-PRINCIPLES inline]]
   * <a href="https://www.w3.org/TR/security-privacy-questionnaire/">Self-Review Questionnaire: Security and Privacy</a>
   * <a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a>
   * <a href="https://w3c.github.io/bp-i18n-specdev/">Internationalization Best Practices for Spec Developers</a> <!-- also at https://www.w3.org/TR/international-specs/ -->
