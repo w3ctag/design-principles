@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 97a1608be, updated Mon Feb 3 16:09:34 2025 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="2dfb2b83a034b9a97f9f37b8a42b0383b82930c2" name="revision">
+  <meta content="b4e70865479471e7945ec93befcd19689ded07be" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-11">11 February 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-13">13 February 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -906,7 +906,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#naming-common-words"><span class="secno">12.1</span> <span class="content">Use common words</span></a>
       <li><a href="#naming-charset"><span class="secno">12.2</span> <span class="content">Use ASCII names</span></a>
       <li><a href="#naming-consultation"><span class="secno">12.3</span> <span class="content">Consult others on naming</span></a>
-      <li><a href="#naming-future-proofing"><span class="secno">12.4</span> <span class="content">Use future-proof names</span></a>
+      <li><a href="#naming-future-proofing"><span class="secno">12.4</span> <span class="content">Use names that describe a purpose</span></a>
       <li><a href="#naming-consistency"><span class="secno">12.5</span> <span class="content">Name things consistently</span></a>
       <li><a href="#naming-unsafe"><span class="secno">12.6</span> <span class="content">Warn about dangerous features</span></a>
      </ol>
@@ -3822,11 +3822,18 @@ instead of master and slave.</p>
 such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".</p>
-   <h3 class="heading settled" data-level="12.4" id="naming-future-proofing"><span class="secno">12.4. </span><span class="content">Use future-proof names</span><a class="self-link" href="#naming-future-proofing"></a></h3>
-   <p>Naming should be generic and future-proof whenever possible.</p>
-   <p>The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.</p>
+   <h3 class="heading settled" data-level="12.4" id="naming-future-proofing"><span class="secno">12.4. </span><span class="content">Use names that describe a purpose</span><a class="self-link" href="#naming-future-proofing"></a></h3>
+   <p>Name things for what they do, not how they do it.</p>
+   <p>Names that reflect the purpose of their subject
+are more likely to be future-proof. <a href="#removing-features">Removing APIs from the web is difficult</a>,
+so names need to outlast details.</p>
+   <p>In particular,
+names should avoid the use of
+code names,
+branding,
+or details of the technology used to implement capabilities.
+These can become obsolete
+and might need to be replaced in the future.</p>
    <div class="example" id="example-fd8a196a">
     <a class="self-link" href="#example-fd8a196a"></a> 
     <p>The Remote Playback API was not named
@@ -3834,13 +3841,10 @@ after one of the pre-existing, proprietary systems it was inspired by
 (such as Chromecast or AirPlay).
 Instead, general terms that describe what the API does were chosen. <a data-link-type="biblio" href="#biblio-remote-playback" title="Remote Playback API">[REMOTE-PLAYBACK]</a></p>
    </div>
-   <div class="example" id="example-c1204afc">
-    <a class="self-link" href="#example-c1204afc"></a> 
-    <p>The <code>keydown</code> and <code>keyup</code> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#keyboardevent" id="ref-for-keyboardevent①">KeyboardEvent</a></code>s were not named
-for the specific hardware bus that keyboards used at the time.
-Instead, generic names were chosen
-that are as applicable to today’s Bluetooth and USB keyboards
-as they were to PS/2 and ADB keyboards back then. <a data-link-type="biblio" href="#biblio-uievents" title="UI Events">[UIEVENTS]</a></p>
+   <div class="example" id="example-4a43ecba">
+    <a class="self-link" href="#example-4a43ecba"></a> 
+    <p>The WebTransport API enables the networking capabilities provided by the QUIC protocol.
+However, the name reflects the more general purpose of transporting data. <a data-link-type="biblio" href="#biblio-webtransport" title="WebTransport">[WebTransport]</a><a data-link-type="biblio" href="#biblio-rfc9000" title="QUIC: A UDP-Based Multiplexed and Secure Transport">[RFC9000]</a></p>
    </div>
    <h3 class="heading settled" data-level="12.5" id="naming-consistency"><span class="secno">12.5. </span><span class="content">Name things consistently</span><a class="self-link" href="#naming-consistency"></a></h3>
     Naming schemes should aim for consistency, to avoid confusion. 
@@ -4604,6 +4608,8 @@ so they can correct this omission.</p>
    <dd>Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc8890">[RFC8890]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
+   <dt id="biblio-rfc9000">[RFC9000]
+   <dd>J. Iyengar, Ed.; M. Thomson, Ed.. <a href="https://www.rfc-editor.org/rfc/rfc9000"><cite>QUIC: A UDP-Based Multiplexed and Secure Transport</cite></a>. May 2021. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>
    <dt id="biblio-rfc9110">[RFC9110]
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc9110.html"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://httpwg.org/specs/rfc9110.html">https://httpwg.org/specs/rfc9110.html</a>
    <dt id="biblio-uievents">[UIEVENTS]
@@ -4618,6 +4624,8 @@ so they can correct this omission.</p>
    <dd>Mark Watson. <a href="https://w3c.github.io/webcrypto/"><cite>Web Cryptography API</cite></a>. URL: <a href="https://w3c.github.io/webcrypto/">https://w3c.github.io/webcrypto/</a>
    <dt id="biblio-webrtc">[WEBRTC]
    <dd>Cullen Jennings; et al. <a href="https://w3c.github.io/webrtc-pc/"><cite>WebRTC: Real-Time Communication in Browsers</cite></a>. URL: <a href="https://w3c.github.io/webrtc-pc/">https://w3c.github.io/webrtc-pc/</a>
+   <dt id="biblio-webtransport">[WebTransport]
+   <dd>Nidhi Jaju; Victor Vasiliev. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="property-index"><span class="content">Property Index</span><a class="self-link" href="#property-index"></a></h2>
   <div class="big-element-wrapper">
@@ -4873,7 +4881,7 @@ let dfnPanelData = {
 "1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
 "19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
-"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-keyboardevent\u2460"}],"title":"12.4. Use future-proof names"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
+"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
 "2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "21ec9802": {"dfnID":"21ec9802","dfnText":"inherit","external":true,"refSections":[{"refs":[{"id":"ref-for-css-inheritance"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#css-inheritance"},
 "2296404c": {"dfnID":"2296404c","dfnText":"signal abort","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller-signal-abort"},{"id":"ref-for-abortcontroller-signal-abort\u2460"},{"id":"ref-for-abortcontroller-signal-abort\u2461"},{"id":"ref-for-abortcontroller-signal-abort\u2462"},{"id":"ref-for-abortcontroller-signal-abort\u2463"},{"id":"ref-for-abortcontroller-signal-abort\u2464"},{"id":"ref-for-abortcontroller-signal-abort\u2465"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller-signal-abort"},
