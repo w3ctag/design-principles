@@ -3728,13 +3728,22 @@ such as an author or user,
 use the generic pronoun "they", "their", etc.
 For example, "A user may wish to adjust their preferences".
 
-<h3 id="naming-future-proofing">Use future-proof names</h3>
+<h3 id="naming-future-proofing">Use names that describe a purpose</h3>
 
-Naming should be generic and future-proof whenever possible.
+Name things for what they do, not how they do it.
 
-The name should not be directly associated with a brand or specific revision of
-the underlying technology whenever possible; technology becomes obsolete, and
-removing APIs from the web is difficult.
+Names that reflect the purpose of their subject
+are more likely to be future-proof.
+[[#removing-features|Removing APIs from the web is difficult]],
+so names need to outlast details.
+
+In particular,
+names should avoid the use of
+code names,
+branding,
+or details of the technology used to implement capabilities.
+These can become obsolete
+and might need to be replaced in the future.
 
 <div class="example">
 
@@ -3747,11 +3756,9 @@ Instead, general terms that describe what the API does were chosen. [[REMOTE-PLA
 
 <div class="example">
 
-The `keydown` and `keyup` {{KeyboardEvent}}s were not named
-for the specific hardware bus that keyboards used at the time.
-Instead, generic names were chosen
-that are as applicable to today's Bluetooth and USB keyboards
-as they were to PS/2 and ADB keyboards back then. [[UIEVENTS]]
+The WebTransport API enables the networking capabilities provided by the QUIC protocol.
+However, the name reflects the more general purpose of transporting data.
+[[WebTransport]][[RFC9000]]
 
 </div>
 
