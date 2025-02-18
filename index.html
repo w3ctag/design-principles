@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 97a1608be, updated Mon Feb 3 16:09:34 2025 -0800" name="generator">
+  <meta content="Bikeshed version f5998b114, updated Tue Feb 18 08:22:15 2025 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="b4e70865479471e7945ec93befcd19689ded07be" name="revision">
+  <meta content="0975d2b1df2a80496024b1ced9fb6881254d8e21" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-13">13 February 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-18">18 February 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -876,12 +876,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        </ol>
       <li><a href="#expose-everywhere"><span class="secno">10.3</span> <span class="content">Only purely computational features should be exposed everywhere</span></a>
       <li><a href="#new-data-formats"><span class="secno">10.4</span> <span class="content">Add new data formats properly</span></a>
-      <li><a href="#using-http"><span class="secno">10.5</span> <span class="content">Consult documentation on best practices when using HTTP</span></a>
-      <li><a href="#extend-manifests"><span class="secno">10.6</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#serialization"><span class="secno">10.7</span> <span class="content">Consider consumers when serializing</span></a>
-      <li><a href="#debuggability"><span class="secno">10.8</span> <span class="content">Ensure features are developer-friendly</span></a>
-      <li><a href="#crypto"><span class="secno">10.9</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
-      <li><a href="#client-hints"><span class="secno">10.10</span> <span class="content">Do not expose new information through Client Hints</span></a>
+      <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#serialization"><span class="secno">10.6</span> <span class="content">Consider consumers when serializing</span></a>
+      <li><a href="#debuggability"><span class="secno">10.7</span> <span class="content">Ensure features are developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.8</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#client-hints"><span class="secno">10.9</span> <span class="content">Do not expose new information through Client Hints</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -1291,11 +1290,12 @@ throughout the platform.</p>
     <li data-md>
      <p><a href="https://fetch.spec.whatwg.org/#fetch-elsewhere">Fetch</a></p>
     <li data-md>
+     <p><span id="using-http"><a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a></span>,
+especially on <a href="https://httpwg.org/specs/rfc9205.html#section-4.7">defining header fields</a>, and <a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a></p>
+    <li data-md>
      <p><a href="https://w3c.github.io/hr-time/#sec-tools">Time</a></p>
     <li data-md>
      <p><a href="https://url.spec.whatwg.org/#url-apis-elsewhere">URLs</a></p>
-    <li data-md>
-     <p><a href="#using-http">§ 10.5 Consult documentation on best practices when using HTTP</a></p>
    </ul>
    <p>Consult with the relevant community
 when using their specification.
@@ -1703,10 +1703,10 @@ common practice is to use a space-separated list and expose it as a <code class=
    </div>
    <p>Consistency with other parts of the Web Platform is important,
 even if this means using another character to separate values.</p>
-   <div class="example" id="example-ca508580">
-    <a class="self-link" href="#example-ca508580"></a> 
+   <div class="example" id="example-03f014a3">
+    <a class="self-link" href="#example-03f014a3"></a> 
     <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-accept" id="ref-for-attr-input-accept">accept</a></code> attribute is a comma-separated list of values,
-because it needs to match the syntax of the <code>Accept</code> HTTP header. (See <a href="#using-http">guidance on HTTP headers</a>)</p>
+because it needs to match the syntax of the `<code><a data-link-type="http-header" href="https://www.rfc-editor.org/rfc/rfc9110.html#name-accept" id="ref-for-name-accept">Accept</a></code>` HTTP header.</p>
    </div>
    <p>Regardless of syntax, attributes should only be used for short lists of values.
 For longer lists, embedding the entire list in an attribute is discouraged.
@@ -3312,21 +3312,7 @@ you are also expected to add support to egress points such as <code>HTMLCanvasEl
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="10.5" id="using-http"><span class="secno">10.5. </span><span class="content">Consult documentation on best practices when using HTTP</span><a class="self-link" href="#using-http"></a></h3>
-   <p>When using <a data-link-type="biblio" href="#biblio-rfc9110" title="HTTP Semantics">HTTP</a>,
-consult <a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a> for advice on correct usage of the protocol.</p>
-   <p><a href="https://fetch.spec.whatwg.org/">Fetch</a> is the way that
-user agents most often interact with servers.
-Fetch defines the CORS protocol and necessary security checks.
-Outside of those constraints necessary for security,
-Fetch does not provide guidelines on how to best use HTTP.
-Appropriate use of methods, header fields, content types, caching, and other HTTP features
-might need to be defined.</p>
-   <p>Recommendations on best practices for HTTP
-can be found in <a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a> and <a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a>.
-RFC 9205 includes advice on <a href="https://httpwg.org/specs/rfc9205.html#section-4.3">specifying client behavior</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.7">defining header fields</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.8">use of media types</a>, <a href="https://httpwg.org/specs/rfc9205.html#section-4.16">evolving specifications</a>, and
-other advice on how to get the most out of HTTP.</p>
-   <h3 class="heading settled" data-level="10.6" id="extend-manifests"><span class="secno">10.6. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="10.5" id="extend-manifests"><span class="secno">10.5. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -3371,7 +3357,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.7" id="serialization"><span class="secno">10.7. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
+   <h3 class="heading settled" data-level="10.6" id="serialization"><span class="secno">10.6. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
     When adding or extending features that involve a parser or a serializer you should consider their effect on
 serialization. The following are constituencies of serialization results that must be considered: 
    <ul>
@@ -3393,7 +3379,7 @@ The results of serialization:</p>
     <li data-md>
      <p>Should not add to error accumulation - taking the serialized output of an API and feeding it back to the same API in a loop should result in the same internal state</p>
    </ul>
-   <h3 class="heading settled" data-level="10.8" id="debuggability"><span class="secno">10.8. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.7" id="debuggability"><span class="secno">10.7. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -3409,13 +3395,13 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
-   <h3 class="heading settled" data-level="10.9" id="crypto"><span class="secno">10.9. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <h3 class="heading settled" data-level="10.8" id="crypto"><span class="secno">10.8. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
    <p>Use only cryptographic algorithms
 that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.</p>
-   <h3 class="heading settled" data-level="10.10" id="client-hints"><span class="secno">10.10. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
+   <h3 class="heading settled" data-level="10.9" id="client-hints"><span class="secno">10.9. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
    <p>When using Client Hints, don’t expose information that the web page does not already have access to.</p>
    <p>Client hints are an important optimization, but cannot be the sole means by which information
 is exposed to sites. As it says in <cite><a href="https://datatracker.ietf.org/doc/html/rfc8942#section-4.1-5">RFC 8942 §4.1</a></cite> where client hints are defined:</p>
@@ -4421,6 +4407,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="ea2e2ea4">timeRemaining()</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[RFC9110]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="3c05c488">Accept</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="1fc098b2">KeyboardEvent</span>
@@ -4901,6 +4892,7 @@ let dfnPanelData = {
 "37ef25b8": {"dfnID":"37ef25b8","dfnText":"HTMLHtmlElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhtmlelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement"},
 "3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.10. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "3b64181e": {"dfnID":"3b64181e","dfnText":"none","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-font-size-adjust-none"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none"},
+"3c05c488": {"dfnID":"3c05c488","dfnText":"Accept","external":true,"refSections":[{"refs":[{"id":"ref-for-name-accept"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "3f03fff1": {"dfnID":"3f03fff1","dfnText":"datalist","external":true,"refSections":[{"refs":[{"id":"ref-for-the-datalist-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
 "3f597ac1": {"dfnID":"3f597ac1","dfnText":"createImageBitmap(image, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-createimagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap"},
@@ -5079,7 +5071,7 @@ let dfnPanelData = {
 "fdf6efd5": {"dfnID":"fdf6efd5","dfnText":"font-size","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-font-size"},{"id":"ref-for-propdef-font-size\u2460"},{"id":"ref-for-propdef-font-size\u2461"}],"title":"4.2. Make appropriate choices for whether CSS properties are inherited"},{"refs":[{"id":"ref-for-propdef-font-size\u2462"},{"id":"ref-for-propdef-font-size\u2463"},{"id":"ref-for-propdef-font-size\u2464"},{"id":"ref-for-propdef-font-size\u2465"},{"id":"ref-for-propdef-font-size\u2466"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-fonts-4/#propdef-font-size"},
 "ff87eaf9": {"dfnID":"ff87eaf9","dfnText":"remove","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-remove"},{"id":"ref-for-abortsignal-remove\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-remove"},
 "live-object": {"dfnID":"live-object","dfnText":"live object","external":false,"refSections":[],"url":"#live-object"},
-"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.6. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.4.1. If you need to monkey patch"}],"url":"#monkey-patch"},
+"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.5. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.4.1. If you need to monkey patch"}],"url":"#monkey-patch"},
 "propdef-font-size-adjust": {"dfnID":"propdef-font-size-adjust","dfnText":"font-size-adjust","external":false,"refSections":[],"url":"#propdef-font-size-adjust"},
 "static-object": {"dfnID":"static-object","dfnText":"static object","external":false,"refSections":[],"url":"#static-object"},
 };
@@ -5708,6 +5700,7 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#idl-unrestricted-double": {"displayText":"unrestricted double","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unrestricted double","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
 "https://webidl.spec.whatwg.org/#idl-unsigned-long-long": {"displayText":"unsigned long long","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unsigned long long","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unsigned-long-long"},
 "https://webidl.spec.whatwg.org/#sequence-type": {"displayText":"sequence type","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"sequence type","type":"dfn","url":"https://webidl.spec.whatwg.org/#sequence-type"},
+"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept": {"displayText":"Accept","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc9110","spec":"rfc9110","status":"anchor-block","text":"accept","type":"http-header","url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "https://www.w3.org/TR/payment-request/#dfn-state": {"displayText":"[[state]]","export":true,"for_":[],"level":"","normative":true,"shortname":"payment-request","spec":"payment-request","status":"anchor-block","text":"[[state]]","type":"dfn","url":"https://www.w3.org/TR/payment-request/#dfn-state"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-loaded": {"displayText":"loaded","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"loaded","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-total": {"displayText":"total","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"total","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
