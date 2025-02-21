@@ -1998,12 +1998,12 @@ is a request, rather than a guarantee.
 
 Use strings as the values for constants or sets of enumerated values.
 
-Strings are easier for developers to inspect values
+Strings make it easier for developers to inspect values
 and read code that uses those values.
 In JavaScript engines there is no performance benefit
 to using integers instead of strings.
-The [WebIDL enum type](https://webidl.spec.whatwg.org/#idl-enums)
-only permits the use of string values.
+The values of a [WebIDL enum type](https://webidl.spec.whatwg.org/#idl-enums)
+are strings in order to follow this principle.
 
 If you need to express a state which is a combination of properties,
 which might be expressed as a bitmask in another language,
