@@ -3,7 +3,7 @@ Title: Web Platform Design Principles
 Group: tag
 Shortname: design-principles
 Repository: w3ctag/design-principles
-Status: ED
+Status: NOTE-ED
 Level: none
 TR: https://www.w3.org/TR/design-principles/
 ED: https://w3ctag.github.io/design-principles/

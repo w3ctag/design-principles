@@ -13,3 +13,8 @@ With those dependencies, simply invoke `make` to build the document.
 # Contributing
 
 Contributions are welcome to anyone who follows [our code of conduct](https://www.w3.org/Consortium/cepc/).
+
+The editors will merge PRs after they have TAG consensus and will attempt to document that consensus
+by linking to the meeting minutes. If you notice a change that seems to have been merged without
+consensus, please comment on its PR or file an issue, and we'll either quickly find better evidence
+or back out the change until we can discuss it more fully.
