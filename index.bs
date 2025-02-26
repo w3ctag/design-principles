@@ -27,32 +27,14 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:css2; type: property; text: line-height
-spec:dom
-    type:method; for:Document; text:getElementsByTagName(qualifiedName)
-    type:method; for:Document; text:createElement(qualifiedName)
-spec:html; type:dfn; for:/
-    text:focus update steps
-    text:task queue
-    text:event loop
-spec:html; type:element-attr; for:a
-    text:href
-    text:ping
-spec:html; type:element
-    text:a
-    text:link
-    text:script
-    text:style
 spec:html; type:event; text:resize
-spec:selectors-4; type:selector; text::hover
 spec:webidl
     type:dfn; text:namespace
     type:idl; text:long
     type:idl; text:short
-    type:interface; text:double
-spec:web-locks; type:interface; text:LockManager
 </pre>
 <pre class='ignored-specs'>
-spec: css21
+spec: svg2
 </pre>
 <!-- Some of these 'anchors' entries are really routing around spec bugs.
      https://github.com/w3c/remote-playback/issues/137
