@@ -3,12 +3,12 @@
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Web Platform Design Principles</title>
-  <meta content="ED" name="w3c-status">
+  <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version f5998b114, updated Tue Feb 18 08:22:15 2025 -0800" name="generator">
+  <meta content="Bikeshed version 60c422380, updated Thu Feb 20 19:11:22 2025 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="0975d2b1df2a80496024b1ced9fb6881254d8e21" name="revision">
+  <meta content="af2965b6ea6db4a82788b66c0692f7758bc68a8d" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-18">18 February 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-26">26 February 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -741,14 +741,18 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p> <em>This section describes the status of this document at the time of its
     publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
     latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web
-    Consortium">W3C</abbr> technical reports index</a>.</em> </p>
-   <p> This document was published by the <a href="https://www.w3.org/2001/tag/">W3C Technical Architecture Group
-    (TAG)</a> as an Editor’s Draft.
-    Publication as an Editor’s Draft does not imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. This is a
-    draft document and may be updated, replaced or obsoleted by other documents
-    at any time. It is inappropriate to cite this document as other than work in
-    progress. </p>
+    Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em> </p>
+   <p> This document was published by the <a href="https://www.w3.org/groups/other/tag/">Technical Architecture Group</a> as an Editor’s Draft intended for the Note track.
+    This is a draft document and
+    may be updated, replaced or obsoleted by other documents at any time.
+    It is inappropriate to cite this document as other than work in progress.
+    Editor’s Drafts are not endorsed by <abbr title="World Wide Web
+    Consortium">W3C</abbr> nor its Members. </p>
+   <p></p>
    <p> Feedback and comments on this document are welcome. Please <a href="https://github.com/w3ctag/design-principles/issues">file an issue</a> in this document’s <a href="https://github.com/w3ctag/design-principles/">GitHub repository</a>. </p>
+   <p data-deliverer="34270"> The <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World
+    Wide Web Consortium">W3C</abbr> Patent Policy</a> does not carry any
+    licensing requirements or commitments on this document. </p>
    <p> This document is governed by the <a href="https://www.w3.org/policies/process/20231103/" id="w3c_process_revision">03 November 2023 W3C
     Process Document</a>. </p>
   </div>
@@ -915,7 +919,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
       <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
-      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -2033,7 +2036,7 @@ or to produce a new <code class="idl"><a data-link-type="idl" href="https://dom.
 it may depend on the timing of garbage collection.
 In contrast, APIs which are explicitly designed
 to depend on garbage collection,
-like <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-weak-ref-objects" id="ref-for-sec-weak-ref-objects">WeakRef</a></code> or <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-finalization-registry-objects" id="ref-for-sec-finalization-registry-objects">FinalizationRegistry</a></code>,
+like <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects" id="ref-for-sec-weak-ref-objects">WeakRef</a></code> or <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects" id="ref-for-sec-finalization-registry-objects">FinalizationRegistry</a></code>,
 set accurate author expectations about
 the interaction with garbage collection.</p>
    <h2 class="heading settled" data-level="6" id="api-surface"><span class="secno">6. </span><span class="content">JavaScript API Surface Concerns</span><a class="self-link" href="#api-surface"></a></h2>
@@ -2625,7 +2628,7 @@ but can’t avoid the risk of an endless loop of follow-up tasks.</p>
 if the algorithm that triggers the event could be running
 on a different thread or process.
 In this case, deferral ensures the events
-can be processed on the correct task in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue" id="ref-for-task-queue">task queue</a>.</p>
+can be processed on the correct task in the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue" id="ref-for-dfn-service-worker-registration-task-queue">task queue</a>.</p>
    <p>Both the "guarding" and the "deferring" approach have trade-offs.</p>
    <p>"Guarding" an algorithm guarantees:</p>
    <ul>
@@ -2646,7 +2649,7 @@ rather than needing to be given a copy of the relevant state with the event.</p>
    <p>If the events are deferred instead:</p>
    <ul>
     <li data-md>
-     <p>there is no guarantee that they will be first in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-queue" id="ref-for-task-queue①">task queue</a> once the algorithm completes.</p>
+     <p>there is no guarantee that they will be first in the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue" id="ref-for-dfn-service-worker-registration-task-queue①">task queue</a> once the algorithm completes.</p>
     <li data-md>
      <p>any other task may change the object’s state
 you should include any state relevant to the event with the deferred event.</p>
@@ -2662,14 +2665,14 @@ you may need to define an explicit state machine (well-defined state transitions
 to ensure that when a deferred event fires,
 the behavior of inspecting or changing state is well-defined.</p>
      <p><span class="informative">For example, in <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a>,
-the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest" id="ref-for-dom-paymentrequest">PaymentRequest</a></code>’s <a data-link-type="dfn" href="https://www.w3.org/TR/payment-request/#dfn-state" id="ref-for-dfn-state">[[state]]</a> internal slot
+the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest" id="ref-for-dom-paymentrequest">PaymentRequest</a></code>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dfn-state" id="ref-for-dfn-state">[[state]]</a></code> internal slot
 explicitly tracks the object’s state
 through its well-defined transitions.</span></p>
      <ul>
       <li data-md>
        <p>These state transitions often use the guarding technique themselves,
  to ensure the state transitions happen appropriately.</p>
-       <p>For example, in <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a> note the guards used around the <a data-link-type="dfn" href="https://www.w3.org/TR/payment-request/#dfn-state" id="ref-for-dfn-state①">[[state]]</a> internal slot,
+       <p>For example, in <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a> note the guards used around the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dfn-state" id="ref-for-dfn-state①">[[state]]</a></code> internal slot,
  such as in the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show">show()</a></code> algorithm.</p>
      </ul>
     <li data-md>
@@ -2910,7 +2913,7 @@ unless there is a specific reason not to:</p>
  If a number outside this range is given,
  the generated bindings will throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code>.</p>
    </dl>
-   <p>JavaScript has only one numeric type, <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects">Number</a></code>:
+   <p>JavaScript has only one numeric type, <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects" id="ref-for-sec-number-objects">Number</a></code>:
 IEEE 754 double-precision floating point, including ±0, ±Infinity, and NaN. <a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a> numeric types represent
 rules for modifying any JavaScript number
 to belong to a subset with particular properties.
@@ -2933,11 +2936,11 @@ or [<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.o
     <p>This also works for the other shorter types, such as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-short" id="ref-for-idl-short">short</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-long" id="ref-for-idl-long">long</a></code>.</p>
    </div>
    <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-bigint" id="ref-for-idl-bigint">bigint</a></code> should be used only when values greater than 2<sup>53</sup> or less than -2<sup>53</sup> are expected.</p>
-   <p>An API should not support both <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects①">Number</a></code> simultaneously,
+   <p>An API should not support both <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects" id="ref-for-sec-bigint-objects">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects" id="ref-for-sec-number-objects①">Number</a></code> simultaneously,
 either by supporting both types via polymorphism,
-or by adding separate, otherwise identical APIs which take <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects①">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-number-objects" id="ref-for-sec-number-objects②">Number</a></code>.
+or by adding separate, otherwise identical APIs which take <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects" id="ref-for-sec-bigint-objects①">BigInt</a></code> and <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects" id="ref-for-sec-number-objects②">Number</a></code>.
 This risks losing precision through implicit conversions,
-which defeats the purpose of <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-bigint-objects" id="ref-for-sec-bigint-objects②">BigInt</a></code>.</p>
+which defeats the purpose of <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects" id="ref-for-sec-bigint-objects②">BigInt</a></code>.</p>
    <h3 class="heading settled" data-level="8.2" id="idl-string-types"><span class="secno">8.2. </span><span class="content">Represent strings appropriately</span><a class="self-link" href="#idl-string-types"></a></h3>
    <div class="note" role="note"> This section is meant to be mutually consistent with
 the <a href="https://w3c.github.io/bp-i18n-specdev/#char_string">Defining string</a> section
@@ -2950,7 +2953,7 @@ to interpret the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#co
 so <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString①">DOMString</a></code> is the best choice.
 In the specific cases explained below, it might be appropriate to use either <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString①">USVString</a></code> or <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ByteString" id="ref-for-idl-ByteString">ByteString</a></code> instead. <a data-link-type="biblio" href="#biblio-infra" title="Infra Standard">[INFRA]</a> <a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a></p>
    <p><code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString②">USVString</a></code> is the Web IDL type that represents <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value-string" id="ref-for-scalar-value-string">scalar value strings</a>.
-For strings whose most common algorithms operate on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value" id="ref-for-scalar-value">scalar values</a> (such as <a data-link-type="abstract-op" href="https://url.spec.whatwg.org/#percent-encode" id="ref-for-percent-encode">percent-encoding</a>),
+For strings whose most common algorithms operate on <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#scalar-value" id="ref-for-scalar-value">scalar values</a> (such as <a data-link-type="dfn" href="https://w3c.github.io/i18n-glossary/#dfn-percent-encoding" id="ref-for-dfn-percent-encoding">percent-encoding</a>),
 or for operations which can’t handle <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#surrogate" id="ref-for-surrogate">surrogates</a> in input
 (such as APIs that pass strings through to native platform APIs), <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString③">USVString</a></code> should be used.</p>
    <p class="example" id="example-fe96b598"><a class="self-link" href="#example-fe96b598"></a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect">Reflecting IDL attributes</a> whose content attribute is defined to contain a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> (such as <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href①">href</a></code>)
@@ -2970,7 +2973,7 @@ are interoperable with one another.
 This means that authors don’t need to convert values used in one API
 to be used in another API,
 or keep track of which time unit is needed where.</p>
-   <p>This convention began with <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout" id="ref-for-dom-settimeout">setTimeout()</a></code> and the <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects">Date</a></code> API,
+   <p>This convention began with <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout" id="ref-for-dom-settimeout">setTimeout()</a></code> and the <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects" id="ref-for-sec-date-objects">Date</a></code> API,
 and has been used since then.</p>
    <p class="note" role="note"><span class="marker">Note:</span> high-resolution time is usually represented as fractional milliseconds
 using a floating point value,
@@ -2981,11 +2984,11 @@ regardless of the user’s time settings.</p>
    <p><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp②">DOMHighResTimeStamp</a></code> values represent
 a time value in milliseconds.
 See <a data-link-type="biblio" href="#biblio-highres-time" title="High Resolution Time">[HIGHRES-TIME]</a> for more details.</p>
-   <p>Don’t use the JavaScript <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects①">Date</a></code> class for representing
-specific date-time values. <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②">Date</a></code> objects are mutable (may have their value changed),
+   <p>Don’t use the JavaScript <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects" id="ref-for-sec-date-objects①">Date</a></code> class for representing
+specific date-time values. <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects" id="ref-for-sec-date-objects②">Date</a></code> objects are mutable (may have their value changed),
 and there is no way to make them immutable.</p>
    <div class="note" role="note">
-     For more background on why <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects③">Date</a></code> must not be used,
+     For more background on why <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects" id="ref-for-sec-date-objects③">Date</a></code> must not be used,
     see the following: 
     <ul>
      <li data-md>
@@ -2996,7 +2999,7 @@ es-discuss</p>
     </ul>
    </div>
    <h3 class="heading settled" data-level="8.5" id="error-types"><span class="secno">8.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
-   <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262/#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
+   <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
 or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
 whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">APIs that wrap access to device or browser capabilities</span><a class="self-link" href="#device-apis"></a></h2>
@@ -3117,7 +3120,7 @@ This does expose one bit of fingerprinting data about the user’s environment
 to websites,
 so it isn’t quite as safe as an API which doesn’t have such a feature.</p>
    <div class="example" id="example-e2381236">
-    <a class="self-link" href="#example-e2381236"></a> The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/remote-playback/#remoteplayback-interface" id="ref-for-remoteplayback-interface">RemotePlayback</a></code> interface
+    <a class="self-link" href="#example-e2381236"></a> The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/remote-playback/#dom-remoteplayback" id="ref-for-dom-remoteplayback">RemotePlayback</a></code> interface
 doesn’t expose a list of available <a data-link-type="dfn" href="https://w3c.github.io/remote-playback/#dfn-remote-playback-devices" id="ref-for-dfn-remote-playback-devices">remote playback devices</a>.
 Instead, it allows the user to choose one device
 from a device picker provided by the User Agent. 
@@ -3653,7 +3656,7 @@ may ship the feature as a nonstandard API.</p>
      </div>
      <div class="example" id="example-monkeypatch-quote-text-replace-def">
       <a class="self-link" href="#example-monkeypatch-quote-text-replace-def"></a> 
-      <p>In terms of CSS2.1 block-level formatting <a data-link-type="biblio" href="#biblio-css2" title="Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification">[CSS2]</a>, the rules for “over-constrained” computations in <a href="https://drafts.csswg.org/css2/#blockwidth">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification § blockwidth</a> are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.</p>
+      <p>In terms of CSS2.1 block-level formatting <a data-link-type="biblio" href="#biblio-css2" title="Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification">[CSS2]</a>, the rules for “over-constrained” computations in <a href="https://drafts.csswg.org/css2/#blockwidth"><cite>CSS 2</cite> § 10.3.3 Block-level, non-replaced elements in normal flow</a> are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.</p>
      </div>
      <div class="example" id="example-monkeypatch-quote-text-change-idl">
       <a class="self-link" href="#example-monkeypatch-quote-text-change-idl"></a> 
@@ -3869,7 +3872,7 @@ design, the following rules have emerged:</p>
      <tr>
       <th>Initialisms in APIs
       <td>All caps, except when the first word in a method or property
-      <td><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#htmlcollection" id="ref-for-htmlcollection②">HTMLCollection</a></code><br> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml" id="ref-for-dom-innerhtml-innerhtml">innerHTML</a></code><br> <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor" id="ref-for-dom-document-bgcolor">bgColor</a></code>
+      <td><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#htmlcollection" id="ref-for-htmlcollection②">HTMLCollection</a></code><br> <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml" id="ref-for-dom-element-innerhtml">innerHTML</a></code><br> <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor" id="ref-for-dom-document-bgcolor">bgColor</a></code>
      <tr>
       <th>Repeated initialisms in APIs
       <td>Follow the same rule
@@ -4067,22 +4070,6 @@ so they can correct this omission.</p>
     with <code>class="note"</code>,
     like this: </p>
    <p class="note" role="note">Note, this is an informative note.</p>
-   <section>
-    <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
-    <p>Requirements phrased in the imperative as part of algorithms
-    (such as "strip any leading space characters"
-    or "return false and abort these steps")
-    are to be interpreted with the meaning of the key word
-    ("must", "should", "may", etc)
-    used in introducing the algorithm. </p>
-    <p>Conformance requirements phrased as algorithms or specific steps
-    can be implemented in any manner,
-    so long as the end result is equivalent.
-    In particular, the algorithms defined in this specification
-    are intended to be easy to understand
-    and are not intended to be performant.
-    Implementers are encouraged to optimize. </p>
-   </section>
   </div>
   <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
@@ -4154,7 +4141,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="6ec67710">|</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[CSS22]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS2]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="ac54fbff">line-height</span>
     </ul>
@@ -4193,10 +4180,10 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="c2f2a81a">classList</span>
      <li><span class="dfn-paneled" id="aaa103c9">compatMode</span>
      <li><span class="dfn-paneled" id="bc9fe445">createAttribute(localName)</span>
-     <li><span class="dfn-paneled" id="bf18e517">createElement</span>
+     <li><span class="dfn-paneled" id="5fcd7fc5">createElement(localName)</span>
      <li><span class="dfn-paneled" id="5fd23811">fire an event</span>
      <li><span class="dfn-paneled" id="c7af4825">getElementById(elementId)</span>
-     <li><span class="dfn-paneled" id="6e8782de">getElementsByTagName</span>
+     <li><span class="dfn-paneled" id="68c033c8">getElementsByTagName(qualifiedName)</span>
      <li><span class="dfn-paneled" id="50e555d8">once</span>
      <li><span class="dfn-paneled" id="5def70a6">querySelectorAll(selectors)</span>
      <li><span class="dfn-paneled" id="ff87eaf9">remove</span>
@@ -4206,23 +4193,14 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="072b36ca">timeout(milliseconds)</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[DOM-Parsing]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="dcc318fc">innerHTML</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[ECMA262]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="88573a43">BigInt</span>
-     <li><span class="dfn-paneled" id="4e437047">Date</span>
-     <li><span class="dfn-paneled" id="5f95ccda">Error</span>
-     <li><span class="dfn-paneled" id="d8c1cdf2">FinalizationRegistry</span>
-     <li><span class="dfn-paneled" id="0699bcce">Number</span>
-     <li><span class="dfn-paneled" id="d3645ed0">WeakRef</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[ECMASCRIPT]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="f6c2cd25">BigInt</span>
+     <li><span class="dfn-paneled" id="8c8cc336">Date</span>
+     <li><span class="dfn-paneled" id="6e923df0">Error</span>
+     <li><span class="dfn-paneled" id="5f45e759">FinalizationRegistry</span>
+     <li><span class="dfn-paneled" id="5f9c7266">Number</span>
+     <li><span class="dfn-paneled" id="bf77e69a">WeakRef</span>
      <li><span class="dfn-paneled" id="434af3a5">now()</span>
     </ul>
    <li>
@@ -4301,6 +4279,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="ca0c892d">href <small>(for a)</small></span>
      <li><span class="dfn-paneled" id="a6078b11">href <small>(for link)</small></span>
      <li><span class="dfn-paneled" id="f0811ff8">img</span>
+     <li><span class="dfn-paneled" id="d4127354">innerHTML</span>
      <li><span class="dfn-paneled" id="d7d642a2">input</span>
      <li><span class="dfn-paneled" id="7bd34c20">isActive</span>
      <li><span class="dfn-paneled" id="da34f333">isMap</span>
@@ -4335,7 +4314,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="03431bcb">src <small>(for script)</small></span>
      <li><span class="dfn-paneled" id="c219fdf4">srcset</span>
      <li><span class="dfn-paneled" id="ba920583">style</span>
-     <li><span class="dfn-paneled" id="80726755">task queues</span>
      <li><span class="dfn-paneled" id="fc736137">textarea</span>
      <li><span class="dfn-paneled" id="47fe679e">transient activation</span>
      <li><span class="dfn-paneled" id="66aee777">type</span>
@@ -4343,6 +4321,11 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="fd7a9317">value</span>
      <li><span class="dfn-paneled" id="aa7bbf63">video</span>
      <li><span class="dfn-paneled" id="7a26cf99">width</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[I18N-GLOSSARY]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="30011333">percent-encoding</span>
     </ul>
    <li>
     <a data-link-type="biblio">[IndexedDB-3]</a> defines the following terms:
@@ -4375,7 +4358,7 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[PAYMENT-REQUEST]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="f679a0bc">PaymentRequest</span>
-     <li><span class="dfn-paneled" id="838fac42">[[state]]</span>
+     <li><span class="dfn-paneled" id="2e3a180b">[[state]]</span>
      <li><span class="dfn-paneled" id="ab86e0f1">show()</span>
     </ul>
    <li>
@@ -4398,8 +4381,9 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[REMOTE-PLAYBACK]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="0e202d66">RemotePlayback</span>
+     <li><span class="dfn-paneled" id="9e3cc993">RemotePlayback</span>
      <li><span class="dfn-paneled" id="7f769aa9">remote playback device</span>
+     <li><span class="dfn-paneled" id="06b254b0">remote playback devices</span>
     </ul>
    <li>
     <a data-link-type="biblio">[REQUESTIDLECALLBACK]</a> defines the following terms:
@@ -4410,6 +4394,11 @@ so they can correct this omission.</p>
     <a data-link-type="biblio">[RFC9110]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="3c05c488">Accept</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[SERVICE-WORKERS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="3a3c984c">task queues</span>
     </ul>
    <li>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
@@ -4423,7 +4412,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="adfe3014">URLSearchParams</span>
      <li><span class="dfn-paneled" id="46335198">delete(name)</span>
      <li><span class="dfn-paneled" id="0992b8f5">has(name)</span>
-     <li><span class="dfn-paneled" id="c3dc5717">percent-encode</span>
      <li><span class="dfn-paneled" id="dcffbccd">URL</span>
     </ul>
    <li>
@@ -4518,6 +4506,8 @@ so they can correct this omission.</p>
    <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-i18n-glossary">[I18N-GLOSSARY]
+   <dd>Richard Ishida; Addison Phillips. <a href="https://w3c.github.io/i18n-glossary/"><cite>Internationalization Glossary</cite></a>. URL: <a href="https://w3c.github.io/i18n-glossary/">https://w3c.github.io/i18n-glossary/</a>
    <dt id="biblio-indexeddb-3">[IndexedDB-3]
    <dd>Joshua Bell. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-infra">[INFRA]
@@ -4536,6 +4526,8 @@ so they can correct this omission.</p>
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-rfc9205">[RFC9205]
    <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a>. June 2022. Best Current Practice. URL: <a href="https://httpwg.org/specs/rfc9205.html">https://httpwg.org/specs/rfc9205.html</a>
+   <dt id="biblio-service-workers">[SERVICE-WORKERS]
+   <dd>Jake Archibald; Marijn Kruisselbrink. <a href="https://w3c.github.io/ServiceWorker/"><cite>Service Workers</cite></a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-web-animations-2">[WEB-ANIMATIONS-2]
@@ -4567,14 +4559,10 @@ so they can correct this omission.</p>
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/"><cite>CSS Values and Units Module Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
    <dt id="biblio-css2">[CSS2]
    <dd>Bert Bos; et al. <a href="https://drafts.csswg.org/css2/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
-   <dt id="biblio-css22">[CSS22]
-   <dd>Bert Bos. <a href="https://drafts.csswg.org/css2/"><cite>Cascading Style Sheets Level 2 Revision 2 (CSS 2.2) Specification</cite></a>. URL: <a href="https://drafts.csswg.org/css2/">https://drafts.csswg.org/css2/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
    <dd>Daniel Glazman; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom/"><cite>CSS Object Model (CSSOM)</cite></a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
    <dt id="biblio-cssom-view-1">[CSSOM-VIEW-1]
    <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
-   <dt id="biblio-dom-parsing">[DOM-Parsing]
-   <dd>Travis Leithead. <a href="https://w3c.github.io/DOM-Parsing/"><cite>DOM Parsing and Serialization</cite></a>. URL: <a href="https://w3c.github.io/DOM-Parsing/">https://w3c.github.io/DOM-Parsing/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web">[ETHICAL-WEB]
@@ -4850,14 +4838,13 @@ let dfnPanelData = {
 "03675365": {"dfnID":"03675365","dfnText":"event handler IDL attribute","external":true,"refSections":[{"refs":[{"id":"ref-for-event-handler-idl-attributes"},{"id":"ref-for-event-handler-idl-attributes\u2460"},{"id":"ref-for-event-handler-idl-attributes\u2461"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes"},
 "056fb0bd": {"dfnID":"056fb0bd","dfnText":"TextEncoder","external":true,"refSections":[{"refs":[{"id":"ref-for-textencoder"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://encoding.spec.whatwg.org/#textencoder"},
 "0698d556": {"dfnID":"0698d556","dfnText":"string","external":true,"refSections":[{"refs":[{"id":"ref-for-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#string"},
-"0699bcce": {"dfnID":"0699bcce","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-number-objects"},
+"06b254b0": {"dfnID":"06b254b0","dfnText":"remote playback devices","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "072b36ca": {"dfnID":"072b36ca","dfnText":"timeout(milliseconds)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortsignal-timeout"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#dom-abortsignal-timeout"},
 "08baaf46": {"dfnID":"08baaf46","dfnText":"remove()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-childnode-remove"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://dom.spec.whatwg.org/#dom-childnode-remove"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
 "0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
 "0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
-"0e202d66": {"dfnID":"0e202d66","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-remoteplayback-interface"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.13. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
@@ -4883,14 +4870,17 @@ let dfnPanelData = {
 "2bc0cdf4": {"dfnID":"2bc0cdf4","dfnText":"EventTarget","external":true,"refSections":[{"refs":[{"id":"ref-for-eventtarget"},{"id":"ref-for-eventtarget\u2460"},{"id":"ref-for-eventtarget\u2461"},{"id":"ref-for-eventtarget\u2462"},{"id":"ref-for-eventtarget\u2463"},{"id":"ref-for-eventtarget\u2464"},{"id":"ref-for-eventtarget\u2465"},{"id":"ref-for-eventtarget\u2466"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#eventtarget"},
 "2c73cb69": {"dfnID":"2c73cb69","dfnText":"languagechange","external":true,"refSections":[{"refs":[{"id":"ref-for-event-languagechange"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/indices.html#event-languagechange"},
 "2c82d279": {"dfnID":"2c82d279","dfnText":"audio","external":true,"refSections":[{"refs":[{"id":"ref-for-audio"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
+"2e3a180b": {"dfnID":"2e3a180b","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://w3c.github.io/payment-request/#dfn-state"},
 "2e66eaf1": {"dfnID":"2e66eaf1","dfnText":"AbortController","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortcontroller\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller"},
 "2f8afbfe": {"dfnID":"2f8afbfe","dfnText":"ArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ArrayBuffer"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
+"30011333": {"dfnID":"30011333","dfnText":"percent-encoding","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-percent-encoding"}],"title":"8.2. Represent strings appropriately"}],"url":"https://w3c.github.io/i18n-glossary/#dfn-percent-encoding"},
 "31133468": {"dfnID":"31133468","dfnText":"open","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-details-open"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
 "31559e1b": {"dfnID":"31559e1b","dfnText":"define(name, constructor, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-customelementregistry-define"}],"title":"5.1. Use JavaScript for Web APIs"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
 "3332e595": {"dfnID":"3332e595","dfnText":"setTimeout(handler, timeout, ...arguments)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-settimeout"}],"title":"8.3. Use milliseconds for time measurement"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
 "37ef25b8": {"dfnID":"37ef25b8","dfnText":"HTMLHtmlElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhtmlelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement"},
 "3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.10. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
+"3a3c984c": {"dfnID":"3a3c984c","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-service-worker-registration-task-queue"},{"id":"ref-for-dfn-service-worker-registration-task-queue\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue"},
 "3b64181e": {"dfnID":"3b64181e","dfnText":"none","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-font-size-adjust-none"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-fonts-5/#valdef-font-size-adjust-none"},
 "3c05c488": {"dfnID":"3c05c488","dfnText":"Accept","external":true,"refSections":[{"refs":[{"id":"ref-for-name-accept"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
@@ -4903,7 +4893,6 @@ let dfnPanelData = {
 "478bb3aa": {"dfnID":"478bb3aa","dfnText":"ImageBitmap","external":true,"refSections":[{"refs":[{"id":"ref-for-imagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap"},
 "47fe679e": {"dfnID":"47fe679e","dfnText":"transient activation","external":true,"refSections":[{"refs":[{"id":"ref-for-transient-activation"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation"},
 "4872935b": {"dfnID":"4872935b","dfnText":"resize","external":true,"refSections":[{"refs":[{"id":"ref-for-event-media-resize"}],"title":"7.5. Use events for notification"}],"url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
-"4e437047": {"dfnID":"4e437047","dfnText":"Date","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-date-objects"}],"title":"8.3. Use milliseconds for time measurement"},{"refs":[{"id":"ref-for-sec-date-objects\u2460"},{"id":"ref-for-sec-date-objects\u2461"},{"id":"ref-for-sec-date-objects\u2462"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://tc39.github.io/ecma262/#sec-date-objects"},
 "4fe61159": {"dfnID":"4fe61159","dfnText":"resolved value","external":true,"refSections":[{"refs":[{"id":"ref-for-resolved-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#resolved-value"},
 "50e555d8": {"dfnID":"50e555d8","dfnText":"once","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-addeventlisteneroptions-once"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once"},
 "529179ea": {"dfnID":"529179ea","dfnText":"Crypto","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Crypto"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/webcrypto/#dfn-Crypto"},
@@ -4920,19 +4909,22 @@ let dfnPanelData = {
 "5d83727e": {"dfnID":"5d83727e","dfnText":"actual value","external":true,"refSections":[{"refs":[{"id":"ref-for-actual-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#actual-value"},
 "5def70a6": {"dfnID":"5def70a6","dfnText":"querySelectorAll(selectors)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-parentnode-queryselectorall"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"},
 "5eafebb0": {"dfnID":"5eafebb0","dfnText":"sequence type","external":true,"refSections":[{"refs":[{"id":"ref-for-sequence-type"},{"id":"ref-for-sequence-type\u2460"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-sequence-type\u2461"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#sequence-type"},
+"5f45e759": {"dfnID":"5f45e759","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects"},
 "5f753d3e": {"dfnID":"5f753d3e","dfnText":"action","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-fs-action"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
 "5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"},{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
-"5f95ccda": {"dfnID":"5f95ccda","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.github.io/ecma262/#sec-error-objects"},
+"5f9c7266": {"dfnID":"5f9c7266","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects"},
+"5fcd7fc5": {"dfnID":"5fcd7fc5","dfnText":"createElement(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
 "66aee777": {"dfnID":"66aee777","dfnText":"type","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-type"},{"id":"ref-for-attr-input-type\u2460"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-type"},
 "67fa4a40": {"dfnID":"67fa4a40","dfnText":"total","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-progressevent-total"}],"title":"7.6. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
 "680651c3": {"dfnID":"680651c3","dfnText":"NonElementParentNode","external":true,"refSections":[{"refs":[{"id":"ref-for-nonelementparentnode"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#nonelementparentnode"},
 "68bf3d31": {"dfnID":"68bf3d31","dfnText":"a","external":true,"refSections":[{"refs":[{"id":"ref-for-the-a-element"},{"id":"ref-for-the-a-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
+"68c033c8": {"dfnID":"68c033c8","dfnText":"getElementsByTagName(qualifiedName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-getelementsbytagname"},{"id":"ref-for-dom-document-getelementsbytagname\u2460"},{"id":"ref-for-dom-document-getelementsbytagname\u2461"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-dom-document-getelementsbytagname\u2462"},{"id":"ref-for-dom-document-getelementsbytagname\u2463"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
 "6a288f2a": {"dfnID":"6a288f2a","dfnText":"microtask","external":true,"refSections":[{"refs":[{"id":"ref-for-microtask"}],"title":"5.2. Preserve run-to-completion semantics"},{"refs":[{"id":"e2b55c350"}],"title":"7.2. Events should fire before related Promises resolve"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#microtask"},
 "6cf6f82f": {"dfnID":"6cf6f82f","dfnText":"addEventListener(type, callback)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2460"}],"title":"6.6. Name optional arguments appropriately"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2461"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener"},
 "6cfa013d": {"dfnID":"6cfa013d","dfnText":"link","external":true,"refSections":[{"refs":[{"id":"ref-for-the-link-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-link-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-link-element"},
-"6e8782de": {"dfnID":"6e8782de","dfnText":"getElementsByTagName","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-getelementsbytagname"},{"id":"ref-for-dom-document-getelementsbytagname\u2460"},{"id":"ref-for-dom-document-getelementsbytagname\u2461"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-dom-document-getelementsbytagname\u2462"},{"id":"ref-for-dom-document-getelementsbytagname\u2463"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
+"6e923df0": {"dfnID":"6e923df0","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects"},
 "6ec67710": {"dfnID":"6ec67710","dfnText":"|","external":true,"refSections":[{"refs":[{"id":"ref-for-comb-one"},{"id":"ref-for-comb-one\u2460"},{"id":"ref-for-comb-one\u2461"},{"id":"ref-for-comb-one\u2462"},{"id":"ref-for-comb-one\u2463"},{"id":"ref-for-comb-one\u2464"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#comb-one"},
 "762869d3": {"dfnID":"762869d3","dfnText":"scalar value string","external":true,"refSections":[{"refs":[{"id":"ref-for-scalar-value-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#scalar-value-string"},
 "762ce945": {"dfnID":"762ce945","dfnText":"GlobalEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-globaleventhandlers"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"},
@@ -4946,9 +4938,7 @@ let dfnPanelData = {
 "7e4cbc4d": {"dfnID":"7e4cbc4d","dfnText":"acronym","external":true,"refSections":[{"refs":[{"id":"ref-for-acronym"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#acronym"},
 "7f21931f": {"dfnID":"7f21931f","dfnText":"NamedNodeMap","external":true,"refSections":[{"refs":[{"id":"ref-for-namednodemap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#namednodemap"},
 "7f769aa9": {"dfnID":"7f769aa9","dfnText":"remote playback device","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
-"80726755": {"dfnID":"80726755","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-task-queue"},{"id":"ref-for-task-queue\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
-"838fac42": {"dfnID":"838fac42","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://www.w3.org/TR/payment-request/#dfn-state"},
 "83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
 "84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
@@ -4957,12 +4947,12 @@ let dfnPanelData = {
 "8662cdd3": {"dfnID":"8662cdd3","dfnText":"checked","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-checked"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-checked"},
 "87bc23a5": {"dfnID":"87bc23a5","dfnText":"add","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-add"},{"id":"ref-for-abortsignal-add\u2460"},{"id":"ref-for-abortsignal-add\u2461"}],"title":"7.6. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-add"},
 "8855a9aa": {"dfnID":"8855a9aa","dfnText":"DOMString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMString"},{"id":"ref-for-idl-DOMString\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
-"88573a43": {"dfnID":"88573a43","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.github.io/ecma262/#sec-bigint-objects"},
 "88885797": {"dfnID":"88885797","dfnText":"for","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-label-for"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
 "889e932f": {"dfnID":"889e932f","dfnText":"Exposed","external":true,"refSections":[{"refs":[{"id":"ref-for-Exposed"},{"id":"ref-for-Exposed\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://webidl.spec.whatwg.org/#Exposed"},
 "8baa72cd": {"dfnID":"8baa72cd","dfnText":"WindowEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-windoweventhandlers"}],"title":"7.4. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
 "8bd77373": {"dfnID":"8bd77373","dfnText":"currentTime","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-animationtimeline-currenttime"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://drafts.csswg.org/web-animations-2/#dom-animationtimeline-currenttime"},
 "8c800cdf": {"dfnID":"8c800cdf","dfnText":"double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-double"},
+"8c8cc336": {"dfnID":"8c8cc336","dfnText":"Date","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-date-objects"}],"title":"8.3. Use milliseconds for time measurement"},{"refs":[{"id":"ref-for-sec-date-objects\u2460"},{"id":"ref-for-sec-date-objects\u2461"},{"id":"ref-for-sec-date-objects\u2462"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects"},
 "8dba5fba": {"dfnID":"8dba5fba","dfnText":"\"no-referrer-when-downgrade\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-referrerpolicy-no-referrer-when-downgrade"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
 "93c4bcc0": {"dfnID":"93c4bcc0","dfnText":"ismap","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap"},
 "946a9318": {"dfnID":"946a9318","dfnText":"form","external":true,"refSections":[{"refs":[{"id":"ref-for-the-form-element"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-form-element"},
@@ -4977,6 +4967,7 @@ let dfnPanelData = {
 "9cd25054": {"dfnID":"9cd25054","dfnText":"computed value","external":true,"refSections":[{"refs":[{"id":"ref-for-computed-value"},{"id":"ref-for-computed-value\u2460"},{"id":"ref-for-computed-value\u2461"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#computed-value"},
 "9d861566": {"dfnID":"9d861566","dfnText":"showModal()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-dialog-showmodal"}],"title":"11.2.1. Define algorithms clearly"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal"},
 "9dc3e09f": {"dfnID":"9dc3e09f","dfnText":"q","external":true,"refSections":[{"refs":[{"id":"ref-for-the-q-element"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element"},
+"9e3cc993": {"dfnID":"9e3cc993","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-remoteplayback"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dom-remoteplayback"},
 "a2411b6a": {"dfnID":"a2411b6a","dfnText":"History","external":true,"refSections":[{"refs":[{"id":"ref-for-history-3"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
 "a3fb968a": {"dfnID":"a3fb968a","dfnText":"surrogate","external":true,"refSections":[{"refs":[{"id":"ref-for-surrogate"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#surrogate"},
 "a46ec9f9": {"dfnID":"a46ec9f9","dfnText":"IDBDatabase","external":true,"refSections":[{"refs":[{"id":"ref-for-idbdatabase"}],"title":"7.8. Use Events and Observers appropriately"}],"url":"https://w3c.github.io/IndexedDB/#idbdatabase"},
@@ -5009,7 +5000,7 @@ let dfnPanelData = {
 "bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.15. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.6. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
 "bdcd112d": {"dfnID":"bdcd112d","dfnText":"bigint","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-bigint"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-bigint"},
 "be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
-"bf18e517": {"dfnID":"bf18e517","dfnText":"createElement","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
+"bf77e69a": {"dfnID":"bf77e69a","dfnText":"WeakRef","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-weak-ref-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects"},
 "bfa87d79": {"dfnID":"bfa87d79","dfnText":"short_name","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-short_name"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/manifest/#dfn-short_name"},
 "bfff6250": {"dfnID":"bfff6250","dfnText":"button","external":true,"refSections":[{"refs":[{"id":"ref-for-the-button-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
 "c01cbda0": {"dfnID":"c01cbda0","dfnText":"EnforceRange","external":true,"refSections":[{"refs":[{"id":"ref-for-EnforceRange"},{"id":"ref-for-EnforceRange\u2460"},{"id":"ref-for-EnforceRange\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#EnforceRange"},
@@ -5018,7 +5009,6 @@ let dfnPanelData = {
 "c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
-"c3dc5717": {"dfnID":"c3dc5717","dfnText":"percent-encode","external":true,"refSections":[{"refs":[{"id":"ref-for-percent-encode"}],"title":"8.2. Represent strings appropriately"}],"url":"https://url.spec.whatwg.org/#percent-encode"},
 "c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
 "c7af4825": {"dfnID":"c7af4825","dfnText":"getElementById(elementId)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-nonelementparentnode-getelementbyid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid"},
@@ -5028,14 +5018,13 @@ let dfnPanelData = {
 "cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
 "d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "d0eba3fd": {"dfnID":"d0eba3fd","dfnText":"partial interface","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-partial-interface"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
-"d3645ed0": {"dfnID":"d3645ed0","dfnText":"WeakRef","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-weak-ref-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-weak-ref-objects"},
 "d38f9598": {"dfnID":"d38f9598","dfnText":"getBoundingClientRect()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-getboundingclientrect"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
+"d4127354": {"dfnID":"d4127354","dfnText":"innerHTML","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-innerhtml"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml"},
 "d4b3b8bc": {"dfnID":"d4b3b8bc","dfnText":"cite","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-q-cite"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "d62af025": {"dfnID":"d62af025","dfnText":"now()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-performance-now"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/hr-time/#dom-performance-now"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
 "d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
-"d8c1cdf2": {"dfnID":"d8c1cdf2","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
 "d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
@@ -5043,7 +5032,6 @@ let dfnPanelData = {
 "dc4acd27": {"dfnID":"dc4acd27","dfnText":"json()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-body-json"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#dom-body-json"},
 "dc6ebe88": {"dfnID":"dc6ebe88","dfnText":"list","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-list"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-list"},
 "dca2de17": {"dfnID":"dca2de17","dfnText":"DOMException","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMException"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMException"},
-"dcc318fc": {"dfnID":"dcc318fc","dfnText":"innerHTML","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-innerhtml-innerhtml"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml"},
 "dcffbccd": {"dfnID":"dcffbccd","dfnText":"URL","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url"}],"title":"8.2. Represent strings appropriately"}],"url":"https://url.spec.whatwg.org/#concept-url"},
 "ddc587b1": {"dfnID":"ddc587b1","dfnText":"ASCII code point","external":true,"refSections":[{"refs":[{"id":"ref-for-ascii-code-point"}],"title":"12.2. Use ASCII names"}],"url":"https://infra.spec.whatwg.org/#ascii-code-point"},
 "e356ee85": {"dfnID":"e356ee85","dfnText":"class","external":true,"refSections":[{"refs":[{"id":"ref-for-classes"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/dom.html#classes"},
@@ -5061,6 +5049,7 @@ let dfnPanelData = {
 "f449d4f8": {"dfnID":"f449d4f8","dfnText":"open(url, target, features)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-open"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
 "f4813f78": {"dfnID":"f4813f78","dfnText":"byte","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-byte"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-byte"},
 "f679a0bc": {"dfnID":"f679a0bc","dfnText":"PaymentRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-paymentrequest"}],"title":"7.6. Guard against potential recursion"}],"url":"https://w3c.github.io/payment-request/#dom-paymentrequest"},
+"f6c2cd25": {"dfnID":"f6c2cd25","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects"},
 "f831c141": {"dfnID":"f831c141","dfnText":"background-image","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-background-image"},{"id":"ref-for-propdef-background-image\u2460"}],"title":"4.2. Make appropriate choices for whether CSS properties are inherited"}],"url":"https://drafts.csswg.org/css-backgrounds-3/#propdef-background-image"},
 "f89c7d0d": {"dfnID":"f89c7d0d","dfnText":"Clamp","external":true,"refSections":[{"refs":[{"id":"ref-for-Clamp"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#Clamp"},
 "f8b3bc81": {"dfnID":"f8b3bc81","dfnText":"false","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-false"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false"},
@@ -5496,8 +5485,8 @@ let refsData = {
 "https://dom.spec.whatwg.org/#dom-childnode-remove": {"displayText":"remove()","export":true,"for_":["ChildNode"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"remove()","type":"method","url":"https://dom.spec.whatwg.org/#dom-childnode-remove"},
 "https://dom.spec.whatwg.org/#dom-document-compatmode": {"displayText":"compatMode","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"compatMode","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-document-compatmode"},
 "https://dom.spec.whatwg.org/#dom-document-createattribute": {"displayText":"createAttribute(localName)","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"createAttribute(localName)","type":"method","url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
-"https://dom.spec.whatwg.org/#dom-document-createelement": {"displayText":"createElement","export":true,"for_":["Document"],"level":"","normative":true,"shortname":"dom","spec":"dom","status":"anchor-block","text":"createElement","type":"interface","url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
-"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname": {"displayText":"getElementsByTagName","export":true,"for_":["Document"],"level":"","normative":true,"shortname":"dom","spec":"dom","status":"anchor-block","text":"getElementsByTagName","type":"interface","url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
+"https://dom.spec.whatwg.org/#dom-document-createelement": {"displayText":"createElement(localName)","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"createElement(localName)","type":"method","url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
+"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname": {"displayText":"getElementsByTagName(qualifiedName)","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"getElementsByTagName(qualifiedName)","type":"method","url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
 "https://dom.spec.whatwg.org/#dom-element-classlist": {"displayText":"classList","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"classList","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "https://dom.spec.whatwg.org/#dom-event-bubbles": {"displayText":"bubbles","export":true,"for_":["Event"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"bubbles","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "https://dom.spec.whatwg.org/#dom-event-target": {"displayText":"target","export":true,"for_":["Event"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"target","type":"attribute","url":"https://dom.spec.whatwg.org/#dom-event-target"},
@@ -5528,7 +5517,7 @@ let refsData = {
 "https://drafts.csswg.org/css-values-4/#length-value": {"displayText":"<length>","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-values","spec":"css-values-4","status":"current","text":"<length>","type":"type","url":"https://drafts.csswg.org/css-values-4/#length-value"},
 "https://drafts.csswg.org/css-values-4/#mult-opt": {"displayText":"?","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-values","spec":"css-values-4","status":"current","text":"?","type":"grammar","url":"https://drafts.csswg.org/css-values-4/#mult-opt"},
 "https://drafts.csswg.org/css-values-4/#number-value": {"displayText":"<number>","export":true,"for_":[],"level":"4","normative":true,"shortname":"css-values","spec":"css-values-4","status":"current","text":"<number>","type":"type","url":"https://drafts.csswg.org/css-values-4/#number-value"},
-"https://drafts.csswg.org/css2/#propdef-line-height": {"displayText":"line-height","export":true,"for_":[],"level":"1","normative":true,"shortname":"css","spec":"css22","status":"current","text":"line-height","type":"property","url":"https://drafts.csswg.org/css2/#propdef-line-height"},
+"https://drafts.csswg.org/css2/#propdef-line-height": {"displayText":"line-height","export":true,"for_":[],"level":"2","normative":true,"shortname":"css","spec":"css2","status":"current","text":"line-height","type":"property","url":"https://drafts.csswg.org/css2/#propdef-line-height"},
 "https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle": {"displayText":"getComputedStyle(elt)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"cssom","spec":"cssom-1","status":"current","text":"getComputedStyle(elt)","type":"method","url":"https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle"},
 "https://drafts.csswg.org/cssom-1/#resolved-value": {"displayText":"resolved value","export":true,"for_":[],"level":"1","normative":true,"shortname":"cssom","spec":"cssom-1","status":"current","text":"resolved value","type":"dfn","url":"https://drafts.csswg.org/cssom-1/#resolved-value"},
 "https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect": {"displayText":"getBoundingClientRect()","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"cssom-view","spec":"cssom-view-1","status":"current","text":"getBoundingClientRect()","type":"method","url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
@@ -5547,6 +5536,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define": {"displayText":"define(name, constructor, options)","export":true,"for_":["CustomElementRegistry"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"define(name, constructor, options)","type":"method","url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
 "https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active": {"displayText":"fully active","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"fully active","type":"dfn","url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "https://html.spec.whatwg.org/multipage/dom.html#classes": {"displayText":"class","export":true,"for_":["global"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"class","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/dom.html#classes"},
+"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml": {"displayText":"innerHTML","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"innerHTML","type":"attribute","url":"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml"},
 "https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap": {"displayText":"ismap","export":true,"for_":["img"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"ismap","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap"},
 "https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src": {"displayText":"src","export":true,"for_":["img"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"src","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src"},
 "https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset": {"displayText":"srcset","export":true,"for_":["img"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"srcset","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
@@ -5590,7 +5580,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/links.html#ping": {"displayText":"ping","export":true,"for_":["a","area"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"ping","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "https://html.spec.whatwg.org/multipage/media.html#attr-video-poster": {"displayText":"poster","export":true,"for_":["video"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"poster","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/media.html#attr-video-poster"},
 "https://html.spec.whatwg.org/multipage/media.html#audio": {"displayText":"audio","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"audio","type":"element","url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
-"https://html.spec.whatwg.org/multipage/media.html#dom-media-play": {"displayText":"play()","export":true,"for_":["HTMLMediaElement"],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"play()","type":"method","url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
+"https://html.spec.whatwg.org/multipage/media.html#dom-media-play": {"displayText":"play()","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"play()","type":"method","url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
 "https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough": {"displayText":"canplaythrough","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"canplaythrough","type":"event","url":"https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough"},
 "https://html.spec.whatwg.org/multipage/media.html#event-media-resize": {"displayText":"resize","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"resize","type":"event","url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
 "https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement": {"displayText":"HTMLMediaElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLMediaElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
@@ -5619,7 +5609,6 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers": {"displayText":"GlobalEventHandlers","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"GlobalEventHandlers","type":"interface","url":"https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#microtask": {"displayText":"microtask","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"microtask","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#microtask"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task": {"displayText":"queue a task","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"queue a task","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
-"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue": {"displayText":"task queues","export":false,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"task queues","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-queue"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering": {"displayText":"update the rendering","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"update the rendering","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers": {"displayText":"WindowEventHandlers","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"WindowEventHandlers","type":"interface","url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
 "https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage": {"displayText":"localStorage","export":true,"for_":["WindowLocalStorage"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"localStorage","type":"attribute","url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
@@ -5631,34 +5620,35 @@ let refsData = {
 "https://infra.spec.whatwg.org/#scalar-value-string": {"displayText":"scalar value string","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"scalar value string","type":"dfn","url":"https://infra.spec.whatwg.org/#scalar-value-string"},
 "https://infra.spec.whatwg.org/#string": {"displayText":"string","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"string","type":"dfn","url":"https://infra.spec.whatwg.org/#string"},
 "https://infra.spec.whatwg.org/#surrogate": {"displayText":"surrogate","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"surrogate","type":"dfn","url":"https://infra.spec.whatwg.org/#surrogate"},
+"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects": {"displayText":"Error","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"Error","type":"exception","url":"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects"},
+"https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects": {"displayText":"FinalizationRegistry","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"FinalizationRegistry","type":"interface","url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects"},
+"https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects": {"displayText":"WeakRef","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"WeakRef","type":"interface","url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects"},
+"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects": {"displayText":"BigInt","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"BigInt","type":"interface","url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects"},
+"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects": {"displayText":"Date","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"Date","type":"interface","url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-objects"},
 "https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date.now": {"displayText":"now()","export":true,"for_":["Date"],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"now()","type":"method","url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date.now"},
-"https://tc39.github.io/ecma262/#sec-bigint-objects": {"displayText":"BigInt","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"BigInt","type":"interface","url":"https://tc39.github.io/ecma262/#sec-bigint-objects"},
-"https://tc39.github.io/ecma262/#sec-date-objects": {"displayText":"Date","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"Date","type":"interface","url":"https://tc39.github.io/ecma262/#sec-date-objects"},
-"https://tc39.github.io/ecma262/#sec-error-objects": {"displayText":"Error","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"Error","type":"interface","url":"https://tc39.github.io/ecma262/#sec-error-objects"},
-"https://tc39.github.io/ecma262/#sec-finalization-registry-objects": {"displayText":"FinalizationRegistry","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"FinalizationRegistry","type":"interface","url":"https://tc39.github.io/ecma262/#sec-finalization-registry-objects"},
-"https://tc39.github.io/ecma262/#sec-number-objects": {"displayText":"Number","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"Number","type":"interface","url":"https://tc39.github.io/ecma262/#sec-number-objects"},
-"https://tc39.github.io/ecma262/#sec-weak-ref-objects": {"displayText":"WeakRef","export":true,"for_":[],"level":"","normative":true,"shortname":"ecma262","spec":"ecma262","status":"anchor-block","text":"WeakRef","type":"interface","url":"https://tc39.github.io/ecma262/#sec-weak-ref-objects"},
+"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects": {"displayText":"Number","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"Number","type":"interface","url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects"},
 "https://url.spec.whatwg.org/#concept-url": {"displayText":"URL","export":true,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"url","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url"},
 "https://url.spec.whatwg.org/#dom-urlsearchparams-delete": {"displayText":"delete(name)","export":true,"for_":["URLSearchParams"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"delete(name)","type":"method","url":"https://url.spec.whatwg.org/#dom-urlsearchparams-delete"},
 "https://url.spec.whatwg.org/#dom-urlsearchparams-has": {"displayText":"has(name)","export":true,"for_":["URLSearchParams"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"has(name)","type":"method","url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
-"https://url.spec.whatwg.org/#percent-encode": {"displayText":"percent-encode","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"percent-encode","type":"abstract-op","url":"https://url.spec.whatwg.org/#percent-encode"},
 "https://url.spec.whatwg.org/#urlsearchparams": {"displayText":"URLSearchParams","export":true,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"URLSearchParams","type":"interface","url":"https://url.spec.whatwg.org/#urlsearchparams"},
-"https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml": {"displayText":"innerHTML","export":true,"for_":["Element"],"level":"","normative":true,"shortname":"dom-parsing","spec":"dom-parsing","status":"anchor-block","text":"innerHTML","type":"attribute","url":"https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml"},
 "https://w3c.github.io/FileAPI/#dfn-Blob": {"displayText":"Blob","export":true,"for_":[],"level":"1","normative":true,"shortname":"fileapi","spec":"fileapi","status":"current","text":"Blob","type":"interface","url":"https://w3c.github.io/FileAPI/#dfn-Blob"},
 "https://w3c.github.io/IndexedDB/#idbdatabase": {"displayText":"IDBDatabase","export":true,"for_":[],"level":"3","normative":true,"shortname":"indexeddb","spec":"indexeddb-3","status":"current","text":"IDBDatabase","type":"interface","url":"https://w3c.github.io/IndexedDB/#idbdatabase"},
 "https://w3c.github.io/IntersectionObserver/#intersectionobserver": {"displayText":"IntersectionObserver","export":true,"for_":[],"level":"1","normative":true,"shortname":"intersection-observer","spec":"intersection-observer","status":"current","text":"IntersectionObserver","type":"interface","url":"https://w3c.github.io/IntersectionObserver/#intersectionobserver"},
+"https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue": {"displayText":"task queues","export":true,"for_":["service worker registration"],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"task queues","type":"dfn","url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue"},
 "https://w3c.github.io/gamepad/#dom-gamepad": {"displayText":"Gamepad","export":true,"for_":[],"level":"1","normative":true,"shortname":"gamepad","spec":"gamepad","status":"current","text":"Gamepad","type":"interface","url":"https://w3c.github.io/gamepad/#dom-gamepad"},
 "https://w3c.github.io/hr-time/#dom-domhighrestimestamp": {"displayText":"DOMHighResTimeStamp","export":true,"for_":[],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"DOMHighResTimeStamp","type":"typedef","url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "https://w3c.github.io/hr-time/#dom-performance-now": {"displayText":"now()","export":true,"for_":["Performance"],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"now()","type":"method","url":"https://w3c.github.io/hr-time/#dom-performance-now"},
+"https://w3c.github.io/i18n-glossary/#dfn-percent-encoding": {"displayText":"percent-encoding","export":true,"for_":[],"level":"1","normative":false,"shortname":"i18n-glossary","spec":"i18n-glossary","status":"current","text":"percent-encoding","type":"dfn","url":"https://w3c.github.io/i18n-glossary/#dfn-percent-encoding"},
 "https://w3c.github.io/manifest/#dfn-short_name": {"displayText":"short_name","export":true,"for_":["manifest"],"level":"1","normative":true,"shortname":"appmanifest","spec":"appmanifest","status":"current","text":"short_name","type":"dfn","url":"https://w3c.github.io/manifest/#dfn-short_name"},
+"https://w3c.github.io/payment-request/#dfn-state": {"displayText":"[[state]]","export":false,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"[[state]]","type":"attribute","url":"https://w3c.github.io/payment-request/#dfn-state"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest": {"displayText":"PaymentRequest","export":true,"for_":[],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"PaymentRequest","type":"interface","url":"https://w3c.github.io/payment-request/#dom-paymentrequest"},
 "https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
 "https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose": {"displayText":"prompt the user to choose","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"prompt the user to choose","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "https://w3c.github.io/permissions/#dfn-request-permission-to-use": {"displayText":"request permission to use","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"request permission to use","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
-"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback device","export":true,"for_":[],"level":"","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"anchor-block","text":"remote playback device","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
-"https://w3c.github.io/remote-playback/#remoteplayback-interface": {"displayText":"RemotePlayback","export":true,"for_":[],"level":"","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"anchor-block","text":"RemotePlayback","type":"interface","url":"https://w3c.github.io/remote-playback/#remoteplayback-interface"},
+"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback devices","export":false,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"remote playback devices","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
+"https://w3c.github.io/remote-playback/#dom-remoteplayback": {"displayText":"RemotePlayback","export":true,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"RemotePlayback","type":"interface","url":"https://w3c.github.io/remote-playback/#dom-remoteplayback"},
 "https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining": {"displayText":"timeRemaining()","export":true,"for_":["IdleDeadline"],"level":"1","normative":true,"shortname":"requestidlecallback","spec":"requestidlecallback","status":"current","text":"timeRemaining()","type":"method","url":"https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining"},
 "https://w3c.github.io/uievents/#keyboardevent": {"displayText":"KeyboardEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"KeyboardEvent","type":"interface","url":"https://w3c.github.io/uievents/#keyboardevent"},
 "https://w3c.github.io/uievents/#mouseevent": {"displayText":"MouseEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"MouseEvent","type":"interface","url":"https://w3c.github.io/uievents/#mouseevent"},
@@ -5701,7 +5691,6 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#idl-unsigned-long-long": {"displayText":"unsigned long long","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unsigned long long","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unsigned-long-long"},
 "https://webidl.spec.whatwg.org/#sequence-type": {"displayText":"sequence type","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"sequence type","type":"dfn","url":"https://webidl.spec.whatwg.org/#sequence-type"},
 "https://www.rfc-editor.org/rfc/rfc9110.html#name-accept": {"displayText":"Accept","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc9110","spec":"rfc9110","status":"anchor-block","text":"accept","type":"http-header","url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
-"https://www.w3.org/TR/payment-request/#dfn-state": {"displayText":"[[state]]","export":true,"for_":[],"level":"","normative":true,"shortname":"payment-request","spec":"payment-request","status":"anchor-block","text":"[[state]]","type":"dfn","url":"https://www.w3.org/TR/payment-request/#dfn-state"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-loaded": {"displayText":"loaded","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"loaded","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-total": {"displayText":"total","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"total","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
 "https://xhr.spec.whatwg.org/#progressevent": {"displayText":"ProgressEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"ProgressEvent","type":"interface","url":"https://xhr.spec.whatwg.org/#progressevent"},
@@ -5788,7 +5777,12 @@ function hideRefHint(refHint) {
 function showRefHint(link) {
     if(link.classList.contains("dfn-link")) return;
     const url = link.getAttribute("href");
-    const ref = refsData[url];
+    const refHintKey = link.getAttribute("data-refhint-key");
+    let key = url;
+    if(refHintKey) {
+        key = refHintKey + "_" + url;
+    }
+    const ref = refsData[key];
     if(!ref) return;
 
     hideAllRefHints(); // Only display one at this time.
