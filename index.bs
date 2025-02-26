@@ -26,6 +26,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
+spec:css2; type: property; text: line-height
 spec:dom
     type:method; for:Document; text:getElementsByTagName(qualifiedName)
     type:method; for:Document; text:createElement(qualifiedName)
