@@ -26,68 +26,21 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
-spec:dom
-    type:method; for:Document; text:getElementsByTagName(qualifiedName)
-    type:method; for:Document; text:createElement(qualifiedName)
-spec:html; type:dfn; for:/
-    text:focus update steps
-    text:task queue
-    text:event loop
-spec:html; type:element-attr; for:a
-    text:href
-    text:ping
-spec:html; type:element
-    text:a
-    text:link
-    text:script
-    text:style
+spec:css2; type: property; text: line-height
 spec:html; type:event; text:resize
-spec:selectors-4; type:selector; text::hover
+spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
+spec:remote-playback; type:dfn; text: remote playback device
 spec:webidl
     type:dfn; text:namespace
     type:idl; text:long
     type:idl; text:short
-    type:interface; text:double
-spec:web-locks; type:interface; text:LockManager
 </pre>
 <pre class='ignored-specs'>
-spec: css21
+spec: svg2
 </pre>
-<!-- Some of these 'anchors' entries are really routing around spec bugs.
-     https://github.com/w3c/remote-playback/issues/137
-     https://github.com/whatwg/html/issues/5515
-     https://github.com/whatwg/html/issues/6053
-     https://github.com/whatwg/url/issues/522
-     -->
 <pre class="anchors">
-urlPrefix: https://dom.spec.whatwg.org/; spec: DOM
-    url: #dom-document-getelementsbytagname; type: interface; for: Document; text: getElementsByTagName
-    url: #dom-document-createelement; type: interface; for: Document; text: createElement
-urlPrefix: https://w3c.github.io/DOM-Parsing/; spec: DOM-Parsing
-    url: #dom-innerhtml-innerhtml; type: attribute; for: Element; text: innerHTML
-urlPrefix: https://tc39.github.io/ecma262/; spec: ECMA262
-    url: #sec-bigint-objects; type: interface; text: BigInt
-    url: #sec-date-objects; type: interface; text: Date
-    url: #sec-error-objects; type: interface; text: Error
-    url: #sec-finalization-registry-objects; type: interface; text: FinalizationRegistry
-    url: #sec-number-objects; type: interface; text: Number
-    url: #sec-weak-ref-objects; type: interface; text: WeakRef
-urlPrefix: https://w3c.github.io/gamepad/; spec: gamepad
-    url:#event-gamepadconnected; type: event; text:gamepadconnected
-urlPrefix: https://w3c.github.io/geolocation-api/; spec: geolocation
-    url:#dom-geolocation-watchposition; type:method; for:Geolocation; text:watchPosition()
-urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
-    url: system-state.html#dom-navigator-online; type: attribute; for: NavigatorOnline; text: onLine;
-    url: media.html#dom-media-play; type:method; for:HTMLMediaElement; text:play()
 urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
     url: #name-accept; type: http-header; text: Accept
-urlPrefix: https://w3c.github.io/remote-playback/; spec: REMOTE-PLAYBACK
-    url: #remoteplayback-interface; type:interface; text: RemotePlayback
-    url: #dfn-remote-playback-devices; type:dfn; text: remote playback device
-urlPrefix: https://url.spec.whatwg.org/; spec: URL
-    url: #percent-encode; type: abstract-op; text: percent-encode
-urlPrefix: https://www.w3.org/TR/payment-request/; spec: payment-request
-    url: #dfn-state; type: dfn; text: [[state]];
 </pre>
 
 <style>
@@ -1651,7 +1604,7 @@ for (let i = 0; i < list.length; i++) {
 ```
 
 The choice to have {{ParentNode/querySelectorAll()}} return static objects
-was made after spec authors noticed that {{getElementsByTagName}}
+was made after spec authors noticed that {{Document/getElementsByTagName}}
 was causing problems.
 
 {{URLSearchParams}} isn't static,
@@ -2356,14 +2309,14 @@ If the events are deferred instead:
     the behavior of inspecting or changing state is well-defined.
 
     <span class="informative">For example, in [[payment-request]],
-    the {{PaymentRequest}}'s [=[[state]]=] internal slot
+    the {{PaymentRequest}}'s {{PaymentRequest/[[state]]}} internal slot
     explicitly tracks the object's state
     through its well-defined transitions.</span>
     * These state transitions often use the guarding technique themselves,
          to ensure the state transitions happen appropriately.
 
          For example, in [[payment-request]]
-         note the guards used around the [=[[state]]=] internal slot,
+         note the guards used around the {{PaymentRequest/[[state]]}} internal slot,
          such as in the {{PaymentRequest/show()}} algorithm.
 * if the deferred event doesn't need extra state,
     or a state machine,
@@ -2668,7 +2621,7 @@ In the specific cases explained below, it might be appropriate to use either
 
 {{USVString}} is the Web IDL type that represents [=scalar value strings=].
 For strings whose most common algorithms operate on [=scalar values=]
-(such as [$percent-encode|percent-encoding$]),
+(such as [=percent-encode|percent-encoding=]),
 or for operations which can't handle [=surrogates=] in input
 (such as APIs that pass strings through to native platform APIs),
 {{USVString}} should be used.
