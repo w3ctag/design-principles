@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 60c422380, updated Thu Feb 20 19:11:22 2025 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="af2965b6ea6db4a82788b66c0692f7758bc68a8d" name="revision">
+  <meta content="beaaef9c35bb4bac8f9956d726ee39894fc0c483" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-02-26">26 February 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-03-04">4 March 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2428,15 +2428,21 @@ or a single-page app navigation occurs.)</p>
 you can still use an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code>,
 because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code> is a request, rather than a guarantee.</p>
    <h3 class="heading settled" data-level="6.12" id="string-constants"><span class="secno">6.12. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
-   <p>If your API needs a constant, or a set of enumerated values,
-use string values.</p>
-   <p>Strings are easier for developers to inspect,
-and in JavaScript engines there is no performance benefit
-from using integers instead of strings.</p>
+   <p>Use strings as the values for constants or sets of enumerated values.</p>
+   <p>Strings make it easier for developers to inspect values
+and read code that uses those values.
+In JavaScript engines there is no performance benefit
+to using integers instead of strings.
+The values of a <a href="https://webidl.spec.whatwg.org/#idl-enums">WebIDL enum type</a> are strings in order to follow this principle.</p>
    <p>If you need to express a state which is a combination of properties,
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.</p>
+   <div class="example" id="example-b12961d6"><a class="self-link" href="#example-b12961d6"></a> The type of a dedicated Worker is set using an enumerated <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workertype" id="ref-for-workertype">WorkerType</a></code> argument.
+This has two values ("classic" and "module") and might have used a Boolean type instead.
+The use of strings costs nothing and makes code clearer. </div>
+   <div class="example" id="example-2c5eb13f"><a class="self-link" href="#example-2c5eb13f"></a> The <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate" id="ref-for-dom-xmlhttprequest-readystate">readyState</a></code> getter returns an enumerated integer value.
+Code that uses this API therefore requires that readers are familiar with the API to understand it. </div>
    <h3 class="heading settled" data-level="6.13" id="async-by-default"><span class="secno">6.13. </span><span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span><a class="self-link" href="#async-by-default"></a></h3>
    <p>In the rare case
 where you need to have both
@@ -3904,7 +3910,7 @@ and property’s casings won’t necessarily match. For example, the HTML attrib
     <p>The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
 or stored on disk, and don’t apply to the general notion of JavaScript object keys.</p>
     <p>Repeated initialisms are particularly non-uniform throughout the platform. Infamous historical
-examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
+examples that violate the above rules are <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest②">XMLHttpRequest</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement" id="ref-for-htmlhtmlelement">HTMLHtmlElement</a></code>. Don’t follow their example; instead always capitalize your
 initialisms, even if they are repeated.</p>
    </div>
    <h4 class="no-num no-toc heading settled" id="factory-naming"><span class="content">Start factory method names with <code>create</code> or <code>from</code></span><a class="self-link" href="#factory-naming"></a></h4>
@@ -4252,6 +4258,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="be0c27b2">Navigator</span>
      <li><span class="dfn-paneled" id="5d7209e9">Window</span>
      <li><span class="dfn-paneled" id="8baa72cd">WindowEventHandlers</span>
+     <li><span class="dfn-paneled" id="c262266a">WorkerType</span>
      <li><span class="dfn-paneled" id="68bf3d31">a</span>
      <li><span class="dfn-paneled" id="3fbd5055">abbr</span>
      <li><span class="dfn-paneled" id="24366e21">accept</span>
@@ -4482,6 +4489,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="d06b2b8c">XMLHttpRequest</span>
      <li><span class="dfn-paneled" id="59f1958b">XMLHttpRequestEventTarget</span>
      <li><span class="dfn-paneled" id="5528aefc">loaded</span>
+     <li><span class="dfn-paneled" id="0e833ee0">readyState</span>
      <li><span class="dfn-paneled" id="67fa4a40">total</span>
     </ul>
   </ul>
@@ -4846,6 +4854,7 @@ let dfnPanelData = {
 "0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.13. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
+"0e833ee0": {"dfnID":"0e833ee0","dfnText":"readyState","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xmlhttprequest-readystate"}],"title":"6.12. Use strings for constants and enums"}],"url":"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "112278c6": {"dfnID":"112278c6","dfnText":"Gamepad","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-gamepad"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/gamepad/#dom-gamepad"},
@@ -5007,6 +5016,7 @@ let dfnPanelData = {
 "c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.6. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
 "c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
+"c262266a": {"dfnID":"c262266a","dfnText":"WorkerType","external":true,"refSections":[{"refs":[{"id":"ref-for-workertype"}],"title":"6.12. Use strings for constants and enums"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
 "c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
@@ -5016,7 +5026,7 @@ let dfnPanelData = {
 "cbdd0aff": {"dfnID":"cbdd0aff","dfnText":"id","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-credential-id"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-credential-management/#dom-credential-id"},
 "cc212fd8": {"dfnID":"cc212fd8","dfnText":"setlike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-setlike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-setlike"},
 "cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.6. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
-"d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
+"d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"6.12. Use strings for constants and enums"},{"refs":[{"id":"ref-for-xmlhttprequest\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "d0eba3fd": {"dfnID":"d0eba3fd","dfnText":"partial interface","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-partial-interface"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
 "d38f9598": {"dfnID":"d38f9598","dfnText":"getBoundingClientRect()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-getboundingclientrect"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
 "d4127354": {"dfnID":"d4127354","dfnText":"innerHTML","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-innerhtml"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml"},
@@ -5613,6 +5623,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers": {"displayText":"WindowEventHandlers","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"WindowEventHandlers","type":"interface","url":"https://html.spec.whatwg.org/multipage/webappapis.html#windoweventhandlers"},
 "https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage": {"displayText":"localStorage","export":true,"for_":["WindowLocalStorage"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"localStorage","type":"attribute","url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope": {"displayText":"DedicatedWorkerGlobalScope","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"DedicatedWorkerGlobalScope","type":"interface","url":"https://html.spec.whatwg.org/multipage/workers.html#dedicatedworkerglobalscope"},
+"https://html.spec.whatwg.org/multipage/workers.html#workertype": {"displayText":"WorkerType","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"WorkerType","type":"enum","url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
 "https://infra.spec.whatwg.org/#ascii-code-point": {"displayText":"ASCII code point","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"ascii code point","type":"dfn","url":"https://infra.spec.whatwg.org/#ascii-code-point"},
 "https://infra.spec.whatwg.org/#code-unit": {"displayText":"code unit","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"code unit","type":"dfn","url":"https://infra.spec.whatwg.org/#code-unit"},
 "https://infra.spec.whatwg.org/#implementation-defined": {"displayText":"implementation-defined","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"implementation-defined","type":"dfn","url":"https://infra.spec.whatwg.org/#implementation-defined"},
@@ -5693,6 +5704,7 @@ let refsData = {
 "https://www.rfc-editor.org/rfc/rfc9110.html#name-accept": {"displayText":"Accept","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc9110","spec":"rfc9110","status":"anchor-block","text":"accept","type":"http-header","url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-loaded": {"displayText":"loaded","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"loaded","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-total": {"displayText":"total","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"total","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
+"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate": {"displayText":"readyState","export":true,"for_":["XMLHttpRequest"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"readyState","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate"},
 "https://xhr.spec.whatwg.org/#progressevent": {"displayText":"ProgressEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"ProgressEvent","type":"interface","url":"https://xhr.spec.whatwg.org/#progressevent"},
 "https://xhr.spec.whatwg.org/#xmlhttprequest": {"displayText":"XMLHttpRequest","export":true,"for_":[],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"XMLHttpRequest","type":"interface","url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget": {"displayText":"XMLHttpRequestEventTarget","export":true,"for_":[],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"XMLHttpRequestEventTarget","type":"interface","url":"https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget"},
