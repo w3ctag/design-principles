@@ -1996,17 +1996,31 @@ is a request, rather than a guarantee.
 
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
-If your API needs a constant, or a set of enumerated values,
-use string values.
+Use strings as the values for constants or sets of enumerated values.
 
-Strings are easier for developers to inspect,
-and in JavaScript engines there is no performance benefit
-from using integers instead of strings.
+Strings make it easier for developers to inspect values
+and read code that uses those values.
+In JavaScript engines there is no performance benefit
+to using integers instead of strings.
+The values of a [WebIDL enum type](https://webidl.spec.whatwg.org/#idl-enums)
+are strings in order to follow this principle.
 
 If you need to express a state which is a combination of properties,
 which might be expressed as a bitmask in another language,
 use a dictionary object instead.
 This object can be passed around as easily as a single bitmask value.
+
+<div class=example>
+The type of a dedicated Worker is set using an enumerated {{WorkerType}} argument.
+This has two values ("classic" and "module") and might have used a Boolean type instead.
+The use of strings costs nothing and makes code clearer.
+</div>
+
+<div class=example>
+The {{XMLHttpRequest}} {{XMLHttpRequest/readyState}} getter returns an enumerated integer value.
+Code that uses this API therefore requires that readers are familiar with the API to understand it.
+</div>
+
 
 <h3 id="async-by-default">If you need both asynchronous and synchronous methods, synchronous is the exception</h3>
 
