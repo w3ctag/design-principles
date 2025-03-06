@@ -3680,10 +3680,10 @@ For example, "A user may wish to adjust their preferences".
 
 Name things for what they do, not how they do it.
 
-Names that reflect the purpose of their subject
+Names that reflect a purpose
 are more likely to be future-proof.
 [[#removing-features|Removing APIs from the web is difficult]],
-so names need to outlast details.
+so names need to outlast any implementation detail.
 
 In particular,
 names should avoid the use of
