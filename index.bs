@@ -3860,13 +3860,10 @@ may ship the feature as a nonstandard API.
 
 When specifying how to accomplish a goal, write a single algorithm to do it,
 instead of letting implementers pick between multiple algorithms.
+
 It is very difficult to ensure that
 two different algorithms produce the same results in all cases,
 and doing so is rarely worth the cost.
-
-Multiple algorithms seem particularly tempting when defining
-how to parse file formats,
-but they are an equally bad idea in that context.
 
 <div class="example" id="html-polyglot">
 
@@ -3875,7 +3872,7 @@ that could be parsed into equivalent DOM trees
 using either the [[HTML#the-xhtml-syntax|XHTML parsing]]
 or [[HTML#syntax|HTML parsing]] algorithm.
 Authors who tried to use this syntax tended to produce documents
-that actually only worked with one of the two parsers.
+that only worked with one of the two parsers.
 
 </div>
 
