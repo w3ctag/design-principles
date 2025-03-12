@@ -3856,9 +3856,9 @@ While the best path forward may be to choose not to specify the feature,
 there is the risk that some implementations
 may ship the feature as a nonstandard API.
 
-<h3 id="multiple-algorithms">Write only one algorithm to accomplish a task</h3>
+<h3 id="multiple-algorithms">Write only one algorithm to accomplish a goal</h3>
 
-When specifying how to accomplish a task, write a single algorithm to do it,
+When specifying how to accomplish a goal, write a single algorithm to do it,
 instead of letting implementers pick between multiple algorithms.
 It is very difficult to ensure that
 two different algorithms produce the same results in all cases,
