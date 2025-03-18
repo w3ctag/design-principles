@@ -1942,11 +1942,18 @@ An API should generally be synchronous if the following rules of thumb apply:
   * The API implementation will not be blocked by a lock, filesystem or network access, for example, inter-process communication.
   * The execution time is short and deterministic.
 
+An API might need to be asynchronous if:
+  * the user agent needs to prompt the user for [permission](#consent),
+  * some information might need to be read from disk,
+    or requested from the network,
+  * the user agent may need to do a significant amount of work on another thread,
+    or in another process, before returning the result.
+  * the user agent requires up-to-date layout before returning the result.
 
-<h3 id="promises">Design asynchronous APIs using Promises</h3>
+<h3 id="promises">Design asynchronous APIs using Promises when possible</h3>
 
 If an API method needs to be asynchronous, use Promises,
-not callback functions.
+not one-time callback functions.
 
 Using Promises consistently across the web platform
 means that APIs are easier to use together,
@@ -1954,16 +1961,14 @@ such as by chaining promises.
 Promise-using code also tends to be easier to understand
 than code using callback functions.
 
-An API might need to be asynchronous if:
-  * the user agent needs to prompt the user for [permission](#consent),
-  * some information might need to be read from disk,
-    or requested from the network,
-  * the user agent may need to do a significant amount of work on another thread,
-    or in another process, before returning the result.
-
 See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>
+
+<div class="Note">
+Promises can't replace callback functions that can be invoked repeatedly.
+Use [[#events-vs-observers|Events or Observers]] instead.
+</div>
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
