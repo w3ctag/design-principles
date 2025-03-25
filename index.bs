@@ -3529,7 +3529,7 @@ Sometimes monkey patching is unavoidable (e.g., early in the design phase of a n
     </div>
     <div class="example" id="example-monkeypatch-quote-text-replace-def">
 
-    In terms of CSS2.1 block-level formatting [[CSS2]], the rules for “over-constrained” computations in [[CSS2#blockwidth]] are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.
+    In terms of CSS2.1 block-level formatting [[CSS2]], the rules for “over-constrained” computations in [[CSS2/#blockwidth]] are ignored in favor of alignment as specified here and the used value of the margin properties are therefore not adjusted to correct for the over-constraint.
 
     </div>
     <div class="example" id="example-monkeypatch-quote-text-change-idl">
