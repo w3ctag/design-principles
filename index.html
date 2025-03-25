@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 60c422380, updated Thu Feb 20 19:11:22 2025 -0800" name="generator">
+  <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="8039864795cd2abcee191d6776bf36774fd0a46d" name="revision">
+  <meta content="7861814970a0db1e1295600b5ffa6cc63bab4622" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-03-06">6 March 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-03-25">25 March 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -741,7 +741,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p> <em>This section describes the status of this document at the time of its
     publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
     latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web
-    Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em> </p>
+    Consortium">W3C</abbr> standards and drafts index</a> at https://www.w3.org/TR/.</em> </p>
    <p> This document was published by the <a href="https://www.w3.org/groups/other/tag/">Technical Architecture Group</a> as an Editor’s Draft intended for the Note track.
     This is a draft document and
     may be updated, replaced or obsoleted by other documents at any time.
@@ -1134,7 +1134,7 @@ See <a href="#feature-detect">§ 2.6 New features should be detectable</a>.</p
    <h3 class="heading settled" data-level="1.7" id="new-features"><span class="secno">1.7. </span><span class="content">Add new capabilities with care</span><a class="self-link" href="#new-features"></a></h3>
    <p>Add new capabilities to the web with consideration of existing functionality and content.</p>
    <p>The Web includes many extension points that allow for additions;
-see for example <a href="https://html.spec.whatwg.org/multipage/introduction.html#extensibility"><cite>HTML</cite> § 1.7.3 Extensibility</a>.</p>
+see for example <a href="https://html.spec.whatwg.org/multipage/introduction.html#extensibility"><cite>HTML</cite> § 1.7.2 Extensibility</a>.</p>
    <p>Before adding items, consider integration with existing, similar capabilities.
 If this leads to a preferred design approach that cannot be implemented by only adding items,
 it might still be possible; see <a href="#removing-features">§ 1.8 Remove or change capabilities only once you understand existing usage</a>.</p>
@@ -2170,7 +2170,7 @@ This can be returned from either a property, getter, or method.</p>
      <p>If static, then return a new object each time.
 In which case, this should be be a method.</p>
    </ul>
-   <h3 class="heading settled" data-level="6.4" id="prefer-dictionaries"><span class="secno">6.4. </span><span class="content">Accept optional and/or primitive arguments through dictionaries</span><span id="prefer-dict-to-bool"></span><a class="self-link" href="#prefer-dictionaries"></a></h3>
+   <h3 class="heading settled" data-level="6.4" id="prefer-dictionaries"><span class="secno">6.4. </span><span class="bs-old-id" id="prefer-dict-to-bool"></span><span class="content">Accept optional and/or primitive arguments through dictionaries</span><a class="self-link" href="#prefer-dictionaries"></a></h3>
    <p>API methods should generally use dictionary arguments
 instead of a series of optional arguments.</p>
    <p>This makes the code that calls the method more readable,
@@ -4509,7 +4509,7 @@ so they can correct this omission.</p>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
-   <dd>Nick Doty. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
+   <dd>Nick Doty; Tom Ritter. <a href="https://w3c.github.io/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. URL: <a href="https://w3c.github.io/fingerprinting-guidance/">https://w3c.github.io/fingerprinting-guidance/</a>
    <dt id="biblio-highres-time">[HIGHRES-TIME]
    <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
