@@ -322,23 +322,29 @@ they are also defined by how content uses those features.
 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
-As you add new capabilities to the web platform, do so in a way that improves the overall platform,
-for example its security, privacy or accessibility characteristics. The existence of a defect in one
-part of the platform must not be used to excuse an addition or extension to the defect, which would
-further decrease the overall platform quality. Consistency is not a good reason to propagate
-problems. Where possible, build new web capabilities that improve the overall platform quality by
-mitigating existing defects. Do not degrade existing capabilities without good reason.
+As you add new capabilities to the web platform,
+do so in a way that improves the overall platform,
+for example its security, privacy or accessibility characteristics.
 
-Do not extend a platform feature that has known defects, without considering how to address those
-defects. Extensions could create new ways in which the defect could cause problems, such as by
-encouraging more use of the defective feature.
-It is not necessary to completely fix all aspects of a defect, it is more important to consider
-mitigations or fixes when developing such an extension.
+The existence of a defect in one part of the platform
+must not be used to excuse an addition or extension to the defect,
+which would further decrease the overall platform quality.
+Consistency is not a good reason to propagate problems.
+Where possible, build new web capabilities that improve the overall platform quality
+by mitigating existing defects.
+Do not degrade existing capabilities without good reason.
 
-Parts of the web platform evolve independently. Issues that are present with a certain web
-technology now may be fixed in a subsequent iteration. Duplicating these issues makes fixing them
-more difficult. By adhering to this principle we can make sure overall platform quality improves
-over time.
+Do not extend a platform feature that has known defects,
+without considering how to address those defects.
+Extensions could create new ways in which the defect could cause problems,
+such as by encouraging more use of the defective feature.
+It is not necessary to completely fix all aspects of a defect,
+it is more important to consider mitigations or fixes when developing such an extension.
+
+Parts of the web platform evolve independently.
+Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
+Duplicating these issues makes fixing them more difficult.
+By adhering to this principle we can make sure overall platform quality improves over time.
 
 <h3 id="data-minimization">Minimize user data</h3>
 
