@@ -335,10 +335,11 @@ quality by mitigating existing defects.
 
 Do not extend a platform feature that has known defects,
 without considering how to address those defects.
-Extensions could create new ways in which the defect could cause problems,
-such as by encouraging more use of the defective feature.
-It is not necessary to completely fix all aspects of a defect,
-it is more important to consider mitigations or fixes when developing such an extension.
+It is not necessary to completely fix existing problems,
+but some attempt to address flaws is expected
+when extending a feature with known issues.
+This way, new or increased usage does not result in
+increasing the harm that the defect might cause.
 
 Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
