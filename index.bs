@@ -330,8 +330,8 @@ must not be used to excuse an addition or extension to the defect,
 which would further decrease the overall platform quality.
 
 Consistency is not a good reason to propagate problems.
-Where possible, build new web capabilities that improve the overall platform
-quality by mitigating existing defects.
+Where possible, build new web capabilities that improve the overall platform quality
+by mitigating existing defects.
 
 Do not extend a platform feature that has known defects,
 without considering how to address those defects.
