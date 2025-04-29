@@ -1525,7 +1525,7 @@ the interaction with garbage collection.
 
 <h2 id="api-surface">JavaScript API Surface Concerns</h2>
 
-<h3>Choose the Appropriate WebIDL Construct for Data and Behavior (Dictionaries, Interfaces, and Namespaces)</h3>
+<h3>Use WebIDL dictionaries, interfaces, and namespaces appropriately</h3>
 
 Web APIs commonly pass around data and functionality using WebIDL. As a specification author, decide carefully whether
 to use a dictionary, an interface, or in rare cases, a namespace.
@@ -1564,17 +1564,17 @@ Dictionaries are also highly idiomatic (i.e., natural to use in JavaScript). Pas
 
 Dictionaries, because of how they are treated by user agents, are also relatively future-proof; accommodating new members gracefully, without breaking older code.
 
-Dictionaries are best used for objects that don't need to be distigusied by type in their lifecycle (i.e., `instanceof` checks are mostly meaningless because it's always `Object`).
+Dictionaries are best used for objects that don't need to be distinguished by type in their lifecycle (i.e., `instanceof` checks are mostly meaningless because it's always `Object`).
 
-A key thing to know about dictionries is that they are "passed by value" to methods (i.e., they are copied) and that browsers engines strip unknown members when converting from JavaScript objects to a WebIDL reprensentation.
+A key thing to know about dictionaries is that they are "passed by value" to methods (i.e., they are copied) and that browsers engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
 This means that if a developer changing the value after it is passed into an API has no effect.
 
-Again, taking the `ShareData` dictinary as an example:
+Again, taking the `ShareData` dictionary as an example:
 
 ```JS
 const data = {
     "text": "Text being shared",
-    // Not in the dictionary, so removed by the browser
+    // Ignored by a browser that does not include a "whatever" parameter.
     "whatever": 123,
 };
 navigator.share(data);
@@ -1585,7 +1585,10 @@ data.text = "New text";
 
 <h4>Choose an Interface for Functionality, State, and Identity</h4>
 
-Intefaces are roughly equivalent to classes in JavaScript. Choose and an interface when a specificaiton need object with data that might also have — or eventually gain — methods, computed or readonly properties, or internal state or "slots".
+Intefaces are roughly equivalent to classes in JavaScript.
+Use an interface when a specification needs to bundle state--
+both visible properties and internal "slots"--
+with operations on that state (i.e., methods).
 
 Unlike dictrionaries, interfaces:
 
