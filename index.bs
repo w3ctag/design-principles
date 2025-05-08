@@ -1973,21 +1973,23 @@ synchronously (e.g. to take or veto some action), then that is a
 synchronous API, and should not be modelled with a promise. Instead,
 use an explicit callback or event.</p>
 
-<p>In Promise reaction callbacks, you may not require action within
-the same microtask.</p>
+<p>In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
+you may not require action within
+a fixed number of microtasks.</p>
 
 <p>This protects promise composition: patterns like <code>await</code>,
-wrapper helpers, logging, <code>Promise.race()</code>, or multiple
+wrapping helper functions, logging, <code>Promise.race()</code>, or multiple
 <code>.then()</code> branches all queue an extra microtask and must
-not cause action at a distance.</p>
+not significantly change the behavior of the code they wrap.</p>
 
 <div class=example>
-Calling <code>event.preventDefault()</code> in an event handler,
-or choosing a response object inside a
-<code>fetchEvent.respondWith()</code> callback.
+If developer-supplied code needs to be able to call <code>event.{{Event/preventDefault()}}</code>
+or choose a response object with
+<code>fetchEvent.{{FetchEvent/respondWith()}}</code>,
+it needs to be a callback rather than a reaction passed to <code>Promise.{{Promise/then()}}</code>.
 </div>
 <div class="example">
-A non-event example is the [captureController.setFocusBehavior()](https://w3c.github.io/mediacapture-screen-share/#dom-capturecontroller-setfocusbehavior)
+A non-event example is the <code>captureController.{{CaptureController/setFocusBehavior()}}</code>
 method to push a window the user has chosen to screen-capture, to
 the front. Applications can decide this based on the window chosen.
 But any delay risks click-jacking.
