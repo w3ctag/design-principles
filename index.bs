@@ -1969,15 +1969,15 @@ See also:
 <h4 id="sync-callbacks">When to use callback functions instead</h4>
 
 <p>If an algorithm requires that callback functions respond
-synchronously (e.g. to take or veto some action), then that is a
-synchronous API, and should not be modelled with a promise. Instead,
+synchronously (e.g., to take or veto some action), then that is a
+synchronous API, and should not be modeled with a Promise. Instead,
 use an explicit callback or event.</p>
 
 <p>In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
 you may not require action within
 a fixed number of microtasks.</p>
 
-<p>This protects promise composition: patterns like <code>await</code>,
+<p>This protects Promise composition: patterns like <code>await</code>,
 wrapping helper functions, logging, <code>Promise.race()</code>, or multiple
 <code>.then()</code> branches all queue an extra microtask and must
 not significantly change the behavior of the code they wrap.</p>
@@ -1990,7 +1990,7 @@ it needs to be a callback rather than a reaction passed to <code>Promise.{{Promi
 </div>
 <div class="example">
 A non-event example is the <code>captureController.{{CaptureController/setFocusBehavior()}}</code>
-method to push a window the user has chosen to screen-capture, to
+method, which pushes a window the user has chosen to screen-capture to
 the front. Applications can decide this based on the window chosen.
 But any delay risks click-jacking.
 
