@@ -1966,12 +1966,16 @@ See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>
 
-<h4 id="sync-callbacks">When to use callback functions instead</h4>
+<h4 id="sync-callbacks" class="no-num no-toc">When to use callback functions</h4>
 
-<p>If an algorithm requires that callback functions respond
-synchronously (e.g., to take or veto some action), then that is a
-synchronous API, and should not be modeled with a Promise. Instead,
-use an explicit callback or event.</p>
+Use synchronous callbacks only when an immediate response is needed.
+
+Synchronous actions are sometimes needed in APIs,
+particularly where there are latency-sensitive actions involved.
+For example, to cancel the default action a browser takes in response to an event
+or to provide input on an active synchronous process like media processing.
+Synchronous actions cannot be modeled with a Promise.
+Instead, use an explicit callback or event.
 
 <p>In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
 you may not require action within
@@ -1983,6 +1987,7 @@ wrapping helper functions, logging, <code>Promise.race()</code>, or multiple
 not significantly change the behavior of the code they wrap.</p>
 
 <div class=example>
+Event handlers are invoked and cancelled synchronously.
 If developer-supplied code needs to be able to call <code>event.{{Event/preventDefault()}}</code>
 or choose a response object with
 <code>fetchEvent.{{FetchEvent/respondWith()}}</code>,
@@ -1992,7 +1997,7 @@ it needs to be a callback rather than a reaction passed to <code>Promise.{{Promi
 A non-event example is the <code>captureController.{{CaptureController/setFocusBehavior()}}</code>
 method, which pushes a window the user has chosen to screen-capture to
 the front. Applications can decide this based on the window chosen.
-But any delay risks click-jacking.
+The challenge is that allowing delay creates an opportunity for click-jacking attacks from sites.
 
 Instead of requiring the method be called synchronously on the
 reaction microtask of the promise from `getDisplayMedia()`, the
