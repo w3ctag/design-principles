@@ -2000,7 +2000,7 @@ the front. Applications can decide this based on the window chosen.
 The challenge is that allowing delay creates an opportunity for click-jacking attacks from sites.
 
 Instead of requiring the method be called synchronously on the
-reaction microtask of the promise from `getDisplayMedia()`, the
+reaction microtask of the promise from {{getDisplayMedia()}}, the
 solution was to instead require the method be called on the
 same promise reaction task, with a one second timeout.
 </div>
