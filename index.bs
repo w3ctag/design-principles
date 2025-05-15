@@ -36,6 +36,7 @@ spec:webidl
     type:idl; text:short
 </pre>
 <pre class='ignored-specs'>
+spec: epub-34
 spec: svg2
 </pre>
 <pre class="anchors">
@@ -2765,9 +2766,9 @@ than when the capability is granted.
 As more specific information is shared,
 the
 [fingerprinting data](https://www.w3.org/TR/fingerprinting-guidance/)
-available to sites gets larger.
-There are also [[PRIVACY-PRINCIPLES#threats|other potential risks]]
-to user privacy.
+available to sites gets larger,
+as does the chance that some of the information will be
+[[PRIVACY-PRINCIPLES#sensitive-information|sensitive to the particular user]].
 
 If there is no way to design a less powerful API,
 use these guidelines when exposing device information:
