@@ -329,7 +329,9 @@ The existence of a defect in one part of the platform
 must not be used to excuse an addition or extension to the defect,
 which would further decrease the overall platform quality.
 
-Consistency is not a good reason to propagate problems.
+Consistency with existing problematic design patterns
+is not a good reason to propagate those patterns
+in newly specified Web APIs or platform features.
 Where possible, build new web capabilities that improve the overall platform quality
 by mitigating existing defects.
 
