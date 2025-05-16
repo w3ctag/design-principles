@@ -324,15 +324,25 @@ they are also defined by how content uses those features.
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
 As you add new capabilities to the web platform,
-do so in a way that improves the overall platform,
-for example its security, privacy or accessibility characteristics.
+do so in a way that improves the overall platform.
 
 The existence of a defect in one part of the platform
 must not be used to excuse an addition or extension to the defect,
 which would further decrease the overall platform quality.
+
+Consistency with existing problematic design patterns
+is not a good reason to propagate those patterns
+in newly specified Web APIs or platform features.
 Where possible, build new web capabilities that improve the overall platform quality
 by mitigating existing defects.
-Do not degrade existing capabilities without good reason.
+
+Do not extend a platform feature that has known defects,
+without considering how to address those defects.
+It is not necessary to completely fix existing problems,
+but some attempt to address flaws is expected
+when extending a feature with known issues.
+This way, new or increased usage does not result in
+increasing the harm that the defect might cause.
 
 Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
