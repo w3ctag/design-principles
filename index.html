@@ -8,7 +8,7 @@
   <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="2dacfeaf2074be60df7dbdf9f51f0268922770cf" name="revision">
+  <meta content="e10b073ce0c8064fd1479b80234df8bc62835196" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-04-30">30 April 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-05-16">16 May 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1154,14 +1154,22 @@ Web features are not solely defined in specifications;
 they are also defined by how content uses those features.</p>
    <h3 class="heading settled" data-level="1.9" id="leave-the-web-better"><span class="secno">1.9. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
    <p>As you add new capabilities to the web platform,
-do so in a way that improves the overall platform,
-for example its security, privacy or accessibility characteristics.</p>
+do so in a way that improves the overall platform.</p>
    <p>The existence of a defect in one part of the platform
 must not be used to excuse an addition or extension to the defect,
-which would further decrease the overall platform quality.
+which would further decrease the overall platform quality.</p>
+   <p>Consistency with existing problematic design patterns
+is not a good reason to propagate those patterns
+in newly specified Web APIs or platform features.
 Where possible, build new web capabilities that improve the overall platform quality
-by mitigating existing defects.
-Do not degrade existing capabilities without good reason.</p>
+by mitigating existing defects.</p>
+   <p>Do not extend a platform feature that has known defects,
+without considering how to address those defects.
+It is not necessary to completely fix existing problems,
+but some attempt to address flaws is expected
+when extending a feature with known issues.
+This way, new or increased usage does not result in
+increasing the harm that the defect might cause.</p>
    <p>Parts of the web platform evolve independently.
 Issues that are present with a certain web technology now may be fixed in a subsequent iteration.
 Duplicating these issues makes fixing them more difficult.
