@@ -1977,23 +1977,26 @@ or to provide input on an active synchronous process like media processing.
 Synchronous actions cannot be modeled with a Promise.
 Instead, use an explicit callback or event.
 
-<p>In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
+In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
 you may not require action within
-a fixed number of microtasks.</p>
+a fixed number of microtasks.
 
-<p>This protects Promise composition: patterns like <code>await</code>,
+This protects Promise composition: patterns like <code>await</code>,
 wrapping helper functions, logging, <code>Promise.race()</code>, or multiple
 <code>.then()</code> branches all queue an extra microtask and must
-not significantly change the behavior of the code they wrap.</p>
+not significantly change the behavior of the code they wrap.
 
 <div class=example>
+
 Event handlers are invoked and cancelled synchronously.
 If developer-supplied code needs to be able to call <code>event.{{Event/preventDefault()}}</code>
 or choose a response object with
 <code>fetchEvent.{{FetchEvent/respondWith()}}</code>,
 it needs to be a callback rather than a reaction passed to <code>Promise.{{Promise/then()}}</code>.
+
 </div>
 <div class="example">
+
 A non-event example is the <code>captureController.{{CaptureController/setFocusBehavior()}}</code>
 method, which pushes a window the user has chosen to screen-capture to
 the front. Applications can decide this based on the window chosen.
@@ -2003,6 +2006,7 @@ Instead of requiring the method be called synchronously on the
 reaction microtask of the promise from {{getDisplayMedia()}}, the
 solution was to instead require the method be called on the
 same promise reaction task, with a one second timeout.
+
 </div>
 
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
