@@ -1976,6 +1976,49 @@ See also:
 
 * <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>
 
+<h4 id="sync-callbacks" class="no-num no-toc">When to use callback functions</h4>
+
+Use synchronous callbacks only when an immediate response is needed.
+
+Synchronous actions are sometimes needed in APIs,
+particularly where there are latency-sensitive actions involved.
+For example, browsers need to know how to proceed immediately after an event finishes bubbling,
+and media processing can't always wait for the next task boundary.
+Synchronous actions cannot be modeled with a Promise.
+Instead, use an explicit callback or event.
+
+In [Promise reaction callbacks](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promisereaction-records),
+you may not require action within
+a fixed number of microtasks.
+
+This protects Promise composition: patterns like <code>await</code>,
+wrapping helper functions, logging, <code>Promise.race()</code>, or multiple
+<code>.then()</code> branches all queue an extra microtask and must
+not significantly change the behavior of the code they wrap.
+
+<div class=example>
+
+Event handlers are invoked and cancelled synchronously.
+If developer-supplied code needs to be able to call <code>event.{{Event/preventDefault()}}</code>
+or choose a response object with
+<code>fetchEvent.{{FetchEvent/respondWith()}}</code>,
+it needs to be a callback rather than a reaction passed to <code>Promise.{{Promise/then()}}</code>.
+
+</div>
+<div class="example">
+
+A non-event example is the <code>captureController.{{CaptureController/setFocusBehavior()}}</code>
+method, which pushes a window the user has chosen to screen-capture to
+the front. Applications can decide this based on the window chosen.
+The challenge is that allowing delay creates an opportunity for click-jacking attacks from sites.
+
+Instead of requiring the method be called synchronously on the
+reaction microtask of the promise from {{getDisplayMedia()}}, the
+solution was to instead require the method be called on the
+same promise reaction task, with a one second timeout.
+
+</div>
+
 <h3 id="aborting">Cancel asynchronous APIs/operations using AbortSignal</h3>
 
 If an asynchronous method can be cancelled,
@@ -2141,6 +2184,10 @@ See also:
 Follow the <a href="https://www.w3.org/2001/tag/doc/promises-guide#one-time-events">advice</a>
 in the <strong><a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing
 Promise-Using Specifications</a></strong> guideline.
+
+<h3 id="promises-and-reaction">Don't use promises for cancelable events</h3>
+
+See <a href="#sync-callbacks">when to use callback functions instead</a>.
 
 <h3 id="promises-and-events">Events should fire before related Promises resolve</h3>
 
