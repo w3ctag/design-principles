@@ -1972,8 +1972,8 @@ Use synchronous callbacks only when an immediate response is needed.
 
 Synchronous actions are sometimes needed in APIs,
 particularly where there are latency-sensitive actions involved.
-For example, to cancel the default action a browser takes in response to an event
-or to provide input on an active synchronous process like media processing.
+For example, browsers need to know how to proceed immediately after an event finishes bubbling,
+and media processing can't always wait for the next task boundary.
 Synchronous actions cannot be modeled with a Promise.
 Instead, use an explicit callback or event.
 
