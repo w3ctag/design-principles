@@ -14,7 +14,22 @@ With those dependencies, simply invoke `make` to build the document.
 
 Contributions are welcome to anyone who follows [our code of conduct](https://www.w3.org/Consortium/cepc/).
 
+When proposing new principles or updating existing ones, please take the [criteria](#criteria) into consideration.
 The editors will merge PRs after they have TAG consensus and will attempt to document that consensus
 by linking to the meeting minutes. If you notice a change that seems to have been merged without
 consensus, please comment on its PR or file an issue, and we'll either quickly find better evidence
 or back out the change until we can discuss it more fully.
+
+
+## Criteria
+
+The following criteria serves as a guide to help evaluate new and existing principles:
+
+* Grounded in substantive patterns observed in specs, implementations, or web content.
+* Supported by qualitative or quantitative evidence.
+* Applicable across multiple technologies or use cases over time.
+* Based on definitions from open standards communities.
+* Expresses a clear value or priority e.g., prefer simplicity, preserve individual/user's agency.
+* Logically consistent and compatible with other design principles and related guidelines (privacy, ethics, questionnaires, etc.).
+* Reflect general agreement within the TAG and broader community.
+* Address objections with sustained discussion or further refinement if needed.
