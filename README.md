@@ -29,7 +29,7 @@ The following criteria serve to guide the development of new and existing princi
 * Evidence-based.
 * Applicable across multiple technologies or use cases over time.
 * Based on definitions from open standards communities.
-* Expresses a clear value or priority e.g., prefer simplicity, preserve individual/user's agency.
+* Expresses a clear value or priority e.g., prefer simplicity, preserve individual/user's agency, aligned with the Ethical Web Principles.
 * Logically consistent and compatible with other design principles and related guidelines (privacy, ethics, questionnaires, etc.).
 * Reflect general agreement within the TAG and broader community.
 * Address objections with sustained discussion or further refinement if needed.
