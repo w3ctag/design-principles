@@ -25,8 +25,8 @@ or back out the change until we can discuss it more fully.
 
 The following criteria serve to guide the development of new and existing principles:
 
-* Grounded in substantive patterns observed in specs, implementations, or web content.
-* Supported by qualitative or quantitative evidence.
+* Grounded in patterns observed in specs, implementations, or web content.
+* Evidence-based.
 * Applicable across multiple technologies or use cases over time.
 * Based on definitions from open standards communities.
 * Expresses a clear value or priority e.g., prefer simplicity, preserve individual/user's agency.
