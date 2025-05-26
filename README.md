@@ -23,7 +23,7 @@ or back out the change until we can discuss it more fully.
 
 ## Criteria
 
-The following criteria serves as a guide to help evaluate new and existing principles:
+The following criteria serve to guide the development of new and existing principles:
 
 * Grounded in substantive patterns observed in specs, implementations, or web content.
 * Supported by qualitative or quantitative evidence.
