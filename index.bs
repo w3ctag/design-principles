@@ -3521,7 +3521,7 @@ of a larger, standardized framework.
 
 [[ENCRYPTED-MEDIA]] and [[payment-request]] are both examples of specifications
 which minimize API differences by isolating a non-standard component
-([Content Decryption Modules](https://w3c.github.io/encrypted-media/#cdm) and [payment methods](https://www.w3.org/TR/payment-method-manifest/), respectively)
+([Content Decryption Modules](https://w3c.github.io/encrypted-media/#dfn-cdm) and [payment methods](https://www.w3.org/TR/payment-method-manifest/), respectively)
 from the rest of the (shared) API surface.
 
 </div>
