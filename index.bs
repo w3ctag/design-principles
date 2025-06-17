@@ -1537,7 +1537,7 @@ The goal is to ensure ergonomic, consistent APIs that feel natural to Web develo
 
 Each construct has its own pros and cons, discussed below.
 
-<h4>Use Dictionaries for “Configuration” or “Input-Only” Data</h4>
+<h4 class="no-num no-toc">Use Dictionaries for “Configuration” or “Input-Only” Data</h4>
 
 Choose a dictionary when the part of the API represents data that is transient or you need a configuration-style object or "options bag".
 
