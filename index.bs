@@ -1523,12 +1523,15 @@ like {{WeakRef}} or {{FinalizationRegistry}},
 set accurate author expectations about
 the interaction with garbage collection.
 
-<h2 id="api-surface">JavaScript API Surface Concerns</h2>
+<h2 id="api-surface">Designing JavaScript APIs</h2>
 
 <h3>Use WebIDL dictionaries, interfaces, and namespaces appropriately</h3>
 
-Web APIs commonly pass around data and functionality using WebIDL. As a specification author, decide carefully whether
-to use a dictionary, an interface, or in rare cases, a namespace.
+Use the appropriate WebIDL mechanisms for new APIs.
+
+Web APIs commonly pass around data and functionality using WebIDL.
+As a specification author, decide carefully
+between using a dictionary, an interface, or, in rare cases, a namespace.
 
 The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers while avoiding pitfalls like "fake classes" or classes that provide no functionality.
 
