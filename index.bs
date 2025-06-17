@@ -1586,7 +1586,7 @@ navigator.share(data);
 data.text = "New text";
 ```
 
-<h4>Choose an Interface for Functionality, State, and Identity</h4>
+<h4 class="no-num no-toc">Choose an Interface for Functionality, State, and Identity</h4>
 
 Intefaces are roughly equivalent to classes in JavaScript.
 Use an interface when a specification needs to bundle state--
