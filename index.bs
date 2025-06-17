@@ -1633,7 +1633,7 @@ If warrented by the use cases, give the interface a constructor. Be mindful to n
 
 In such cases, prefer a static method on an existing object or, if absolutely necessary, mint a new namespace.
 
-<h4>Choose a namespace to Avoid “Fake Classes” for Behavior-Only Utilities</h4>
+<h4 class="no-num no-toc">Choose a namespace to Avoid “Fake Classes” for Behavior-Only Utilities</h4>
 
 A namespace is correct if everything is purely static and lacks a prototype (like the `Math`, `Intl`, `Atomics`, `Console` objects in JS).
 
@@ -1641,7 +1641,7 @@ If you only have one or two small static functions, a whole new namespace may be
 
 Conversely, a namespace that grows too large or too broad may need better organization or separate logical partitions.
 
-<h4>"Pseudo-namespaces"</h4>
+<h4 class="no-num no-toc">"Pseudo-namespaces"</h4>
 
 As WebIDL interfaces can have attributes, it is possible to create "pseudo-namespaces" by leveraging non-contructable interface as attributes.
 
