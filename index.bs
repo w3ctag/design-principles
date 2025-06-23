@@ -1630,7 +1630,7 @@ const options = {
 
 If warranted by the use cases, give the interface a constructor.
 Do not add a constructor if a class has no state.
-Doing so is considered by practice by effectively creating a fake class.
+Doing so is considered *bad practice*, as it is effectively creating a "fake class": that is, a class that doesn't do anything useful on its own, doesn't hold state, etc.
 (see `DOMParser` or `DOMImplementation` as bad examples).
 
 In such cases, prefer a static method on an existing object or, if absolutely necessary, mint a new namespace.
