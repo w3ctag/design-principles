@@ -1608,7 +1608,16 @@ if (URL.canParse(someURL)) {
 }
 ```
 
-If the interface can holds data that is useful when serialized (e.g., `GeolocationPosition`), consider adding a `toJSON()` default method. Alternatively, if it holds binary data, one can add .toBlob() an so on.
+If warranted by the use cases, give the interface a constructor.
+Do not add a constructor if a class has no state.
+Doing so is considered *bad practice*, as it is effectively creating a "fake class": that is, a class that doesn't do anything useful on its own, doesn't hold state, etc.
+(see `DOMParser` or `DOMImplementation` as bad examples).
+
+In such cases, prefer a static method on an existing object or, if absolutely necessary, mint a new namespace.
+
+<h4 class="no-num no-toc">When an interface provides useful data, add a serializer</h4>
+
+If the interface holds data that is useful when serialized (e.g., `GeolocationPosition`), consider adding a `toJSON()` default method. Alternatively, if it holds binary data, one can add .toBlob() an so on.
 
 This makes object natural to use with APIs. For example:
 
@@ -1627,13 +1636,6 @@ const options = {
     position
 };
 ```
-
-If warranted by the use cases, give the interface a constructor.
-Do not add a constructor if a class has no state.
-Doing so is considered *bad practice*, as it is effectively creating a "fake class": that is, a class that doesn't do anything useful on its own, doesn't hold state, etc.
-(see `DOMParser` or `DOMImplementation` as bad examples).
-
-In such cases, prefer a static method on an existing object or, if absolutely necessary, mint a new namespace.
 
 <h4 class="no-num no-toc">Choose a namespace to Avoid “Fake Classes” for Behavior-Only Utilities</h4>
 
