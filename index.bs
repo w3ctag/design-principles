@@ -1629,8 +1629,6 @@ Doing so is considered *bad practice*, as it is effectively creating a "fake cla
 that is, instances of the interface do nothing that a static method couldn't do.
 [`DOMParser`](https://html.spec.whatwg.org/#domparser) or [`DOMImplementation`](https://dom.spec.whatwg.org/#domimplementation) are examples of fake classes.
 
-In such cases, prefer a static method on an existing object or, if absolutely necessary, mint a new namespace.
-
 <h4 class="no-num no-toc">Provide a serializer to make interface data more accessible</h4>
 
 Add serializers to transform instances of an interface into a form that is expected to be used by many applications.
