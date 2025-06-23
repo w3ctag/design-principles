@@ -1606,7 +1606,7 @@ Use an interface when a specification needs to bundle state--
 both visible properties and internal "slots"--
 with operations on that state (i.e., methods).
 
-Unlike dictrionaries, interfaces:
+Unlike dictionaries, interfaces:
 
  * can have instances with state,
  * can have need read-only properties,
