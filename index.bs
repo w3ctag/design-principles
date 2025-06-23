@@ -1543,7 +1543,8 @@ WebIDL defines multiple constructs for defining Web APIs.
 Dictionaries, interfaces, and namespaces
 each have different properties suited to different purposes.
 
-The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers while avoiding pitfalls like "fake classes" or classes that provide no functionality.
+The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers
+while avoiding pitfalls like "fake classes" or classes that provide no functionality.
 
 <h4 class="no-num no-toc">Use Dictionaries for “Configuration” or “Input-Only” Data</h4>
 
