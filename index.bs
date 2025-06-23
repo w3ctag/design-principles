@@ -1530,7 +1530,7 @@ the interaction with garbage collection.
 Use the appropriate WebIDL mechanisms for new APIs.
 
 Web APIs commonly pass around data and functionality using WebIDL.
-As a specification author, decide carefully
+As a specification editor, decide carefully
 between using a dictionary, an interface, or, in rare cases, a namespace.
 
 The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers while avoiding pitfalls like "fake classes" or classes that provide no functionality.
