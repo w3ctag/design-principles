@@ -23,13 +23,12 @@ or back out the change until we can discuss it more fully.
 
 ## Criteria
 
-The following criteria serve to guide the development of new and existing principles:
+These criteria support consistent evaluation of proposed principles. They are not strict rules and may not all apply in every case.
 
-* Grounded in patterns observed in specs, implementations, or web content.
+* Grounded in patterns from specs, implementations, or real-world web use.
 * Evidence-based.
-* Applicable across multiple technologies or use cases over time.
-* Based on definitions from open standards communities.
-* Expresses a clear value or priority e.g., prefer simplicity, preserve individual/user's agency, aligned with the Ethical Web Principles.
-* Logically consistent and compatible with other design principles and related guidelines (privacy, ethics, questionnaires, etc.).
-* Reflect general agreement within the TAG and broader community.
-* Address objections with sustained discussion or further refinement if needed.
+* Generalisable across multiple technologies and use cases, persistent over time.
+* Informed by community practices, standards, or observed usage.
+* States a clear value or priority, e.g., prefer simplicity, preserve individual/user agency.
+* Compatible with related principles and guidelines, e.g., privacy, ethics, questionnaires, etc.
+* Reflects TAG consensus, considers broader input, and is refined as needed in response to sustained objections.
