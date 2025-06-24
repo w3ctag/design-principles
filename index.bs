@@ -1612,7 +1612,7 @@ Unlike dictionaries, interfaces:
  * can have need read-only properties,
  * can exhibit side-effects on assignment, and
  * provide the ability to check object's identity
-   (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
+    (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
 For example, the `canParse()` static method of the URL interface. 
