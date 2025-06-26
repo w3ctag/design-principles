@@ -31,4 +31,4 @@ These criteria support consistent evaluation of proposed principles. They are no
 * Informed by community practices, standards, or observed usage.
 * Guided by a clear value or priority, e.g., prefer simplicity, preserve individual/user agency.
 * Compatible with established principles and guidelines, 
-    e.g., [Privacy Principles](https://www.w3.org/TR/privacy-principles/), [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/) etc.
+    e.g., [Privacy Principles](https://www.w3.org/TR/privacy-principles/) or [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/).
