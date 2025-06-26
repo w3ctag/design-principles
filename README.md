@@ -23,7 +23,7 @@ or back out the change until we can discuss it more fully.
 
 ## Criteria
 
-These criteria support consistent evaluation of proposed principles. They are not strict rules and may not all apply in every case.
+These criteria support consistent evaluation of proposed principles. They are not strict rules and may not all apply in every case. Principles should be:
 
 * Grounded in patterns from specs, implementations, or real-world web use.
 * Evidence-based.
