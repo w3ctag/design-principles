@@ -14,7 +14,23 @@ With those dependencies, simply invoke `make` to build the document.
 
 Contributions are welcome to anyone who follows [our code of conduct](https://www.w3.org/Consortium/cepc/).
 
+When proposing new principles or updating existing ones, please take the [criteria](#criteria) into consideration.
 The editors will merge PRs after they have TAG consensus and will attempt to document that consensus
 by linking to the meeting minutes. If you notice a change that seems to have been merged without
 consensus, please comment on its PR or file an issue, and we'll either quickly find better evidence
 or back out the change until we can discuss it more fully.
+
+
+## Criteria
+
+These criteria support consistent evaluation of proposed principles.
+They are not strict rules and may not all apply in every case.
+Principles should be:
+
+* Grounded in patterns from specs, implementations, or real-world web use.
+* Evidence-based.
+* Generalisable across multiple technologies and use cases, persistent over time.
+* Informed by community practices, standards, or observed usage.
+* Guided by a clear value or priority, e.g., prefer simplicity, preserve individual/user agency.
+* Compatible with established principles and guidelines, 
+    e.g., [Privacy Principles](https://www.w3.org/TR/privacy-principles/) or [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/).
