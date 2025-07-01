@@ -1663,7 +1663,7 @@ Attaching them to an existing object might be more appropriate.
 
 Conversely, a namespace that grows too large or too broad may need better organization or separate logical partitions.
 
-<h4 class="no-num no-toc">"Pseudo-namespaces"</h4>
+<h4 id="pseudo-namespaces" class="no-num no-toc">"Pseudo-namespaces"</h4>
 
 As WebIDL interfaces can have attributes,
 it is possible to create "pseudo-namespaces"
