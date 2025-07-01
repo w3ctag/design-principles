@@ -1680,8 +1680,10 @@ For example:
 * `navigator.geolocation` - The `Geolocation` interface of the Geolocation specification.
 * `navigator.permissions` - The `Permissions` interface of the Permissions specification.
 
-Pseudo-namespaces are useful for when, as a spec author, you need access to "[=this=]" particular instance
-(e.g., where the properties of one instance may different from those of another browsing context).
+Pseudo-namespaces are useful for when, as a spec author,
+you need to refer to a specific instance of a thing
+(such as the permissions that apply to a specific browsing context, for `navigator.permissions`)
+even if that thing does not have any visible state exposed to the page.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
