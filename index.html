@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version bda5f77a0, updated Thu Jun 26 16:04:04 2025 -0700" name="generator">
+  <meta content="Bikeshed version 618007319, updated Thu Jun 26 17:23:55 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="278da734ce106d438859c0f383effc11c103b41d" name="revision">
+  <meta content="c757c9447401ebd2d67eed3dfd5584b17cfe832f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-06-26">26 June 2025</time></p>
+    <time class="dt-updated" datetime="2025-07-02">2 July 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -842,23 +842,24 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#js-gc"><span class="secno">5.3</span> <span class="content">Don’t expose garbage collection</span></a>
      </ol>
     <li>
-     <a href="#api-surface"><span class="secno">6</span> <span class="content">JavaScript API Surface Concerns</span></a>
+     <a href="#api-surface"><span class="secno">6</span> <span class="content">Designing JavaScript APIs</span></a>
      <ol class="toc">
-      <li><a href="#attributes-like-data"><span class="secno">6.1</span> <span class="content">Attributes should behave like data properties</span></a>
-      <li><a href="#live-vs-static"><span class="secno">6.2</span> <span class="content">Consider whether objects should be live or static</span></a>
-      <li><a href="#attributes-vs-methods"><span class="secno">6.3</span> <span class="content">Accessors should behave like properties, not methods</span></a>
-      <li><a href="#prefer-dictionaries"><span class="secno">6.4</span> <span class="content">Accept optional and/or primitive arguments through dictionaries</span></a>
-      <li><a href="#optional-parameters"><span class="secno">6.5</span> <span class="content">Make method arguments optional if possible</span></a>
-      <li><a href="#naming-optional-parameters"><span class="secno">6.6</span> <span class="content">Name optional arguments appropriately</span></a>
-      <li><a href="#overloading"><span class="secno">6.7</span> <span class="content">Use overloading wisely</span></a>
-      <li><a href="#constructors"><span class="secno">6.8</span> <span class="content">Classes should have constructors when possible</span></a>
-      <li><a href="#synchronous"><span class="secno">6.9</span> <span class="content">Be synchronous when appropriate</span></a>
-      <li><a href="#promises"><span class="secno">6.10</span> <span class="content">Design asynchronous APIs using Promises</span></a>
-      <li><a href="#aborting"><span class="secno">6.11</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
-      <li><a href="#string-constants"><span class="secno">6.12</span> <span class="content">Use strings for constants and enums</span></a>
-      <li><a href="#async-by-default"><span class="secno">6.13</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
-      <li><a href="#uint8array"><span class="secno">6.14</span> <span class="content">Output an array of bytes with Uint8Array</span></a>
-      <li><a href="#void-functions"><span class="secno">6.15</span> <span class="content">Return <code>undefined</code> from side-effect-causing functions</span></a>
+      <li><a href="#webidl-dictionaries-interfaces-namespaces"><span class="secno">6.1</span> <span class="content">Use WebIDL dictionaries, interfaces, and namespaces appropriately</span></a>
+      <li><a href="#attributes-like-data"><span class="secno">6.2</span> <span class="content">Attributes should behave like data properties</span></a>
+      <li><a href="#live-vs-static"><span class="secno">6.3</span> <span class="content">Consider whether objects should be live or static</span></a>
+      <li><a href="#attributes-vs-methods"><span class="secno">6.4</span> <span class="content">Accessors should behave like properties, not methods</span></a>
+      <li><a href="#prefer-dictionaries"><span class="secno">6.5</span> <span class="content">Accept optional and/or primitive arguments through dictionaries</span></a>
+      <li><a href="#optional-parameters"><span class="secno">6.6</span> <span class="content">Make method arguments optional if possible</span></a>
+      <li><a href="#naming-optional-parameters"><span class="secno">6.7</span> <span class="content">Name optional arguments appropriately</span></a>
+      <li><a href="#overloading"><span class="secno">6.8</span> <span class="content">Use overloading wisely</span></a>
+      <li><a href="#constructors"><span class="secno">6.9</span> <span class="content">Classes should have constructors when possible</span></a>
+      <li><a href="#synchronous"><span class="secno">6.10</span> <span class="content">Be synchronous when appropriate</span></a>
+      <li><a href="#promises"><span class="secno">6.11</span> <span class="content">Design asynchronous APIs using Promises</span></a>
+      <li><a href="#aborting"><span class="secno">6.12</span> <span class="content">Cancel asynchronous APIs/operations using AbortSignal</span></a>
+      <li><a href="#string-constants"><span class="secno">6.13</span> <span class="content">Use strings for constants and enums</span></a>
+      <li><a href="#async-by-default"><span class="secno">6.14</span> <span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span></a>
+      <li><a href="#uint8array"><span class="secno">6.15</span> <span class="content">Output an array of bytes with Uint8Array</span></a>
+      <li><a href="#void-functions"><span class="secno">6.16</span> <span class="content">Return <code>undefined</code> from side-effect-causing functions</span></a>
      </ol>
     <li>
      <a href="#event-design"><span class="secno">7</span> <span class="content">Event Design</span></a>
@@ -2245,8 +2246,122 @@ to depend on garbage collection,
 like <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects" id="ref-for-sec-weak-ref-objects">WeakRef</a></code> or <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects" id="ref-for-sec-finalization-registry-objects">FinalizationRegistry</a></code>,
 set accurate author expectations about
 the interaction with garbage collection.</p>
-   <h2 class="heading settled" data-level="6" id="api-surface"><span class="secno">6. </span><span class="content">JavaScript API Surface Concerns</span><a class="self-link" href="#api-surface"></a></h2>
-   <h3 class="heading settled" data-level="6.1" id="attributes-like-data"><span class="secno">6.1. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
+   <h2 class="heading settled" data-level="6" id="api-surface"><span class="secno">6. </span><span class="content">Designing JavaScript APIs</span><a class="self-link" href="#api-surface"></a></h2>
+   <h3 class="heading settled" data-level="6.1" id="webidl-dictionaries-interfaces-namespaces"><span class="secno">6.1. </span><span class="content">Use WebIDL dictionaries, interfaces, and namespaces appropriately</span><a class="self-link" href="#webidl-dictionaries-interfaces-namespaces"></a></h3>
+   <p>Use the appropriate WebIDL mechanisms for new APIs.</p>
+   <p>WebIDL defines multiple constructs for defining Web APIs.
+Dictionaries, interfaces, and namespaces
+each have different properties suited to different purposes.</p>
+   <p>The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers
+while avoiding pitfalls like "fake classes" or classes that provide no functionality.</p>
+   <h4 class="no-num no-toc heading settled" id="dictionaries-for-configuration"><span class="content">Use Dictionaries for “Configuration” or “Input-Only” Data</span><a class="self-link" href="#dictionaries-for-configuration"></a></h4>
+   <p>Choose a dictionary when the part of the API represents data that is transient,
+especially when an API accepts a set of parameters, configuration, or options.</p>
+   <p>Dictionaries are ideal for when the data doesn’t get stored or mutated; it’s just used it at the time of the call.</p>
+   <p>For example, the <a href="https://www.w3.org/TR/web-share/#dom-sharedata"><code>ShareData</code></a> member from Web Share <a data-link-type="biblio" href="#biblio-web-share" title="Web Share API">[WEB-SHARE]</a>:</p>
+<pre class="language-WebIDL highlight"><c- k>dictionary</c-> <c- nc>ShareData</c-> <c- p>{</c->
+  <c- b>USVString</c-> <c- g>title</c-><c- p>;</c->
+  <c- b>USVString</c-> <c- g>text</c-><c- p>;</c->
+  <c- b>USVString</c-> <c- g>url</c-><c- p>;</c->
+<c- p>};</c->
+</pre>
+   <p>And how it’s commonly used:</p>
+<pre class="highlight">await navigator.share({text: "Text being shared" });
+</pre>
+   <p>Dictionaries are easily extensible and makes it easy to add optional fields later as needed.
+Members of a dictionary are optional by default, but can be marked as <code>required</code> if needed.</p>
+   <p>Dictionaries are also highly idiomatic (i.e., natural to use in JavaScript).
+Passing <code>{ ... }</code> inline is the most natural way to supply configuration in JavaScript.</p>
+   <p>Dictionaries, because of how they are treated by user agents, are also relatively future-proof.
+Dictionary members that are not understood by an implementation are ignored.
+New members therefore can be added without breaking older code.</p>
+   <p>Dictionaries are best used for objects that don’t need to be distinguished by type in their lifecycle (i.e., <code>instanceof</code> checks are mostly meaningless because it’s always <code>Object</code>).</p>
+   <p>Dictionaries are "passed by value" to methods (i.e., they are copied).
+Browsers engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
+This means that changing the value after it is passed into an API has no effect.</p>
+   <p>Again, taking the <a href="https://www.w3.org/TR/web-share/#dom-sharedata"><code>ShareData</code></a> dictionary as an example:</p>
+<pre class="language-JS highlight"><c- a>const</c-> data <c- o>=</c-> <c- p>{</c->
+    <c- u>"text"</c-><c- o>:</c-> <c- u>"Text being shared"</c-><c- p>,</c->
+    <c- c1>// Ignored by a browser that does not include a "whatever" parameter.</c->
+    <c- u>"whatever"</c-><c- o>:</c-> <c- mf>123</c-><c- p>,</c->
+<c- p>};</c->
+<c- a>let</c-> p <c- o>=</c-> navigator<c- p>.</c->share<c- p>(</c->data<c- p>);</c->
+
+<c- c1>// Changing this after calling .share() has no effect</c->
+data<c- p>.</c->text <c- o>=</c-> <c- u>"New text"</c-><c- p>;</c->
+</pre>
+   <h4 class="no-num no-toc heading settled" id="interface-for-functionality-state-identity"><span class="content">Choose an Interface for Functionality, State, and Identity</span><a class="self-link" href="#interface-for-functionality-state-identity"></a></h4>
+   <p>Interfaces are roughly equivalent to classes in JavaScript.
+Use an interface when a specification needs to bundle state—​both visible properties and internal "slots"—​with operations on that state (i.e., methods).</p>
+   <p>Unlike dictionaries, interfaces:</p>
+   <ul>
+    <li data-md>
+     <p>can have instances with state,</p>
+    <li data-md>
+     <p>can have need read-only properties,</p>
+    <li data-md>
+     <p>can exhibit side-effects on assignment, and</p>
+    <li data-md>
+     <p>provide the ability to check object’s identity
+(i.e., one can check if  it is an <code>instanceof</code> a particular class on the global scope),</p>
+   </ul>
+   <p>Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
+For example, the <code>canParse()</code> static method of the URL interface.</p>
+<pre class="language-JS highlight"><c- k>if</c-> <c- p>(</c->URL<c- p>.</c->canParse<c- p>(</c->someURL<c- p>))</c-> <c- p>{</c->
+    <c- c1>// Do stuff...</c->
+<c- p>}</c->
+</pre>
+   <p>Give stateful interfaces a constructor, if possible.
+Do not add a constructor if a class has no state.
+Doing so is considered <em>bad practice</em>, as it is effectively creating a "fake class":
+that is, instances of the interface do nothing that a static method couldn’t do.
+<a href="https://html.spec.whatwg.org/#domparser"><code>DOMParser</code></a> or <a href="https://dom.spec.whatwg.org/#domimplementation"><code>DOMImplementation</code></a> are examples of fake classes.</p>
+   <h4 class="no-num no-toc heading settled" id="interface-serializer"><span class="content">Provide a serializer to make interface data more accessible</span><a class="self-link" href="#interface-serializer"></a></h4>
+   <p>Add serializers to transform instances of an interface into a form that is expected to be used by many applications.</p>
+   <p>A <code>.toJSON()</code> method allows an instance of an interface to produce a useful JSON serialization.
+A <code>.toBlob()</code> method can be used to extract a binary representation of an interface.</p>
+   <p>This makes object natural to use with APIs.
+For example, <a href="https://www.w3.org/TR/geolocation/#dom-geolocationposition"><code>GeolocationPosition</code></a>
+provides a <code>toJSON()</code> method:</p>
+<pre class="language-JS highlight"><c- a>const</c-> position <c- o>=</c-> <c- k>await</c-> <c- ow>new</c-> Promise<c- p>((</c->resolve<c- p>,</c-> reject<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
+    navigator<c- p>.</c->geolocation<c- p>.</c->getCurrentPosition<c- p>(</c->resolve<c- p>,</c-> reject<c- p>);</c->
+<c- p>});</c->
+
+<c- a>const</c-> message <c- o>=</c-> JSON<c- p>.</c->stringify<c- p>({</c->
+    user<c- o>:</c-> userId<c- p>,</c->
+    time<c- o>:</c-> Date<c- p>.</c->now<c- p>(),</c->
+    position<c- p>,</c-> <c- c1>// .stringify() calls .toJSON() automatically</c->
+<c- p>});</c->
+</pre>
+   <h4 class="no-num no-toc heading settled" id="namespace-to-avoid-fake-classes"><span class="content">Choose a namespace to Avoid “Fake Classes” for Behavior-Only Utilities</span><a class="self-link" href="#namespace-to-avoid-fake-classes"></a></h4>
+   <p>A namespace exists to group a set of static properties and methods.
+A namespace does not have a prototype.
+Examples include the <code>Math</code>, <code>Intl</code>, <code>Atomics</code>, and <code>Console</code> objects in JS.</p>
+   <p>With one or two small static functions, a whole new namespace may be overkill.
+Attaching them to an existing object might be more appropriate.</p>
+   <p>Conversely, a namespace that grows too large or too broad may need better organization or separate logical partitions.</p>
+   <h4 class="no-num no-toc heading settled" id="pseudo-namespaces"><span class="content">"Pseudo-namespaces"</span><a class="self-link" href="#pseudo-namespaces"></a></h4>
+   <p>As WebIDL interfaces can have attributes,
+it is possible to create "pseudo-namespaces"
+by defining non-constructable interfaces as attributes.</p>
+   <p>A common example are all the attributes attaches to the <code>navigator</code> object.
+The <code>navigator</code> object has an interface definition (<a href="https://html.spec.whatwg.org/#navigator"><code>Navigator</code></a>),
+which itself contains other attributes that gives access to further functionality
+through interface instances.</p>
+   <p>For example:</p>
+   <ul>
+    <li data-md>
+     <p><code>navigator.credentials</code> - The <code>CredentialsContainer</code> interface of the Credentials Management API.</p>
+    <li data-md>
+     <p><code>navigator.geolocation</code> - The <code>Geolocation</code> interface of the Geolocation specification.</p>
+    <li data-md>
+     <p><code>navigator.permissions</code> - The <code>Permissions</code> interface of the Permissions specification.</p>
+   </ul>
+   <p>Pseudo-namespaces are useful for when, as a spec author,
+you need to refer to a specific instance of a thing
+(such as the permissions that apply to a specific browsing context, for <code>navigator.permissions</code>)
+even if that thing does not have any visible state exposed to the page.</p>
+   <h3 class="heading settled" data-level="6.2" id="attributes-like-data"><span class="secno">6.2. </span><span class="content">Attributes should behave like data properties</span><a class="self-link" href="#attributes-like-data"></a></h3>
    <p><a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a> attributes should act like simple JavaScript object properties.</p>
    <p>In reality, IDL attributes are implemented as accessor properties
 with separate getter and setter methods.
@@ -2272,7 +2387,7 @@ For example, <code class="idl"><a data-link-type="idl" href="https://drafts.cssw
 which can be complex and time-consuming.
 It would have been better if this had been a method like <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect" id="ref-for-dom-element-getboundingclientrect">getBoundingClientRect()</a></code>.
 </div>
-   <h3 class="heading settled" data-level="6.2" id="live-vs-static"><span class="secno">6.2. </span><span class="content">Consider whether objects should be live or static</span><a class="self-link" href="#live-vs-static"></a></h3>
+   <h3 class="heading settled" data-level="6.3" id="live-vs-static"><span class="secno">6.3. </span><span class="content">Consider whether objects should be live or static</span><a class="self-link" href="#live-vs-static"></a></h3>
    <p>If an API gives access to an object
 representing some internal state,
 decide whether that object should continue to be updated as the state changes.</p>
@@ -2338,9 +2453,9 @@ rather than available as an attribute.</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#attributes-like-data">§ 6.1 Attributes should behave like data properties</a></p>
+     <p><a href="#attributes-like-data">§ 6.2 Attributes should behave like data properties</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.3" id="attributes-vs-methods"><span class="secno">6.3. </span><span class="content">Accessors should behave like properties, not methods</span><a class="self-link" href="#attributes-vs-methods"></a></h3>
+   <h3 class="heading settled" data-level="6.4" id="attributes-vs-methods"><span class="secno">6.4. </span><span class="content">Accessors should behave like properties, not methods</span><a class="self-link" href="#attributes-vs-methods"></a></h3>
    <p>IDL attributes that describe object properties or getters produce information about the state of an object.</p>
    <ul>
     <li data-md>
@@ -2383,7 +2498,7 @@ This can be returned from either a property, getter, or method.</p>
      <p>If static, then return a new object each time.
 In which case, this should be be a method.</p>
    </ul>
-   <h3 class="heading settled" data-level="6.4" id="prefer-dictionaries"><span class="secno">6.4. </span><span class="bs-old-id" id="prefer-dict-to-bool"></span><span class="content">Accept optional and/or primitive arguments through dictionaries</span><a class="self-link" href="#prefer-dictionaries"></a></h3>
+   <h3 class="heading settled" data-level="6.5" id="prefer-dictionaries"><span class="secno">6.5. </span><span class="bs-old-id" id="prefer-dict-to-bool"></span><span class="content">Accept optional and/or primitive arguments through dictionaries</span><a class="self-link" href="#prefer-dictionaries"></a></h3>
    <p>API methods should generally use dictionary arguments
 instead of a series of optional arguments.</p>
    <p>This makes the code that calls the method more readable,
@@ -2433,11 +2548,11 @@ For example,
     <li data-md>
      <p><a href="https://ariya.io/2011/08/hall-of-api-shame-boolean-trap">Hall of API Shame: Boolean Trap</a>.</p>
     <li data-md>
-     <p><a href="#optional-parameters">§ 6.5 Make method arguments optional if possible</a></p>
+     <p><a href="#optional-parameters">§ 6.6 Make method arguments optional if possible</a></p>
     <li data-md>
-     <p><a href="#naming-optional-parameters">§ 6.6 Name optional arguments appropriately</a></p>
+     <p><a href="#naming-optional-parameters">§ 6.7 Name optional arguments appropriately</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.5" id="optional-parameters"><span class="secno">6.5. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
+   <h3 class="heading settled" data-level="6.6" id="optional-parameters"><span class="secno">6.6. </span><span class="content">Make method arguments optional if possible</span><a class="self-link" href="#optional-parameters"></a></h3>
    <p>If an argument for an API method has a reasonable default value,
 make that argument optional and specify the default value.</p>
    <div class="example" id="example-6724ca08"><a class="self-link" href="#example-6724ca08"></a>
@@ -2473,13 +2588,13 @@ unless otherwise required, use the following list types:</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#prefer-dictionaries">§ 6.4 Accept optional and/or primitive arguments through dictionaries</a></p>
+     <p><a href="#prefer-dictionaries">§ 6.5 Accept optional and/or primitive arguments through dictionaries</a></p>
     <li data-md>
-     <p><a href="#naming-optional-parameters">§ 6.6 Name optional arguments appropriately</a></p>
+     <p><a href="#naming-optional-parameters">§ 6.7 Name optional arguments appropriately</a></p>
     <li data-md>
      <p><a href="https://lists.w3.org/Archives/Public/public-script-coord/2013OctDec/0302.html">APIs that have boolean arguments defaulting to true</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.6" id="naming-optional-parameters"><span class="secno">6.6. </span><span class="content">Name optional arguments appropriately</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
+   <h3 class="heading settled" data-level="6.7" id="naming-optional-parameters"><span class="secno">6.7. </span><span class="content">Name optional arguments appropriately</span><a class="self-link" href="#naming-optional-parameters"></a></h3>
    <p>Name optional arguments to make the default behavior obvious
 without being named negatively.</p>
    <p>This applies whether they are provided in a <a href="#prefer-dictionaries">dictionary</a>
@@ -2511,7 +2626,7 @@ to reflect the default behaviour without using a negative.</p>
     <li data-md>
      <p><a href="#naming-is-hard">§ 12 Naming principles</a></p>
    </ul>
-   <h3 class="heading settled" data-level="6.7" id="overloading"><span class="secno">6.7. </span><span class="content">Use overloading wisely</span><a class="self-link" href="#overloading"></a></h3>
+   <h3 class="heading settled" data-level="6.8" id="overloading"><span class="secno">6.8. </span><span class="content">Use overloading wisely</span><a class="self-link" href="#overloading"></a></h3>
    <p>If the behaviour of a method will be significantly different
 depending on the arguments passed
 you should usually define a separate method
@@ -2526,7 +2641,7 @@ or if a method has different behaviour depending on the types of inputs,
 this can hinder code readability,
 and make discovering API functionality more difficult for authors,
 and should be avoided.</p>
-   <h3 class="heading settled" data-level="6.8" id="constructors"><span class="secno">6.8. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
+   <h3 class="heading settled" data-level="6.9" id="constructors"><span class="secno">6.9. </span><span class="content">Classes should have constructors when possible</span><a class="self-link" href="#constructors"></a></h3>
    <p>Make sure that any class that’s part of your API has a constructor,
 if appropriate.</p>
    <p>By default, <a data-link-type="biblio" href="#biblio-webidl" title="Web IDL Standard">[WEBIDL]</a> interfaces generate "non-constructible" classes:
@@ -2618,7 +2733,7 @@ which were originally not constructible,
 even though there was no technical reason against that.
 Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible.
 </div>
-   <h3 class="heading settled" data-level="6.9" id="synchronous"><span class="secno">6.9. </span><span class="content">Be synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
+   <h3 class="heading settled" data-level="6.10" id="synchronous"><span class="secno">6.10. </span><span class="content">Be synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
    <p>Where possible, prefer synchronous APIs when designing a new API.
 Synchronous APIs are simpler to use,
 and need less infrastructure set-up (such as making functions <code>async</code>).</p>
@@ -2631,7 +2746,7 @@ and need less infrastructure set-up (such as making functions <code>async</code>
     <li data-md>
      <p>The execution time is short and deterministic.</p>
    </ul>
-   <h3 class="heading settled" data-level="6.10" id="promises"><span class="secno">6.10. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
+   <h3 class="heading settled" data-level="6.11" id="promises"><span class="secno">6.11. </span><span class="content">Design asynchronous APIs using Promises</span><a class="self-link" href="#promises"></a></h3>
    <p>If an API method needs to be asynchronous, use Promises,
 not callback functions.</p>
    <p>Using Promises consistently across the web platform
@@ -2693,7 +2808,7 @@ reaction microtask of the promise from <code class="idl"><a data-link-type="idl"
 solution was to instead require the method be called on the
 same promise reaction task, with a one second timeout.</p>
    </div>
-   <h3 class="heading settled" data-level="6.11" id="aborting"><span class="secno">6.11. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
+   <h3 class="heading settled" data-level="6.12" id="aborting"><span class="secno">6.12. </span><span class="content">Cancel asynchronous APIs/operations using AbortSignal</span><a class="self-link" href="#aborting"></a></h3>
    <p>If an asynchronous method can be cancelled,
 allow authors to pass in an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal">AbortSignal</a></code> as part of an options dictionary.</p>
    <div class="example" id="example-52de31d9">
@@ -2717,7 +2832,7 @@ or a single-page app navigation occurs.)</p>
 you can still use an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#abortcontroller" id="ref-for-abortcontroller">AbortController</a></code>,
 because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code>
 is a request, rather than a guarantee.</p>
-   <h3 class="heading settled" data-level="6.12" id="string-constants"><span class="secno">6.12. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
+   <h3 class="heading settled" data-level="6.13" id="string-constants"><span class="secno">6.13. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
    <p>Use strings as the values for constants or sets of enumerated values.</p>
    <p>Strings make it easier for developers to inspect values
 and read code that uses those values.
@@ -2738,7 +2853,7 @@ The use of strings costs nothing and makes code clearer.
 The <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest①">XMLHttpRequest</a></code> <code class="idl"><a data-link-type="idl" href="https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate" id="ref-for-dom-xmlhttprequest-readystate">readyState</a></code> getter returns an enumerated integer value.
 Code that uses this API therefore requires that readers are familiar with the API to understand it.
 </div>
-   <h3 class="heading settled" data-level="6.13" id="async-by-default"><span class="secno">6.13. </span><span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span><a class="self-link" href="#async-by-default"></a></h3>
+   <h3 class="heading settled" data-level="6.14" id="async-by-default"><span class="secno">6.14. </span><span class="content">If you need both asynchronous and synchronous methods, synchronous is the exception</span><a class="self-link" href="#async-by-default"></a></h3>
    <p>In the rare case
 where you need to have both
 synchronous and asynchronous methods
@@ -2770,7 +2885,7 @@ between JavaScript and WASM,
 as the <a href="https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md">Promise integration</a>
 is still under development as of today.
 </div>
-   <h3 class="heading settled" data-level="6.14" id="uint8array"><span class="secno">6.14. </span><span class="content">Output an array of bytes with Uint8Array</span><a class="self-link" href="#uint8array"></a></h3>
+   <h3 class="heading settled" data-level="6.15" id="uint8array"><span class="secno">6.15. </span><span class="content">Output an array of bytes with Uint8Array</span><a class="self-link" href="#uint8array"></a></h3>
    <p>If an API returns a byte array, make it a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Uint8Array" id="ref-for-idl-Uint8Array">Uint8Array</a></code>, not an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-ArrayBuffer" id="ref-for-idl-ArrayBuffer">ArrayBuffer</a></code>.</p>
    <p><code>ArrayBuffer</code>s cannot be read from directly;
 the developer would have to create a view such as a Uint8Array
@@ -2779,7 +2894,7 @@ Providing a <code>Uint8Array</code> avoids that additional effort.</p>
    <p>If the bytes in the buffer have a natural intepretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Float32Array" id="ref-for-idl-Float32Array">Float32Array</a></code>.</p>
-   <h3 class="heading settled" data-level="6.15" id="void-functions"><span class="secno">6.15. </span><span class="content">Return <code>undefined</code> from side-effect-causing functions</span><a class="self-link" href="#void-functions"></a></h3>
+   <h3 class="heading settled" data-level="6.16" id="void-functions"><span class="secno">6.16. </span><span class="content">Return <code>undefined</code> from side-effect-causing functions</span><a class="self-link" href="#void-functions"></a></h3>
    <p>When the purpose of a function
 is to cause side effects
 and not to compute a value,
@@ -4592,9 +4707,9 @@ so they can correct this omission.</p>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
    <li><a href="#propdef-font-size-adjust">font-size-adjust</a><span>, in § 11.4.1</span>
-   <li><a href="#live-object">live object</a><span>, in § 6.2</span>
+   <li><a href="#live-object">live object</a><span>, in § 6.3</span>
    <li><a href="#monkey-patch">monkey patch</a><span>, in § 11.4</span>
-   <li><a href="#static-object">static object</a><span>, in § 6.2</span>
+   <li><a href="#static-object">static object</a><span>, in § 6.3</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
@@ -5126,6 +5241,8 @@ so they can correct this omission.</p>
    <dd>Mark Nottingham. <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/"><cite>Unsanctioned Web Tracking</cite></a>. 17 July 2015. TAG Finding. URL: <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">http://www.w3.org/2001/tag/doc/unsanctioned-tracking/</a>
    <dt id="biblio-web-locks">[WEB-LOCKS]
    <dd>Joshua Bell; Kagami Rosylight. <a href="https://w3c.github.io/web-locks/"><cite>Web Locks API</cite></a>. URL: <a href="https://w3c.github.io/web-locks/">https://w3c.github.io/web-locks/</a>
+   <dt id="biblio-web-share">[WEB-SHARE]
+   <dd>Marcos Caceres; Eric Willigers; Matt Giuca. <a href="https://w3c.github.io/web-share/"><cite>Web Share API</cite></a>. URL: <a href="https://w3c.github.io/web-share/">https://w3c.github.io/web-share/</a>
    <dt id="biblio-webaudio">[WebAudio]
    <dd>Paul Adenot; Hongchan Choi. <a href="https://webaudio.github.io/web-audio-api/"><cite>Web Audio API</cite></a>. URL: <a href="https://webaudio.github.io/web-audio-api/">https://webaudio.github.io/web-audio-api/</a>
    <dt id="biblio-webcrypto-2">[WEBCRYPTO-2]
@@ -5371,38 +5488,38 @@ let dfnPanelData = {
 "072b36ca": {"dfnID":"072b36ca","dfnText":"timeout(milliseconds)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortsignal-timeout"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#dom-abortsignal-timeout"},
 "08baaf46": {"dfnID":"08baaf46","dfnText":"remove()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-childnode-remove"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://dom.spec.whatwg.org/#dom-childnode-remove"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
-"0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
+"0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.15. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
 "0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
 "0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.13. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
-"0e833ee0": {"dfnID":"0e833ee0","dfnText":"readyState","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xmlhttprequest-readystate"}],"title":"6.12. Use strings for constants and enums"}],"url":"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate"},
+"0e833ee0": {"dfnID":"0e833ee0","dfnText":"readyState","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xmlhttprequest-readystate"}],"title":"6.13. Use strings for constants and enums"}],"url":"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
-"1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
+"1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.16. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "112278c6": {"dfnID":"112278c6","dfnText":"Gamepad","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-gamepad"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/gamepad/#dom-gamepad"},
 "11289557": {"dfnID":"11289557","dfnText":"figcaption","external":true,"refSections":[{"refs":[{"id":"ref-for-the-figcaption-element"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element"},
 "11e0b87f": {"dfnID":"11e0b87f","dfnText":"unrestricted double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-unrestricted-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
-"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"}],"title":"7.8. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2467"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
+"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"}],"title":"7.8. Use plain Events for state"},{"refs":[{"id":"ref-for-event\u2467"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
 "12cf38c9": {"dfnID":"12cf38c9","dfnText":"initial-letter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter"},
-"141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
+"141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
 "16310992": {"dfnID":"16310992","dfnText":"<number>","external":true,"refSections":[{"refs":[{"id":"ref-for-number-value"},{"id":"ref-for-number-value\u2460"}],"title":"4.3. Choose the computed value type based on how the property should inherit"},{"refs":[{"id":"ref-for-number-value\u2461"},{"id":"ref-for-number-value\u2462"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#number-value"},
 "1748bbeb": {"dfnID":"1748bbeb","dfnText":"details","external":true,"refSections":[{"refs":[{"id":"ref-for-the-details-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-details-element"},
 "1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
-"19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
+"19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.12. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
 "1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
-"2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
+"2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "21ec9802": {"dfnID":"21ec9802","dfnText":"inherit","external":true,"refSections":[{"refs":[{"id":"ref-for-css-inheritance"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#css-inheritance"},
 "2296404c": {"dfnID":"2296404c","dfnText":"signal abort","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller-signal-abort"},{"id":"ref-for-abortcontroller-signal-abort\u2460"},{"id":"ref-for-abortcontroller-signal-abort\u2461"},{"id":"ref-for-abortcontroller-signal-abort\u2462"},{"id":"ref-for-abortcontroller-signal-abort\u2463"},{"id":"ref-for-abortcontroller-signal-abort\u2464"},{"id":"ref-for-abortcontroller-signal-abort\u2465"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller-signal-abort"},
 "22cb9a16": {"dfnID":"22cb9a16","dfnText":"ByteString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ByteString"},{"id":"ref-for-idl-ByteString\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-ByteString"},
 "24366e21": {"dfnID":"24366e21","dfnText":"accept","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-accept"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-accept"},
-"296f3551": {"dfnID":"296f3551","dfnText":"Element","external":true,"refSections":[{"refs":[{"id":"ref-for-element"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#element"},
+"296f3551": {"dfnID":"296f3551","dfnText":"Element","external":true,"refSections":[{"refs":[{"id":"ref-for-element"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#element"},
 "2aaa2f42": {"dfnID":"2aaa2f42","dfnText":"HTTP fetch","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-http-fetch"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://fetch.spec.whatwg.org/#concept-http-fetch"},
 "2bc0cdf4": {"dfnID":"2bc0cdf4","dfnText":"EventTarget","external":true,"refSections":[{"refs":[{"id":"ref-for-eventtarget"},{"id":"ref-for-eventtarget\u2460"},{"id":"ref-for-eventtarget\u2461"},{"id":"ref-for-eventtarget\u2462"},{"id":"ref-for-eventtarget\u2463"},{"id":"ref-for-eventtarget\u2464"},{"id":"ref-for-eventtarget\u2465"},{"id":"ref-for-eventtarget\u2466"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#eventtarget"},
 "2c73cb69": {"dfnID":"2c73cb69","dfnText":"languagechange","external":true,"refSections":[{"refs":[{"id":"ref-for-event-languagechange"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/indices.html#event-languagechange"},
 "2c82d279": {"dfnID":"2c82d279","dfnText":"audio","external":true,"refSections":[{"refs":[{"id":"ref-for-audio"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/media.html#audio"},
 "2e3a180b": {"dfnID":"2e3a180b","dfnText":"[[state]]","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-state"},{"id":"ref-for-dfn-state\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://w3c.github.io/payment-request/#dfn-state"},
-"2e66eaf1": {"dfnID":"2e66eaf1","dfnText":"AbortController","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortcontroller\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller"},
-"2f8afbfe": {"dfnID":"2f8afbfe","dfnText":"ArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ArrayBuffer"}],"title":"6.14. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
+"2e66eaf1": {"dfnID":"2e66eaf1","dfnText":"AbortController","external":true,"refSections":[{"refs":[{"id":"ref-for-abortcontroller"}],"title":"6.12. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortcontroller\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortcontroller"},
+"2f8afbfe": {"dfnID":"2f8afbfe","dfnText":"ArrayBuffer","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-ArrayBuffer"}],"title":"6.15. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-ArrayBuffer"},
 "30011333": {"dfnID":"30011333","dfnText":"percent-encoding","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-percent-encoding"}],"title":"8.2. Represent strings appropriately"}],"url":"https://w3c.github.io/i18n-glossary/#dfn-percent-encoding"},
 "31133468": {"dfnID":"31133468","dfnText":"open","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-details-open"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#attr-details-open"},
 "31559e1b": {"dfnID":"31559e1b","dfnText":"define(name, constructor, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-customelementregistry-define"}],"title":"5.1. Use JavaScript for Web APIs"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
@@ -5415,17 +5532,17 @@ let dfnPanelData = {
 "3c05c488": {"dfnID":"3c05c488","dfnText":"Accept","external":true,"refSections":[{"refs":[{"id":"ref-for-name-accept"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "3da24a47": {"dfnID":"3da24a47","dfnText":"ping","external":true,"refSections":[{"refs":[{"id":"ref-for-ping"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/links.html#ping"},
 "3f03fff1": {"dfnID":"3f03fff1","dfnText":"datalist","external":true,"refSections":[{"refs":[{"id":"ref-for-the-datalist-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
-"3f597ac1": {"dfnID":"3f597ac1","dfnText":"createImageBitmap(image, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-createimagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap"},
+"3f597ac1": {"dfnID":"3f597ac1","dfnText":"createImageBitmap(image, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-createimagebitmap"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap"},
 "3fbd5055": {"dfnID":"3fbd5055","dfnText":"abbr","external":true,"refSections":[{"refs":[{"id":"ref-for-the-abbr-element"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element"},
 "434af3a5": {"dfnID":"434af3a5","dfnText":"now()","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-date.now"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date.now"},
 "46335198": {"dfnID":"46335198","dfnText":"delete(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-delete"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-delete"},
 "47574099": {"dfnID":"47574099","dfnText":"short","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-short"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-short"},
-"478bb3aa": {"dfnID":"478bb3aa","dfnText":"ImageBitmap","external":true,"refSections":[{"refs":[{"id":"ref-for-imagebitmap"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap"},
+"478bb3aa": {"dfnID":"478bb3aa","dfnText":"ImageBitmap","external":true,"refSections":[{"refs":[{"id":"ref-for-imagebitmap"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap"},
 "47fe679e": {"dfnID":"47fe679e","dfnText":"transient activation","external":true,"refSections":[{"refs":[{"id":"ref-for-transient-activation"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation"},
 "4872935b": {"dfnID":"4872935b","dfnText":"resize","external":true,"refSections":[{"refs":[{"id":"ref-for-event-media-resize"}],"title":"7.6. Use events for notification"}],"url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
 "4fe61159": {"dfnID":"4fe61159","dfnText":"resolved value","external":true,"refSections":[{"refs":[{"id":"ref-for-resolved-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#resolved-value"},
 "50e555d8": {"dfnID":"50e555d8","dfnText":"once","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-addeventlisteneroptions-once"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once"},
-"529179ea": {"dfnID":"529179ea","dfnText":"Crypto","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Crypto"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/webcrypto/#dfn-Crypto"},
+"529179ea": {"dfnID":"529179ea","dfnText":"Crypto","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Crypto"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/webcrypto/#dfn-Crypto"},
 "535dd335": {"dfnID":"535dd335","dfnText":"aborted","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-aborted"},{"id":"ref-for-abortsignal-aborted\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-aborted"},
 "537cf076": {"dfnID":"537cf076","dfnText":"?","external":true,"refSections":[{"refs":[{"id":"ref-for-mult-opt"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#mult-opt"},
 "54fa0afb": {"dfnID":"54fa0afb","dfnText":"backdrop-filter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-backdrop-filter"}],"title":"11.3. Resolving tension between interoperability and implementability"}],"url":"https://drafts.fxtf.org/filter-effects-2/#propdef-backdrop-filter"},
@@ -5436,25 +5553,25 @@ let dfnPanelData = {
 "5ab7b520": {"dfnID":"5ab7b520","dfnText":"reflect","external":true,"refSections":[{"refs":[{"id":"ref-for-reflect"}],"title":"8.2. Represent strings appropriately"},{"refs":[{"id":"ref-for-reflect\u2460"},{"id":"ref-for-reflect\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect"},
 "5bcbeb1e": {"dfnID":"5bcbeb1e","dfnText":"getDisplayMedia()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-mediadevices-getdisplaymedia"}],"title":"When to use callback functions"}],"url":"https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia"},
 "5c35dd47": {"dfnID":"5c35dd47","dfnText":"sandbox","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-iframe-sandbox"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox"},
-"5d7209e9": {"dfnID":"5d7209e9","dfnText":"Window","external":true,"refSections":[{"refs":[{"id":"ref-for-window"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-window\u2460"}],"title":"7.5. Always add event handler attributes"},{"refs":[{"id":"ref-for-window\u2461"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"5d7209e9": {"dfnID":"5d7209e9","dfnText":"Window","external":true,"refSections":[{"refs":[{"id":"ref-for-window"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-window\u2460"}],"title":"7.5. Always add event handler attributes"},{"refs":[{"id":"ref-for-window\u2461"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
 "5d83727e": {"dfnID":"5d83727e","dfnText":"actual value","external":true,"refSections":[{"refs":[{"id":"ref-for-actual-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#actual-value"},
 "5def70a6": {"dfnID":"5def70a6","dfnText":"querySelectorAll(selectors)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-parentnode-queryselectorall"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"},
-"5eafebb0": {"dfnID":"5eafebb0","dfnText":"sequence type","external":true,"refSections":[{"refs":[{"id":"ref-for-sequence-type"},{"id":"ref-for-sequence-type\u2460"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-sequence-type\u2461"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#sequence-type"},
+"5eafebb0": {"dfnID":"5eafebb0","dfnText":"sequence type","external":true,"refSections":[{"refs":[{"id":"ref-for-sequence-type"},{"id":"ref-for-sequence-type\u2460"}],"title":"6.6. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-sequence-type\u2461"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#sequence-type"},
 "5f45e759": {"dfnID":"5f45e759","dfnText":"FinalizationRegistry","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-finalization-registry-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects"},
 "5f753d3e": {"dfnID":"5f753d3e","dfnText":"action","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-fs-action"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
-"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"},{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
+"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"},{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"}],"title":"6.16. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
 "5f9c7266": {"dfnID":"5f9c7266","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects"},
-"5fcd7fc5": {"dfnID":"5fcd7fc5","dfnText":"createElement(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
+"5fcd7fc5": {"dfnID":"5fcd7fc5","dfnText":"createElement(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "611cb8cd": {"dfnID":"611cb8cd","dfnText":"respondWith(r)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-fetchevent-respondwith"}],"title":"When to use callback functions"}],"url":"https://w3c.github.io/ServiceWorker/#dom-fetchevent-respondwith"},
-"613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.15. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
+"613edb27": {"dfnID":"613edb27","dfnText":"play()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-media-play"},{"id":"ref-for-dom-media-play\u2460"}],"title":"6.16. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#dom-media-play"},
 "66aee777": {"dfnID":"66aee777","dfnText":"type","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-type"},{"id":"ref-for-attr-input-type\u2460"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-type"},
 "67fa4a40": {"dfnID":"67fa4a40","dfnText":"total","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-progressevent-total"}],"title":"7.7. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
 "680651c3": {"dfnID":"680651c3","dfnText":"NonElementParentNode","external":true,"refSections":[{"refs":[{"id":"ref-for-nonelementparentnode"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#nonelementparentnode"},
 "68bf3d31": {"dfnID":"68bf3d31","dfnText":"a","external":true,"refSections":[{"refs":[{"id":"ref-for-the-a-element"},{"id":"ref-for-the-a-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element"},
 "68c033c8": {"dfnID":"68c033c8","dfnText":"getElementsByTagName(qualifiedName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-getelementsbytagname"},{"id":"ref-for-dom-document-getelementsbytagname\u2460"},{"id":"ref-for-dom-document-getelementsbytagname\u2461"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-dom-document-getelementsbytagname\u2462"},{"id":"ref-for-dom-document-getelementsbytagname\u2463"}],"title":"Static objects"}],"url":"https://dom.spec.whatwg.org/#dom-document-getelementsbytagname"},
 "6a288f2a": {"dfnID":"6a288f2a","dfnText":"microtask","external":true,"refSections":[{"refs":[{"id":"ref-for-microtask"}],"title":"5.2. Preserve run-to-completion semantics"},{"refs":[{"id":"e2b55c350"}],"title":"7.3. Events should fire before related Promises resolve"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#microtask"},
-"6cf6f82f": {"dfnID":"6cf6f82f","dfnText":"addEventListener(type, callback)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2460"}],"title":"6.6. Name optional arguments appropriately"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2461"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener"},
+"6cf6f82f": {"dfnID":"6cf6f82f","dfnText":"addEventListener(type, callback)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener"}],"title":"6.6. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2460"}],"title":"6.7. Name optional arguments appropriately"},{"refs":[{"id":"ref-for-dom-eventtarget-addeventlistener\u2461"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-eventtarget-addeventlistener"},
 "6cfa013d": {"dfnID":"6cfa013d","dfnText":"link","external":true,"refSections":[{"refs":[{"id":"ref-for-the-link-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-link-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-link-element"},
 "6e923df0": {"dfnID":"6e923df0","dfnText":"Error","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-error-objects"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects"},
 "6ec67710": {"dfnID":"6ec67710","dfnText":"|","external":true,"refSections":[{"refs":[{"id":"ref-for-comb-one"},{"id":"ref-for-comb-one\u2460"},{"id":"ref-for-comb-one\u2461"},{"id":"ref-for-comb-one\u2462"},{"id":"ref-for-comb-one\u2463"},{"id":"ref-for-comb-one\u2464"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-values-4/#comb-one"},
@@ -5470,7 +5587,7 @@ let dfnPanelData = {
 "7e4cbc4d": {"dfnID":"7e4cbc4d","dfnText":"acronym","external":true,"refSections":[{"refs":[{"id":"ref-for-acronym"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#acronym"},
 "7f21931f": {"dfnID":"7f21931f","dfnText":"NamedNodeMap","external":true,"refSections":[{"refs":[{"id":"ref-for-namednodemap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#namednodemap"},
 "7f769aa9": {"dfnID":"7f769aa9","dfnText":"remote playback device","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
-"82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.8. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
+"82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
 "83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
 "84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
@@ -5489,7 +5606,7 @@ let dfnPanelData = {
 "8dba5fba": {"dfnID":"8dba5fba","dfnText":"\"no-referrer-when-downgrade\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-referrerpolicy-no-referrer-when-downgrade"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
 "93c4bcc0": {"dfnID":"93c4bcc0","dfnText":"ismap","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap"},
 "946a9318": {"dfnID":"946a9318","dfnText":"form","external":true,"refSections":[{"refs":[{"id":"ref-for-the-form-element"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-form-element"},
-"95d7775a": {"dfnID":"95d7775a","dfnText":"Uint8Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Uint8Array"}],"title":"6.14. Output an array of bytes with Uint8Array"},{"refs":[{"id":"ref-for-idl-Uint8Array\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-Uint8Array"},
+"95d7775a": {"dfnID":"95d7775a","dfnText":"Uint8Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Uint8Array"}],"title":"6.15. Output an array of bytes with Uint8Array"},{"refs":[{"id":"ref-for-idl-Uint8Array\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-Uint8Array"},
 "96c16e60": {"dfnID":"96c16e60","dfnText":"Node","external":true,"refSections":[{"refs":[{"id":"ref-for-node"}],"title":"Live objects"},{"refs":[{"id":"ref-for-node\u2460"},{"id":"ref-for-node\u2461"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#node"},
 "96ffbcca": {"dfnID":"96ffbcca","dfnText":"selected","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-option-selected"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected"},
 "9714d594": {"dfnID":"9714d594","dfnText":"HTMLCollection","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlcollection"},{"id":"ref-for-htmlcollection\u2460"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-htmlcollection\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#htmlcollection"},
@@ -5501,7 +5618,7 @@ let dfnPanelData = {
 "9d861566": {"dfnID":"9d861566","dfnText":"showModal()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-dialog-showmodal"}],"title":"11.2.1. Define algorithms clearly"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal"},
 "9dc3e09f": {"dfnID":"9dc3e09f","dfnText":"q","external":true,"refSections":[{"refs":[{"id":"ref-for-the-q-element"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element"},
 "9e3cc993": {"dfnID":"9e3cc993","dfnText":"RemotePlayback","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-remoteplayback"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dom-remoteplayback"},
-"a2411b6a": {"dfnID":"a2411b6a","dfnText":"History","external":true,"refSections":[{"refs":[{"id":"ref-for-history-3"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
+"a2411b6a": {"dfnID":"a2411b6a","dfnText":"History","external":true,"refSections":[{"refs":[{"id":"ref-for-history-3"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
 "a3fb968a": {"dfnID":"a3fb968a","dfnText":"surrogate","external":true,"refSections":[{"refs":[{"id":"ref-for-surrogate"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#surrogate"},
 "a46ec9f9": {"dfnID":"a46ec9f9","dfnText":"IDBDatabase","external":true,"refSections":[{"refs":[{"id":"ref-for-idbdatabase"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://w3c.github.io/IndexedDB/#idbdatabase"},
 "a4eb3c57": {"dfnID":"a4eb3c57","dfnText":"used value","external":true,"refSections":[{"refs":[{"id":"ref-for-used-value"},{"id":"ref-for-used-value\u2460"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#used-value"},
@@ -5519,7 +5636,7 @@ let dfnPanelData = {
 "b0d7f3c3": {"dfnID":"b0d7f3c3","dfnText":"USVString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-USVString"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-idl-USVString\u2460"},{"id":"ref-for-idl-USVString\u2461"},{"id":"ref-for-idl-USVString\u2462"},{"id":"ref-for-idl-USVString\u2463"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-USVString"},
 "b203675a": {"dfnID":"b203675a","dfnText":"getComputedStyle(elt)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-window-getcomputedstyle"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle"},
 "b2f8a695": {"dfnID":"b2f8a695","dfnText":"alert()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-alert-noargs"}],"title":"1.3. Trusted user interface should be trustworthy"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
-"b6fb7a51": {"dfnID":"b6fb7a51","dfnText":"custom element","external":true,"refSections":[{"refs":[{"id":"ref-for-custom-element"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element"},
+"b6fb7a51": {"dfnID":"b6fb7a51","dfnText":"custom element","external":true,"refSections":[{"refs":[{"id":"ref-for-custom-element"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element"},
 "b75bb3bd": {"dfnID":"b75bb3bd","dfnText":"SecureContext","external":true,"refSections":[{"refs":[{"id":"ref-for-SecureContext"},{"id":"ref-for-SecureContext\u2460"}],"title":"2.8. Consider limiting new features to secure contexts"}],"url":"https://webidl.spec.whatwg.org/#SecureContext"},
 "b7d73f5b": {"dfnID":"b7d73f5b","dfnText":"Blob","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-Blob"},{"id":"ref-for-dfn-Blob\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://w3c.github.io/FileAPI/#dfn-Blob"},
 "b815f411": {"dfnID":"b815f411","dfnText":"update the rendering","external":true,"refSections":[{"refs":[{"id":"ref-for-update-the-rendering"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering"},
@@ -5531,9 +5648,9 @@ let dfnPanelData = {
 "bc5645aa": {"dfnID":"bc5645aa","dfnText":"octet","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-octet"},{"id":"ref-for-idl-octet\u2460"},{"id":"ref-for-idl-octet\u2461"},{"id":"ref-for-idl-octet\u2462"},{"id":"ref-for-idl-octet\u2463"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-octet"},
 "bc9fe445": {"dfnID":"bc9fe445","dfnText":"createAttribute(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createattribute"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
 "bcc085e3": {"dfnID":"bcc085e3","dfnText":"request permission to use","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-request-permission-to-use"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
-"bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.15. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
+"bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.16. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
 "bdcd112d": {"dfnID":"bdcd112d","dfnText":"bigint","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-bigint"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-bigint"},
-"be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
+"be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
 "bf77e69a": {"dfnID":"bf77e69a","dfnText":"WeakRef","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-weak-ref-objects"}],"title":"5.3. Don\u2019t expose garbage collection"}],"url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects"},
 "bfa87d79": {"dfnID":"bfa87d79","dfnText":"short_name","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-short_name"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/manifest/#dfn-short_name"},
 "bfff6250": {"dfnID":"bfff6250","dfnText":"button","external":true,"refSections":[{"refs":[{"id":"ref-for-the-button-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
@@ -5541,27 +5658,27 @@ let dfnPanelData = {
 "c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.6. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
 "c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
-"c262266a": {"dfnID":"c262266a","dfnText":"WorkerType","external":true,"refSections":[{"refs":[{"id":"ref-for-workertype"}],"title":"6.12. Use strings for constants and enums"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
+"c262266a": {"dfnID":"c262266a","dfnText":"WorkerType","external":true,"refSections":[{"refs":[{"id":"ref-for-workertype"}],"title":"6.13. Use strings for constants and enums"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
-"c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
+"c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
 "c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
 "c7af4825": {"dfnID":"c7af4825","dfnText":"getElementById(elementId)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-nonelementparentnode-getelementbyid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid"},
 "ca0c892d": {"dfnID":"ca0c892d","dfnText":"href (for a)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-hyperlink-href"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-attr-hyperlink-href\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href"},
 "cbdd0aff": {"dfnID":"cbdd0aff","dfnText":"id","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-credential-id"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/webappsec-credential-management/#dom-credential-id"},
 "cc212fd8": {"dfnID":"cc212fd8","dfnText":"setlike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-setlike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-setlike"},
-"cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.11. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
-"d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.5. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"6.12. Use strings for constants and enums"},{"refs":[{"id":"ref-for-xmlhttprequest\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
+"cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.12. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
+"d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.6. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"6.13. Use strings for constants and enums"},{"refs":[{"id":"ref-for-xmlhttprequest\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "d0eba3fd": {"dfnID":"d0eba3fd","dfnText":"partial interface","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-partial-interface"}],"title":"11.4.1. If you need to monkey patch"}],"url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
-"d38f9598": {"dfnID":"d38f9598","dfnText":"getBoundingClientRect()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-getboundingclientrect"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
+"d38f9598": {"dfnID":"d38f9598","dfnText":"getBoundingClientRect()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-getboundingclientrect"}],"title":"6.2. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
 "d4127354": {"dfnID":"d4127354","dfnText":"innerHTML","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-innerhtml"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml"},
 "d4b3b8bc": {"dfnID":"d4b3b8bc","dfnText":"cite","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-q-cite"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite"},
 "d62af025": {"dfnID":"d62af025","dfnText":"now()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-performance-now"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/hr-time/#dom-performance-now"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
-"d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.5. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
+"d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.6. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
 "d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
-"d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.1. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
+"d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.2. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
 "dc0eaa56": {"dfnID":"dc0eaa56","dfnText":"scrollTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-scrolltop"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-scrolltop"},
 "dc4acd27": {"dfnID":"dc4acd27","dfnText":"json()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-body-json"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#dom-body-json"},
@@ -5581,7 +5698,7 @@ let dfnPanelData = {
 "f0811ff8": {"dfnID":"f0811ff8","dfnText":"img","external":true,"refSections":[{"refs":[{"id":"ref-for-the-img-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-img-element\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-the-img-element\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element"},
 "f0951476": {"dfnID":"f0951476","dfnText":"EventHandler","external":true,"refSections":[{"refs":[{"id":"ref-for-eventhandler"}],"title":"7.5. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"},
 "f14b47b8": {"dfnID":"f14b47b8","dfnText":"unsigned long long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-unsigned-long-long"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-unsigned-long-long"},
-"f449d4f8": {"dfnID":"f449d4f8","dfnText":"open(url, target, features)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-open"}],"title":"6.8. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
+"f449d4f8": {"dfnID":"f449d4f8","dfnText":"open(url, target, features)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-open"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
 "f4813f78": {"dfnID":"f4813f78","dfnText":"byte","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-byte"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-byte"},
 "f679a0bc": {"dfnID":"f679a0bc","dfnText":"PaymentRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-paymentrequest"}],"title":"7.7. Guard against potential recursion"}],"url":"https://w3c.github.io/payment-request/#dom-paymentrequest"},
 "f6c2cd25": {"dfnID":"f6c2cd25","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects"},
