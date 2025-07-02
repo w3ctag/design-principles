@@ -1533,7 +1533,157 @@ like {{WeakRef}} or {{FinalizationRegistry}},
 set accurate author expectations about
 the interaction with garbage collection.
 
-<h2 id="api-surface">JavaScript API Surface Concerns</h2>
+<h2 id="api-surface">Designing JavaScript APIs</h2>
+
+<h3 id="webidl-dictionaries-interfaces-namespaces">Use WebIDL dictionaries, interfaces, and namespaces appropriately</h3>
+
+Use the appropriate WebIDL mechanisms for new APIs.
+
+WebIDL defines multiple constructs for defining Web APIs.
+Dictionaries, interfaces, and namespaces
+each have different properties suited to different purposes.
+
+The goal is to ensure ergonomic, consistent APIs that feel natural to Web developers
+while avoiding pitfalls like "fake classes" or classes that provide no functionality.
+
+<h4 id="dictionaries-for-configuration" class="no-num no-toc">Use Dictionaries for “Configuration” or “Input-Only” Data</h4>
+
+Choose a dictionary when the part of the API represents data that is transient,
+especially when an API accepts a set of parameters, configuration, or options.
+
+Dictionaries are ideal for when the data doesn't get stored or mutated; it's just used it at the time of the call.
+
+For example, the [`ShareData`](https://www.w3.org/TR/web-share/#dom-sharedata) member from Web Share [[WEB-SHARE]]:
+
+```WebIDL
+dictionary ShareData {
+  USVString title;
+  USVString text;
+  USVString url;
+};
+```
+
+And how it's commonly used:
+
+<pre class="highlight">
+await navigator.share({text: "Text being shared" });
+</pre>
+
+Dictionaries are easily extensible and makes it easy to add optional fields later as needed.
+Members of a dictionary are optional by default, but can be marked as `required` if needed.
+
+Dictionaries are also highly idiomatic (i.e., natural to use in JavaScript).
+Passing `{ ... }` inline is the most natural way to supply configuration in JavaScript.
+
+Dictionaries, because of how they are treated by user agents, are also relatively future-proof.
+Dictionary members that are not understood by an implementation are ignored.
+New members therefore can be added without breaking older code.
+
+Dictionaries are best used for objects that don't need to be distinguished by type in their lifecycle (i.e., `instanceof` checks are mostly meaningless because it's always `Object`).
+
+Dictionaries are "passed by value" to methods (i.e., they are copied).
+Browsers engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
+This means that changing the value after it is passed into an API has no effect.
+
+Again, taking the [`ShareData`](https://www.w3.org/TR/web-share/#dom-sharedata) dictionary as an example:
+
+```JS
+const data = {
+    "text": "Text being shared",
+    // Ignored by a browser that does not include a "whatever" parameter.
+    "whatever": 123,
+};
+let p = navigator.share(data);
+
+// Changing this after calling .share() has no effect
+data.text = "New text";
+```
+
+<h4 id="interface-for-functionality-state-identity" class="no-num no-toc">Choose an Interface for Functionality, State, and Identity</h4>
+
+Interfaces are roughly equivalent to classes in JavaScript.
+Use an interface when a specification needs to bundle state--
+both visible properties and internal "slots"--
+with operations on that state (i.e., methods).
+
+Unlike dictionaries, interfaces:
+
+ * can have instances with state,
+ * can have need read-only properties,
+ * can exhibit side-effects on assignment, and
+ * provide the ability to check object's identity
+    (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
+
+Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
+For example, the `canParse()` static method of the URL interface. 
+
+```JS
+if (URL.canParse(someURL)) {
+    // Do stuff...
+}
+```
+
+Give stateful interfaces a constructor, if possible.
+Do not add a constructor if a class has no state.
+Doing so is considered *bad practice*, as it is effectively creating a "fake class":
+that is, instances of the interface do nothing that a static method couldn't do.
+[`DOMParser`](https://html.spec.whatwg.org/#domparser) or [`DOMImplementation`](https://dom.spec.whatwg.org/#domimplementation) are examples of fake classes.
+
+<h4 id="interface-serializer" class="no-num no-toc">Provide a serializer to make interface data more accessible</h4>
+
+Add serializers to transform instances of an interface into a form that is expected to be used by many applications.
+
+A `.toJSON()` method allows an instance of an interface to produce a useful JSON serialization.
+A `.toBlob()` method can be used to extract a binary representation of an interface.
+
+This makes object natural to use with APIs.
+For example, [`GeolocationPosition`](https://www.w3.org/TR/geolocation/#dom-geolocationposition)
+provides a `toJSON()` method:
+
+```JS
+const position = await new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+});
+
+const message = JSON.stringify({
+    user: userId,
+    time: Date.now(),
+    position, // .stringify() calls .toJSON() automatically
+});
+```
+
+<h4 id="namespace-to-avoid-fake-classes" class="no-num no-toc">Choose a namespace to Avoid “Fake Classes” for Behavior-Only Utilities</h4>
+
+A namespace exists to group a set of static properties and methods.
+A namespace does not have a prototype.
+Examples include the `Math`, `Intl`, `Atomics`, and `Console` objects in JS.
+
+With one or two small static functions, a whole new namespace may be overkill.
+Attaching them to an existing object might be more appropriate.
+
+Conversely, a namespace that grows too large or too broad may need better organization or separate logical partitions.
+
+<h4 id="pseudo-namespaces" class="no-num no-toc">"Pseudo-namespaces"</h4>
+
+As WebIDL interfaces can have attributes,
+it is possible to create "pseudo-namespaces"
+by defining non-constructable interfaces as attributes.
+
+A common example are all the attributes attaches to the `navigator` object.
+The `navigator` object has an interface definition ([`Navigator`](https://html.spec.whatwg.org/#navigator)),
+which itself contains other attributes that gives access to further functionality
+through interface instances.
+
+For example:
+
+* `navigator.credentials` - The `CredentialsContainer` interface of the Credentials Management API.
+* `navigator.geolocation` - The `Geolocation` interface of the Geolocation specification.
+* `navigator.permissions` - The `Permissions` interface of the Permissions specification.
+
+Pseudo-namespaces are useful for when, as a spec author,
+you need to refer to a specific instance of a thing
+(such as the permissions that apply to a specific browsing context, for `navigator.permissions`)
+even if that thing does not have any visible state exposed to the page.
 
 <h3 id="attributes-like-data">Attributes should behave like data properties</h3>
 
