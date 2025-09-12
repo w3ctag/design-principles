@@ -182,6 +182,8 @@ as the user simply toggles this mode on when they need it.
 
 <h4 id="user-decisions">Help users make good decisions</h4>
 
+Empower good decision-making by limiting risk at the API level and
+providing clarity, context, and user control.
 Asking for user approval has been a common way to handle remaining risk.
 However, most people can't make good decisions on
 the questions they're asked (e.g., permission prompts, FedCM prompts).
@@ -195,15 +197,17 @@ empower users to make good decisions.
 Use these principles:
 
 * **Limit the consequences from a bad decision by addressing risk at the API level first.**
-    Try not to ask users questions where a "bad" decision can lead to severe consequences,
+    Do not ask users questions where a "bad" decision can lead to severe consequences,
     like a compromised device or serious personal data disclosure.
-    If you have to, make it harder for abusive sites to trick users into seeing the question.
+* **Provide constant feedback about persistent decisions.**   
     If users’ decisions last longer than the current session,
     user agents should remind users that their past decision still applies.
+    Provide a way to retract any ongoing permission,
+    including APIs to inform sites of the change in status.
 * **Ask questions people can understand.**
     The associated risks should be obvious from the question for a typical user
     and be directly connected to the feature's or API's utility.
-    This usually means we can't ask permission to accept fingerprinting risks,
+    For example, this usually means we can't ask permission to accept fingerprinting risks,
     as they are subtle, technical, and commonly have nothing to do with the capability itself.
 * **Provide sufficient context.**
     People need to easily understand who they're dealing with,
@@ -215,7 +219,7 @@ Use these principles:
     for example by clicking on a dedicated button like for the file chooser.
 
 If you can’t adhere to all of the above principles,
-then there's a "design smell" and asking the user isn't the right mitigation.
+that is likely an indication that asking the user isn't the right approach.
 Instead, change the feature or API to address any remaining risk.
 
 In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
@@ -599,8 +603,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting whether <a href="#consent">consent</a> to use the feature
-has been granted.
+detecting whether <a href="#userr-decisions">the user has been asked</a> to use the feature.
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -829,7 +832,7 @@ People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
 If an API provides access to this information
-without the user's [consent](#consent),
+without [asking the user](#user-decisions),
 this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
@@ -2133,7 +2136,7 @@ Promise-using code also tends to be easier to understand
 than code using callback functions.
 
 An API might need to be asynchronous if:
-  * the user agent needs to prompt the user for [permission](#consent),
+  * the user agent needs to prompt the user for [permission](#user-decisions),
   * some information might need to be read from disk,
     or requested from the network,
   * the user agent may need to do a significant amount of work on another thread,
@@ -3023,7 +3026,7 @@ use these guidelines when exposing device information:
 
 See also:
 
-* [[#consent]]
+* [[#user-decisions]]
 * [[LEAST-POWER]]
 * [[FINGERPRINTING-GUIDANCE]]
 * [[UNSANCTIONED-TRACKING]]
@@ -3047,7 +3050,7 @@ you may not need to expose a list to script at all.
 An API which invokes a User-Agent-provided device picker could suffice.
 Such an API:
 - keeps the user in control,
-- [helps users understand](#user-decisions) what they are deciding about,
+- [helps users understand](#user-decisions) their decisions,
 - doesn't expose any fingerprinting data about the user's environment by default, and
 - only exposes information about one device at a time.
 
@@ -3057,7 +3060,8 @@ the fact that there are devices are available to be picked.
 This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
-Ensure that such an API also provides sufficient information to [help users make good decisions](#user-decisions).
+Ensure that such an API ensures that it is possible to present sufficient information
+on user interfaces that users are able to [make good decisions](#user-decisions).
 
 <div class=example>
 The {{RemotePlayback}} interface
