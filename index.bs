@@ -1615,7 +1615,7 @@ Unlike dictionaries, interfaces:
     (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
-For example, the `canParse()` static method of the URL interface. 
+For example, the `canParse()` static method of the URL interface.
 
 ```JS
 if (URL.canParse(someURL)) {
@@ -2577,6 +2577,18 @@ provide the state of the input.
 Properties on {{InputEvent}},
 such as {{InputEvent/inputType}},
 describe the nature of an update to the state.
+</div>
+
+<div class="note">
+An example where this is handled inconsistently is {{XMLHttpRequest}},
+where some request state is on the {{XMLHttpRequest|target}},
+such as {{XMLHttpRequest/readyState}}.
+Whereas other state,
+such as {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}},
+are only available via a {{ProgressEvent}} object via a {{XMLHttpRequestEventTarget/progress}} event.
+
+If the developer gets access to the {{XMLHttpRequest}} object after the first {{XMLHttpRequestEventTarget/progress}} event,
+the current {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}} values are inaccessible to them.
 </div>
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
