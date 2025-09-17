@@ -2580,12 +2580,12 @@ describe the nature of an update to the state.
 </div>
 
 <div class="note">
-An example where this is handled inconsistently is {{XMLHttpRequest}},
-where some state is on the {{XMLHttpRequest|target}},
-such as {{XMLHttpRequest/readyState}} and {{XMLHttpRequest/status}}.
-Whereas other state,
+An example where this is handled inconsistently is {{XMLHttpRequest}}.
+Some state is on the {{XMLHttpRequest|target}},
+such as {{XMLHttpRequest/readyState}} and {{XMLHttpRequest/status}},
+whereas other state,
 such as {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}},
-is only available via a {{ProgressEvent}} object via a {{XMLHttpRequestEventTarget/progress}} event.
+is only available on {{ProgressEvent}} objects via a {{XMLHttpRequestEventTarget/progress}} event.
 
 If the developer gets access to the {{XMLHttpRequest}} object after the first {{XMLHttpRequestEventTarget/progress}} event,
 the current {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}} values are inaccessible to them.
