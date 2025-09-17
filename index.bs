@@ -2556,15 +2556,15 @@ What is more often implied by "asynchronous event" is to defer firing an event.
 
 <h3 id="state-and-subclassing">Put state on {{Event/target}} objects rather than {{Event}}s</h3>
 
-Where possible, capture any state information in the {{Event/target}} object,
-and use events with a specified `type` to signal updates to that state.
+Where possible, rather than put state on {{Event}} objects, put state on the {{Event/target}}
+and use events to signal updates to that state.
 
 <div class="note">
 This means the {{Event/target}} object can used to determine the current state,
-without waiting for the next \'change\' event.
+without waiting for the next \'update\' event.
 
 This is particularly useful if there's a final state,
-where there will be no further \'change\' events.
+where there will be no further \'update\' events.
 </div>
 
 It's usually not necessary to create new subclasses of {{Event}},
