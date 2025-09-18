@@ -2581,6 +2581,13 @@ such as {{InputEvent/inputType}},
 describe the nature of an update to the state.
 </div>
 
+In some exceptional cases, where maintaining state on an object is expensive,
+the state may be placed on the {{Event}} instances,
+allowing {{EventTarget/addEventListener}} and {{EventTarget/removeEventListener}} to signal interest/disinterest in this state.
+Although, other patterns should be considered,
+such as retuning an {{EventTarget}} from a function,
+where the function call is a similar signal of interest.
+
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
 In general, use {{EventTarget}} and notification {{Event}}s,
