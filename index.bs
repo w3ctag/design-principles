@@ -2334,7 +2334,7 @@ and each task source is associated with a task queue for an event loop.
 Order is guaranteed within a source, while the UA chooses which queue to service next.
 
 Use the generic or preexisting task sources whenever possible.
-HTML defines [[html##generic-task-sources|generic task sources]] meant for broad reuse across specs.
+HTML defines [[html#generic-task-sources|generic task sources]] meant for broad reuse across specs.
 This includes, but is not limited to:
 the [=DOM manipulation task source=],
 [=user interaction task source=],
