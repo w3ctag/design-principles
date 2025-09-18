@@ -2327,7 +2327,7 @@ See also:
 
 * [Command–query separation on Wikipedia](https://en.wikipedia.org/wiki/Command–query_separation)
 
-<h3 id="">Prefer existing task sources; mint new ones only for clear, spec-driven reasons</h3>
+<h3 id="prefer-existing-task-sources">Prefer existing task sources; mint new ones only for clear, spec-driven reasons</h3>
 Specs use task sources to group related work so UAs can schedule them sensibly.
 A task is queued on a task source,
 and each task source is associated with a task queue for an event loop.
