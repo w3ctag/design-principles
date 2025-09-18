@@ -2556,12 +2556,37 @@ as it implies that it's possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.
 
-<h3 id="state-and-subclassing">Use plain {{Event}}s for state</h3>
+<h3 id="state-and-subclassing">Put state on {{Event/target}} objects rather than {{Event}}s</h3>
 
-Where possible, use a plain {{Event}} with a specified `type`,
-and capture any state information in the {{Event/target}} object.
+Put state on the {{Event/target}}
+and use events to signal updates to that state,
+rather than having state on {{Event}} objects.
 
-It's usually not necessary to create new subclasses of {{Event}}.
+<div class="note">
+Having state on the {{Event/target}} object can used to determine the current state,
+without waiting for the next event.
+This is particularly useful if there's a final state,
+where there will be no further events.
+</div>
+
+It's usually not necessary to create new subclasses of {{Event}},
+but they can be used to provide information relating to how the state change occurred.
+
+<div class="example">
+Properties on {{HTMLInputElement}},
+such as {{HTMLInputElement/value}},
+provide the state of the input.
+Properties on {{InputEvent}},
+such as {{InputEvent/inputType}},
+describe the nature of an update to the state.
+</div>
+
+In some exceptional cases, where maintaining state on an object is expensive,
+the state may be placed on the {{Event}} instances,
+allowing {{EventTarget/addEventListener}} and {{EventTarget/removeEventListener}} to signal interest/disinterest in this state.
+Although, other patterns should be considered,
+such as retuning an {{EventTarget}} from a function,
+where the function call is a similar signal of interest.
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
