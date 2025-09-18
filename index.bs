@@ -2397,6 +2397,58 @@ Similarly, add [=event handler IDL attributes=]
 to {{WindowEventHandlers}} rather than {{Window}}.
 </p>
 
+<h3 id="events-are-for-notification">Name events in a consistent pattern</h3>
+
+New event names should follow the format
+
+[before] + {([noun] + verb) | (noun + preposition)} + [start | end] 
+
+Event names should be centered around a verb in the present tense,
+optionally following a noun as the subject or object of the verb.
+It is also allowed to use a preposition in the place of the verb,
+in which case, however, the noun must be included.
+
+This ensures that "on" + event name makes sense.
+
+<div class="example">
+Most event names use the present tense instead of the past tense.
+For example, {{load}} vs. {{loaded}}, {{resize}} vs. {{resized}}.
+
+Events like {{keydown}}, {{keyup}}, {{mouseover}}
+use a preposition instead of a verb.
+
+{{DOMContentLoaded}} is considered an anti-pattern.
+New events should not be named in this format.
+</div>
+
+<!-- before, after, start, end or nothing -->
+
+duration related: start/end
+animationstart, animationend
+
+intervention needed: before, or nothing since most events
+are dispatched before the actual change
+copy, cut, paste
+beforeunload, beforeinput (due to conflicts with unload, input)
+
+are beforeprint/afterprint antipatterns?
+
+When the event is related to a time-consuming procedure
+where both the start and end are of interest,
+there should be a pair of events
+whose names finish with words "start" and "end".
+
+Examples: animationstart, animationend
+Anipattern: beforeprint, afterprint
+
+When the event is related to a procedure,
+but only the start is of interest
+to provide a means of intervention,
+try not to include any of the words
+"before", "after", "start", "end".
+If this is not possible due to naming conflicts,
+add "before" to the event name.
+
 <h3 id="events-are-for-notification">Use events for notification</h3>
 
 Events shouldn't be used to trigger changes,
