@@ -2579,15 +2579,6 @@ such as {{InputEvent/inputType}},
 describe the nature of an update to the state.
 </div>
 
-<div class="example">
-An example where this is handled inconsistently is {{XMLHttpRequest}},
-where some state is on the {{XMLHttpRequest|target}},
-such as {{XMLHttpRequest/readyState}} and {{XMLHttpRequest/status}},
-and other state,
-such as {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}},
-is only available on {{ProgressEvent}} objects via a {{XMLHttpRequestEventTarget/progress}} event.
-</div>
-
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
 In general, use {{EventTarget}} and notification {{Event}}s,
