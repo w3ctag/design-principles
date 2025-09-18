@@ -2332,7 +2332,7 @@ See also:
 <h3 id="prefer-existing-task-sources">Prefer existing task sources; mint new ones only for clear, spec-driven reasons</h3>
 Specs use [=task sources=] to group related work (or "[=tasks=]") so UAs can schedule them sensibly.
 A task is queued on a task source,
-and each task source is associated with a task queue for an [=event loop=].
+and each task source is associated with a task queue for an [=/event loop=].
 Order is guaranteed within a source, while the UA chooses which queue to service next.
 
 Use the generic or preexisting task sources whenever possible.
@@ -2352,7 +2352,7 @@ from the generic task sources
 
 When writing a spec, prefer HTML's wrapper algorithms
 ([=queue a global task=], [=queue an element task=])
-and avoid relying on a particular [=event loop=].
+and avoid relying on a particular [=/event loop=].
 And only be explicit about the event loop when appropriate (see also [[#event-design]]).
 
 <h2 id="event-design">Event Design</h2>
