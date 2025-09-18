@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 618007319, updated Thu Jun 26 17:23:55 2025 -0700" name="generator">
+  <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="c757c9447401ebd2d67eed3dfd5584b17cfe832f" name="revision">
+  <meta content="81e3ff29351280de4a41fe461c77631a8367d27f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-07-02">2 July 2025</time></p>
+    <time class="dt-updated" datetime="2025-09-18">18 September 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -739,7 +739,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="W3C TAG Ethical Web Principles">[ETHICAL-WEB]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
+   <p>This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="Ethical Web Principles">[ETHICAL-WEB]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -748,15 +748,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     publication. A list of current
     <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
     latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web
-    Consortium">W3C</abbr> standards and drafts index</a>
-    at https://www.w3.org/TR/.</em>
+    Consortium">W3C</abbr> standards and drafts index</a>.</em>
   </p>
    <p>
     This document was published by the <a href="https://www.w3.org/groups/other/tag/">Technical Architecture Group</a>
     as an Editor’s Draft intended for the Note track.
     This is a draft document and
     may be updated, replaced, or obsoleted by other documents at any time.
-    It is inappropriate to cite this document as other than work in progress.
+    It is inappropriate to cite this document as other than a work in progress.
     Editor’s Drafts are not endorsed by <abbr title="World Wide Web
     Consortium">W3C</abbr> nor its Members.
   </p>
@@ -773,7 +772,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     licensing requirements or commitments on this document.
   </p>
    <p>
-    This document is governed by the <a href="https://www.w3.org/policies/process/20231103/" id="w3c_process_revision">03 November 2023 W3C
+    This document is governed by the <a href="https://www.w3.org/policies/process/20250818/" id="w3c_process_revision">18 August 2025 W3C
     Process Document</a>.
   </p>
   </div>
@@ -961,7 +960,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <main>
    <h2 class="heading settled" data-level="1" id="basic-principles"><span class="secno">1. </span><span class="content">Principles behind design of Web APIs</span><a class="self-link" href="#basic-principles"></a></h2>
    <p>The Design Principles are directly informed by the ethical framework
-set out in the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="W3C TAG Ethical Web Principles">[ETHICAL-WEB]</a>.
+set out in the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="Ethical Web Principles">[ETHICAL-WEB]</a>.
 These principles provide concrete practical advice
 in response to the higher level ethical responsibilities
 that come with developing the web platform.</p>
@@ -1362,8 +1361,9 @@ throughout the platform.</p>
      <p><a href="https://fetch.spec.whatwg.org/#fetch-elsewhere">Fetch</a></p>
     <li data-md>
      <p><span id="using-http"><a data-biblio-display="inline" data-link-type="biblio" href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a></span>,
-especially on <a href="https://httpwg.org/specs/rfc9205.html#section-4.7">defining header fields</a>, and
-<a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a></p>
+especially on <a href="https://httpwg.org/specs/rfc9205.html#section-4.7">defining header fields</a>,
+<a href="https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis">other HTTP RFCs</a>,
+and the <a href="https://httpwg.org/admin/editors/style-guide">HTTP Working Group style guide</a></p>
     <li data-md>
      <p><a href="https://w3c.github.io/hr-time/#sec-tools">Time</a></p>
     <li data-md>
@@ -5151,7 +5151,7 @@ so they can correct this omission.</p>
    <dt id="biblio-i18n-glossary">[I18N-GLOSSARY]
    <dd>Richard Ishida; Addison Phillips. <a href="https://w3c.github.io/i18n-glossary/"><cite>Internationalization Glossary</cite></a>. URL: <a href="https://w3c.github.io/i18n-glossary/">https://w3c.github.io/i18n-glossary/</a>
    <dt id="biblio-indexeddb-3">[IndexedDB-3]
-   <dd>Joshua Bell. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
+   <dd>Steven Becker. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
@@ -5204,11 +5204,11 @@ so they can correct this omission.</p>
    <dt id="biblio-cssom-1">[CSSOM-1]
    <dd>Daniel Glazman; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom/"><cite>CSS Object Model (CSSOM)</cite></a>. URL: <a href="https://drafts.csswg.org/cssom/">https://drafts.csswg.org/cssom/</a>
    <dt id="biblio-cssom-view-1">[CSSOM-VIEW-1]
-   <dd>Simon Pieters. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
+   <dd>Simon Fraser; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web">[ETHICAL-WEB]
-   <dd>Daniel Appelquist; Hadley Beeman. <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/"><cite>W3C TAG Ethical Web Principles</cite></a>. 27 October 2020. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/">https://www.w3.org/2001/tag/doc/ethical-web-principles/</a>
+   <dd>Daniel Appelquist; Hadley Beeman; Amy Guy. <a href="https://w3ctag.github.io/ethical-web-principles/"><cite>Ethical Web Principles</cite></a>. URL: <a href="https://w3ctag.github.io/ethical-web-principles/">https://w3ctag.github.io/ethical-web-principles/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
@@ -5250,7 +5250,7 @@ so they can correct this omission.</p>
    <dt id="biblio-webrtc">[WEBRTC]
    <dd>Cullen Jennings; et al. <a href="https://w3c.github.io/webrtc-pc/"><cite>WebRTC: Real-Time Communication in Browsers</cite></a>. URL: <a href="https://w3c.github.io/webrtc-pc/">https://w3c.github.io/webrtc-pc/</a>
    <dt id="biblio-webtransport">[WebTransport]
-   <dd>Nidhi Jaju; Victor Vasiliev. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
+   <dd>Nidhi Jaju; Victor Vasiliev; Jan-Ivar Bruaroey. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="property-index"><span class="content">Property Index</span><a class="self-link" href="#property-index"></a></h2>
   <div class="big-element-wrapper">
