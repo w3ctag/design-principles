@@ -2338,9 +2338,7 @@ HTML defines [[html##generic-task-sources|generic task sources]] meant for broad
 This includes, but is not limited to:
 the [=DOM manipulation task source=],
 [=user interaction task source=],
-[=networking task source=],
-[=navigation and traversal task source=],
-and [=rendering task source=].
+and the [=networking task source=].
 If your feature matches one of these categories,
 queue on that source rather than creating a new one.
 Doing so improves interoperability, predictability, and performance scheduling across the platform.
