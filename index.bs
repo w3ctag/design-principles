@@ -329,6 +329,7 @@ Do not assume that a change or removal is impossible without first checking.
 
 Before changing how a feature behaves,
 understand how websites are currently using it.
+
 Gaining a good understanding might require research,
 for example by adding metrics to a popular user agent
 or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
