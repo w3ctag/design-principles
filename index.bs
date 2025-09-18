@@ -2337,7 +2337,7 @@ Use the generic or preexisting task sources whenever possible.
 HTML defines [[html#generic-task-sources|generic task sources]] meant for broad reuse across specs.
 This includes, but is not limited to:
 the [=DOM manipulation task source=],
-[=user interaction task source=],
+the [=user interaction task source=],
 and the [=networking task source=].
 If your feature matches one of these categories,
 queue on that source rather than creating a new one.
