@@ -314,7 +314,7 @@ understand how websites are currently using it.
 Gaining a good understanding might require research,
 for example by adding metrics to a popular user agent
 or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
-Breaking content is harmful,
+Breaking content harms users,
 and the benefit of a change has to
 significantly outweigh that harm to be worth doing.
 
