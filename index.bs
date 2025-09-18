@@ -2556,15 +2556,15 @@ What is more often implied by "asynchronous event" is to defer firing an event.
 
 <h3 id="state-and-subclassing">Put state on {{Event/target}} objects rather than {{Event}}s</h3>
 
-Where possible, rather than put state on {{Event}} objects, put state on the {{Event/target}}
-and use events to signal updates to that state.
+Put state on the {{Event/target}}
+and use events to signal updates to that state,
+rather than having state on {{Event}} objects.
 
 <div class="note">
-This means the {{Event/target}} object can used to determine the current state,
-without waiting for the next \'update\' event.
-
+Having state on the {{Event/target}} object can used to determine the current state,
+without waiting for the next event.
 This is particularly useful if there's a final state,
-where there will be no further \'update\' events.
+where there will be no further events.
 </div>
 
 It's usually not necessary to create new subclasses of {{Event}},
@@ -2579,19 +2579,13 @@ such as {{InputEvent/inputType}},
 describe the nature of an update to the state.
 </div>
 
-<div class="note">
-An example where this is handled inconsistently is {{XMLHttpRequest}}.
-Some state is on the {{XMLHttpRequest|target}},
+<div class="example">
+An example where this is handled inconsistently is {{XMLHttpRequest}},
+where some state is on the {{XMLHttpRequest|target}},
 such as {{XMLHttpRequest/readyState}} and {{XMLHttpRequest/status}},
-whereas other state,
+and other state,
 such as {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}},
 is only available on {{ProgressEvent}} objects via a {{XMLHttpRequestEventTarget/progress}} event.
-
-If the developer gets access to the {{XMLHttpRequest}} object after the first {{XMLHttpRequestEventTarget/progress}} event,
-the current {{ProgressEvent/lengthComputable}} and {{ProgressEvent/total}} values are inaccessible to them.
-
-Instead, all state should have been on the {{XMLHttpRequest}} object,
-and the {{XMLHttpRequestEventTarget/progress}} event should have been a simple {{Event}}.
 </div>
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
