@@ -310,10 +310,10 @@ Do not assume that a change or removal is impossible without first checking.
 <h3 id=removing-features>Prioritize compatibility when changing or removing features</h3>
 
 Before changing how a feature behaves,
-fully understand how websites are currently using it.
-This might require research,
+understand how websites are currently using it.
+Gaining a good understanding might require research,
 for example by adding metrics to a popular user agent
-and/or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
+or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
 Breaking content is harmful,
 and the benefit of a change has to
 significantly outweigh that harm to be worth doing.
@@ -337,7 +337,7 @@ Breakage is more likely to be acceptable if:
     but is instead found on internal sites
     with a controlled user environment.
     Beware in this case that internal sites are
-    often invisible to our analysis tools.
+    often invisible to analysis tools designed for public content.
     Getting a single complaint is often a sign
     of a much larger amount of hidden breakage.
 * The benefit of breaking content is very large.
