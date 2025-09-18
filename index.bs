@@ -24,6 +24,24 @@ Required IDs: using-http
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
+<pre class=biblio>
+{
+  "the-web-is-unversioned": {
+    "authors": [
+      "Sangwhan Moon",
+      "Amy Guy"
+    ],
+    "href": "https://www.w3.org/2001/tag/doc/the-web-is-unversioned/",
+    "title": "The web is unversioned",
+    "status": "TAG Finding",
+    "publisher": "W3C",
+    "date": "27 March 2025",
+    "deliveredBy": [
+      "https://www.w3.org/groups/other/tag/"
+    ]
+  }
+}
+</pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:css2; type: property; text: line-height
@@ -316,7 +334,8 @@ for example by adding metrics to a popular user agent
 or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
 Breaking content harms users,
 and the benefit of a change has to
-significantly outweigh that harm to be worth doing.
+significantly outweigh that harm to be worth doing
+[[the-web-is-unversioned]].
 
 The obligation to understand existing usage
 also applies to non-standardized or unspecified features
