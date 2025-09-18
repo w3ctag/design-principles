@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="c35b9cd03bab39102ca80fd05edf1cbca9e0f559" name="revision">
+  <meta content="afb192e50e8449153fb9534833f844e74041c742" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1915,11 +1915,11 @@ results in confusion, and should be avoided.</p>
 This does not hold the other way around.
 A new IDL attribute does not always warrant a content attribute counterpart.
 </div>
-   <div class="example" id="example-6013821e"><a class="self-link" href="#example-6013821e"></a>
+   <div class="example" id="example-86fd7cdf"><a class="self-link" href="#example-86fd7cdf"></a>
 A counterpattern to this guidance can be found in
 <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element④">input</a></code>’s  <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-value" id="ref-for-attr-input-value">value</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element" id="ref-for-the-option-element①">option</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected" id="ref-for-attr-option-selected">selected</a></code>, and <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/input.html#the-input-element" id="ref-for-the-input-element⑤">input</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/input.html#attr-input-checked" id="ref-for-attr-input-checked">checked</a></code>
-where the HTML attributes were never updated
-and the IDL attribute was the single source of truth.
+where the content attributes are not reflected to IDL attributes with the same names.
+Their IDL attributes are <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultvalue" id="ref-for-dom-input-defaultvalue">defaultValue</a></code>, <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/form-elements.html#dom-option-defaultselected" id="ref-for-dom-option-defaultselected">defaultSelected</a></code> and <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultchecked" id="ref-for-dom-input-defaultchecked">defaultChecked</a></code> respectively.
 </div>
    <h3 class="heading settled" data-level="3.6" id="naming-of-url-attributes"><span class="secno">3.6. </span><span class="content">Name URL-containing attributes based on their primary purpose</span><a class="self-link" href="#naming-of-url-attributes"></a></h3>
    <p>If the element enables the user to navigate to the URL contained in the attribute, call the attribute <code>href</code>, like the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element">a</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href" id="ref-for-attr-hyperlink-href">href</a></code> attribute.</p>
@@ -4900,6 +4900,9 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="3f597ac1">createImageBitmap(image, options)</span>
      <li><span class="dfn-paneled" id="b6fb7a51">custom element</span>
      <li><span class="dfn-paneled" id="3f03fff1">datalist</span>
+     <li><span class="dfn-paneled" id="0226500f">defaultChecked</span>
+     <li><span class="dfn-paneled" id="032e4578">defaultSelected</span>
+     <li><span class="dfn-paneled" id="5fa63f4e">defaultValue</span>
      <li><span class="dfn-paneled" id="31559e1b">define(name, constructor, options)</span>
      <li><span class="dfn-paneled" id="1748bbeb">details</span>
      <li><span class="dfn-paneled" id="1812300f">dialog</span>
@@ -5478,6 +5481,8 @@ function parseHTML(markup) {
 {
 let dfnPanelData = {
 "0065f652": {"dfnID":"0065f652","dfnText":"ScriptProcessorNode","external":true,"refSections":[{"refs":[{"id":"ref-for-ScriptProcessorNode"},{"id":"ref-for-ScriptProcessorNode\u2460"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#ScriptProcessorNode"},
+"0226500f": {"dfnID":"0226500f","dfnText":"defaultChecked","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-input-defaultchecked"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultchecked"},
+"032e4578": {"dfnID":"032e4578","dfnText":"defaultSelected","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-option-defaultselected"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#dom-option-defaultselected"},
 "03431bcb": {"dfnID":"03431bcb","dfnText":"src (for script)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-script-src"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src"},
 "03675365": {"dfnID":"03675365","dfnText":"event handler IDL attribute","external":true,"refSections":[{"refs":[{"id":"ref-for-event-handler-idl-attributes"},{"id":"ref-for-event-handler-idl-attributes\u2460"},{"id":"ref-for-event-handler-idl-attributes\u2461"}],"title":"7.5. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes"},
 "056fb0bd": {"dfnID":"056fb0bd","dfnText":"TextEncoder","external":true,"refSections":[{"refs":[{"id":"ref-for-textencoder"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://encoding.spec.whatwg.org/#textencoder"},
@@ -5559,6 +5564,7 @@ let dfnPanelData = {
 "5f753d3e": {"dfnID":"5f753d3e","dfnText":"action","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-fs-action"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
 "5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"},{"id":"ref-for-idl-undefined\u2460"},{"id":"ref-for-idl-undefined\u2461"}],"title":"6.16. Return undefined from side-effect-causing functions"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
 "5f9c7266": {"dfnID":"5f9c7266","dfnText":"Number","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-number-objects"},{"id":"ref-for-sec-number-objects\u2460"},{"id":"ref-for-sec-number-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number-objects"},
+"5fa63f4e": {"dfnID":"5fa63f4e","dfnText":"defaultValue","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-input-defaultvalue"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultvalue"},
 "5fcd7fc5": {"dfnID":"5fcd7fc5","dfnText":"createElement(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createelement"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#dom-document-createelement"},
 "5fd23811": {"dfnID":"5fd23811","dfnText":"fire an event","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-event-fire"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "611cb8cd": {"dfnID":"611cb8cd","dfnText":"respondWith(r)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-fetchevent-respondwith"}],"title":"When to use callback functions"}],"url":"https://w3c.github.io/ServiceWorker/#dom-fetchevent-respondwith"},
@@ -6200,6 +6206,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action": {"displayText":"action","export":true,"for_":["form","button"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"action","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected": {"displayText":"selected","export":true,"for_":["option"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"selected","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple": {"displayText":"multiple","export":true,"for_":["select"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"multiple","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-select-multiple"},
+"https://html.spec.whatwg.org/multipage/form-elements.html#dom-option-defaultselected": {"displayText":"defaultSelected","export":true,"for_":["HTMLOptionElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"defaultSelected","type":"attribute","url":"https://html.spec.whatwg.org/multipage/form-elements.html#dom-option-defaultselected"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element": {"displayText":"button","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"button","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-button-element"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element": {"displayText":"datalist","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"datalist","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element"},
 "https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element": {"displayText":"option","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"option","type":"element","url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-option-element"},
@@ -6220,6 +6227,8 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-list": {"displayText":"list","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"list","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-list"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-type": {"displayText":"type","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"type","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-type"},
 "https://html.spec.whatwg.org/multipage/input.html#attr-input-value": {"displayText":"value","export":true,"for_":["input"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"value","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-value"},
+"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultchecked": {"displayText":"defaultChecked","export":true,"for_":["HTMLInputElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"defaultChecked","type":"attribute","url":"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultchecked"},
+"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultvalue": {"displayText":"defaultValue","export":true,"for_":["HTMLInputElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"defaultValue","type":"attribute","url":"https://html.spec.whatwg.org/multipage/input.html#dom-input-defaultvalue"},
 "https://html.spec.whatwg.org/multipage/input.html#htmlinputelement": {"displayText":"HTMLInputElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLInputElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "https://html.spec.whatwg.org/multipage/input.html#the-input-element": {"displayText":"input","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"input","type":"element","url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
 "https://html.spec.whatwg.org/multipage/interaction.html#dom-useractivation-isactive": {"displayText":"isActive","export":true,"for_":["UserActivation"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"isActive","type":"attribute","url":"https://html.spec.whatwg.org/multipage/interaction.html#dom-useractivation-isactive"},
