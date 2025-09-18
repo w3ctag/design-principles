@@ -802,8 +802,7 @@ See also:
 <h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
 
 Make sure that your API doesn't provide a way
-for authors to detect that a user is using assistive technology
-without the user's consent.
+for authors to detect that a user is using assistive technology.
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
 If a site can detect that a user is using an assistive technology,
@@ -812,8 +811,7 @@ that site can deny or restrict the user's access to the services it provides.
 People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-If an API provides access to this information
-without the user's [consent](#consent),
+If an API provides access to this information,
 this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
