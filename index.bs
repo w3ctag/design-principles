@@ -2350,7 +2350,7 @@ from the generic task sources
 
 When writing a spec, prefer HTML's wrapper algorithms
 ([=queue a global task=], [=queue an element task=])
-and avoid relying on a particular event loop.
+and avoid relying on a particular [=event loop=].
 And only be explicit about the event loop when appropriate (see [[#event-design]]).
 
 <h2 id="event-design">Event Design</h2>
