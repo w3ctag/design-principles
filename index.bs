@@ -346,7 +346,7 @@ implementation bugs.
 
 Despite this, it is sometimes acceptable
 to break some existing content
-in order to help a large number of the web's users.
+in order to improve the experience for a large number of web users.
 Breakage is more likely to be acceptable if:
 
 * Only a tiny amount of existing content depend on the feature or behavior.
