@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="81e3ff29351280de4a41fe461c77631a8367d27f" name="revision">
+  <meta content="c35b9cd03bab39102ca80fd05edf1cbca9e0f559" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1614,16 +1614,14 @@ at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-
    </ul>
    <h3 class="heading settled" data-level="2.11" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.11. </span><span class="content">Don’t reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
    <p>Make sure that your API doesn’t provide a way
-for authors to detect that a user is using assistive technology
-without the user’s consent.</p>
+for authors to detect that a user is using assistive technology.</p>
    <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a>
 If a site can detect that a user is using an assistive technology,
 that site can deny or restrict the user’s access to the services it provides.</p>
    <p>People who make use of assistive technologies
 are often <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">vulnerable members of society</a>;
 their use of assistive technologies is <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them.
-If an API provides access to this information
-without the user’s <a href="#consent">consent</a>,
+If an API provides access to this information,
 this sensitive information may be revealed to others
 (including <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression">state actors</a>)
 who may wish them harm.</p>
