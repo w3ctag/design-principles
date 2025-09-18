@@ -1615,7 +1615,7 @@ Unlike dictionaries, interfaces:
     (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
-For example, the `canParse()` static method of the URL interface. 
+For example, the `canParse()` static method of the URL interface.
 
 ```JS
 if (URL.canParse(someURL)) {
