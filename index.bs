@@ -353,13 +353,6 @@ Breakage is more likely to be acceptable if:
 * Only a tiny number of people see that content.
 * The content appears only in test cases or examples.
 * The content is already broken in most recent widely-used user agents.
-* The content is not on the public web,
-    but is instead found on internal sites
-    with a controlled user environment.
-    Beware in this case that internal sites are
-    often invisible to analysis tools designed for public content.
-    A single complaint often signals
-    a larger amount of hidden breakage.
 * The benefit of breaking content is very large.
     For example, removing old SSL and TLS versions breaks lots of content
     but prevents even more security breaches.
