@@ -352,7 +352,9 @@ Breakage is more likely to be acceptable if:
 * Only a tiny amount of existing content depend on the feature or behavior.
 * Only a tiny number of people see that content.
 * The content appears only in test cases or examples.
-* The content is already broken in most recent widely-used user agents.
+* The content is already broken in some widely-used user agents,
+    and either they have not received many bug reports about it,
+    or the change is expected to improve interoperability.
 * The benefit of breaking content is very large.
     For example, removing old SSL and TLS versions breaks lots of content
     but prevents even more security breaches.
