@@ -351,7 +351,7 @@ Breakage is more likely to be acceptable if:
 
 * Only a tiny amount of existing content depend on the feature or behavior.
 * Only a tiny number of people see that content.
-* The content only appears in test cases or examples.
+* The content appears only in test cases or examples.
 * The content is already broken in most recent widely-used user agents.
 * The content is not on the public web,
     but is instead found on internal sites
