@@ -27,7 +27,10 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:css2; type: property; text: line-height
-spec:html; type:event; text:resize
+spec:html
+    type:event; text:resize
+    type:attribute; for:HTMLInputElement; text:defaultValue
+    type:attribute; for:HTMLInputElement; text:defaultChecked
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
 spec:webidl
@@ -553,8 +556,9 @@ An incomplete list of such guidance follows:
 * [[encoding#specification-hooks|Encoding]]
 * [[fetch#fetch-elsewhere|Fetch]]
 * <span id="using-http">[[RFC9205 inline]]</span>,
-    especially on [[RFC9205#section-4.7|defining header fields]], and
-    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis)
+    especially on [[RFC9205#section-4.7|defining header fields]],
+    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis),
+    and the [HTTP Working Group style guide](https://httpwg.org/admin/editors/style-guide)
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
 
@@ -823,8 +827,7 @@ See also:
 <h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
 
 Make sure that your API doesn't provide a way
-for authors to detect that a user is using assistive technology
-without the user's consent.
+for authors to detect that a user is using assistive technology.
 
 [The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
 If a site can detect that a user is using an assistive technology,
@@ -1182,8 +1185,8 @@ A new IDL attribute does not always warrant a content attribute counterpart.
 <div class="example">
 A counterpattern to this guidance can be found in
 <{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
-where the HTML attributes were never updated
-and the IDL attribute was the single source of truth.
+where the content attributes are not reflected to IDL attributes with the same names.
+Their IDL attributes are {{defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
 </div>
 
 <h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
@@ -1637,7 +1640,7 @@ Unlike dictionaries, interfaces:
     (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
-For example, the `canParse()` static method of the URL interface. 
+For example, the `canParse()` static method of the URL interface.
 
 ```JS
 if (URL.canParse(someURL)) {
