@@ -2349,6 +2349,8 @@ If your feature matches one of these categories,
 queue on that source rather than creating a new one.
 Doing so improves interoperability, predictability, and performance scheduling across the platform.
 
+Adding a task source has performance and complexity costs
+that all browser implementations pay.
 Only mint a new task source when you have a concrete, testable need.
 For example, when the feature's timing/execution model must be isolated
 from the generic task sources
