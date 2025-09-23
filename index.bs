@@ -164,20 +164,22 @@ In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
 Using such a feature should only be possible
-if the user’s expectation matches the feature’s consequences
+if the user's expectation matches the feature's consequences
 (e.g., personal information used, state changed).
 
 Design your API so its behavior matches what people intend and expect.
 Then, in the best case, people don't need to get involved in allowing API access
-and thus can't make decisions they regret later.
+and thus can't make decisions they regret later. 
 Only ask the user for confirmation in exceptional circumstances.
+If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm, 
+afford users an option to stop capability access instead.
 
 <p class="example">
-For example, web pages don’t need to ask for permission to play sounds, 
-as they are only able to so when there is enough engagement
-and it is therefore very likely that the user expects this.
+For example, web pages don’t need to ask for permission to play sounds.
+It is easy to stop audio output if a site is found to be abusing it
+and browsers have a number of mechanisms for doing just that.
 Similarly, PWAs wanting to use [Window Control Overlay](https://wicg.github.io/window-controls-overlay/) don’t need to ask for permission,
-as the user simply toggles this mode on when they need it.
+as the user simply toggles this mode on when they need it. 
 </p>
 
 <h4 id="user-decisions">Help users make good decisions</h4>
@@ -186,8 +188,8 @@ Empower good decision-making by limiting risk at the API level and
 providing clarity, context, and user control.
 Asking for user approval has been a common way to handle remaining risk.
 However, most people can't make good decisions on
-the questions they're asked (e.g., permission prompts, FedCM prompts).
-This is because they lack crucial context and information.
+many of the questions they're asked  
+because they lack crucial context and information.  
 Being confronted with difficult or annoying questions leads
 to decision fatigue, habitual responses,
 annoyance from frequent interruptions, and regrettable decisions.
@@ -603,7 +605,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting whether <a href="#userr-decisions">the user has been asked</a> to use the feature.
+detecting whether [the user has been asked](#user-decisions) to use the feature.  
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -622,7 +624,7 @@ See also:
 * [[#do-not-expose-use-of-private-browsing-mode]]
 * [[#do-not-expose-use-of-assistive-tech]]
 * [[#secure-context]]
-* [[#consent]]
+* [[#user-decisions]]
 
 <h3 id=text-formats>Design textual formats for humans</h3>
 
