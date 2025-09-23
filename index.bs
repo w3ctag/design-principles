@@ -175,10 +175,10 @@ If a capability can be easily reverted or causes only mild annoyance without the
 afford users an option to stop capability access instead.
 
 <p class="example">
-For example, web pages don’t need to ask for permission to play sounds.
+For example, web pages don't need to ask for permission to play sounds.
 It is easy to stop audio output if a site is found to be abusing it
 and browsers have a number of mechanisms for doing just that.
-Similarly, PWAs wanting to use [Window Control Overlay](https://wicg.github.io/window-controls-overlay/) don’t need to ask for permission,
+Similarly, PWAs wanting to use [Window Control Overlay](https://wicg.github.io/window-controls-overlay/) don't need to ask for permission,
 as the user simply toggles this mode on when they need it. 
 </p>
 
@@ -202,7 +202,7 @@ Use these principles:
     Do not ask users questions where a "bad" decision can lead to severe consequences,
     like a compromised device or serious personal data disclosure.
 * **Provide constant feedback about persistent decisions.**   
-    If users’ decisions last longer than the current session,
+    If users' decisions last longer than the current session,
     user agents should remind users that their past decision still applies.
     Provide a way to retract any ongoing permission,
     including APIs to inform sites of the change in status.
@@ -220,7 +220,7 @@ Use these principles:
     Instead, people should be able to choose the decision moment,
     for example by clicking on a dedicated button like for the file chooser.
 
-If you can’t adhere to all of the above principles,
+If you can't adhere to all of the above principles,
 that is likely an indication that asking the user isn't the right approach.
 Instead, change the feature or API to address any remaining risk.
 
