@@ -228,7 +228,9 @@ Instead, change the feature or API to address any remaining risk.
 
 In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
 
-If you ask a user to make a decision and they say no, the website shouldn't be able to do anything the user believes they just refused access to. 
+If you ask a user to make a decision and they say no,
+the website shouldn't be able to do anything
+the user believes they just refused access to. 
 
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
