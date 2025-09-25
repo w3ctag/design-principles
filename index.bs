@@ -181,8 +181,6 @@ afford users an option to stop capability access instead.
 For example, web pages don't need to ask for permission to play sounds.
 It is easy to stop audio output if a site is found to be abusing it
 and browsers have a number of mechanisms for doing just that.
-Similarly, PWAs wanting to use [Window Control Overlay](https://wicg.github.io/window-controls-overlay/) don't need to ask for permission,
-as the user simply toggles this mode on when they need it. 
 </p>
 
 <h4 id="user-decisions">Help users make good decisions</h4>
