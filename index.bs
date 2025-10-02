@@ -163,6 +163,9 @@ If this feature was proposed today, it would probably not proceed.
 
 <h3 id="user-intent">Design for user intent</h3>
 
+Use your API design to encourage websites to
+meet user expectations when accessing exceptional capabilities.
+
 In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
@@ -216,15 +219,30 @@ Use these principles:
 * **Provide sufficient context.**
     People need to easily understand who they're dealing with,
     what the decision is about, and how the website will use any information they might share.
-* **Let people make decisions when *they* are ready.**
-    Websites should not be able to force the decision moment on the user,
-    while they're trying to do something else.
-    Instead, people should be able to choose the decision moment,
-    for example by clicking on a dedicated button like for the file chooser.
 
 If you can't adhere to all of the above principles,
 that is likely an indication that asking the user isn't the right approach.
 Instead, change the feature or API to address any remaining risk.
+
+<div class=note>
+A browser is responsible for managing requests for permission.
+Browsers will not be able to understand
+precisely how a user's interaction with a site
+might result in a reasonable expectation of a permission request.
+The web platform provides sites with many ways
+of both effectively communicating purpose and intent,
+or to employ deception and trickery.
+
+The responsibility for clearly communicating intent is therefore shared
+between the design of APIs,
+user interface design in browsers,
+and how websites are constructed.
+It is preferable if respect for user intent
+is a natural outcome
+of following the simple, obvious, or default usage pattern for the API.
+This principle only asks that API designs encourage
+to construct sites that respect user intent.
+</div>
 
 In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
 
