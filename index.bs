@@ -26,11 +26,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
-spec:css2; type: property; text: line-height
-spec:html
-    type:event; text:resize
-    type:attribute; for:HTMLInputElement; text:defaultValue
-    type:attribute; for:HTMLInputElement; text:defaultChecked
+spec:html; type:event; text:resize
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
 spec:webidl
@@ -1205,7 +1201,7 @@ A new IDL attribute does not always warrant a content attribute counterpart.
 A counterpattern to this guidance can be found in
 <{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
 where the content attributes are not reflected to IDL attributes with the same names.
-Their IDL attributes are {{defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
+Their IDL attributes are {{HTMLInputElement/defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
 </div>
 
 <h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
