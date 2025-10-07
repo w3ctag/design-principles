@@ -178,7 +178,7 @@ afford users an option to stop capability access instead.
 
 <p class="example">
 For example, web pages don't need to ask for permission to play sounds.
-It is easy to stop audio output if a site is found to be abusing it
+It is easy to stop audio output if a site is found to be abusing it,
 and browsers have a number of mechanisms for doing just that.
 </p>
 
