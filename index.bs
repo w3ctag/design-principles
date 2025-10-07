@@ -228,7 +228,7 @@ Browsers will not be able to understand
 precisely how a user's interaction with a site
 might result in a reasonable expectation of a permission request.
 The web platform provides sites with many ways
-of both effectively communicating purpose and intent,
+either to communicate purpose and intent,
 or to employ deception and trickery.
 
 The responsibility for clearly communicating intent is therefore shared
