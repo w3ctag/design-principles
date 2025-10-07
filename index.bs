@@ -222,6 +222,7 @@ that is likely an indication that asking the user isn't the right approach.
 Instead, change the feature or API to address any remaining risk.
 
 <div class=note>
+
 A browser is responsible for managing requests for permission.
 Browsers will not be able to understand
 precisely how a user's interaction with a site
