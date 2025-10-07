@@ -187,7 +187,7 @@ and browsers have a number of mechanisms for doing just that.
 Empower good decision-making by limiting risk at the API level and
 providing clarity, context, and user control.
 
-Asking for user approval has been a common way to handle remaining risk.
+Asking for user approval has been a common way to handle the remaining risk.
 However, most people can't make good decisions on
 many of the questions they're asked  
 because they lack crucial context and information.  
