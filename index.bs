@@ -2205,8 +2205,7 @@ is a request, rather than a guarantee.
 Use strings as the values for constants or sets of enumerated values.
 
 Strings make it easier for developers to inspect values
-and read code that uses those values.
-As such, avoid abbreviations as they can make code harder to read.
+and read code that uses those values (see [[#naming-is-hard]]).
 In JavaScript engines there is no performance benefit
 to using integers instead of strings.
 The values of a [WebIDL enum type](https://webidl.spec.whatwg.org/#idl-enums)
