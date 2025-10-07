@@ -208,8 +208,9 @@ Use these principles:
     Provide a way to retract any ongoing permission.,
     APIs should include a way for sites to learn of the change in status.
 * **Ask questions people can understand.**
-    The associated risks should be obvious from the question for a typical user
-    and be directly connected to the feature's or API's utility.
+    When a typical user reads the question about a feature,
+    they should immediately think of the associated risks.
+    The risks should also be directly connected to the feature's or API's utility.
     For example, this usually means we can't ask permission to accept fingerprinting risks,
     as they are subtle, technical, and commonly have nothing to do with the capability itself.
 * **Provide sufficient context.**
