@@ -205,7 +205,7 @@ Use these principles:
 * **Provide constant feedback about persistent decisions.**   
     If users' decisions last longer than the current session,
     user agents should remind users that their past decision still applies.
-    Provide a way to retract any ongoing permission.,
+    Provide a way to retract any ongoing permission.
     APIs should include a way for sites to learn of the change in status.
 * **Ask questions people can understand.**
     When a typical user reads the question about a feature,
