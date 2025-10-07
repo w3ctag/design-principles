@@ -188,8 +188,8 @@ Empower good decision-making by limiting risk at the API level and
 providing clarity, context, and user control.
 
 Asking for user approval has been a common way to handle the remaining risk.
-However, most people can't make good decisions on
-many of the questions they're asked  
+However, people often can't make good decisions on
+the questions they're asked  
 because they lack crucial context and information.  
 Being confronted with difficult or annoying questions leads
 to decision fatigue, habitual responses,
