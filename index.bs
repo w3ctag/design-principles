@@ -167,7 +167,7 @@ a web page may want to make use of a feature
 that has the potential to cause harm.
 Using such a feature should only be possible
 if the user's expectation matches the feature's consequences
-(e.g., personal information used, state changed).
+(e.g., the personal information it reveals or the state it changes).
 
 Design your API so its behavior matches what people intend and expect.
 Then, in the best case, people don't need to get involved in allowing API access
