@@ -3799,7 +3799,7 @@ Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
 a majority of English speakers are likely to understand when first encountering the name.
 Abbreviations should be avoided,
-except in cases where an abbreviation is extremely common and easier to understand.
+except in cases where an abbreviation is extremely common and easy to understand.
 For example `UIEvent`, where "`UI`" stands for user interface. 
 
 <div class="example">
