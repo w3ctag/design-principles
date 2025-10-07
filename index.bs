@@ -3799,6 +3799,8 @@ API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
 a majority of English speakers are likely to understand when first encountering the name.
+Abbreviations should be avoided,
+except in cases where an abbreviation is canonicaland easier to understand.
 
 <div class="example">
 
