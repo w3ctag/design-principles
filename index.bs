@@ -246,7 +246,9 @@ In your specification, the [=request permission to use=] and [=prompt the user t
 
 If you ask a user to make a decision and they say no,
 the website shouldn't be able to do anything
-the user believes they just refused access to. 
+the user believes they just refused access to.
+For example, if the user agent asks permission to reveal a piece of information via one API,
+the same information shouldn't be available with no permission via a different API.
 
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
