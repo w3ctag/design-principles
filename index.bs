@@ -887,7 +887,7 @@ with {{InvalidStateError}}.
 
 If, after starting an asynchronous operation,
 that [=associated Document=] becomes non-[=Document/fully active=]
-or the [=relevant global object=]'s [=ECMAScript/execution context=] is destroyed,
+or the [=relevant global object=]'s [=ECMAScript/execution context=] is destroyed by script,
 abort the operation and reject with {{AbortError}}.
 If the operation presents UI (e.g., a picker, chooser, or prompt),
 dismiss it when the context becomes non-[=Document/fully active=]
