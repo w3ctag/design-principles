@@ -199,23 +199,25 @@ When user involvement is unavoidable,
 empower users to make good decisions.
 Use these principles:
 
-* **Limit the consequences from a bad decision by addressing risk at the API level first.**
+<ul>
+<li> **Limit the consequences from a bad decision by addressing risk at the API level first.**
     Do not ask users questions where a "bad" decision can lead to severe consequences,
-    like a compromised device or serious personal data disclosure.
-* **Provide constant feedback about persistent decisions.**   
+    like a compromised device or serious personal data disclosure.</li>
+<li> **Provide constant feedback about persistent decisions.**   
     If users' decisions last longer than the current session,
     user agents should remind users that their past decision still applies.
     Provide a way to retract any ongoing permission.
-    APIs should include a way for sites to learn of the change in status.
-* **Ask questions people can understand.**
+    APIs should include a way for sites to learn of the change in status.</li>
+<li id="ask-understandable-questions"> **Ask questions people can understand.**
     When a typical user reads the question about a feature,
     they should immediately think of the associated risks.
     The risks should also be directly connected to the feature's or API's utility.
     For example, this usually means we can't ask permission to accept fingerprinting risks,
-    as they are subtle, technical, and commonly have nothing to do with the capability itself.
-* **Provide sufficient context.**
+    as they are subtle, technical, and commonly have nothing to do with the capability itself.</li>
+<li> **Provide sufficient context.**
     People need to easily understand who they're dealing with,
-    what the decision is about, and how the website will use any information they might share.
+    what the decision is about, and how the website will use any information they might share.</li>
+</ul>
 
 If you can't adhere to all of the above principles,
 that is likely an indication that asking the user isn't the right approach.
@@ -855,8 +857,7 @@ that site can deny or restrict the user's access to the services it provides.
 People who make use of assistive technologies
 are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-If an API provides access to this information
-without [asking the user](#user-decisions),
+If an API provides access to this information,
 this sensitive information may be revealed to others
 (including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
 who may wish them harm.
