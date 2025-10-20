@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="993e58e8e371479f5af9bcaa4bcff53d1760e838" name="revision">
+  <meta content="63b43c99054b22a6bc916ca2631ed0284ea64e31" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-10-07">7 October 2025</time></p>
+    <time class="dt-updated" datetime="2025-10-20">20 October 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -739,7 +739,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="Ethical Web Principles">[ETHICAL-WEB]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
+   <p>This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group’s discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web-principles" title="Ethical Web Principles">[ethical-web-principles]</a>. We encourage specification designers to read this document and use it as a resource when making design decisions.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -960,7 +960,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <main>
    <h2 class="heading settled" data-level="1" id="basic-principles"><span class="secno">1. </span><span class="content">Principles behind design of Web APIs</span><a class="self-link" href="#basic-principles"></a></h2>
    <p>The Design Principles are directly informed by the ethical framework
-set out in the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web" title="Ethical Web Principles">[ETHICAL-WEB]</a>.
+set out in the Ethical Web Principles <a data-link-type="biblio" href="#biblio-ethical-web-principles" title="Ethical Web Principles">[ethical-web-principles]</a>.
 These principles provide concrete practical advice
 in response to the higher level ethical responsibilities
 that come with developing the web platform.</p>
@@ -971,7 +971,7 @@ always put user needs above all.</p>
 be sure to understand and document the user need that the API aims to address.</p>
    <p><a href="https://tools.ietf.org/html/rfc8890">The internet is for end users</a>:
 any change made to the web platform has the potential to
-<a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">affect vast numbers of people</a>,
+<a href="https://www.w3.org/TR/ethical-web-principles/#allpeople">affect vast numbers of people</a>,
 and may have a profound impact on any person’s life. <a data-link-type="biblio" href="#biblio-rfc8890" title="The Internet is for End Users">[RFC8890]</a></p>
    <p>User needs come before the needs of web page authors,
 which come before the needs of user agent implementors,
@@ -987,9 +987,9 @@ and theoretical concerns reflect underlying needs of all of these groups.</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">The web should not cause harm to society</a></p>
+     <p><a href="https://www.w3.org/TR/ethical-web-principles/#noharm">The web should not cause harm to society</a></p>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">The web must enhance individuals' control and power</a></p>
+     <p><a href="https://www.w3.org/TR/ethical-web-principles/#control">The web must enhance individuals' control and power</a></p>
     <li data-md>
      <p><a data-link-type="biblio" href="#biblio-rfc8890" title="The Internet is for End Users">[RFC8890]</a></p>
    </ul>
@@ -1001,7 +1001,7 @@ that visiting a web page is generally safe.</p>
 In order for the web to remain vibrant,
 users need to be able to expect that merely visiting any given link
 won’t have implications for the security of their computer,
-or for any essential aspects of their <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">privacy</a>.</p>
+or for any essential aspects of their <a href="https://www.w3.org/TR/ethical-web-principles/#privacy">privacy</a>.</p>
    <p>For example, an API that allows any website to
 <a href="#do-not-expose-use-of-assistive-tech">detect the use of assistive technologies</a>
 may make users of these technologies feel unsafe visiting unknown web pages,
@@ -1043,7 +1043,7 @@ of users having a reasonable expectation of safety on web pages.</p>
 such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how.
 These trusted user interfaces must be able to be designed in a way
-that enables users to trust <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#verify">and verify</a>
+that enables users to trust <a href="https://www.w3.org/TR/ethical-web-principles/#verify">and verify</a>
 that the information they provide is genuine,
 and hasn’t been spoofed or hijacked by the website.</p>
    <p>If a new feature allows untrusted user interfaces
@@ -1059,7 +1059,7 @@ If this feature was proposed today, it would probably not proceed.
 a web page may want to make use of a feature
 that has the potential to cause harm.
 Features that have this potential for harm should be designed such that people can give
-<a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
+<a href="https://www.w3.org/TR/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
 and that they can refuse consent effectively.</p>
    <p>In order to give <em>meaningful consent</em>, the user must:</p>
    <ul>
@@ -1103,7 +1103,7 @@ no location information is available to the Web page.
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">The web is secure, and respects people’s privacy</a></p>
+     <p><a href="https://www.w3.org/TR/ethical-web-principles/#privacy">The web is secure, and respects people’s privacy</a></p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/privacy-principles/#consent-principles">Consent Principles</a></p>
     <li data-md>
@@ -1145,7 +1145,7 @@ a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#render">existing flexibility</a>
+New features should match the <a href="https://www.w3.org/TR/ethical-web-principles/#render">existing flexibility</a>
 of the web platform.</p>
    <div class="note" role="note">
     
@@ -1532,10 +1532,10 @@ for code (such as libraries) that may be used in either secure or non-secure con
 to protect their own personal safety.
 Because of this, the fact that someone is using private browsing mode
 may be <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them.
-This information may <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">harm</a> people
+This information may <a href="https://www.w3.org/TR/ethical-web-principles/#noharm">harm</a> people
 if it is revealed to a web site controlled by others who have power over them
 (such as employers, parents, partners,
-or <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression">state actors</a>).</p>
+or <a href="https://www.w3.org/TR/ethical-web-principles/#expression">state actors</a>).</p>
    <p>Given such dangers,
 websites should not be able to detect that private browsing mode is engaged.</p>
    <div class="example" id="example-52cad010"><a class="self-link" href="#example-52cad010"></a>
@@ -1562,7 +1562,7 @@ without revealing that private browsing mode is engaged.</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
+     <p><a href="https://www.w3.org/TR/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
     <li data-md>
@@ -1615,15 +1615,15 @@ at the other session’s <a href="https://html.spec.whatwg.org/multipage/window-
    <h3 class="heading settled" data-level="2.11" id="do-not-expose-use-of-assistive-tech"><span class="secno">2.11. </span><span class="content">Don’t reveal that assistive technologies are being used</span><a class="self-link" href="#do-not-expose-use-of-assistive-tech"></a></h3>
    <p>Make sure that your API doesn’t provide a way
 for authors to detect that a user is using assistive technology.</p>
-   <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a>
+   <p><a href="https://www.w3.org/TR/ethical-web-principles/#allpeople">The web platform must be accessible to people with disabilities.</a>
 If a site can detect that a user is using an assistive technology,
 that site can deny or restrict the user’s access to the services it provides.</p>
    <p>People who make use of assistive technologies
-are often <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm">vulnerable members of society</a>;
+are often <a href="https://www.w3.org/TR/ethical-web-principles/#noharm">vulnerable members of society</a>;
 their use of assistive technologies is <a href="https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data">sensitive information</a> about them.
 If an API provides access to this information,
 this sensitive information may be revealed to others
-(including <a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression">state actors</a>)
+(including <a href="https://www.w3.org/TR/ethical-web-principles/#expression">state actors</a>)
 who may wish them harm.</p>
    <p>Sometimes people propose features which aim to improve the user experience
 for users of assistive technology,
@@ -1647,7 +1647,7 @@ which don’t reveal the use of assistive technology.</p>
     <li data-md>
      <p><a href="https://w3c.github.io/apa/fast/">Web Technology Accessibility Guidelines</a></p>
     <li data-md>
-     <p><a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
+     <p><a href="https://www.w3.org/TR/ethical-web-principles/#privacy">Security and privacy are essential</a></p>
     <li data-md>
      <p><a href="https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data">What data does this specification expose to an origin?</a></p>
    </ul>
@@ -3767,7 +3767,7 @@ the user experience will suffer.
 (This problem is even more pronounced on low-powered devices,
 which are more likely to be used by disadvantaged or marginalized users.
 Remember,
-<a href="https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople">the web is for all people</a>.)</p>
+<a href="https://www.w3.org/TR/ethical-web-principles/#allpeople">the web is for all people</a>.)</p>
    <p>Therefore,
 APIs which would often block the main thread if used as intended
 should not be exposed on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window②">Window</a></code> interface.
@@ -5208,7 +5208,7 @@ so they can correct this omission.</p>
    <dd>Simon Fraser; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
-   <dt id="biblio-ethical-web">[ETHICAL-WEB]
+   <dt id="biblio-ethical-web-principles">[ETHICAL-WEB-PRINCIPLES]
    <dd>Daniel Appelquist; Hadley Beeman; Amy Guy. <a href="https://w3ctag.github.io/ethical-web-principles/"><cite>Ethical Web Principles</cite></a>. URL: <a href="https://w3ctag.github.io/ethical-web-principles/">https://w3ctag.github.io/ethical-web-principles/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
