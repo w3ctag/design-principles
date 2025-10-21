@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="444a329b626602c6711998d33c7235ba19fdc402" name="revision">
+  <meta content="9fc15ba7a95615cb19ed896bf70bda4ab49e39c1" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -2832,7 +2832,8 @@ you can still use an <code class="idl"><a data-link-type="idl" href="https://dom
 because a call to <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-abortcontroller-abort" id="ref-for-dom-abortcontroller-abort">abort()</a></code> on <code>AbortController</code>
 is a request, rather than a guarantee.</p>
    <h3 class="heading settled" data-level="6.13" id="string-constants"><span class="secno">6.13. </span><span class="content">Use strings for constants and enums</span><a class="self-link" href="#string-constants"></a></h3>
-   <p>Use strings as the values for constants or sets of enumerated values.</p>
+   <p>Use strings as the values for constants or sets of enumerated values.
+See <a href="#naming-is-hard">§ 12 Naming principles</a> when choosing strings.</p>
    <p>Strings make it easier for developers to inspect values
 and read code that uses those values.
 In JavaScript engines there is no performance benefit
@@ -4354,6 +4355,9 @@ a more English-readable name
 than <code>cardinality</code>.</p>
    </div>
    <p>Value readability over brevity.
+Avoid abbreviations,
+except in cases where an abbreviation is extremely common and easy to understand.
+For example <code>UIEvent</code>, where "<code>UI</code>" stands for user interface.
 Keep in mind, however, that
 the shorter name is often the clearer one.
 For instance,
