@@ -2627,7 +2627,7 @@ self.dataUsage.addEventListener('change', () => {
   Where `bytesReceived` exists on the `dataUsage` {{EventTarget}},
   rather than the {{Event}}.
 
-  If updating the state on this object is too expensive, this pattern may be considered:
+  If maintaining the state on this object is too expensive, this pattern may be considered:
 
   <pre highlight="js">
 const dataUsage = await self.monitorDataUsage();
