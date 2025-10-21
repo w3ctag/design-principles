@@ -2199,6 +2199,7 @@ is a request, rather than a guarantee.
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
 Use strings as the values for constants or sets of enumerated values.
+See [[#naming-is-hard]] when choosing strings.
 
 Strings make it easier for developers to inspect values
 and read code that uses those values.
@@ -3825,7 +3826,7 @@ Names take meaning from:
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
-a majority of English speakers are likely to understand when first encountering the name.
+a majority of English speakers are likely to understand when first encountering the name. 
 
 <div class="example">
 
@@ -3836,6 +3837,9 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
+Avoid abbreviations,
+except in cases where an abbreviation is extremely common and easy to understand.
+For example `UIEvent`, where "`UI`" stands for user interface.
 Keep in mind, however, that
 the shorter name is often the clearer one.
 For instance,
