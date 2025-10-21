@@ -2326,6 +2326,38 @@ See also:
 
 * [Command–query separation on Wikipedia](https://en.wikipedia.org/wiki/Command–query_separation)
 
+<h3 id="prefer-existing-task-sources">Prefer existing task sources</h3>
+
+Use existing [=task sources=] for dispatching work where possible.
+
+Only create a new [=task source=] when there is a clear reason to do so.
+Specs use [=task sources=] to group related work (or "[=tasks=]") so UAs can schedule them sensibly.
+A task is queued on a task source,
+and each task source is associated with a task queue for an [=/event loop=].
+Order is guaranteed within a source, while the UA chooses which queue to service next.
+
+Use the generic or preexisting task sources whenever possible.
+HTML defines [[html#generic-task-sources|generic task sources]] meant for broad reuse across specs.
+This includes, but is not limited to:
+the [=DOM manipulation task source=],
+the [=user interaction task source=],
+and the [=networking task source=].
+If your feature matches one of these categories,
+queue on that source rather than creating a new one.
+Doing so improves interoperability, predictability, and performance scheduling across the platform.
+
+Adding a task source has performance and complexity costs
+that all browser implementations pay.
+Only mint a new task source when you have a concrete, testable need.
+For example, when the feature's timing/execution model must be isolated
+from the generic task sources
+(e.g., media elements get their own media element event task source to align with decoder/timeline semantics).
+
+When writing a spec, prefer HTML's wrapper algorithms
+([=queue a global task=], [=queue an element task=])
+and avoid relying on a particular [=/event loop=].
+And only be explicit about the event loop when appropriate (see also [[#event-design]]).
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
