@@ -3826,10 +3826,7 @@ Names take meaning from:
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
-a majority of English speakers are likely to understand when first encountering the name.
-Avoid abbreviations,
-except in cases where an abbreviation is extremely common and easy to understand.
-For example `UIEvent`, where "`UI`" stands for user interface. 
+a majority of English speakers are likely to understand when first encountering the name. 
 
 <div class="example">
 
@@ -3840,6 +3837,9 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
+Avoid abbreviations,
+except in cases where an abbreviation is extremely common and easy to understand.
+For example `UIEvent`, where "`UI`" stands for user interface.
 Keep in mind, however, that
 the shorter name is often the clearer one.
 For instance,
