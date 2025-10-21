@@ -2582,11 +2582,35 @@ describe the nature of an update to the state.
 </div>
 
 In some exceptional cases, where maintaining state on an object is expensive,
-the state may be placed on the {{Event}} instances,
-allowing {{EventTarget/addEventListener}} and {{EventTarget/removeEventListener}} to signal interest/disinterest in this state.
-Although, other patterns should be considered,
-such as retuning an {{EventTarget}} from a function,
-where the function call is a similar signal of interest.
+other patterns may be considered,
+such as returning an {{EventTarget}} from a function call,
+where the function call is a signal of interest.
+
+<div class="example">
+  Using an imaginary `dataUsage` API that reports the amount of data an environment has used, the recommended pattern is:
+
+  <pre highlight="js">
+self.dataUsage.addEventListener('change', () => {
+  console.log(self.dataUsage.bytesReceived);
+});
+  </pre>
+
+  Where `bytesReceived` exists on the `dataUsage` {{EventTarget}},
+  rather than the {{Event}}.
+
+  If updating the state on this object is too expensive, this pattern may be considered:
+
+  <pre highlight="js">
+const dataUsage = await self.monitorDataUsage();
+
+dataUsage.addEventListener('change', () => {
+  console.log(dataUsage.bytesReceived);
+});
+  </pre>
+
+  In this pattern, the call to `monitorDataUsage` signals interest in the data,
+  and the state does not need to be updated until `monitorDataUsage` is called.
+</div>
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
