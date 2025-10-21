@@ -160,7 +160,7 @@ If this feature was proposed today, it would probably not proceed.
 <h3 id="user-intent" oldids="consent">Design for user intent</h3>
 
 Use your API design to encourage websites to
-meet user expectations when accessing exceptional capabilities.
+meet user expectations when accessing potentially unsafe capabilities.
 
 In the context of fulfilling a user need,
 a web page may want to make use of a feature
