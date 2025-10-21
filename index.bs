@@ -14,7 +14,7 @@ Former Editor: Lea Verou, Invited Expert, https://lea.verou.me, w3cid 52258
 Former Editor: Sangwhan Moon, w3cid 42399, Google https://www.google.com/, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ethical-web-principles]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -26,11 +26,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
-spec:css2; type: property; text: line-height
-spec:html
-    type:event; text:resize
-    type:attribute; for:HTMLInputElement; text:defaultValue
-    type:attribute; for:HTMLInputElement; text:defaultChecked
+spec:html; type:event; text:resize
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
 spec:webidl
@@ -57,7 +53,7 @@ urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
 The Design Principles are directly informed by the ethical framework
-set out in the Ethical Web Principles [[ETHICAL-WEB]].
+set out in the Ethical Web Principles [[ethical-web-principles]].
 These principles provide concrete practical advice
 in response to the higher level ethical responsibilities
 that come with developing the web platform.
@@ -72,7 +68,7 @@ be sure to understand and document the user need that the API aims to address.
 
 [The internet is for end users](https://tools.ietf.org/html/rfc8890):
 any change made to the web platform has the potential to
-[affect vast numbers of people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople),
+[affect vast numbers of people](https://www.w3.org/TR/ethical-web-principles/#allpeople),
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
@@ -90,8 +86,8 @@ and theoretical concerns reflect underlying needs of all of these groups.
 
 See also:
 
-* [The web should not cause harm to society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm)
-* [The web must enhance individuals' control and power](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)
+* [The web should not cause harm to society](https://www.w3.org/TR/ethical-web-principles/#noharm)
+* [The web must enhance individuals' control and power](https://www.w3.org/TR/ethical-web-principles/#control)
 * [[RFC8890]]
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
@@ -104,7 +100,7 @@ The Web is named for its hyperlinked structure.
 In order for the web to remain vibrant,
 users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
-or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
+or for any essential aspects of their [privacy](https://www.w3.org/TR/ethical-web-principles/#privacy).
 
 For example, an API that allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
@@ -147,7 +143,7 @@ Users depend on trusted user interfaces
 such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how.
 These trusted user interfaces must be able to be designed in a way
-that enables users to trust [and verify](https://www.w3.org/2001/tag/doc/ethical-web-principles/#verify)
+that enables users to trust [and verify](https://www.w3.org/TR/ethical-web-principles/#verify)
 that the information they provide is genuine,
 and hasn't been spoofed or hijacked by the website.
 
@@ -167,7 +163,7 @@ In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
 Features that have this potential for harm should be designed such that people can give
-[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
+[meaningful consent](https://www.w3.org/TR/ethical-web-principles/#control) for that feature to be used,
 and that they can refuse consent effectively.
 
 In order to give *meaningful consent*, the user must:
@@ -214,7 +210,7 @@ no location information is available to the Web page.
 
 See also:
 
-* [The web is secure, and respects people's privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [The web is secure, and respects people's privacy](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [Consent Principles](https://www.w3.org/TR/privacy-principles/#consent-principles)
 * [Permissions](https://www.w3.org/TR/permissions/)
 
@@ -262,7 +258,7 @@ a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the [existing flexibility](https://www.w3.org/2001/tag/doc/ethical-web-principles/#render)
+New features should match the [existing flexibility](https://www.w3.org/TR/ethical-web-principles/#render)
 of the web platform.
 
 <div class="note">
@@ -723,10 +719,10 @@ Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-
 to protect their own personal safety.
 Because of this, the fact that someone is using private browsing mode
 may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
+This information may [harm](https://www.w3.org/TR/ethical-web-principles/#noharm) people
 if it is revealed to a web site controlled by others who have power over them
 (such as employers, parents, partners,
-or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
+or [state actors](https://www.w3.org/TR/ethical-web-principles/#expression)).
 
 Given such dangers,
 websites should not be able to detect that private browsing mode is engaged.
@@ -754,7 +750,7 @@ without revealing that private browsing mode is engaged.
 
 See also:
 
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [Security and privacy are essential](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 * [[#private-browsing-mode]]
 
@@ -807,16 +803,16 @@ See also:
 Make sure that your API doesn't provide a way
 for authors to detect that a user is using assistive technology.
 
-[The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
+[The web platform must be accessible to people with disabilities.](https://www.w3.org/TR/ethical-web-principles/#allpeople)
 If a site can detect that a user is using an assistive technology,
 that site can deny or restrict the user's access to the services it provides.
 
 People who make use of assistive technologies
-are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
+are often [vulnerable members of society](https://www.w3.org/TR/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
 If an API provides access to this information,
 this sensitive information may be revealed to others
-(including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
+(including [state actors](https://www.w3.org/TR/ethical-web-principles/#expression))
 who may wish them harm.
 
 Sometimes people propose features which aim to improve the user experience
@@ -841,7 +837,7 @@ which don't reveal the use of assistive technology.
 See also:
 
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [Security and privacy are essential](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
 <h3 id="require-user-activation">Require user activation for powerful APIs</h3>
@@ -1163,7 +1159,7 @@ A new IDL attribute does not always warrant a content attribute counterpart.
 A counterpattern to this guidance can be found in
 <{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
 where the content attributes are not reflected to IDL attributes with the same names.
-Their IDL attributes are {{defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
+Their IDL attributes are {{HTMLInputElement/defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
 </div>
 
 <h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
@@ -2203,6 +2199,7 @@ is a request, rather than a guarantee.
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
 Use strings as the values for constants or sets of enumerated values.
+See [[#naming-is-hard]] when choosing strings.
 
 Strings make it easier for developers to inspect values
 and read code that uses those values.
@@ -2328,6 +2325,38 @@ in this manner.
 See also:
 
 * [Command–query separation on Wikipedia](https://en.wikipedia.org/wiki/Command–query_separation)
+
+<h3 id="prefer-existing-task-sources">Prefer existing task sources</h3>
+
+Use existing [=task sources=] for dispatching work where possible.
+
+Only create a new [=task source=] when there is a clear reason to do so.
+Specs use [=task sources=] to group related work (or "[=tasks=]") so UAs can schedule them sensibly.
+A task is queued on a task source,
+and each task source is associated with a task queue for an [=/event loop=].
+Order is guaranteed within a source, while the UA chooses which queue to service next.
+
+Use the generic or preexisting task sources whenever possible.
+HTML defines [[html#generic-task-sources|generic task sources]] meant for broad reuse across specs.
+This includes, but is not limited to:
+the [=DOM manipulation task source=],
+the [=user interaction task source=],
+and the [=networking task source=].
+If your feature matches one of these categories,
+queue on that source rather than creating a new one.
+Doing so improves interoperability, predictability, and performance scheduling across the platform.
+
+Adding a task source has performance and complexity costs
+that all browser implementations pay.
+Only mint a new task source when you have a concrete, testable need.
+For example, when the feature's timing/execution model must be isolated
+from the generic task sources
+(e.g., media elements get their own media element event task source to align with decoder/timeline semantics).
+
+When writing a spec, prefer HTML's wrapper algorithms
+([=queue a global task=], [=queue an element task=])
+and avoid relying on a particular [=/event loop=].
+And only be explicit about the event loop when appropriate (see also [[#event-design]]).
 
 <h2 id="event-design">Event Design</h2>
 
@@ -3259,7 +3288,7 @@ the user experience will suffer.
 (This problem is even more pronounced on low-powered devices,
 which are more likely to be used by disadvantaged or marginalized users.
 Remember,
-[the web is for all people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople).)
+[the web is for all people](https://www.w3.org/TR/ethical-web-principles/#allpeople).)
 
 Therefore,
 APIs which would often block the main thread if used as intended
@@ -3846,7 +3875,7 @@ Names take meaning from:
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
-a majority of English speakers are likely to understand when first encountering the name.
+a majority of English speakers are likely to understand when first encountering the name. 
 
 <div class="example">
 
@@ -3857,6 +3886,9 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
+Avoid abbreviations,
+except in cases where an abbreviation is extremely common and easy to understand.
+For example `UIEvent`, where "`UI`" stands for user interface.
 Keep in mind, however, that
 the shorter name is often the clearer one.
 For instance,
