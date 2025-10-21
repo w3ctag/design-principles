@@ -866,7 +866,7 @@ it is not always *sufficient*
 to protect users from invasive behaviours,
 and seeking [meaningful consent](#consent) is also important.
 
-<h3 id="handle-destroyed-contexts">Handle non-fully-active documents (and destroyed execution contexts)</h3>
+<h3 id="handle-destroyed-contexts">Handle non-fully active documents (and destroyed execution contexts)</h3>
 
 When an <{iframe}> (or similar) is removed or navigated,
 its document stops being [=Document/fully active=]
@@ -882,7 +882,7 @@ UI can hang, and user agents diverge in abort/cleanup behavior.
 
 If the [=relevant global object=]'s [=associated Document=]
 is not [=Document/fully active=] at call time,
-then [=throw=], or return [=a promise rejected with=],
+then [=throw=] or return [=a promise rejected with=]
 with {{InvalidStateError}}.
 
 If, after starting an asynchronous operation,
