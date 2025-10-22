@@ -2595,7 +2595,6 @@ Having state on the {{Event/target}} object can used to determine the current st
 without waiting for the next event.
 This is particularly useful if there's a final state,
 where there will be no further events.
-</div>
 
 It's usually not necessary to create new subclasses of {{Event}},
 but they can be used to provide information relating to how the state change occurred.
