@@ -2591,7 +2591,6 @@ Put state on the {{Event/target}}
 and use events to signal updates to that state,
 rather than having state on {{Event}} objects.
 
-<div class="note">
 Having state on the {{Event/target}} object can used to determine the current state,
 without waiting for the next event.
 This is particularly useful if there's a final state,
