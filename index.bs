@@ -2585,12 +2585,59 @@ as it implies that it's possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.
 
-<h3 id="state-and-subclassing">Use plain {{Event}}s for state</h3>
+<h3 id="state-and-subclassing">Put state on {{Event/target}} objects rather than {{Event}}s</h3>
 
-Where possible, use a plain {{Event}} with a specified `type`,
-and capture any state information in the {{Event/target}} object.
+Put state on the {{Event/target}}
+and use events to signal updates to that state,
+rather than having state on {{Event}} objects.
 
-It's usually not necessary to create new subclasses of {{Event}}.
+Having state on the {{Event/target}} object can used to determine the current state,
+without waiting for the next event.
+This is particularly useful if there's a final state,
+where there will be no further events.
+
+It's usually not necessary to create new subclasses of {{Event}},
+but they can be used to provide information relating to how the state change occurred.
+
+<div class="example">
+Properties on {{HTMLInputElement}},
+such as {{HTMLInputElement/value}},
+provide the state of the input.
+Properties on {{InputEvent}},
+such as {{InputEvent/inputType}},
+describe the nature of an update to the state.
+</div>
+
+In some exceptional cases, where maintaining state on an object is expensive,
+other patterns may be considered,
+such as returning an {{EventTarget}} from a function call,
+where the function call is a signal of interest.
+
+<div class="example">
+  Using an imaginary `dataUsage` API that reports the amount of data an environment has used, the recommended pattern is:
+
+  <pre highlight="js">
+self.dataUsage.addEventListener('change', () => {
+  console.log(self.dataUsage.bytesReceived);
+});
+  </pre>
+
+  Where `bytesReceived` exists on the `dataUsage` {{EventTarget}},
+  rather than the {{Event}}.
+
+  If maintaining the state on this object is too expensive, this pattern may be considered:
+
+  <pre highlight="js">
+const dataUsage = await self.monitorDataUsage();
+
+dataUsage.addEventListener('change', () => {
+  console.log(dataUsage.bytesReceived);
+});
+  </pre>
+
+  In this pattern, the call to `monitorDataUsage` signals interest in the data,
+  and the state does not need to be updated until `monitorDataUsage` is called.
+</div>
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
