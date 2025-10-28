@@ -157,56 +157,105 @@ This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed.
 </p>
 
-<h3 id="consent">Ask users for meaningful consent</h3>
+<h3 id="user-intent" oldids="consent">Design for user intent</h3>
+
+Use your API design to encourage websites to
+meet user expectations when accessing potentially unsafe capabilities.
 
 In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
-Features that have this potential for harm should be designed such that people can give
-[meaningful consent](https://www.w3.org/TR/ethical-web-principles/#control) for that feature to be used,
-and that they can refuse consent effectively.
+Using such a feature should only be possible
+if the user's expectation matches the feature's consequences
+(e.g., the personal information it reveals or the state it changes).
 
-In order to give *meaningful consent*, the user must:
-- **understand** what permission they may choose whether to grant the web page
-- be able to choose to give or refuse that permission **effectively**.
+Design your API so its behavior matches what people intend and expect.
+Then, in the best case, people don't need to get involved in allowing API access
+and thus can't make decisions they regret later. 
+Only ask the user for confirmation in exceptional circumstances.
+If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm, 
+afford users an option to stop capability access instead.
 
-If a feature is powerful enough to require user consent,
-but it's impossible to explain to a typical user what they are consenting to,
-that's a signal that you may need to reconsider the design of the feature.
+<p class="example">
+For example, web pages don't need to ask for permission to play sounds.
+It is easy to stop audio output if a site is found to be abusing it,
+and browsers have a number of mechanisms for doing just that.
+</p>
 
-If a permission prompt is shown,
-and the user doesn't grant permission,
-the Web page should not be able to do anything
-that the user believes they have refused consent for.
+<h4 id="user-decisions">Help users make good decisions</h4>
 
-By asking for consent,
-we can inform the user of what capabilities the web page does or doesn't have,
-reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
-However, the <a href="#priority-of-constituencies">user benefit</a>
-of a new feature must justify the additional burden on users
-to decide whether to grant permission for each feature
-whenever it's requested by a Web page.
+Empower good decision-making by limiting risk at the API level and
+providing clarity, context, and user control.
+
+Asking for user approval has been a common way to handle the remaining risk.
+However, people often can't make good decisions on
+the questions they're asked  
+because they lack crucial context and information.  
+Being confronted with difficult or annoying questions leads
+to decision fatigue, habitual responses,
+annoyance from frequent interruptions, and regrettable decisions.
+
+When user involvement is unavoidable,
+empower users to make good decisions.
+Use these principles:
+
+<ul>
+<li> **Limit the consequences from a bad decision by addressing risk at the API level first.**
+    Do not ask users questions where a "bad" decision can lead to severe consequences,
+    like a compromised device or serious personal data disclosure.</li>
+<li> **Provide constant feedback about persistent decisions.**   
+    If users' decisions last longer than the current session,
+    user agents should remind users that their past decision still applies.
+    Provide a way to retract any ongoing permission.
+    APIs should include a way for sites to learn of the change in status.</li>
+<li id="ask-understandable-questions"> **Ask questions people can understand.**
+    When a typical user reads the question about a feature,
+    they should immediately think of the associated risks.
+    The risks should also be directly connected to the feature's or API's utility.
+    For example, this usually means we can't ask permission to accept fingerprinting risks,
+    as they are subtle, technical, and commonly have nothing to do with the capability itself.</li>
+<li> **Provide sufficient context.**
+    People need to easily understand who they're dealing with,
+    what the decision is about, and how the website will use any information they might share.</li>
+</ul>
+
+If you can't adhere to all of the above principles,
+that is likely an indication that asking the user isn't the right approach.
+Instead, change the feature or API to address any remaining risk.
+
+<div class=note>
+
+A browser is responsible for managing requests for permission.
+Browsers will not be able to understand
+precisely how a user's interaction with a site
+might result in a reasonable expectation of a permission request.
+The web platform provides sites with many ways
+either to communicate purpose and intent,
+or to employ deception and trickery.
+
+The responsibility for clearly communicating intent is therefore shared
+between the design of APIs,
+user interface design in browsers,
+and how websites are constructed.
+It is preferable if respect for user intent
+is a natural outcome
+of following the simple, obvious, or default usage pattern for the API.
+This principle only asks that API designs encourage
+to construct sites that respect user intent.
+</div>
 
 In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
+
+If you ask a user to make a decision and they say no,
+the website shouldn't be able to do anything
+the user believes they just refused access to.
+For example, if the user agent asks permission to reveal a piece of information via one API,
+the same information shouldn't be available with no permission via a different API.
 
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
 This can make it more difficult for a site to
 pressure users to grant consent.
-
-<p class="example">
-For example,
-the [Geolocation API](https://www.w3.org/TR/geolocation-API/)
-grants access to a user's location.
-This can help users in some contexts,
-like a mapping application,
-but may be dangerous to some users in other contexts -
-especially if used without the user's knowledge.
-So that the user may decide whether their location may be used by a Web page,
-a permission prompt should be shown to the user asking whether to grant location access.
-If the user refuses permission,
-no location information is available to the Web page.
-</p>
 
 See also:
 
@@ -239,7 +288,7 @@ actively collected (for example, they have filled in a form).
 For such features, you should [understand the context](https://www.w3.org/TR/privacy-principles/#identity)
 in which it will be used,
 including how it will be used alongside other features of the web.
-Make sure the user can [give appropriate consent](#consent).
+Make sure to [design for user intent](#user-intent) and [help users make good decisions](#user-decisions).
 Design APIs to collect
 [the smallest amount of data](https://www.w3.org/TR/privacy-principles/#data-minimization)
 necessary.
@@ -363,7 +412,7 @@ APIs should also provide granularity and user controls,
 in particular over <a href="https://www.w3.org/TR/privacy-principles/#dfn-data">personal data</a>,
 that is communicated to sites.
 When additional functionality requires additional data, APIs can enable this
-subject to user consent (e.g., a permission prompt or user activation).
+if they [design for user intent](#user-intent) and [help users make good decisions](#user-decisions) when necessary.
 
 <div class=example>
 A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
@@ -581,8 +630,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting whether <a href="#consent">consent</a> to use the feature
-has been granted.
+detecting whether [the user has been asked](#user-decisions) to use the feature.  
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -601,7 +649,7 @@ See also:
 * [[#do-not-expose-use-of-private-browsing-mode]]
 * [[#do-not-expose-use-of-assistive-tech]]
 * [[#secure-context]]
-* [[#consent]]
+* [[#user-decisions]]
 
 <h3 id=text-formats>Design textual formats for humans</h3>
 
@@ -765,8 +813,7 @@ a single user’s activity
 both in and out of private browsing mode,
 consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations)
 such as introducing noise,
-or using permission prompts to give the user extra information
-to help them meaningfully consent to this tracking (see [[#consent]]).
+or [helping users make good decisions](#user-decisions) about this tracking, if necessary.
 
 Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
@@ -861,8 +908,8 @@ once per API call ([transient consuming](https://html.spec.whatwg.org/#activatio
 
 Note that while user activation is in many cases necessary,
 it is not always *sufficient*
-to protect users from invasive behaviours,
-and seeking [meaningful consent](#consent) is also important.
+to protect users from invasive behaviours.
+[Designing for user intent](#user-intent) and [helping users to make good decisions](#user-decisions) is also important.
 
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
@@ -2114,7 +2161,7 @@ Promise-using code also tends to be easier to understand
 than code using callback functions.
 
 An API might need to be asynchronous if:
-  * the user agent needs to prompt the user for [permission](#consent),
+  * the user agent needs to prompt the user for [permission](#user-decisions),
   * some information might need to be read from disk,
     or requested from the network,
   * the user agent may need to do a significant amount of work on another thread,
@@ -3062,9 +3109,8 @@ use these guidelines when exposing device information:
 : Hide sensitive information behind a user permission
 :: If you can't create a device identifier in an anonymous way,
     limit access to it.
-    Make sure the user can provide
-    [[#consent|meaningful consent]]
-    to a Web page accessing this information.
+    Make sure you [help the user make good decisions](#user-decisions)
+    about a Web page accessing this information.
 : Tie identifiers to the same-origin model
 :: Create distinct identifiers for the same physical device
     for each origin that has has access to it.
@@ -3085,7 +3131,7 @@ use these guidelines when exposing device information:
 
 See also:
 
-* [[#consent]]
+* [[#user-decisions]]
 * [[LEAST-POWER]]
 * [[FINGERPRINTING-GUIDANCE]]
 * [[UNSANCTIONED-TRACKING]]
@@ -3109,7 +3155,7 @@ you may not need to expose a list to script at all.
 An API which invokes a User-Agent-provided device picker could suffice.
 Such an API:
 - keeps the user in control,
-- doesn't expose any device information without the user's [consent](#consent),
+- [helps users understand](#user-decisions) their decisions,
 - doesn't expose any fingerprinting data about the user's environment by default, and
 - only exposes information about one device at a time.
 
@@ -3119,6 +3165,8 @@ the fact that there are devices are available to be picked.
 This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
+Ensure that such an API ensures that it is possible to present sufficient information
+on user interfaces that users are able to [make good decisions](#user-decisions).
 
 <div class=example>
 The {{RemotePlayback}} interface
