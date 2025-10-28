@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="79c2b78b3261cf60f0b67ce3c27a588dcde2f0ef" name="revision">
+  <meta content="5b9b53cfbb3e11c957731327c4c8a3c3a1858a7d" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-10-22">22 October 2025</time></p>
+    <time class="dt-updated" datetime="2025-10-28">28 October 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -786,7 +786,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#priority-of-constituencies"><span class="secno">1.1</span> <span class="content">Put user needs first (Priority of Constituencies)</span></a>
       <li><a href="#safe-to-browse"><span class="secno">1.2</span> <span class="content">It should be safe to visit a web page</span></a>
       <li><a href="#trusted-ui"><span class="secno">1.3</span> <span class="content">Trusted user interface should be trustworthy</span></a>
-      <li><a href="#consent"><span class="secno">1.4</span> <span class="content">Ask users for meaningful consent</span></a>
+      <li>
+       <a href="#user-intent"><span class="secno">1.4</span> <span class="content">Design for user intent</span></a>
+       <ol class="toc">
+        <li><a href="#user-decisions"><span class="secno">1.4.1</span> <span class="content">Help users make good decisions</span></a>
+       </ol>
       <li><a href="#identity"><span class="secno">1.5</span> <span class="content">Use identity appropriately in context</span></a>
       <li><a href="#devices-platforms"><span class="secno">1.6</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
       <li><a href="#new-features"><span class="secno">1.7</span> <span class="content">Add new capabilities with care</span></a>
@@ -1055,52 +1059,89 @@ For example, JavaScript <code class="idl"><a data-link-type="idl" href="https://
 This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed.
 </p>
-   <h3 class="heading settled" data-level="1.4" id="consent"><span class="secno">1.4. </span><span class="content">Ask users for meaningful consent</span><a class="self-link" href="#consent"></a></h3>
+   <h3 class="heading settled" data-level="1.4" id="user-intent"><span class="secno">1.4. </span><span class="bs-old-id" id="consent"></span><span class="content">Design for user intent</span><a class="self-link" href="#user-intent"></a></h3>
+   <p>Use your API design to encourage websites to
+meet user expectations when accessing potentially unsafe capabilities.</p>
    <p>In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
-Features that have this potential for harm should be designed such that people can give
-<a href="https://www.w3.org/TR/ethical-web-principles/#control">meaningful consent</a> for that feature to be used,
-and that they can refuse consent effectively.</p>
-   <p>In order to give <em>meaningful consent</em>, the user must:</p>
+Using such a feature should only be possible
+if the user’s expectation matches the feature’s consequences
+(e.g., the personal information it reveals or the state it changes).</p>
+   <p>Design your API so its behavior matches what people intend and expect.
+Then, in the best case, people don’t need to get involved in allowing API access
+and thus can’t make decisions they regret later. 
+Only ask the user for confirmation in exceptional circumstances.
+If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm, 
+afford users an option to stop capability access instead.</p>
+   <p class="example" id="example-d2d03cc5"><a class="self-link" href="#example-d2d03cc5"></a>
+For example, web pages don’t need to ask for permission to play sounds.
+It is easy to stop audio output if a site is found to be abusing it,
+and browsers have a number of mechanisms for doing just that.
+</p>
+   <h4 class="heading settled" data-level="1.4.1" id="user-decisions"><span class="secno">1.4.1. </span><span class="content">Help users make good decisions</span><a class="self-link" href="#user-decisions"></a></h4>
+   <p>Empower good decision-making by limiting risk at the API level and
+providing clarity, context, and user control.</p>
+   <p>Asking for user approval has been a common way to handle the remaining risk.
+However, people often can’t make good decisions on
+the questions they’re asked  
+because they lack crucial context and information.  
+Being confronted with difficult or annoying questions leads
+to decision fatigue, habitual responses,
+annoyance from frequent interruptions, and regrettable decisions.</p>
+   <p>When user involvement is unavoidable,
+empower users to make good decisions.
+Use these principles:</p>
    <ul>
-    <li data-md>
-     <p><strong>understand</strong> what permission they may choose whether to grant the web page</p>
-    <li data-md>
-     <p>be able to choose to give or refuse that permission <strong>effectively</strong>.</p>
+    <li> <strong>Limit the consequences from a bad decision by addressing risk at the API level first.</strong>
+    Do not ask users questions where a "bad" decision can lead to severe consequences,
+    like a compromised device or serious personal data disclosure.
+    <li> <strong>Provide constant feedback about persistent decisions.</strong>   
+    If users' decisions last longer than the current session,
+    user agents should remind users that their past decision still applies.
+    Provide a way to retract any ongoing permission.
+    APIs should include a way for sites to learn of the change in status.
+    <li id="ask-understandable-questions"><a class="self-link" href="#ask-understandable-questions"></a> <strong>Ask questions people can understand.</strong>
+    When a typical user reads the question about a feature,
+    they should immediately think of the associated risks.
+    The risks should also be directly connected to the feature’s or API’s utility.
+    For example, this usually means we can’t ask permission to accept fingerprinting risks,
+    as they are subtle, technical, and commonly have nothing to do with the capability itself.
+    <li> <strong>Provide sufficient context.</strong>
+    People need to easily understand who they’re dealing with,
+    what the decision is about, and how the website will use any information they might share.
    </ul>
-   <p>If a feature is powerful enough to require user consent,
-but it’s impossible to explain to a typical user what they are consenting to,
-that’s a signal that you may need to reconsider the design of the feature.</p>
-   <p>If a permission prompt is shown,
-and the user doesn’t grant permission,
-the Web page should not be able to do anything
-that the user believes they have refused consent for.</p>
-   <p>By asking for consent,
-we can inform the user of what capabilities the web page does or doesn’t have,
-reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
-However, the <a href="#priority-of-constituencies">user benefit</a>
-of a new feature must justify the additional burden on users
-to decide whether to grant permission for each feature
-whenever it’s requested by a Web page.</p>
+   <p>If you can’t adhere to all of the above principles,
+that is likely an indication that asking the user isn’t the right approach.
+Instead, change the feature or API to address any remaining risk.</p>
+   <div class="note" role="note">
+    <p>A browser is responsible for managing requests for permission.
+Browsers will not be able to understand
+precisely how a user’s interaction with a site
+might result in a reasonable expectation of a permission request.
+The web platform provides sites with many ways
+either to communicate purpose and intent,
+or to employ deception and trickery.</p>
+    <p>The responsibility for clearly communicating intent is therefore shared
+between the design of APIs,
+user interface design in browsers,
+and how websites are constructed.
+It is preferable if respect for user intent
+is a natural outcome
+of following the simple, obvious, or default usage pattern for the API.
+This principle only asks that API designs encourage
+to construct sites that respect user intent.</p>
+   </div>
    <p>In your specification, the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-request-permission-to-use" id="ref-for-dfn-request-permission-to-use">request permission to use</a> and <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose" id="ref-for-dfn-prompt-the-user-to-choose">prompt the user to choose</a> algorithms from <a data-link-type="biblio" href="#biblio-permissions" title="Permissions">[permissions]</a> are good ways to ask for consent.</p>
+   <p>If you ask a user to make a decision and they say no,
+the website shouldn’t be able to do anything
+the user believes they just refused access to.
+For example, if the user agent asks permission to reveal a piece of information via one API,
+the same information shouldn’t be available with no permission via a different API.</p>
    <p>Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
 This can make it more difficult for a site to
 pressure users to grant consent.</p>
-   <p class="example" id="example-07793d34"><a class="self-link" href="#example-07793d34"></a>
-For example,
-the <a href="https://www.w3.org/TR/geolocation-API/">Geolocation API</a>
-grants access to a user’s location.
-This can help users in some contexts,
-like a mapping application,
-but may be dangerous to some users in other contexts -
-especially if used without the user’s knowledge.
-So that the user may decide whether their location may be used by a Web page,
-a permission prompt should be shown to the user asking whether to grant location access.
-If the user refuses permission,
-no location information is available to the Web page.
-</p>
    <p>See also:</p>
    <ul>
     <li data-md>
@@ -1131,7 +1172,7 @@ actively collected (for example, they have filled in a form).</p>
    <p>For such features, you should <a href="https://www.w3.org/TR/privacy-principles/#identity">understand the context</a>
 in which it will be used,
 including how it will be used alongside other features of the web.
-Make sure the user can <a href="#consent">give appropriate consent</a>.
+Make sure to <a href="#user-intent">design for user intent</a> and <a href="#user-decisions">help users make good decisions</a>.
 Design APIs to collect
 <a href="https://www.w3.org/TR/privacy-principles/#data-minimization">the smallest amount of data</a>
 necessary.
@@ -1230,7 +1271,7 @@ APIs should also provide granularity and user controls,
 in particular over <a href="https://www.w3.org/TR/privacy-principles/#dfn-data">personal data</a>,
 that is communicated to sites.
 When additional functionality requires additional data, APIs can enable this
-subject to user consent (e.g., a permission prompt or user activation).</p>
+if they <a href="#user-intent">design for user intent</a> and <a href="#user-decisions">help users make good decisions</a> when necessary.</p>
    <div class="example" id="example-fa9c901d"><a class="self-link" href="#example-fa9c901d"></a>
 A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
 </div>
@@ -1410,8 +1451,7 @@ If there is a user need or design principle which would fail
 if feature detection were available for the feature,
 then you should not support feature detection.</p>
    <p>Detecting the availability of a feature does not imply
-detecting whether <a href="#consent">consent</a> to use the feature
-has been granted.
+detecting whether <a href="#user-decisions">the user has been asked</a> to use the feature.  
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -1432,7 +1472,7 @@ it must not be feature detected.</p>
     <li data-md>
      <p><a href="#secure-context">§ 2.8 Consider limiting new features to secure contexts</a></p>
     <li data-md>
-     <p><a href="#consent">§ 1.4 Ask users for meaningful consent</a></p>
+     <p><a href="#user-decisions">§ 1.4.1 Help users make good decisions</a></p>
    </ul>
    <h3 class="heading settled" data-level="2.7" id="text-formats"><span class="secno">2.7. </span><span class="content">Design textual formats for humans</span><a class="self-link" href="#text-formats"></a></h3>
    <p>Design textual formats that can be easily produced and consumed by people.
@@ -1578,8 +1618,7 @@ a single user’s activity
 both in and out of private browsing mode,
 consider possible <a href="https://www.w3.org/TR/security-privacy-questionnaire/#mitigations">mitigations</a>
 such as introducing noise,
-or using permission prompts to give the user extra information
-to help them meaningfully consent to this tracking (see <a href="#consent">§ 1.4 Ask users for meaningful consent</a>).</p>
+or <a href="#user-decisions">helping users make good decisions</a> about this tracking, if necessary.</p>
    <p>Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
 Therefore, APIs which provide client-side storage
@@ -1670,8 +1709,8 @@ periodically (<a href="https://html.spec.whatwg.org/#transient-activation-gated-
 once per API call (<a href="https://html.spec.whatwg.org/#activation-consuming-api">transient consuming</a>).</p>
    <p>Note that while user activation is in many cases necessary,
 it is not always <em>sufficient</em>
-to protect users from invasive behaviours,
-and seeking <a href="#consent">meaningful consent</a> is also important.</p>
+to protect users from invasive behaviours.
+<a href="#user-intent">Designing for user intent</a> and <a href="#user-decisions">helping users to make good decisions</a> is also important.</p>
    <h3 class="heading settled" data-level="2.13" id="support-non-fully-active"><span class="secno">2.13. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
    <p>Specify how your feature behaves
 in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active">fully active</a> BFCached (Back/forward cached) documents if possible.</p>
@@ -2756,7 +2795,7 @@ than code using callback functions.</p>
    <p>An API might need to be asynchronous if:</p>
    <ul>
     <li data-md>
-     <p>the user agent needs to prompt the user for <a href="#consent">permission</a>,</p>
+     <p>the user agent needs to prompt the user for <a href="#user-decisions">permission</a>,</p>
     <li data-md>
      <p>some information might need to be read from disk,
 or requested from the network,</p>
@@ -3632,9 +3671,8 @@ make sure any stored device identifiers are cleared.</p>
     <dd data-md>
      <p>If you can’t create a device identifier in an anonymous way,
 limit access to it.
-Make sure the user can provide
-<a href="#consent">meaningful consent</a>
-to a Web page accessing this information.</p>
+Make sure you <a href="#user-decisions">help the user make good decisions</a>
+about a Web page accessing this information.</p>
     <dt data-md>Tie identifiers to the same-origin model
     <dd data-md>
      <p>Create distinct identifiers for the same physical device
@@ -3659,7 +3697,7 @@ for each origin.</p>
    <p>See also:</p>
    <ul>
     <li data-md>
-     <p><a href="#consent">§ 1.4 Ask users for meaningful consent</a></p>
+     <p><a href="#user-decisions">§ 1.4.1 Help users make good decisions</a></p>
     <li data-md>
      <p><a data-link-type="biblio" href="#biblio-least-power" title="The Rule of Least Power">[LEAST-POWER]</a></p>
     <li data-md>
@@ -3686,7 +3724,7 @@ Such an API:</p>
     <li data-md>
      <p>keeps the user in control,</p>
     <li data-md>
-     <p>doesn’t expose any device information without the user’s <a href="#consent">consent</a>,</p>
+     <p><a href="#user-decisions">helps users understand</a> their decisions,</p>
     <li data-md>
      <p>doesn’t expose any fingerprinting data about the user’s environment by default, and</p>
     <li data-md>
@@ -3697,7 +3735,9 @@ it may be necessary to also expose
 the fact that there are devices are available to be picked.
 This does expose one bit of fingerprinting data about the user’s environment
 to websites,
-so it isn’t quite as safe as an API which doesn’t have such a feature.</p>
+so it isn’t quite as safe as an API which doesn’t have such a feature.
+Ensure that such an API ensures that it is possible to present sufficient information
+on user interfaces that users are able to <a href="#user-decisions">make good decisions</a>.</p>
    <div class="example" id="example-e2381236">
     <a class="self-link" href="#example-e2381236"></a>
 The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/remote-playback/#dom-remoteplayback" id="ref-for-dom-remoteplayback">RemotePlayback</a></code> interface
@@ -5738,7 +5778,7 @@ let dfnPanelData = {
 "ba920583": {"dfnID":"ba920583","dfnText":"style","external":true,"refSections":[{"refs":[{"id":"ref-for-the-style-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#the-style-element"},
 "bc5645aa": {"dfnID":"bc5645aa","dfnText":"octet","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-octet"},{"id":"ref-for-idl-octet\u2460"},{"id":"ref-for-idl-octet\u2461"},{"id":"ref-for-idl-octet\u2462"},{"id":"ref-for-idl-octet\u2463"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-octet"},
 "bc9fe445": {"dfnID":"bc9fe445","dfnText":"createAttribute(localName)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-createattribute"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-document-createattribute"},
-"bcc085e3": {"dfnID":"bcc085e3","dfnText":"request permission to use","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-request-permission-to-use"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
+"bcc085e3": {"dfnID":"bcc085e3","dfnText":"request permission to use","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-request-permission-to-use"}],"title":"1.4.1. Help users make good decisions"}],"url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
 "bdbd19d1": {"dfnID":"bdbd19d1","dfnText":"Promise","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-promise"}],"title":"6.16. Return undefined from side-effect-causing functions"},{"refs":[{"id":"ref-for-idl-promise\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://webidl.spec.whatwg.org/#idl-promise"},
 "bdcd112d": {"dfnID":"bdcd112d","dfnText":"bigint","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-bigint"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-bigint"},
 "be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
@@ -5748,7 +5788,7 @@ let dfnPanelData = {
 "c01cbda0": {"dfnID":"c01cbda0","dfnText":"EnforceRange","external":true,"refSections":[{"refs":[{"id":"ref-for-EnforceRange"},{"id":"ref-for-EnforceRange\u2460"},{"id":"ref-for-EnforceRange\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#EnforceRange"},
 "c1ebc639": {"dfnID":"c1ebc639","dfnText":"@supports","external":true,"refSections":[{"refs":[{"id":"ref-for-at-ruledef-supports"}],"title":"2.6. New features should be detectable"}],"url":"https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports"},
 "c219fdf4": {"dfnID":"c219fdf4","dfnText":"srcset","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-img-srcset"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset"},
-"c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4. Ask users for meaningful consent"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
+"c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4.1. Help users make good decisions"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "c262266a": {"dfnID":"c262266a","dfnText":"WorkerType","external":true,"refSections":[{"refs":[{"id":"ref-for-workertype"}],"title":"6.13. Use strings for constants and enums"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
