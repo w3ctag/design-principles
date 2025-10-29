@@ -352,22 +352,39 @@ it might still be possible; see [[#removing-features]].
 
 Do not assume that a change or removal is impossible without first checking.
 
-<h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
+<h3 id=removing-features>Prioritize compatibility when changing or removing features</h3>
 
-Prioritize compatibility with existing content when removing or changing functionality.
+Before changing how a feature behaves,
+understand how websites are currently using it.
 
-Once a significant amount of content has come to depend on a particular behavior,
-removing or changing that behavior is discouraged.
-Removing or changing features and capabilities is possible,
-but it first requires that the nature and scope of the impact on existing content
-is well understood.
-This might require research into how features are used by existing content.
+Gaining a good understanding might require research,
+for example by adding metrics to a widely-used user agent
+or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
+Breaking content harms users,
+and the benefit of a change has to
+significantly outweigh that harm to be worth doing
+[[the-web-is-unversioned]].
 
-The obligation to understand existing usage also applies to any features that content relies upon.
+The obligation to understand existing usage
+also applies to non-standardized or unspecified features
+that content relies upon.
 This includes vendor-proprietary features and
-behavior that might be considered implementation bugs.
-Web features are not solely defined in specifications;
-they are also defined by how content uses those features.
+implementation bugs.
+
+Despite this, it is sometimes acceptable
+to break some existing content
+in order to improve the experience for a large number of web users.
+Breakage is more likely to be acceptable if:
+
+* Only a tiny amount of existing content depend on the feature or behavior.
+* Only a tiny number of people see that content.
+* The content appears only in test cases or examples.
+* The content is already broken in some widely-used user agents,
+    and either they have not received many bug reports about it,
+    or the change is expected to improve interoperability.
+* The benefit of breaking content is very large.
+    For example, removing old SSL and TLS versions caused a number of sites to become unreachable
+    but prevents more security breaches.
 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
