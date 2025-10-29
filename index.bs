@@ -928,6 +928,44 @@ it is not always *sufficient*
 to protect users from invasive behaviours.
 [Designing for user intent](#user-intent) and [helping users to make good decisions](#user-decisions) is also important.
 
+<h3 id="handle-destroyed-contexts">Handle non-fully active documents (and destroyed execution contexts)</h3>
+
+When an <{iframe}> (or similar) is removed or navigated,
+its document stops being [=Document/fully active=]
+and its [=ECMAScript/execution contexts=] can get destroyed.
+However, references to objects from that document
+can remain reachable from other documents
+or from other realms.
+
+Specifications should say what happens both at call time
+and after an operation has begun:
+otherwise background work may keep running after a page is gone,
+UI can hang, and user agents diverge in abort/cleanup behavior.
+
+If the [=relevant global object=]'s [=associated Document=]
+is not [=Document/fully active=] at call time,
+then [=throw=] or return [=a promise rejected with=]
+with {{InvalidStateError}}.
+
+If, after starting an asynchronous operation,
+that [=associated Document=] becomes non-[=Document/fully active=]
+or the [=relevant global object=]'s [=ECMAScript/execution context=] is destroyed by script,
+abort the operation and reject with {{AbortError}}.
+If the operation presents UI (e.g., a picker, chooser, or prompt),
+dismiss it when the context becomes non-[=Document/fully active=]
+and settle with {{AbortError}}.
+
+When [=queue a task|queueing=] subsequent work
+(e.g., for an event, settling a promise, a time-based operation),
+include an early exit:
+if the [=associated Document=] is not [=Document/fully active=],
+gracefully terminate the [=task=].
+Do not rely on garbage collection to define these semantics.
+
+See also: [[#support-non-fully-active]] for the BFCache case;
+most of the same principles apply to detached iframes
+and other torn-down [=All Execution Contexts/realms=].
+
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
 Specify how your feature behaves
