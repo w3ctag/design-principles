@@ -338,7 +338,7 @@ Breakage is more likely to be acceptable if:
     and either they have not received many bug reports about it,
     or the change is expected to improve interoperability.
 * The benefit of breaking content is very large.
-    For example, removing old SSL and TLS versions breaks lots of content
+    For example, removing old SSL and TLS versions caused a number of sites to become unreachable
     but prevents more security breaches.
 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
