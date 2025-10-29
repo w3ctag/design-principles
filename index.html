@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="5b9b53cfbb3e11c957731327c4c8a3c3a1858a7d" name="revision">
+  <meta content="62fc770df6b53054dbbe61e7ae327abbbfe1ce72" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="p-name no-ref" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-10-28">28 October 2025</time></p>
+    <time class="dt-updated" datetime="2025-10-29">29 October 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -794,7 +794,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#identity"><span class="secno">1.5</span> <span class="content">Use identity appropriately in context</span></a>
       <li><a href="#devices-platforms"><span class="secno">1.6</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
       <li><a href="#new-features"><span class="secno">1.7</span> <span class="content">Add new capabilities with care</span></a>
-      <li><a href="#removing-features"><span class="secno">1.8</span> <span class="content">Remove or change capabilities only once you understand existing usage</span></a>
+      <li><a href="#removing-features"><span class="secno">1.8</span> <span class="content">Prioritize compatibility when changing or removing features</span></a>
       <li><a href="#leave-the-web-better"><span class="secno">1.9</span> <span class="content">Leave the web better than you found it</span></a>
       <li><a href="#data-minimization"><span class="secno">1.10</span> <span class="content">Minimize user data</span></a>
      </ol>
@@ -1222,21 +1222,43 @@ See <a href="#feature-detect">§ 2.6 New features should be detectable</a>.</p
 see for example <a href="https://html.spec.whatwg.org/multipage/introduction.html#extensibility"><cite>HTML</cite> § 1.7.2 Extensibility</a>.</p>
    <p>Before adding items, consider integration with existing, similar capabilities.
 If this leads to a preferred design approach that cannot be implemented by only adding items,
-it might still be possible; see <a href="#removing-features">§ 1.8 Remove or change capabilities only once you understand existing usage</a>.</p>
+it might still be possible; see <a href="#removing-features">§ 1.8 Prioritize compatibility when changing or removing features</a>.</p>
    <p>Do not assume that a change or removal is impossible without first checking.</p>
-   <h3 class="heading settled" data-level="1.8" id="removing-features"><span class="secno">1.8. </span><span class="content">Remove or change capabilities only once you understand existing usage</span><a class="self-link" href="#removing-features"></a></h3>
-   <p>Prioritize compatibility with existing content when removing or changing functionality.</p>
-   <p>Once a significant amount of content has come to depend on a particular behavior,
-removing or changing that behavior is discouraged.
-Removing or changing features and capabilities is possible,
-but it first requires that the nature and scope of the impact on existing content
-is well understood.
-This might require research into how features are used by existing content.</p>
-   <p>The obligation to understand existing usage also applies to any features that content relies upon.
+   <h3 class="heading settled" data-level="1.8" id="removing-features"><span class="secno">1.8. </span><span class="content">Prioritize compatibility when changing or removing features</span><a class="self-link" href="#removing-features"></a></h3>
+   <p>Before changing how a feature behaves,
+understand how websites are currently using it.</p>
+   <p>Gaining a good understanding might require research,
+for example by adding metrics to a widely-used user agent
+or by <a href="https://har.fyi/guides/getting-started/">searching the HTTP Archive</a>.
+Breaking content harms users,
+and the benefit of a change has to
+significantly outweigh that harm to be worth doing
+<a data-link-type="biblio" href="#biblio-the-web-is-unversioned" title="The web is unversioned">[the-web-is-unversioned]</a>.</p>
+   <p>The obligation to understand existing usage
+also applies to non-standardized or unspecified features
+that content relies upon.
 This includes vendor-proprietary features and
-behavior that might be considered implementation bugs.
-Web features are not solely defined in specifications;
-they are also defined by how content uses those features.</p>
+implementation bugs.</p>
+   <p>Despite this, it is sometimes acceptable
+to break some existing content
+in order to improve the experience for a large number of web users.
+Breakage is more likely to be acceptable if:</p>
+   <ul>
+    <li data-md>
+     <p>Only a tiny amount of existing content depend on the feature or behavior.</p>
+    <li data-md>
+     <p>Only a tiny number of people see that content.</p>
+    <li data-md>
+     <p>The content appears only in test cases or examples.</p>
+    <li data-md>
+     <p>The content is already broken in some widely-used user agents,
+and either they have not received many bug reports about it,
+or the change is expected to improve interoperability.</p>
+    <li data-md>
+     <p>The benefit of breaking content is very large.
+For example, removing old SSL and TLS versions caused a number of sites to become unreachable
+but prevents more security breaches.</p>
+   </ul>
    <h3 class="heading settled" data-level="1.9" id="leave-the-web-better"><span class="secno">1.9. </span><span class="content">Leave the web better than you found it</span><a class="self-link" href="#leave-the-web-better"></a></h3>
    <p>As you add new capabilities to the web platform,
 do so in a way that improves the overall platform.</p>
@@ -5357,6 +5379,8 @@ so they can correct this omission.</p>
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc9110.html"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://httpwg.org/specs/rfc9110.html">https://httpwg.org/specs/rfc9110.html</a>
    <dt id="biblio-screen-capture">[SCREEN-CAPTURE]
    <dd>Jan-Ivar Bruaroey; Elad Alon. <a href="https://w3c.github.io/mediacapture-screen-share/"><cite>Screen Capture</cite></a>. URL: <a href="https://w3c.github.io/mediacapture-screen-share/">https://w3c.github.io/mediacapture-screen-share/</a>
+   <dt id="biblio-the-web-is-unversioned">[THE-WEB-IS-UNVERSIONED]
+   <dd>Sangwhan Moon; Amy Guy. <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/"><cite>The web is unversioned</cite></a>. 27 March 2025. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/">https://www.w3.org/2001/tag/doc/the-web-is-unversioned/</a>
    <dt id="biblio-uievents">[UIEVENTS]
    <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
