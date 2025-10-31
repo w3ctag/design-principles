@@ -24,6 +24,23 @@ Required IDs: using-http
 
 Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
+<pre class="biblio">
+{
+    "draft-ietf-oauth-sd-jwt-vc": {
+        "href": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc",
+        "title": "SD-JWT-based Verifiable Credentials (SD-JWT VC)",
+        "status": "Internet-Draft",
+        "publisher": "IETF"
+    },
+    "vc-data-model-1.1": {
+        "href": "https://www.w3.org/TR/vc-data-model-1.1/",
+        "title": "Verifiable Credentials Data Model v1.1",
+        "status": "REC",
+        "publisher": "W3C",
+        "deliveredBy": ["https://www.w3.org/groups/wg/vc"]
+    }
+}
+</pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
 spec:html; type:event; text:resize
@@ -3838,6 +3855,49 @@ You may also find that none of these options is acceptable to your group.
 While the best path forward may be to choose not to specify the feature,
 there is the risk that some implementations
 may ship the feature as a nonstandard API.
+
+<h3 id="multiple-algorithms">Write only one algorithm to accomplish a goal</h3>
+
+When specifying how to accomplish a goal, write a single algorithm to do it,
+instead of letting implementers pick between multiple algorithms.
+
+It is very difficult to ensure that
+two different algorithms produce the same results in all cases,
+and doing so is rarely worth the cost.
+
+<div class="example" id="html-polyglot">
+
+[[html-polyglot inline]] was an attempt to define a common subset of both XHTML and HTML
+that could be parsed into equivalent DOM trees
+using either the [[HTML#the-xhtml-syntax|XHTML parsing]]
+or [[HTML#syntax|HTML parsing]] algorithm.
+Authors who tried to use this syntax tended to produce documents
+that only worked with one of the two parsers.
+
+</div>
+
+<div class="example" id="json-ld-polyglot">
+
+The [[vc-data-model-1.1 inline obsolete]] and [[cid inline]] both endorse implementations
+that use either JSON or JSON-LD to parse bytes into their data models.
+Because JSON-LD provides many more ways
+to assign properties to particular objects than JSON does,
+these specifications had to add extra rules to both kinds of parsers
+in order to ensure that each input document had exactly one possible interpretation.
+[[vc-data-model-2.0 inline]] and [[draft-ietf-oauth-sd-jwt-vc inline]] fixed the problem
+by defining different media types for JSON-LD vs JSON,
+which means implementations are instructed to use exactly one of the algorithms.
+The authors of [[cid inline]] have decided the extra specification work and testing
+are acceptable prices to be able to allow both implementation strategies,
+and they have partially mitigated the risks by explicitly stating that
+if a single document can conformantly have multiple interpretations,
+it's a specification bug.
+
+</div>
+
+Note: While [[rfc6838#section-6|structured suffixes]] define that
+a document can be parsed in two different ways,
+they do not violate this rule because the results have different data models.
 
 <h3 id="monkey-patching">Avoid monkey patching</h3>
 A <dfn export>monkey patch</dfn> layers new functionality on top of an existing specification in a way that extends, overrides, or otherwise modifies the existing specification's behavior.
