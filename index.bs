@@ -3734,50 +3734,65 @@ Default to defining either
 an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]],
 but another similar mechanism is also acceptable.
 
-Registries are helpful because they
+The place in a specification that dispatches to an extension's implementation
+is known as an <dfn export>extension point</dfn>.
+To maximize the chance that a specification with extension points is interoperably implemented,
+each extension point should
 
-*   reduce name collisions,
-1. Help readers find the name for a desired purpose.
-1. Direct readers to a specification for each name
-    (if the registry requires this).
+* define how implementations can negotiate which extensions are acceptable,
+* define what to do with unrecognized extensions
+    (see [[RFC6709#section-4|section 4 of RFC6709]]),
+* define what interface extensions are supposed to implement, and
+* link to a specification of each extension that is
+    detailed enough to support interoperable implementations of the extension,
+    as is required by
+    the IETF's [[RFC8126#section-4.6|Specification Required]] registration policy.
 
-Items in a registry generally need to implement a defined interface
-in order to plug into the specification they're extending.
-The definition of the registry must be clear about this interface,
-and it should require new entries to include a specification that follows it.
-This roughly corresponds to
-the IETF's [[RFC8126#section-4.6|Specification Required]] registration policy.
-It's difficult to be confident in an interface definition
-before that interface has several implementations,
-so any new registry should start with at least 2-3 entries defined.
+Registries help because they
+
+* give each extension a unique name to use
+    in negotiation and
+    in recognizing what extension is in use,
+* provide a place to link to extension specifications
+    (if the registry requires this), and
+* help readers find the name for a desired purpose.
 
 It is tempting to additionally require that registry entries be
 "good" in some way beyond what is needed to achieve interoperability.
-Use a permissive registration policy instead of doing this
-unless the feature includes
-some way to enforce that no implementation can use an unregistered name.
-The IETF has found that
-when it's too hard to add entries to a registry,
-implementers will often simply use names without registering them.
+Whether this can succeed depends on the ecosystem and the expected implementers.
+Implementers are most likely to be willing to
+navigate a demanding registration process and
+constrain their implementations to match strict registration requirements
+when they are a small set, wealthy, and generally-aligned,
+as in the case of web browser engines.
+The more diverse or constrained implementers become,
+the less you can expect them to consistently work to register extensions.
 
-When a feature's main specification defines some initial registry entries,
-each one can be either required or optional for implementations to recognize.
-If implementations need to pick an understood registry entry to send to their recipients,
-then the registry should include at least 1 required entry.
-If implementations can be
-divided into distinct [[spec-variability#subdivision-profile|profiles]]
-that tend not to need to communicate with other profiles,
-it can be sufficient for each profile to require a registry entry
-even if the main specification leaves them all optional.
+At the limit, implementers might not even be willing to specify their extensions.
+If the specification authors consider this likely, it may be worth allowing
+[[rfc8126#section-4.4|first-come-first-served registrations without a specification]]
+just to reduce the risk of name collisions,
+although the registry should still encourage full specifications.
 
-It can be tempting to use URLs instead of registered strings to identify extensions.
-This has the benefit of making it very easy to extend the feature,
+In the case of a registry that doesn't require specifications,
+it can be tempting to identify extensions with URLs or URIs instead of registered strings.
+This has the effect of defining a [[rfc8126#section-4.3|hierarchical registration policy]]
+and making it very easy to extend the feature,
 by just picking a URL from a domain that the extender controls.
-However, there's no way to ensure that
-these URLs point to a specification for the extension they name,
-or even that the domain stays under the control of the entity that defined the extension.
-URLs are appropriate for a few kinds of completely-permissionless extension,
+This clearly loses the interoperability benefits of requiring a specification,
+and in the case of DNS-based URLs,
+it also risks that the entity that defined the extension may lose control of its domain.
+URIs are appropriate for a few kinds of very-low-coordination extension,
 but most of the time a WG-managed permissive registry table will work better.
+
+Because an [=extension point=] defines an interface,
+and it's difficult to be confident in an interface definition
+before that interface has several implementations,
+any new registry should start with at least 2-3 entries defined.
+Each of these initial registry entries
+can be either required or optional for implementations to recognize.
+For extension points that can't just be ignored when their extension isn't recognized,
+then the registry should include at least 1 required entry.
 
 See [[qaframe-spec#extensions]] and [[RFC6709]] for
 more guidance on how to design extensibility.
