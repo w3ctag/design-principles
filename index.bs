@@ -3723,9 +3723,9 @@ This implies that most optional features should be defined
 in the same specification that defined the original feature.
 
 Sometimes new extensions are expected to be needed in the future.
-In this case, the right plan is often to
-have the original standards body continue or restart
-a working group to produce an update to the feature's full specification.
+It is often most appropriate
+to have revise the specification to define an extension.
+This can reduce or avoid any need to precisely define requirements for extensions.
 
 However, if extensions need to be defined through
 a different process than updating the full specification,
@@ -3736,7 +3736,7 @@ but another similar mechanism is also acceptable.
 
 Registries are helpful because they
 
-1. Reduce name collisions.
+*   reduce name collisions,
 1. Help readers find the name for a desired purpose.
 1. Direct readers to a specification for each name
     (if the registry requires this).
@@ -3752,7 +3752,7 @@ before that interface has several implementations,
 so any new registry should start with at least 2-3 entries defined.
 
 It is tempting to additionally require that registry entries be
-"good" in some way beyond simply being specified.
+"good" in some way beyond what is needed to achieve interoperability.
 Use a permissive registration policy instead of doing this
 unless the feature includes
 some way to enforce that no implementation can use an unregistered name.
@@ -3779,7 +3779,7 @@ or even that the domain stays under the control of the entity that defined the e
 URLs are appropriate for a few kinds of completely-permissionless extension,
 but most of the time a WG-managed permissive registry table will work better.
 
-See [[qaframe-spec#extensions]] for
+See [[qaframe-spec#extensions]] and [[RFC6709]] for
 more guidance on how to design extensibility.
 
 <h3 id="implementability">Resolving tension between interoperability and implementability</h3>
