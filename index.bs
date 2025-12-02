@@ -3724,15 +3724,14 @@ in the same specification that defined the original feature.
 
 Sometimes new extensions are expected to be needed in the future.
 It is often most appropriate
-to have revise the specification to define an extension.
+to have to revise the specification to define an extension.
 This can reduce or avoid any need to precisely define requirements for extensions.
 
 However, if extensions need to be defined through
 a different process than updating the full specification,
 a registry is usually the right way to manage the known extensions.
 Default to defining either
-an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]],
-but another similar mechanism is also acceptable.
+an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]].
 
 The place in a specification that dispatches to an extension's implementation
 is known as an <dfn export>extension point</dfn>.
@@ -3792,7 +3791,7 @@ any new registry should start with at least 2-3 entries defined.
 Each of these initial registry entries
 can be either required or optional for implementations to recognize.
 For extension points that can't just be ignored when their extension isn't recognized,
-then the registry should include at least 1 required entry.
+the registry should include at least 1 required entry.
 
 See [[qaframe-spec#extensions]] and [[RFC6709]] for
 more guidance on how to design extensibility.
