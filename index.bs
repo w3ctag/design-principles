@@ -3793,6 +3793,49 @@ can be either required or optional for implementations to recognize.
 For extension points that can't just be ignored when their extension isn't recognized,
 the registry should include at least 1 required entry.
 
+<div class="example" heading="Link Relations" id="example-link-relation-registry">
+
+Link relations are currently registered in a 3-part registry.
+[[rfc8288#procedure|RFC 8288]] defines the [[IANA-RELATIONS inline]] registry
+which accepts entries that "reference a freely available, stable specification."
+[[MFREL inline]] defines a second registry
+to which anyone with a wiki account can add.
+This registry has a column for specifications,
+but nobody enforces that the column is filled in
+or that the specifications meet any particular quality requirements.
+[[html#linkTypes]] then repeats a subset of these relation types
+to define how they work in web browsers.
+
+In an ideal world, [[RFC8288]] and [[MFREL inline]] would probably be a single registry,
+with [[html#linkTypes|HTML]] defining browser behavior.
+The current split is probably due to mistakes in the historical registry requirements.
+
+The idea of <{a/rel}> as list of externally-defined keywords
+dates to at least [[rfc1866 inline obsolete]], in 1995, which said
+
+> The REL attribute gives the relationship(s) described by the hyperlink.
+> The value is a whitespace separated list
+> of relationship names. The semantics of link
+> relationships are not specified in this document.
+
+The [[html401 inline]], in 1999,
+defined a list of [known link relations](https://www.w3.org/TR/html401/types.html#type-links)
+but continued to encourage authors to invent their own.
+
+The IETF eventually defined the IANA registry in [[rfc4287 inline]], in 2005,
+and [[rfc5988 inline obsolete]], in 2010.
+These required specifications and expert review,
+but by this time too many custom link relations were in use
+to get them all specified and registered.
+Even if the registry had been in place from the beginning,
+we believe this is a case where implementers are too diverse
+to even know what kind of specification to expect for registered elements.
+The modern [[html#linkTypes|HTML]] table
+is a good way to align browser implementations
+on the subset of link relations that they react to.
+
+</div>
+
 See [[qaframe-spec#extensions]] and [[RFC6709]] for
 more guidance on how to design extensibility.
 
