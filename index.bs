@@ -171,9 +171,9 @@ if the user's expectation matches the feature's consequences
 
 Design your API so its behavior matches what people intend and expect.
 Then, in the best case, people don't need to get involved in allowing API access
-and thus can't make decisions they regret later. 
+and thus can't make decisions they regret later.
 Only ask the user for confirmation in exceptional circumstances.
-If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm, 
+If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm,
 afford users an option to stop capability access instead.
 
 <p class="example">
@@ -189,8 +189,8 @@ providing clarity, context, and user control.
 
 Asking for user approval has been a common way to handle the remaining risk.
 However, people often can't make good decisions on
-the questions they're asked  
-because they lack crucial context and information.  
+the questions they're asked
+because they lack crucial context and information.
 Being confronted with difficult or annoying questions leads
 to decision fatigue, habitual responses,
 annoyance from frequent interruptions, and regrettable decisions.
@@ -203,7 +203,7 @@ Use these principles:
 <li> **Limit the consequences from a bad decision by addressing risk at the API level first.**
     Do not ask users questions where a "bad" decision can lead to severe consequences,
     like a compromised device or serious personal data disclosure.</li>
-<li> **Provide constant feedback about persistent decisions.**   
+<li> **Provide constant feedback about persistent decisions.**
     If users' decisions last longer than the current session,
     user agents should remind users that their past decision still applies.
     Provide a way to retract any ongoing permission.
@@ -647,7 +647,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting whether [the user has been asked](#user-decisions) to use the feature.  
+detecting whether [the user has been asked](#user-decisions) to use the feature.
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -3938,7 +3938,7 @@ Names take meaning from:
 API naming *must* be done in easily readable US English.
 Keep in mind that most web developers aren't native English speakers.
 Whenever possible, names should be chosen that use common vocabulary
-a majority of English speakers are likely to understand when first encountering the name. 
+a majority of English speakers are likely to understand when first encountering the name.
 
 <div class="example">
 
