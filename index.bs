@@ -3708,6 +3708,165 @@ and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
 
+<h3 id="registries">Use registries to allow constrained extensions outside the original standards track</h3>
+
+When you expect a feature to need to be extended over time,
+choose a kind of extensibility based on the kinds of changes you expect.
+Revisions of the main standard are simplest and most coherent,
+but use a registry when you need a wider set of participants to be able to define extensions.
+
+[[spec-variability#variability|"Variability complicates interoperability."]]
+When a feature needs optional components,
+it is easiest to manage the complication if
+a single group is in charge of the whole design.
+This implies that most optional features should be defined
+in the same specification that defined the original feature.
+If new extensions are needed in the future,
+it is often most appropriate
+to define them by revising the original specification.
+This reduces the need to precisely define requirements for extensions.
+
+If implementers need to be able to add extensions
+without going through the full specification revision process,
+a registry is usually the right way to manage the known extensions.
+Default to defining either
+an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]].
+
+The place in a specification that dispatches to an extension's implementation
+is known as an <dfn export>extension point</dfn>.
+To maximize the chance that a specification with extension points is interoperably implemented,
+each extension point should
+
+* define how to uniquely identify extensions,
+* define how implementations can negotiate which extensions are acceptable or
+    what to do with unrecognized extensions
+    (see [[RFC6709#section-4|section 4 of RFC6709]]),
+* define what interface extensions are supposed to implement, and
+* link to a specification of each extension that is
+    detailed enough to support interoperable implementations of the extension,
+    as is required by
+    the IETF's [[RFC8126#section-4.6|Specification Required]] registration policy.
+
+Registries help because they
+
+* create a place where extension developers can coordinate
+    the allocation of identifiers for their extensions,
+* provide a place for implementers to find extension specifications
+    (if the registry requires this), and
+* help readers discover when existing extensions address their needs.
+
+It is tempting to additionally require that registry entries be
+"good" in some way beyond what is needed to achieve interoperability.
+Whether this can succeed depends on the ecosystem and the expected implementers.
+Implementers are most likely to be willing to
+navigate a demanding registration process and
+constrain their implementations to match strict registration requirements
+when they are a small set, well-resourced, and generally-aligned,
+as in the case of web browser engines.
+The more diverse or constrained implementers become,
+the less you can expect them to consistently work to register extensions.
+
+At the limit, implementers might not even be willing to document their extensions.
+If the specification authors consider this likely, it may be worth allowing
+[[rfc8126#section-4.4|first-come-first-served registrations without a specification]]
+just to reduce the risk of name collisions,
+although the registry should still encourage full specifications.
+
+In the case of a registry that doesn't require specifications,
+it can be tempting to identify extensions with URLs or URIs instead of registered strings.
+This has the effect of defining a [[rfc8126#section-4.3|hierarchical registration policy]]
+and making it very easy to extend the feature,
+by just picking a URL from a domain that the extender controls.
+This clearly loses the interoperability benefits of requiring a specification,
+and in the case of DNS-based URLs,
+it also risks that the entity that defined the extension may lose control of its domain.
+URIs are appropriate for a few kinds of very-low-coordination extension,
+such as the definition of an XML namespace [[XML-NAMES]],
+but most of the time a WG-managed permissive registry table will work better.
+
+Because an [=extension point=] defines an interface,
+and it's difficult to be confident in an interface definition
+before that interface has several implementations,
+any new registry should start with more than one entry defined.
+
+Consider the case of two implementations
+that implement non-overlapping subsets
+of the defined extensions for a given extension point.
+If the extension point cannot simply be treated as empty in that case,
+you must ensure that implementations always overlap
+by defining the registry to always include at least 1 required entry.
+
+<div class=example heading="Well-Known URIs" id="example-well-known">
+
+The [Well-Known URI registry](https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml),
+defined by [[RFC8615]],
+ensures that protocols don't collide when allocating a path in all web servers.
+
+Part of the purpose of HTTP and similar URL schemes
+is to allow new protocols to be defined on top of them,
+without requiring an update to the core HTTP specification for each new protocol.
+When these protocols need to retrieve information about an entire origin,
+the only effect on HTTP as a whole would come from potential name collisions.
+Since the registry itself mitigates that risk,
+there isn't a need for the whole HTTP community
+to agree on a new HTTP revision for each registration.
+
+The registry's requirement for a specification isn't too much of a burden
+because these cross-origin protocols
+tend to be defined by an agreement between the participating origins,
+which is documented in a specification.
+
+</div>
+
+<div class="example" heading="Link Relations" id="example-link-relation-registry">
+
+Registries can get complicated,
+especially when implementers work around mistakes in the registration requirements.
+They're still usually better than providing no place to list extensions.
+
+Link relations are currently registered in a 3-part registry.
+[[rfc8288#procedure|RFC 8288]] defines the [[IANA-RELATIONS inline]] registry
+which accepts entries that "reference a freely available, stable specification."
+[[MFREL inline]] defines a second registry
+to which anyone with a wiki account can add.
+This registry has a column for specifications,
+but nobody enforces that the column is filled in
+or that the specifications meet any particular quality requirements.
+[[html#linkTypes]] then repeats a subset of these relation types
+to define how they work in web browsers.
+
+In an ideal world, [[RFC8288]] and [[MFREL inline]] would probably be a single registry,
+with [[html#linkTypes|HTML]] defining browser behavior.
+
+The idea of <{a/rel}> as list of externally-defined keywords
+dates to at least [[rfc1866 inline obsolete]], in 1995, which said
+
+> The REL attribute gives the relationship(s) described by the hyperlink.
+> The value is a whitespace separated list
+> of relationship names. The semantics of link
+> relationships are not specified in this document.
+
+The [[html401 inline]], in 1999,
+defined a list of [known link relations](https://www.w3.org/TR/html401/types.html#type-links)
+but continued to encourage authors to invent their own.
+
+The IETF eventually defined the IANA registry in [[rfc4287 inline]], in 2005,
+and [[rfc5988 inline obsolete]], in 2010.
+These required specifications and expert review,
+but by this time too many custom link relations were in use
+to get them all specified and registered.
+Even if the registry had been in place from the beginning,
+we believe this is a case where implementers are too diverse
+to even know what kind of specification to expect for registered elements.
+The modern [[html#linkTypes|HTML]] table
+is a good way to align browser implementations
+on the subset of link relations that they react to.
+
+</div>
+
+See [[qaframe-spec#extensions]] and [[RFC6709]] for
+more guidance on how to design extensibility.
+
 <h3 id="implementability">Resolving tension between interoperability and implementability</h3>
 
 <!--
