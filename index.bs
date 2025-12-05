@@ -3749,12 +3749,11 @@ each extension point should
 
 Registries help because they
 
-* give each extension a unique name to use
-    in negotiation and
-    in recognizing what extension is in use,
-* provide a place to link to extension specifications
+* create a place where extension developers can coordinate
+    the allocation of identifiers for their extensions,
+* provide a place for implementers to find extension specifications
     (if the registry requires this), and
-* help readers find the name for a desired purpose.
+* help readers discover when existing extensions address their needs.
 
 It is tempting to additionally require that registry entries be
 "good" in some way beyond what is needed to achieve interoperability.
@@ -3762,12 +3761,12 @@ Whether this can succeed depends on the ecosystem and the expected implementers.
 Implementers are most likely to be willing to
 navigate a demanding registration process and
 constrain their implementations to match strict registration requirements
-when they are a small set, wealthy, and generally-aligned,
+when they are a small set, well-resourced, and generally-aligned,
 as in the case of web browser engines.
 The more diverse or constrained implementers become,
 the less you can expect them to consistently work to register extensions.
 
-At the limit, implementers might not even be willing to specify their extensions.
+At the limit, implementers might not even be willing to document their extensions.
 If the specification authors consider this likely, it may be worth allowing
 [[rfc8126#section-4.4|first-come-first-served registrations without a specification]]
 just to reduce the risk of name collisions,
@@ -3782,12 +3781,13 @@ This clearly loses the interoperability benefits of requiring a specification,
 and in the case of DNS-based URLs,
 it also risks that the entity that defined the extension may lose control of its domain.
 URIs are appropriate for a few kinds of very-low-coordination extension,
+such as the definition of an XML namespace [[XML-NAMES]],
 but most of the time a WG-managed permissive registry table will work better.
 
 Because an [=extension point=] defines an interface,
 and it's difficult to be confident in an interface definition
 before that interface has several implementations,
-any new registry should start with at least 2-3 entries defined.
+any new registry should start with more than one entry defined.
 Each of these initial registry entries
 can be either required or optional for implementations to recognize.
 For extension points that can't just be ignored when their extension isn't recognized,
