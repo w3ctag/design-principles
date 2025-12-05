@@ -3793,6 +3793,28 @@ can be either required or optional for implementations to recognize.
 For extension points that can't just be ignored when their extension isn't recognized,
 the registry should include at least 1 required entry.
 
+<div class=example heading="Well-Known URIs" id="example-well-known">
+
+The [Well-Known URI registry](https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml),
+defined by [[RFC8615]],
+ensures that protocols don't collide when allocating a path in all web servers.
+
+Part of the purpose of HTTP and similar URL schemes
+is to allow new protocols to be defined on top of them,
+without requiring an update to the core HTTP specification for each new protocol.
+When these protocols need to retrieve information about an entire origin,
+the only effect on HTTP as a whole would come from potential name collisions.
+Since the registry itself mitigates that risk,
+there isn't a need for the whole HTTP community
+to agree on a new HTTP revision for each registration.
+
+The registry's requirement for a specification isn't too much of a burden
+because these cross-origin protocols
+tend to be defined by an agreement between the participating origins,
+which is documented in a specification.
+
+</div>
+
 <div class="example" heading="Link Relations" id="example-link-relation-registry">
 
 Link relations are currently registered in a 3-part registry.
