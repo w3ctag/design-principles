@@ -3711,9 +3711,9 @@ and makes it clear when the state described by the flags is reset.
 <h3 id="registries">Use registries to allow constrained extensions outside the original standards track</h3>
 
 When you expect a feature to need to be extended over time,
-and it would be inappropriate to
-manage that change through the same standards process that defined the original feature,
-then a registry is usually the right design.
+choose a kind of extensibility based on the kinds of changes you expect.
+Revisions of the main standard are simplest and most coherent,
+but use a registry when you need a wider set of participants to be able to define extensions.
 
 [[spec-variability#variability|"Variability complicates interoperability."]]
 When a feature needs optional components,
@@ -3721,14 +3721,13 @@ it is easiest to manage the complication if
 a single group is in charge of the whole design.
 This implies that most optional features should be defined
 in the same specification that defined the original feature.
+If new extensions are needed in the future,
+it is often most appropriate
+to define them by revising the original specification.
+This reduces the need to precisely define requirements for extensions.
 
-Sometimes new extensions are expected to be needed in the future.
-It is often most appropriate
-to have to revise the specification to define an extension.
-This can reduce or avoid any need to precisely define requirements for extensions.
-
-However, if extensions need to be defined through
-a different process than updating the full specification,
+If implementers need to be able to add extensions
+without going through the full specification revision process,
 a registry is usually the right way to manage the known extensions.
 Default to defining either
 an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]].
@@ -3738,8 +3737,9 @@ is known as an <dfn export>extension point</dfn>.
 To maximize the chance that a specification with extension points is interoperably implemented,
 each extension point should
 
-* define how implementations can negotiate which extensions are acceptable,
-* define what to do with unrecognized extensions
+* define how to uniquely identify extensions,
+* define how implementations can negotiate which extensions are acceptable or
+    what to do with unrecognized extensions
     (see [[RFC6709#section-4|section 4 of RFC6709]]),
 * define what interface extensions are supposed to implement, and
 * link to a specification of each extension that is
@@ -3788,10 +3788,13 @@ Because an [=extension point=] defines an interface,
 and it's difficult to be confident in an interface definition
 before that interface has several implementations,
 any new registry should start with more than one entry defined.
-Each of these initial registry entries
-can be either required or optional for implementations to recognize.
-For extension points that can't just be ignored when their extension isn't recognized,
-the registry should include at least 1 required entry.
+
+Consider the case of two implementations
+that implement non-overlapping subsets
+of the defined extensions for a given extension point.
+If the extension point cannot simply be treated as empty in that case,
+you must ensure that implementations always overlap
+by defining the registry to always include at least 1 required entry.
 
 <div class=example heading="Well-Known URIs" id="example-well-known">
 
@@ -3817,6 +3820,10 @@ which is documented in a specification.
 
 <div class="example" heading="Link Relations" id="example-link-relation-registry">
 
+Registries can get complicated,
+especially when implementers work around mistakes in the registration requirements.
+They're still usually better than providing no place to list extensions.
+
 Link relations are currently registered in a 3-part registry.
 [[rfc8288#procedure|RFC 8288]] defines the [[IANA-RELATIONS inline]] registry
 which accepts entries that "reference a freely available, stable specification."
@@ -3830,7 +3837,6 @@ to define how they work in web browsers.
 
 In an ideal world, [[RFC8288]] and [[MFREL inline]] would probably be a single registry,
 with [[html#linkTypes|HTML]] defining browser behavior.
-The current split is probably due to mistakes in the historical registry requirements.
 
 The idea of <{a/rel}> as list of externally-defined keywords
 dates to at least [[rfc1866 inline obsolete]], in 1995, which said
