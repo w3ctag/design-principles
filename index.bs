@@ -595,7 +595,7 @@ An incomplete list of such guidance follows:
 * [[fetch#fetch-elsewhere|Fetch]]
 * <span id="using-http">[[RFC9205 inline]]</span>,
     especially on [[RFC9205#section-4.7|defining header fields]],
-    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis),
+    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&sort=&rfcs=on&by=group&group=httpbis),
     and the [HTTP Working Group style guide](https://httpwg.org/admin/editors/style-guide)
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
