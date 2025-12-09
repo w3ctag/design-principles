@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
+  <meta content="Bikeshed version fd9c5ce66, updated Mon Dec 8 22:43:21 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="82069d7bf8f452f707bfe582e9d3c527173e9888" name="revision">
+  <meta content="031a3decbf6bd1ec7b6865cc5fb75711262d0f4f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-12-02">2 December 2025</time></p>
+    <time class="dt-updated" datetime="2025-12-09">9 December 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -747,8 +747,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <em>This section describes the status of this document at the time of its
     publication. A list of current
     <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
-    latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web
-    Consortium">W3C</abbr> standards and drafts index</a>.</em>
+    latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web    Consortium">W3C</abbr> standards and drafts index</a>.</em>
   </p>
    <p>
     This document was published by the <a href="https://www.w3.org/groups/other/tag/">Technical Architecture Group</a>
@@ -756,8 +755,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     This is a draft document and
     may be updated, replaced, or obsoleted by other documents at any time.
     It is inappropriate to cite this document as other than a work in progress.
-    Editor’s Drafts are not endorsed by <abbr title="World Wide Web
-    Consortium">W3C</abbr> nor its Members.
+    Editor’s Drafts are not endorsed by <abbr title="World Wide Web    Consortium">W3C</abbr> nor its Members.
   </p>
    <p></p>
    <p>
@@ -767,8 +765,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <a href="https://github.com/w3ctag/design-principles/">GitHub repository</a>.
   </p>
    <p data-deliverer="34270">
-    The <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World
-    Wide Web Consortium">W3C</abbr> Patent Policy</a> does not carry any
+    The <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World    Wide Web Consortium">W3C</abbr> Patent Policy</a> does not carry any
     licensing requirements or commitments on this document.
   </p>
    <p>
@@ -1460,7 +1457,6 @@ for example by suggesting the user connect or enable the device.
 
 </p>
    <p>See <a href="#device-enumeration">§ 9.2 Use care when exposing APIs for selecting or enumerating devices</a>.</p>
-   <p></p>
    <p>Authors should always be able to detect a feature from JavaScript,
 and in some cases the feature should also be detectable
 in the language where it’s used
@@ -2118,8 +2114,8 @@ and those that happen after (such as for the <a data-link-type="dfn" href="https
 Note: the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①">computed value</a> should not be confused with the <a data-link-type="dfn" href="https://drafts.csswg.org/cssom-1/#resolved-value" id="ref-for-resolved-value">resolved value</a>
 which is returned from the <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle">getComputedStyle()</a></code> method.
 </div>
-   <div class="example" id="example-bdfc8e34">
-    <a class="self-link" href="#example-bdfc8e34"></a>
+   <div class="example" id="example-324ea8f7">
+    <a class="self-link" href="#example-324ea8f7"></a>
 For example, the <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property may accept a <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#number-value" id="ref-for-number-value">&lt;number></a> value,
 such as <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height①">line-height: 1.4</a>.
 This value represents a multiple of the <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css-fonts-4/#propdef-font-size" id="ref-for-propdef-font-size③">font-size</a>,
@@ -2143,7 +2139,7 @@ the <a class="css property" data-link-type="property" href="https://drafts.csswg
   <c- p>&lt;</c-><c- f>h2</c-> <c- e>style</c-><c- o>=</c-><c- s>"font-size: 200%"</c-><c- p>></c->
     This heading has a line-height of 56px,
     not 28px, even though the line-height was declared on the body.
-    This means that the 40px font won’t overflow the line height.
+    This means that the 40px font won't overflow the line height.
   <c- p>&lt;/</c-><c- f>h2</c-><c- p>></c->
 <c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
 </pre>
@@ -2599,7 +2595,9 @@ For example,
 
 <pre class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>,</c-> <c- p>{});</c->
 </pre>
-    <p>is equivalent to</p>
+    
+is equivalent to
+
 <pre class="highlight">element<c- p>.</c->scrollIntoView<c- p>(</c-><c- kc>false</c-><c- p>);</c->
 </pre>
    </div>
