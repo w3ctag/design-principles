@@ -31,6 +31,8 @@ spec:html
     type:event; text:resize
     type:attribute; for:HTMLInputElement; text:defaultValue
     type:attribute; for:HTMLInputElement; text:defaultChecked
+    type:element; text:a
+    type:element-attr; for:a; text:href
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
 spec:webidl
