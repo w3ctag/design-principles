@@ -962,21 +962,21 @@ and that user agents behave consistently.
 
 As general rules:
 
-* If, at call time,
-the [=relevant global object=]'s [=associated Document=]
-is not [=Document/fully active=],
-then the operation must fail immediately:
-either [=throw=] a {{InvalidStateError}} {{DOMException}},
-or return [=a promise rejected with=] {{InvalidStateError}} {{DOMException}}.
+  * If, at call time,
+    the [=relevant global object=]'s [=associated Document=]
+    is not [=Document/fully active=],
+    then the operation must fail immediately:
+    either [=throw=] a {{InvalidStateError}} {{DOMException}},
+    or return [=a promise rejected with=] {{InvalidStateError}} {{DOMException}}.
 
-* If, after starting an asynchronous operation,
-the [=associated Document=] becomes non-[=Document/fully active=],
-the operation must be aborted
-and failure signaled with {{AbortError}}.
-If the operation presents user-facing UI
-(e.g., a picker, chooser, or prompt),
-dismiss it when the document becomes non-[=Document/fully active=]
-and settle with {{AbortError}}.
+  * If, after starting an asynchronous operation,
+    the [=associated Document=] becomes non-[=Document/fully active=],
+    the operation must be aborted
+    and failure signaled with {{AbortError}}.
+    If the operation presents user-facing UI
+    (e.g., a picker, chooser, or prompt),
+    dismiss it when the document becomes non-[=Document/fully active=]
+    and settle with {{AbortError}}.
 
 When [=queue a task|queueing=] subsequent work
 (for example, to dispatch an event,
