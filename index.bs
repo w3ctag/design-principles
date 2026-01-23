@@ -933,10 +933,9 @@ to protect users from invasive behaviours.
 
 Make sure that your API behaves predictably
 when its [=relevant global object=]'s [=associated Document=]
-is no longer [=Document/fully active=]:
-failing fast if the document is already non-[=Document/fully active=]
-and aborting cleanly if it becomes non-[=Document/fully active=]
-mid-operation.
+is no longer [=Document/fully active=].
+Fail fast when the document is already non-[=Document/fully active=]
+and abort cleanly if it becomes non-[=Document/fully active=] mid-operation.
 
 When an <{iframe}> (or similar) is removed or navigated,
 its [=associated Document=] can stop being [=Document/fully active=].
@@ -950,9 +949,10 @@ This situation can arise when browser-mediated UI
 (e.g., authentication, payment, or credential presentation)
 is shown on behalf of an <{iframe}>
 and the <{iframe}> is removed or navigated
-while a user is interacting with it.
+while a user is interacting with that interface.
 
-Specifications should define behavior
+Specifications should define how UI actions
+interact with non-[=Document/fully active=] documents
 both at call time
 and after an operation has begun.
 Doing so helps ensure that background work stops
@@ -984,7 +984,7 @@ settle a promise, or perform time-based processing),
 specifications should include an early-exit check
 at the point the [=task=] runs:
 if the [=associated Document=] is not [=Document/fully active=],
-gracefully terminate the [=task=]
+then gracefully terminate the [=task=]
 without further observable effects.
 Specifications must not rely on garbage collection
 to define these semantics.
