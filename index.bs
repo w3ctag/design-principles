@@ -43,6 +43,7 @@ spec:webidl
 <pre class='ignored-specs'>
 spec: epub-34
 spec: svg2
+spec: mathml-core
 </pre>
 <pre class="anchors">
 urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
