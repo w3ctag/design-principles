@@ -996,6 +996,7 @@ even though BFCache may suspend a document
 rather than tearing it down.
 
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
+<h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
 Specify how your feature behaves
 in non-[=Document/fully active=] BFCached (Back/forward cached) documents if possible.
