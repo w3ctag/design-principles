@@ -40,8 +40,8 @@ spec:webidl
 </pre>
 <pre class='ignored-specs'>
 spec: epub-34
-spec: svg2
 spec: mathml-core
+spec: svg2
 </pre>
 <pre class="anchors">
 urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
