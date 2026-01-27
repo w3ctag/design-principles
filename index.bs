@@ -943,7 +943,7 @@ In many cases, user agents will tear down the document’s JavaScript
 [=ECMAScript/execution contexts=] rather than keeping them suspended.
 However, references to objects from that document
 can remain reachable from other documents
-or from other [=ECMAScript/realms=].
+or from other parts of the user agent.
 
 This situation can arise when browser-mediated UI
 (e.g., authentication, payment, or credential presentation)
@@ -951,7 +951,7 @@ is shown on behalf of an <{iframe}>
 and the <{iframe}> is removed or navigated
 while a user is interacting with that interface.
 
-Specifications should define how UI actions
+Specifications must define how calls and UI actions
 interact with non-[=Document/fully active=] documents
 both at call time
 and after an operation has begun.
@@ -965,9 +965,8 @@ As general rules:
   * If, at call time,
     the [=relevant global object=]'s [=associated Document=]
     is not [=Document/fully active=],
-    then the operation must fail immediately:
-    either [=throw=] a {{InvalidStateError}} {{DOMException}},
-    or return [=a promise rejected with=] {{InvalidStateError}} {{DOMException}}.
+    then the operation must fail immediately.
+    We suggest using an {{InvalidStateError}} {{DOMException}}.
 
   * If, after starting an asynchronous operation,
     the [=associated Document=] becomes non-[=Document/fully active=],
