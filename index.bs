@@ -929,6 +929,71 @@ it is not always *sufficient*
 to protect users from invasive behaviours.
 [Designing for user intent](#user-intent) and [helping users to make good decisions](#user-decisions) is also important.
 
+<h3 id="handle-non-fully-active-documents">Handle non-fully-active documents</h3>
+
+Make sure that your API behaves predictably
+when its [=relevant global object=]'s [=associated Document=]
+is no longer [=Document/fully active=].
+Fail fast when the document is already non-[=Document/fully active=]
+and abort cleanly if it becomes non-[=Document/fully active=] mid-operation.
+
+When an <{iframe}> (or similar) is removed or navigated,
+its [=associated Document=] can stop being [=Document/fully active=].
+In many cases, user agents will tear down the document’s JavaScript
+[=ECMAScript/execution contexts=] rather than keeping them suspended.
+However, references to objects from that document
+can remain reachable from other documents
+or from other parts of the user agent.
+
+This situation can arise when browser-mediated UI
+(e.g., authentication, payment, or credential presentation)
+is shown on behalf of an <{iframe}>
+and the <{iframe}> is removed or navigated
+while a user is interacting with that interface.
+
+Specifications must define how calls and UI actions
+interact with non-[=Document/fully active=] documents
+both at call time
+and after an operation has begun.
+Doing so helps ensure that background work stops
+on non-[=Document/fully active=] documents,
+that user-facing UI is gracefully dismissed,
+and that user agents behave consistently.
+
+As general rules:
+
+  * If, at call time,
+    the [=relevant global object=]'s [=associated Document=]
+    is not [=Document/fully active=],
+    then the operation must fail immediately.
+    We suggest using an {{InvalidStateError}} {{DOMException}}.
+
+  * If, after starting an asynchronous operation,
+    the [=associated Document=] becomes non-[=Document/fully active=],
+    the operation must be aborted
+    and failure signaled with {{AbortError}}.
+    If the operation presents user-facing UI
+    (e.g., a picker, chooser, or prompt),
+    dismiss it when the document becomes non-[=Document/fully active=]
+    and settle with {{AbortError}}.
+
+When [=queue a task|queueing=] subsequent work
+(for example, to dispatch an event,
+settle a promise, or perform time-based processing),
+specifications should include an early-exit check
+at the point the [=task=] runs:
+if the [=associated Document=] is not [=Document/fully active=],
+then gracefully terminate the [=task=]
+without further observable effects.
+Specifications must not rely on garbage collection
+to define these semantics.
+
+See also: [[#support-non-fully-active]] for the BFCache case.
+Many of the same principles apply to detached iframes
+and other documents that have become non-[=Document/fully active=],
+even though BFCache may suspend a document
+rather than tearing it down.
+
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
 Specify how your feature behaves
