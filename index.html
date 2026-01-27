@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="6ec7e11ec2b28be6bf46c2c76eb4c055a00834fa" name="revision">
+  <meta content="31952d9c886f58aa91bf978bfa21a962165a32c4" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -813,9 +813,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#private-browsing-mode"><span class="secno">2.10</span> <span class="content">Consider how your API should behave in private browsing mode</span></a>
       <li><a href="#do-not-expose-use-of-assistive-tech"><span class="secno">2.11</span> <span class="content">Don’t reveal that assistive technologies are being used</span></a>
       <li><a href="#require-user-activation"><span class="secno">2.12</span> <span class="content">Require user activation for powerful APIs</span></a>
-      <li><a href="#support-non-fully-active"><span class="secno">2.13</span> <span class="content">Support non-fully active BFCached documents</span></a>
-      <li><a href="#third-party-tools"><span class="secno">2.14</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
-      <li><a href="#prefer-composition"><span class="secno">2.15</span> <span class="content">Build complex types by composing simpler types</span></a>
+      <li><a href="#handle-non-fully-active-documents"><span class="secno">2.13</span> <span class="content">Handle non-fully-active documents</span></a>
+      <li><a href="#support-non-fully-active"><span class="secno">2.14</span> <span class="content">Support non-fully active BFCached documents</span></a>
+      <li><a href="#third-party-tools"><span class="secno">2.15</span> <span class="content">Prioritize usability over compatibility with third-party tools</span></a>
+      <li><a href="#prefer-composition"><span class="secno">2.16</span> <span class="content">Build complex types by composing simpler types</span></a>
      </ol>
     <li>
      <a href="#html"><span class="secno">3</span> <span class="content">HTML</span></a>
@@ -1734,9 +1735,68 @@ once per API call (<a href="https://html.spec.whatwg.org/#activation-consuming-a
 it is not always <em>sufficient</em>
 to protect users from invasive behaviours.
 <a href="#user-intent">Designing for user intent</a> and <a href="#user-decisions">helping users to make good decisions</a> is also important.</p>
-   <h3 class="heading settled" data-level="2.13" id="support-non-fully-active"><span class="secno">2.13. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
+   <h3 class="heading settled" data-level="2.13" id="handle-non-fully-active-documents"><span class="secno">2.13. </span><span class="content">Handle non-fully-active documents</span><a class="self-link" href="#handle-non-fully-active-documents"></a></h3>
+   <p>Make sure that your API behaves predictably
+when its <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window">associated Document</a>
+is no longer <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active">fully active</a>.
+Fail fast when the document is already non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①">fully active</a>
+and abort cleanly if it becomes non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active②">fully active</a> mid-operation.</p>
+   <p>When an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element">iframe</a></code> (or similar) is removed or navigated,
+its <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window①">associated Document</a> can stop being <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active③">fully active</a>.
+In many cases, user agents will tear down the document’s JavaScript
+<a data-link-type="dfn" href="https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts" id="ref-for-sec-execution-contexts">execution contexts</a> rather than keeping them suspended.
+However, references to objects from that document
+can remain reachable from other documents
+or from other parts of the user agent.</p>
+   <p>This situation can arise when browser-mediated UI
+(e.g., authentication, payment, or credential presentation)
+is shown on behalf of an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①">iframe</a></code>
+and the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> is removed or navigated
+while a user is interacting with that interface.</p>
+   <p>Specifications must define how calls and UI actions
+interact with non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active④">fully active</a> documents
+both at call time
+and after an operation has begun.
+Doing so helps ensure that background work stops
+on non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active⑤">fully active</a> documents,
+that user-facing UI is gracefully dismissed,
+and that user agents behave consistently.</p>
+   <p>As general rules:</p>
+   <ul>
+    <li data-md>
+     <p>If, at call time,
+the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window②">associated Document</a>
+is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active⑥">fully active</a>,
+then the operation must fail immediately.
+We suggest using an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.</p>
+    <li data-md>
+     <p>If, after starting an asynchronous operation,
+the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window③">associated Document</a> becomes non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active⑦">fully active</a>,
+the operation must be aborted
+and failure signaled with <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#aborterror" id="ref-for-aborterror">AbortError</a></code>.
+If the operation presents user-facing UI
+(e.g., a picker, chooser, or prompt),
+dismiss it when the document becomes non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active⑧">fully active</a>
+and settle with <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#aborterror" id="ref-for-aborterror①">AbortError</a></code>.</p>
+   </ul>
+   <p>When <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queueing</a> subsequent work
+(for example, to dispatch an event,
+settle a promise, or perform time-based processing),
+specifications should include an early-exit check
+at the point the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task">task</a> runs:
+if the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window④">associated Document</a> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active⑨">fully active</a>,
+then gracefully terminate the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task①">task</a>
+without further observable effects.
+Specifications must not rely on garbage collection
+to define these semantics.</p>
+   <p>See also: <a href="#support-non-fully-active">§ 2.14 Support non-fully active BFCached documents</a> for the BFCache case.
+Many of the same principles apply to detached iframes
+and other documents that have become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①⓪">fully active</a>,
+even though BFCache may suspend a document
+rather than tearing it down.</p>
+   <h3 class="heading settled" data-level="2.14" id="support-non-fully-active"><span class="secno">2.14. </span><span class="content">Support non-fully active BFCached documents</span><a class="self-link" href="#support-non-fully-active"></a></h3>
    <p>Specify how your feature behaves
-in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active">fully active</a> BFCached (Back/forward cached) documents if possible.</p>
+in non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①①">fully active</a> BFCached (Back/forward cached) documents if possible.</p>
    <p>If your feature does <strong>anything</strong>
 that falls into the
 following categories:</p>
@@ -1749,7 +1809,7 @@ following categories:</p>
 (e.g. holding locks)</p>
     <li data-md>
      <p>May malfunction when a document is
-kept in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①">fully active</a> BFCached state
+kept in a non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①②">fully active</a> BFCached state
 (instead of getting destroyed)
 after the user navigates away from it
 or gets restored
@@ -1757,19 +1817,19 @@ or gets restored
 won’t span multiple navigations)</p>
    </ul>
    <p>Specify how your feature works
-with non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active②">fully active</a> BFCached documents,
+with non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①③">fully active</a> BFCached documents,
 following the guidelines in the
 <a href="https://w3ctag.github.io/bfcache-guide/">Supporting BFCached Documents</a> guide.</p>
    <p class="note" role="note"><span class="marker">Note:</span> It is possible for a document
-to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active③">fully active</a>
+to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①④">fully active</a>
 for other reasons not related to BFcaching,
 such as when the iframe
 holding the document gets detached.
 This guidance only focuses
 on the case where BFCache is involved,
 and not other cases that might
-cause a document to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active④">fully active</a>.</p>
-   <h3 class="heading settled" data-level="2.14" id="third-party-tools"><span class="secno">2.14. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
+cause a document to become non-<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①⑤">fully active</a>.</p>
+   <h3 class="heading settled" data-level="2.15" id="third-party-tools"><span class="secno">2.15. </span><span class="content">Prioritize usability over compatibility with third-party tools</span><a class="self-link" href="#third-party-tools"></a></h3>
    <p>Design new features with usability as the primary goal, and compatibility with third-party tooling as a secondary goal.</p>
    <p>The web platform benefits from a wide ecosystem of tooling
 to facilitate easier and faster development.
@@ -1809,7 +1869,7 @@ unless it causes significant breakage of live websites.</p>
 that authors can use to extend the language
 without breaking future native functionality,
 to reduce such dilemmas in the future.</p>
-   <h3 class="heading settled" data-level="2.15" id="prefer-composition"><span class="secno">2.15. </span><span class="content">Build complex types by composing simpler types</span><a class="self-link" href="#prefer-composition"></a></h3>
+   <h3 class="heading settled" data-level="2.16" id="prefer-composition"><span class="secno">2.16. </span><span class="content">Build complex types by composing simpler types</span><a class="self-link" href="#prefer-composition"></a></h3>
    <p>Define subtypes that can always be used in place of a supertype.
 Avoid interfaces that use inheritance
 unless everything that can be said about an instance of the parent
@@ -3004,7 +3064,7 @@ in this manner.</p>
    <h3 class="heading settled" data-level="6.17" id="prefer-existing-task-sources"><span class="secno">6.17. </span><span class="content">Prefer existing task sources</span><a class="self-link" href="#prefer-existing-task-sources"></a></h3>
    <p>Use existing <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-source" id="ref-for-task-source">task sources</a> for dispatching work where possible.</p>
    <p>Only create a new <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-source" id="ref-for-task-source①">task source</a> when there is a clear reason to do so.
-Specs use <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-source" id="ref-for-task-source②">task sources</a> to group related work (or "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task">tasks</a>") so UAs can schedule them sensibly.
+Specs use <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-source" id="ref-for-task-source②">task sources</a> to group related work (or "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" id="ref-for-concept-task②">tasks</a>") so UAs can schedule them sensibly.
 A task is queued on a task source,
 and each task source is associated with a task queue for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-loop" id="ref-for-event-loop">event loop</a>.
 Order is guaranteed within a source, while the UA chooses which queue to service next.</p>
@@ -3165,7 +3225,7 @@ another option is to defer calling the author code
 to a later task or microtask.
 This avoids a stack of recursion,
 but can’t avoid the risk of an endless loop of follow-up tasks.</p>
-   <p>Deferring an event is often specified as "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">fire an event</a>...".</p>
+   <p>Deferring an event is often specified as "<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">fire an event</a>...".</p>
    <p>You should always defer events
 if the algorithm that triggers the event could be running
 on a different thread or process.
@@ -3629,7 +3689,7 @@ on the Web IDL Bugzilla</p>
    </div>
    <h3 class="heading settled" data-level="8.5" id="error-types"><span class="secno">8.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
-or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.
+or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.
 whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">APIs that wrap access to device or browser capabilities</span><a class="self-link" href="#device-apis"></a></h2>
    <p>New APIs are now being developed in the web platform for interacting with devices.
@@ -5115,6 +5175,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="5f45e759">FinalizationRegistry</span>
      <li><span class="dfn-paneled" id="5f9c7266">Number</span>
      <li><span class="dfn-paneled" id="bf77e69a">WeakRef</span>
+     <li><span class="dfn-paneled" id="c43d5ec9">execution contexts</span>
      <li><span class="dfn-paneled" id="434af3a5">now()</span>
      <li><span class="dfn-paneled" id="8bdd3ef8">then(onFulfilled, onRejected)</span>
     </ul>
@@ -5174,6 +5235,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="7e4cbc4d">acronym</span>
      <li><span class="dfn-paneled" id="5f753d3e">action</span>
      <li><span class="dfn-paneled" id="b2f8a695">alert()</span>
+     <li><span class="dfn-paneled" id="3349d69f">associated Document</span>
      <li><span class="dfn-paneled" id="2c82d279">audio</span>
      <li><span class="dfn-paneled" id="e81f86c3">bgColor</span>
      <li><span class="dfn-paneled" id="bfff6250">button</span>
@@ -5199,6 +5261,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="0e3ba9f8">fully active</span>
      <li><span class="dfn-paneled" id="ca0c892d">href <small>(for a)</small></span>
      <li><span class="dfn-paneled" id="a6078b11">href <small>(for link)</small></span>
+     <li><span class="dfn-paneled" id="87fcd40c">iframe</span>
      <li><span class="dfn-paneled" id="f0811ff8">img</span>
      <li><span class="dfn-paneled" id="d4127354">innerHTML</span>
      <li><span class="dfn-paneled" id="d7d642a2">input</span>
@@ -5227,6 +5290,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="5ab7b520">reflect</span>
      <li><span class="dfn-paneled" id="2037b271">rel <small>(for a)</small></span>
      <li><span class="dfn-paneled" id="eb9a1873">rel <small>(for link)</small></span>
+     <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
      <li><span class="dfn-paneled" id="4872935b">resize</span>
      <li><span class="dfn-paneled" id="5c35dd47">sandbox</span>
      <li><span class="dfn-paneled" id="0cf3964f">script</span>
@@ -5376,6 +5440,7 @@ so they can correct this omission.</p>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="d25dfb2c">AbortError</span>
      <li><span class="dfn-paneled" id="2f8afbfe">ArrayBuffer</span>
      <li><span class="dfn-paneled" id="22cb9a16">ByteString</span>
      <li><span class="dfn-paneled" id="f89c7d0d">Clamp</span>
@@ -5384,6 +5449,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="c01cbda0">EnforceRange</span>
      <li><span class="dfn-paneled" id="889e932f">Exposed</span>
      <li><span class="dfn-paneled" id="0a296dfe">Float32Array</span>
+     <li><span class="dfn-paneled" id="797018a7">InvalidStateError</span>
      <li><span class="dfn-paneled" id="bdbd19d1">Promise</span>
      <li><span class="dfn-paneled" id="b75bb3bd">SecureContext</span>
      <li><span class="dfn-paneled" id="7d783f61">SharedArrayBuffer</span>
@@ -5818,16 +5884,16 @@ let dfnPanelData = {
 "08baaf46": {"dfnID":"08baaf46","dfnText":"remove()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-childnode-remove"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://dom.spec.whatwg.org/#dom-childnode-remove"},
 "0992b8f5": {"dfnID":"0992b8f5","dfnText":"has(name)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-urlsearchparams-has"}],"title":"11.5.1. If you need to monkey patch"}],"url":"https://url.spec.whatwg.org/#dom-urlsearchparams-has"},
 "0a296dfe": {"dfnID":"0a296dfe","dfnText":"Float32Array","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-Float32Array"}],"title":"6.15. Output an array of bytes with Uint8Array"}],"url":"https://webidl.spec.whatwg.org/#idl-Float32Array"},
-"0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
+"0c0ceb78": {"dfnID":"0c0ceb78","dfnText":"bubbles","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-bubbles"}],"title":"2.16. Build complex types by composing simpler types"}],"url":"https://dom.spec.whatwg.org/#dom-event-bubbles"},
 "0cf3964f": {"dfnID":"0cf3964f","dfnText":"script","external":true,"refSections":[{"refs":[{"id":"ref-for-script"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-script\u2460"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/scripting.html#script"},
-"0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"}],"title":"2.13. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
+"0e3ba9f8": {"dfnID":"0e3ba9f8","dfnText":"fully active","external":true,"refSections":[{"refs":[{"id":"ref-for-fully-active"},{"id":"ref-for-fully-active\u2460"},{"id":"ref-for-fully-active\u2461"},{"id":"ref-for-fully-active\u2462"},{"id":"ref-for-fully-active\u2463"},{"id":"ref-for-fully-active\u2464"},{"id":"ref-for-fully-active\u2465"},{"id":"ref-for-fully-active\u2466"},{"id":"ref-for-fully-active\u2467"},{"id":"ref-for-fully-active\u2468"},{"id":"ref-for-fully-active\u2460\u24ea"}],"title":"2.13. Handle non-fully-active documents"},{"refs":[{"id":"ref-for-fully-active\u2460\u2460"},{"id":"ref-for-fully-active\u2460\u2461"},{"id":"ref-for-fully-active\u2460\u2462"},{"id":"ref-for-fully-active\u2460\u2463"},{"id":"ref-for-fully-active\u2460\u2464"}],"title":"2.14. Support non-fully active BFCached documents"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active"},
 "0e833ee0": {"dfnID":"0e833ee0","dfnText":"readyState","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xmlhttprequest-readystate"}],"title":"6.13. Use strings for constants and enums"}],"url":"https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate"},
 "0e9f636b": {"dfnID":"0e9f636b","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domhighrestimestamp"},{"id":"ref-for-dom-domhighrestimestamp\u2460"},{"id":"ref-for-dom-domhighrestimestamp\u2461"}],"title":"8.4. Use the appropriate type to represent times and dates"}],"url":"https://w3c.github.io/hr-time/#dom-domhighrestimestamp"},
 "1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"}],"title":"6.16. Return undefined from side-effect-causing functions"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "112278c6": {"dfnID":"112278c6","dfnText":"Gamepad","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-gamepad"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/gamepad/#dom-gamepad"},
 "11289557": {"dfnID":"11289557","dfnText":"figcaption","external":true,"refSections":[{"refs":[{"id":"ref-for-the-figcaption-element"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element"},
 "11e0b87f": {"dfnID":"11e0b87f","dfnText":"unrestricted double","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-unrestricted-double"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
-"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"},{"id":"ref-for-event\u2467"}],"title":"7.8. Put state on target objects rather than Events"},{"refs":[{"id":"ref-for-event\u2468"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
+"129bdae8": {"dfnID":"129bdae8","dfnText":"Event","external":true,"refSections":[{"refs":[{"id":"ref-for-event"},{"id":"ref-for-event\u2460"}],"title":"2.16. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-event\u2461"},{"id":"ref-for-event\u2462"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-event\u2463"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-event\u2464"},{"id":"ref-for-event\u2465"},{"id":"ref-for-event\u2466"},{"id":"ref-for-event\u2467"}],"title":"7.8. Put state on target objects rather than Events"},{"refs":[{"id":"ref-for-event\u2468"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#event"},
 "12cf38c9": {"dfnID":"12cf38c9","dfnText":"initial-letter","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter"},
 "141bbada": {"dfnID":"141bbada","dfnText":"DOMTokenList","external":true,"refSections":[{"refs":[{"id":"ref-for-domtokenlist"},{"id":"ref-for-domtokenlist\u2460"},{"id":"ref-for-domtokenlist\u2461"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-domtokenlist\u2462"},{"id":"ref-for-domtokenlist\u2463"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://dom.spec.whatwg.org/#domtokenlist"},
 "14e45097": {"dfnID":"14e45097","dfnText":"value (for HTMLInputElement)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-input-value"}],"title":"7.8. Put state on target objects rather than Events"}],"url":"https://html.spec.whatwg.org/multipage/input.html#dom-input-value"},
@@ -5836,7 +5902,7 @@ let dfnPanelData = {
 "1812300f": {"dfnID":"1812300f","dfnText":"dialog","external":true,"refSections":[{"refs":[{"id":"ref-for-the-dialog-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"},
 "19065ec8": {"dfnID":"19065ec8","dfnText":"abort()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-abortcontroller-abort"}],"title":"6.12. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-dom-abortcontroller-abort\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#dom-abortcontroller-abort"},
 "1bb59bab": {"dfnID":"1bb59bab","dfnText":"AudioWorklet","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioWorklet"}],"title":"10.2.1. Some APIs should only be exposed to dedicated workers"}],"url":"https://webaudio.github.io/web-audio-api/#AudioWorklet"},
-"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
+"1fc098b2": {"dfnID":"1fc098b2","dfnText":"KeyboardEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-keyboardevent"}],"title":"2.16. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/uievents/#keyboardevent"},
 "2037b271": {"dfnID":"2037b271","dfnText":"rel (for a)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-hyperlink-rel"}],"title":"11.3. Plan for future extensibility through main spec updates if possible; otherwise use a registry"}],"url":"https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-rel"},
 "2039631f": {"dfnID":"2039631f","dfnText":"namespace","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-namespace"},{"id":"ref-for-dfn-namespace\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "21ec9802": {"dfnID":"21ec9802","dfnText":"inherit","external":true,"refSections":[{"refs":[{"id":"ref-for-css-inheritance"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#css-inheritance"},
@@ -5856,6 +5922,7 @@ let dfnPanelData = {
 "31559e1b": {"dfnID":"31559e1b","dfnText":"define(name, constructor, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-customelementregistry-define"}],"title":"5.1. Use JavaScript for Web APIs"}],"url":"https://html.spec.whatwg.org/multipage/custom-elements.html#dom-customelementregistry-define"},
 "3245cc5d": {"dfnID":"3245cc5d","dfnText":"initial-letter-align","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-initial-letter-align"}],"title":"4.1. Separate CSS properties based on what should cascade separately"}],"url":"https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-align"},
 "3332e595": {"dfnID":"3332e595","dfnText":"setTimeout(handler, timeout, ...arguments)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-settimeout"}],"title":"8.3. Use milliseconds for time measurement"}],"url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
+"3349d69f": {"dfnID":"3349d69f","dfnText":"associated Document","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-document-window"},{"id":"ref-for-concept-document-window\u2460"},{"id":"ref-for-concept-document-window\u2461"},{"id":"ref-for-concept-document-window\u2462"},{"id":"ref-for-concept-document-window\u2463"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window"},
 "37ef25b8": {"dfnID":"37ef25b8","dfnText":"HTMLHtmlElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhtmlelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#htmlhtmlelement"},
 "3a2db83f": {"dfnID":"3a2db83f","dfnText":"localStorage","external":true,"refSections":[{"refs":[{"id":"79d831630"}],"title":"2.10. Consider how your API should behave in private browsing mode"},{"refs":[{"id":"ref-for-dom-localstorage"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage"},
 "3a3c984c": {"dfnID":"3a3c984c","dfnText":"task queues","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-service-worker-registration-task-queue"},{"id":"ref-for-dfn-service-worker-registration-task-queue\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue"},
@@ -5913,6 +5980,7 @@ let dfnPanelData = {
 "762869d3": {"dfnID":"762869d3","dfnText":"scalar value string","external":true,"refSections":[{"refs":[{"id":"ref-for-scalar-value-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#scalar-value-string"},
 "762ce945": {"dfnID":"762ce945","dfnText":"GlobalEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-globaleventhandlers"}],"title":"7.5. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"},
 "77996ab1": {"dfnID":"77996ab1","dfnText":"maplike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-maplike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-maplike"},
+"797018a7": {"dfnID":"797018a7","dfnText":"InvalidStateError","external":true,"refSections":[{"refs":[{"id":"ref-for-invalidstateerror"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
 "7a26cf99": {"dfnID":"7a26cf99","dfnText":"width","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-width"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-width"},
 "7b0dc914": {"dfnID":"7b0dc914","dfnText":"ProgressEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-progressevent"}],"title":"7.7. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#progressevent"},
 "7b1760b0": {"dfnID":"7b1760b0","dfnText":"console","external":true,"refSections":[{"refs":[{"id":"ref-for-namespacedef-console"},{"id":"ref-for-namespacedef-console\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://console.spec.whatwg.org/#namespacedef-console"},
@@ -5924,13 +5992,14 @@ let dfnPanelData = {
 "7f769aa9": {"dfnID":"7f769aa9","dfnText":"remote playback device","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "825cbc48": {"dfnID":"825cbc48","dfnText":"user interaction task source","external":true,"refSections":[{"refs":[{"id":"ref-for-user-interaction-task-source"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#user-interaction-task-source"},
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
-"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-htmlinputelement\u2462"}],"title":"7.8. Put state on target objects rather than Events"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
+"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.16. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-htmlinputelement\u2462"}],"title":"7.8. Put state on target objects rather than Events"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "83c7a70f": {"dfnID":"83c7a70f","dfnText":"MutationObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-mutationobserver"},{"id":"ref-for-mutationobserver\u2460"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#mutationobserver"},
 "84f243ef": {"dfnID":"84f243ef","dfnText":"label","external":true,"refSections":[{"refs":[{"id":"ref-for-the-label-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#the-label-element"},
 "85188fb3": {"dfnID":"85188fb3","dfnText":"select","external":true,"refSections":[{"refs":[{"id":"ref-for-the-select-element"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-select-element\u2460"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element"},
 "860300d4": {"dfnID":"860300d4","dfnText":"implementation-defined","external":true,"refSections":[{"refs":[{"id":"ref-for-implementation-defined"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://infra.spec.whatwg.org/#implementation-defined"},
 "8662cdd3": {"dfnID":"8662cdd3","dfnText":"checked","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-checked"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-checked"},
 "87bc23a5": {"dfnID":"87bc23a5","dfnText":"add","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-add"},{"id":"ref-for-abortsignal-add\u2460"},{"id":"ref-for-abortsignal-add\u2461"}],"title":"7.7. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-add"},
+"87fcd40c": {"dfnID":"87fcd40c","dfnText":"iframe","external":true,"refSections":[{"refs":[{"id":"ref-for-the-iframe-element"},{"id":"ref-for-the-iframe-element\u2460"},{"id":"ref-for-the-iframe-element\u2461"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element"},
 "8855a9aa": {"dfnID":"8855a9aa","dfnText":"DOMString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMString"},{"id":"ref-for-idl-DOMString\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
 "88885797": {"dfnID":"88885797","dfnText":"for","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-label-for"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"}],"url":"https://html.spec.whatwg.org/multipage/forms.html#attr-label-for"},
 "889e932f": {"dfnID":"889e932f","dfnText":"Exposed","external":true,"refSections":[{"refs":[{"id":"ref-for-Exposed"},{"id":"ref-for-Exposed\u2460"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://webidl.spec.whatwg.org/#Exposed"},
@@ -5947,7 +6016,7 @@ let dfnPanelData = {
 "96ffbcca": {"dfnID":"96ffbcca","dfnText":"selected","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-option-selected"}],"title":"3.5. Keep attributes in sync"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#attr-option-selected"},
 "9714d594": {"dfnID":"9714d594","dfnText":"HTMLCollection","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlcollection"},{"id":"ref-for-htmlcollection\u2460"}],"title":"5.3. Don\u2019t expose garbage collection"},{"refs":[{"id":"ref-for-htmlcollection\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#htmlcollection"},
 "99a3763c": {"dfnID":"99a3763c","dfnText":"font-size-adjust","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-font-size-adjust"}],"title":"11.5.1. If you need to monkey patch"}],"url":"https://drafts.csswg.org/css-fonts-4/#propdef-font-size-adjust"},
-"9a517a7d": {"dfnID":"9a517a7d","dfnText":"queue a task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-a-task"}],"title":"7.7. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
+"9a517a7d": {"dfnID":"9a517a7d","dfnText":"queue a task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-a-task"}],"title":"2.13. Handle non-fully-active documents"},{"refs":[{"id":"ref-for-queue-a-task\u2460"}],"title":"7.7. Guard against potential recursion"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
 "9aeb0a82": {"dfnID":"9aeb0a82","dfnText":"long long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-long-long"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-long-long"},
 "9be179f5": {"dfnID":"9be179f5","dfnText":"IntersectionObserver","external":true,"refSections":[{"refs":[{"id":"ref-for-intersectionobserver"}],"title":"7.9. Use Events and Observers appropriately"}],"url":"https://w3c.github.io/IntersectionObserver/#intersectionobserver"},
 "9cd25054": {"dfnID":"9cd25054","dfnText":"computed value","external":true,"refSections":[{"refs":[{"id":"ref-for-computed-value"},{"id":"ref-for-computed-value\u2460"},{"id":"ref-for-computed-value\u2461"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-cascade-5/#computed-value"},
@@ -5999,6 +6068,7 @@ let dfnPanelData = {
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
 "c3b2d08c": {"dfnID":"c3b2d08c","dfnText":"task source","external":true,"refSections":[{"refs":[{"id":"ref-for-task-source"},{"id":"ref-for-task-source\u2460"},{"id":"ref-for-task-source\u2461"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-source"},
+"c43d5ec9": {"dfnID":"c43d5ec9","dfnText":"execution contexts","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-execution-contexts"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
 "c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
 "c6d19e56": {"dfnID":"c6d19e56","dfnText":"event loop","external":true,"refSections":[{"refs":[{"id":"ref-for-event-loop"},{"id":"ref-for-event-loop\u2460"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-loop"},
@@ -6009,6 +6079,7 @@ let dfnPanelData = {
 "cca3cdb2": {"dfnID":"cca3cdb2","dfnText":"AbortSignal","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal"}],"title":"6.12. Cancel asynchronous APIs/operations using AbortSignal"},{"refs":[{"id":"ref-for-abortsignal\u2460"},{"id":"ref-for-abortsignal\u2461"},{"id":"ref-for-abortsignal\u2462"}],"title":"7.7. Guard against potential recursion"},{"refs":[{"id":"ref-for-abortsignal\u2463"},{"id":"ref-for-abortsignal\u2464"}],"title":"10.3. Only purely computational features should be exposed everywhere"}],"url":"https://dom.spec.whatwg.org/#abortsignal"},
 "d06b2b8c": {"dfnID":"d06b2b8c","dfnText":"XMLHttpRequest","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequest"}],"title":"6.6. Make method arguments optional if possible"},{"refs":[{"id":"ref-for-xmlhttprequest\u2460"}],"title":"6.13. Use strings for constants and enums"},{"refs":[{"id":"ref-for-xmlhttprequest\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequest"},
 "d0eba3fd": {"dfnID":"d0eba3fd","dfnText":"partial interface","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-partial-interface"}],"title":"11.5.1. If you need to monkey patch"}],"url":"https://webidl.spec.whatwg.org/#dfn-partial-interface"},
+"d25dfb2c": {"dfnID":"d25dfb2c","dfnText":"AbortError","external":true,"refSections":[{"refs":[{"id":"ref-for-aborterror"},{"id":"ref-for-aborterror\u2460"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://webidl.spec.whatwg.org/#aborterror"},
 "d387f951": {"dfnID":"d387f951","dfnText":"inputType","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-inputevent-inputtype"}],"title":"7.8. Put state on target objects rather than Events"}],"url":"https://w3c.github.io/uievents/#dom-inputevent-inputtype"},
 "d38f9598": {"dfnID":"d38f9598","dfnText":"getBoundingClientRect()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-getboundingclientrect"}],"title":"6.2. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-getboundingclientrect"},
 "d4127354": {"dfnID":"d4127354","dfnText":"innerHTML","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-innerhtml"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-element-innerhtml"},
@@ -6016,24 +6087,25 @@ let dfnPanelData = {
 "d62af025": {"dfnID":"d62af025","dfnText":"now()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-performance-now"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/hr-time/#dom-performance-now"},
 "d6aab74b": {"dfnID":"d6aab74b","dfnText":"pointerId","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent-pointerid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "d7d5b038": {"dfnID":"d7d5b038","dfnText":"observable array type","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-observable-array-type"}],"title":"6.6. Make method arguments optional if possible"}],"url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
-"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.15. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
-"d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.15. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
+"d7d642a2": {"dfnID":"d7d642a2","dfnText":"input","external":true,"refSections":[{"refs":[{"id":"ref-for-the-input-element"}],"title":"2.16. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-the-input-element\u2460"},{"id":"ref-for-the-input-element\u2461"}],"title":"3.1. Re-use HTML attribute names (only) for similar functionality"},{"refs":[{"id":"ref-for-the-input-element\u2462"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-input-element\u2463"},{"id":"ref-for-the-input-element\u2464"}],"title":"3.5. Keep attributes in sync"},{"refs":[{"id":"ref-for-the-input-element\u2465"},{"id":"ref-for-the-input-element\u2466"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/input.html#the-input-element"},
+"d94094fa": {"dfnID":"d94094fa","dfnText":"PointerEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-pointerevent"}],"title":"2.16. Build complex types by composing simpler types"}],"url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "d977a5dd": {"dfnID":"d977a5dd","dfnText":"offsetTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-htmlelement-offsettop"}],"title":"6.2. Attributes should behave like data properties"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "da34f333": {"dfnID":"da34f333","dfnText":"isMap","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-ismap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap"},
 "dc0eaa56": {"dfnID":"dc0eaa56","dfnText":"scrollTop","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-scrolltop"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://drafts.csswg.org/cssom-view-1/#dom-element-scrolltop"},
 "dc4acd27": {"dfnID":"dc4acd27","dfnText":"json()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-body-json"}],"title":"12.1. Use common words"}],"url":"https://fetch.spec.whatwg.org/#dom-body-json"},
 "dc6ebe88": {"dfnID":"dc6ebe88","dfnText":"list","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-input-list"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/input.html#attr-input-list"},
-"dca2de17": {"dfnID":"dca2de17","dfnText":"DOMException","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMException"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMException"},
+"dca2de17": {"dfnID":"dca2de17","dfnText":"DOMException","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMException"}],"title":"2.13. Handle non-fully-active documents"},{"refs":[{"id":"ref-for-idl-DOMException\u2460"}],"title":"8.5. Use Error or DOMException for errors"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMException"},
 "dcffbccd": {"dfnID":"dcffbccd","dfnText":"URL","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url"}],"title":"8.2. Represent strings appropriately"}],"url":"https://url.spec.whatwg.org/#concept-url"},
 "ddc587b1": {"dfnID":"ddc587b1","dfnText":"ASCII code point","external":true,"refSections":[{"refs":[{"id":"ref-for-ascii-code-point"}],"title":"12.2. Use ASCII names"}],"url":"https://infra.spec.whatwg.org/#ascii-code-point"},
 "e10e7eb7": {"dfnID":"e10e7eb7","dfnText":"DOM manipulation task source","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-manipulation-task-source"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#dom-manipulation-task-source"},
-"e270bd2a": {"dfnID":"e270bd2a","dfnText":"task","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-task"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-task"},
+"e270bd2a": {"dfnID":"e270bd2a","dfnText":"task","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-task"},{"id":"ref-for-concept-task\u2460"}],"title":"2.13. Handle non-fully-active documents"},{"refs":[{"id":"ref-for-concept-task\u2461"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-task"},
 "e356ee85": {"dfnID":"e356ee85","dfnText":"class","external":true,"refSections":[{"refs":[{"id":"ref-for-classes"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://html.spec.whatwg.org/multipage/dom.html#classes"},
 "e4ee9a64": {"dfnID":"e4ee9a64","dfnText":"HTMLHRElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlhrelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/grouping-content.html#htmlhrelement"},
 "e5882acf": {"dfnID":"e5882acf","dfnText":"source","external":true,"refSections":[{"refs":[{"id":"ref-for-the-source-element"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"},{"refs":[{"id":"ref-for-the-source-element\u2460"},{"id":"ref-for-the-source-element\u2461"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element"},
 "e6b9f496": {"dfnID":"e6b9f496","dfnText":"canplaythrough","external":true,"refSections":[{"refs":[{"id":"ref-for-event-media-canplaythrough"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/media.html#event-media-canplaythrough"},
 "e81f86c3": {"dfnID":"e81f86c3","dfnText":"bgColor","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-document-bgcolor"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-bgcolor"},
 "e8478f36": {"dfnID":"e8478f36","dfnText":"target","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-target"},{"id":"ref-for-dom-event-target\u2460"},{"id":"ref-for-dom-event-target\u2461"}],"title":"7.8. Put state on target objects rather than Events"}],"url":"https://dom.spec.whatwg.org/#dom-event-target"},
+"e99bd18e": {"dfnID":"e99bd18e","dfnText":"relevant global object","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-relevant-global"},{"id":"ref-for-concept-relevant-global\u2460"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"},
 "ea2e2ea4": {"dfnID":"ea2e2ea4","dfnText":"timeRemaining()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-idledeadline-timeremaining"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining"},
 "eb9a1873": {"dfnID":"eb9a1873","dfnText":"rel (for link)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-link-rel"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel"},
 "ecf251b4": {"dfnID":"ecf251b4","dfnText":"scalar value","external":true,"refSections":[{"refs":[{"id":"ref-for-scalar-value"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#scalar-value"},
@@ -6559,6 +6631,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/grouping-content.html#htmlhrelement": {"displayText":"HTMLHRElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLHRElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/grouping-content.html#htmlhrelement"},
 "https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element": {"displayText":"figcaption","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"figcaption","type":"element","url":"https://html.spec.whatwg.org/multipage/grouping-content.html#the-figcaption-element"},
 "https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox": {"displayText":"sandbox","export":true,"for_":["iframe"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"sandbox","type":"element-attr","url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox"},
+"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element": {"displayText":"iframe","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"iframe","type":"element","url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element"},
 "https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap": {"displayText":"createImageBitmap(image, options)","export":true,"for_":["WindowOrWorkerGlobalScope"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"createImageBitmap(image, options)","type":"method","url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap"},
 "https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap": {"displayText":"ImageBitmap","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"ImageBitmap","type":"interface","url":"https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap"},
 "https://html.spec.whatwg.org/multipage/indices.html#event-languagechange": {"displayText":"languagechange","export":true,"for_":["Window","WorkerGlobalScope"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"languagechange","type":"event","url":"https://html.spec.whatwg.org/multipage/indices.html#event-languagechange"},
@@ -6588,6 +6661,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/media.html#event-media-resize": {"displayText":"resize","export":true,"for_":["HTMLMediaElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"resize","type":"event","url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
 "https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement": {"displayText":"HTMLMediaElement","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLMediaElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
 "https://html.spec.whatwg.org/multipage/media.html#video": {"displayText":"video","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"video","type":"element","url":"https://html.spec.whatwg.org/multipage/media.html#video"},
+"https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window": {"displayText":"associated Document","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"associated document","type":"dfn","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open": {"displayText":"open(url, target, features)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"open(url, target, features)","type":"method","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3": {"displayText":"History","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"History","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#history-3"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#window": {"displayText":"Window","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Window","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
@@ -6607,6 +6681,7 @@ let refsData = {
 "https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element": {"displayText":"q","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"q","type":"element","url":"https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element"},
 "https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs": {"displayText":"alert()","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"alert()","type":"method","url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-alert-noargs"},
 "https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout": {"displayText":"setTimeout(handler, timeout, ...arguments)","export":true,"for_":["WindowOrWorkerGlobalScope"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"setTimeout(handler, timeout, ...arguments)","type":"method","url":"https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global": {"displayText":"relevant global object","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"relevant global object","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#concept-task": {"displayText":"task","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"task","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-task"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#dom-manipulation-task-source": {"displayText":"DOM manipulation task source","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"dom manipulation task source","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#dom-manipulation-task-source"},
 "https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes": {"displayText":"event handler IDL attribute","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"event handler idl attribute","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes"},
@@ -6633,6 +6708,7 @@ let refsData = {
 "https://infra.spec.whatwg.org/#string": {"displayText":"string","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"string","type":"dfn","url":"https://infra.spec.whatwg.org/#string"},
 "https://infra.spec.whatwg.org/#surrogate": {"displayText":"surrogate","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"surrogate","type":"dfn","url":"https://infra.spec.whatwg.org/#surrogate"},
 "https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise.prototype.then": {"displayText":"then(onFulfilled, onRejected)","export":true,"for_":["Promise"],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"then(onFulfilled, onRejected)","type":"method","url":"https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise.prototype.then"},
+"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts": {"displayText":"execution contexts","export":true,"for_":["ECMAScript"],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"execution contexts","type":"dfn","url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
 "https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects": {"displayText":"Error","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"Error","type":"exception","url":"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects"},
 "https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects": {"displayText":"FinalizationRegistry","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"FinalizationRegistry","type":"interface","url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-finalization-registry-objects"},
 "https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects": {"displayText":"WeakRef","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"WeakRef","type":"interface","url":"https://tc39.es/ecma262/multipage/managing-memory.html#sec-weak-ref-objects"},
@@ -6681,6 +6757,7 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#EnforceRange": {"displayText":"EnforceRange","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"EnforceRange","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#EnforceRange"},
 "https://webidl.spec.whatwg.org/#Exposed": {"displayText":"Exposed","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Exposed","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#Exposed"},
 "https://webidl.spec.whatwg.org/#SecureContext": {"displayText":"SecureContext","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"SecureContext","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#SecureContext"},
+"https://webidl.spec.whatwg.org/#aborterror": {"displayText":"AbortError","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"AbortError","type":"exception","url":"https://webidl.spec.whatwg.org/#aborterror"},
 "https://webidl.spec.whatwg.org/#dfn-maplike": {"displayText":"maplike","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"maplike","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-maplike"},
 "https://webidl.spec.whatwg.org/#dfn-namespace": {"displayText":"namespace","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"namespace","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-namespace"},
 "https://webidl.spec.whatwg.org/#dfn-observable-array-type": {"displayText":"observable array type","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"observable array type","type":"dfn","url":"https://webidl.spec.whatwg.org/#dfn-observable-array-type"},
@@ -6707,6 +6784,7 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#idl-undefined": {"displayText":"undefined","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"undefined","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-undefined"},
 "https://webidl.spec.whatwg.org/#idl-unrestricted-double": {"displayText":"unrestricted double","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unrestricted double","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unrestricted-double"},
 "https://webidl.spec.whatwg.org/#idl-unsigned-long-long": {"displayText":"unsigned long long","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unsigned long long","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unsigned-long-long"},
+"https://webidl.spec.whatwg.org/#invalidstateerror": {"displayText":"InvalidStateError","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"InvalidStateError","type":"exception","url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
 "https://webidl.spec.whatwg.org/#sequence-type": {"displayText":"sequence type","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"sequence type","type":"dfn","url":"https://webidl.spec.whatwg.org/#sequence-type"},
 "https://www.rfc-editor.org/rfc/rfc9110.html#name-accept": {"displayText":"Accept","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc9110","spec":"rfc9110","status":"anchor-block","text":"accept","type":"http-header","url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-loaded": {"displayText":"loaded","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"loaded","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
