@@ -2550,7 +2550,7 @@ it's important to continue to define event handler IDL attributes because:
 * they enable feature-detection for the supported events (see [[#feature-detect]])
 
 <p class="note">
-For consistency, if the event needs to be handled by HTML or SVG elements,
+For consistency, if the event needs to be handled by HTML, SVG, or MathML elements,
 add the [=event handler IDL attributes=]
 on the {{GlobalEventHandlers}} interface mixin,
 instead of directly on the relevant element interface(s).
