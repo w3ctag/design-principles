@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="31952d9c886f58aa91bf978bfa21a962165a32c4" name="revision">
+  <meta content="41fee41a776c2565ea3054077a0e5c380d16c848" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -706,7 +706,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-01-27">27 January 2026</time></p>
+    <time class="dt-updated" datetime="2026-02-24">24 February 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2849,10 +2849,10 @@ factory method that could not have been implemented as a constructor,
 as its result can be any of a number of subclasses of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>.
 </div>
    <div class="example" id="example-42416b6a"><a class="self-link" href="#example-42416b6a"></a>
-The deprecated <code>MouseEvent.initMouseEvent()</code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#mouseevent" id="ref-for-mouseevent">MouseEvent</a></code> objects,
+The deprecated <code>MouseEvent.initMouseEvent()</code> factory method only creates <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/pointerevents/#dom-mouseevent" id="ref-for-dom-mouseevent">MouseEvent</a></code> objects,
 which were originally not constructible,
 even though there was no technical reason against that.
-Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#mouseevent" id="ref-for-mouseevent①">MouseEvent</a></code> object was simply made constructible.
+Eventually it was deprecated, and the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/pointerevents/#dom-mouseevent" id="ref-for-dom-mouseevent①">MouseEvent</a></code> object was simply made constructible.
 </div>
    <h3 class="heading settled" data-level="6.10" id="synchronous"><span class="secno">6.10. </span><span class="content">Be synchronous when appropriate</span><a class="self-link" href="#synchronous"></a></h3>
    <p>Where possible, prefer synchronous APIs when designing a new API.
@@ -3143,7 +3143,7 @@ to the interface of any <code class="idl"><a data-link-type="idl" href="https://
      <p>they enable feature-detection for the supported events (see <a href="#feature-detect">§ 2.6 New features should be detectable</a>)</p>
    </ul>
    <p class="note" role="note">
-For consistency, if the event needs to be handled by HTML and SVG elements,
+For consistency, if the event needs to be handled by HTML, SVG, or MathML elements,
 add the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes①">event handler IDL attributes</a>
 on the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin,
 instead of directly on the relevant element interface(s).
@@ -3968,7 +3968,7 @@ is the path with the best experience for users.</p>
 <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#ScriptProcessorNode" id="ref-for-ScriptProcessorNode">ScriptProcessorNode</a></code>s were replaced by <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#AudioWorklet" id="ref-for-AudioWorklet">AudioWorklet</a></code>s
 in the Web Audio API
 because use of <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#ScriptProcessorNode" id="ref-for-ScriptProcessorNode①">ScriptProcessorNode</a></code> from the main thread
-frequently resulted in a poor user experience. <a data-link-type="biblio" href="#biblio-webaudio" title="Web Audio API">[WebAudio]</a>
+frequently resulted in a poor user experience. <a data-link-type="biblio" href="#biblio-webaudio" title="Web Audio API 1.1">[WebAudio]</a>
 </p>
    <h3 class="heading settled" data-level="10.3" id="expose-everywhere"><span class="secno">10.3. </span><span class="content">Only purely computational features should be exposed everywhere</span><a class="self-link" href="#expose-everywhere"></a></h3>
    <p>When exposing a feature,
@@ -5361,8 +5361,9 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="bcc085e3">request permission to use</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[POINTEREVENTS3]</a> defines the following terms:
+    <a data-link-type="biblio">[POINTEREVENTS4]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="7759631d">MouseEvent</span>
      <li><span class="dfn-paneled" id="d94094fa">PointerEvent</span>
      <li><span class="dfn-paneled" id="d6aab74b">pointerId</span>
     </ul>
@@ -5405,7 +5406,6 @@ so they can correct this omission.</p>
     <ul>
      <li><span class="dfn-paneled" id="518be2ae">InputEvent</span>
      <li><span class="dfn-paneled" id="1fc098b2">KeyboardEvent</span>
-     <li><span class="dfn-paneled" id="c3469cd0">MouseEvent</span>
      <li><span class="dfn-paneled" id="d387f951">inputType</span>
     </ul>
    <li>
@@ -5427,7 +5427,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="b88b42f7">LockManager</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[WebAudio]</a> defines the following terms:
+    <a data-link-type="biblio">[WEBAUDIO-1.0]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="1bb59bab">AudioWorklet</span>
      <li><span class="dfn-paneled" id="0065f652">ScriptProcessorNode</span>
@@ -5518,7 +5518,7 @@ so they can correct this omission.</p>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
-   <dd>Dean Jackson; et al. <a href="https://drafts.csswg.org/mediaqueries-5/"><cite>Media Queries Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
+   <dd>Tab Atkins Jr.; et al. <a href="https://drafts.csswg.org/mediaqueries-5/"><cite>Media Queries Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
    <dd>Marcos Caceres; Ian Jacobs; Stephen McGruer. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-permissions">[PERMISSIONS]
@@ -5600,7 +5600,7 @@ so they can correct this omission.</p>
    <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower"><cite>The Rule of Least Power</cite></a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
    <dt id="biblio-mfrel">[MFREL]
    <dd><a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions"><cite>Microformats Wiki: existing rel values</cite></a>. URL: <a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions">http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions</a>
-   <dt id="biblio-pointerevents3">[POINTEREVENTS3]
+   <dt id="biblio-pointerevents4">[POINTEREVENTS4]
    <dd>Patrick Lauke; Robert Flack. <a href="https://w3c.github.io/pointerevents/"><cite>Pointer Events</cite></a>. URL: <a href="https://w3c.github.io/pointerevents/">https://w3c.github.io/pointerevents/</a>
    <dt id="biblio-referrer-policy">[REFERRER-POLICY]
    <dd>Jochen Eisinger; Emily Stark. <a href="https://w3c.github.io/webappsec-referrer-policy/"><cite>Referrer Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-referrer-policy/">https://w3c.github.io/webappsec-referrer-policy/</a>
@@ -5627,7 +5627,7 @@ so they can correct this omission.</p>
    <dt id="biblio-the-web-is-unversioned">[THE-WEB-IS-UNVERSIONED]
    <dd>Sangwhan Moon; Amy Guy. <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/"><cite>The web is unversioned</cite></a>. 27 March 2025. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/">https://www.w3.org/2001/tag/doc/the-web-is-unversioned/</a>
    <dt id="biblio-uievents">[UIEVENTS]
-   <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
+   <dd>Xiaoqian Wu. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
    <dt id="biblio-unsanctioned-tracking">[UNSANCTIONED-TRACKING]
    <dd>Mark Nottingham. <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/"><cite>Unsanctioned Web Tracking</cite></a>. 17 July 2015. TAG Finding. URL: <a href="http://www.w3.org/2001/tag/doc/unsanctioned-tracking/">http://www.w3.org/2001/tag/doc/unsanctioned-tracking/</a>
    <dt id="biblio-web-locks">[WEB-LOCKS]
@@ -5635,6 +5635,8 @@ so they can correct this omission.</p>
    <dt id="biblio-web-share">[WEB-SHARE]
    <dd>Marcos Caceres; Eric Willigers; Matt Giuca. <a href="https://w3c.github.io/web-share/"><cite>Web Share API</cite></a>. URL: <a href="https://w3c.github.io/web-share/">https://w3c.github.io/web-share/</a>
    <dt id="biblio-webaudio">[WebAudio]
+   <dd>Paul Adenot; Hongchan Choi. <a href="https://webaudio.github.io/web-audio-api/"><cite>Web Audio API 1.1</cite></a>. URL: <a href="https://webaudio.github.io/web-audio-api/">https://webaudio.github.io/web-audio-api/</a>
+   <dt id="biblio-webaudio-10">[WEBAUDIO-1.0]
    <dd>Paul Adenot; Hongchan Choi. <a href="https://webaudio.github.io/web-audio-api/"><cite>Web Audio API</cite></a>. URL: <a href="https://webaudio.github.io/web-audio-api/">https://webaudio.github.io/web-audio-api/</a>
    <dt id="biblio-webcrypto-2">[WEBCRYPTO-2]
    <dd>Daniel Huigens. <a href="https://w3c.github.io/webcrypto/"><cite>Web Cryptography Level 2</cite></a>. URL: <a href="https://w3c.github.io/webcrypto/">https://w3c.github.io/webcrypto/</a>
@@ -5979,6 +5981,7 @@ let dfnPanelData = {
 "72aaa5d6": {"dfnID":"72aaa5d6","dfnText":"queue an element task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-an-element-task"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-an-element-task"},
 "762869d3": {"dfnID":"762869d3","dfnText":"scalar value string","external":true,"refSections":[{"refs":[{"id":"ref-for-scalar-value-string"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#scalar-value-string"},
 "762ce945": {"dfnID":"762ce945","dfnText":"GlobalEventHandlers","external":true,"refSections":[{"refs":[{"id":"ref-for-globaleventhandlers"}],"title":"7.5. Always add event handler attributes"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"},
+"7759631d": {"dfnID":"7759631d","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-mouseevent"},{"id":"ref-for-dom-mouseevent\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/pointerevents/#dom-mouseevent"},
 "77996ab1": {"dfnID":"77996ab1","dfnText":"maplike","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-maplike"}],"title":"Static objects"}],"url":"https://webidl.spec.whatwg.org/#dfn-maplike"},
 "797018a7": {"dfnID":"797018a7","dfnText":"InvalidStateError","external":true,"refSections":[{"refs":[{"id":"ref-for-invalidstateerror"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
 "7a26cf99": {"dfnID":"7a26cf99","dfnText":"width","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-img-width"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-width"},
@@ -6066,7 +6069,6 @@ let dfnPanelData = {
 "c2430fbb": {"dfnID":"c2430fbb","dfnText":"prompt the user to choose","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-prompt-the-user-to-choose"}],"title":"1.4.1. Help users make good decisions"}],"url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "c262266a": {"dfnID":"c262266a","dfnText":"WorkerType","external":true,"refSections":[{"refs":[{"id":"ref-for-workertype"}],"title":"6.13. Use strings for constants and enums"}],"url":"https://html.spec.whatwg.org/multipage/workers.html#workertype"},
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
-"c3469cd0": {"dfnID":"c3469cd0","dfnText":"MouseEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-mouseevent"},{"id":"ref-for-mouseevent\u2460"}],"title":"6.9. Classes should have constructors when possible"}],"url":"https://w3c.github.io/uievents/#mouseevent"},
 "c3b2d08c": {"dfnID":"c3b2d08c","dfnText":"task source","external":true,"refSections":[{"refs":[{"id":"ref-for-task-source"},{"id":"ref-for-task-source\u2460"},{"id":"ref-for-task-source\u2461"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-source"},
 "c43d5ec9": {"dfnID":"c43d5ec9","dfnText":"execution contexts","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-execution-contexts"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
 "c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
@@ -6737,15 +6739,15 @@ let refsData = {
 "https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
 "https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose": {"displayText":"prompt the user to choose","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"prompt the user to choose","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "https://w3c.github.io/permissions/#dfn-request-permission-to-use": {"displayText":"request permission to use","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"request permission to use","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
-"https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
-"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
+"https://w3c.github.io/pointerevents/#dom-mouseevent": {"displayText":"MouseEvent","export":true,"for_":[],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"MouseEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-mouseevent"},
+"https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
+"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback devices","export":false,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"remote playback devices","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "https://w3c.github.io/remote-playback/#dom-remoteplayback": {"displayText":"RemotePlayback","export":true,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"RemotePlayback","type":"interface","url":"https://w3c.github.io/remote-playback/#dom-remoteplayback"},
 "https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining": {"displayText":"timeRemaining()","export":true,"for_":["IdleDeadline"],"level":"1","normative":true,"shortname":"requestidlecallback","spec":"requestidlecallback","status":"current","text":"timeRemaining()","type":"method","url":"https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining"},
 "https://w3c.github.io/uievents/#dom-inputevent-inputtype": {"displayText":"inputType","export":true,"for_":["InputEvent"],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"inputType","type":"attribute","url":"https://w3c.github.io/uievents/#dom-inputevent-inputtype"},
 "https://w3c.github.io/uievents/#inputevent": {"displayText":"InputEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"InputEvent","type":"interface","url":"https://w3c.github.io/uievents/#inputevent"},
 "https://w3c.github.io/uievents/#keyboardevent": {"displayText":"KeyboardEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"KeyboardEvent","type":"interface","url":"https://w3c.github.io/uievents/#keyboardevent"},
-"https://w3c.github.io/uievents/#mouseevent": {"displayText":"MouseEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"MouseEvent","type":"interface","url":"https://w3c.github.io/uievents/#mouseevent"},
 "https://w3c.github.io/web-locks/#lockmanager": {"displayText":"LockManager","export":true,"for_":[],"level":"1","normative":true,"shortname":"web-locks","spec":"web-locks","status":"current","text":"LockManager","type":"interface","url":"https://w3c.github.io/web-locks/#lockmanager"},
 "https://w3c.github.io/webappsec-credential-management/#dom-credential-id": {"displayText":"id","export":true,"for_":["Credential"],"level":"1","normative":true,"shortname":"credential-management","spec":"credential-management-1","status":"current","text":"id","type":"attribute","url":"https://w3c.github.io/webappsec-credential-management/#dom-credential-id"},
 "https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade": {"displayText":"\"no-referrer-when-downgrade\"","export":true,"for_":["ReferrerPolicy"],"level":"1","normative":true,"shortname":"referrer-policy","spec":"referrer-policy","status":"current","text":"\"no-referrer-when-downgrade\"","type":"enum-value","url":"https://w3c.github.io/webappsec-referrer-policy/#dom-referrerpolicy-no-referrer-when-downgrade"},
