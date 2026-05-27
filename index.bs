@@ -2399,13 +2399,12 @@ to {{WindowEventHandlers}} rather than {{Window}}.
 
 <h3 id="name-events-consistently">Name events in a consistent pattern</h3>
 
-When a new event name includes a verb,
-the verb should be in the present tense.
+In new event names, verbs should be in the present tense.
 Do not use the past tense.
 
 <div class="example">
 Almost all event names use the present tense instead of the past tense.
-For example, {{load}} vs. {{loaded}}, {{resize}} vs. {{resized}}.
+For example, {{load}} vs. `loaded`, {{resize}} vs. `resized`.
 
 {{DOMContentLoaded}} is considered an antipattern.
 New events should not follow this format.
