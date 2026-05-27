@@ -26,6 +26,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
+spec:html; type:event; for:Window; text:load
 spec:html; type:event; text:resize
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
