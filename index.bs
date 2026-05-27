@@ -14,7 +14,7 @@ Former Editor: Lea Verou, Invited Expert, https://lea.verou.me, w3cid 52258
 Former Editor: Sangwhan Moon, w3cid 42399, Google https://www.google.com/, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
 Former Editor: Travis Leithead, Microsoft, travil@microsoft.com
-Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ETHICAL-WEB]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
+Abstract: This document contains a set of design principles to be used when designing web platform technologies. These principles have been collected during the Technical Architecture Group's discussions in <a href="https://github.com/w3ctag/design-reviews/">reviewing</a> developing specifications, and build upon the Ethical Web Principles [[ethical-web-principles]]. We encourage specification designers to read this document and use it as a resource when making design decisions.
 Default Biblio Status: current
 Markup Shorthands: markdown on
 Boilerplate: feedback-header off
@@ -26,7 +26,6 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
-spec:css2; type: property; text: line-height
 spec:html; type:event; text:resize
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
@@ -37,6 +36,7 @@ spec:webidl
 </pre>
 <pre class='ignored-specs'>
 spec: epub-34
+spec: mathml-core
 spec: svg2
 </pre>
 <pre class="anchors">
@@ -54,7 +54,7 @@ urlPrefix: https://www.rfc-editor.org/rfc/rfc9110.html; spec: rfc9110
 <h2 id="basic-principles">Principles behind design of Web APIs</h2>
 
 The Design Principles are directly informed by the ethical framework
-set out in the Ethical Web Principles [[ETHICAL-WEB]].
+set out in the Ethical Web Principles [[ethical-web-principles]].
 These principles provide concrete practical advice
 in response to the higher level ethical responsibilities
 that come with developing the web platform.
@@ -69,7 +69,7 @@ be sure to understand and document the user need that the API aims to address.
 
 [The internet is for end users](https://tools.ietf.org/html/rfc8890):
 any change made to the web platform has the potential to
-[affect vast numbers of people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople),
+[affect vast numbers of people](https://www.w3.org/TR/ethical-web-principles/#allpeople),
 and may have a profound impact on any person's life. [[RFC8890]]
 
 User needs come before the needs of web page authors,
@@ -87,8 +87,8 @@ and theoretical concerns reflect underlying needs of all of these groups.
 
 See also:
 
-* [The web should not cause harm to society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm)
-* [The web must enhance individuals' control and power](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control)
+* [The web should not cause harm to society](https://www.w3.org/TR/ethical-web-principles/#noharm)
+* [The web must enhance individuals' control and power](https://www.w3.org/TR/ethical-web-principles/#control)
 * [[RFC8890]]
 
 <h3 id="safe-to-browse">It should be safe to visit a web page</h3>
@@ -101,7 +101,7 @@ The Web is named for its hyperlinked structure.
 In order for the web to remain vibrant,
 users need to be able to expect that merely visiting any given link
 won't have implications for the security of their computer,
-or for any essential aspects of their [privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy).
+or for any essential aspects of their [privacy](https://www.w3.org/TR/ethical-web-principles/#privacy).
 
 For example, an API that allows any website to
 [detect the use of assistive technologies](#do-not-expose-use-of-assistive-tech)
@@ -144,7 +144,7 @@ Users depend on trusted user interfaces
 such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how.
 These trusted user interfaces must be able to be designed in a way
-that enables users to trust [and verify](https://www.w3.org/2001/tag/doc/ethical-web-principles/#verify)
+that enables users to trust [and verify](https://www.w3.org/TR/ethical-web-principles/#verify)
 that the information they provide is genuine,
 and hasn't been spoofed or hijacked by the website.
 
@@ -158,60 +158,109 @@ This is often used to attempt to trick users into visiting scam websites.
 If this feature was proposed today, it would probably not proceed.
 </p>
 
-<h3 id="consent">Ask users for meaningful consent</h3>
+<h3 id="user-intent" oldids="consent">Design for user intent</h3>
+
+Use your API design to encourage websites to
+meet user expectations when accessing potentially unsafe capabilities.
 
 In the context of fulfilling a user need,
 a web page may want to make use of a feature
 that has the potential to cause harm.
-Features that have this potential for harm should be designed such that people can give
-[meaningful consent](https://www.w3.org/2001/tag/doc/ethical-web-principles/#control) for that feature to be used,
-and that they can refuse consent effectively.
+Using such a feature should only be possible
+if the user's expectation matches the feature's consequences
+(e.g., the personal information it reveals or the state it changes).
 
-In order to give *meaningful consent*, the user must:
-- **understand** what permission they may choose whether to grant the web page
-- be able to choose to give or refuse that permission **effectively**.
+Design your API so its behavior matches what people intend and expect.
+Then, in the best case, people don't need to get involved in allowing API access
+and thus can't make decisions they regret later.
+Only ask the user for confirmation in exceptional circumstances.
+If a capability can be easily reverted or causes only mild annoyance without the chance for permanent harm,
+afford users an option to stop capability access instead.
 
-If a feature is powerful enough to require user consent,
-but it's impossible to explain to a typical user what they are consenting to,
-that's a signal that you may need to reconsider the design of the feature.
+<p class="example">
+For example, web pages don't need to ask for permission to play sounds.
+It is easy to stop audio output if a site is found to be abusing it,
+and browsers have a number of mechanisms for doing just that.
+</p>
 
-If a permission prompt is shown,
-and the user doesn't grant permission,
-the Web page should not be able to do anything
-that the user believes they have refused consent for.
+<h4 id="user-decisions">Help users make good decisions</h4>
 
-By asking for consent,
-we can inform the user of what capabilities the web page does or doesn't have,
-reinforcing their confidence that <a href="#safe-to-browse">the web is safe</a>.
-However, the <a href="#priority-of-constituencies">user benefit</a>
-of a new feature must justify the additional burden on users
-to decide whether to grant permission for each feature
-whenever it's requested by a Web page.
+Empower good decision-making by limiting risk at the API level and
+providing clarity, context, and user control.
+
+Asking for user approval has been a common way to handle the remaining risk.
+However, people often can't make good decisions on
+the questions they're asked
+because they lack crucial context and information.
+Being confronted with difficult or annoying questions leads
+to decision fatigue, habitual responses,
+annoyance from frequent interruptions, and regrettable decisions.
+
+When user involvement is unavoidable,
+empower users to make good decisions.
+Use these principles:
+
+<ul>
+<li> **Limit the consequences from a bad decision by addressing risk at the API level first.**
+    Do not ask users questions where a "bad" decision can lead to severe consequences,
+    like a compromised device or serious personal data disclosure.</li>
+<li> **Provide constant feedback about persistent decisions.**
+    If users' decisions last longer than the current session,
+    user agents should remind users that their past decision still applies.
+    Provide a way to retract any ongoing permission.
+    APIs should include a way for sites to learn of the change in status.</li>
+<li id="ask-understandable-questions"> **Ask questions people can understand.**
+    When a typical user reads the question about a feature,
+    they should immediately think of the associated risks.
+    The risks should also be directly connected to the feature's or API's utility.
+    For example, this usually means we can't ask permission to accept fingerprinting risks,
+    as they are subtle, technical, and commonly have nothing to do with the capability itself.</li>
+<li> **Provide sufficient context.**
+    People need to easily understand who they're dealing with,
+    what the decision is about, and how the website will use any information they might share.</li>
+</ul>
+
+If you can't adhere to all of the above principles,
+that is likely an indication that asking the user isn't the right approach.
+Instead, change the feature or API to address any remaining risk.
+
+<div class=note>
+
+A browser is responsible for managing requests for permission.
+Browsers will not be able to understand
+precisely how a user's interaction with a site
+might result in a reasonable expectation of a permission request.
+The web platform provides sites with many ways
+either to communicate purpose and intent,
+or to employ deception and trickery.
+
+The responsibility for clearly communicating intent is therefore shared
+between the design of APIs,
+user interface design in browsers,
+and how websites are constructed.
+It is preferable if respect for user intent
+is a natural outcome
+of following the simple, obvious, or default usage pattern for the API.
+This principle only asks that API designs encourage
+to construct sites that respect user intent.
+</div>
 
 In your specification, the [=request permission to use=] and [=prompt the user to choose=] algorithms from [[permissions]] are good ways to ask for consent.
+
+If you ask a user to make a decision and they say no,
+the website shouldn't be able to do anything
+the user believes they just refused access to.
+For example, if the user agent asks permission to reveal a piece of information via one API,
+the same information shouldn't be available with no permission via a different API.
 
 Refusal is most effective if the site cannot
 distinguish refusal from other, common situations.
 This can make it more difficult for a site to
 pressure users to grant consent.
 
-<p class="example">
-For example,
-the [Geolocation API](https://www.w3.org/TR/geolocation-API/)
-grants access to a user's location.
-This can help users in some contexts,
-like a mapping application,
-but may be dangerous to some users in other contexts -
-especially if used without the user's knowledge.
-So that the user may decide whether their location may be used by a Web page,
-a permission prompt should be shown to the user asking whether to grant location access.
-If the user refuses permission,
-no location information is available to the Web page.
-</p>
-
 See also:
 
-* [The web is secure, and respects people's privacy](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [The web is secure, and respects people's privacy](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [Consent Principles](https://www.w3.org/TR/privacy-principles/#consent-principles)
 * [Permissions](https://www.w3.org/TR/permissions/)
 
@@ -240,7 +289,7 @@ actively collected (for example, they have filled in a form).
 For such features, you should [understand the context](https://www.w3.org/TR/privacy-principles/#identity)
 in which it will be used,
 including how it will be used alongside other features of the web.
-Make sure the user can [give appropriate consent](#consent).
+Make sure to [design for user intent](#user-intent) and [help users make good decisions](#user-decisions).
 Design APIs to collect
 [the smallest amount of data](https://www.w3.org/TR/privacy-principles/#data-minimization)
 necessary.
@@ -259,7 +308,7 @@ a Web page may be viewed on virtually any consumer computing device
 at a very wide range of screen sizes,
 may be used to generate printed media,
 and may be interacted with in a large number of different ways.
-New features should match the [existing flexibility](https://www.w3.org/2001/tag/doc/ethical-web-principles/#render)
+New features should match the [existing flexibility](https://www.w3.org/TR/ethical-web-principles/#render)
 of the web platform.
 
 <div class="note">
@@ -304,22 +353,39 @@ it might still be possible; see [[#removing-features]].
 
 Do not assume that a change or removal is impossible without first checking.
 
-<h3 id=removing-features>Remove or change capabilities only once you understand existing usage</h3>
+<h3 id=removing-features>Prioritize compatibility when changing or removing features</h3>
 
-Prioritize compatibility with existing content when removing or changing functionality.
+Before changing how a feature behaves,
+understand how websites are currently using it.
 
-Once a significant amount of content has come to depend on a particular behavior,
-removing or changing that behavior is discouraged.
-Removing or changing features and capabilities is possible,
-but it first requires that the nature and scope of the impact on existing content
-is well understood.
-This might require research into how features are used by existing content.
+Gaining a good understanding might require research,
+for example by adding metrics to a widely-used user agent
+or by [searching the HTTP Archive](https://har.fyi/guides/getting-started/).
+Breaking content harms users,
+and the benefit of a change has to
+significantly outweigh that harm to be worth doing
+[[the-web-is-unversioned]].
 
-The obligation to understand existing usage also applies to any features that content relies upon.
+The obligation to understand existing usage
+also applies to non-standardized or unspecified features
+that content relies upon.
 This includes vendor-proprietary features and
-behavior that might be considered implementation bugs.
-Web features are not solely defined in specifications;
-they are also defined by how content uses those features.
+implementation bugs.
+
+Despite this, it is sometimes acceptable
+to break some existing content
+in order to improve the experience for a large number of web users.
+Breakage is more likely to be acceptable if:
+
+* Only a tiny amount of existing content depend on the feature or behavior.
+* Only a tiny number of people see that content.
+* The content appears only in test cases or examples.
+* The content is already broken in some widely-used user agents,
+    and either they have not received many bug reports about it,
+    or the change is expected to improve interoperability.
+* The benefit of breaking content is very large.
+    For example, removing old SSL and TLS versions caused a number of sites to become unreachable
+    but prevents more security breaches.
 
 <h3 id="leave-the-web-better">Leave the web better than you found it</h3>
 
@@ -364,7 +430,7 @@ APIs should also provide granularity and user controls,
 in particular over <a href="https://www.w3.org/TR/privacy-principles/#dfn-data">personal data</a>,
 that is communicated to sites.
 When additional functionality requires additional data, APIs can enable this
-subject to user consent (e.g., a permission prompt or user activation).
+if they [design for user intent](#user-intent) and [help users make good decisions](#user-decisions) when necessary.
 
 <div class=example>
 A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
@@ -529,8 +595,9 @@ An incomplete list of such guidance follows:
 * [[encoding#specification-hooks|Encoding]]
 * [[fetch#fetch-elsewhere|Fetch]]
 * <span id="using-http">[[RFC9205 inline]]</span>,
-    especially on [[RFC9205#section-4.7|defining header fields]], and
-    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&amp;sort=&amp;rfcs=on&amp;by=group&amp;group=httpbis)
+    especially on [[RFC9205#section-4.7|defining header fields]],
+    [other HTTP RFCs](https://datatracker.ietf.org/doc/search?name=HTTP&sort=&rfcs=on&by=group&group=httpbis),
+    and the [HTTP Working Group style guide](https://httpwg.org/admin/editors/style-guide)
 * [[hr-time#sec-tools|Time]]
 * [[url#url-apis-elsewhere|URLs]]
 
@@ -581,8 +648,7 @@ if feature detection were available for the feature,
 then you should not support feature detection.
 
 Detecting the availability of a feature does not imply
-detecting whether <a href="#consent">consent</a> to use the feature
-has been granted.
+detecting whether [the user has been asked](#user-decisions) to use the feature.
 Generally, detecting whether the feature is implemented
 can be done separately from determining whether use of the feature has been authorized.
 In some cases, it might be necessary to disable feature detection
@@ -601,7 +667,7 @@ See also:
 * [[#do-not-expose-use-of-private-browsing-mode]]
 * [[#do-not-expose-use-of-assistive-tech]]
 * [[#secure-context]]
-* [[#consent]]
+* [[#user-decisions]]
 
 <h3 id=text-formats>Design textual formats for humans</h3>
 
@@ -719,10 +785,10 @@ Some people use [private browsing mode](https://www.w3.org/2001/tag/doc/private-
 to protect their own personal safety.
 Because of this, the fact that someone is using private browsing mode
 may be [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-This information may [harm](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm) people
+This information may [harm](https://www.w3.org/TR/ethical-web-principles/#noharm) people
 if it is revealed to a web site controlled by others who have power over them
 (such as employers, parents, partners,
-or [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression)).
+or [state actors](https://www.w3.org/TR/ethical-web-principles/#expression)).
 
 Given such dangers,
 websites should not be able to detect that private browsing mode is engaged.
@@ -750,7 +816,7 @@ without revealing that private browsing mode is engaged.
 
 See also:
 
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [Security and privacy are essential](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 * [[#private-browsing-mode]]
 
@@ -765,8 +831,7 @@ a single user’s activity
 both in and out of private browsing mode,
 consider possible [mitigations](https://www.w3.org/TR/security-privacy-questionnaire/#mitigations)
 such as introducing noise,
-or using permission prompts to give the user extra information
-to help them meaningfully consent to this tracking (see [[#consent]]).
+or [helping users make good decisions](#user-decisions) about this tracking, if necessary.
 
 Private browsing modes enable users to browse the web
 without leaving any trace of their private browsing on their device.
@@ -801,20 +866,18 @@ See also:
 <h3 id="do-not-expose-use-of-assistive-tech">Don't reveal that assistive technologies are being used</h3>
 
 Make sure that your API doesn't provide a way
-for authors to detect that a user is using assistive technology
-without the user's consent.
+for authors to detect that a user is using assistive technology.
 
-[The web platform must be accessible to people with disabilities.](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople)
+[The web platform must be accessible to people with disabilities.](https://www.w3.org/TR/ethical-web-principles/#allpeople)
 If a site can detect that a user is using an assistive technology,
 that site can deny or restrict the user's access to the services it provides.
 
 People who make use of assistive technologies
-are often [vulnerable members of society](https://www.w3.org/2001/tag/doc/ethical-web-principles/#noharm);
+are often [vulnerable members of society](https://www.w3.org/TR/ethical-web-principles/#noharm);
 their use of assistive technologies is [sensitive information](https://www.w3.org/TR/security-privacy-questionnaire/#sensitive-data) about them.
-If an API provides access to this information
-without the user's [consent](#consent),
+If an API provides access to this information,
 this sensitive information may be revealed to others
-(including [state actors](https://www.w3.org/2001/tag/doc/ethical-web-principles/#expression))
+(including [state actors](https://www.w3.org/TR/ethical-web-principles/#expression))
 who may wish them harm.
 
 Sometimes people propose features which aim to improve the user experience
@@ -839,7 +902,7 @@ which don't reveal the use of assistive technology.
 See also:
 
 * [Web Technology Accessibility Guidelines](https://w3c.github.io/apa/fast/)
-* [Security and privacy are essential](https://www.w3.org/2001/tag/doc/ethical-web-principles/#privacy)
+* [Security and privacy are essential](https://www.w3.org/TR/ethical-web-principles/#privacy)
 * [What data does this specification expose to an origin?](https://www.w3.org/TR/security-privacy-questionnaire/#underlying-platform-data)
 
 <h3 id="require-user-activation">Require user activation for powerful APIs</h3>
@@ -863,8 +926,73 @@ once per API call ([transient consuming](https://html.spec.whatwg.org/#activatio
 
 Note that while user activation is in many cases necessary,
 it is not always *sufficient*
-to protect users from invasive behaviours,
-and seeking [meaningful consent](#consent) is also important.
+to protect users from invasive behaviours.
+[Designing for user intent](#user-intent) and [helping users to make good decisions](#user-decisions) is also important.
+
+<h3 id="handle-non-fully-active-documents">Handle non-fully-active documents</h3>
+
+Make sure that your API behaves predictably
+when its [=relevant global object=]'s [=associated Document=]
+is no longer [=Document/fully active=].
+Fail fast when the document is already non-[=Document/fully active=]
+and abort cleanly if it becomes non-[=Document/fully active=] mid-operation.
+
+When an <{iframe}> (or similar) is removed or navigated,
+its [=associated Document=] can stop being [=Document/fully active=].
+In many cases, user agents will tear down the document’s JavaScript
+[=ECMAScript/execution contexts=] rather than keeping them suspended.
+However, references to objects from that document
+can remain reachable from other documents
+or from other parts of the user agent.
+
+This situation can arise when browser-mediated UI
+(e.g., authentication, payment, or credential presentation)
+is shown on behalf of an <{iframe}>
+and the <{iframe}> is removed or navigated
+while a user is interacting with that interface.
+
+Specifications must define how calls and UI actions
+interact with non-[=Document/fully active=] documents
+both at call time
+and after an operation has begun.
+Doing so helps ensure that background work stops
+on non-[=Document/fully active=] documents,
+that user-facing UI is gracefully dismissed,
+and that user agents behave consistently.
+
+As general rules:
+
+  * If, at call time,
+    the [=relevant global object=]'s [=associated Document=]
+    is not [=Document/fully active=],
+    then the operation must fail immediately.
+    We suggest using an {{InvalidStateError}} {{DOMException}}.
+
+  * If, after starting an asynchronous operation,
+    the [=associated Document=] becomes non-[=Document/fully active=],
+    the operation must be aborted
+    and failure signaled with {{AbortError}}.
+    If the operation presents user-facing UI
+    (e.g., a picker, chooser, or prompt),
+    dismiss it when the document becomes non-[=Document/fully active=]
+    and settle with {{AbortError}}.
+
+When [=queue a task|queueing=] subsequent work
+(for example, to dispatch an event,
+settle a promise, or perform time-based processing),
+specifications should include an early-exit check
+at the point the [=task=] runs:
+if the [=associated Document=] is not [=Document/fully active=],
+then gracefully terminate the [=task=]
+without further observable effects.
+Specifications must not rely on garbage collection
+to define these semantics.
+
+See also: [[#support-non-fully-active]] for the BFCache case.
+Many of the same principles apply to detached iframes
+and other documents that have become non-[=Document/fully active=],
+even though BFCache may suspend a document
+rather than tearing it down.
 
 <h3 id="support-non-fully-active">Support non-fully active BFCached documents</h3>
 
@@ -1160,8 +1288,8 @@ A new IDL attribute does not always warrant a content attribute counterpart.
 <div class="example">
 A counterpattern to this guidance can be found in
 <{input}>'s  <{input/value}>, <{option}>'s <{option/selected}>, and <{input}>'s <{input/checked}>
-where the HTML attributes were never updated
-and the IDL attribute was the single source of truth.
+where the content attributes are not reflected to IDL attributes with the same names.
+Their IDL attributes are {{HTMLInputElement/defaultValue}}, {{defaultSelected}} and {{defaultChecked}} respectively.
 </div>
 
 <h3 id="naming-of-url-attributes">Name URL-containing attributes based on their primary purpose</h3><!-- https://github.com/w3ctag/design-principles/issues/278 -->
@@ -1615,7 +1743,7 @@ Unlike dictionaries, interfaces:
     (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
-For example, the `canParse()` static method of the URL interface. 
+For example, the `canParse()` static method of the URL interface.
 
 ```JS
 if (URL.canParse(someURL)) {
@@ -2116,7 +2244,7 @@ Promise-using code also tends to be easier to understand
 than code using callback functions.
 
 An API might need to be asynchronous if:
-  * the user agent needs to prompt the user for [permission](#consent),
+  * the user agent needs to prompt the user for [permission](#user-decisions),
   * some information might need to be read from disk,
     or requested from the network,
   * the user agent may need to do a significant amount of work on another thread,
@@ -2201,6 +2329,7 @@ is a request, rather than a guarantee.
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
 Use strings as the values for constants or sets of enumerated values.
+See [[#naming-is-hard]] when choosing strings.
 
 Strings make it easier for developers to inspect values
 and read code that uses those values.
@@ -2327,6 +2456,38 @@ See also:
 
 * [Command–query separation on Wikipedia](https://en.wikipedia.org/wiki/Command–query_separation)
 
+<h3 id="prefer-existing-task-sources">Prefer existing task sources</h3>
+
+Use existing [=task sources=] for dispatching work where possible.
+
+Only create a new [=task source=] when there is a clear reason to do so.
+Specs use [=task sources=] to group related work (or "[=tasks=]") so UAs can schedule them sensibly.
+A task is queued on a task source,
+and each task source is associated with a task queue for an [=/event loop=].
+Order is guaranteed within a source, while the UA chooses which queue to service next.
+
+Use the generic or preexisting task sources whenever possible.
+HTML defines [[html#generic-task-sources|generic task sources]] meant for broad reuse across specs.
+This includes, but is not limited to:
+the [=DOM manipulation task source=],
+the [=user interaction task source=],
+and the [=networking task source=].
+If your feature matches one of these categories,
+queue on that source rather than creating a new one.
+Doing so improves interoperability, predictability, and performance scheduling across the platform.
+
+Adding a task source has performance and complexity costs
+that all browser implementations pay.
+Only mint a new task source when you have a concrete, testable need.
+For example, when the feature's timing/execution model must be isolated
+from the generic task sources
+(e.g., media elements get their own media element event task source to align with decoder/timeline semantics).
+
+When writing a spec, prefer HTML's wrapper algorithms
+([=queue a global task=], [=queue an element task=])
+and avoid relying on a particular [=/event loop=].
+And only be explicit about the event loop when appropriate (see also [[#event-design]]).
+
 <h2 id="event-design">Event Design</h2>
 
 <h3 id="one-time-events">Use promises for one time events</h3>
@@ -2389,7 +2550,7 @@ it's important to continue to define event handler IDL attributes because:
 * they enable feature-detection for the supported events (see [[#feature-detect]])
 
 <p class="note">
-For consistency, if the event needs to be handled by HTML and SVG elements,
+For consistency, if the event needs to be handled by HTML, SVG, or MathML elements,
 add the [=event handler IDL attributes=]
 on the {{GlobalEventHandlers}} interface mixin,
 instead of directly on the relevant element interface(s).
@@ -2572,12 +2733,59 @@ as it implies that it's possible to dispatch an event asynchronously.
 All events are dispatched synchronously.
 What is more often implied by "asynchronous event" is to defer firing an event.
 
-<h3 id="state-and-subclassing">Use plain {{Event}}s for state</h3>
+<h3 id="state-and-subclassing">Put state on {{Event/target}} objects rather than {{Event}}s</h3>
 
-Where possible, use a plain {{Event}} with a specified `type`,
-and capture any state information in the {{Event/target}} object.
+Put state on the {{Event/target}}
+and use events to signal updates to that state,
+rather than having state on {{Event}} objects.
 
-It's usually not necessary to create new subclasses of {{Event}}.
+Having state on the {{Event/target}} object can used to determine the current state,
+without waiting for the next event.
+This is particularly useful if there's a final state,
+where there will be no further events.
+
+It's usually not necessary to create new subclasses of {{Event}},
+but they can be used to provide information relating to how the state change occurred.
+
+<div class="example">
+Properties on {{HTMLInputElement}},
+such as {{HTMLInputElement/value}},
+provide the state of the input.
+Properties on {{InputEvent}},
+such as {{InputEvent/inputType}},
+describe the nature of an update to the state.
+</div>
+
+In some exceptional cases, where maintaining state on an object is expensive,
+other patterns may be considered,
+such as returning an {{EventTarget}} from a function call,
+where the function call is a signal of interest.
+
+<div class="example">
+  Using an imaginary `dataUsage` API that reports the amount of data an environment has used, the recommended pattern is:
+
+  <pre highlight="js">
+self.dataUsage.addEventListener('change', () => {
+  console.log(self.dataUsage.bytesReceived);
+});
+  </pre>
+
+  Where `bytesReceived` exists on the `dataUsage` {{EventTarget}},
+  rather than the {{Event}}.
+
+  If maintaining the state on this object is too expensive, this pattern may be considered:
+
+  <pre highlight="js">
+const dataUsage = await self.monitorDataUsage();
+
+dataUsage.addEventListener('change', () => {
+  console.log(dataUsage.bytesReceived);
+});
+  </pre>
+
+  In this pattern, the call to `monitorDataUsage` signals interest in the data,
+  and the state does not need to be updated until `monitorDataUsage` is called.
+</div>
 
 <h3 id="events-vs-observers">Use Events and Observers appropriately</h3>
 
@@ -3002,9 +3210,8 @@ use these guidelines when exposing device information:
 : Hide sensitive information behind a user permission
 :: If you can't create a device identifier in an anonymous way,
     limit access to it.
-    Make sure the user can provide
-    [[#consent|meaningful consent]]
-    to a Web page accessing this information.
+    Make sure you [help the user make good decisions](#user-decisions)
+    about a Web page accessing this information.
 : Tie identifiers to the same-origin model
 :: Create distinct identifiers for the same physical device
     for each origin that has has access to it.
@@ -3025,7 +3232,7 @@ use these guidelines when exposing device information:
 
 See also:
 
-* [[#consent]]
+* [[#user-decisions]]
 * [[LEAST-POWER]]
 * [[FINGERPRINTING-GUIDANCE]]
 * [[UNSANCTIONED-TRACKING]]
@@ -3049,7 +3256,7 @@ you may not need to expose a list to script at all.
 An API which invokes a User-Agent-provided device picker could suffice.
 Such an API:
 - keeps the user in control,
-- doesn't expose any device information without the user's [consent](#consent),
+- [helps users understand](#user-decisions) their decisions,
 - doesn't expose any fingerprinting data about the user's environment by default, and
 - only exposes information about one device at a time.
 
@@ -3059,6 +3266,8 @@ the fact that there are devices are available to be picked.
 This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
+Ensure that such an API ensures that it is possible to present sufficient information
+on user interfaces that users are able to [make good decisions](#user-decisions).
 
 <div class=example>
 The {{RemotePlayback}} interface
@@ -3226,7 +3435,7 @@ the user experience will suffer.
 (This problem is even more pronounced on low-powered devices,
 which are more likely to be used by disadvantaged or marginalized users.
 Remember,
-[the web is for all people](https://www.w3.org/2001/tag/doc/ethical-web-principles/#allpeople).)
+[the web is for all people](https://www.w3.org/TR/ethical-web-principles/#allpeople).)
 
 Therefore,
 APIs which would often block the main thread if used as intended
@@ -3583,6 +3792,167 @@ and makes it clear when the state described by the flags is reset.
 
 <!-- TODO: add examples -->
 
+<h3 id="registries">Plan for future extensibility through main spec updates if possible; otherwise use a registry</h3>
+
+When you expect a feature to need to be extended over time,
+choose a kind of extensibility based on the kinds of changes you expect.
+Revisions of the main standard are simplest and most coherent,
+but use a registry when you need a wider set of participants to be able to define extensions.
+
+[[spec-variability#variability|"Variability complicates interoperability."]]
+When a feature needs optional components,
+it is easiest to manage the complication if
+a single group is in charge of the whole design.
+This implies that most optional features should be defined
+in the same specification that defined the original feature.
+If new extensions are needed in the future,
+it is often most appropriate
+to define them by revising the original specification.
+This reduces the need to precisely define requirements for extensions.
+
+If implementers need to be able to add extensions
+without going through the full specification revision process,
+a registry is usually the right way to manage the known extensions.
+Default to defining either
+an IANA registry governed by [[RFC8126]] or a [[w3c-process#registries|W3C Registry]].
+
+The place in a specification that dispatches to an extension's implementation
+is known as an <dfn export>extension point</dfn>.
+To maximize the chance that a specification with extension points is interoperably implemented,
+each extension point should
+
+* define how to uniquely identify extensions,
+* define how implementations can negotiate which extensions are acceptable or
+    what to do with unrecognized extensions
+    (see [[RFC6709#section-4|section 4 of RFC6709]]),
+* define what interface extensions are supposed to implement, and
+* link to a specification of each extension that is
+    detailed enough to support interoperable implementations of the extension,
+    as is required by
+    the IETF's [[RFC8126#section-4.6|Specification Required]] registration policy.
+
+Registries help because they
+
+* create a place where extension developers can coordinate
+    the allocation of identifiers for their extensions,
+* provide a place for implementers to find extension specifications
+    (if the registry requires this), and
+* help readers discover when existing extensions address their needs.
+
+It is tempting to additionally require that registry entries be
+"good" in some way beyond what is needed to achieve interoperability.
+Whether this can succeed depends on the ecosystem and the expected implementers.
+Implementers are most likely to be willing to
+navigate a demanding registration process and
+constrain their implementations to match strict registration requirements
+when they are a small set, well-resourced, and generally-aligned,
+as in the case of web browser engines.
+The more diverse or constrained implementers become,
+the less you can expect them to consistently work to register extensions.
+
+At the limit, implementers might not even be willing to document their extensions.
+If the specification authors consider this likely, it may be worth allowing
+[[rfc8126#section-4.4|first-come-first-served registrations without a specification]]
+just to reduce the risk of name collisions,
+although the registry should still encourage full specifications.
+
+In the case of a registry that doesn't require specifications,
+it can be tempting to identify extensions with URLs or URIs instead of registered strings.
+This has the effect of defining a [[rfc8126#section-4.3|hierarchical registration policy]]
+and making it very easy to extend the feature,
+by just picking a URL from a domain that the extender controls.
+This clearly loses the interoperability benefits of requiring a specification,
+and in the case of DNS-based URLs,
+it also risks that the entity that defined the extension may lose control of its domain.
+URIs are appropriate for a few kinds of very-low-coordination extension,
+such as the definition of an XML namespace [[XML-NAMES]],
+but most of the time a WG-managed permissive registry table will work better.
+
+Because an [=extension point=] defines an interface,
+and it's difficult to be confident in an interface definition
+before that interface has several implementations,
+any new registry should start with more than one entry defined.
+
+Consider the case of two implementations
+that implement non-overlapping subsets
+of the defined extensions for a given extension point.
+If operating the feature requires that implementations
+choose an extension that they both support,
+implementations that support non-overlapping subsets cannot interoperate.
+To avoid such failures, the registry must include at least 1 entry
+that all implementations are required to support.
+
+<div class=example heading="Well-Known URIs" id="example-well-known">
+
+The [Well-Known URI registry](https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml),
+defined by [[RFC8615]],
+ensures that protocols don't collide when allocating a path in all web servers.
+
+Part of the purpose of HTTP and similar URL schemes
+is to allow new capabilities to be defined that use the core protocol,
+without requiring an update to the core specification.
+When information is needed about an entire origin,
+the only need for coordination as a whole comes from avoiding the possibility of name collisions.
+Since the registry itself mitigates that risk,
+there isn't a need for the whole HTTP community
+to agree on a new HTTP revision for each registration.
+
+The registry's requirement for a specification isn't too much of a burden
+because these cross-origin protocols
+tend to be defined by an agreement between the participating origins,
+which is documented in a specification.
+
+</div>
+
+Registries can get complicated,
+especially when implementers work around mistakes in the registration requirements.
+They're still usually better than providing no place to list extensions.
+
+<div class="example" heading="Link Relations" id="example-link-relation-registry">
+
+Link relations are currently registered in a 3-part registry.
+[[rfc8288#procedure|RFC 8288]] defines the [[IANA-RELATIONS inline]] registry
+which accepts entries that "reference a freely available, stable specification."
+[[MFREL inline]] defines a second registry
+to which anyone with a wiki account can add.
+This registry has a column for specifications,
+but nobody enforces that the column is filled in
+or that the specifications meet any particular quality requirements.
+[[html#linkTypes]] then repeats a subset of these relation types
+to define how they work in web browsers.
+
+In an ideal world, [[RFC8288]] and [[MFREL inline]] would probably be a single registry,
+with [[html#linkTypes|HTML]] defining browser behavior.
+
+The idea of <{a/rel}> as list of externally-defined keywords
+dates to at least [[rfc1866 inline obsolete]], in 1995, which said
+
+> The REL attribute gives the relationship(s) described by the hyperlink.
+> The value is a whitespace separated list
+> of relationship names. The semantics of link
+> relationships are not specified in this document.
+
+The [[html401 inline]], in 1999,
+defined a list of [known link relations](https://www.w3.org/TR/html401/types.html#type-links)
+but continued to encourage authors to invent their own.
+
+The IETF eventually defined the IANA registry in [[rfc4287 inline]], in 2005,
+and [[rfc5988 inline obsolete]], in 2010.
+These required specifications and expert review,
+but by this time too many custom link relations were in use
+to get them all specified and registered.
+Even if the registry had been in place from the beginning,
+we believe this is a case where implementers are too diverse
+to even know what kind of specification to expect for registered elements.
+The modern [[html#linkTypes|HTML]] table
+is a good way to align browser implementations
+on the subset of link relations that they react to.
+
+</div>
+
+See [[qaframe-spec#extensions]] and [[RFC6709]] for
+more guidance on how to design extensibility.
+
 <h3 id="implementability">Resolving tension between interoperability and implementability</h3>
 
 <!--
@@ -3824,6 +4194,9 @@ than `cardinality`.
 </div>
 
 Value readability over brevity.
+Avoid abbreviations,
+except in cases where an abbreviation is extremely common and easy to understand.
+For example `UIEvent`, where "`UI`" stands for user interface.
 Keep in mind, however, that
 the shorter name is often the clearer one.
 For instance,
