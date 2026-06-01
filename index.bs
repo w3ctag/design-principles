@@ -2566,7 +2566,7 @@ Do not use the past tense.
 
 <div class="example">
 Almost all event names use the present tense instead of the past tense.
-For example, {{load}} instead of <code>loaded</code>,
+For example, {{load}} instead of <code>loaded</code> and
 {{resize}} instead of <code>resized</code>.
 
 {{DOMContentLoaded}} is considered an antipattern.
