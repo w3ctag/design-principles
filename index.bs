@@ -26,6 +26,7 @@ Link Defaults: html (dfn) queue a task/in parallel/reflect
 </pre>
 <pre class="link-defaults">
 spec:css-cascade-5; type:dfn; text:inherit
+spec:html; type:event; for:Window; text:load
 spec:html; type:event; text:resize
 spec:payment-request; type:attribute; for:PaymentRequest; text:[[state]]
 spec:remote-playback; type:dfn; text: remote playback device
@@ -2557,6 +2558,24 @@ instead of directly on the relevant element interface(s).
 Similarly, add [=event handler IDL attributes=]
 to {{WindowEventHandlers}} rather than {{Window}}.
 </p>
+
+<h3 id="name-events-consistently">Name events in a consistent pattern</h3>
+
+In new event names, verbs should be in the present tense.
+Do not use the past tense.
+
+<div class="example">
+Almost all event names use the present tense instead of the past tense.
+For example, {{load}} instead of <code>loaded</code> and
+{{resize}} instead of <code>resized</code>.
+
+{{DOMContentLoaded}} is considered an antipattern.
+New events should not follow this format.
+</div>
+
+See also:
+
+* [[#naming-is-hard]].
 
 <h3 id="events-are-for-notification">Use events for notification</h3>
 
