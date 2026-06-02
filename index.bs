@@ -296,20 +296,40 @@ necessary.
 Use short-lived, temporary identifiers
 unless a persistent identifier is absolutely necessary.
 
-<h3 id="devices-platforms">Support the full range of devices and platforms (Media Independence)</h3>
-<!-- was "Media Independence" in the HTML Design Principles -->
+<h3 oldids="css-content-should-be-visible,devices-platforms"
+    id="accessible-by-default">Content should be accessible by default</h3>
 
-As much as possible,
-ensure that features on the web work across different input and output [devices,
-screen sizes, interaction modes, platforms, and media](https://www.w3.org/TR/ethical-web-principles/#multi).
+An inattentive developer should, by default,
+produce content that the widest possible set of users can interact with,
+whether or not they have the [[ethical-web-principles#multi|devices, software]],
+or [[ethical-web-principles#allpeople|abilities]] that the developer tested against.
+That is, the simplest ways to use HTML, CSS, and Javascript should produce content that is
+[[wcag22#perceivable|perceivable]], [[wcag22#operable|operable]], and [[wcag22#robust|robust]].
 
 One of the main values of the Web is that it's extremely flexible:
-a Web page may be viewed on virtually any consumer computing device
-at a very wide range of screen sizes,
-may be used to generate printed media,
-and may be interacted with in a large number of different ways.
-New features should match the [existing flexibility](https://www.w3.org/TR/ethical-web-principles/#render)
-of the web platform.
+a user can choose to view a web page on
+almost any device (including paper), interaction modality, and screen size,
+using browsers that make a range of interface choices,
+with assistive technology to support their individual disabilities.
+
+Developers often have limited time
+and don't test with all of the options that users will need to choose.
+Design features to preserve and improve
+the [[ethical-web-principles#render|existing flexibility]]
+and accessibility of the web platform,
+even when used by hasty developers.
+
+It should take sophistication and non-default attributes, properties, and arguments
+to create pages that exclude some users,
+rather than requiring sophistication to include everyone.
+
+<div class="example">
+For example, the default behavior of all layout systems in CSS will not lead to content being clipped,
+content overlapping other content, or content being unreachable by scrolling.
+These things should only happen if CSS features are used that are more explicitly choosing
+such a behavior (for example, `overflow: hidden` or `left: -40em`). They should not happen by
+default as a result of something like `display: flex` or `position: relative`.
+</div>
 
 <div class="note">
 This doesn't imply that features which don't work in *every* possible context should be excluded.
@@ -320,18 +340,6 @@ where positioning and clicking the pointer occur in the same gesture (a "tap").
 These features still work across a wide variety of contexts,
 and can be adapted to devices that don't support their original intent -
 for example, a tap on a mobile device will fire a ''click'' event as a fallback.
-</div>
-
-Features should also be designed so that the easiest way to use them
-maintains flexibility.
-
-<div class="example">
-The 'display: block',
-'display: flex',
-and 'display: grid' layout models in CSS
-all default to placing content within the available space and without overlap,
-so that it works across screen sizes,
-and allows users to choose their own font and font size without causing text to overflow.
 </div>
 
 Sometimes features aren't yet available on some implementations or platforms
@@ -1516,19 +1524,6 @@ Avoid words like "mode" or "state" in the names of properties,
 since properties are generally setting a mode or state.
 
 See [[#naming-is-hard]] for general (cross-language) advice on naming.
-
-<h3 id="css-content-should-be-visible">Content should be viewable and accessible by default</h3>
-
-Design CSS properties or CSS layout systems (which are typically values of the `display` property),
-to preserve the content as viewable, accessible and usable by default.
-
-<div class="example">
-For example, the default behavior of all layout systems in CSS will not lead to content being clipped,
-content overlapping other content, or content being unreachable by scrolling.
-These things should only happen if CSS features are used that are more explicitly choosing
-such a behavior (for example, `overflow: hidden` or `left: -40em`). They should not happen by
-default as a result of something like `display: flex` or `position: relative`.
-</div>
 
 <h2 id="js">JavaScript Language</h2>
 
