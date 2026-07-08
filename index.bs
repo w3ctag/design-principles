@@ -303,7 +303,7 @@ An inattentive developer should, by default,
 produce content that the widest possible set of users can interact with,
 whether or not they have the [[ethical-web-principles#multi|devices, software]],
 or [[ethical-web-principles#allpeople|abilities]] that the developer tested against.
-That is, the simplest ways to use HTML, CSS, and Javascript should produce content that is
+That is, the simplest ways to use HTML, CSS, and JavaScript should produce content that is
 [[wcag22#perceivable|perceivable]], [[wcag22#operable|operable]], and [[wcag22#robust|robust]].
 
 One of the main values of the Web is that it's extremely flexible:
