@@ -33,6 +33,9 @@ spec:webidl
     type:dfn; text:namespace
     type:idl; text:long
     type:idl; text:short
+spec:scroll-to-text-fragment
+    type:dfn; text:text directive
+    type:dfn; text:fragment directive
 </pre>
 <pre class='ignored-specs'>
 spec: epub-34
@@ -3458,6 +3461,34 @@ the [pattern matching algorithm](https://mimesniff.spec.whatwg.org/#image-type-p
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
+
+<h3 id="fragment-directives">Add new URL fragment features as directives</h3>
+
+When defining new URL features that should pass information via the fragment,
+define a [=fragment directive=] to do so,
+rather than inventing a novel syntax in the normal fragment segment.
+
+New URL features are appropriate to define in the fragment when they do something purely on the client
+after the response has been received,
+rather than something that should be communicated to the server with the request.
+For example, the traditional use of the URL fragment to indicate the ID of an element that should be scrolled to,
+or the use of [=text directives=]
+to indicate a segment of text that should be scrolled to.
+
+The "standard" fragment syntax space is already dedicated to the "ID to scroll to" task,
+and sometimes used by applications to pass additional information.
+It is not meaningfully structured,
+and can't have structure <em>applied</em> to it by the user agent,
+as this could interfere with existing author usage.
+[=Fragment directives=] instead give a separate syntax space,
+structured identically to query parameters,
+without interfering with the existing uses of the fragment.
+
+Note: Examples of specifications that do this already are [[scroll-to-text-fragment]] and [[css-link-params]].
+Examples of older features that violate this and instead define something in the standard fragment
+are <a href="https://www.w3.org/TR/SVG2/linking.html#SVGFragmentIdentifiersDefinitions">SVG Fragment Identifiers</a>
+and [[media-frags]].
+
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
 
