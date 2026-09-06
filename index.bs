@@ -3556,9 +3556,9 @@ rather than inventing a novel syntax in the normal fragment segment.
 New URL features are appropriate to define in the fragment when they do something purely on the client
 after the response has been received,
 rather than something that should be communicated to the server with the request.
-For example, the traditional use of the URL fragment to indicate the ID of an element that should be scrolled to,
+For example, the traditional use of the URL fragment to indicate the ID of an element that a user agent scrolls to,
 or the use of [=text directives=]
-to indicate a segment of text that should be scrolled to.
+to indicate a segment of text that a user agent scrolls to and highlights.
 
 The "standard" fragment syntax space is already dedicated to the "ID to scroll to" task,
 and sometimes used by applications to pass additional information.
