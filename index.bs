@@ -3549,7 +3549,7 @@ New MIME types should have a specification and should be registered with the Int
 
 <h3 id="fragment-directives">Add new URL fragment features as directives</h3>
 
-When defining new URL features that should pass information via the fragment,
+When defining new URL features that pass information via the fragment,
 define a [=fragment directive=] to do so,
 rather than inventing a novel syntax in the normal fragment segment.
 
