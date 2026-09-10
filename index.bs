@@ -434,7 +434,7 @@ When additional functionality requires additional data, APIs can enable this
 if they [design for user intent](#user-intent) and [help users make good decisions](#user-decisions) when necessary.
 
 <div class=example>
-A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
+A <a href="#font-enumeration">Font Enumeration API</a> was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
 </div>
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
