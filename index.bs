@@ -1510,7 +1510,8 @@ rather than a form with a grammatical prefix or suffix
 
 The list of values of a property should generally be chosen
 so that new values can be added.
-Avoid values like ''yes'', ''no'', ''true'', ''false'',
+Avoid values like
+<css>yes</css>, <css>no</css>, <css>true</css>, <css>false</css>,
 or things with more complex names that are basically equivalent to them.
 
 Avoid words like "mode" or "state" in the names of properties,
