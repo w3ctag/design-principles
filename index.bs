@@ -3929,10 +3929,14 @@ with [[html#linkTypes|HTML]] defining browser behavior.
 The idea of <{a/rel}> as list of externally-defined keywords
 dates to at least [[rfc1866 inline obsolete]], in 1995, which said
 
-> The REL attribute gives the relationship(s) described by the hyperlink.
-> The value is a whitespace separated list
-> of relationship names. The semantics of link
-> relationships are not specified in this document.
+<blockquote>
+
+The REL attribute gives the relationship(s) described by the hyperlink.
+The value is a whitespace separated list
+of relationship names. The semantics of link
+relationships are not specified in this document.
+
+</blockquote>
 
 The [[html401 inline]], in 1999,
 defined a list of [known link relations](https://www.w3.org/TR/html401/types.html#type-links)
