@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 0a3d88311, updated Mon May 4 18:07:03 2026 +0000" name="generator">
+  <meta content="Bikeshed version ac92c2f0d, updated Fri Aug 21 16:01:29 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="fd90040dffc5933091dd9e7a850a52ad637d4b3e" name="revision">
+  <meta content="f22d6603c0a9d188470e8fbd98177671aa073b42" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -737,7 +737,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-06-02">2 June 2026</time></p>
+    <time class="dt-updated" datetime="2026-09-11">11 September 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2257,7 +2257,8 @@ rather than a form with a grammatical prefix or suffix
 (for example, "size" rather than "sizing").</p>
    <p>The list of values of a property should generally be chosen
 so that new values can be added.
-Avoid values like <span class="css">yes</span>, <span class="css">no</span>, <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true" id="ref-for-valdef-custom-media-true">true</a>, <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false" id="ref-for-valdef-custom-media-false">false</a>,
+Avoid values like
+<span class="css">yes</span>, <span class="css">no</span>, <span class="css">true</span>, <span class="css">false</span>,
 or things with more complex names that are basically equivalent to them.</p>
    <p>Avoid words like "mode" or "state" in the names of properties,
 since properties are generally setting a mode or state.</p>
@@ -4335,14 +4336,14 @@ each extension point should</p>
     <li data-md>
      <p>define how implementations can negotiate which extensions are acceptable or
 what to do with unrecognized extensions
-(see <a href="https://www.rfc-editor.org/rfc/rfc6709#section-4">section 4 of RFC6709</a>),</p>
+(see <a href="https://www.rfc-editor.org/info/rfc6709/#section-4">section 4 of RFC6709</a>),</p>
     <li data-md>
      <p>define what interface extensions are supposed to implement, and</p>
     <li data-md>
      <p>link to a specification of each extension that is
 detailed enough to support interoperable implementations of the extension,
 as is required by
-the IETF’s <a href="https://www.rfc-editor.org/rfc/rfc8126#section-4.6">Specification Required</a> registration policy.</p>
+the IETF’s <a href="https://www.rfc-editor.org/info/rfc8126/#section-4.6">Specification Required</a> registration policy.</p>
    </ul>
    <p>Registries help because they</p>
    <ul>
@@ -4367,12 +4368,12 @@ The more diverse or constrained implementers become,
 the less you can expect them to consistently work to register extensions.</p>
    <p>At the limit, implementers might not even be willing to document their extensions.
 If the specification authors consider this likely, it may be worth allowing
-<a href="https://www.rfc-editor.org/rfc/rfc8126#section-4.4">first-come-first-served registrations without a specification</a>
+<a href="https://www.rfc-editor.org/info/rfc8126/#section-4.4">first-come-first-served registrations without a specification</a>
 just to reduce the risk of name collisions,
 although the registry should still encourage full specifications.</p>
    <p>In the case of a registry that doesn’t require specifications,
 it can be tempting to identify extensions with URLs or URIs instead of registered strings.
-This has the effect of defining a <a href="https://www.rfc-editor.org/rfc/rfc8126#section-4.3">hierarchical registration policy</a>
+This has the effect of defining a <a href="https://www.rfc-editor.org/info/rfc8126/#section-4.3">hierarchical registration policy</a>
 and making it very easy to extend the feature,
 by just picking a URL from a domain that the extender controls.
 This clearly loses the interoperability benefits of requiring a specification,
@@ -4431,7 +4432,7 @@ to define how they work in web browsers.</p>
     <p>In an ideal world, <a data-link-type="biblio" href="#biblio-rfc8288" title="Web Linking">[RFC8288]</a> and <a data-biblio-display="inline" data-link-type="biblio" href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions"><cite>Microformats Wiki: existing rel values</cite></a> would probably be a single registry,
 with <a href="https://html.spec.whatwg.org/multipage/links.html#linkTypes">HTML</a> defining browser behavior.</p>
     <p>The idea of <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-rel" id="ref-for-attr-hyperlink-rel">rel</a></code> as list of externally-defined keywords
-dates to at least <a data-biblio-display="inline" data-biblio-obsolete data-link-type="biblio" href="https://www.rfc-editor.org/rfc/rfc1866"><cite>Hypertext Markup Language - 2.0</cite></a>, in 1995, which said</p>
+dates to at least <a data-biblio-display="inline" data-biblio-obsolete data-link-type="biblio" href="https://www.rfc-editor.org/info/rfc1866/"><cite>Hypertext Markup Language - 2.0</cite></a>, in 1995, which said</p>
     <blockquote>
      <p>The REL attribute gives the relationship(s) described by the hyperlink.
 The value is a whitespace separated list
@@ -4441,8 +4442,8 @@ relationships are not specified in this document.</p>
     <p>The <a data-biblio-display="inline" data-link-type="biblio" href="https://www.w3.org/TR/html401/"><cite>HTML 4.01 Specification</cite></a>, in 1999,
 defined a list of <a href="https://www.w3.org/TR/html401/types.html#type-links">known link relations</a>
 but continued to encourage authors to invent their own.</p>
-    <p>The IETF eventually defined the IANA registry in <a data-biblio-display="inline" data-link-type="biblio" href="https://www.rfc-editor.org/rfc/rfc4287"><cite>The Atom Syndication Format</cite></a>, in 2005,
-and <a data-biblio-display="inline" data-biblio-obsolete data-link-type="biblio" href="https://www.rfc-editor.org/rfc/rfc5988"><cite>Web Linking</cite></a>, in 2010.
+    <p>The IETF eventually defined the IANA registry in <a data-biblio-display="inline" data-link-type="biblio" href="https://www.rfc-editor.org/info/rfc4287/"><cite>The Atom Syndication Format</cite></a>, in 2005,
+and <a data-biblio-display="inline" data-biblio-obsolete data-link-type="biblio" href="https://www.rfc-editor.org/info/rfc5988/"><cite>Web Linking</cite></a>, in 2010.
 These required specifications and expert review,
 but by this time too many custom link relations were in use
 to get them all specified and registered.
@@ -5395,12 +5396,6 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="9be179f5">IntersectionObserver</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[MEDIAQUERIES-5]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="f8b3bc81">false</span>
-     <li><span class="dfn-paneled" id="c4484b93">true</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[PAYMENT-REQUEST]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="f679a0bc">PaymentRequest</span>
@@ -5414,7 +5409,7 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="bcc085e3">request permission to use</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[POINTEREVENTS4]</a> defines the following terms:
+    <a data-link-type="biblio">[POINTEREVENTS3]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="7759631d">MouseEvent</span>
      <li><span class="dfn-paneled" id="d94094fa">PointerEvent</span>
@@ -5570,8 +5565,6 @@ so they can correct this omission.</p>
    <dd>Steven Becker. <a href="https://w3c.github.io/IndexedDB/"><cite>Indexed Database API 3.0</cite></a>. URL: <a href="https://w3c.github.io/IndexedDB/">https://w3c.github.io/IndexedDB/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-   <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
-   <dd>Tab Atkins Jr.; et al. <a href="https://drafts.csswg.org/mediaqueries-5/"><cite>Media Queries Level 5</cite></a>. URL: <a href="https://drafts.csswg.org/mediaqueries-5/">https://drafts.csswg.org/mediaqueries-5/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
    <dd>Marcos Caceres; Ian Jacobs; Stephen McGruer. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-permissions">[PERMISSIONS]
@@ -5585,9 +5578,9 @@ so they can correct this omission.</p>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-rfc6709">[RFC6709]
-   <dd>B. Carpenter; B. Aboba, Ed.; S. Cheshire. <a href="https://www.rfc-editor.org/rfc/rfc6709"><cite>Design Considerations for Protocol Extensions</cite></a>. September 2012. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc6709">https://www.rfc-editor.org/rfc/rfc6709</a>
+   <dd>B. Carpenter; B. Aboba, Ed.; S. Cheshire. <a href="https://www.rfc-editor.org/info/rfc6709/"><cite>Design Considerations for Protocol Extensions</cite></a>. September 2012. Informational. URL: <a href="https://www.rfc-editor.org/info/rfc6709/">https://www.rfc-editor.org/info/rfc6709/</a>
    <dt id="biblio-rfc8126">[RFC8126]
-   <dd>M. Cotton; B. Leiba; T. Narten. <a href="https://www.rfc-editor.org/rfc/rfc8126"><cite>Guidelines for Writing an IANA Considerations Section in RFCs</cite></a>. June 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>
+   <dd>M. Cotton; B. Leiba; T. Narten. <a href="https://www.rfc-editor.org/info/rfc8126/"><cite>Guidelines for Writing an IANA Considerations Section in RFCs</cite></a>. June 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8126/">https://www.rfc-editor.org/info/rfc8126/</a>
    <dt id="biblio-rfc9205">[RFC9205]
    <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a>. June 2022. Best Current Practice. URL: <a href="https://httpwg.org/specs/rfc9205.html">https://httpwg.org/specs/rfc9205.html</a>
    <dt id="biblio-service-workers">[SERVICE-WORKERS]
@@ -5632,7 +5625,7 @@ so they can correct this omission.</p>
    <dt id="biblio-cssom-view-1">[CSSOM-VIEW-1]
    <dd>Simon Fraser; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
-   <dd>Joey Parrish; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
+   <dd>Xiaohan Wang; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
    <dt id="biblio-ethical-web-principles">[ETHICAL-WEB-PRINCIPLES]
    <dd>Daniel Appelquist; Hadley Beeman; Amy Guy. <a href="https://w3ctag.github.io/ethical-web-principles/"><cite>Ethical Web Principles</cite></a>. URL: <a href="https://w3ctag.github.io/ethical-web-principles/">https://w3ctag.github.io/ethical-web-principles/</a>
    <dt id="biblio-fileapi">[FileAPI]
@@ -5653,26 +5646,26 @@ so they can correct this omission.</p>
    <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower"><cite>The Rule of Least Power</cite></a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
    <dt id="biblio-mfrel">[MFREL]
    <dd><a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions"><cite>Microformats Wiki: existing rel values</cite></a>. URL: <a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions">http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions</a>
-   <dt id="biblio-pointerevents4">[POINTEREVENTS4]
+   <dt id="biblio-pointerevents3">[POINTEREVENTS3]
    <dd>Patrick Lauke; Robert Flack. <a href="https://w3c.github.io/pointerevents/"><cite>Pointer Events</cite></a>. URL: <a href="https://w3c.github.io/pointerevents/">https://w3c.github.io/pointerevents/</a>
    <dt id="biblio-referrer-policy">[REFERRER-POLICY]
    <dd>Jochen Eisinger; Emily Stark. <a href="https://w3c.github.io/webappsec-referrer-policy/"><cite>Referrer Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-referrer-policy/">https://w3c.github.io/webappsec-referrer-policy/</a>
    <dt id="biblio-remote-playback">[REMOTE-PLAYBACK]
    <dd>Mark Foltz. <a href="https://w3c.github.io/remote-playback/"><cite>Remote Playback API</cite></a>. URL: <a href="https://w3c.github.io/remote-playback/">https://w3c.github.io/remote-playback/</a>
    <dt id="biblio-rfc1866">[RFC1866]
-   <dd>T. Berners-Lee; D. Connolly. <a href="https://www.rfc-editor.org/rfc/rfc1866"><cite>Hypertext Markup Language - 2.0</cite></a>. November 1995. Historic. URL: <a href="https://www.rfc-editor.org/rfc/rfc1866">https://www.rfc-editor.org/rfc/rfc1866</a>
+   <dd>T. Berners-Lee; D. Connolly. <a href="https://www.rfc-editor.org/info/rfc1866/"><cite>Hypertext Markup Language - 2.0</cite></a>. November 1995. Historic. URL: <a href="https://www.rfc-editor.org/info/rfc1866/">https://www.rfc-editor.org/info/rfc1866/</a>
    <dt id="biblio-rfc4287">[RFC4287]
-   <dd>M. Nottingham, Ed.; R. Sayre, Ed.. <a href="https://www.rfc-editor.org/rfc/rfc4287"><cite>The Atom Syndication Format</cite></a>. December 2005. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc4287">https://www.rfc-editor.org/rfc/rfc4287</a>
+   <dd>M. Nottingham, Ed.; R. Sayre, Ed.. <a href="https://www.rfc-editor.org/info/rfc4287/"><cite>The Atom Syndication Format</cite></a>. December 2005. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc4287/">https://www.rfc-editor.org/info/rfc4287/</a>
    <dt id="biblio-rfc5988">[RFC5988]
-   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc5988"><cite>Web Linking</cite></a>. October 2010. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc5988">https://www.rfc-editor.org/rfc/rfc5988</a>
+   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/info/rfc5988/"><cite>Web Linking</cite></a>. October 2010. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc5988/">https://www.rfc-editor.org/info/rfc5988/</a>
    <dt id="biblio-rfc8288">[RFC8288]
    <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc8288.html"><cite>Web Linking</cite></a>. October 2017. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8288.html">https://httpwg.org/specs/rfc8288.html</a>
    <dt id="biblio-rfc8615">[RFC8615]
-   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8615"><cite>Well-Known Uniform Resource Identifiers (URIs)</cite></a>. May 2019. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>
+   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/info/rfc8615/"><cite>Well-Known Uniform Resource Identifiers (URIs)</cite></a>. May 2019. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc8615/">https://www.rfc-editor.org/info/rfc8615/</a>
    <dt id="biblio-rfc8890">[RFC8890]
-   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/rfc/rfc8890"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/rfc/rfc8890">https://www.rfc-editor.org/rfc/rfc8890</a>
+   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/info/rfc8890/"><cite>The Internet is for End Users</cite></a>. August 2020. Informational. URL: <a href="https://www.rfc-editor.org/info/rfc8890/">https://www.rfc-editor.org/info/rfc8890/</a>
    <dt id="biblio-rfc9000">[RFC9000]
-   <dd>J. Iyengar, Ed.; M. Thomson, Ed.. <a href="https://www.rfc-editor.org/rfc/rfc9000"><cite>QUIC: A UDP-Based Multiplexed and Secure Transport</cite></a>. May 2021. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>
+   <dd>J. Iyengar, Ed.; M. Thomson, Ed.. <a href="https://www.rfc-editor.org/info/rfc9000/"><cite>QUIC: A UDP-Based Multiplexed and Secure Transport</cite></a>. May 2021. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc9000/">https://www.rfc-editor.org/info/rfc9000/</a>
    <dt id="biblio-rfc9110">[RFC9110]
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc9110.html"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://httpwg.org/specs/rfc9110.html">https://httpwg.org/specs/rfc9110.html</a>
    <dt id="biblio-screen-capture">[SCREEN-CAPTURE]
@@ -5696,7 +5689,7 @@ so they can correct this omission.</p>
    <dt id="biblio-webrtc">[WEBRTC]
    <dd>Cullen Jennings; et al. <a href="https://w3c.github.io/webrtc-pc/"><cite>WebRTC: Real-Time Communication in Browsers</cite></a>. URL: <a href="https://w3c.github.io/webrtc-pc/">https://w3c.github.io/webrtc-pc/</a>
    <dt id="biblio-webtransport">[WebTransport]
-   <dd>Nidhi Jaju; Victor Vasiliev; Jan-Ivar Bruaroey. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
+   <dd>Jan-Ivar Bruaroey; Victor Vasiliev; Nidhi Jaju. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
    <dt id="biblio-xml-names">[XML-NAMES]
    <dd>Tim Bray; et al. <a href="https://www.w3.org/TR/xml-names/"><cite>Namespaces in XML 1.0 (Third Edition)</cite></a>. 8 December 2009. REC. URL: <a href="https://www.w3.org/TR/xml-names/">https://www.w3.org/TR/xml-names/</a>
   </dl>
@@ -6126,7 +6119,6 @@ let dfnPanelData = {
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3b2d08c": {"dfnID":"c3b2d08c","dfnText":"task source","external":true,"refSections":[{"refs":[{"id":"ref-for-task-source"},{"id":"ref-for-task-source\u2460"},{"id":"ref-for-task-source\u2461"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-source"},
 "c43d5ec9": {"dfnID":"c43d5ec9","dfnText":"execution contexts","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-execution-contexts"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
-"c4484b93": {"dfnID":"c4484b93","dfnText":"true","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-true"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
 "c6d19e56": {"dfnID":"c6d19e56","dfnText":"event loop","external":true,"refSections":[{"refs":[{"id":"ref-for-event-loop"},{"id":"ref-for-event-loop\u2460"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-loop"},
 "c7af4825": {"dfnID":"c7af4825","dfnText":"getElementById(elementId)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-nonelementparentnode-getelementbyid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid"},
@@ -6176,7 +6168,6 @@ let dfnPanelData = {
 "f6c2cd25": {"dfnID":"f6c2cd25","dfnText":"BigInt","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-bigint-objects"},{"id":"ref-for-sec-bigint-objects\u2460"},{"id":"ref-for-sec-bigint-objects\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-bigint-objects"},
 "f831c141": {"dfnID":"f831c141","dfnText":"background-image","external":true,"refSections":[{"refs":[{"id":"ref-for-propdef-background-image"},{"id":"ref-for-propdef-background-image\u2460"}],"title":"4.2. Make appropriate choices for whether CSS properties are inherited"}],"url":"https://drafts.csswg.org/css-backgrounds-3/#propdef-background-image"},
 "f89c7d0d": {"dfnID":"f89c7d0d","dfnText":"Clamp","external":true,"refSections":[{"refs":[{"id":"ref-for-Clamp"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#Clamp"},
-"f8b3bc81": {"dfnID":"f8b3bc81","dfnText":"false","external":true,"refSections":[{"refs":[{"id":"ref-for-valdef-custom-media-false"}],"title":"4.4. Name CSS properties and values appropriately"}],"url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false"},
 "f8de33a3": {"dfnID":"f8de33a3","dfnText":"long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-long"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#idl-long"},
 "fb030e6c": {"dfnID":"fb030e6c","dfnText":"<length>","external":true,"refSections":[{"refs":[{"id":"ref-for-length-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/css-values-4/#length-value"},
 "fc736137": {"dfnID":"fc736137","dfnText":"textarea","external":true,"refSections":[{"refs":[{"id":"ref-for-the-textarea-element"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element"},
@@ -6651,8 +6642,6 @@ let refsData = {
 "https://drafts.csswg.org/cssom-view-1/#dom-element-scrolltop": {"displayText":"scrollTop","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"cssom-view","spec":"cssom-view-1","status":"current","text":"scrollTop","type":"attribute","url":"https://drafts.csswg.org/cssom-view-1/#dom-element-scrolltop"},
 "https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop": {"displayText":"offsetTop","export":true,"for_":["HTMLElement"],"level":"1","normative":true,"shortname":"cssom-view","spec":"cssom-view-1","status":"current","text":"offsetTop","type":"attribute","url":"https://drafts.csswg.org/cssom-view-1/#dom-htmlelement-offsettop"},
 "https://drafts.csswg.org/filter-effects-2/#propdef-backdrop-filter": {"displayText":"backdrop-filter","export":true,"for_":[],"level":"2","normative":true,"shortname":"filter-effects","spec":"filter-effects-2","status":"current","text":"backdrop-filter","type":"property","url":"https://drafts.csswg.org/filter-effects-2/#propdef-backdrop-filter"},
-"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false": {"displayText":"false","export":true,"for_":["@custom-media"],"level":"5","normative":true,"shortname":"mediaqueries","spec":"mediaqueries-5","status":"current","text":"false","type":"value","url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-false"},
-"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true": {"displayText":"true","export":true,"for_":["@custom-media"],"level":"5","normative":true,"shortname":"mediaqueries","spec":"mediaqueries-5","status":"current","text":"true","type":"value","url":"https://drafts.csswg.org/mediaqueries-5/#valdef-custom-media-true"},
 "https://drafts.csswg.org/web-animations-2/#dom-animationtimeline-currenttime": {"displayText":"currentTime","export":true,"for_":["AnimationTimeline"],"level":"2","normative":true,"shortname":"web-animations","spec":"web-animations-2","status":"current","text":"currentTime","type":"attribute","url":"https://drafts.csswg.org/web-animations-2/#dom-animationtimeline-currenttime"},
 "https://encoding.spec.whatwg.org/#textencoder": {"displayText":"TextEncoder","export":true,"for_":[],"level":"1","normative":true,"shortname":"encoding","spec":"encoding","status":"current","text":"TextEncoder","type":"interface","url":"https://encoding.spec.whatwg.org/#textencoder"},
 "https://fetch.spec.whatwg.org/#body": {"displayText":"Body","export":true,"for_":[],"level":"1","normative":true,"shortname":"fetch","spec":"fetch","status":"current","text":"Body","type":"interface","url":"https://fetch.spec.whatwg.org/#body"},
@@ -6796,9 +6785,9 @@ let refsData = {
 "https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
 "https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose": {"displayText":"prompt the user to choose","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"prompt the user to choose","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-prompt-the-user-to-choose"},
 "https://w3c.github.io/permissions/#dfn-request-permission-to-use": {"displayText":"request permission to use","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"request permission to use","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-request-permission-to-use"},
-"https://w3c.github.io/pointerevents/#dom-mouseevent": {"displayText":"MouseEvent","export":true,"for_":[],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"MouseEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-mouseevent"},
-"https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
-"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"4","normative":true,"shortname":"pointerevents","spec":"pointerevents4","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
+"https://w3c.github.io/pointerevents/#dom-mouseevent": {"displayText":"MouseEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"MouseEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-mouseevent"},
+"https://w3c.github.io/pointerevents/#dom-pointerevent": {"displayText":"PointerEvent","export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
+"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid": {"displayText":"pointerId","export":true,"for_":["PointerEvent"],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"pointerId","type":"attribute","url":"https://w3c.github.io/pointerevents/#dom-pointerevent-pointerid"},
 "https://w3c.github.io/remote-playback/#dfn-remote-playback-devices": {"displayText":"remote playback devices","export":false,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"remote playback devices","type":"dfn","url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
 "https://w3c.github.io/remote-playback/#dom-remoteplayback": {"displayText":"RemotePlayback","export":true,"for_":[],"level":"1","normative":true,"shortname":"remote-playback","spec":"remote-playback","status":"current","text":"RemotePlayback","type":"interface","url":"https://w3c.github.io/remote-playback/#dom-remoteplayback"},
 "https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining": {"displayText":"timeRemaining()","export":true,"for_":["IdleDeadline"],"level":"1","normative":true,"shortname":"requestidlecallback","spec":"requestidlecallback","status":"current","text":"timeRemaining()","type":"method","url":"https://w3c.github.io/requestidlecallback/#dom-idledeadline-timeremaining"},
