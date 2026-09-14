@@ -8,8 +8,8 @@ Level: none
 TR: https://www.w3.org/TR/design-principles/
 ED: https://w3ctag.github.io/design-principles/
 Issue Tracking: GitHub https://github.com/w3ctag/design-principles/issues/
-Editor: Martin Thomson, w3cid 68503, Mozilla https://www.mozilla.org/, https://lowentropy.net/
 Editor: Jeffrey Yasskin, w3cid 72192, Google https://www.google.com/
+Former Editor: Martin Thomson, w3cid 68503, Mozilla https://www.mozilla.org/, https://lowentropy.net/
 Former Editor: Lea Verou, Invited Expert, https://lea.verou.me, w3cid 52258
 Former Editor: Sangwhan Moon, w3cid 42399, Google https://www.google.com/, https://sangwhan.com
 Former Editor: Domenic Denicola, Google https://www.google.com/, https://domenic.me/, d@domenic.me
@@ -434,7 +434,7 @@ When additional functionality requires additional data, APIs can enable this
 if they [design for user intent](#user-intent) and [help users make good decisions](#user-decisions) when necessary.
 
 <div class=example>
-A <a href="#font-enumeration">Font Enumeration API</a> API was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
+A <a href="#font-enumeration">Font Enumeration API</a> was once proposed, but the tradeoff of user data exposed was not justified by the use cases. Instead, an alternative solution was proposed, which only exposed the font the user actually selected.
 </div>
 
 <h2 id="api-across-languages">API Design Across Languages</h2>
@@ -1510,7 +1510,8 @@ rather than a form with a grammatical prefix or suffix
 
 The list of values of a property should generally be chosen
 so that new values can be added.
-Avoid values like ''yes'', ''no'', ''true'', ''false'',
+Avoid values like
+<css>yes</css>, <css>no</css>, <css>true</css>, <css>false</css>,
 or things with more complex names that are basically equivalent to them.
 
 Avoid words like "mode" or "state" in the names of properties,
@@ -3928,10 +3929,14 @@ with [[html#linkTypes|HTML]] defining browser behavior.
 The idea of <{a/rel}> as list of externally-defined keywords
 dates to at least [[rfc1866 inline obsolete]], in 1995, which said
 
-> The REL attribute gives the relationship(s) described by the hyperlink.
-> The value is a whitespace separated list
-> of relationship names. The semantics of link
-> relationships are not specified in this document.
+<blockquote>
+
+The REL attribute gives the relationship(s) described by the hyperlink.
+The value is a whitespace separated list
+of relationship names. The semantics of link
+relationships are not specified in this document.
+
+</blockquote>
 
 The [[html401 inline]], in 1999,
 defined a list of [known link relations](https://www.w3.org/TR/html401/types.html#type-links)
