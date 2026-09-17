@@ -354,6 +354,85 @@ it might still be possible; see [[#removing-features]].
 
 Do not assume that a change or removal is impossible without first checking.
 
+<h3 id="improve-existing">Improve existing technologies rather than inventing new ones</h3>
+
+If an existing technology falls short of a need,
+extend or improve it rather than invent an alternative.
+To displace an established technology,
+an alternative has to migrate its implementations, content, and authors.
+Short of that, the two coexist.
+Each alternative adds more implementations to build and maintain,
+more bridges between overlapping technologies,
+and another choice that fragments the ecosystem.
+
+Review prior work broadly,
+including specifications from other communities and standards organizations.
+Build on what is already specified and deployed.
+Design something new only when extending existing work cannot meet the requirements.
+Document why,
+for example in an explainer,
+with evidence from experience such as
+attempted extensions, incubation, or deployment feedback.
+
+Compatibility is part of the requirements [[the-web-is-unversioned]].
+A successor that existing implementations and content cannot migrate to
+is not an improvement but a competitor.
+
+<div class=example>
+JSON's editing shortcomings ([[#text-formats]])
+call for better tooling, not a replacement format.
+</div>
+
+<div class=example>
+RDFa [[rdfa-core]] expressed structured data
+in HTML and other markup languages.
+Microdata [[microdata]] reinvented that capability,
+adding a second syntax and a second data model
+for the same information.
+JSON-LD [[JSON-LD11]] later showed the alternative:
+a new syntax over the same data model,
+for places where markup attributes do not fit.
+</div>
+
+<div class=example>
+The URL Standard [[URL]] redefined URL parsing
+and was intended to supersede RFC 3986 [[RFC3986]] and RFC 3987 [[RFC3987]],
+but it did not displace them.
+The definitions coexist and diverge,
+and each implementation must choose which to follow.
+URL Pattern [[URLPATTERN]] introduced a new pattern language
+despite URI Templates [[RFC6570]] in another organization,
+and URL Fragment Text Directives [[SCROLL-TO-TEXT-FRAGMENT]] introduced new selectors
+despite Selectors and States [[selectors-states]] in the same organization;
+in each case, prior work was not built on.
+</div>
+
+<div class=example>
+XHTML 2.0 [[xhtml2]] was designed as a successor to HTML
+and was not intended to be backward compatible;
+existing pages could not be used as XHTML 2.0 documents.
+Its strict processing assumed well-formed content,
+but errors are ordinary on the web
+and browsers tolerate them ([[#text-formats]]).
+It did not displace HTML and was abandoned;
+effort returned to extending HTML instead.
+</div>
+
+<div class=example>
+By contrast, `fetch()` succeeded `XMLHttpRequest`
+for requirements that could not be retrofitted,
+such as promises and streaming,
+and documented why.
+An alternative can be justified; it has to be shown.
+</div>
+
+See also:
+
+* [[#extend-manifests]]
+* [[#attribute-reuse]]
+* [[#prefer-existing-task-sources]]
+* [[#dont-invent-event-like]]
+
 <h3 id=removing-features>Prioritize compatibility when changing or removing features</h3>
 
 Before changing how a feature behaves,
@@ -709,6 +788,9 @@ objects and arrays cannot have trailing commas, and
 quotes are mandatory for object keys.
 This makes JSON prone to syntactic errors as a result of manual edits.
 </div>
+
+Shortcomings like these do not on their own justify a new format;
+see [[#improve-existing]].
 
 Containing the scope of a format that is affected by a syntax error
 could improve robustness and human usability.
