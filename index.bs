@@ -298,7 +298,7 @@ Use short-lived, temporary identifiers
 unless a persistent identifier is absolutely necessary.
 
 <h3 oldids="css-content-should-be-visible,devices-platforms"
-    id="accessible-by-default">Content should be accessible by default</h3>
+    id="accessible-by-default">Content should be accessible and widely usable by default</h3>
 
 An inattentive developer should, by default,
 produce content that the widest possible set of users can interact with,
