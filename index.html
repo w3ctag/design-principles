@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version ac92c2f0d, updated Fri Aug 21 16:01:29 2026 -0700" name="generator">
+  <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="87ed909cb097bb478ca02f09fcb922e9b949a2aa" name="revision">
+  <meta content="63f49f6542e3aefdbe2fcac945be3920f9977d38" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -737,7 +737,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-09-14">14 September 2026</time></p>
+    <time class="dt-updated" datetime="2026-11-02">2 November 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1934,10 +1934,6 @@ Custom elements can attach (i.e., compose) items that are necessary to
 interact with a form
 without having to deal with the complications of <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#htmlinputelement" id="ref-for-htmlinputelement②">HTMLInputElement</a></code>.
 </div>
-   .
-
-
-
    <h2 class="heading settled" data-level="3" id="html"><span class="secno">3. </span><span class="content">HTML</span><a class="self-link" href="#html"></a></h2>
    <p>This section details design principles for features which are exposed via HTML.</p>
    <h3 class="heading settled" data-level="3.1" id="attribute-reuse"><span class="secno">3.1. </span><span class="content">Re-use HTML attribute names (only) for similar functionality</span><a class="self-link" href="#attribute-reuse"></a></h3>
@@ -2080,7 +2076,7 @@ Their IDL attributes are <code class="idl"><a data-link-type="idl" href="https:/
    <p class="note" role="note"><span class="marker">Note:</span> In hindsight, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-form-element" id="ref-for-the-form-element">form</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fs-action" id="ref-for-attr-fs-action">action</a></code> attribute should have been named <code>href</code>.</p>
    <p>If the element causes the resource at the given URL to be loaded, call the attribute <code>src</code>, like the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element①">img</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-src" id="ref-for-attr-img-src">src</a></code> attribute or the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script" id="ref-for-script①">script</a></code> element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/scripting.html#attr-script-src" id="ref-for-attr-script-src">src</a></code> attribute.</p>
    <p class="note" role="note"><span class="marker">Note:</span> HTML has a number of legacy inconsistencies that should not be emulated, like the way <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element" id="ref-for-the-link-element①">link</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-href" id="ref-for-attr-link-href">href</a></code> attribute might allow for navigation or for resource loading, depending on the value of the element’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-link-rel" id="ref-for-attr-link-rel">rel</a></code> attribute. </p>
-   <p>If the attribute identifies a URL that is auxilliary to the element’s purpose, like <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#video" id="ref-for-video①">video</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/media.html#attr-video-poster" id="ref-for-attr-video-poster">poster</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element" id="ref-for-the-q-element">q</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite" id="ref-for-attr-q-cite">cite</a></code>, or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element①">a</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#ping" id="ref-for-ping">ping</a></code>, name the attribute after its semantics.</p>
+   <p>If the attribute identifies a URL that is auxiliary to the element’s purpose, like <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/media.html#video" id="ref-for-video①">video</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/media.html#attr-video-poster" id="ref-for-attr-video-poster">poster</a></code>, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-q-element" id="ref-for-the-q-element">q</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#attr-q-cite" id="ref-for-attr-q-cite">cite</a></code>, or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element" id="ref-for-the-a-element①">a</a></code>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/links.html#ping" id="ref-for-ping">ping</a></code>, name the attribute after its semantics.</p>
    <p class="note" role="note"><span class="marker">Note:</span> remember that attributes containing URLs should be represented in IDL as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-USVString" id="ref-for-idl-USVString">USVString</a></code>; see <a href="#idl-string-types">§ 8.2 Represent strings appropriately</a>.</p>
    <h3 class="heading settled" data-level="3.7" id="html-overloading"><span class="secno">3.7. </span><span class="content">Give each HTML element a single purpose</span><a class="self-link" href="#html-overloading"></a></h3>
    <p>Each HTML element should have a clear purpose.
@@ -2112,9 +2108,9 @@ and elements that rely on context to establish their semantics.</p>
 The now-deprecated <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/obsolete.html#acronym" id="ref-for-acronym">acronym</a></code> element is duplicative of the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-abbr-element" id="ref-for-the-abbr-element">abbr</a></code> element
 and therefore overspecialization.
 </div>
-   <div class="example" id="example-2e98e252"><a class="self-link" href="#example-2e98e252"></a>
+   <div class="example" id="example-fadb97cc"><a class="self-link" href="#example-fadb97cc"></a>
 The <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element①">source</a></code> element can have distinct purposes depending on context.
-A <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element②">source</a></code> element is not standalone; it’s semantics are determined by its parent.
+A <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-source-element" id="ref-for-the-source-element②">source</a></code> element is not standalone; its semantics are determined by its parent.
 </div>
    <h2 class="heading settled" data-level="4" id="css"><span class="secno">4. </span><span class="content">Cascading Style Sheets (CSS)</span><a class="self-link" href="#css"></a></h2>
    <p>This section details design principles for features which are exposed via CSS.</p>
@@ -2206,10 +2202,8 @@ an element gets the same computed value for a property that its parent has.
 This means that processing steps that happen before reaching the computed value
 affect the value that is inherited,
 and those that happen after (such as for the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value">used value</a>) do not.</p>
-   <div class="note" role="note">
-Note: the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①">computed value</a> should not be confused with the <a data-link-type="dfn" href="https://drafts.csswg.org/cssom-1/#resolved-value" id="ref-for-resolved-value">resolved value</a>
-which is returned from the <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle">getComputedStyle()</a></code> method.
-</div>
+   <p class="note" role="note"><span class="marker">Note:</span> the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①">computed value</a> should not be confused with the <a data-link-type="dfn" href="https://drafts.csswg.org/cssom-1/#resolved-value" id="ref-for-resolved-value">resolved value</a>
+which is returned from the <code class="idl"><a data-link-type="idl" href="https://drafts.csswg.org/cssom-1/#dom-window-getcomputedstyle" id="ref-for-dom-window-getcomputedstyle">getComputedStyle()</a></code> method.</p>
    <div class="example" id="example-324ea8f7">
     <a class="self-link" href="#example-324ea8f7"></a>
 For example, the <a class="css property" data-link-type="property" href="https://drafts.csswg.org/css2/#propdef-line-height" id="ref-for-propdef-line-height">line-height</a> property may accept a <a class="css production" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#number-value" id="ref-for-number-value">&lt;number></a> value,
@@ -2410,7 +2404,7 @@ while avoiding pitfalls like "fake classes" or classes that provide no functiona
    <h4 class="heading no-num no-toc settled" id="dictionaries-for-configuration"><span class="content">Use Dictionaries for “Configuration” or “Input-Only” Data</span><a class="self-link" href="#dictionaries-for-configuration"></a></h4>
    <p>Choose a dictionary when the part of the API represents data that is transient,
 especially when an API accepts a set of parameters, configuration, or options.</p>
-   <p>Dictionaries are ideal for when the data doesn’t get stored or mutated; it’s just used it at the time of the call.</p>
+   <p>Dictionaries are ideal for when the data doesn’t get stored or mutated; it’s just used at the time of the call.</p>
    <p>For example, the <a href="https://www.w3.org/TR/web-share/#dom-sharedata"><code>ShareData</code></a> member from Web Share <a data-link-type="biblio" href="#biblio-web-share" title="Web Share API">[WEB-SHARE]</a>:</p>
 <pre class="highlight language-WebIDL"><c- k>dictionary</c-> <c- nc>ShareData</c-> <c- p>{</c->
   <c- b>USVString</c-> <c- g>title</c-><c- p>;</c->
@@ -2421,7 +2415,7 @@ especially when an API accepts a set of parameters, configuration, or options.</
    <p>And how it’s commonly used:</p>
 <pre class="highlight">await navigator.share({text: "Text being shared" });
 </pre>
-   <p>Dictionaries are easily extensible and makes it easy to add optional fields later as needed.
+   <p>Dictionaries are easily extensible and make it easy to add optional fields later as needed.
 Members of a dictionary are optional by default, but can be marked as <code>required</code> if needed.</p>
    <p>Dictionaries are also highly idiomatic (i.e., natural to use in JavaScript).
 Passing <code>{ ... }</code> inline is the most natural way to supply configuration in JavaScript.</p>
@@ -2430,7 +2424,7 @@ Dictionary members that are not understood by an implementation are ignored.
 New members therefore can be added without breaking older code.</p>
    <p>Dictionaries are best used for objects that don’t need to be distinguished by type in their lifecycle (i.e., <code>instanceof</code> checks are mostly meaningless because it’s always <code>Object</code>).</p>
    <p>Dictionaries are "passed by value" to methods (i.e., they are copied).
-Browsers engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
+Browser engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
 This means that changing the value after it is passed into an API has no effect.</p>
    <p>Again, taking the <a href="https://www.w3.org/TR/web-share/#dom-sharedata"><code>ShareData</code></a> dictionary as an example:</p>
 <pre class="highlight language-JS"><c- a>const</c-> data <c- o>=</c-> <c- p>{</c->
@@ -2451,12 +2445,12 @@ Use an interface when a specification needs to bundle state—​both visible pr
     <li data-md>
      <p>can have instances with state,</p>
     <li data-md>
-     <p>can have need read-only properties,</p>
+     <p>can have read-only properties,</p>
     <li data-md>
      <p>can exhibit side-effects on assignment, and</p>
     <li data-md>
-     <p>provide the ability to check object’s identity
-(i.e., one can check if  it is an <code>instanceof</code> a particular class on the global scope),</p>
+     <p>provide the ability to check an object’s identity
+(i.e., one can check if it is an <code>instanceof</code> a particular class on the global scope).</p>
    </ul>
    <p>Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
 For example, the <code>canParse()</code> static method of the URL interface.</p>
@@ -2591,7 +2585,7 @@ was causing problems.</p>
 even though it represents a list,
 because it’s the way for authors to change the query string of a URL.</p>
    </div>
-   <p class="note" role="note"><span class="marker">Note:</span>  For <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
+   <p class="note" role="note"><span class="marker">Note:</span> For <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-maplike" id="ref-for-dfn-maplike">maplike</a> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-setlike" id="ref-for-dfn-setlike">setlike</a> types,
 this advice may not apply,
 since these types were designed to behave well
 when they change while being iterated.</p>
@@ -2649,7 +2643,7 @@ until a state change requires a different object to be returned.
 This can be returned from either a property, getter, or method.</p>
     <li data-md>
      <p>If static, then return a new object each time.
-In which case, this should be be a method.</p>
+In which case, this should be a method.</p>
    </ul>
    <h3 class="heading settled" data-level="6.5" id="prefer-dictionaries"><span class="secno">6.5. </span><span class="bs-old-id" id="prefer-dict-to-bool"></span><span class="content">Accept optional and/or primitive arguments through dictionaries</span><a class="self-link" href="#prefer-dictionaries"></a></h3>
    <p>API methods should generally use dictionary arguments
@@ -3047,7 +3041,7 @@ is still under development as of today.
 the developer would have to create a view such as a Uint8Array
 to read data.
 Providing a <code>Uint8Array</code> avoids that additional effort.</p>
-   <p>If the bytes in the buffer have a natural intepretation
+   <p>If the bytes in the buffer have a natural interpretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-Float32Array" id="ref-for-idl-Float32Array">Float32Array</a></code>.</p>
    <h3 class="heading settled" data-level="6.16" id="void-functions"><span class="secno">6.16. </span><span class="content">Return <code>undefined</code> from side-effect-causing functions</span><a class="self-link" href="#void-functions"></a></h3>
@@ -3169,7 +3163,7 @@ in the active notification context set.</p>
    <p>If your API adds a new event type,
 add a corresponding <code>on<em>yourevent</em></code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes">event handler IDL attribute</a>
 to the interface of any <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler">EventHandler</a></code> which may handle the new event.</p>
-   <p>it’s important to continue to define event handler IDL attributes because:</p>
+   <p>It’s important to continue to define event handler IDL attributes because:</p>
    <ul>
     <li data-md>
      <p>they preserve consistency in the platform</p>
@@ -3350,7 +3344,7 @@ What is more often implied by "asynchronous event" is to defer firing an event.<
    <p>Put state on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target①">target</a></code>
 and use events to signal updates to that state,
 rather than having state on <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑥">Event</a></code> objects.</p>
-   <p>Having state on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target②">target</a></code> object can used to determine the current state,
+   <p>Having state on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target②">target</a></code> object can be used to determine the current state,
 without waiting for the next event.
 This is particularly useful if there’s a final state,
 where there will be no further events.</p>
@@ -3741,8 +3735,7 @@ on the Web IDL Bugzilla</p>
    </div>
    <h3 class="heading settled" data-level="8.5" id="error-types"><span class="secno">8.5. </span><span class="content">Use Error or DOMException for errors</span><a class="self-link" href="#error-types"></a></h3>
    <p>Represent errors in web APIs as ECMAScript error objects (e.g., <code class="idl"><a data-link-type="idl" href="https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects" id="ref-for-sec-error-objects">Error</a></code>)
-or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.
-whether they are exceptions, promise rejection values, or properties.</p>
+or as <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>, whether they are exceptions, promise rejection values, or properties.</p>
    <h2 class="heading settled" data-level="9" id="device-apis"><span class="secno">9. </span><span class="content">APIs that wrap access to device or browser capabilities</span><a class="self-link" href="#device-apis"></a></h2>
    <p>New APIs are now being developed in the web platform for interacting with devices.
 For example, authors wish to be able to use the web to connect with their
@@ -3792,9 +3785,9 @@ use these guidelines when exposing device information:</p>
     <dt data-md>Limit information in any identifier
     <dd data-md>
      <p>Include as little identifiable information as possible
-in device identifiers exposed to the web plaform.
+in device identifiers exposed to the web platform.
 Identifiable information includes
-branding, make and model numbers, etc
+branding, make and model numbers, etc.
 You can usually use a randomly generated identifier instead.
 Make sure that your identifiers aren’t guessable,
 and aren’t re-used.</p>
@@ -3811,7 +3804,7 @@ about a Web page accessing this information.</p>
     <dt data-md>Tie identifiers to the same-origin model
     <dd data-md>
      <p>Create distinct identifiers for the same physical device
-for each origin that has has access to it.</p>
+for each origin that has access to it.</p>
     <dd data-md>
      <p>If the same device is requested more than once
 by the same origin, return the same identifier for it
@@ -3867,7 +3860,7 @@ Such an API:</p>
    </ul>
    <p>When designing API which allows users to select a device,
 it may be necessary to also expose
-the fact that there are devices are available to be picked.
+the fact that there are devices available to be picked.
 This does expose one bit of fingerprinting data about the user’s environment
 to websites,
 so it isn’t quite as safe as an API which doesn’t have such a feature.
@@ -4080,11 +4073,11 @@ New formats containing text should only support UTF-8 encoded text.</p>
 sometimes rely on peeking at headers, to workaround this), this is mostly for legacy
 compatibility reasons and should not be expected or implemented for new formats.</p>
    <p>It is expected that spec authors also integrate the new format to existing APIs, so that
-they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
-(e.g. encoding to a WriteableStream) points from a browser’s perspective.</p>
-   <p>For example. if you are to add an image format to the web platform, first add a new MIME
+they are safelisted in both ingress (e.g. decoding from a <code class="idl"><a data-link-type="idl" href="https://streams.spec.whatwg.org/#readablestream" id="ref-for-readablestream">ReadableStream</a></code>) and egress
+(e.g. encoding to a <code class="idl"><a data-link-type="idl" href="https://streams.spec.whatwg.org/#writablestream" id="ref-for-writablestream">WritableStream</a></code>) points from a browser’s perspective.</p>
+   <p>For example, if you are to add an image format to the web platform, first add a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
-encoder) for said image format to support decoding in HTMLImageElements. On top of this,
+encoder) for said image format to support decoding in <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement" id="ref-for-htmlimageelement">HTMLImageElement</a></code>s. On top of this,
 you are also expected to add support to egress points such as <code>HTMLCanvasElement.toBlob()</code>
 and <code>HTMLCanvasElement.toDataURL()</code>.</p>
    <p>For legacy reasons browsers support MIME type sniffing, but we do not recommend extending
@@ -4151,7 +4144,7 @@ serialization. The following are constituencies of serialization results that mu
     <li data-md>
      <p>Tools - which may rely on the output of serialization in a number of ways (for instance, to detect if the parser need to correct for errors in the input)</p>
     <li data-md>
-     <p>Web APIs - because serializations may be  passed into other APIs of the web platform</p>
+     <p>Web APIs - because serializations may be passed into other APIs of the web platform</p>
    </ul>
    <p>Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant.
 Languages may differ in the precision of floating point numbers they accept.
@@ -4207,7 +4200,7 @@ for the APIs that they design.</p>
    <h3 class="heading settled" data-level="11.1" id="requirements-on-authors-and-implementers"><span class="secno">11.1. </span><span class="content">Identify the audience of each requirement in your specification</span><a class="self-link" href="#requirements-on-authors-and-implementers"></a></h3>
    <p>Document both how authors should write good code using your API,
 and how implementers of your API should handle poorly-written code.</p>
-   <p>The web, especially in comparison to other platforms,  is
+   <p>The web, especially in comparison to other platforms, is
 designed to be robust in accepting poorly-formed markup.
 This means that web pages which use older versions of web standards
 can still be viewed in newer user agents,
@@ -4501,7 +4494,7 @@ sites will not need to be updated
 to take advantage of this.</p>
    <p class="note" role="note"><span class="marker">Note:</span> Authors may assume the behavior of the dominant implementation is correct
 and any other behavior is buggy,
-which may further entrench the dominant implementaiton.</p>
+which may further entrench the dominant implementation.</p>
    <div class="example" id="backdrop-filter">
     <a class="self-link" href="#backdrop-filter"></a>
 
@@ -4533,7 +4526,7 @@ the API variant supported by the dominant implementation
 is the "correct" one,
 or they may simply be unaware of the API variants supported
 in implementations they do not use regularly,
-which may further entrench the dominant implementaiton.</p>
+which may further entrench the dominant implementation.</p>
    <p>If you do go this route,
 try to reduce the cost to authors
 by minimizing the differences between the APIs.
@@ -4583,7 +4576,7 @@ A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="monkey-patch">mon
     <li data-md>
      <p>If several specifications monkey patch part of another spec, the order in which the patches are applied can lead to inconsistent behavior.</p>
     <li data-md>
-     <p>The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.</p>
+     <p>The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to some other issue or behavior, making the overall situation worse.</p>
     <li data-md>
      <p>An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.</p>
    </ul>
@@ -4835,7 +4828,7 @@ Naming schemes should aim for consistency, to avoid confusion.
    <p>Sets of related names should agree with each other in:</p>
    <ul>
     <li data-md>
-     <p>part of speech  - noun, verb, etc.</p>
+     <p>part of speech - noun, verb, etc.</p>
     <li data-md>
      <p>negation, for example all of the names in a set should either describe what is allowed
 or they should all describe what is denied</p>
@@ -4908,7 +4901,7 @@ design, the following rules have emerged:</p>
 Note that in particular, when a HTML attribute is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect①">reflected</a> as a property, the attribute
 and property’s casings won’t necessarily match. For example, the HTML attribute
 <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-ismap" id="ref-for-attr-img-ismap">ismap</a></code> on <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element" id="ref-for-the-img-element②">img</a></code> elements is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect" id="ref-for-reflect②">reflected</a> as the
-<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap" id="ref-for-dom-img-ismap">isMap</a></code> property on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement" id="ref-for-htmlimageelement">HTMLImageElement</a></code>.
+<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-ismap" id="ref-for-dom-img-ismap">isMap</a></code> property on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement" id="ref-for-htmlimageelement①">HTMLImageElement</a></code>.
 
 
     <p>The rules for JSON keys are meant to apply to specific JSON file formats sent over HTTP
@@ -5450,6 +5443,12 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="3a3c984c">task queues</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[STREAMS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="59ed4e57">ReadableStream</span>
+     <li><span class="dfn-paneled" id="59dc45b5">WritableStream</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="518be2ae">InputEvent</span>
@@ -5587,6 +5586,8 @@ so they can correct this omission.</p>
    <dd>Monica CHINTALA; Yoshisato Yanagisawa. <a href="https://w3c.github.io/ServiceWorker/"><cite>Service Workers Nightly</cite></a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-spec-variability">[SPEC-VARIABILITY]
    <dd>Dominique Hazaël-Massieux; Lynne Rosenthal. <a href="https://www.w3.org/TR/spec-variability/"><cite>Variability in Specifications</cite></a>. 31 August 2005. NOTE. URL: <a href="https://www.w3.org/TR/spec-variability/">https://www.w3.org/TR/spec-variability/</a>
+   <dt id="biblio-streams">[STREAMS]
+   <dd>Adam Rice; et al. <a href="https://streams.spec.whatwg.org/"><cite>Streams Standard</cite></a>. Living Standard. URL: <a href="https://streams.spec.whatwg.org/">https://streams.spec.whatwg.org/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-w3c-process">[W3C-PROCESS]
@@ -5997,6 +5998,8 @@ let dfnPanelData = {
 "5528aefc": {"dfnID":"5528aefc","dfnText":"loaded","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-progressevent-loaded"}],"title":"7.8. Guard against potential recursion"}],"url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
 "55b2f02c": {"dfnID":"55b2f02c","dfnText":"poster","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-video-poster"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"}],"url":"https://html.spec.whatwg.org/multipage/media.html#attr-video-poster"},
 "59912c93": {"dfnID":"59912c93","dfnText":"code unit","external":true,"refSections":[{"refs":[{"id":"ref-for-code-unit"}],"title":"8.2. Represent strings appropriately"}],"url":"https://infra.spec.whatwg.org/#code-unit"},
+"59dc45b5": {"dfnID":"59dc45b5","dfnText":"WritableStream","external":true,"refSections":[{"refs":[{"id":"ref-for-writablestream"}],"title":"10.4. Add new data formats properly"}],"url":"https://streams.spec.whatwg.org/#writablestream"},
+"59ed4e57": {"dfnID":"59ed4e57","dfnText":"ReadableStream","external":true,"refSections":[{"refs":[{"id":"ref-for-readablestream"}],"title":"10.4. Add new data formats properly"}],"url":"https://streams.spec.whatwg.org/#readablestream"},
 "59f1958b": {"dfnID":"59f1958b","dfnText":"XMLHttpRequestEventTarget","external":true,"refSections":[{"refs":[{"id":"ref-for-xmlhttprequesteventtarget"}],"title":"7.10. Use Events and Observers appropriately"}],"url":"https://xhr.spec.whatwg.org/#xmlhttprequesteventtarget"},
 "5ab7b520": {"dfnID":"5ab7b520","dfnText":"reflect","external":true,"refSections":[{"refs":[{"id":"ref-for-reflect"}],"title":"8.2. Represent strings appropriately"},{"refs":[{"id":"ref-for-reflect\u2460"},{"id":"ref-for-reflect\u2461"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect"},
 "5bcbeb1e": {"dfnID":"5bcbeb1e","dfnText":"getDisplayMedia()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-mediadevices-getdisplaymedia"}],"title":"When to use callback functions"}],"url":"https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia"},
@@ -6119,7 +6122,7 @@ let dfnPanelData = {
 "c2f2a81a": {"dfnID":"c2f2a81a","dfnText":"classList","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-classlist"}],"title":"3.2. Use space-separated attributes for short lists of values, separate elements for longer lists"}],"url":"https://dom.spec.whatwg.org/#dom-element-classlist"},
 "c3b2d08c": {"dfnID":"c3b2d08c","dfnText":"task source","external":true,"refSections":[{"refs":[{"id":"ref-for-task-source"},{"id":"ref-for-task-source\u2460"},{"id":"ref-for-task-source\u2461"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#task-source"},
 "c43d5ec9": {"dfnID":"c43d5ec9","dfnText":"execution contexts","external":true,"refSections":[{"refs":[{"id":"ref-for-sec-execution-contexts"}],"title":"2.13. Handle non-fully-active documents"}],"url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
-"c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
+"c5891539": {"dfnID":"c5891539","dfnText":"HTMLImageElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlimageelement"}],"title":"10.4. Add new data formats properly"},{"refs":[{"id":"ref-for-htmlimageelement\u2460"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://html.spec.whatwg.org/multipage/embedded-content.html#htmlimageelement"},
 "c6d19e56": {"dfnID":"c6d19e56","dfnText":"event loop","external":true,"refSections":[{"refs":[{"id":"ref-for-event-loop"},{"id":"ref-for-event-loop\u2460"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#event-loop"},
 "c7af4825": {"dfnID":"c7af4825","dfnText":"getElementById(elementId)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-nonelementparentnode-getelementbyid"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid"},
 "ca0c892d": {"dfnID":"ca0c892d","dfnText":"href (for a)","external":true,"refSections":[{"refs":[{"id":"ref-for-attr-hyperlink-href"}],"title":"3.6. Name URL-containing attributes based on their primary purpose"},{"refs":[{"id":"ref-for-attr-hyperlink-href\u2460"}],"title":"8.2. Represent strings appropriately"}],"url":"https://html.spec.whatwg.org/multipage/links.html#attr-hyperlink-href"},
@@ -6755,6 +6758,8 @@ let refsData = {
 "https://infra.spec.whatwg.org/#scalar-value-string": {"displayText":"scalar value string","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"scalar value string","type":"dfn","url":"https://infra.spec.whatwg.org/#scalar-value-string"},
 "https://infra.spec.whatwg.org/#string": {"displayText":"string","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"string","type":"dfn","url":"https://infra.spec.whatwg.org/#string"},
 "https://infra.spec.whatwg.org/#surrogate": {"displayText":"surrogate","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"surrogate","type":"dfn","url":"https://infra.spec.whatwg.org/#surrogate"},
+"https://streams.spec.whatwg.org/#readablestream": {"displayText":"ReadableStream","export":true,"for_":[],"level":"1","normative":true,"shortname":"streams","spec":"streams","status":"current","text":"ReadableStream","type":"interface","url":"https://streams.spec.whatwg.org/#readablestream"},
+"https://streams.spec.whatwg.org/#writablestream": {"displayText":"WritableStream","export":true,"for_":[],"level":"1","normative":true,"shortname":"streams","spec":"streams","status":"current","text":"WritableStream","type":"interface","url":"https://streams.spec.whatwg.org/#writablestream"},
 "https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise.prototype.then": {"displayText":"then(onFulfilled, onRejected)","export":true,"for_":["Promise"],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"then(onFulfilled, onRejected)","type":"method","url":"https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise.prototype.then"},
 "https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts": {"displayText":"execution contexts","export":true,"for_":["ECMAScript"],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"execution contexts","type":"dfn","url":"https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts"},
 "https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects": {"displayText":"Error","export":true,"for_":[],"level":"1","normative":true,"shortname":"ecmascript","spec":"ecmascript","status":"current","text":"Error","type":"exception","url":"https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-error-objects"},
