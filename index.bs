@@ -3527,8 +3527,8 @@ sometimes rely on peeking at headers, to workaround this), this is mostly for le
 compatibility reasons and should not be expected or implemented for new formats.
 
 It is expected that spec authors also integrate the new format to existing APIs, so that
-they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
-(e.g. encoding to a WritableStream) points from a browser's perspective.
+they are safelisted in both ingress (e.g. decoding from a {{ReadableStream}}) and egress
+(e.g. encoding to a {{WritableStream}}) points from a browser's perspective.
 
 For example, if you are to add an image format to the web platform, first add a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
