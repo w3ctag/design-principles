@@ -1121,7 +1121,7 @@ and a specialization of {{HTMLInputElement}} would need to maintain that complex
 Custom elements can attach (i.e., compose) items that are necessary to
 interact with a form
 without having to deal with the complications of {{HTMLInputElement}}.
-</div>.
+</div>
 
 
 <h2 id="html">HTML</h2>
@@ -1303,7 +1303,7 @@ If the element causes the resource at the given URL to be loaded, call the attri
 
 Note: HTML has a number of legacy inconsistencies that should not be emulated, like the way <{link}>'s <{link/href}> attribute might allow for navigation or for resource loading, depending on the value of the element's <{link/rel}> attribute. <!-- TODO: Add an <object data> example after w3ctag/design-principles#370 has been written. -->
 
-If the attribute identifies a URL that is auxilliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
+If the attribute identifies a URL that is auxiliary to the element's purpose, like <{video}>'s <{video/poster}>, <{q}>'s <{q/cite}>, or <{a}>’s <{a/ping}>, name the attribute after its semantics.
 
 Note: remember that attributes containing URLs should be represented in IDL as {{USVString}}; see [[#idl-string-types]].
 
@@ -1347,7 +1347,7 @@ and therefore overspecialization.
 
 <div class=example>
 The <{source}> element can have distinct purposes depending on context.
-A <{source}> element is not standalone; it's semantics are determined by its parent.
+A <{source}> element is not standalone; its semantics are determined by its parent.
 </div>
 
 
@@ -1452,10 +1452,8 @@ This means that processing steps that happen before reaching the computed value
 affect the value that is inherited,
 and those that happen after (such as for the <a>used value</a>) do not.
 
-<div class="note">
 Note: the <a>computed value</a> should not be confused with the [=resolved value=]
 which is returned from the {{getComputedStyle()}} method.
-</div>
 
 <div class="example">
 For example, the 'line-height' property may accept a <<number>> value,
@@ -1681,7 +1679,7 @@ while avoiding pitfalls like "fake classes" or classes that provide no functiona
 Choose a dictionary when the part of the API represents data that is transient,
 especially when an API accepts a set of parameters, configuration, or options.
 
-Dictionaries are ideal for when the data doesn't get stored or mutated; it's just used it at the time of the call.
+Dictionaries are ideal for when the data doesn't get stored or mutated; it's just used at the time of the call.
 
 For example, the [`ShareData`](https://www.w3.org/TR/web-share/#dom-sharedata) member from Web Share [[WEB-SHARE]]:
 
@@ -1699,7 +1697,7 @@ And how it's commonly used:
 await navigator.share({text: "Text being shared" });
 </pre>
 
-Dictionaries are easily extensible and makes it easy to add optional fields later as needed.
+Dictionaries are easily extensible and make it easy to add optional fields later as needed.
 Members of a dictionary are optional by default, but can be marked as `required` if needed.
 
 Dictionaries are also highly idiomatic (i.e., natural to use in JavaScript).
@@ -1712,7 +1710,7 @@ New members therefore can be added without breaking older code.
 Dictionaries are best used for objects that don't need to be distinguished by type in their lifecycle (i.e., `instanceof` checks are mostly meaningless because it's always `Object`).
 
 Dictionaries are "passed by value" to methods (i.e., they are copied).
-Browsers engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
+Browser engines strip unknown members when converting from JavaScript objects to a WebIDL representation.
 This means that changing the value after it is passed into an API has no effect.
 
 Again, taking the [`ShareData`](https://www.w3.org/TR/web-share/#dom-sharedata) dictionary as an example:
@@ -1739,10 +1737,10 @@ with operations on that state (i.e., methods).
 Unlike dictionaries, interfaces:
 
  * can have instances with state,
- * can have need read-only properties,
+ * can have read-only properties,
  * can exhibit side-effects on assignment, and
- * provide the ability to check object's identity
-    (i.e., one can check if  it is an `instanceof` a particular class on the global scope),
+ * provide the ability to check an object's identity
+    (i.e., one can check if it is an `instanceof` a particular class on the global scope).
 
 Defining an interface also exposes it on the global scope, allowing for the specification of static methods.
 For example, the `canParse()` static method of the URL interface.
@@ -1903,7 +1901,7 @@ even though it represents a list,
 because it's the way for authors to change the query string of a URL.
 </div>
 
-Note:  For <a>maplike</a> and <a>setlike</a> types,
+Note: For <a>maplike</a> and <a>setlike</a> types,
 this advice may not apply,
 since these types were designed to behave well
 when they change while being iterated.
@@ -1964,7 +1962,7 @@ This means:
     This can be returned from either a property, getter, or method.
 
 - If static, then return a new object each time.
-    In which case, this should be be a method.
+    In which case, this should be a method.
 
 <h3 id="prefer-dictionaries" oldids="prefer-dict-to-bool">Accept optional and/or primitive arguments through dictionaries</h3>
 
@@ -2404,7 +2402,7 @@ the developer would have to create a view such as a Uint8Array
 to read data.
 Providing a `Uint8Array` avoids that additional effort.
 
-If the bytes in the buffer have a natural intepretation
+If the bytes in the buffer have a natural interpretation
 as one of the other TypedArray types, provide that instead.
 For example, if the bytes represent Float32 values, use a {{Float32Array}}.
 
@@ -2546,7 +2544,7 @@ If your API adds a new event type,
 add a corresponding <code>on<em>yourevent</em></code> [=event handler IDL attribute=]
 to the interface of any {{EventHandler}} which may handle the new event.
 
-it's important to continue to define event handler IDL attributes because:
+It's important to continue to define event handler IDL attributes because:
 
 * they preserve consistency in the platform
 * they enable feature-detection for the supported events (see [[#feature-detect]])
@@ -2741,7 +2739,7 @@ Put state on the {{Event/target}}
 and use events to signal updates to that state,
 rather than having state on {{Event}} objects.
 
-Having state on the {{Event/target}} object can used to determine the current state,
+Having state on the {{Event/target}} object can be used to determine the current state,
 without waiting for the next event.
 This is particularly useful if there's a final state,
 where there will be no further events.
@@ -3138,8 +3136,7 @@ and there is no way to make them immutable.
 <h3 id="error-types">Use Error or DOMException for errors</h3>
 
 Represent errors in web APIs as ECMAScript error objects (e.g., {{Error}})
-or as {{DOMException}}.
-whether they are exceptions, promise rejection values, or properties.
+or as {{DOMException}}, whether they are exceptions, promise rejection values, or properties.
 
 <h2 id="device-apis">APIs that wrap access to device or browser capabilities</h2>
 
@@ -3200,9 +3197,9 @@ use these guidelines when exposing device information:
 
 : Limit information in any identifier
 :: Include as little identifiable information as possible
-    in device identifiers exposed to the web plaform.
+    in device identifiers exposed to the web platform.
     Identifiable information includes
-    branding, make and model numbers, etc
+    branding, make and model numbers, etc.
     You can usually use a randomly generated identifier instead.
     Make sure that your identifiers aren't guessable,
     and aren't re-used.
@@ -3216,7 +3213,7 @@ use these guidelines when exposing device information:
     about a Web page accessing this information.
 : Tie identifiers to the same-origin model
 :: Create distinct identifiers for the same physical device
-    for each origin that has has access to it.
+    for each origin that has access to it.
 :: If the same device is requested more than once
     by the same origin, return the same identifier for it
     (unless the user has cleared their browsing data).
@@ -3264,7 +3261,7 @@ Such an API:
 
 When designing API which allows users to select a device,
 it may be necessary to also expose
-the fact that there are devices are available to be picked.
+the fact that there are devices available to be picked.
 This does expose one bit of fingerprinting data about the user's environment
 to websites,
 so it isn't quite as safe as an API which doesn't have such a feature.
@@ -3530,12 +3527,12 @@ sometimes rely on peeking at headers, to workaround this), this is mostly for le
 compatibility reasons and should not be expected or implemented for new formats.
 
 It is expected that spec authors also integrate the new format to existing APIs, so that
-they are safelisted in both ingress (e.g. decoding from a ReadableStream) and egress
-(e.g. encoding to a WriteableStream) points from a browser's perspective.
+they are safelisted in both ingress (e.g. decoding from a {{ReadableStream}}) and egress
+(e.g. encoding to a {{WritableStream}}) points from a browser's perspective.
 
-For example. if you are to add an image format to the web platform, first add a new MIME
+For example, if you are to add an image format to the web platform, first add a new MIME
 type for the format. After this, you would naturally add a decoder (and presumably an
-encoder) for said image format to support decoding in HTMLImageElements. On top of this,
+encoder) for said image format to support decoding in {{HTMLImageElement}}s. On top of this,
 you are also expected to add support to egress points such as `HTMLCanvasElement.toBlob()`
 and `HTMLCanvasElement.toDataURL()`.
 
@@ -3606,7 +3603,7 @@ serialization. The following are constituencies of serialization results that mu
 
  - Users - because the result of serialization may be presented to the end user
  - Tools - which may rely on the output of serialization in a number of ways (for instance, to detect if the parser need to correct for errors in the input)
- - Web APIs - because serializations may be  passed into other APIs of the web platform
+ - Web APIs - because serializations may be passed into other APIs of the web platform
 
 Consider language specific expectations - for instance, in some languages, the presence or absence of whitespace may be significant.
 Languages may differ in the precision of floating point numbers they accept.
@@ -3675,7 +3672,7 @@ for the APIs that they design.
 Document both how authors should write good code using your API,
 and how implementers of your API should handle poorly-written code.
 
-The web, especially in comparison to other platforms,  is
+The web, especially in comparison to other platforms, is
 designed to be robust in accepting poorly-formed markup.
 This means that web pages which use older versions of web standards
 can still be viewed in newer user agents,
@@ -4015,7 +4012,7 @@ to take advantage of this.
 
 Note: Authors may assume the behavior of the dominant implementation is correct
 and any other behavior is buggy,
-which may further entrench the dominant implementaiton.
+which may further entrench the dominant implementation.
 
 <div class=example id=backdrop-filter>
 
@@ -4051,7 +4048,7 @@ the API variant supported by the dominant implementation
 is the "correct" one,
 or they may simply be unaware of the API variants supported
 in implementations they do not use regularly,
-which may further entrench the dominant implementaiton.
+which may further entrench the dominant implementation.
 
 If you do go this route,
 try to reduce the cost to authors
@@ -4101,7 +4098,7 @@ As such, monkey patching (wrongly!) presupposes that underlying functionality ca
 
   * If the existing specification changes, the monkey patched text may no longer apply thus causing it to break or lead to confusion.
   * If several specifications monkey patch part of another spec, the order in which the patches are applied can lead to inconsistent behavior.
-  * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to so other issue or behavior, making the overall situation worse.
+  * The existing specification authors may not be aware of the monkey patched text in your spec. This misses an opportunity to receive guidance on reaching consensus on a fix. Or worse, the behavior that is being patched is interrelated to some other issue or behavior, making the overall situation worse.
   * An implementer doing code maintenance may read underlying specification and inadvertently revert the monkey patched behavior assuming it is a bug.
 
 Wikipedia also describes some <a href="https://en.wikipedia.org/wiki/Monkey_patch#Pitfalls">additional pitfalls of monkey patching</a>.
@@ -4319,7 +4316,7 @@ However, the name reflects the more general purpose of transporting data.
 Naming schemes should aim for consistency, to avoid confusion.
 
 Sets of related names should agree with each other in:
-  * part of speech  - noun, verb, etc.
+  * part of speech - noun, verb, etc.
   * negation, for example all of the names in a set should either describe what is allowed
     or they should all describe what is denied
 
