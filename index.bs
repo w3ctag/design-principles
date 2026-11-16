@@ -3555,7 +3555,9 @@ to a scriptable document format like HTML,
 define a [=fragment directive=] to do so,
 rather than inventing a novel syntax in the normal fragment segment.
 
-New URL features are appropriate to define in the fragment when they do something purely on the client
+New URL features are appropriate to define in the fragment,
+[[rfc8820#name-uri-fragment-identifiers|for specific MIME types]],
+when they do something purely on the client
 after the response has been received,
 rather than something that should be communicated to the server with the request.
 For example, the traditional use of the URL fragment to indicate the ID of an element that a user agent scrolls to,
