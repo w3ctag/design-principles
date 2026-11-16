@@ -3548,9 +3548,10 @@ due to security implications, and instead recommend enforcing strict MIME types 
 
 New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).
 
-<h3 id="fragment-directives">Add new URL fragment features as directives</h3>
+<h3 id="fragment-directives">Add new URL fragment features in scriptable formats as directives</h3>
 
-When defining new URL features that pass information via the fragment,
+When defining new URL features that pass information, via the fragment,
+to a scriptable document format like HTML,
 define a [=fragment directive=] to do so,
 rather than inventing a novel syntax in the normal fragment segment.
 
