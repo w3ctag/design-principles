@@ -3573,10 +3573,22 @@ as this could interfere with existing author usage.
 structured identically to query parameters,
 without interfering with the existing uses of the fragment.
 
-Note: Examples of specifications that do this already are [[scroll-to-text-fragment]] and [[css-link-params]].
-Examples of older features that violate this and instead define something in the standard fragment
-are <a href="https://www.w3.org/TR/SVG2/linking.html#SVGFragmentIdentifiersDefinitions">SVG Fragment Identifiers</a>
-and [[media-frags]].
+<div class=example id=fragment-examples>
+
+[[scroll-to-text-fragment inline]] and [[css-link-params inline]] use [=fragment directives=].
+
+The [[xptr-framework inline]] defines a different form of fragment identifier for the XML MIME types
+([[rfc7303#section-5|including `application/xml` and all `+xml` types]]),
+but it couldn't be adopted for HTML because
+it uses the part of the fragment that is reserved for authors.
+
+[[SVG2#SVGFragmentIdentifiersDefinitions|SVG Fragment Identifiers]]
+and [[media-frags inline]] 
+add structured information in the part of the fragment that is reserved for authors.
+This hasn't caused problems in practice because
+authors generally don't run scripts inside the relevant MIME types.
+
+</div>
 
 
 <h3 id="extend-manifests">Extend existing manifest files rather than creating new ones</h3>
