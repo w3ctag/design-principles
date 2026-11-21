@@ -2326,6 +2326,66 @@ you can still use an {{AbortController}},
 because a call to {{AbortController/abort()}} on `AbortController`
 is a request, rather than a guarantee.
 
+When a method accepts a signal together with other arguments,
+always validate those arguments first
+and then check if the signal was aborted last.
+If an argument is invalid,
+or throws when the user agent reads it
+(see the example below),
+report that error even when the signal is already aborted.
+
+Rejecting immediately when the signal is already aborted,
+as [[DOM#abortcontroller-api-integration]] describes,
+applies once the arguments are valid.
+
+<div class=example>
+
+Page script can run while the user agent reads a method's arguments,
+and that script can abort the signal.
+The user agent calls `toJSON()` while serializing an argument to JSON.
+The user agent calls a getter while reading that property.
+In both calls below,
+the signal is clean when the hypothetical `doAmazingness()` method starts,
+and the argument's own code aborts the signal while the user agent reads the arguments.
+
+<pre highlight=js>
+const controller = new AbortController();
+
+doAmazingness({
+  signal: controller.signal,
+  data: {
+    toJSON() {
+      controller.abort();
+      return "da";
+    },
+  },
+});
+</pre>
+
+<pre highlight=js>
+const controller = new AbortController();
+
+doAmazingness({
+  signal: controller.signal,
+  get data() {
+    controller.abort();
+    return "da";
+  },
+});
+</pre>
+
+A signal check that runs before the user agent reads the arguments
+misses both aborts.
+Check the signal once,
+after the user agent has read and validated every argument.
+That one check catches a signal that was aborted before the call,
+and a signal that the arguments' code aborts during the call.
+If that code threw after aborting,
+the user agent would report the thrown error,
+because the signal check comes last.
+
+</div>
+
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
 Use strings as the values for constants or sets of enumerated values.
