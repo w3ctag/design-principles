@@ -5,10 +5,10 @@
   <title>Web Platform Design Principles</title>
   <meta content="NOTE-ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
+  <meta content="Bikeshed version e0b165ae4, updated Mon Nov 2 15:16:49 2026 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="63f49f6542e3aefdbe2fcac945be3920f9977d38" name="revision">
+  <meta content="0db896e8ebd42bcb167bb6e6da6bd13ac5a5f261" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -367,14 +367,17 @@ figure.table figcaption:not(.no-marker)::before {
     height: auto;
     max-height: 500px;
     overflow: auto;
+    margin: 0;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
     background: var(--dfnpanel-bg);
     color: var(--dfnpanel-text);
     border: outset 0.2em;
     white-space: normal; /* in case it's moved into a pre */
+    inset: auto;
+    position-area: bottom span-right;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
 }
-.dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
 .dfn-panel a { color: var(--dfnpanel-text); }
@@ -394,6 +397,9 @@ figure.table figcaption:not(.no-marker)::before {
 .dfn-panel.activated {
     display: inline-block;
     position: fixed;
+    position-area: none;
+    top: auto;
+    right: auto;
     left: 8px;
     bottom: 2em;
     margin: 0 auto;
@@ -450,7 +456,8 @@ figure.table figcaption:not(.no-marker)::before {
     opacity: 1;
 }
 
-.dfn-paneled[role="button"] { cursor: help; }
+.dfn-paneled { cursor: help; }
+.dfn-paneled > .dfn-panelbutton { all: unset; }
 
 .highlighted {
     animation: target-fade 3s;
@@ -737,7 +744,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-11-02">2 November 2026</time></p>
+    <time class="dt-updated" datetime="2026-11-23">23 November 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -823,7 +830,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         <li><a href="#user-decisions"><span class="secno">1.4.1</span> <span class="content">Help users make good decisions</span></a>
        </ol>
       <li><a href="#identity"><span class="secno">1.5</span> <span class="content">Use identity appropriately in context</span></a>
-      <li><a href="#devices-platforms"><span class="secno">1.6</span> <span class="content">Support the full range of devices and platforms (Media Independence)</span></a>
+      <li><a href="#accessible-by-default"><span class="secno">1.6</span> <span class="content">Content should be accessible and widely usable by default</span></a>
       <li><a href="#new-features"><span class="secno">1.7</span> <span class="content">Add new capabilities with care</span></a>
       <li><a href="#removing-features"><span class="secno">1.8</span> <span class="content">Prioritize compatibility when changing or removing features</span></a>
       <li><a href="#leave-the-web-better"><span class="secno">1.9</span> <span class="content">Leave the web better than you found it</span></a>
@@ -867,7 +874,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#css-inherited-or-not"><span class="secno">4.2</span> <span class="content">Make appropriate choices for whether CSS properties are inherited</span></a>
       <li><a href="#css-computed-value"><span class="secno">4.3</span> <span class="content">Choose the computed value type based on how the property should inherit</span></a>
       <li><a href="#css-naming"><span class="secno">4.4</span> <span class="content">Name CSS properties and values appropriately</span></a>
-      <li><a href="#css-content-should-be-visible"><span class="secno">4.5</span> <span class="content">Content should be viewable and accessible by default</span></a>
      </ol>
     <li>
      <a href="#js"><span class="secno">5</span> <span class="content">JavaScript Language</span></a>
@@ -1212,17 +1218,36 @@ Design APIs to collect
 necessary.
 Use short-lived, temporary identifiers
 unless a persistent identifier is absolutely necessary.</p>
-   <h3 class="heading settled" data-level="1.6" id="devices-platforms"><span class="secno">1.6. </span><span class="content">Support the full range of devices and platforms (Media Independence)</span><a class="self-link" href="#devices-platforms"></a></h3>
-   <p>As much as possible,
-ensure that features on the web work across different input and output <a href="https://www.w3.org/TR/ethical-web-principles/#multi">devices,
-screen sizes, interaction modes, platforms, and media</a>.</p>
+   <h3 class="heading settled" data-level="1.6" id="accessible-by-default"><span class="secno">1.6. </span><span class="bs-old-id" id="devices-platforms"></span><span class="bs-old-id" id="css-content-should-be-visible"></span><span class="content">Content should be accessible and widely usable by default</span><a class="self-link" href="#accessible-by-default"></a></h3>
+   <p>An inattentive developer should, by default,
+produce content that the widest possible set of users can interact with,
+whether or not they have the <a href="https://w3ctag.github.io/ethical-web-principles/#the-web-is-multi-browser-multi-os-and-multi-device">devices, software</a>,
+or <a href="https://w3ctag.github.io/ethical-web-principles/#the-web-is-for-all-people">abilities</a> that the developer tested against.
+That is, the simplest ways to use HTML, CSS, and JavaScript should produce content that is
+<a href="https://w3c.github.io/wcag/guidelines/22/#perceivable">perceivable</a>, <a href="https://w3c.github.io/wcag/guidelines/22/#operable">operable</a>, and <a href="https://w3c.github.io/wcag/guidelines/22/#robust">robust</a>.</p>
    <p>One of the main values of the Web is that it’s extremely flexible:
-a Web page may be viewed on virtually any consumer computing device
-at a very wide range of screen sizes,
-may be used to generate printed media,
-and may be interacted with in a large number of different ways.
-New features should match the <a href="https://www.w3.org/TR/ethical-web-principles/#render">existing flexibility</a>
-of the web platform.</p>
+a user can choose to view a web page on
+almost any device (including paper), interaction modality, and screen size,
+using browsers that make a range of interface choices,
+with assistive technology to support their individual disabilities.</p>
+   <p>Developers cannot be expected to test with all of the possible choices that a user might make.
+Many developers won’t even test the variations that spec authors think they _should_ test with.
+Design features to preserve and improve
+the <a href="https://w3ctag.github.io/ethical-web-principles/#the-web-can-be-consumed-in-any-way-that-people-choose">existing flexibility</a>
+and accessibility of the web platform,
+even when used by hasty developers.</p>
+   <p>It should take sophistication and non-default attributes, properties, and arguments
+to create pages that exclude some users,
+rather than requiring sophistication to include everyone.</p>
+   <div class="example" id="example-9bcf5285"><a class="self-link" href="#example-9bcf5285"></a>
+For example, the default behavior of all layout systems in CSS
+allows users to choose their own screen size, font, and font size
+without causing content to be clipped,
+overlap other content, or become unreachable by scrolling.
+These things should only happen if CSS features are used that are more explicitly choosing
+such a behavior (for example, <code>overflow: hidden</code> or <code>left: -40em</code>). They should not happen by
+default as a result of something like <code>display: flex</code> or <code>position: relative</code>.
+</div>
    <div class="note" role="note">
     
 This doesn’t imply that features which don’t work in <em>every</em> possible context should be excluded.
@@ -1235,16 +1260,6 @@ where positioning and clicking the pointer occur in the same gesture (a "tap").
 and can be adapted to devices that don’t support their original intent -
 for example, a tap on a mobile device will fire a <span class="css">click</span> event as a fallback.</p>
    </div>
-   <p>Features should also be designed so that the easiest way to use them
-maintains flexibility.</p>
-   <div class="example" id="example-f162158a"><a class="self-link" href="#example-f162158a"></a>
-The 'display: block',
-'display: flex',
-and 'display: grid' layout models in CSS
-all default to placing content within the available space and without overlap,
-so that it works across screen sizes,
-and allows users to choose their own font and font size without causing text to overflow.
-</div>
    <p>Sometimes features aren’t yet available on some implementations or platforms
 despite working on others.
 In these cases, features should be designed such that it is possible for
@@ -2257,16 +2272,6 @@ or things with more complex names that are basically equivalent to them.</p>
    <p>Avoid words like "mode" or "state" in the names of properties,
 since properties are generally setting a mode or state.</p>
    <p>See <a href="#naming-is-hard">§ 12 Naming principles</a> for general (cross-language) advice on naming.</p>
-   <h3 class="heading settled" data-level="4.5" id="css-content-should-be-visible"><span class="secno">4.5. </span><span class="content">Content should be viewable and accessible by default</span><a class="self-link" href="#css-content-should-be-visible"></a></h3>
-   <p>Design CSS properties or CSS layout systems (which are typically values of the <code>display</code> property),
-to preserve the content as viewable, accessible and usable by default.</p>
-   <div class="example" id="example-c09bf2e2"><a class="self-link" href="#example-c09bf2e2"></a>
-For example, the default behavior of all layout systems in CSS will not lead to content being clipped,
-content overlapping other content, or content being unreachable by scrolling.
-These things should only happen if CSS features are used that are more explicitly choosing
-such a behavior (for example, <code>overflow: hidden</code> or <code>left: -40em</code>). They should not happen by
-default as a result of something like <code>display: flex</code> or <code>position: relative</code>.
-</div>
    <h2 class="heading settled" data-level="5" id="js"><span class="secno">5. </span><span class="content">JavaScript Language</span><a class="self-link" href="#js"></a></h2>
    <h3 class="heading settled" data-level="5.1" id="js-only"><span class="secno">5.1. </span><span class="content">Use JavaScript for Web APIs</span><a class="self-link" href="#js-only"></a></h3>
    <p>When designing imperative APIs for the Web,
@@ -5550,6 +5555,8 @@ so they can correct this omission.</p>
    <dd><a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
    <dt id="biblio-encoding">[ENCODING]
    <dd>Anne van Kesteren. <a href="https://encoding.spec.whatwg.org/"><cite>Encoding Standard</cite></a>. Living Standard. URL: <a href="https://encoding.spec.whatwg.org/">https://encoding.spec.whatwg.org/</a>
+   <dt id="biblio-ethical-web-principles">[ETHICAL-WEB-PRINCIPLES]
+   <dd>Daniel Appelquist; Hadley Beeman; Amy Guy. <a href="https://w3ctag.github.io/ethical-web-principles/"><cite>Ethical Web Principles</cite></a>. URL: <a href="https://w3ctag.github.io/ethical-web-principles/">https://w3ctag.github.io/ethical-web-principles/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fingerprinting-guidance">[FINGERPRINTING-GUIDANCE]
@@ -5592,6 +5599,8 @@ so they can correct this omission.</p>
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-w3c-process">[W3C-PROCESS]
    <dd>Elika J. Etemad (fantasai); Florian Rivoal. <a href="https://www.w3.org/policies/process/"><cite>W3C Process Document</cite></a>. 18 August 2025. URL: <a href="https://www.w3.org/policies/process/">https://www.w3.org/policies/process/</a>
+   <dt id="biblio-wcag22">[WCAG22]
+   <dd>Michael Cooper; et al. <a href="https://w3c.github.io/wcag/guidelines/22/"><cite>Web Content Accessibility Guidelines (WCAG) 2.2</cite></a>. URL: <a href="https://w3c.github.io/wcag/guidelines/22/">https://w3c.github.io/wcag/guidelines/22/</a>
    <dt id="biblio-web-animations-2">[WEB-ANIMATIONS-2]
    <dd>Brian Birtles; Robert Flack. <a href="https://drafts.csswg.org/web-animations-2/"><cite>Web Animations Module Level 2</cite></a>. URL: <a href="https://drafts.csswg.org/web-animations-2/">https://drafts.csswg.org/web-animations-2/</a>
    <dt id="biblio-webidl">[WEBIDL]
@@ -5627,8 +5636,6 @@ so they can correct this omission.</p>
    <dd>Simon Fraser; Emilio Cobos Álvarez. <a href="https://drafts.csswg.org/cssom-view/"><cite>CSSOM View Module</cite></a>. URL: <a href="https://drafts.csswg.org/cssom-view/">https://drafts.csswg.org/cssom-view/</a>
    <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
    <dd>Xiaohan Wang; Greg Freedman. <a href="https://w3c.github.io/encrypted-media/"><cite>Encrypted Media Extensions</cite></a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
-   <dt id="biblio-ethical-web-principles">[ETHICAL-WEB-PRINCIPLES]
-   <dd>Daniel Appelquist; Hadley Beeman; Amy Guy. <a href="https://w3ctag.github.io/ethical-web-principles/"><cite>Ethical Web Principles</cite></a>. URL: <a href="https://w3ctag.github.io/ethical-web-principles/">https://w3ctag.github.io/ethical-web-principles/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-filter-effects-2">[FILTER-EFFECTS-2]
@@ -6186,16 +6193,6 @@ let dfnPanelData = {
 
 document.addEventListener("DOMContentLoaded", ()=>{
     genAllDfnPanels();
-
-    document.body.addEventListener("click", (e) => {
-        // If not handled already, just hide all dfn panels.
-        hideAllDfnPanels();
-    });
-});
-
-window.addEventListener("resize", () => {
-    // Pin any visible dfn panel
-    queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>positionDfnPanel(el));
 });
 
 function genAllDfnPanels() {
@@ -6207,16 +6204,17 @@ function genAllDfnPanels() {
             continue;
         }
         dfn.panelData = panelData;
-        insertDfnPopupAction(dfn);
+        genDfnPanel(dfn, panelData);
     }
 }
 
 function genDfnPanel(dfn, { dfnID, url, dfnText, refSections, external }) {
-    const dfnPanel = mk.aside({
-        class: "dfn-panel on",
+    const dfnPanel = mk.dialog({
+        class: "dfn-panel",
         id: `infopanel-for-${dfnID}`,
+        popover: "hint",
         "data-for": dfnID,
-        "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+        "aria-labelledby": `infopaneltitle-for-${dfnID}`,
         },
         mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
             `Info about the '${dfnText}' ${external?"external":""} reference.`),
@@ -6248,106 +6246,34 @@ function genDfnPanel(dfn, { dfnID, url, dfnText, refSections, external }) {
         event.stopPropagation();
         refocusOnTarget(event);
     });
-    dfnPanel.addEventListener('keydown', (event) => {
-        if(event.keyCode == 27) { // Escape key
-            hideDfnPanel({dfnPanel});
-            event.stopPropagation();
-            event.preventDefault();
+
+    dfnPanel.addEventListener('toggle', event=>{
+        if(event.newState == "closed") {
+            unpinDfnPanel(dfnPanel);
         }
     });
 
     dfnPanel.dfn = dfn;
     dfn.dfnPanel = dfnPanel;
+    dfn.after(dfnPanel);
+    const button = mk.button(
+        {
+            class:"dfn-panelbutton",
+            "popovertarget":dfnPanel.id
+        },
+        ...dfn.childNodes
+    );
+    dfn.append(button);
     return dfnPanel;
-}
-
-
-
-function hideAllDfnPanels() {
-    // Delete the currently-active dfn panel.
-    queryAll(".dfn-panel").forEach(dfnPanel=>hideDfnPanel({dfnPanel}));
-}
-
-function showDfnPanel(dfn) {
-    hideAllDfnPanels(); // Only display one at a time.
-
-    dfn.setAttribute("aria-expanded", "true");
-
-    const dfnPanel = genDfnPanel(dfn, dfn.panelData);
-
-    // Give the dfn a unique tabindex, and then
-    // give all the tabbable panel bits successive indexes.
-    let tabIndex = 100;
-    dfn.tabIndex = tabIndex++;
-    const tabbable = dfnPanel.querySelectorAll(":is(a, button)");
-    for (const el of tabbable) {
-        el.tabIndex = tabIndex++;
-    }
-
-    append(document.body, dfnPanel);
-    positionDfnPanel(dfnPanel);
-}
-
-function positionDfnPanel(dfnPanel) {
-    const dfn = dfnPanel.dfn;
-    const dfnPos = getBounds(dfn);
-    dfnPanel.style.top = dfnPos.bottom + "px";
-    dfnPanel.style.left = dfnPos.left + "px";
-
-    const panelPos = dfnPanel.getBoundingClientRect();
-    const panelMargin = 8;
-    const maxRight = document.body.parentNode.clientWidth - panelMargin;
-    if (panelPos.right > maxRight) {
-        const overflowAmount = panelPos.right - maxRight;
-        const newLeft = Math.max(panelMargin, dfnPos.left - overflowAmount);
-        dfnPanel.style.left = newLeft + "px";
-    }
 }
 
 function pinDfnPanel(dfnPanel) {
     // Switch it to "activated" state, which pins it.
     dfnPanel.classList.add("activated");
-    dfnPanel.style.position = "fixed";
-    dfnPanel.style.left = null;
-    dfnPanel.style.top = null;
 }
 
-function hideDfnPanel({dfn, dfnPanel}) {
-    if(!dfnPanel) dfnPanel = dfn.dfnPanel;
-    if(!dfn) dfn = dfnPanel.dfn;
-    dfn.dfnPanel = undefined;
-    dfnPanel.dfn = undefined;
-    dfn.setAttribute("aria-expanded", "false");
-    dfn.tabIndex = undefined;
-    dfnPanel.remove()
-}
-
-function toggleDfnPanel(dfn) {
-    if(dfn.dfnPanel) {
-        hideDfnPanel(dfn);
-    } else {
-        showDfnPanel(dfn);
-    }
-}
-
-function insertDfnPopupAction(dfn) {
-    dfn.setAttribute('role', 'button');
-    dfn.setAttribute('aria-expanded', 'false')
-    dfn.tabIndex = 0;
-    dfn.classList.add('has-dfn-panel');
-    dfn.addEventListener('click', (event) => {
-        toggleDfnPanel(dfn);
-        event.stopPropagation();
-    });
-    dfn.addEventListener('keypress', (event) => {
-        const kc = event.keyCode;
-        // 32->Space, 13->Enter
-        if(kc == 32 || kc == 13) {
-            toggleDfnPanel(dfn);
-            event.stopPropagation();
-            event.preventDefault();
-        }
-    });
+function unpinDfnPanel(dfnPanel) {
+    dfnPanel.classList.remove("activated");
 }
 
 function refocusOnTarget(event) {
@@ -6357,21 +6283,6 @@ function refocusOnTarget(event) {
         // This is needed after browser scrolls to the destination.
         target.focus();
     });
-}
-
-// TODO: shared util
-// Returns the root-level absolute position {left and top} of element.
-function getBounds(el, relativeTo=document.body) {
-    const relativeRect = relativeTo.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
-    const top = elRect.top - relativeRect.top;
-    const left = elRect.left - relativeRect.left;
-    return {
-        top,
-        left,
-        bottom: top + elRect.height,
-        right: left + elRect.width,
-    }
 }
 
 function scrollToTargetAndHighlight(event) {
@@ -6779,7 +6690,7 @@ let refsData = {
 "https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue": {"displayText":"task queues","export":true,"for_":["service worker registration"],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"task queues","type":"dfn","url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration-task-queue"},
 "https://w3c.github.io/ServiceWorker/#dom-fetchevent-respondwith": {"displayText":"respondWith(r)","export":true,"for_":["FetchEvent"],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"respondWith(r)","type":"method","url":"https://w3c.github.io/ServiceWorker/#dom-fetchevent-respondwith"},
 "https://w3c.github.io/gamepad/#dom-gamepad": {"displayText":"Gamepad","export":true,"for_":[],"level":"1","normative":true,"shortname":"gamepad","spec":"gamepad","status":"current","text":"Gamepad","type":"interface","url":"https://w3c.github.io/gamepad/#dom-gamepad"},
-"https://w3c.github.io/hr-time/#dom-performance-now": {"displayText":"now()","export":true,"for_":["Performance"],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"now()","type":"method","url":"https://w3c.github.io/hr-time/#dom-performance-now"},
+"https://w3c.github.io/hr-time/#dom-performance-now": {"displayText":"now()","export":true,"for_":["Performance","WorkletPerformance"],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"now()","type":"method","url":"https://w3c.github.io/hr-time/#dom-performance-now"},
 "https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp": {"displayText":"DOMHighResTimeStamp","export":true,"for_":[],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"DOMHighResTimeStamp","type":"typedef","url":"https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp"},
 "https://w3c.github.io/i18n-glossary/#dfn-percent-encoding": {"displayText":"percent-encoding","export":true,"for_":[],"level":"1","normative":false,"shortname":"i18n-glossary","spec":"i18n-glossary","status":"current","text":"percent-encoding","type":"dfn","url":"https://w3c.github.io/i18n-glossary/#dfn-percent-encoding"},
 "https://w3c.github.io/manifest/#dfn-short_name": {"displayText":"short_name","export":true,"for_":["manifest"],"level":"1","normative":true,"shortname":"appmanifest","spec":"appmanifest","status":"current","text":"short_name","type":"dfn","url":"https://w3c.github.io/manifest/#dfn-short_name"},
