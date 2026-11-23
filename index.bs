@@ -313,8 +313,8 @@ almost any device (including paper), interaction modality, and screen size,
 using browsers that make a range of interface choices,
 with assistive technology to support their individual disabilities.
 
-Developers often have limited time
-and don't test with all of the options that users will need to choose.
+Developers cannot be expected to test with all of the possible choices that a user might make.
+Many developers won't even test the variations that spec authors think they _should_ test with.
 Design features to preserve and improve
 the [[ethical-web-principles#render|existing flexibility]]
 and accessibility of the web platform,
