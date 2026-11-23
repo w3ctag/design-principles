@@ -325,8 +325,10 @@ to create pages that exclude some users,
 rather than requiring sophistication to include everyone.
 
 <div class="example">
-For example, the default behavior of all layout systems in CSS will not lead to content being clipped,
-content overlapping other content, or content being unreachable by scrolling.
+For example, the default behavior of all layout systems in CSS
+allows users to choose their own screen size, font, and font size
+without causing content to be clipped,
+overlap other content, or become unreachable by scrolling.
 These things should only happen if CSS features are used that are more explicitly choosing
 such a behavior (for example, `overflow: hidden` or `left: -40em`). They should not happen by
 default as a result of something like `display: flex` or `position: relative`.
