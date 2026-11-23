@@ -2113,6 +2113,31 @@ For a check that Web IDL cannot express,
 such as the contents of an `object` argument,
 do it as the first thing the method steps do.
 
+<div class=example>
+
+This method accepts a signal and an `object`.
+Web IDL checks that `signal`, if present, is an {{AbortSignal}},
+and that `data` is an object.
+Web IDL cannot check what is inside `data`.
+
+<pre class="idl">
+dictionary DoAmazingnessOptions {
+  AbortSignal signal;
+  required object data;
+};
+
+interface Amazing {
+  Promise&lt;undefined&gt; doAmazingness(DoAmazingnessOptions options);
+};
+</pre>
+
+The method steps read everything inside `data`.
+That is where a getter or a `toJSON()` method runs the page's script.
+A dictionary or interface type in its place
+lets Web IDL check the contents before the method steps run.
+
+</div>
+
 Reading an argument can run the page's script.
 A getter runs when the user agent reads the property.
 A `toJSON()` method runs when the user agent serializes the value to JSON.
