@@ -8,7 +8,7 @@
   <meta content="Bikeshed version e0b165ae4, updated Mon Nov 2 15:16:49 2026 -0800" name="generator">
   <link href="https://www.w3.org/TR/design-principles/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="0db896e8ebd42bcb167bb6e6da6bd13ac5a5f261" name="revision">
+  <meta content="b66731e29add320d0de090168c34bddadc1cb1a7" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -744,7 +744,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </p>
    <h1 class="no-ref p-name" id="title">Web Platform Design Principles</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-11-23">23 November 2026</time></p>
+    <time class="dt-updated" datetime="2026-11-24">24 November 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -946,11 +946,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        </ol>
       <li><a href="#expose-everywhere"><span class="secno">10.3</span> <span class="content">Only purely computational features should be exposed everywhere</span></a>
       <li><a href="#new-data-formats"><span class="secno">10.4</span> <span class="content">Add new data formats properly</span></a>
-      <li><a href="#extend-manifests"><span class="secno">10.5</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
-      <li><a href="#serialization"><span class="secno">10.6</span> <span class="content">Consider consumers when serializing</span></a>
-      <li><a href="#debuggability"><span class="secno">10.7</span> <span class="content">Ensure features are developer-friendly</span></a>
-      <li><a href="#crypto"><span class="secno">10.8</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
-      <li><a href="#client-hints"><span class="secno">10.9</span> <span class="content">Do not expose new information through Client Hints</span></a>
+      <li><a href="#fragment-directives"><span class="secno">10.5</span> <span class="content">Add new URL fragment features in scriptable formats as directives</span></a>
+      <li><a href="#extend-manifests"><span class="secno">10.6</span> <span class="content">Extend existing manifest files rather than creating new ones</span></a>
+      <li><a href="#serialization"><span class="secno">10.7</span> <span class="content">Consider consumers when serializing</span></a>
+      <li><a href="#debuggability"><span class="secno">10.8</span> <span class="content">Ensure features are developer-friendly</span></a>
+      <li><a href="#crypto"><span class="secno">10.9</span> <span class="content">Use the best crypto, and expect it to evolve</span></a>
+      <li><a href="#client-hints"><span class="secno">10.10</span> <span class="content">Do not expose new information through Client Hints</span></a>
      </ol>
     <li>
      <a href="#spec-writing"><span class="secno">11</span> <span class="content">Writing good specifications</span></a>
@@ -4089,7 +4090,43 @@ and <code>HTMLCanvasElement.toDataURL()</code>.</p>
 the <a href="https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm">pattern matching algorithm</a>,
 due to security implications, and instead recommend enforcing strict MIME types for newer formats.</p>
    <p>New MIME types should have a specification and should be registered with the Internet Assigned Numbers Authority (IANA).</p>
-   <h3 class="heading settled" data-level="10.5" id="extend-manifests"><span class="secno">10.5. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
+   <h3 class="heading settled" data-level="10.5" id="fragment-directives"><span class="secno">10.5. </span><span class="content">Add new URL fragment features in scriptable formats as directives</span><a class="self-link" href="#fragment-directives"></a></h3>
+   <p>When defining new URL features that pass information, via the fragment,
+to a scriptable document format like HTML,
+define a <a data-link-type="dfn" href="https://wicg.github.io/scroll-to-text-fragment/#fragment-directive" id="ref-for-fragment-directive">fragment directive</a> to do so,
+rather than inventing a novel syntax in the normal fragment segment.</p>
+   <p>New URL features are appropriate to define in the fragment,
+<a href="https://www.rfc-editor.org/info/rfc8820/#name-uri-fragment-identifiers">for specific MIME types</a>,
+when they do something purely on the client
+after the response has been received,
+rather than something that should be communicated to the server with the request.
+For example, the traditional use of the URL fragment to indicate the ID of an element that a user agent scrolls to,
+or the use of <a data-link-type="dfn" href="https://wicg.github.io/scroll-to-text-fragment/#text-directive" id="ref-for-text-directive">text directives</a>
+to indicate a segment of text that a user agent scrolls to and highlights.</p>
+   <p>The "standard" fragment syntax space is already dedicated to the "ID to scroll to" task,
+and sometimes used by applications to pass additional information.
+It is not meaningfully structured,
+and can’t have structure <em>applied</em> to it by the user agent,
+as this could interfere with existing author usage.
+<a data-link-type="dfn" href="https://wicg.github.io/scroll-to-text-fragment/#fragment-directive" id="ref-for-fragment-directive①">Fragment directives</a> instead give a separate syntax space,
+structured identically to query parameters,
+without interfering with the existing uses of the fragment.</p>
+   <div class="example" id="fragment-examples">
+    <a class="self-link" href="#fragment-examples"></a>
+
+
+    <p><a data-biblio-display="inline" data-link-type="biblio" href="https://wicg.github.io/scroll-to-text-fragment/"><cite>URL Fragment Text Directives</cite></a> and <a data-biblio-display="inline" data-link-type="biblio" href="https://drafts.csswg.org/css-link-params/"><cite>CSS Linked Parameters Module Level 1</cite></a> use <a data-link-type="dfn" href="https://wicg.github.io/scroll-to-text-fragment/#fragment-directive" id="ref-for-fragment-directive②">fragment directives</a>.</p>
+    <p>The <a data-biblio-display="inline" data-link-type="biblio" href="https://www.w3.org/TR/xptr-framework/"><cite>XPointer Framework</cite></a> defines a different form of fragment identifier for the XML MIME types
+(<a href="https://www.rfc-editor.org/info/rfc7303/#section-5">including <code>application/xml</code> and all <code>+xml</code> types</a>),
+but it couldn’t be adopted for HTML because
+it uses the part of the fragment that is reserved for authors.</p>
+    <p><a href="https://w3c.github.io/svgwg/svg2-draft/linking.html#SVGFragmentIdentifiersDefinitions">SVG Fragment Identifiers</a>
+and <a data-biblio-display="inline" data-link-type="biblio" href="https://www.w3.org/TR/media-frags/"><cite>Media Fragments URI 1.0 (basic)</cite></a> 
+add structured information in the part of the fragment that is reserved for authors.
+This hasn’t caused problems in practice because
+authors generally don’t run scripts inside the relevant MIME types.</p>
+   </div>
+   <h3 class="heading settled" data-level="10.6" id="extend-manifests"><span class="secno">10.6. </span><span class="content">Extend existing manifest files rather than creating new ones</span><a class="self-link" href="#extend-manifests"></a></h3>
    <p>If your feature requires a manifest,
 investigate whether you can extend an existing manifest schema.</p>
    <p>New web features should be self-contained and self-describing and ideally should not require an additional manifest file.
@@ -4137,7 +4174,7 @@ There have been times where it was useful to re-use dictionaries from a manifest
 which meant converting the names to camel-cased version.
 One such example is the <a href="https://w3c.github.io/image-resource/">image resource</a>.
 For this reason, if a key can clearly be expressed as a single word, that is recommended.</p>
-   <h3 class="heading settled" data-level="10.6" id="serialization"><span class="secno">10.6. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
+   <h3 class="heading settled" data-level="10.7" id="serialization"><span class="secno">10.7. </span><span class="content">Consider consumers when serializing</span><a class="self-link" href="#serialization"></a></h3>
    
 When adding or extending features that involve a parser or a serializer you should consider their effect on
 serialization. The following are constituencies of serialization results that must be considered:
@@ -4162,7 +4199,7 @@ The results of serialization:</p>
     <li data-md>
      <p>Should not add to error accumulation - taking the serialized output of an API and feeding it back to the same API in a loop should result in the same internal state</p>
    </ul>
-   <h3 class="heading settled" data-level="10.7" id="debuggability"><span class="secno">10.7. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
+   <h3 class="heading settled" data-level="10.8" id="debuggability"><span class="secno">10.8. </span><span class="content">Ensure features are developer-friendly</span><a class="self-link" href="#debuggability"></a></h3>
    <p>Any new feature should be developer-friendly.
 While it is hard to quantify friendliness, at least consider the following points.</p>
    <p>While error text in exceptions should be generic,
@@ -4178,13 +4215,13 @@ Defining this in the specification not only makes the feature more developer-fri
 it also ensures a consistent development experience for the users.</p>
    <p>A good example where debuggability was defined as
 part of the specification is <a href="https://www.w3.org/TR/web-animations-1/#use-cases">Web Animations</a>.</p>
-   <h3 class="heading settled" data-level="10.8" id="crypto"><span class="secno">10.8. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
+   <h3 class="heading settled" data-level="10.9" id="crypto"><span class="secno">10.9. </span><span class="content">Use the best crypto, and expect it to evolve</span><a class="self-link" href="#crypto"></a></h3>
    <p>Use only cryptographic algorithms
 that have been impartially reviewed by security experts,
 and make sure your choice of algorithm is proven, and up-to-date.
 Not only do they become obsolete or insecure,
 cryptographic protocols and algorithms also evolve quickly.</p>
-   <h3 class="heading settled" data-level="10.9" id="client-hints"><span class="secno">10.9. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
+   <h3 class="heading settled" data-level="10.10" id="client-hints"><span class="secno">10.10. </span><span class="content">Do not expose new information through Client Hints</span><a class="self-link" href="#client-hints"></a></h3>
    <p>When using Client Hints, don’t expose information that the web page does not already have access to.</p>
    <p>Client hints are an important optimization, but cannot be the sole means by which information
 is exposed to sites. As it says in
@@ -5442,6 +5479,12 @@ so they can correct this omission.</p>
      <li><span class="dfn-paneled" id="ab4b142f">setFocusBehavior()</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[SCROLL-TO-TEXT-FRAGMENT]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="4f16fd4b">fragment directive</span>
+     <li><span class="dfn-paneled" id="813bbf26">text directive</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[SERVICE-WORKERS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="611cb8cd">respondWith(r)</span>
@@ -5587,8 +5630,12 @@ so they can correct this omission.</p>
    <dd>B. Carpenter; B. Aboba, Ed.; S. Cheshire. <a href="https://www.rfc-editor.org/info/rfc6709/"><cite>Design Considerations for Protocol Extensions</cite></a>. September 2012. Informational. URL: <a href="https://www.rfc-editor.org/info/rfc6709/">https://www.rfc-editor.org/info/rfc6709/</a>
    <dt id="biblio-rfc8126">[RFC8126]
    <dd>M. Cotton; B. Leiba; T. Narten. <a href="https://www.rfc-editor.org/info/rfc8126/"><cite>Guidelines for Writing an IANA Considerations Section in RFCs</cite></a>. June 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8126/">https://www.rfc-editor.org/info/rfc8126/</a>
+   <dt id="biblio-rfc8820">[RFC8820]
+   <dd>M. Nottingham. <a href="https://www.rfc-editor.org/info/rfc8820/"><cite>URI Design and Ownership</cite></a>. June 2020. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8820/">https://www.rfc-editor.org/info/rfc8820/</a>
    <dt id="biblio-rfc9205">[RFC9205]
    <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc9205.html"><cite>Building Protocols with HTTP</cite></a>. June 2022. Best Current Practice. URL: <a href="https://httpwg.org/specs/rfc9205.html">https://httpwg.org/specs/rfc9205.html</a>
+   <dt id="biblio-scroll-to-text-fragment">[SCROLL-TO-TEXT-FRAGMENT]
+   <dd><a href="https://wicg.github.io/scroll-to-text-fragment/"><cite>URL Fragment Text Directives</cite></a>. Draft Community Group Report. URL: <a href="https://wicg.github.io/scroll-to-text-fragment/">https://wicg.github.io/scroll-to-text-fragment/</a>
    <dt id="biblio-service-workers">[SERVICE-WORKERS]
    <dd>Monica CHINTALA; Yoshisato Yanagisawa. <a href="https://w3c.github.io/ServiceWorker/"><cite>Service Workers Nightly</cite></a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-spec-variability">[SPEC-VARIABILITY]
@@ -5626,6 +5673,8 @@ so they can correct this omission.</p>
    <dd>Tab Atkins Jr.; et al. <a href="https://drafts.csswg.org/css-grid-1/"><cite>CSS Grid Layout Module Level 1</cite></a>. URL: <a href="https://drafts.csswg.org/css-grid-1/">https://drafts.csswg.org/css-grid-1/</a>
    <dt id="biblio-css-inline-3">[CSS-INLINE-3]
    <dd>Elika Etemad. <a href="https://drafts.csswg.org/css-inline-3/"><cite>CSS Inline Layout Module Level 3</cite></a>. URL: <a href="https://drafts.csswg.org/css-inline-3/">https://drafts.csswg.org/css-inline-3/</a>
+   <dt id="biblio-css-link-params">[CSS-LINK-PARAMS]
+   <dd>Jonathan Watt; Daniel Holbert; Tab Atkins Jr.. <a href="https://drafts.csswg.org/css-link-params/"><cite>CSS Linked Parameters Module Level 1</cite></a>. URL: <a href="https://drafts.csswg.org/css-link-params/">https://drafts.csswg.org/css-link-params/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/"><cite>CSS Values and Units Module Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
    <dt id="biblio-css2">[CSS2]
@@ -5652,6 +5701,8 @@ so they can correct this omission.</p>
    <dd>Stefan Zager; Emilio Cobos Álvarez; Traian Captan. <a href="https://w3c.github.io/IntersectionObserver/"><cite>Intersection Observer</cite></a>. URL: <a href="https://w3c.github.io/IntersectionObserver/">https://w3c.github.io/IntersectionObserver/</a>
    <dt id="biblio-least-power">[LEAST-POWER]
    <dd>Tim Berners-Lee; Noah Mendelsohn. <a href="https://www.w3.org/2001/tag/doc/leastPower"><cite>The Rule of Least Power</cite></a>. 23 February 2006. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/leastPower">https://www.w3.org/2001/tag/doc/leastPower</a>
+   <dt id="biblio-media-frags">[MEDIA-FRAGS]
+   <dd>Raphaël Troncy; et al. <a href="https://www.w3.org/TR/media-frags/"><cite>Media Fragments URI 1.0 (basic)</cite></a>. 25 September 2012. REC. URL: <a href="https://www.w3.org/TR/media-frags/">https://www.w3.org/TR/media-frags/</a>
    <dt id="biblio-mfrel">[MFREL]
    <dd><a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions"><cite>Microformats Wiki: existing rel values</cite></a>. URL: <a href="http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions">http://microformats.org/wiki/existing-rel-values#HTML5_link_type_extensions</a>
    <dt id="biblio-pointerevents3">[POINTEREVENTS3]
@@ -5666,6 +5717,8 @@ so they can correct this omission.</p>
    <dd>M. Nottingham, Ed.; R. Sayre, Ed.. <a href="https://www.rfc-editor.org/info/rfc4287/"><cite>The Atom Syndication Format</cite></a>. December 2005. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc4287/">https://www.rfc-editor.org/info/rfc4287/</a>
    <dt id="biblio-rfc5988">[RFC5988]
    <dd>M. Nottingham. <a href="https://www.rfc-editor.org/info/rfc5988/"><cite>Web Linking</cite></a>. October 2010. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc5988/">https://www.rfc-editor.org/info/rfc5988/</a>
+   <dt id="biblio-rfc7303">[RFC7303]
+   <dd>H. Thompson; C. Lilley. <a href="https://www.rfc-editor.org/info/rfc7303/"><cite>XML Media Types</cite></a>. July 2014. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc7303/">https://www.rfc-editor.org/info/rfc7303/</a>
    <dt id="biblio-rfc8288">[RFC8288]
    <dd>M. Nottingham. <a href="https://httpwg.org/specs/rfc8288.html"><cite>Web Linking</cite></a>. October 2017. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8288.html">https://httpwg.org/specs/rfc8288.html</a>
    <dt id="biblio-rfc8615">[RFC8615]
@@ -5678,6 +5731,8 @@ so they can correct this omission.</p>
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc9110.html"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://httpwg.org/specs/rfc9110.html">https://httpwg.org/specs/rfc9110.html</a>
    <dt id="biblio-screen-capture">[SCREEN-CAPTURE]
    <dd>Jan-Ivar Bruaroey; Elad Alon. <a href="https://w3c.github.io/mediacapture-screen-share/"><cite>Screen Capture</cite></a>. URL: <a href="https://w3c.github.io/mediacapture-screen-share/">https://w3c.github.io/mediacapture-screen-share/</a>
+   <dt id="biblio-svg2">[SVG2]
+   <dd>Karl Dubost; et al. <a href="https://w3c.github.io/svgwg/svg2-draft/"><cite>Scalable Vector Graphics (SVG) 2</cite></a>. URL: <a href="https://w3c.github.io/svgwg/svg2-draft/">https://w3c.github.io/svgwg/svg2-draft/</a>
    <dt id="biblio-the-web-is-unversioned">[THE-WEB-IS-UNVERSIONED]
    <dd>Sangwhan Moon; Amy Guy. <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/"><cite>The web is unversioned</cite></a>. 27 March 2025. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/the-web-is-unversioned/">https://www.w3.org/2001/tag/doc/the-web-is-unversioned/</a>
    <dt id="biblio-uievents">[UIEVENTS]
@@ -5700,6 +5755,8 @@ so they can correct this omission.</p>
    <dd>Jan-Ivar Bruaroey; Victor Vasiliev; Nidhi Jaju. <a href="https://w3c.github.io/webtransport/"><cite>WebTransport</cite></a>. URL: <a href="https://w3c.github.io/webtransport/">https://w3c.github.io/webtransport/</a>
    <dt id="biblio-xml-names">[XML-NAMES]
    <dd>Tim Bray; et al. <a href="https://www.w3.org/TR/xml-names/"><cite>Namespaces in XML 1.0 (Third Edition)</cite></a>. 8 December 2009. REC. URL: <a href="https://www.w3.org/TR/xml-names/">https://www.w3.org/TR/xml-names/</a>
+   <dt id="biblio-xptr-framework">[XPTR-FRAMEWORK]
+   <dd>Paul Grosso; et al. <a href="https://www.w3.org/TR/xptr-framework/"><cite>XPointer Framework</cite></a>. 25 March 2003. REC. URL: <a href="https://www.w3.org/TR/xptr-framework/">https://www.w3.org/TR/xptr-framework/</a>
   </dl>
   <h2 class="heading no-num no-ref settled" id="property-index"><span class="content">Property Index</span><a class="self-link" href="#property-index"></a></h2>
   <div class="big-element-wrapper">
@@ -5996,6 +6053,7 @@ let dfnPanelData = {
 "47fe679e": {"dfnID":"47fe679e","dfnText":"transient activation","external":true,"refSections":[{"refs":[{"id":"ref-for-transient-activation"}],"title":"5.2. Preserve run-to-completion semantics"}],"url":"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation"},
 "48438eb3": {"dfnID":"48438eb3","dfnText":"queue a global task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-a-global-task"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task"},
 "4872935b": {"dfnID":"4872935b","dfnText":"resize","external":true,"refSections":[{"refs":[{"id":"ref-for-event-media-resize"}],"title":"7.6. Name events in a consistent pattern"},{"refs":[{"id":"ref-for-event-media-resize\u2460"}],"title":"7.7. Use events for notification"}],"url":"https://html.spec.whatwg.org/multipage/media.html#event-media-resize"},
+"4f16fd4b": {"dfnID":"4f16fd4b","dfnText":"fragment directive","external":true,"refSections":[{"refs":[{"id":"ref-for-fragment-directive"},{"id":"ref-for-fragment-directive\u2460"},{"id":"ref-for-fragment-directive\u2461"}],"title":"10.5. Add new URL fragment features in scriptable formats as directives"}],"url":"https://wicg.github.io/scroll-to-text-fragment/#fragment-directive"},
 "4fe61159": {"dfnID":"4fe61159","dfnText":"resolved value","external":true,"refSections":[{"refs":[{"id":"ref-for-resolved-value"}],"title":"4.3. Choose the computed value type based on how the property should inherit"}],"url":"https://drafts.csswg.org/cssom-1/#resolved-value"},
 "50e555d8": {"dfnID":"50e555d8","dfnText":"once","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-addeventlisteneroptions-once"}],"title":"7.10. Use Events and Observers appropriately"}],"url":"https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-once"},
 "518be2ae": {"dfnID":"518be2ae","dfnText":"InputEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-inputevent"}],"title":"7.9. Put state on target objects rather than Events"}],"url":"https://w3c.github.io/uievents/#inputevent"},
@@ -6051,6 +6109,7 @@ let dfnPanelData = {
 "7e4cbc4d": {"dfnID":"7e4cbc4d","dfnText":"acronym","external":true,"refSections":[{"refs":[{"id":"ref-for-acronym"}],"title":"3.7. Give each HTML element a single purpose"}],"url":"https://html.spec.whatwg.org/multipage/obsolete.html#acronym"},
 "7f21931f": {"dfnID":"7f21931f","dfnText":"NamedNodeMap","external":true,"refSections":[{"refs":[{"id":"ref-for-namednodemap"}],"title":"Use casing rules consistent with existing APIs"}],"url":"https://dom.spec.whatwg.org/#namednodemap"},
 "7f769aa9": {"dfnID":"7f769aa9","dfnText":"remote playback device","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-playback-devices"},{"id":"ref-for-dfn-remote-playback-devices\u2460"}],"title":"9.2. Use care when exposing APIs for selecting or enumerating devices"}],"url":"https://w3c.github.io/remote-playback/#dfn-remote-playback-devices"},
+"813bbf26": {"dfnID":"813bbf26","dfnText":"text directive","external":true,"refSections":[{"refs":[{"id":"ref-for-text-directive"}],"title":"10.5. Add new URL fragment features in scriptable formats as directives"}],"url":"https://wicg.github.io/scroll-to-text-fragment/#text-directive"},
 "825cbc48": {"dfnID":"825cbc48","dfnText":"user interaction task source","external":true,"refSections":[{"refs":[{"id":"ref-for-user-interaction-task-source"}],"title":"6.17. Prefer existing task sources"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#user-interaction-task-source"},
 "82ca3efc": {"dfnID":"82ca3efc","dfnText":"TypeError","external":true,"refSections":[{"refs":[{"id":"ref-for-exceptiondef-typeerror"}],"title":"6.9. Classes should have constructors when possible"},{"refs":[{"id":"ref-for-exceptiondef-typeerror\u2460"},{"id":"ref-for-exceptiondef-typeerror\u2461"}],"title":"8.1. Use numeric types appropriately"}],"url":"https://webidl.spec.whatwg.org/#exceptiondef-typeerror"},
 "83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"},{"id":"ref-for-htmlinputelement\u2460"},{"id":"ref-for-htmlinputelement\u2461"}],"title":"2.16. Build complex types by composing simpler types"},{"refs":[{"id":"ref-for-htmlinputelement\u2462"}],"title":"7.9. Put state on target objects rather than Events"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
@@ -6186,7 +6245,7 @@ let dfnPanelData = {
 "fefe0433": {"dfnID":"fefe0433","dfnText":"preventDefault()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-preventdefault"}],"title":"When to use callback functions"}],"url":"https://dom.spec.whatwg.org/#dom-event-preventdefault"},
 "ff87eaf9": {"dfnID":"ff87eaf9","dfnText":"remove","external":true,"refSections":[{"refs":[{"id":"ref-for-abortsignal-remove"},{"id":"ref-for-abortsignal-remove\u2460"}],"title":"7.8. Guard against potential recursion"}],"url":"https://dom.spec.whatwg.org/#abortsignal-remove"},
 "live-object": {"dfnID":"live-object","dfnText":"live object","external":false,"refSections":[],"url":"#live-object"},
-"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.5. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.5.1. If you need to monkey patch"}],"url":"#monkey-patch"},
+"monkey-patch": {"dfnID":"monkey-patch","dfnText":"monkey patch","external":false,"refSections":[{"refs":[{"id":"ref-for-monkey-patch"}],"title":"10.6. Extend existing manifest files rather than creating new ones"},{"refs":[{"id":"ref-for-monkey-patch\u2460"}],"title":"11.5.1. If you need to monkey patch"}],"url":"#monkey-patch"},
 "propdef-font-size-adjust": {"dfnID":"propdef-font-size-adjust","dfnText":"font-size-adjust","external":false,"refSections":[],"url":"#propdef-font-size-adjust"},
 "static-object": {"dfnID":"static-object","dfnText":"static object","external":false,"refSections":[],"url":"#static-object"},
 };
@@ -6750,6 +6809,8 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#idl-unsigned-long-long": {"displayText":"unsigned long long","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"unsigned long long","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-unsigned-long-long"},
 "https://webidl.spec.whatwg.org/#invalidstateerror": {"displayText":"InvalidStateError","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"InvalidStateError","type":"exception","url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
 "https://webidl.spec.whatwg.org/#sequence-type": {"displayText":"sequence type","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"sequence type","type":"dfn","url":"https://webidl.spec.whatwg.org/#sequence-type"},
+"https://wicg.github.io/scroll-to-text-fragment/#fragment-directive": {"displayText":"fragment directive","export":false,"for_":[],"level":"1","normative":true,"shortname":"scroll-to-text-fragment","spec":"scroll-to-text-fragment","status":"current","text":"fragment directive","type":"dfn","url":"https://wicg.github.io/scroll-to-text-fragment/#fragment-directive"},
+"https://wicg.github.io/scroll-to-text-fragment/#text-directive": {"displayText":"text directive","export":false,"for_":[],"level":"1","normative":true,"shortname":"scroll-to-text-fragment","spec":"scroll-to-text-fragment","status":"current","text":"text directive","type":"dfn","url":"https://wicg.github.io/scroll-to-text-fragment/#text-directive"},
 "https://www.rfc-editor.org/rfc/rfc9110.html#name-accept": {"displayText":"Accept","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc9110","spec":"rfc9110","status":"anchor-block","text":"accept","type":"http-header","url":"https://www.rfc-editor.org/rfc/rfc9110.html#name-accept"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-loaded": {"displayText":"loaded","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"loaded","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-loaded"},
 "https://xhr.spec.whatwg.org/#dom-progressevent-total": {"displayText":"total","export":true,"for_":["ProgressEvent"],"level":"1","normative":true,"shortname":"xhr","spec":"xhr","status":"current","text":"total","type":"attribute","url":"https://xhr.spec.whatwg.org/#dom-progressevent-total"},
