@@ -2101,6 +2101,99 @@ See also:
 
 * [[#naming-is-hard]]
 
+<h3 id="validate-arguments-first">Validate all arguments before doing anything else</h3>
+
+Check every argument before you act on any of them,
+and before you check anything else the method depends on.
+If an argument is invalid,
+report that error even when something else would also fail.
+
+Web IDL converts and checks the arguments before the method steps run.
+For a check that Web IDL cannot express,
+such as the contents of an `object` argument,
+do it as the first thing the method steps do.
+
+<div class=example>
+
+This method accepts a signal and an `object`.
+Web IDL checks that `signal`, if present, is an {{AbortSignal}},
+and that `data` is an object.
+Web IDL cannot check what is inside `data`.
+
+<pre class="idl">
+dictionary DoAmazingnessOptions {
+  AbortSignal signal;
+  required object data;
+};
+
+interface Amazing {
+  Promise&lt;undefined&gt; doAmazingness(DoAmazingnessOptions options);
+};
+</pre>
+
+The method steps read everything inside `data`.
+That is where a getter or a `toJSON()` method runs the page's script.
+A dictionary or interface type in its place
+lets Web IDL check the contents before the method steps run.
+
+</div>
+
+Reading an argument can run the page's script.
+A getter runs when the user agent reads the property.
+A `toJSON()` method runs when the user agent serializes the value to JSON.
+A proxy trap runs when the user agent touches the proxy.
+That script can change anything the method already checked,
+such as aborting a signal.
+So check everything else after the arguments are read and valid, not before.
+
+<div class=example>
+
+In both calls below,
+the signal is clean when the hypothetical `doAmazingness()` method starts,
+and the argument's own code aborts the signal while the user agent reads the arguments.
+
+<pre highlight=js>
+const controller = new AbortController();
+
+doAmazingness({
+  signal: controller.signal,
+  data: {
+    toJSON() {
+      controller.abort();
+      return "da";
+    },
+  },
+});
+</pre>
+
+<pre highlight=js>
+const controller = new AbortController();
+
+doAmazingness({
+  signal: controller.signal,
+  get data() {
+    controller.abort();
+    return "da";
+  },
+});
+</pre>
+
+A signal check that runs before the user agent reads the arguments
+misses both aborts.
+Check the signal once,
+after the user agent has read and validated every argument.
+That one check catches a signal that was aborted before the call,
+and a signal that the arguments' code aborts during the call.
+If that code threw after aborting,
+the user agent would report the thrown error,
+because the signal check comes last.
+
+</div>
+
+See also:
+
+* [[#aborting]]
+
 <h3 id="overloading">Use overloading wisely</h3>
 
 If the behaviour of a method will be significantly different
@@ -2325,6 +2418,15 @@ Even if cancellation can't be guaranteed,
 you can still use an {{AbortController}},
 because a call to {{AbortController/abort()}} on `AbortController`
 is a request, rather than a guarantee.
+
+When a method accepts a signal together with other arguments,
+always validate those arguments first
+and then check if the signal was aborted last.
+See [[#validate-arguments-first]].
+
+Rejecting immediately when the signal is already aborted,
+as [[DOM#abortcontroller-api-integration]] describes,
+applies once the arguments are valid.
 
 <h3 id="string-constants">Use strings for constants and enums</h3>
 
